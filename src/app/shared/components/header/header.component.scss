@@ -1,0 +1,49 @@
+.dropdown-toggle::after{
+    display: none;
+}
+.dropdown-menu-arrow:before{
+    z-index: -1 !important;
+}
+.responsive-navbar.navbar{
+    top: 16px !important;
+    left: -10px ;
+    z-index: 998 !important;
+}
+
+.nav-link{
+    display: flex !important;
+}
+@media (max-width: 767px){
+    .mobile-header {
+        left: 0;
+    }
+
+    .dropdown-menu{
+        right: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        top: 0 !important;
+    }
+    .profile-1 .dropdown-menu{
+        right: 0 !important;
+        left: initial !important;
+    }
+
+    .profile-1  .dropdown-menu-arrow.dropdown-menu-end:before, .profile-1 .dropdown-menu-arrow.dropdown-menu-end:after{
+        left: auto;
+        right: 12px;
+    }
+    .dropdown-menu{
+        transform: translate(0,55px) !important;
+    }
+
+    .message .dropdown-menu-arrow.dropdown-menu-end:before, .message .dropdown-menu-arrow.dropdown-menu-end:after,
+    .notifications .dropdown-menu-arrow.dropdown-menu-end:before, .notifications .dropdown-menu-arrow.dropdown-menu-end:after{
+        display: none;
+    }
+}
+
+    
+.dark-menu .app-sidebar__toggle {
+    color: #fff !important;
+}

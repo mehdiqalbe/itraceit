@@ -1,0 +1,15 @@
+::ng-deep{
+    a.text-primary:hover, a.text-primary:focus {
+        color: #a884e6 !important;
+    }
+}
+.input-error {
+    border: red 1px solid !important;
+}
+.red-color{color: red;}
+
+.eye{
+    position: absolute;
+    top: 16px;
+    left: 222px;
+}

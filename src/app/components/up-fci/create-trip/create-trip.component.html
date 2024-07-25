@@ -1,0 +1,890 @@
+<div class="card">
+    <div class="card-body innerdiv p-0">
+        <!-- headerstart here -->
+        <div class="hor-header">
+            <div style="overflow: hidden;">
+                <div class="row align-items-left">
+                    <div class="col-lg-1">
+                        <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4"
+                        style="font-weight: 600;font-size:large ;text-align: center;margin-top: 15px;">
+                        <span style="margin-right: -104px;">
+                        </span>
+
+                    </div>
+                    <div class="col-lg-2 text-center">
+
+                    </div>
+
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-1">
+                        <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
+                    </div>
+                    <div class="col-lg-1 text-center">
+                        <a class="header-brand1">
+                            <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo"
+                                class="header-brand-img desktop-logo" style="height: auto; width: 80%;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row roww">
+        <div class="col-lg-12 col-md-12 col-sm-8 col-xs-12" style="padding: 0;">
+            <nav class="flex-md-column">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist" style=" height: 45px;">
+                    <button class="nav-link active" id="nav-Region-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-Region" type="button" role="tab" aria-controls="nav-Region"
+                        aria-selected="true">Trip Details</button>
+                    <button class="nav-link" id="nav-District-tab" data-bs-toggle="tab" data-bs-target="#nav-District"
+                        type="button" role="tab" aria-controls="nav-District" aria-selected="false"
+                        [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
+                        placement="top">Document
+                        Upload</button>
+                    <!-- [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''" placement="top" -->
+                    <button class="nav-link" id="nav-Agency-tab" data-bs-toggle="tab" data-bs-target="#nav-Agency"
+                        type="button" role="tab" aria-controls="nav-Agency" aria-selected="false"
+                        [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
+                        placement="top">Customer
+                        Invoice</button>
+                    <button class="nav-link" id="nav-Purchase-tab" data-bs-toggle="tab" data-bs-target="#nav-Purchase"
+                        type="button" role="tab" aria-controls="nav-Purchase" aria-selected="false"
+                        [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
+                        placement="top">Trip
+                        Expense</button>
+
+                </div>
+
+            </nav>
+
+
+            <div class="tab-content" id="nav-tabContent">
+                <!-- region -->
+                <div class="tab-pane fade show active" id="nav-Region" role="tabpanel" aria-labelledby="nav-Region-tab">
+
+
+                    <div class="container">
+                        <form #tripdetails="ngForm" (ngSubmit)="tripDetailsF(tripdetails.value, tripdetails)"
+                            novalidate>
+                            <div class="col-lg-12 mt-2 HeadingTab">Trip Details</div>
+
+                
+
+                            <div class="col-lg-12">
+                                <div class="row mt-2">
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Challan Number</label>
+                                        <input type="text" id="form12" class="form-control cutombox" ngModel placeholder="Challan Number (optional)"
+                                            name="tripId"  [disabled]="tripBoxF" [ngbTooltip]="tripBoxF ? 'Check the Checkbox' : ''"/>
+                                        <!-- <div *ngIf="tripdetails.controls.tripId?.invalid && tripdetails.controls.tripId?.touched"
+                                            class="error-message">Please fill out this field</div> -->
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Select Consignor/ Source</label>
+                                        <ng-select placeholder="select an option" id="ShipmentNo"
+                                            (change)="routeList($event)" ngModel class="cutombox" required
+                                            name="source">
+                                            <ng-option value="" selected>Select an option</ng-option>
+                                            <ng-option [value]="item.source_id"
+                                                *ngFor="let item of sourceListdata">{{item.source_name}}</ng-option>
+                                        </ng-select>
+                                        <div *ngIf="tripdetails.controls.source?.invalid && tripdetails.controls.source?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Select Route</label>
+                                        <ng-select placeholder="select an option" id="ShipmentNo" ngModel
+                                            class="cutombox" required name="route_name" (change)="findRoute($event)">
+                                            <ng-option value="" selected>Select an option</ng-option>
+                                            <ng-option [value]="item.route_id"
+                                                *ngFor="let item of routedata">{{item.route_name}}</ng-option>
+                                        </ng-select>
+                                        <div *ngIf="tripdetails.controls.route_name?.invalid && tripdetails.controls.route_name?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Run Date</label>
+                                        <input type="datetime-local" step="1" class="form-control cutombox" ngModel
+                                            name="runDate" required />
+                                        <div *ngIf="tripdetails.controls.runDate?.invalid && tripdetails.controls.runDate?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Scheduled In transit Time</label>
+                                        <input type="datetime-local" id="form12" class="form-control cutombox" ngModel
+                                            name="transit_Time" required />
+                                        <div *ngIf="tripdetails.controls.transit_Time?.invalid && tripdetails.controls.transit_Time?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                    <div class="row">
+                                        <div style="flex: 1;">
+                                            <div class="form-check d-none">
+
+                                                <label class="form-check-label linkclass" for="flexCheckChecked"
+                                                    style="margin-left: 90px;">Enter
+                                                    Manual Trip</label>
+                                                <input class="form-check-input" type="checkbox" value="" (change)="tripf($event)"
+                                                    style="margin-left: 5px;" id="flexCheckChecked" checked required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                
+
+                            <div class="col-lg-12">
+                                <div class="row mt-2">
+                                    
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Vehicle Number</label>
+                                        <ng-select placeholder="select an option" id="ShipmentNo" ngModel
+                                            (change)="imeiListF($event)" class="cutombox" name="Vname" required>
+                                            <ng-option value="" selected>Select an option</ng-option>
+                                            <ng-option [value]="item"
+                                                *ngFor="let item of vList">{{item.vehicle_number}}</ng-option>
+                                        </ng-select>
+                                        <div *ngIf="tripdetails.controls.Vname?.invalid && tripdetails.controls.Vname?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                   
+                                    <div class="columnM" *ngIf="p_name!=''">
+                                        <label for="" *ngIf="p_name!=''" class="column cutom">{{p_name}}</label>
+                                        <input type="text" *ngIf="p_name!=''" autocomplete="off"
+                                            class="form-control cutombox" style="    background: white;"
+                                            [value]="extraImei.imei1" disabled >
+                                        <!-- <label class="form-check-label linkclass"
+                                            for="flexCheckChecked">{{extraImei.imei1}}</label> -->
+                                    </div>
+                                    <div class="columnM" *ngIf="s_name!=''">
+                                        <label for="" *ngIf="s_name!=''" class="column cutom">{{s_name}}</label>
+                                        <input type="text" *ngIf="s_name!=''" autocomplete="off"
+                                            class="form-control cutombox" style="    background: white;"
+                                            [value]="extraImei.imei2" disabled >
+                                        <!-- <label class="form-check-label linkclass"
+                                            for="flexCheckChecked">{{extraImei.imei2}}</label> -->
+                                    </div>
+                                    <div class="columnM" *ngIf="t_name!=''" >
+                                        <label for="" *ngIf="t_name!=''" class="column cutom">{{t_name}}</label>
+                                        <input type="text" *ngIf="t_name!=''" autocomplete="off"
+                                            class="form-control cutombox" style="    background: white;"
+                                            [value]="extraImei.imei3" disabled >
+                                        <!-- <label class="form-check-label linkclass"
+                                            for="flexCheckChecked">{{extraImei.imei3}}</label> -->
+                                    </div>
+                                    <div class="columnM" *ngIf="portableF==false">
+                                        <label for="" *ngIf="portableF==false" class="column cutom">Portable GPS Device IMEI</label>
+                                        <ng-select *ngIf="portableF==false" placeholder="select an option" id="portable"
+                                            ngModel class="cutombox" name="Imei">
+                                            <ng-option value="" selected>Select an option</ng-option>
+                                            <ng-option [value]="item"
+                                                *ngFor="let item of PortvList">{{item.device_imei}}</ng-option>
+                                        </ng-select>
+                                        <!-- <div *ngIf="tripdetails.controls.Imei?.invalid && tripdetails.controls.Imei?.touched" class="error-message">Please fill out this field</div> -->
+                                    </div>
+                                    <div class="row">
+                                        <div style="flex: 0.17;">
+                                            <div class="form-check" style="text-align: end;">
+
+                                                <label class="form-check-label linkclass" for="flexCheckChecked">Enable
+                                                    Portable Device</label> <input class="form-check-input"
+                                                    type="checkbox" value="" id="enablePortableID"
+                                                    (change)="enablePortable($event)"required
+                                                    style="margin-left: 5px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="col-12 HeadingTab">Driver Details</div>
+                            <div class="col-lg-12">
+                                <!-- <div class="row mt-2">
+                                    <div class="column cutom">Driver 1- Name</div>
+                                    <div class="column cutom">Driver 1- Mobile Number</div>
+                                    <div class="column cutom">Driver 2- Name</div>
+                                    <div class="column cutom">Driver 2- Mobile Number</div>
+                                    <div class="column cutom">Opening Odometer Reading</div>
+                                   
+                                </div> -->
+                                <div class="row mt-2">
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Driver 1- Name</label>
+                                        <input type="text" id="form12" class="form-control cutombox" ngModel
+                                            name="Driver1Name" required />
+                                        <div *ngIf="tripdetails.controls.Driver1Name?.invalid && tripdetails.controls.Driver1Name?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Driver 1- Mobile Number</label>
+                                        <input type="number" id="form12" class="form-control cutombox" maxlength="10"
+                                            oninput="this.value=this.value.slice(0,this.maxLength)" ngModel
+                                            name="Driver1Mobno" required />
+                                        <div *ngIf="tripdetails.controls.Driver1Mobno?.invalid && tripdetails.controls.Driver1Mobno?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Driver 2- Name</label>
+                                        <input type="text" id="form12" class="form-control cutombox" ngModel
+                                            name="Driver2Name" />
+                                        <!-- <div *ngIf="tripdetails.controls.Driver2Name?.invalid && tripdetails.controls.Driver2Name?.touched" class="error-message">Please fill out this field</div> -->
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Driver 2- Mobile Number</label>
+                                        <input type="number" id="form12" class="form-control cutombox" ngModel
+                                            name="Driver2Mobno" maxlength="10"
+                                            oninput="this.value=this.value.slice(0,this.maxLength)" />
+                                        <!-- <div *ngIf="tripdetails.controls.Driver2Mobno?.invalid && tripdetails.controls.Driver2Mobno?.touched" class="error-message">Please fill out this field</div> -->
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Opening Odometer Reading</label>
+                                        <input type="text" id="form12" class="form-control cutombox" ngModel
+                                            name="odometer" />
+                                        <div *ngIf="tripdetails.controls.odometer?.invalid && tripdetails.controls.odometer?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 HeadingTab mt-2">Commodity Details</div>
+                            <div class="col-lg-12 mt-2">
+                                <!-- <div class="row">
+                                    <div class="column cutom">Add Commodity</div>
+                                    <div class="column cutom">Commodity</div>
+                                    <div class="column cutom">Remarks</div>
+
+                                    <div class="column cutom"></div>
+                                    <div class="column cutom"></div>
+                                    <div class="col-lg-3 cutom">Remarks</div>
+                                </div> -->
+                                <div class="row" style="height: 180px;">
+                                    
+                                    <div class="columnM"
+                                        >
+                                        <label for="" class="column cutom">Add Commodity</label>
+                                        <label for=""  style="background-color: #1D4380;color: white;padding: 7px;text-align: center;width:230px;">
+                                            Commodity
+                                            <button (click)="addNgselect()" type="button"><i class='fas fa-plus-circle'
+                                                    style='font-size:20px;color: white'></i></button>
+                                            <button (click)="removeNgselect()" type="button"><i
+                                                    class="fa fa-minus-circle" aria-hidden="true"
+                                                    style='font-size:21px;color:white'></i></button>
+                                        </label>
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Commodity</label>
+                                        <ng-select name="commodity" placeholder="" id="ShipmentNo" ngModel
+                                            class="cutombox">
+                                            <ng-option value="" selected>select an option</ng-option>
+                                            <ng-option [value]="item"
+                                                *ngFor="let item of commodityListA">{{item.product_name}}</ng-option>
+                                        </ng-select>
+                                        <div class="row">
+                                            <div class="mt-2" *ngFor="let selectBox of selectbox; let ind=index">
+                                                <ng-select [(ngModel)]="selectBox.selectedOption" class="cutombox"
+                                                    (change)="commodityListsel($event)" name="commodityExtra{{ind}}"
+                                                    (ngModelChange)="selectBox.selectedOption = $event" ngModel
+                                                    bindLabel="product_name" bindValue="item" selectedOption="item"
+                                                    placeholder="Select an option">
+                                                    <ng-option [value]="item"
+                                                        *ngFor="let item of commodityListA">{{item.product_name}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Remarks</label>
+                                        <textarea class="form-control cutombox" rows="1" ngModel id="comment"
+                                            name="remarks"></textarea>
+                                        <div *ngIf="tripdetails.controls.remarks?.invalid && tripdetails.controls.remarks?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div>
+                                    <!-- <div class="column">
+                                        <input type="text" id="form12" class="form-control cutombox" ngModel
+                                            name="odometer" />
+                                        <div *ngIf="tripdetails.controls.odometer?.invalid && tripdetails.controls.odometer?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div> -->
+                                    <div class="column"></div>
+                                    <div class="column"></div>
+                                    <!-- <div class="col-lg-3">
+                                        <textarea class="form-control cutombox" rows="1" ngModel id="comment"
+                                            name="remarks"></textarea>
+                                        <div *ngIf="tripdetails.controls.remarks?.invalid && tripdetails.controls.remarks?.touched"
+                                            class="error-message">Please fill out this field</div>
+                                    </div> -->
+                                </div>
+                            </div>
+
+                            <div style="text-align:right;">
+                                <button class="btn btn-sm btn-orange" type="button"
+                                    style="color: white;margin-left: 2px;"
+                                    (click)="tripdetailsreset(tripdetails)">Reset</button>
+                                <button class="btn btn-sm btn-orange" style="color: white;margin-left: 2px;"
+                                    (click)="cancelTrip()">Cancel</button>
+                                <button class="btn btn-sm btn-orange" id="uploaddoc" type="submit"
+                                    style="color: white;margin-left: 2px;">Next</button>
+                            </div>
+                        </form>
+
+                    </div>
+
+
+                    <!-- /////////////////  data table-->
+
+
+
+
+                </div>
+
+
+                <div class="tab-pane fade" id="nav-District" role="tabpanel" aria-labelledby="nav-District-tab">
+                    <form #docupload="ngForm">
+                        <div class="container">
+                            <div class="col-lg-12">
+                                <div class="row mt-2">
+                                    <div class="col-lg-4 cutom">Select Document Type</div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+
+                                    <div class="col-lg-4">
+                                        <ng-select placeholder="select an option" id="ShipmentNo" ngModel
+                                            class="cutombox" required name="docName">
+                                            <!-- <ng-option value="" selected>select an option</ng-option> -->
+                                            <ng-option [value]="item.id"
+                                                *ngFor="let item of docListdata">{{item.name}}</ng-option>
+
+
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-lg-4">
+
+                                        <input class="form-control form-control-sm cutombox" id="formFileSm" type="file"
+                                            (change)="selectFile($event)" #fileInput />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row mt-2" style="height: 400px;overflow-y: auto;">
+
+                                    <div class="imagePreview" *ngIf="imageurl!= []">
+                                        <div *ngFor="let img of imageurl; let i = index" class="image-container">
+                                            <div class="image-frame">
+                                                <img [src]="img" alt="Image Preview" />
+                                                <button class="remove-button" (click)="removeImage(i)">
+                                                    <i class="fa fa-close" style="font-size:24px;color:red"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- <img [src]="imageurl"> -->
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div style="text-align:right;margin-top: 40px">
+
+                                    <button class="btn btn-sm btn-orange" type="button"
+                                        style="color: white;margin-left: 2px;"
+                                        (click)="openTab('nav-Region-tab')">Back</button>
+                                    <button class="btn btn-sm btn-orange" type="button"
+                                        style="color: white;margin-left: 2px;"
+                                        (click)="docupload.reset();resetFileInput(fileInput)">Reset</button>
+                                    <button class="btn btn-sm btn-orange" type="button"
+                                        style="color: white;margin-left: 2px;" (click)="cancelTrip()">Cancel</button>
+                                    <button class="btn btn-sm btn-orange" type="button"
+                                        style="color: white;margin-left: 2px;" (click)="openTab('nav-Agency-tab')">
+                                        Next</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+                <!-- agency -->
+                <div class="tab-pane fade" id="nav-Agency" role="tabpanel" aria-labelledby="nav-Agency-tab">
+                    <!-- //////////////////////////////////////////////////////////invoice//////// -->
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col" style="margin-top: 23px;">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne" style="  border:   1pxsolid #ced4da;
+                                  border-radius: 4px;">
+                                            <button class="accordion-button  cutom" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                aria-expanded="true" aria-controls="collapseOne"
+                                                style="height: 32px; background: none;">
+                                                Customer Invoice Information
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show"
+                                            aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <form [formGroup]="tripcreationform_marin"
+                                                    (submit)="submitForm(tripcreationform_marin.value)">
+                                                    <div formArrayName="custumerinvoice">
+                                                        <div class=" " id="dynamicTableContainer"
+                                                            *ngFor="let table1st of getcustumerinvoice().controls; let i=index">
+                                                            <div [formGroupName]="i">
+                                                                <table class="table table-bordered">
+                                                                    <thead class="tabledesi custume_table">
+                                                                        <tr>
+                                                                            <!-- <th style="text-align: center;">Destination
+                                                                            </th> -->
+                                                                            <th style="text-align: center;">Customer
+                                                                            </th>
+                                                                            <th style="text-align: center;">Invoice No.
+                                                                            </th>
+                                                                            <th style="text-align: center;">Invoice Date
+                                                                            </th>
+                                                                            <th style="text-align: center;">ETA</th>
+                                                                            <th style="text-align: center;"> Upload
+                                                                                Invoice
+                                                                            </th>
+                                                                            <th style="text-align: center;" *ngIf="i>0">
+                                                                                Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="main_table">
+                                                                        <tr data-notification-name="1">
+                                                                            <!-- destination -->
+                                                                            <!-- <td style="text-align: center;">
+                                                                                <ng-select class="form-control custom-ng-select" 
+                                                                                    formControlName="destination"
+                                                                                   >
+                                                                                    <ng-option value="" selected>select an option</ng-option>
+                                                                                    <ng-option value="" selected>0012</ng-option>
+                                                                                    
+                                                                                </ng-select>
+                                                                            </td> -->
+                                                                            <!-- cusrumer -->
+                                                                            <td style="text-align: center;">
+                                                                                <ng-select
+                                                                                    class="form-control custom-ng-select"
+                                                                                    formControlName="customer"
+                                                                                    aria-placeholder="select">
+                                                                                    <!-- <ng-option value="" selected>select
+                                                                                        an option</ng-option> -->
+                                                                                    <ng-option value=""
+                                                                                        *ngFor="let item of Object.keys(routeId);">{{routeId[item]['name']}}</ng-option>
+                                                                                    <!-- <ng-option
+                                                                                        *ngFor="let customers of cust_li ;let d=index"
+                                                                                        [value]="customers">
+                                                                                        {{customers.customer_name}}
+                                                                                    </ng-option> -->
+                                                                                </ng-select>
+                                                                            </td>
+                                                                            <!-- invioce nomber -->
+                                                                            <td style="text-align: center;">
+                                                                                <input type="text"
+                                                                                    class="form-control cutombox"
+                                                                                    formControlName="invoiceNo"
+                                                                                    style="  height: 32px;">
+                                                                            </td>
+                                                                            <!-- invoicedate -->
+                                                                            <td style="text-align: center;"
+                                                                                class="cs-form">
+                                                                                <input type="datetime-local" step="1"
+                                                                                    class="form-control cutombox"
+                                                                                    formControlName="invoiceDate"
+                                                                                    style="  height: 32px;">
+                                                                            </td>
+
+
+                                                                            <!-- eta -->
+                                                                            <td style="text-align: center;">
+                                                                                <input type="datetime-local"
+                                                                                    class="form-control cutombox"
+                                                                                    formControlName="eta"
+                                                                                    style="  height: 32px;">
+                                                                            </td>
+
+                                                                            <!-- uploadinvoice -->
+                                                                            <td style="text-align: center;"
+                                                                                class="cs-form">
+                                                                                <input type="file"
+                                                                                    class="form-control cutombox"
+                                                                                    formControlName="upload"
+                                                                                    accept="image/jpeg,image/gif,image/png,application/pdf"
+                                                                                    style="  height: 32px;"
+                                                                                    (change)="selectFileF($event)">
+
+                                                                            </td>
+                                                                            <!-- action -->
+                                                                            <!-- class="btn btn-danger btn-delete-table" -->
+                                                                            <td style="text-align: center; cursor: pointer;"
+                                                                                *ngIf="i >0">
+                                                                                <button type="button"
+                                                                                    (click)="deletetable(i)">
+                                                                                    <i class="fa fa-trash"
+                                                                                        style="font-size: 18px;color: red;"></i>
+                                                                                </button>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan=7>
+                                                                                <table
+                                                                                    class="table table-bordered custume_table"
+                                                                                    [formGroup]="invoiceformarry(i)">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Product</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Tare Weight</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Net Weight</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Gross Weight</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Lot No.</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Sub Lot No.</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Lorry No.</th>
+                                                                                            <th
+                                                                                                style="text-align: center; width: 100px; max-width: 100px;">
+                                                                                                E-Way Bill Expiry Date</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                E-way bill No.</th>
+                                                                                            <th
+                                                                                                style="text-align: center; width: 100px; max-width: 100px;">
+                                                                                                upload E-way bill</th>
+                                                                                            <th
+                                                                                                style="text-align: center;">
+                                                                                                Remarks</th>
+                                                                                            <th style="text-align: center; cursor: pointer;"
+                                                                                                (click)="addRow(i)">
+                                                                                                <i class="fas fa-plus-circle add-row"
+                                                                                                    style="font-size: 18px;"></i>
+                                                                                            </th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+                                                                                    <tbody id="tableBody"
+                                                                                        formArrayName="invoicearray">
+
+                                                                                        <tr class="inner_product_row"
+                                                                                            *ngFor="let invoicedetail of getinvoice(i).controls;let j=index"
+                                                                                            [formGroupName]="j">
+                                                                                            <td
+                                                                                                style="text-align: center;">
+                                                                                                <ng-select
+                                                                                                    class="form-control custom-ng-select"
+                                                                                                    formControlName="Product">
+                                                                                                    <ng-option
+                                                                                                        [value]="item"
+                                                                                                        selected
+                                                                                                        *ngFor="let item of commodityListA">{{item.product_name
+                                                                                                        }}</ng-option>
+                                                                                                    <!-- <ng-option value=""
+                                                                                                        selected>0013</ng-option> -->
+                                                                                                </ng-select>
+                                                                                            </td>
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="tareWeight"
+                                                                                                    style="  height: 32px;">
+                                                                                            </td>
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="netWeight"
+                                                                                                    style="  height: 32px;">
+                                                                                            </td>
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="grossWeight"
+                                                                                                    style="  height: 32px;" />
+                                                                                            </td>
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="lotNo"
+                                                                                                    style="  height: 32px;">
+                                                                                            </td>
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="subLotNo"
+                                                                                                    style="  height: 32px;">
+                                                                                            </td>
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="lorryNo"
+                                                                                                    style="  height: 32px;">
+                                                                                            </td>
+                                                                                            <td class="cs-form"><input
+                                                                                                    type="datetime-local"
+                                                                                                    step="1"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="lorryDate"
+                                                                                                    style="  height: 32px; width:145px">
+                                                                                            </td>
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="e_waybill"
+                                                                                                    style="  height: 32px;">
+                                                                                            </td>
+                                                                                            <td><input type="file"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="upload_e_way"
+                                                                                                    style="  height: 32px; width:179px"
+                                                                                                    accept="image/jpeg,image/gif,image/png,application/pdf"
+                                                                                                    value="file"
+                                                                                                    (change)="uploadewaybill($event,i,j)">
+                                                                                            </td>
+
+
+                                                                                            <td><input type="text"
+                                                                                                    class="form-control cutombox"
+                                                                                                    formControlName="remarks"
+                                                                                                    style="  height: 32px;">
+                                                                                            </td>
+
+                                                                                            <td
+                                                                                                style="text-align: center; cursor: pointer;">
+
+
+                                                                                                <button type="button"
+                                                                                                    (click)="deleteRow(i,j)">
+                                                                                                    <i class="fas fa-minus-circle"
+                                                                                                        style="color: red;font-size: 16px;"></i>
+                                                                                                </button>
+
+                                                                                            </td>
+                                                                                        </tr>
+
+                                                                                    </tbody>
+
+                                                                                </table>
+                                                                            </td>
+
+
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" align="right" style="padding: 10px;">
+
+                                                        <span>
+                                                            <button type="button" class="btn btn-success"
+                                                                (click)="addtable()">
+                                                                <i class="fa fa-plus" style="color: white;"></i>Add
+                                                                More</button> </span>
+
+
+
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div style="text-align:right;">
+
+                                                            <button class="btn btn-sm btn-orange" type="button"
+                                                                style="color: white;margin-left: 2px;"
+                                                                (click)="openTab('nav-District-tab')">Back</button>
+                                                            <button class="btn btn-sm btn-orange" type="submit"
+                                                                style="color: white;margin-left: 2px;"
+                                                                (click)="this.tripcreationform_marin.reset()">Reset</button>
+                                                            <button class="btn btn-sm btn-orange" type="submit"
+                                                                style="color: white;margin-left: 2px;"
+                                                                (click)="cancelTrip()">Cancel</button>
+                                                            <button class="btn btn-sm btn-orange" type="submit"
+                                                                style="color: white;margin-left: 2px;"
+                                                                (click)="openTab('nav-Purchase-tab')">Next
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <h5 class="form-label" style="margin-left:5px; font-weight: bold;">Customer Invoice Information</h5>
+                              <input type="text" class="form-control" required style="border-radius: 6px; border-color: black; height: 32px;" formControlName="custumer"> -->
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <!-- purches -->
+                <div class="tab-pane fade" id="nav-Purchase" role="tabpanel" aria-labelledby="nav-Purchase-tab">
+                    <div class="container">
+                        <form #addexpense="ngForm" (submit)="addexpenseF(addexpense.value);">
+                            <div class="col-lg-12 mt-2">
+                                <div class="row">
+                                    <div class="column cutom">
+                                        Select Expense
+                                    </div>
+                                    <div class="column cutom">Expense Data</div>
+                                    <div class="column cutom">Amount</div>
+                                    <div class="column cutom">Remarks</div>
+                                    <div class="column">
+                                        <div class="form-check cutom" style="text-align:center;">
+                                            <input class="form-check-input" type="checkbox" ngModel name="type"
+                                                value="$event" id="flexCheckChecked" checked>
+                                            <label class="form-check-label" for="flexCheckChecked">
+                                                Receipt
+                                            </label>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="column">
+                                        <ng-select placeholder="select" id="ShipmentNo" ngModel class="cutombox"
+                                            required name="expensetype">
+                                            <!-- <ng-option value="ING002" selected>select</ng-option> -->
+                                            <ng-option [value]="item"
+                                                *ngFor="let item of expenseListdata">{{item.name}}</ng-option>
+
+
+                                        </ng-select>
+                                    </div>
+                                    <div class="column">
+                                        <input type="datetime-local" step="1" class="form-control cutombox"
+                                            ngModel="datetimepicker1" required name="expenseTime" />
+                                    </div>
+                                    <div class="column">
+                                        <input type="text" id="form12" class="form-control cutombox" ngModel
+                                            name="expensevalue" />
+                                    </div>
+                                    <div class="column">
+                                        <textarea class="form-control cutombox" rows="1" id="comment" ngModel
+                                            name="remarks"></textarea>
+                                    </div>
+                                    <div class="column">
+                                        <div style="text-align:center;">
+                                            <button class="btn btn-sm btn-orange" type="submit"
+                                                style="width: 70px;color: white;">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                        <!-- <form #createTrip="ngForm" (submit)="createTripF(createTrip.value);> -->
+
+
+
+
+
+
+
+
+                        <!-- id=" TableId" -->
+                        <div class="row mt-6" style="max-height: 320px;">
+                            <div class="container" style="height: 320px;overflow-y: auto;">
+                                <table class="display nowrap table table-Success table-hover custume_table1"
+                                    cellspacing="0" width="100%">
+                                    <thead class="custume_table1">
+                                        <tr style="text-align: center;">
+
+                                            <th class="table-primary" style="position: sticky;">
+                                                Sr.No.
+
+                                            </th>
+
+                                            <th class="table-primary" tyle="position: sticky;">Expense Date
+                                            </th>
+                                            <th class="table-primary" tyle="position: sticky;">Expense Type
+                                            </th>
+                                            <th class="table-primary" tyle="position: sticky;">Amount</th>
+                                            <th class="table-primary" tyle="position: sticky;">Debit/Credit
+                                            </th>
+                                            <th class="table-primary" tyle="position: sticky;">Remarks</th>
+
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <!-- *ngIf="lastAlertdata.length" -->
+                                        <tr style="text-align: center;"
+                                            *ngFor="let item of expensearray;let ind=index;">
+                                            <td class="custume_table1">{{ind+1}}</td>
+                                            <td class="custume_table1">
+
+                                                {{item.date}}
+                                            </td>
+                                            <td class="custume_table1">
+                                                {{item.expense_type_name}}
+                                            </td>
+                                            <td class="custume_table1">
+                                                {{item.amountType}}
+                                            </td>
+                                            <td class="custume_table1"> {{item.credit}}</td>
+                                            <td class="custume_table1"> {{item.remark}}</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div style="text-align:right;">
+                                <button class="btn btn-sm btn-orange" type="submit" style="color: white;"
+                                    (click)="openTab('nav-Agency-tab')">Back
+                                </button>
+                                <button class="btn btn-sm btn-orange" type="button"
+                                    style="color: white;margin-left: 2px;" (click)="createTripF()">Create Trip</button>
+                                <button class="btn btn-sm btn-orange" type="button"
+                                    style="color: white;margin-left: 2px;" (click)="addexpense.reset()">Reset</button>
+                                <button class="btn btn-sm btn-orange" type="button"
+                                    style="color: white;margin-left: 2px;" (click)="cancelTrip()">Cancel</button>
+                            </div>
+
+                        </div>
+                        <!-- </form> -->
+                    </div>
+                </div>
+                <!-- mill -->
+                <!-- <div class="tab-pane fade" id="nav-Mill" role="tabpanel" aria-labelledby="nav-Mill-tab">
+
+                </div>
+                <div class="tab-pane fade" id="nav-Transporter" role="tabpanel" aria-labelledby="nav-Transporter-tab">
+
+                </div> -->
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

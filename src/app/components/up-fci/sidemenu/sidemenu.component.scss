@@ -1,0 +1,190 @@
+// .sidebar-navs a{
+//     padding: 0.6rem !important;
+// }
+::ng-deep {
+    .app.sidebar-mini.sidenav-toggled .side-menu .side-menu__icon {
+        margin-top: -2px;
+    }
+
+    .sidemenu-bgimage.dark-mode .app.sidenav-toggled .app-sidebar:before,
+    .sidemenu-bgimage.dark-mode .app.sidenav-toggled .side-header:before,
+    .sidemenu-bgimage.light-mode .app.sidenav-toggled .app-sidebar:before,
+    .sidemenu-bgimage.light-mode .app.sidenav-toggled .side-header:before,
+    .sidemenu-bgimage.transparent-mode .app.sidenav-toggled .app-sidebar:before,
+    .sidemenu-bgimage.transparent-mode .app.sidenav-toggled .side-header:before {
+        width: inherit !important;
+    }
+
+    @media (max-width: 767px) {
+        .dark-mode.gradient-menu .side-menu {
+            border-top: 1px solid transparent !important;
+        }
+    }
+}
+
+.app-sidebar {
+    padding-top: 0px;
+    position: fixed;
+    
+}
+
+// .side-menu__label {
+//     position: absolute;
+//     width: 84px;
+//     height: 23px;
+//     margin-left: 30px;
+//     font-family: 'Poppins';
+//     color: #5D6F84;
+//     font-style: normal;
+//     font-weight: 600;
+//     font-size: 15px;
+//     line-height: 22px;
+// }
+@media (min-width: 768px){
+.app.sidebar-mini.sidenav-toggled .side-menu__item {
+    display: block;
+     padding: 0px !important;
+    margin: 0 auto;
+    text-align: center;
+    border-left: 0;
+}
+}
+@media (min-width: 768px){
+.sidebar-mini.sidenav-toggled .side-menu__item {
+    overflow: hidden;
+}
+}
+.images{
+    width: 18px;
+    height: 18px;
+    margin-left: 24px;
+    top: calc(50% - 30px/2 - 320px);
+    // background: #4069B3;
+    border-radius: 2px;
+    // background-color: white;
+}
+.images1{
+    width: 30px;
+    height: 30px;
+    margin-left: 24px;
+    top: calc(50% - 30px/2 - 320px);
+    // background: #4069B3;
+    border-radius: 2px;
+    // background-color: white;
+}
+
+.images.active{
+    margin-left: 55px;
+    height: 500px;
+}
+.side-menu {
+    padding: 0px;
+     overflow-y: scroll;
+     height: 516px;
+}
+.slide{
+    padding-bottom: 6px;
+    /* padding-top: 2px; */
+    top: 2px;
+    padding-top: 6px;
+    /* margin-top: 13px; */
+    border-bottom: 1px solid #80808061;
+    // margin-bottom: 10px;
+    // margin-top: 10px;
+    // padding-bottom: 8px;
+    // padding-bottom: 32px;
+}
+
+// .side-menu__item {
+//     display: block;
+//     padding: 10px 0;
+//     margin: 0 auto;
+//     text-align: center;
+//     border-left: 0;
+//     /* background: pink; */
+//     background: none;
+//     margin-right: 17px;
+// }
+
+
+.sub{
+    left: 37.5%;
+right: 33.33%;
+top: 20.83%;
+bottom: 20.83%;
+
+// border: 1.5px solid #5D6F84;
+}
+.user-info{
+    // position: absolute;
+// width: 83px;
+height: 18.75px;
+left: 43px;
+top: calc(50% - 18.75px/2 - 343.92px);
+font-family: 'Roboto';
+// font-weight: 500;
+font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 18px;
+letter-spacing: -0.02em;
+
+// color: #4069B3 !important;
+
+}
+// .side-menu__label {
+//     display: flex;
+//     align-items: center;
+//     padding: 5px 0;
+//     font-size: 14px;
+//     font-weight: 400;
+//     font-family: 'Poppins';
+//     font-style: normal;
+//     font-weight: 600;
+//     left: px;
+//     font-size: 14px;
+//     line-height: 21px;
+//     letter-spacing: -0.01em;
+//     transition: border-left-color 0.3s ease, background-color 0.3s ease;
+//     color: #25252a;
+//     white-space: nowrap;
+//     flex: 1 1 auto;
+//     margin-left: 15px;
+// }    
+.title{
+    // font-family: system-ui;
+    // font-family: sans-serif;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 14px;
+    font-style: normal;
+    
+}
+.pen{
+    position: absolute;
+    left: 10.17%;
+    right: 12.71%;
+    top: 21.3%;
+bottom: 16.6%;
+margin-right: 59.21px;
+    margin-left: 34.5px;
+    height: 14.25px;
+    width: 18.91px;
+
+// background: #5D6F84;
+transform: matrix(0.99, -0.17, 0.15, 0.99, 0, 0);
+}
+
+// .value{
+   
+//         color: var(--lapis-lazuli);
+//         font-family: var(--font-family-poppins);
+//         font-size: var(--font-size-xxs);
+//         font-weight: 500;
+//         // left: 53px;
+//         // letter-spacing: -0.24px;
+//         // position: absolute;
+//         // top: 61px;
+//         width: 83px;
+        
+// }

@@ -1,0 +1,28 @@
+
+    .isexpanded{
+        display: block !important;
+    }
+    .horizontalMenu .horizontalMenu-click, .horizontalMenu .horizontalMenu-click02, .horizontalMenu .horizontalMenu-click03, .horizontalMenu .horizontalMenu-click04{
+        display: inline-flex;
+    }
+    @media only screen and (max-width: 991px){
+        .horizontalMenu > .horizontalMenu-list > li > a .horizontal-icon {
+            display: initial;
+        }
+    }
+    
+    @media (min-width:992px) {
+        .megaMenuCustom{
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+    .horizontalMenu > .horizontalMenu-list > li > a{
+        padding: 15px 7px !important;
+    }
+
+    .horizontalMenu > .horizontalMenu-list > li > a i{
+        margin-right: 0;
+        margin-left: 5px;
+        margin-top: 2px ;
+    }

@@ -1,0 +1,1033 @@
+<div class="card">
+  <div class="card-body innerdiv" style="padding: 0">
+    <!-- Header Start -->
+    <div class="header hor-header">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <!-- Sidebar Toggle Button -->
+          <div class="col-6 col-md-3 col-lg-2 order-md-1 order-1">
+            <button
+              class="app-sidebar__toggle"
+              (click)="sidebarToggle()"
+            ></button>
+          </div>
+          <!-- Analytic Dashboard Text -->
+          <div
+            class="col-12 col-md-6 col-lg-8 order-md-2 order-3 text-center my-2 my-md-0"
+          >
+            <span class="font-weight-bold" style="font-size: large">{{
+              vehicleFormTitle
+            }}</span>
+          </div>
+          <!-- Logo -->
+          <div
+            class="col-6 col-md-3 col-lg-2 order-md-3 order-2 text-end text-md-start"
+          >
+            <div
+              ngbDropdown
+              class="d-flex justify-content-end justify-content-md-start notifications_ref"
+            >
+              <img
+                src="assets/images/brand/logo-3.png"
+                alt="logo"
+                id="change-image"
+                class=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Header End -->
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div
+      class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+      style="margin: 5px; padding: 7px"
+    >
+      <form [formGroup]="vehicleForm" (ngSubmit)="onSubmitVehicle()">
+        <ngx-spinner
+          name="qDriverFormSpinner"
+          bdColor="rgba(51, 51, 51, 0.8)"
+          size="default"
+          [fullScreen]="true"
+          type="ball-spin-clockwise"
+        >
+          <p style="color: black">Please Wait..</p>
+        </ngx-spinner>
+        <div class="row position-relative">
+          <div
+            class="col-lg-12"
+            style="
+              font-size: 16px;
+              font-weight: 800;
+              color: #1d4380;
+              text-decoration: underline;
+              font-family: sans-serif;
+              margin-left: 14px;
+            "
+          >
+            Vehicle
+          </div>
+          <button
+            (click)="qSwitchBackTD()"
+            style="
+              /*! left: -1px; */
+              right: 40px;
+              text-align: right;
+              top: -20px;
+              font-size: 24px;
+              color: #615959; /*! display: flex; */ /*! align-items: center; */ /*! justify-content: end; */
+              width: fit-content;
+            "
+            class="position-absolute"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="col-lg-12 my-2">
+          <div class="row justify-content-center">
+            <div class="colmun position-relative">
+              <label for="Category" class="filtor_name">Category</label>
+              <ng-select
+                required
+                formControlName="Category"
+                id="Category"
+                placeholder="Category"
+                class="cutombox"
+                style="font-size: 14px; font-weight: 400"
+                [closeOnSelect]="true"
+              >
+                <ng-option
+                  *ngFor="let item of filter.category | keyvalue"
+                  [value]="item"
+                >
+                  {{ item.value }}</ng-option
+                >
+              </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('Category')?.touched && vehicleForm.get('Category')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                Select category
+              </span>
+            </div>
+
+            <div class="colmun position-relative">
+              <label for="Make" class="filtor_name">Make</label>
+              <ng-select
+                required
+                formControlName="Make"
+                id="Make"
+                placeholder="Make"
+                class="cutombox"
+                style="font-size: 14px; font-weight: 400"
+                [closeOnSelect]="true"
+              >
+                <ng-option
+                  *ngFor="let item of filter.make | keyvalue"
+                  [value]="item"
+                >
+                  {{ item.value }}</ng-option
+                >
+              </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('Make')?.touched && vehicleForm.get('Make')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                Select make
+              </span>
+            </div>
+            <div class="colmun position-relative">
+              <label for="Model" class="filtor_name">Model</label>
+              <ng-select
+                required
+                formControlName="Model"
+                id="Model"
+                placeholder="Model"
+                class="cutombox"
+                style="font-size: 14px; font-weight: 400"
+                [closeOnSelect]="true"
+              >
+                <ng-option
+                  *ngFor="let item of filter.model | keyvalue"
+                  [value]="item"
+                >
+                  {{ item.value }}</ng-option
+                >
+              </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('Model')?.touched && vehicleForm.get('Model')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                Select model
+              </span>
+            </div>
+            <div class="colmun position-relative">
+              <label for="Vehicle" class="filtor_name">Vehicle Number</label>
+              <input
+                type="text"
+                required
+                class="form-control cutombox"
+                id="Vehicle"
+                placeholder="Vehicle Number"
+                formControlName="VehicleNumber"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('VehicleNumber')?.touched && vehicleForm.get('VehicleNumber')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                enter vehicle number
+              </span>
+            </div>
+            <div class="colmun position-relative">
+              <label for="VehicleType" class="filtor_name">Vehicle Type</label>
+              <ng-select
+                required
+                formControlName="VehicleType"
+                id="VehicleType"
+                placeholder="Vehicle Type"
+                class="cutombox"
+                style="font-size: 14px; font-weight: 400"
+                [closeOnSelect]="true"
+              >
+                <ng-option
+                  *ngFor="let item of filter.vehicle_type | keyvalue"
+                  [value]="item"
+                >
+                  {{ item.value }}</ng-option
+                >
+              </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('VehicleType')?.touched && vehicleForm.get('VehicleType')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                select vehicle type
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12 py-2">
+          <div class="row justify-content-center">
+            <div class="colmun position-relative">
+              <label for="Registration" class="filtor_name"
+                >Registration Number</label
+              >
+              <input
+                type="text"
+                formControlName="Registration"
+                class="form-control cutombox"
+                placeholder="Registration"
+                required
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('Registration')?.touched && vehicleForm.get('Registration')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                enter registration number
+              </span>
+            </div>
+            <div class="colmun position-relative">
+              <label for="RegistrationDate" class="filtor_name"
+                >Registration Date</label
+              >
+              <input
+                type="date"
+                formControlName="RegistrationDate"
+                class="form-control cutombox"
+                placeholder="Registration Date"
+                required
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('RegistrationDate')?.touched && vehicleForm.get('RegistrationDate')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                enter registration date
+              </span>
+            </div>
+            <div class="colmun position-relative">
+              <label for="VehicleCapacity" class="filtor_name"
+                >Vehicle Capacity</label
+              >
+              <ng-select
+                formControlName="VehicleCapacity"
+                id="VehicleCapacity"
+                placeholder="Vehicle Capacity"
+                class="cutombox"
+                style="font-size: 14px; font-weight: 400"
+                [closeOnSelect]="true"
+                required
+              >
+                <ng-option
+                  *ngFor="let item of filter.vehicle_capacity | keyvalue"
+                  [value]="item"
+                >
+                  {{ item.value }}</ng-option
+                >
+              </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('VehicleCapacity')?.touched && vehicleForm.get('VehicleCapacity')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                select vehicle type
+              </span>
+            </div>
+            <div class="colmun position-relative">
+              <label for="FuelType" class="filtor_name">Fuel Type</label>
+              <ng-select
+                formControlName="FuelType"
+                id="FuelType"
+                placeholder="Fuel Type"
+                class="cutombox"
+                style="font-size: 14px; font-weight: 400"
+                [closeOnSelect]="true"
+                required
+              >
+                <ng-option
+                  *ngFor="let item of filter.vehicle_fuel_type | keyvalue"
+                  [value]="item"
+                >
+                  {{ item.value }}</ng-option
+                >
+              </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('FuelType')?.touched && vehicleForm.get('FuelType')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                select fuel type
+              </span>
+            </div>
+            <div class="colmun position-relative">
+              <label for="OverLimit" class="filtor_name"
+                >Over Speed Limit</label
+              >
+              <input
+                type="number"
+                class="form-control cutombox"
+                id="OverLimit"
+                placeholder="Over Speed Limit"
+                formControlName="OverSpeed"
+                required
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('OverSpeed')?.touched && vehicleForm.get('OverSpeed')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                enter over speed limit
+              </span>
+              <span
+                style="font-size: 11px"
+                *ngIf="vehicleForm.get('OverSpeed')?.touched && vehicleForm.get('OverSpeed')?.errors?.['pattern']"
+                class="text-red position-absolute text-sm-center"
+              >
+                Over Speed Limit must be a number
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 py-2">
+          <div class="row justify-content-center">
+            <div *ngIf="UserType==='13'" class="colmun position-relative">
+              <label for="customer" class="filtor_name"
+                >Select Customer</label
+              >
+              <ng-select
+              formControlName="customer"
+              placeholder="Select Customer"
+              class="cutombox"
+              style="font-size: 14px; font-weight: 400"
+             
+            >
+              <ng-option
+                *ngFor="let customer of customerList"
+                [value]="customer"
+              >
+                {{ customer?.value }}</ng-option
+              >
+            </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf=" vehicleForm.get('VehicleCapacity')?.touched && vehicleForm.get('VehicleCapacity')?.errors?.['required']"
+                class="text-red position-absolute text-sm-center"
+              >
+                select vehicle type
+              </span>
+              <span
+              style="font-size: 11px"
+              *ngIf=" vehicleForm.get('OverSpeed')?.touched && vehicleForm.get('OverSpeed')?.errors?.['required']"
+              class="text-red position-absolute text-sm-center"
+            >
+              enter over speed limit
+            </span>
+            </div>        
+            <div class="colmun position-relative">
+     
+            </div>
+            <div class="colmun position-relative">
+     
+            </div>
+            <div class="colmun position-relative">
+     
+            </div>
+            <div class="colmun position-relative">
+     
+            </div>
+          </div>
+        </div>
+
+        <div class="row py-2">
+          <div
+            class="col-lg-12"
+            style="
+              font-size: 16px;
+              font-weight: 800;
+              color: #1d4380;
+              text-decoration: underline;
+              font-family: sans-serif;
+              margin-left: 14px;
+            "
+          >
+            Upload Vehicle Documents
+          </div>
+        </div>
+
+        <div class="col-lg-12 mt-2">
+          <div class="row justify-content-center">
+            <div class="colmun">
+              <img
+                src="assets/icon/Icon/RC.png"
+                alt="Registration Certificate"
+              /><br />
+              <label for="RegistrationCertificate" class="filtor_name"
+                >Registration Certificate</label
+              >
+            </div>
+            <div class="colmun">
+              <label for="RegistrationDocumentNumber" class="filtor_name"
+                >Document Number</label
+              >
+              <input
+                type="text"
+                formControlName="RegistrationDocumentNumber"
+                id="RegistrationDocumentNumber"
+                class="form-control cutombox"
+                placeholder="Document Number"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('RegistrationDocumentNumber')?.value &&
+                    vehicleForm.get('Registrationfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('RegistrationDocumentNumber')?.value &&
+                  vehicleForm.get('Registrationfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the document number</span
+              >
+            </div>
+            <div class="colmun">
+              <label for="RegistrationIssueDate" class="filtor_name"
+                >Issue Date</label
+              >
+              <input
+                type="date"
+                formControlName="RegistrationIssueDate"
+                class="form-control cutombox"
+                placeholder="Issue Date"
+              />
+            </div>
+            <div class="colmun">
+              <label for="RegistrationExpiryDate" class="filtor_name"
+                >Expiry Date</label
+              >
+              <input
+                type="date"
+                formControlName="RegistrationExpiryDate"
+                class="form-control cutombox"
+                placeholder="Expiry Date"
+              />
+            </div>
+            <div class="colmun">
+              <label for="Registrationfile" class="filtor_name"
+                >Upload Document</label
+              >
+              <input
+                type="file"
+                class="form-control cutombox"
+                formControlName="Registrationfile"
+                (change)="selectFile($event, 'Registrationfile')"
+              />
+            </div>
+            <div class="colmun">
+              <label for="RegistrationRemarks" class="filtor_name"
+                >Remarks</label
+              >
+              <input
+                type="text"
+                formControlName="RegistrationRemarks"
+                class="form-control cutombox"
+                placeholder="Remarks"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Repeat similar structure for other document types (Pollution Certificate, National Goods Permit, etc.) -->
+
+        <!-- Pollution Certificate -->
+        <div class="col-lg-12 mt-2">
+          <div class="row justify-content-center">
+            <div class="colmun">
+              <img
+                src="assets/icon/Icon/Pollution Certificate.png"
+                alt="Pollution Certificate"
+              /><br />
+              <label for="PollutionCertificate" class="filtor_name"
+                >Pollution Certificate</label
+              >
+            </div>
+            <div class="colmun">
+              <label for="PollutionDocumentNumber" class="filtor_name"
+                >Document Number</label
+              >
+              <input
+                type="text"
+                formControlName="PollutionDocumentNumber"
+                id="PollutionDocumentNumber"
+                class="form-control cutombox"
+                placeholder="Document Number"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('PollutionDocumentNumber')?.value &&
+                    vehicleForm.get('Pollutionfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('PollutionDocumentNumber')?.value &&
+                  vehicleForm.get('Pollutionfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the document number</span
+              >
+            </div>
+            <div class="colmun">
+              <label for="PollutionIssueDate" class="filtor_name"
+                >Issue Date</label
+              >
+              <input
+                type="date"
+                formControlName="PollutionIssueDate"
+                class="form-control cutombox"
+                placeholder="Issue Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('PollutionIssueDate')?.value &&
+                    vehicleForm.get('Pollutionfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('PollutionIssueDate')?.value &&
+                  vehicleForm.get('Pollutionfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the issue date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="PollutionExpiryDate" class="filtor_name"
+                >Expiry Date</label
+              >
+              <input
+                type="date"
+                formControlName="PollutionExpiryDate"
+                class="form-control cutombox"
+                placeholder="Expiry Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('PollutionExpiryDate')?.value &&
+                    vehicleForm.get('Pollutionfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('PollutionExpiryDate')?.value &&
+                  vehicleForm.get('Pollutionfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the expiry date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="Pollutionfile" class="filtor_name"
+                >Upload Document</label
+              >
+              <input
+                type="file"
+                class="form-control cutombox"
+                formControlName="Pollutionfile"
+                (change)="selectFile($event, 'Pollutionfile')"
+              />
+            </div>
+            <div class="colmun">
+              <label for="PollutionRemarks" class="filtor_name">Remarks</label>
+              <input
+              placeholder="Remarks"
+                type="text"
+                formControlName="PollutionRemarks"
+                class="form-control cutombox"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- National Goods Permit -->
+        <div class="col-lg-12 mt-2">
+          <div class="row justify-content-center">
+            <div class="colmun">
+              <img
+                src="assets/icon/Icon/National Goods Permit.png"
+                alt="National Goods Permit"
+              /><br />
+              <label for="NationalGoodsPermit" class="filtor_name"
+                >National Goods Permit</label
+              >
+            </div>
+            <div class="colmun">
+              <label for="PermitDocumentNumber" class="filtor_name"
+                >Document Number</label
+              >
+              <input
+                type="text"
+                formControlName="PermitDocumentNumber"
+                id="PermitDocumentNumber"
+                class="form-control cutombox"
+                placeholder="Document Number"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('PermitDocumentNumber')?.value &&
+                    vehicleForm.get('Permitfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('PermitDocumentNumber')?.value &&
+                  vehicleForm.get('Permitfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the document number
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="PermitIssueDate" class="filtor_name"
+                >Issue Date</label
+              >
+              <input
+                type="date"
+                formControlName="PermitIssueDate"
+                class="form-control cutombox"
+                placeholder="Issue Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('PermitIssueDate')?.value &&
+                    vehicleForm.get('Permitfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('PermitIssueDate')?.value &&
+                  vehicleForm.get('Permitfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the issue date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="PermitExpiryDate" class="filtor_name"
+                >Expiry Date</label
+              >
+              <input
+                type="date"
+                formControlName="PermitExpiryDate"
+                class="form-control cutombox"
+                placeholder="Expiry Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('PermitExpiryDate')?.value &&
+                    vehicleForm.get('Permitfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('PermitExpiryDate')?.value &&
+                  vehicleForm.get('Permitfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the expiry date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="Permitfile" class="filtor_name"
+                >Upload Document</label
+              >
+              <input
+                type="file"
+                class="form-control cutombox"
+                formControlName="Permitfile"
+                (change)="selectFile($event, 'Permitfile')"
+              />
+            </div>
+            <div class="colmun">
+              <label for="PermitRemarks" class="filtor_name">Remarks</label>
+              <input
+                type="text"
+                formControlName="PermitRemarks"
+                class="form-control cutombox"
+                placeholder="Remarks"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Insurance Certificate -->
+        <div class="col-lg-12 mt-2">
+          <div class="row justify-content-center">
+            <div class="colmun">
+              <img
+                src="assets/icon/Icon/Insurance.png"
+                alt="Insurance Certificate"
+              /><br />
+              <label for="InsuranceCertificate" class="filtor_name"
+                >Insurance Certificate</label
+              >
+            </div>
+            <div class="colmun">
+              <label for="InsuranceDocumentNumber" class="filtor_name"
+                >Document Number</label
+              >
+              <input
+                type="text"
+                formControlName="InsuranceDocumentNumber"
+                id="InsuranceDocumentNumber"
+                class="form-control cutombox"
+                placeholder="Document Number"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('InsuranceDocumentNumber')?.value &&
+                    vehicleForm.get('Insurancefile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('InsuranceDocumentNumber')?.value &&
+                  vehicleForm.get('Insurancefile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the document number
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="InsuranceIssueDate" class="filtor_name"
+                >Issue Date</label
+              >
+              <input
+                type="date"
+                formControlName="InsuranceIssueDate"
+                class="form-control cutombox"
+                placeholder="Issue Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('InsuranceIssueDate')?.value &&
+                    vehicleForm.get('Insurancefile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('InsuranceIssueDate')?.value &&
+                  vehicleForm.get('Insurancefile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the issue date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="InsuranceExpiryDate" class="filtor_name"
+                >Expiry Date</label
+              >
+              <input
+                type="date"
+                formControlName="InsuranceExpiryDate"
+                class="form-control cutombox"
+                placeholder="Expiry Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('InsuranceExpiryDate')?.value &&
+                    vehicleForm.get('Insurancefile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('InsuranceExpiryDate')?.value &&
+                  vehicleForm.get('Insurancefile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the expiry date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="Insurancefile" class="filtor_name"
+                >Upload Document</label
+              >
+              <input
+                type="file"
+                class="form-control cutombox"
+                formControlName="Insurancefile"
+                (change)="selectFile($event, 'Insurancefile')"
+              />
+            </div>
+            <div class="colmun">
+              <label for="InsuranceRemarks" class="filtor_name">Remarks</label>
+              <input
+                type="text"
+                formControlName="InsuranceRemarks"
+                class="form-control cutombox"
+                placeholder="Remarks"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Fitness Certificate -->
+        <div class="col-lg-12 mt-2">
+          <div class="row justify-content-center">
+            <div class="colmun">
+              <img
+                src="assets/icon/Icon/Fitness.png"
+                alt="Fitness Certificate"
+              /><br />
+              <label for="FitnessCertificate" class="filtor_name"
+                >Fitness Certificate</label
+              >
+            </div>
+            <div class="colmun">
+              <label for="FitnessDocumentNumber" class="filtor_name"
+                >Document Number</label
+              >
+              <input
+                type="text"
+                formControlName="FitnessDocumentNumber"
+                id="FitnessDocumentNumber"
+                class="form-control cutombox"
+                placeholder="Document Number"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('FitnessDocumentNumber')?.value &&
+                    vehicleForm.get('Fitnessfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('FitnessDocumentNumber')?.value &&
+                  vehicleForm.get('Fitnessfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the document number
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="FitnessIssueDate" class="filtor_name"
+                >Issue Date</label
+              >
+              <input
+                type="date"
+                formControlName="FitnessIssueDate"
+                class="form-control cutombox"
+                placeholder="Issue Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('FitnessIssueDate')?.value &&
+                    vehicleForm.get('Fitnessfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('FitnessIssueDate')?.value &&
+                  vehicleForm.get('Fitnessfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the issue date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="FitnessExpiryDate" class="filtor_name"
+                >Expiry Date</label
+              >
+              <input
+                type="date"
+                formControlName="FitnessExpiryDate"
+                class="form-control cutombox"
+                placeholder="Expiry Date"
+                [ngClass]="{
+                  'border-danger':
+                    !vehicleForm.get('FitnessExpiryDate')?.value &&
+                    vehicleForm.get('Fitnessfile')?.value
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="
+                  !vehicleForm.get('FitnessExpiryDate')?.value &&
+                  vehicleForm.get('Fitnessfile')?.value
+                "
+                class="text-red position-absolute text-sm-center"
+              >
+                enter the expiry date
+              </span>
+            </div>
+            <div class="colmun">
+              <label for="Fitnessfile" class="filtor_name"
+                >Upload Document</label
+              >
+              <input
+                type="file"
+                class="form-control cutombox"
+                formControlName="Fitnessfile"
+                (change)="selectFile($event, 'Fitnessfile')"
+              />
+            </div>
+            <div class="colmun">
+              <label for="FitnessRemarks" class="filtor_name">Remarks</label>
+              <input
+                type="text"
+                formControlName="FitnessRemarks"
+                class="form-control cutombox"
+                placeholder="Remarks"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Repeat similar blocks for other document sections -->
+        <div class="row mt-3">
+          <div
+            class="col-lg-12"
+            style="
+              font-size: 16px;
+              font-weight: 800;
+              color: #1d4380;
+              text-decoration: underline;
+              font-family: sans-serif;
+              margin-left: 14px;
+            "
+          >
+            Vehicle Features
+          </div>
+        </div>
+        <div class="col-lg-12 mt-2">
+          <div class="row justify-content-center">
+            <div class="colmun">
+              <label for="GPS" class="filtor_name">GPS</label>&nbsp;&nbsp;
+              <input
+                type="checkbox"
+                formControlName="GPS"
+                [checked]="vehicleForm.get('GPS')?.value === 1"
+              />
+            </div>
+            <div class="colmun">
+              <label for="FixedDoorELock" class="filtor_name"
+                >Fixed Door E-Lock</label
+              >&nbsp;&nbsp;
+              <input
+                type="checkbox"
+                formControlName="Fixed_Door"
+                [checked]="vehicleForm.get('Fixed_Door')?.value === 1"
+              />
+            </div>
+            <div class="colmun">
+              <label for="RefrigeratedVehicle" class="filtor_name"
+                >Refrigerated Vehicle</label
+              >&nbsp;&nbsp;
+              <input
+                [checked]="vehicleForm.get('Refrigerated')?.value === 1"
+                type="checkbox"
+                formControlName="Refrigerated"
+              />
+            </div>
+            <div class="colmun">
+              <label for="FireExtinguisher" class="filtor_name"
+                >Fire Extinguisher</label
+              >&nbsp;&nbsp;
+              <input
+                [checked]="vehicleForm.get('Fire_Extinguisher')?.value === 1"
+                type="checkbox"
+                formControlName="Fire_Extinguisher"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 mt-4">
+          <div class="row justify-content-center">
+            <div class="col-lg-1">
+              <button
+                type="submit"
+                class="btn btn-custume2 btn-block"
+                [disabled]="!vehicleForm.valid"
+              >
+                Save
+              </button>
+            </div>
+            <div class="col-lg-1">
+              <button
+                type="button"
+                class="btn btn-custome"
+                (click)="qSwitchBackTD()"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

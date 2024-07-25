@@ -1,0 +1,2468 @@
+
+<!-- Header Start -->
+<div class="card">
+  <div class="card-body innerdiv p-0">
+    <!-- headerstart here -->
+    <div class="hor-header">
+      <div style="overflow: hidden;">
+        <div class="row align-items-left">
+          <div  class="col-lg-1">
+            <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4" style="font-weight: 600;font-size:large ;text-align: center;margin-top: 15px;">
+            <!-- <span style="margin-right: -104px;">Transporter Consolidated Dashboard
+            </span> -->
+
+          </div>
+          <div class="col-lg-2 text-center">
+
+          </div>
+         
+          <div class="col-lg-1"></div>
+          <div class="col-lg-1">
+            <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
+          </div>
+          <div class="col-lg-1 text-center">
+            <a class="header-brand1">
+              <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
+                style="height: auto; width: 80%;">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- HEADER END -->
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" name="spinner-5" [fullScreen]="false"
+type="ball-spin-clockwise"> </ngx-spinner>
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <nav class="flex-md-column" >
+          <div class="nav nav-tabs" id="nav-tab" role="tablist" style=" background-color: #ece9e9;">
+            <button class="nav-link active" id="nav-Region-tab" data-bs-toggle="tab" data-bs-target="#nav-Region"
+              type="button" role="tab" aria-controls="nav-Region" aria-selected="true"
+             >Load Planner</button>
+             <ng-container *ngIf="UserType!=='6'">
+             <button class="nav-link" id="nav-Trip-tab" data-bs-toggle="tab" data-bs-target="#nav-Trip"
+              type="button" role="tab" aria-controls="nav-Trip" aria-selected="false">Indenting</button>
+            </ng-container>
+                 <!-- indent/////////////////// -->
+            <button class="nav-link" id="nav-ORDER-tab" data-bs-toggle="tab" data-bs-target="#nav-ORDER"
+              type="button" role="tab" aria-controls="nav-ORDER" aria-selected="false" >Order</button>
+              <!-- REQUEST -->
+            <!-- <button class="nav-link" id="nav-REQUEST-tab" data-bs-toggle="tab" data-bs-target="#nav-REQUEST"
+              type="button" role="tab" aria-controls="nav-REQUEST" aria-selected="false">Quote(Request)</button> -->
+  
+              <!-- Trip -->
+            
+  
+              <!-- Billing -->
+            <button class="nav-link" id="nav-Billing-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-Billing" type="button" role="tab" aria-controls="nav-Billing"
+              aria-selected="false">Billing</button>
+              
+              <!-- Agreement -->
+              <button class="nav-link" id="nav-Agreement-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-Agreement" type="button" role="tab" aria-controls="nav-Agreement"
+              aria-selected="false">Agreement</button>
+  
+                  <!-- Vehicle -->
+              <button class="nav-link" id="nav-Vehicle-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-Vehicle" type="button" role="tab" aria-controls="nav-Vehicle"
+              aria-selected="false">Vehicle</button>
+              <!-- Driver -->
+              <button class="nav-link" id="nav-Driver-tab" data-bs-toggle="tab"
+              data-bs-target="#nav-Driver" type="button" role="tab" aria-controls="nav-Driver"
+              aria-selected="false">Driver</button>
+  
+  
+          </div>
+  
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <!-- statics -->
+          <div class="tab-pane fade show active" id="nav-Region" role="tabpanel" aria-labelledby="nav-Region-tab">
+           Load planner
+  
+            <!--  -->
+   
+          </div>
+          <!-- indent -->
+           <ng-container *ngIf="UserType!=='6'">
+            <div class="tab-pane fade" id="nav-Trip" role="tabpanel" aria-labelledby="nav-Trip-tab">
+              <div class="col-lg-12">
+                <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" name="spinner-5" [fullScreen]="false"
+                type="ball-spin-clockwise"> </ngx-spinner> -->
+                <div class="fiter">
+                  <p>
+                    
+                    <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="true"
+                        aria-controls="collapseExample" style="font-size: 16px;">
+                        <i class="fa fa-filter" aria-hidden="true"
+                            style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
+                    </a>
+    
+                </p>
+                <div class="collapse show" id="collapseExample">
+                  <div >
+                    <div class="card card-body" style="border: none ; box-shadow: none; margin-bottom: 0px;">
+                      <!--  -->
+                      
+  <form #filterForm_s="ngForm" (ngSubmit)="filterSubmit(filterForm_s)" novalidate>
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-2">
+          <span class="filtor_name">Select Capacity</span>
+          <ng-select name="Capacity" id="ShipmentNo" style="font-size: 14px;font-weight: 400;" ngModel required 
+            [closeOnSelect]="true" [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['Capacity']?.valid }">
+            <ng-option value="" selected>Select</ng-option>
+            <ng-option [value]="item" *ngFor="let item of Vehicle_capacity">{{item.value}}</ng-option>
+          </ng-select>
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['Capacity']?.invalid" class="invalid-feedback">
+            Please select a capacity.
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span class="filtor_name">Vehicle Body Type</span>
+          <ng-select name="Body" placeholder="Select Agency" id="ShipmentNo" style="font-size: 14px;font-weight: 400;" ngModel required 
+            [closeOnSelect]="true" [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['Body']?.valid }">
+            <ng-option value="" selected>Select</ng-option>
+            <ng-option [value]="item" *ngFor="let item of Vehicle_Body_Type">{{item.value}}</ng-option>
+          </ng-select>
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['Body']?.invalid" class="invalid-feedback">
+            Please select a body type.
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span class="filtor_name">Date</span>
+          <div class="input-group date" id="datepicker">
+            <input type="input" id="Date-select" (click)="Dateselect()" class="form-control" [ngModel]="datetimepicker1" required name="To_Date" 
+              [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['To_Date']?.valid }" />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="fa fa-calendar" style="color: black !important;"></i>
+              </span>
+            </div>
+          </div>
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['To_Date']?.invalid" class="invalid-feedback">
+            Please select a date.
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span class="filtor_name">Time</span>
+          <input type="time" class="form-control" [ngModel]="timepicker1" required name="To_time" 
+            [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['To_time']?.valid }" />
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['To_time']?.invalid" class="invalid-feedback">
+            Please select a time.
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span class="filtor_name">From</span>
+          <ng-select name="From" id="ShipmentNo" style="font-size: 14px;font-weight: 400;" ngModel required 
+            [closeOnSelect]="true" [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['From']?.valid }">
+            <ng-option value="" selected>Select</ng-option>
+            <ng-option [value]="item" *ngFor="let item of Source">{{item.value}}</ng-option>
+          </ng-select>
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['From']?.invalid" class="invalid-feedback">
+            Please select a source.
+          </div>
+        </div>
+        <span style="position: absolute; margin-left: 82%; top: 31px; width: 2px;">
+          <i class="fa-solid fa-arrow-right-arrow-left" style="color: black;"></i>
+        </span>
+        <div class="col-lg-2">
+          <span class="filtor_name">To</span>
+          <ng-select name="To" id="ShipmentNo" style="font-size: 14px;font-weight: 400;" ngModel required 
+            [closeOnSelect]="true" [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['To']?.valid }">
+            <ng-option value="" selected>Select</ng-option>
+            <ng-option [value]="item" *ngFor="let item of Destination">{{item.value}}</ng-option>
+          </ng-select>
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['To']?.invalid" class="invalid-feedback">
+            Please select a destination.
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-lg-2">
+          <span class="filtor_name">Number of Vehicle</span>
+          <input type="number" class="form-control" placeholder="Number of Vehicle" required name="novehicle" ngModel 
+            [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['novehicle']?.valid }" />
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['novehicle']?.invalid" class="invalid-feedback">
+            Please enter the number of vehicles.
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span class="filtor_name">Booking Type</span>
+          <ng-select name="Bookingtype" placeholder="Select Agency" id="ShipmentNo" style="font-size: 14px;font-weight: 400;" ngModel required 
+            [closeOnSelect]="true" [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['Bookingtype']?.valid }">
+            <ng-option value="" selected>Select</ng-option>
+            <ng-option [value]="item" *ngFor="let item of Booking_Type">{{item.value}}</ng-option>
+          </ng-select>
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['Bookingtype']?.invalid" class="invalid-feedback">
+            Please select a booking type.
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div style="margin-top: 17px !important;">
+            <ng-container *ngFor="let item of Safety_ceck_list; let ind=index">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input checkboxcss" [(ngModel)]="item.value" name="{{item.name}}" type="checkbox" (change)="changecheck($event, ind, item.key)" />
+                <label class="form-check-label" for="inlineCheckbox{{ind}}">{{item.name}}</label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span class="filtor_name">Age of Vehicle</span>
+          <input type="number" step="1" class="form-control" placeholder="Age" required name="Agevehicle" ngModel 
+            [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['Agevehicle']?.valid }" />
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['Agevehicle']?.invalid" class="invalid-feedback">
+            Please enter the age of the vehicle.
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span class="filtor_name">Load Type</span>
+          <ng-select name="Load_type" placeholder="Select Load Type" id="ShipmentNo" style="font-size: 14px;font-weight: 400;" ngModel required 
+            [closeOnSelect]="true" [ngClass]="{ 'is-invalid': filterForm_s.submitted && !filterForm_s.controls['Load_type']?.valid }">
+            <ng-option value="" selected>Select</ng-option>
+            <ng-option [value]="item" *ngFor="let item of Load_type">{{item.value}}</ng-option>
+          </ng-select>
+          <div *ngIf="filterForm_s.submitted && filterForm_s.controls['Load_type']?.invalid" class="invalid-feedback">
+            Please select a load type.
+          </div>
+        </div>
+        <div class="col-lg-1">
+          <button class="btn btn-outline-primary searcg-button" type="submit">Search</button>
+        </div>
+      </div>&nbsp;
+    </div>
+  </form>
+  
+    
+                    </div>
+                  </div>
+                  <!-- </ng-container> -->
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+              </div>
+    
+    
+    
+            </div>
+            <div class="col-lg-12" >
+              <div style="overflow: scroll;">
+                <ng-container *ngIf="hide_column && table_show">
+              <table class=" table" cellspacing="0" id="masterUpload" width="100%">
+                <thead>
+                  <tr style="text-align: center; white-space: nowrap;">
+                    <th class="table-primary">SL</th>
+                    <th class="table-primary">Transporter Name</th>
+                    <!-- <th class="table-primary">Agency</th> -->
+                    <th class="table-primary" > Transporter Score</th>
+                    <th class="table-primary">No. of Trips</th>
+                    <th class="table-primary" >Vehicle Contrcted </th>
+                    <th class="table-primary" >Vehicle Used</th>
+                    <th class="table-primary" >Vehicle Used In Current Month</th>
+                    <th class="table-primary" >Vehicle Currently In Use</th>
+                    <th class="table-primary"> Vehicle Remaining</th>
+                    <th class="table-primary">Recommendation IN Priority</th>
+                    <th class="table-primary">Action</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                   <tr *ngFor="let item of searched_data;let ind =index"
+                    style="white-space: nowrap;text-align: center;" [ngStyle]="getStyle(item.Transporter_Score)">
+                    <td>{{ind+1}}</td>
+                    <td>{{item.Transporter_Name.value}}</td>
+                   
+                    <td >{{item.Transporter_Score}}</td>
+                    <td>{{item.No_of_Trips}}</td>
+                    <td>{{item.Vehicle_Contracted}}</td>
+                    <td >{{item.Vehicle_Used}}</td>
+                    <td >{{item.Vehicle_Use_In_Current_Month}}</td>
+                    <td >{{item.Vehicle_Currently_In_Use}}</td>
+                    <td >{{item.Recommendation_IN_Priority}}</td>
+                    <td >{{item.Vehicle_Remaining}}</td>
+                   
+  
+  
+                  <!-- </tr>  -->
+                  <!-- <tr 
+                  style="white-space: nowrap;text-align: center;">
+                  <td style="color: green;">1</td>
+                  <td style="color: green;">Jain Transport</td>
+                 
+                  <td style="color: green;">98</td>
+                  <td style="color: green;">11</td>
+                  <td *ngIf="hide_column"style="color: green;">88</td>
+                  <td *ngIf="hide_column" style="color: green;">48</td>
+                  <td *ngIf="hide_column" style="color: green;">38</td> -->
+                  <!-- <td><button type="button" style=" font-size: 13px;
+                    font-weight: 400;
+                    color: white;
+                    border-radius: 6px;"[ngStyle]="{'background': getButtonColor(item.Transporter_Score)}" >{{item.Status}}</button> </td> -->
+                  <td><button type="button" style=" font-size: 13px;    background: #6ABD46;color: white;font-weight: 400;    padding: 3px;
+                    width: 87px;
+                    height: 27px;
+                    font-weight: 400;" class="btn "  (click)="Request(item,1)" >Request</button> 
+                    <!-- [ngStyle]="{'background': getButtonColor(item.Transporter_Score)}" -->
+                     <!-- [ngStyle]="{'background': getButtonColor(item.Transporter_Score)}" -->
+                      <!-- <ng-container  *ngIf="!hide_column">
+                 <button type="button" class="btn btn-outline-primary ms-2" style=" font-size: 13px;font-weight: 400;border-radius: 6px;"  (click)="Request(item,5)" >Generate Quote</button>
+                      </ng-container> -->
+                </td>
+              
+  
+  
+                </tr>
+                </tbody>
+              </table>
+                </ng-container>
+                <ng-container *ngIf="!hide_column && table_show">
+                  <table class=" table" cellspacing="0" id="masterUpload" width="100%">
+                    <thead>
+                      <tr style="text-align: center; white-space: nowrap;">
+                        <th class="table-primary">SL</th>
+                        <th class="table-primary">Transporter Name</th>
+                        <!-- <th class="table-primary">Agency</th> -->
+                        <th class="table-primary" > Transporter Score</th>
+                        <th class="table-primary">No. of Trips</th>
+                        <th class="table-primary">Action</th>
+                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                       <tr *ngFor="let item of searched_data;let ind =index"
+                        style="white-space: nowrap;text-align: center;" [ngStyle]="getStyle(item.Transporter_Score)">
+                        <td>{{ind+1}}</td>
+                        <td>{{item.Transporter_Name.value}}</td>
+                       
+                        <td >{{item.Transporter_Score}}</td>
+                        <td>{{item.No_of_Trips}}</td>
+                       <td><button type="button" style=" font-size: 13px;    background: #6ABD46;color: white;font-weight: 400;    padding: 3px;
+                        width: 87px;
+                        height: 27px;
+                        font-weight: 400;" class="btn "  (click)="Request(item,1)" >Request</button> 
+                        <!-- [ngStyle]="{'background': getButtonColor(item.Transporter_Score)}" -->
+                         <!-- [ngStyle]="{'background': getButtonColor(item.Transporter_Score)}" -->
+                          <ng-container  >
+                     <button type="button" class="btn  ms-2" style=" font-size: 13px;font-weight: 400;    color: white;
+      background: #1D4380;    padding: 4px;
+      border-radius: 3px;
+      width: 107px;
+      height: 30px;"  (click)="Request(item,5)" >Generate Quote</button>
+                          </ng-container>
+                    </td>
+                  
+      
+      
+                    </tr>
+                    </tbody>
+                  </table>
+                    </ng-container>
+              </div>
+            </div>
+          </div>
+           </ng-container>
+      
+          <!-- ORDER -->
+          <div class="tab-pane fade" id="nav-ORDER" role="tabpanel" aria-labelledby="nav-ORDER-tab">
+            <div class="col-lg-12">
+            
+              <div class="fiter">
+                <p>
+  
+                  <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="true"
+                    aria-controls="collapseExample" style="font-size: 16px;">
+                    <i class="fa fa-filter" aria-hidden="true"
+                      style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
+                  </a>
+  
+                </p>
+                <div class="collapse show" id="collapseExample">
+                  <div>
+                    <div class="card card-body" style="border: none ; box-shadow: none; margin-bottom: 0px;">
+                      <nav class="flex-md-column" >
+                        <div class="nav nav-tabs mm" id="nav-tab" role="tablist" style="border-bottom: none !important;">
+                          <!-- <button class="nav-link active" id="nav-Region-tab" data-bs-toggle="tab" data-bs-target="#nav-Region"
+                            type="button" role="tab" aria-controls="nav-Region" aria-selected="true"
+                           >Load Planner</button> -->
+                
+                          <!-- <button class="nav-link active all-button " id="nav-All-tab" data-bs-toggle="tab" data-bs-target="#nav-All"
+                            type="button" role="tab" aria-controls="nav-All" aria-selected="true" (click)="change_status1()">All</button>
+                         
+                          <button class="nav-link all-button " id="nav-NEw-tab" data-bs-toggle="tab" data-bs-target="#nav-NEw"
+                            type="button" role="tab" aria-controls="nav-NEw" aria-selected="false" (click)="change_status()" >New</button> -->
+                
+                          
+                        </div>
+                
+                      </nav>
+                      <div class="tab-content" id="nav-tabContent">
+                        <!-- statics -->
+                        <!-- <div class="tab-pane fade show active" id="nav-Region" role="tabpanel" aria-labelledby="nav-Region-tab">
+                         Load planner
+                        </div> -->
+                        <!-- ORDER -->
+                        <div class="tab-pane fade show active" id="nav-All" role="tabpanel" aria-labelledby="nav-ORDER-tab">
+                        
+                          <div class="card card-body" style="border: none ; box-shadow: none; margin-bottom: 0px;" *ngIf="All_data">
+                            <!--  -->
+                            <form #filterForm="ngForm" (ngSubmit)="filterSubmit_order(filterForm)">
+                              <div class="col-lg-12">
+                                <div class="row">
+                               <div class="col-lg-2" >
+                            <span class="filtor_name">Start Date</span>
+                            <div class="input-group date" id="datepicker">
+  
+                            <input type="input" id="Date-select2" (click)="Dateselect2()" class="form-control"
+                             [ngModel]="datetimepicker1" required name="from_Date" />
+  
+                              <!-- <div class="input-group-append">
+                                <span class="input-group-text">
+                                  <i class="fa fa-calendar" style="color: black !important;"></i>
+                                </span>
+                              </div> -->
+                            </div>
+                          </div>
+                          <div class="col-lg-2" >
+                            <span class="filtor_name">End Date</span>
+                            <div class="input-group date" id="datepicker">
+  
+                            <input type="input" id="Date-select_end" (click)="Dateselect1()" class="form-control"
+                             [ngModel]="datetimepicker1" required name="To_Date" />
+  
+                              <!-- <div class="input-group-append">
+                                <span class="input-group-text">
+                                  <i class="fa fa-calendar" style="color: black !important;"></i>
+                                </span>
+                              </div> -->
+                            </div>
+                          </div>
+                          <div class="col-lg-2" >
+                            <span class="filtor_name">Order Id</span>
+  
+                            <input type="input" name="Order_id" ngModel placeholder="Enter Order Id" class="form-control"
+                               />
+  
+                            </div>
+                            <div class="col-lg-2">
+                              <span class="filtor_name">Transporter</span>
+                              <ng-select name="Client" #Clients="ngModel" id="ShipmentNo"[ngClass]="{'is-invalid': (Clients.invalid && (Clients.touched || filterForm.submitted))}"
+                              style="font-size: 14px;font-weight: 400;"  required  ngModel [closeOnSelect]="true">
+                             
+                              <ng-option value="" selected>Select</ng-option>
+                              <!-- <ng-option value="" >Close Body</ng-option>
+                              <ng-option value="" >Open Body</ng-option> -->
+                              <ng-option [value]="item" *ngFor="let item of client">{{item.value}} </ng-option>
+                              
+                            </ng-select>
+                            </div>
+                          
+                          <!-- <div class="col-lg-2">
+                            <span class="filtor_name">From</span>
+                            <ng-select name="From"  id="ShipmentNo"
+                            style="font-size: 14px;font-weight: 400;" ngModel [closeOnSelect]="true">
+                           
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option [value]="item" *ngFor="let item of Source">{{item.value}} </ng-option>
+                            
+                          </ng-select>
+                          </div>
+                          <span style="    position: absolute;
+                             margin-left: 82%;
+                          top: 31px;
+                          width: 2px;"><i class="fa-solid fa-arrow-right-arrow-left" style="color: black;"></i></span>
+                          <div class="col-lg-2">
+                            <span class="filtor_name">To</span>
+                            <ng-select name="To"  id="ShipmentNo"
+                            style="font-size: 14px;font-weight: 400;" ngModel [closeOnSelect]="true">
+                           
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option [value]="item" *ngFor="let item of Destination">{{item.value}} </ng-option>
+                            
+                          </ng-select>
+                          </div> -->
+                           <!-- </div>
+                           <div class="row"> -->
+                            <div class="col-lg-1">
+                              
+                              <button class="btn btn-outline-primary searcg-button" type="submit">Search</button>
+                              <!-- <button class="btn"(click)="openLoadPlannerTab()">mmmmm</button> -->
+                             </div>
+                           </div>
+                              </div>
+                            </form>
+                          </div>
+                      
+                      </div>
+                        <!-- <div class="tab-pane fade" id="nav-NEw" role="tabpanel" aria-labelledby="nav-NEw-tab">
+                          <div class="card card-body" style="border: none ; box-shadow: none; margin-bottom: 0px;" *ngIf="!All_data">
+                          
+                            <form #filterForm="ngForm" (ngSubmit)="filterSubmit_order(filterForm)">
+                              <div class="col-lg-12">
+                                <div class="row">
+                          <div class="col-lg-2" >
+                            <span class="filtor_name">Start Date</span>
+                            <div class="input-group date" id="datepicker">
+  
+                            <input type="input" id="Date-select2" (click)="Dateselect2()" class="form-control"
+                             [ngModel]="datetimepicker1" required name="from_Date" />
+  
+                            </div>
+                          </div>
+                          <div class="col-lg-2" >
+                            <span class="filtor_name">End Date</span>
+                            <div class="input-group date" id="datepicker">
+  
+                            <input type="input" id="Date-select_end" (click)="Dateselect1()" class="form-control"
+                             [ngModel]="datetimepicker1" required name="To_Date" />
+  
+                             
+                            </div>
+                          </div>
+                          <div class="col-lg-2" >
+                            <span class="filtor_name">Order Id</span>
+  
+                            <input type="input" name="Order_id" ngModel placeholder="Enter Order Id" class="form-control"
+                               />
+  
+                            </div>
+                            <div class="col-lg-2">
+                              <span class="filtor_name">Transporter</span>
+                              <ng-select name="Client" #Clients="ngModel" id="ShipmentNo"[ngClass]="{'is-invalid': (Clients.invalid && (Clients.touched || filterForm.submitted))}"
+                              style="font-size: 14px;font-weight: 400;"  required  ngModel [closeOnSelect]="true">
+                             
+                              <ng-option value="" selected>Select</ng-option>
+                              <ng-option [value]="item" *ngFor="let item of client">{{item.value}} </ng-option>
+                              
+                            </ng-select>
+                            </div>
+                            <div class="col-lg-1">
+                              
+                              <button class="btn btn-outline-primary searcg-button" type="submit">Search</button>
+                            
+                             </div>
+                           </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div> -->
+  
+                    </div>
+                  </div>
+                  <!-- </ng-container> -->
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+              </div>
+  
+  
+  
+            </div>
+            <div class="col-lg-12" *ngIf="table_show_order">
+              
+              <div class="">
+                   <!-- data-bs-toggle="modal" data-bs-target="#upload"-->
+                   <ng-container *ngIf="UserType!=='6'">
+                <button type="button" class="btn btn-success set-Assign"  style="border-radius: 0px;
+      background: #6ABD46  !important;"
+                 (click)="orderstatus_Decline('Accept',0)" [disabled]="!isRadioSelected">Accept</button>
+                <button type="button" class="btn btn-danger set-Decline" style="border-radius: 0px;
+      background: red !important;" (click)="orderstatus_Decline('Rejected',2)" [disabled]="!isRadioSelected"> Reject </button>
+      </ng-container>
+              </div>
+              <div style="overflow: scroll;">
+              <table class=" table" cellspacing="0" id="Assignvehicle" width="100%">
+                <thead>
+                  <tr style="text-align: center; white-space: nowrap;">
+                    <th class="table-primary"> </th>
+                    <th class="table-primary">SL</th>
+                    <th class="table-primary">Order Number</th>
+                    <th class="table-primary">Transporter</th>
+                    <th class="table-primary">Dispatch Date & Time</th>
+                    <th class="table-primary">Source</th>
+                    <th class="table-primary">Destination</th>
+                    <th class="table-primary">Route Sequence</th>
+                    <th class="table-primary">Vehicle Capacity</th>
+                    <th class="table-primary">Vehicle Type </th>
+                    <th class="table-primary">No of Vehicles </th>
+                    <th class="table-primary">Vehicle Accessories</th>
+                    <th class="table-primary">Requirement </th>
+  
+                    <th class="table-primary">Status</th>
+  
+  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of searched_data_order;let ind =index"
+                  style="white-space: nowrap;text-align: center;" [ngStyle]="{'color': getStyle_status(item.Status)}">
+                  <td><input type="radio" name="value" id="value" (change)="selected_radio(item.OrderNumber,item)"></td>
+                  <td>{{ind+1}}</td>
+                  <td>{{item.OrderNumber}}</td>
+                 
+                  <td >{{item.transporter_name}}</td>
+                  <td>{{item.dispatchdate}} {{item.dispatchtime}}</td>
+                  <td >{{item.Source}}</td>
+                  <td >{{item.Destination}}</td>
+                  <td >{{item.Route_Sequence}}</td>
+                  <td >{{item.Vehicle_Capacity}}</td>
+                  <td >{{item.Vehicle_Type}}</td>
+                  <td >{{item.No_of_Vehicles}}</td>
+                   <td style="color: green;">
+                      <div class="row">
+                        <ng-container *ngIf="item.Vehicle_Accessories[0]?.value">
+                        <div class="col-3">
+                          <img class="me-2" src="{{Safety_list[0].img}}" style="height: 3vh;">
+                          <!-- <i class='fas fa-lock-open access' style="color: black;" title="{{item.Vehicle_Accessories[0]?.name}}"></i> -->
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.Vehicle_Accessories[3]?.value">
+                        <div class="col-3">
+                          <!-- <i class='fas fa-fire-extinguisher'></i> -->
+                          <img class="me-2" src="{{Safety_list[3].img}}" style="height: 3vh;">
+                          <!-- <i class='fas fa-fire-extinguisher' style="color: red;font-size: 22px;" title="{{item.Vehicle_Accessories[3]?.name}}"></i> -->
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.Vehicle_Accessories[1]?.value">
+                        <div class="col-3">
+                          <img class="me-2" src="{{Safety_list[1].img}}" style="height: 3vh;">
+                          <!-- <i class='fa fa-map-marker access' style="color: green;font-size: 22px;" title="{{item.Vehicle_Accessories[1]?.name}}"></i> -->
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="item.Vehicle_Accessories[2]?.value">
+                        <div class="col-3">
+                          <!-- <i class="fas fa-user-friends"></i> -->
+                          <img class="me-2" src="{{Safety_list[2].img}}" style="height: 3vh;">
+                          <!-- <i class='fas fa-user-friends access' style="color: black;" title="{{item.Vehicle_Accessories[2]?.name}}"></i> -->
+                        </div>
+                        </ng-container>
+                      </div>
+                    </td>
+                  <td  >{{item.Requirement}}</td>
+                  
+                 
+  
+  
+                <td><button type="button" style="font-size: 15px; font-weight: 400;
+                  color: green;width: 150px;" class="btn" [ngStyle]="{'color': getStyle_status(item.Status)}" >{{item.status_remark}}</button>
+                <ng-container *ngIf="item.Status=='3'">  <button class="btn" style="width: 50px;" (click)="open_AssignVehicle(item)"><i _ngcontent-ydm-c127="" class="fa fa-info-circle" style="font-size: 22px; color: #1D4380;"></i></button>
+                </ng-container>
+                
+                </td>
+               
+  
+  
+              </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+          </div>
+          <!-- REQUEST -->
+          <!-- <div class="tab-pane fade" id="nav-REQUEST" role="tabpanel" aria-labelledby="nav-REQUEST-tab">
+              REQUEST
+          </div> -->
+          
+          <!-- Billing -->
+          <div class="tab-pane fade" id="nav-Billing" role="tabpanel" aria-labelledby="nav-Billing-tab">
+            <div class="col-lg-12 d-flex">
+              <div class="fiter col-md-10">
+                <p style="font-weight: 600;" class="mb-2">
+                  <a
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                    style="font-size: 16px"
+                  >
+                    <i
+                      class="fa fa-filter"
+                      aria-hidden="true"
+                      style="font-size: 20px; color: #1D4380; ; margin-top: 8px"
+                    ></i
+                    >FILTER
+                  </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                  <div>
+                    <div
+                      class="card card-body pt-0"
+                      style="border: none; box-shadow: none; margin-bottom: 0px"
+                    >
+                      <form [formGroup]="filterForm_Q" (ngSubmit)="onFilter()">
+                        <div class="row col-12 ps-0">
+                          <div class="col-md-2">
+                            <label class="m-0" for="dateFrom">From</label>
+                            <input
+                              id="dateFrom"
+                              type="date"
+                              formControlName="dateFrom"
+                              class="form-control"
+                              placeholder="Select Start Date..."
+                              [ngClass]="{'border-danger': filterForm_Q.get('dateFrom')?.touched && filterForm_Q.get('dateFrom')?.invalid}"
+                              />
+                              <span
+                              style="font-size: 11px"
+                              *ngIf="filterForm_Q.get('dateFrom')?.touched && filterForm_Q.get('dateFrom')?.errors?.['required']"
+                              class="text-danger position-absolute text-sm-center"
+                            >
+                              Select start date.
+                            </span>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="m-0" for="dateTo">To</label>
+                            <input
+                              id="dateTo"
+                              type="date"
+                              formControlName="dateTo"
+                              class="form-control"
+                              placeholder="Select End Date..."
+                              [ngClass]="{'border-danger': filterForm_Q.get('dateTo')?.touched && filterForm_Q.get('dateTo')?.invalid}"
+                              />
+                              <span
+                              style="font-size: 11px"
+                              *ngIf="filterForm_Q.get('dateTo')?.touched && filterForm_Q.get('dateTo')?.errors?.['required']"
+                              class="text-danger position-absolute text-sm-center"
+                            >
+                              Select end date.
+                            </span>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="m-0" for="customer"
+                              >Transporter</label
+                            >
+                            <ng-select
+                              id="customer"
+                              formControlName="customer"
+                              appearance="outline"
+                              [searchable]="false"
+                              placeholder="Select Transporter"
+                              class="custom-ng-select"
+                              [ngClass]="{'border-danger': filterForm_Q.get('customer')?.touched && filterForm_Q.get('customer')?.invalid}"
+                            >
+                            <ng-option
+                            *ngFor="let transporter of transporters"
+                            [value]="transporter.id"
+                          >
+                            {{ transporter.value }}
+                          </ng-option>
+                            </ng-select>
+                            <span
+                            style="font-size: 11px"
+                            *ngIf="filterForm_Q.get('customer')?.touched && filterForm_Q.get('customer')?.errors?.['required']"
+                            class="text-danger position-absolute text-sm-center"
+                          >
+                            Select customer.
+                          </span>
+                          </div>
+                          <div class="col-md-2">
+                            <label class="m-0" for="status">Status</label>
+                            <ng-select
+                              id="status"
+                              formControlName="status"
+                              appearance="outline"
+                              [searchable]="false"
+                              placeholder="Select Status"
+                              [ngClass]="{'border-danger': filterForm_Q.get('status')?.touched && filterForm_Q.get('status')?.invalid}"
+                            >
+                              <ng-option value=1>Pending</ng-option>
+                              <ng-option value=2>Approved</ng-option>
+                              <ng-option value=3>Rejected</ng-option>
+                            </ng-select>
+                            <span
+                            style="font-size: 11px"
+                            *ngIf="filterForm_Q.get('status')?.touched && filterForm_Q.get('status')?.errors?.['required']"
+                            class="text-danger position-absolute text-sm-center"
+                          >
+                            Select status.
+                          </span>
+                          </div>
+                          <div class="col-md-2 text-end d-flex align-items-end">
+                            <button
+                              type="submit"
+                              class="p-2 px-4 rounded-0 btn-orange shadow-none"
+                              [disabled]="filterForm_Q.invalid"
+                              [ngClass]="{
+                                'disabled-button':filterForm_Q.invalid,
+                                'enabled-button':filterForm_Q.valid
+                              }"
+                            >
+                              Submit
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- </ng-container> -->
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+              </div>
+              <div
+                class="col mt-2 d-flex justify-content-end align-items-start"
+               
+              >
+                <button *ngIf="UserType!=='6'"  data-bs-target="#customerModal"
+                data-bs-toggle="modal">
+                  <i
+                    style="color:  #1D4380; "
+                    class="fa-solid fa-circle-plus fa-2xl"
+                  ></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="col-md-10">
+                <button
+                  type="button"
+                  class="btn-green py-2 px-3 set-Assign shadow-none col-md-1"
+                  [disabled]="selectedIds.length==0"
+                  [ngClass]="{
+                    'disabled-button':selectedIds.length==0,
+                    'enabled-button':selectedIds.length!=0
+                  }"
+                  (click)="onAccept()"
+                >
+                  Accept</button
+                >&nbsp;&nbsp;
+                <button
+                  type="button"
+                  class="btn-orange py-2 px-3 set-Decline shadow-none col-md-1"
+                  [disabled]="selectedIds.length==0"
+                  [ngClass]="{
+                    'disabled-button':selectedIds.length==0,
+                    'enabled-button':selectedIds.length!=0
+                  }"
+                   (click)="onReject()"
+                >
+                  Reject
+                </button>
+              </div>
+              <!-- Table -->
+              <div class="mt-3">
+                <table
+                style="width: 100%"
+                class="table display nowrap"
+                cellspacing="0"
+                id="billing-table"
+                width="100%"
+              >
+                <thead>
+                  <tr style="text-align: center; white-space: nowrap">
+                    <!-- <th class="table-primary"><input type="checkbox" (change)="toggleAllSelections($event)" /></th>               -->
+                    <th class="table-primary">
+                      <div class="form-check" style="text-align: end;">
+                        <input class="form-check-input" type="checkbox" value="" (change)="toggleAllSelection()"
+                          id="flexCheckChecked" [checked]="allSelected" required>
+            
+                      </div>
+                    </th>
+                      <th class="table-primary">Transporter</th>
+                    <th class="table-primary">Billing Start Date</th>
+                    <th class="table-primary">Billing End Date</th>
+                    <th class="table-primary">Vehicle</th>
+                    <th class="table-primary">Billing Mode</th>
+                    <th class="table-primary">No of Unit</th>
+                    <th class="table-primary">Rate</th>
+                    <th class="table-primary">Total Amount</th>
+                    <th class="table-primary">Raised By</th>
+                    <th class="table-primary">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Skeleton Rows -->
+                  <ng-container *ngIf="isLoadingBilling">
+                    <tr *ngFor="let i of [1, 2, 3, 4, 5]" style="white-space: nowrap; text-align: center;">
+                      <td><div class="skeleton skeleton-checkbox"></div></td>
+                      <td><div class="skeleton skeleton-text short"></div></td>
+                      <td><div class="skeleton skeleton-text medium"></div></td>
+                      <td><div class="skeleton skeleton-text medium"></div></td>
+                      <td><div class="skeleton skeleton-text long"></div></td>
+                      <td><div class="skeleton skeleton-text short"></div></td>
+                      <td><div class="skeleton skeleton-text short"></div></td>
+                      <td><div class="skeleton skeleton-text medium"></div></td>
+                      <td><div class="skeleton skeleton-text long"></div></td>
+                      <td><div class="skeleton skeleton-text short"></div></td>
+                      <td><div class="skeleton skeleton-text medium"></div></td>
+                    </tr>
+                  </ng-container> 
+                  <ng-container *ngIf="!isLoadingBilling">
+                  <tr
+                    *ngFor="let item of filterData; let ind = index"
+                    style="white-space: nowrap; text-align: center"
+                  >
+                  <!-- <td>
+                    <input type="checkbox" id="checkbox-{{ind}}" name="kk" *ngIf="item?.Raised_By === 'tranporter'" (change)="toggleSelection(item, $event)" />
+                  </td> -->
+                  <td>
+                    <div class="form-check" style="margin-right: 13px;">
+                      <input *ngIf="item?.Raised_By === 'tranporter'||item?.Raised_By=='transporter'" class="form-check-input" type="checkbox"
+                             [checked]="isSelected(item?._id)" id="checkbox-{{ind}}" required
+                             (change)="toggleSelection(item?._id)">
+                    </div>
+                  </td>
+                    <td>{{ item?.transporter_name}}</td>
+                    <td>{{ item?.Billing_Start_Data }}</td>
+                    <td>{{ item?.Billing_End_Data }}</td>
+                    <td>{{ item?.Vehicle_number || item?.Vehicle_name }}</td>
+                    <th>{{ item?.Billing_Mode }}</th>
+                    <td>{{ item?.No_of_Unit }}</td>
+                    <td>{{ item?.Per_Unit_Charges }}</td>
+                    <td>{{ item?.Total_Amount }}</td>
+                    <td>{{ item?.Raised_By }}</td>
+                    <td>{{ item?.status_remark }}</td>
+                      </tr>
+                    </ng-container>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+          
+        <!-- Modal -->
+        <div
+        class="modal fade"
+        id="customerModal"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="customerModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl">
+          <div
+            class="modal-content rounded-3 border rounded-3 border-1 border-color-light shadow-light"
+          >
+            <div class="p-3">
+              <h3 style="color: #1d4380;" class="text-decoration-underline">Customer Manual Billing Module</h3>
+              <form
+                [formGroup]="billingForm"
+                (submit)="onSubmit(billingForm.value)"
+              >
+                <div class="d-flex pb-2 pt-2">
+                  <div class="col-md-3">
+                    <label class="m-0" for="customer">Transporter</label>
+                    <ng-select
+                      formControlName="customer"
+                      (change)="onTransporterChange($event)"
+                      appearance="outline"
+                      [searchable]="false"
+                      placeholder="Select Transporter"
+                    >
+                    <ng-option
+                    *ngFor="let transporter of transporters"
+                    [value]="transporter"
+                  >
+                    {{ transporter?.value }}
+                  </ng-option>
+                    </ng-select>
+                  </div>
+                  <div
+                    class="col-md-3 pb-2 gap-3 d-flex align-items-end justify-content-start"
+                  >
+                    <button
+                    type="button"
+                    style="color: #1d4380;"
+                    [disabled]="billingForm.get('customer')?.invalid"
+                    [ngbTooltip]="!billingForm.get('customer')?.value ? 'Please select the transporter' : ''"
+                      (click)="addVehicle()"
+                      class="d-flex align-items-center gap-2"
+                    >
+                      <i style="color: #1d4380;" class="fa-solid fa-circle-plus fa-2xl"></i>
+                      <p class="m-0 p-0 fw-bold ">Add More Vehicle</p>
+                    </button>
+                  </div>
+                </div>
+
+                <div formArrayName="vehicles" class="ms-0 mt-3">
+                  <div
+                    *ngFor="let vehicle of vehicles.controls; let i = index"
+                    [formGroupName]="i"
+                    class="d-flex mt-3 py-3"
+                  >
+                  <div class="col-lg-12">
+                    <div class="row">
+                        <!-- ///////////////////////////////////////////// -->
+
+                        <div class="custome ">
+                          <label class="m-0" for="Vehicle_Type"
+                            >Vehicle Type</label
+                          >
+                          <ng-select
+                          id="Vehicle_Type"
+                          formControlName="Vehicle_Type"
+                          appearance="outline"
+                          [searchable]="false"
+                          placeholder="Enter Vehicle Type"
+                          [ngClass]="{'border-danger': vehicle.get('Vehicle_Type')?.touched && vehicle.get('Vehicle_Type')?.errors?.['required']}"
+                        >
+                          <ng-option *ngFor="let vehicles of vehicleList" [value]="vehicles">{{vehicles.vehicle_no}}</ng-option>
+                         
+                        </ng-select>
+                          <span style="font-size: 11px;" *ngIf=" vehicle.get('Vehicle_Type')?.touched && vehicle.get('Vehicle_Type')?.errors?.['required']" class="text-red position-absolute text-sm-center">
+                            Select vehicle</span>
+                        </div>
+                        <div class="custome">
+                          <label class="m-0" for="Billing_Start_Data"
+                            >Billing Start Date</label
+                          >
+                          <input
+                            id="Billing_Start_Data"
+                            type="date"
+                            formControlName="Billing_Start_Data"
+                            class="form-control"
+                            placeholder="Select Start Date..."
+                            [ngClass]="{'border-danger': vehicle.get('Billing_Start_Data')?.touched && vehicle.get('Billing_Start_Data')?.errors?.['required']}"
+                          />
+                          <span style="font-size: 11px;" *ngIf=" vehicle.get('Billing_Start_Data')?.touched && vehicle.get('Billing_Start_Data')?.errors?.['required']" class="text-red position-absolute text-sm-center">
+                            Select start date</span>
+
+                            <span style="font-size: 11px;" *ngIf="vehicle.hasError('dateRange')" class="text-danger position-absolute text-sm-center">
+                              Start date must be before end date.
+                            </span>
+                            </div>   
+                        <div class="custome">
+                          <label class="m-0" for="Billing_End_Data"
+                            >Billing End Date</label
+                          >
+                          <input
+                            id="Billing_End_Data"
+                            type="date"
+                            formControlName="Billing_End_Data"
+                            class="form-control"
+                            placeholder="Select End Date..."
+                            [ngClass]="{'border-danger': vehicle.get('Billing_End_Data')?.touched && vehicle.get('Billing_End_Data')?.errors?.['required']}"
+
+                          />
+                          <span style="font-size: 11px;" *ngIf=" vehicle.get('Billing_End_Data')?.touched && vehicle.get('Billing_End_Data')?.errors?.['required']" class="text-red position-absolute text-sm-center">
+                            Select end date</span>
+                        </div>
+                        <div class="custome">
+                          <label class="m-0" for="Billing_Mode"
+                            >Billing Mode</label
+                          >
+                          <ng-select
+                            id="Billing_Mode"
+                            formControlName="Billing_Mode"
+                            appearance="outline"
+                            [searchable]="false"
+                            (change)="onBillingModeChange(i)"
+                            placeholder="Select Billing Mode"
+                            [ngClass]="{'border-danger': vehicle.get('Billing_Mode')?.touched && vehicle.get('Billing_Mode')?.errors?.['required']}"
+
+                          >
+                            <ng-option value="trip">Trip Based</ng-option>
+                            <ng-option value="km">KM Based</ng-option>
+                            <ng-option value="day">Day Based</ng-option>
+                          </ng-select>
+                          <span style="font-size: 11px;" *ngIf=" vehicle.get('Billing_Mode')?.touched && vehicle.get('Billing_Mode')?.errors?.['required']" class="text-red position-absolute text-sm-center">
+                            Select billing mode</span>
+                        </div>
+                        <div class="custome">
+                          <label class="m-0">{{
+                            vehicle.get("numberOfUnitsLabel")?.value ||
+                              "Number of Units"
+                          }}</label>
+                            <input
+                            min="0"
+                            type="number"
+                            formControlName="No_of_Unit"
+                            class="form-control"
+                            placeholder="Enter Number of Units"
+                            [ngClass]="{'border-danger': vehicle.get('No_of_Unit')?.touched && (vehicle.get('No_of_Unit')?.errors?.['required']||vehicle.get('No_of_Unit')?.errors?.['min'])}"
+                          />
+                          <span style="font-size: 11px;" *ngIf="vehicle.get('No_of_Unit')?.touched && vehicle.get('No_of_Unit')?.errors?.['required']" class="text-danger position-absolute text-sm-center">
+                            Enter the number of units.
+                          </span>
+                          <span style="font-size: 11px;" *ngIf="vehicle.get('No_of_Unit')?.touched && vehicle.get('No_of_Unit')?.errors?.['min']" class="text-danger position-absolute text-sm-center">
+                            Unit should not be negative.
+                          </span>
+                          
+                        </div>
+                        <div class="custome">
+                          <label class="m-0">{{
+                            vehicle.get("perUnitChargesLabel")?.value ||
+                              "Per Unit Charges"
+                          }}</label>
+                          <input
+                            min="0"
+                            type="number"
+                            formControlName="Per_Unit_Charges"
+                            class="form-control"
+                            placeholder="Enter Per Unit Charges"
+                            [ngClass]="{'border-danger': vehicle.get('Per_Unit_Charges')?.touched && (vehicle.get('Per_Unit_Charges')?.errors?.['required']||vehicle.get('Per_Unit_Charges')?.errors?.['min'])}"
+                          />
+                          <span style="font-size: 11px;" *ngIf="vehicle.get('Per_Unit_Charges')?.touched && vehicle.get('Per_Unit_Charges')?.errors?.['required']" class="text-danger position-absolute text-sm-center">
+                            Enter the per unit charges.
+                          </span>
+                          <span style="font-size: 11px;" *ngIf="vehicle.get('Per_Unit_Charges')?.touched && vehicle.get('Per_Unit_Charges')?.errors?.['min']" class="text-danger position-absolute text-sm-center">
+                           Charges should not be negative.
+                          </span>
+                          
+                        </div>
+                        <div class="d-flex custome flex-grow-0 position-relative">
+                          <div class=" d-flex flex-column align-items-center justify-content-between">
+                            <label class="m-0 text-nowrap">Total Charges</label>
+                            <h5 class="charges m-0 mb-2 text-decoration-underline position-absolute bottom-0">
+                              {{
+                                vehicle.get("Total_Amount")?.value
+                                  | currency : "₹"
+                              }}
+                            </h5>
+                          </div>
+                          <div
+                            class=" d-flex align-items-end justify-content-center"
+                          >
+                            <button
+                            
+                              type="button"
+                              (click)="removeVehicle(i)"
+                              class="col-md-8 mb-0.5 py-1 btn-remove-vehicle rounded-1 text-white"
+                            >
+                              <i
+                                class="fa fa-trash h3 m-0 text-black"
+                                aria-hidden="true"
+                              ></i>
+                            </button>
+                          </div>
+
+                        </div>
+                   
+                        <!-- ///////////////////////////////////// -->
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                <div
+                  class="d-flex justify-content-center gap-4 col-md-7 mx-auto"
+                >
+                <button
+                [disabled]="(!billingForm.valid ||!billingForm.value.vehicles.length)||!saveBillButton"
+                [ngClass]="{'disabled-button':  ( !billingForm.valid ||
+                          !billingForm.value.vehicles.length)||!saveBillButton,
+                 'enabled-button': (billingForm.valid &&
+                 billingForm.value.vehicles.length)&&saveBillButton}"
+                style="border: 1.6px solid #172c51; background-color: #1d4380;"
+                type="submit"
+                class="text-white h5 py-2 px-3 rounded-3 mt-3 col-md-2"
+              >
+                Save
+              </button>
+              
+                  <button
+                    style="border: 1.6px solid #172c51"
+                    type="button"
+                    data-bs-dismiss="modal"
+                    class="text-white h5 py-2 px-3 rounded-3 btn-orange mt-3 shadow-none col-md-2"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+          <!-- Agreement -->
+          <div class="tab-pane fade" id="nav-Agreement" role="tabpanel" aria-labelledby="nav-Agreement-tab">
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <form [formGroup]="AgreementForm" (ngSubmit)="submitForm(AgreementForm.value)">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="row mt-2">
+                          <div class="column">
+                            <label for="" class="cutom">Vender name</label>
+                            <ng-select placeholder="select an option" id="ShipmentNo"
+                              [class.invalid-select]="AgreementForm.controls.VenderName?.invalid && AgreementForm.controls.VenderName?.touched"
+                              class="cutombox" formControlName="VenderName" required>
+                              <ng-option value="" selected>Select an option</ng-option>
+                              <ng-option [value]="item" *ngFor="let item of venderList">{{item.value}}</ng-option>
+                            </ng-select>
+                            <div
+                              *ngIf="AgreementForm.controls.VenderName?.invalid && AgreementForm.controls.VenderName?.touched"
+                              class="error-message">Please fill out this field</div>
+                            <!-- <input type="text" id="form12" class="form-control cutombox" formControlName="VenderName" required /> -->
+                          </div>
+                          <div class="column">
+                            <label for="" class="cutom">Agreement Code</label>
+                            <input type="text" id="form12" class="form-control cutombox" formControlName="AgreementCode" required />
+                          </div>
+                          <div class="column">
+                            <label for="" class="cutom">Agreement Date</label>
+                            <input type="datetime-local" step="1" class="form-control cutombox" formControlName="AgreementDate" required />
+                          </div>
+                          <div class="column">
+                            <label for="" class="cutom">No. Of Vehicle</label>
+                            <input type="text" id="form12" formControlName="TotalnoVehicle" class="form-control cutombox" required />
+                          </div>
+  
+                          <div class="column">
+                            <label for="" class="cutom">Upload Agreement</label>
+                            <input type="file" id="form12" (change)="selectFile($event)"  formControlName="AgreementFile" class="form-control cutombox" required />
+                          </div>
+                          <!-- <div class="column">
+                                        <button  type="button"  class="btn btn-outline-primary btn-sm mt-6">Submit</button>
+                                    </div> -->
+                          <div class="column" align="right">
+                            <label for="" class="cutom"></label>
+                            <button type="button" class="btn btn-outline-primary btn mt-4" (click)="addtable()">
+                              <i class="fa fa-plus"></i>Add
+                            </button>
+  
+                          </div>
+                        </div>
+                      </div>
+  
+                    </div>
+                    <div class="col-lg-12" align="right" style="padding: 10px;">
+                      <!-- <span>
+                                <button type="button" class="btn btn-success" (click)="addtable()">
+                                    <i class="fa fa-plus" style="color: white;"></i>Add
+                                </button>
+                            </span> -->
+                    </div>
+                    <div style="height: 420px;overflow-x: auto;">
+                      <div formArrayName="Agreement" id="accordionExample">
+                        <div class="" *ngFor="let table1st of getcustumerinvoice().controls; let i=index">
+                          <div [formGroupName]="i">
+                            <div class="accordion-item mt-2">
+                              <div class="d-flex align-items-center">
+                                <h2 class="accordion-header flex-grow-1" [id]="'heading'+i"
+                                  style=" border-radius: 2px; margin: 0;background-color: #f4f5fb;color: black;">
+  
+                               
+                                 
+                                  <button class="accordion-button " type="button" data-bs-toggle="collapse"
+                                    [attr.data-bs-target]="'#collapse' + i" aria-expanded="false"
+                                    [attr.aria-controls]="'collapse' + i"
+                                    style="height: 32px; background: none; width: 100%;color: black;font-weight: 600;font-family: sans-serif;">
+                                    Agreement Information
+                                    <!-- <button type="button" (click)="deletetable(i)"
+                                                                style="height: 33.5px;margin-left: 1007px;">
+                                                                <i class="fa fa-times-circle" style="font-size: 18px;color: white;"></i>
+                                                            </button> -->
+                                                           
+                                                              <a type="button" (click)="deletetable(i)" style="position: absolute;
+                                                                                          
+                                                                                            right: 55px;
+                                                                                            margin-top: 5px;">
+                                                                <i class="fa fa-times-circle" style="font-size: 18px;color: black"></i>
+                                                          </a>
+                                                           
+                                  </button>
+                                 
+                                
+                                
+  
+                                </h2>
+  
+  
+                              </div>
+                              <div [id]="'collapse'+i" class="accordion-collapse collapse"
+                                [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  <div class="col-lg-12">
+  
+                                    <div class="row">
+                                      <div class="col-lg-6">
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+                                            Number Of Vehicle
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <input type="number" class="form-control cutombox" formControlName="Noofvehcle"
+                                              style="height: 32px;">
+                                          </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+                                            Vehicle Type
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <ng-select placeholder="select an option" id="ShipmentNo" class="cutombox"
+                                              required name="source" formControlName="vehcleType">
+                                              <ng-option value="" selected>Select an option</ng-option>
+                                              <ng-option [value]="item"
+                                                                        
+                                              *ngFor="let item of filterDataagreement.bodytype">{{item.value}}</ng-option>
+                                              <!-- <ng-option [value]="item.source_id"
+                                                                      *ngFor="let item of sourceListdata">{{item.source_name}}</ng-option> -->
+                                            </ng-select>
+                                          </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+                                            Vehicle Capacity
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <ng-select placeholder="select an option" id="ShipmentNo" class="cutombox"
+                                              required name="source" formControlName="vehcleCapacity">
+                                              <ng-option value="" selected>Select an option</ng-option>
+                                              <ng-option [value]="item"
+                                                                        
+                                              *ngFor="let item of filterDataagreement.vehiclecapacity">{{item.capacity}}</ng-option>
+                                              <!-- <ng-option [value]="item.source_id"
+                                                                      *ngFor="let item of sourceListdata">{{item.source_name}}</ng-option> -->
+                                            </ng-select>
+                                          </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+                                            Trip Type
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <ng-select placeholder="select an option" id="ShipmentNo"
+                                              (change)="TripTypeF($event)" class="cutombox" required name="source" formControlName="tripType">
+                                              <!-- <ng-option value="T" selected>Trip Based</ng-option>
+                                              <ng-option value="D" selected>Distance Based</ng-option>
+                                              <ng-option value="H" selected>Hourly Based</ng-option>
+                                              <ng-option value="DH" selected>Distance & Hourly Based</ng-option> -->
+  
+                                              <ng-option [value]="item"
+                                                                      
+                                              *ngFor="let item of filterDataagreement.agreementtype">{{item.value}}</ng-option>
+                                            </ng-select>
+                                          </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+                                            Toll Tax
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <input type="number" class="form-control cutombox" formControlName="tolltax"
+                                              style="height: 32px;">
+                                          </div>
+                                        </div>
+  
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+                                            From Date
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <input type="datetime-local" step="1" class="form-control cutombox"
+                                              name="runDate" required formControlName="fromdate" />
+                                          </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+                                            To Date
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <input type="datetime-local" step="1" class="form-control cutombox"
+                                              name="runDate" required formControlName="todate" />
+                                          </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                          <div class="col-lg-4 cutom">
+  
+                                            <label for="" class="column cutom"> Night Charge</label>
+                                            <input class="form-check-input" type="checkbox" value=""
+                                              (change)="Nightf($event)" id="flexCheckChecked" style="margin-left: 2px;border: 1px solid;"
+                                              checked required>
+  
+                                          </div>
+                                          <div class="col-lg-5">
+                                            <div class="row">
+                                              <ng-container *ngIf="TimeCheck">
+                                                <div class="col-lg-6">
+  
+                                                  <label for="" class="cutom">From</label>
+                                                  <input type="time" class="form-control cutombox" required formControlName="NighFrom"/>
+                                                </div>
+                                                <div class="col-lg-6">
+  
+                                                  <label for="" class="cutom">To</label>
+                                                  <input type="time" class="form-control cutombox" required formControlName="NightTo"/>
+  
+                                                </div>
+                                              </ng-container>
+                                            </div>
+  
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!-- //////////////////////////////////////////////////// -->
+  
+                                      <div class="col-lg-6">
+                                        <ng-container *ngIf="tripF=='T'">
+  
+                                          <div class="row">
+                                            <label for="" class="HeadingTab">{{Based}}</label>
+                                          </div>
+                                          <!-- <legend>{{Based}}:</legend> -->
+                                          <div class="row mt-2">
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum no of Trips </label>
+                                              <input type="text" class="form-control cutombox" formControlName="Tminoftrips"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Trip Cost</label>
+                                              <input type="text" class="form-control cutombox" formControlName="ttripcost"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Tentative Distance (Km) </label>
+                                              <input type="text" class="form-control cutombox" formControlName="TTentativeDistance"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+                                          <div class="row mt-2">
+  
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Fixed Charges</label>
+                                              <input type="text" class="form-control cutombox" formControlName="TFixedCharges"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum Monthly Cost </label>
+                                              <input type="text" class="form-control cutombox" formControlName="tMinimumMonthlyCost"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+  
+  
+                                        </ng-container>
+                                        <ng-container *ngIf="tripF=='D'">
+                                          <div class="row">
+                                            <label for="" class="HeadingTab">{{Based}}</label>
+                                          </div>
+                                          <div class="row mt-2">
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum Distance (Km) </label>
+                                              <input type="text" class="form-control cutombox" formControlName="DMinimumDistance"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom"> Distance Cost</label>
+                                              <input type="text" class="form-control cutombox" formControlName="DDistanceCost"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Tentative Distance (Km) </label>
+                                              <input type="text" class="form-control cutombox" formControlName="dTentativeDistance"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+  
+                                          <div class="row mt-2">
+  
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Fixed Charges</label>
+                                              <input type="text" class="form-control cutombox" formControlName="dFixedCharges"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum Monthly Cost </label>
+                                              <input type="text" class="form-control cutombox" formControlName="dMinimumMonthlyCost"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+  
+                                        </ng-container>
+                                        <ng-container *ngIf="tripF=='H'">
+                                          <div class="row">
+                                            <label for="" class="HeadingTab">{{Based}}</label>
+                                          </div>
+                                          <div class="row mt-2">
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum Duration (Hrs.) </label>
+                                              <input type="text" class="form-control cutombox" formControlName="hMinimumDuration"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom"> Hourly Cost</label>
+                                              <input type="text" class="form-control cutombox" formControlName="hHourlyCost"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Tentative Distance (Km) </label>
+                                              <input type="text" class="form-control cutombox" formControlName="hTentativeDistance"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+                                          <div class="row mt-2">
+  
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Fixed Charges</label>
+                                              <input type="text" class="form-control cutombox" formControlName="hFixedCharges"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum Monthly Cost</label>
+                                              <input type="text" class="form-control cutombox" formControlName="hMinimumMonthlyCost"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+  
+                                        </ng-container>
+                                        <ng-container *ngIf="tripF=='DH'">
+                                          <div class="row">
+                                            <label for="" class="HeadingTab">{{Based}}</label>
+                                          </div>
+                                          <div class="row mt-2">
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum Daily Distance(Km)</label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhMinimumDailyDistance"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom"> Minimum Daily Duration(Hrs)</label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhMinimumDailyDuration"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Distance Cost</label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhDistanceCost"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+                                          <div class="row mt-2">
+  
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Hourly Cost</label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhHourlyCost"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Tentative Distance (Km) </label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhTentativeDistance"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Tentative Durations (Hrs.) </label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhTentativeDurations"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+                                          
+  
+                                          <div class="row mt-2">
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Fixed Charges </label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhFixedCharges"
+                                                style="height: 32px;">
+                                            </div>
+                                            <div class="col-lg-4">
+                                              <label for="" class="column cutom">Minimum Monthly Cost</label>
+                                              <input type="text" class="form-control cutombox" formControlName="dhMinimumMonthlyCost"
+                                                style="height: 32px;">
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                      </div>
+  
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+  
+  
+                          </div>
+  
+                        </div>
+                      </div>
+  
+                    </div>
+                    <div class="row mt-4">
+                      <div style="text-align:right;">
+  
+                        <!-- <button class="btn btn-sm btn-orange" type="button" style="color: white; margin-left: 2px;">Reset</button> -->
+                        <button class="btn btn-sm btn-orange" type="button"
+                          style="color: white; margin-left: 2px;">Cancel</button>
+                        <button class="btn btn-sm btn-orange" type="submit"
+                          style="color: white; margin-left: 2px;">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          
+          
+          </div>
+          <!-- Vehicle -->
+          <div class="tab-pane fade" id="nav-Vehicle" role="tabpanel" aria-labelledby="nav-Vehicle-tab">
+            <div class="col-lg-12">
+              <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+                <p style="color: black">Please Wait.. </p>
+              </ngx-spinner> -->
+  
+  
+  
+              <!-- <div style=" margin-left: 5px; -->
+              <!-- margin-right: 5px;"> -->
+  
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-lg-10">
+                    <div class="fiter">
+                      <p style="color: 1D4380; font-weight: 600;">
+                        <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
+                          aria-controls="collapseExample" style="font-size: 16px;">
+                          <i class="fa fa-filter" aria-hidden="true"
+                            style="font-size: 20px;color: #1D4380 ;margin-top: 8px;"></i>FILTER
+                        </a>
+  
+                      </p>
+                      <div class="collapse" id="collapseExample">
+                        <div class="card card-body" style="border: none ; box-shadow: none;">
+                          <form #filterForm="ngForm" (ngSubmit)="onVehicleFilter(filterForm.value)">
+                            <div class="col-lg-12" style="margin-top: -20px;">
+                              <div class="row">
+                                <div class="col-lg-2">
+                                  <span class="filtor_name">From</span>
+                                  <input type="date" class="form-control cutombox" required name="from_date" ngModel/>
+                                </div>
+                                <div class="col-lg-2">
+                                  <span class="filtor_name">To</span>
+                                  <input type="date" class="form-control cutombox" required name="to_date" ngModel/>
+                                </div>
+                                <div class="col-lg-2">
+                                  <span class="filtor_name">Select Customer</span>
+                                  <ng-select [ngModel] name="corpCustomer" id="corpCustomer" placeholder="Category" class="cutombox" style="font-size: 14px; font-weight: 400;" [closeOnSelect]="true" >
+                                    <ng-option *ngFor="let item of qTransporterList " [value]="item?.TransporterId"> {{item?.TransporterName}}</ng-option>
+                                  </ng-select>
+                                </div>
+                               
+                                <div class="col-lg-2">
+  
+                                  <button type="submit" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                                    class="btn btn-outline-primary btn-sm" style="margin-top: 22px;">Submit</button>
+                                </div>
+                              </div>&nbsp;
+  
+                            </div>
+                          </form>
+  
+                        </div>
+                      </div>
+                      <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                    </div>
+                  </div>
+                  <div *ngIf="UserType!=='6'" class="col-lg-2 mt-2">
+                    <div class="" style="text-align:right;">
+                      <i class="fa fa-upload d-none" style="font-size:28px;color: #1D4380; "></i> &nbsp;&nbsp;
+                      <button type="button"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size:28px;color: #1D4380; " (click)="switch()"></i></button>
+                      
+  
+                    </div>
+  
+                  </div>
+                </div>
+  
+                <!-- </div> -->
+  
+  
+  
+              </div>
+
+
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5 class="card-title">Vehicle</h5>
+                          <img src="assets/images/v.png" alt="Vehicle Status" style="height:45px;margin-top:0px;">
+                        </div>
+                        <div class="row">
+                          <div class="col-6" style="width:150px;height:150px;margin-top: -42px;">
+                            <div id="consSt" class=""></div>
+                          </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px;">
+                          <div class="col-12" *ngIf="isqVehicleChartLoading">
+                            <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                          </div>
+                          <div *ngIf="!isqVehicleChartLoading" class="col-12 mt-0 custom">
+                            <span class="status-text" style="color:rgb(239, 91, 11);" id="numberH">{{vehicleDashboardData?.vehicle?.existing_vehicle}}</span>/
+                            <span class="status-text" style="color:#1D4380;" id="numberH">{{vehicleDashboardData?.vehicle?.new_vehicle}}</span>
+                          </div>
+                          <span style="color:rgb(239, 91, 11);">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: rgb(239, 91, 11);"></i>
+                            Existing Vehicle
+                          </span>
+                          <span style="color:#1D4380;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
+                            New Vehicle
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Repeat similar structure for other cards -->
+                 
+                  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5 class="card-title">Body Type</h5>
+                          <img src="assets/images/tov.png" alt="Delivery Status" style="height:45px;margin-top:0px;">
+                        </div>
+                        <div class="row">
+                          <div class="col-6" style="width:150px;height:150px;margin-top: -42px;">
+                            <div id="deliverySt" class=""></div>
+                          </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px;">
+                          <div class="col-12" *ngIf="isqVehicleChartLoading">
+                            <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                          </div>
+                          <div *ngIf="!isqVehicleChartLoading" class="col-12 mt-0 custom">
+                            <span class="status-text" style="color:#EC6625;" id="numberH">{{vehicleDashboardData?.body_type?.open_body}}</span>/
+                            <span class="status-text" style="color:#1D4380;" id="numberH">{{vehicleDashboardData?.body_type?.closed_body}}</span>/
+                            <span class="status-text" style="color:rgb(253, 195, 5);" id="numberH">{{vehicleDashboardData?.body_type?.container}}</span>
+                          </div>
+                          <span style="color:#EC6625;"><i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>Open Body</span>
+                          <span style="color:#1D4380;"><i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>Closed Body</span>
+                          <span style="color:rgb(253, 195, 5);"><i class='fas fa-square-full' style="margin-right: 2px; color: rgb(253, 195, 5);"></i>Container</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Repeat similar structure for other cards -->
+                  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5 class="card-title">Vehicle Rating</h5>
+                          <img src="assets/images/vr.png" alt="Vehicle Status" style="height:45px;margin-top:0px;">
+                        </div>
+                        <div class="row">
+                          <div class="col-6" style="width:150px;height:150px;margin-top: -42px;">
+                            <div id="vehicleSt" class=""></div>
+                          </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px;">
+                          <div class="col-12" *ngIf="isqVehicleChartLoading">
+                            <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                          </div>
+                          <div *ngIf="!isqVehicleChartLoading" class="col-12 mt-0 custom">
+                            <span class="status-text" style="color:#EC6625;" id="numberH">{{vehicleDashboardData?.vehicle_rating?.less_than_two}}</span>/
+                            <span class="status-text" style="color:#1D4380;" id="numberH">{{vehicleDashboardData?.vehicle_rating?.two_to_four}}</span>/
+                            <span class="status-text" style="color:#613704;" id="numberH">{{vehicleDashboardData?.vehicle_rating?.more_than_four}}</span>
+                          </div>
+                          <span style="color:#EC6625;"><i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>Less Than 2</span>
+                          <span style="color:#1D4380;"><i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>2 To 4</span>
+                          <span style="color:#613704;"><i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>More Than 4</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+              <div class="row mt-2">
+                <div style="text-align: left">
+                  <button
+                    [disabled]="!selectVehicleIds.length"
+                    class="btn btn-sm btn-green"
+                    type="submit"
+                    style="color: white; background-color: green"
+                    (click)="
+                      updateVehicleStatus('active', filterForm.value)
+                    "
+                  >
+                    Activate
+                  </button>
+                  <button
+                    [disabled]="!selectVehicleIds.length"
+                    class="btn btn-sm btn-orange"
+                    type="submit"
+                    style="
+                      color: white;
+                      margin-left: 2px;
+                      background-color: orange;
+                    "
+                    (click)="
+                      updateVehicleStatus('de-active', filterForm.value)
+                    "
+                  >
+                    Deactivate
+                  </button>
+                  <button
+                    [disabled]="!selectVehicleIds.length"
+                    class="btn btn-sm btn-blue"
+                    type="submit"
+                    style="
+                      color: white;
+                      margin-left: 2px;
+                      background-color: #1d4380;
+                    "
+                    (click)="
+                      updateVehicleStatus('delete', filterForm.value)
+                    "
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+              <!-- /////////////////////////////////////////// -->
+              <div class="info mt-2">
+        
+                <table class="table" cellspacing="0" id="masterUploadQ" width="100%">
+                  <thead>
+                    <tr style="text-align: center; white-space: nowrap;">
+                      <th class="table-primary"><input type="checkbox" (change)="qtoggleVehcileAllSelection()" [checked]="qallVehicleSelected"></th>
+                      <th class="table-primary">SL</th>
+                      <th class="table-primary">Category</th>
+                      <th class="table-primary">Make & Model</th>
+                      <th class="table-primary">Vehicle Number</th>
+                      <th class="table-primary">Customer</th>
+                      <th class="table-primary"> Type</th>
+                      <th class="table-primary">Reg. No.</th>
+                      <th class="table-primary">Reg. Date</th>
+                      <th class="table-primary">Capacity</th>
+                      <th class="table-primary">Fuel Type</th>
+                      <th class="table-primary">Speed Limit</th>
+                      <th class="table-primary"> Vehicle Documents</th>
+                     
+                      <!-- <th class="table-primary">Remarks</th> -->
+                      <th class="table-primary">Status</th>
+                      <th *ngIf="UserType!=='6'" class="table-primary">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngIf="isLoadingVehicleTable">
+                      <tr *ngFor="let i of [1, 2, 3, 4, 5]" style="white-space: nowrap; text-align: center;">
+                        <td><div class="skeleton skeleton-checkbox"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text long"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text long"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td *ngIf="UserType!=='6'"><div class="skeleton skeleton-text medium"></div></td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!isLoadingVehicleTable">
+                    <tr style="white-space: nowrap; text-align: center;" *ngFor="let item of vehicleTableData; let i = index">
+                      <td>
+                        <!-- <input class="vehiclecheck" type="checkbox"  > -->
+                        <input type="checkbox"
+                        class="vehiclecheck"
+                               [checked]="isVehicleSelected(item?.vehicle?.id)" id="checkbox-{{item?.vehicle?.id}}" required
+                               (change)="qtoggleVehicleSelection(item?.vehicle?.id)"
+                               class="checkbox">
+                      </td>
+                      <td>{{i+1}}</td>
+                      <td>{{vehicleCategory[item?.vehicle?.vehicle_category_id]}}</td>
+                      <td>{{vehicleMake[item?.vehicle?.vehicle_make_id]}}-{{vehicleModel[item?.vehicle?.vehicle_model_id]}}</td>
+                      <td>{{item?.vehicle?.vehicle_number || ''}}</td>
+                      <td>{{item?.cust_data?.name || ''}}</td>
+                      <td>{{vehicleBodyType[item?.vehicle?.vehicle_type] || ''}}</td>
+                      <td>{{item?.vehicle?.registration_no || ''}}</td>
+                      <td>{{item?.vehicle?.registration_date || ''}}</td>
+                      <td>{{ vehicleCapacityType[item?.vehicle?.vehicle_capacity_tons] ? vehicleCapacityType[item?.vehicle?.vehicle_capacity_tons] + ' tons' : '' }}</td>
+                      <td>{{vehicleFuelType[item?.vehicle?.fuel_type] || ''}}</td>
+                      <td>{{item?.vehicle?.max_speed || ''}}</td>
+                      <!-- <td>
+                        <a type="button" href="{{item?.vehicle?.vehicle_doc?.reg_certificate}}" download="reg_certificate.png">
+                          <img src="assets/icon/Icon/RC.png" alt="Registration Certificate" class="cssss">
+                        </a>
+                        <a type="button" href="{{item?.vehicle?.vehicle_doc?.pol_certificate}}" download="pollution_certificate.png">
+                          <img src="assets/icon/Icon/Pollution Certificate.png" alt="Pollution Certificate" class="cssss">
+                        </a>
+                        <a type="button" href="{{item?.vehicle?.vehicle_doc?.nat_goods_certificate}}" download="national_goods_permit.png">
+                          <img src="assets/icon/Icon/National Goods Permit.png" alt="National Goods Permit" class="cssss">
+                        </a>
+                        <a type="button" href="{{item?.vehicle?.vehicle_doc?.insurance_certificate}}" download="insurance_certificate.png">
+                          <img src="assets/icon/Icon/Insurance.png" alt="Insurance Certificate" class="cssss">
+                        </a>
+                        <a type="button" href="{{item?.vehicle?.vehicle_doc?.fit_certificate}}" download="fitness_certificate.png">
+                          <img src="assets/icon/Icon/Fitness.png" alt="Fitness Certificate" class="cssss">
+                        </a>
+                      </td> -->
+                      <td style="text-align: left!important">
+                        <a *ngIf="getDocumentPath(item, 5)" type="button" [href]="getDocumentPath(item, 5)" download="reg_certificate.png" target="_blank">
+                          <img src="assets/icon/Icon/RC.png" alt="Registration Certificate" class="cssss">
+                        </a>
+                        <a *ngIf="getDocumentPath(item, 6)" type="button" [href]="getDocumentPath(item, 6)" download="pollution_certificate.png" target="_blank">
+                          <img src="assets/icon/Icon/Pollution Certificate.png" alt="Pollution Certificate" class="cssss">
+                        </a>
+                        <a *ngIf="getDocumentPath(item, 10)" type="button" [href]="getDocumentPath(item, 10)" download="national_goods_permit.png" target="_blank">
+                          <img src="assets/icon/Icon/National Goods Permit.png" alt="National Goods Permit" class="cssss">
+                        </a>
+                        <a *ngIf="getDocumentPath(item, 7)" type="button" [href]="getDocumentPath(item, 7)" download="insurance_certificate.png" target="_blank">
+                          <img src="assets/icon/Icon/Insurance.png" alt="Insurance Certificate" class="cssss">
+                        </a>
+                        <a *ngIf="getDocumentPath(item, 13)" type="button" [href]="getDocumentPath(item, 13)" download="fitness_certificate.png" target="_blank">
+                          <img src="assets/icon/Icon/Fitness.png" alt="Fitness Certificate" class="cssss">
+                        </a>
+                      </td>
+                      <td>
+                        <span [ngClass]="{
+                          'qstatus-base': true,
+                          'qpill-green': item?.vehicle?.status === 1,
+                          'qpill-yellow': item?.vehicle?.status === 2,
+                          'qpill-red': item?.vehicle?.status === 0
+                        }">
+                          {{ item?.vehicle?.status === 1 ? 'Active' : item?.vehicle?.status === 2 ? 'Deactive' : 'Deleted' }}
+                        </span>
+                      </td>
+                      <td *ngIf="UserType!=='6'"><img src="assets/images/action.png" alt="action" (click)="switch(item)" style="cursor: pointer;"></td>
+                    </tr>
+                  </ng-container>
+                   
+                  </tbody>
+                </table>
+              </div>
+  
+            </div>
+           </div>
+          <!-- Driver -->
+          <div class="tab-pane fade" id="nav-Driver" role="tabpanel" aria-labelledby="nav-Driver-tab">
+            <div class="col-lg-12">
+              <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+                <p style="color: black">Please Wait.. </p>
+              </ngx-spinner> -->
+  
+              <!-- <div style=" margin-left: 5px;
+          margin-right: 5px;"> -->
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-lg-10">
+                    <div class="fiter">
+                      <p style="color: 1D4380; font-weight: 600;">
+                        <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
+                          aria-controls="collapseExample" style="font-size: 16px;">
+                          <i class="fa fa-filter" aria-hidden="true"
+                            style="font-size: 20px;color: #1D4380 ;margin-top: 8px;"></i>FILTER
+                        </a>
+  
+                      </p>
+                      <div class="collapse" id="collapseExample">
+                        <div class="card card-body" style="border: none ; box-shadow: none;">
+                          <form #filterFormD="ngForm" (ngSubmit)="onFilterDriver(filterFormD.value)">
+                            <div class="col-lg-12" style="margin-top: -20px;">
+                              <div class="row">
+                                <div class="col-lg-2">
+                                  <span class="filtor_name">From</span>
+                                  <input type="date" class="form-control cutombox" required name="from_timeD" ngModel />
+                                </div>
+                                <div class="col-lg-2">
+                                  <span class="filtor_name">To</span>
+                                  <input type="date" class="form-control cutombox" required name="to_timeD" ngModel />
+                                </div>
+                                <div class="col-lg-2">
+                                  <span class="filtor_name">Select Customer</span>
+                                  <ng-select [ngModel] name="corpCustomer" id="corpCustomer" placeholder="Category" class="cutombox" style="font-size: 14px; font-weight: 400;" [closeOnSelect]="true" >
+                                    <ng-option *ngFor="let item of qTransporterList " [value]="item?.TransporterId"> {{item?.TransporterName}}</ng-option>
+                                  </ng-select>
+                                </div>
+                
+                               
+                                <div class="col-lg-2">
+                                  <button type="submit"  class="btn btn-outline-primary btn-sm" style="margin-top: 22px;">Submit</button>
+                                </div>
+                              </div>&nbsp;
+                            </div>
+                          </form>
+  
+                        </div>
+                      </div>
+                      <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                    </div>
+                  </div>
+                  <div class="col-lg-2 mt-2">
+                    <div *ngIf="UserType!=='6'" class="" style="text-align:right;">
+                      <!-- <button class="btn btn-sm btn-green" type="submit"
+                    style="color: white; background-color: green;">Varify</button>
+                  <button class="btn btn-sm btn-orange" type="submit"
+                    style="color: white;margin-left: 2px; background-color: orange;">Deactivate</button>
+                  <button class="btn btn-sm btn-blue" type="submit"
+                    style="color: white;margin-left: 2px; background-color: #1D4380;">Activate</button> -->
+                      <i class="fa fa-upload d-none" style="font-size:28px;color:#1D4380; "></i> &nbsp;&nbsp;
+                      <button type="button"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size:28px;color: #1D4380; " (click)="switch2()"></i></button>
+  
+                    </div>
+  
+                  </div>
+                </div>
+  
+                <!-- </div> -->
+  
+  
+  
+              </div>
+  
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5 class="card-title">Drivers Enrollment</h5>
+                          <img src="assets/images/d.png" alt="Vehicle Status" style="height:45px;margin-top:0px;">
+                        </div>
+                        <div class="row">
+                          <div class="col-6" style="width:150px;height:150px;margin-top: -42px;">
+                            <div id="DconsSt" class=""></div>
+                          </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px;">
+                          <div class="col-12" *ngIf="isqDriverChartLoading">
+                            <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                          </div>
+                          <div *ngIf="!isqDriverChartLoading" class="col-12 mt-0 custom">
+                            <span class="status-text" style="color:rgb(239, 91, 11);" id="numberH">{{driverDashboardData?.Driver_Enrollment?.Authenticated_Drivers}}</span>/
+                            <span class="status-text" style="color:#1D4380;" id="numberH">{{driverDashboardData?.Driver_Enrollment?.Enrolled_Drivers}}</span>
+                          </div>
+                          <span style="color:rgb(239, 91, 11);">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: rgb(239, 91, 11);"></i>
+                            Authenticated Drivers
+                          </span>
+                          <span style="color:#1D4380;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i> Enrolled Drivers
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+              
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5 class="card-title">Type Of Vehicle</h5>
+                          <img src="assets/images/tov.png" alt="Trip Status" style="height:45px;margin-top:0px;">
+                        </div>
+                        <div class="row">
+                          <div class="col-6" style="width:150px;height:150px;margin-top: -42px;">
+                            <div id="DtripSt" class=""></div>
+                          </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px;">
+                          <div class="col-12" *ngIf="isqDriverChartLoading">
+                            <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                          </div>
+                          <div *ngIf="!isqDriverChartLoading" class="col-12 mt-0 custom">
+                            <span class="status-text" style="color:#EC6625;" id="numberH">{{driverDashboardData?.Vehicle_Types?.Heavy_Duty}}</span>/
+                            <span class="status-text" style="color:#1D4380;" id="numberH">{{driverDashboardData?.Vehicle_Types?.Medium_Duty}}</span>/
+                            <span class="status-text" style="color:#613704;" id="numberH">{{driverDashboardData?.Vehicle_Types?.Light_Duty}}</span>
+                          </div>
+                          <span style="color:#EC6625;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>
+                            Heavy Duty
+                          </span>
+                          <span style="color:#1D4380;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
+                            Medium Duty
+                          </span>
+                          <span style="color:#613704;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>
+                            Light Duty
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Repeat similar structure for other cards -->
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5 class="card-title">Driver Experience</h5>
+                          <img src="assets/images/bt.png" alt="Delivery Status" style="height:45px;margin-top:0px;">
+                        </div>
+                        <div class="row">
+                          <div class="col-6" style="width:150px;height:150px;margin-top: -42px;">
+                            <div id="DdeliverySt" class=""></div>
+                          </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px;">
+                          <div class="col-12" *ngIf="isqDriverChartLoading">
+                            <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                          </div>
+                          <div *ngIf="!isqDriverChartLoading" class="col-12 mt-0 custom">
+                            <span class="status-text" style="color:#EC6625;" id="numberH">{{driverDashboardData?.Driver_Experience?.Less_than_5_yrs}}</span>/
+                            <span class="status-text" style="color:#1D4380;" id="numberH">{{driverDashboardData?.Driver_Experience?.Between_5_to_10_yrs}}</span>/
+                            <span class="status-text" style="color:#613704;" id="numberH">{{driverDashboardData?.Driver_Experience?.More_than_10_yrs}}</span>
+                          </div>
+                          <span style="color:#EC6625;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>
+                            Less than 5
+                          </span>
+                          <span style="color:#1D4380;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
+                            5 Yrs to 10 Yrs
+                          </span>
+                          <span style="color:#613704;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>
+                            More than 10 Yrs
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Repeat similar structure for other cards -->
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                          <h5 class="card-title">Driver Rating</h5>
+                          <img src="assets/images/vr.png" alt="Vehicle Status" style="height:45px;margin-top:0px;">
+                        </div>
+                        <div class="row">
+                          <div class="col-6" style="width:150px;height:150px;margin-top: -42px;">
+                            <div id="DvehicleSt" class=""></div>
+                          </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px;">
+                          <div class="col-12" *ngIf="isqDriverChartLoading">
+                            <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                          </div>
+                          <div *ngIf="!isqDriverChartLoading" class="col-12 mt-0 custom">
+                            <span class="status-text" style="color:#EC6625" id="numberH">{{driverDashboardData?.Driver_Rating?.Less_than_2}}</span>/
+                            <span class="status-text" style="color:#1D4380;" id="numberH">{{driverDashboardData?.Driver_Rating?.Between_2_to_4}}</span>/
+                            <span class="status-text" style="color:#613704" id="numberH">{{driverDashboardData?.Driver_Rating?.More_than_4}}</span>
+                          </div>
+                          <span style="color:#EC6625;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>
+                            less Than 2
+                          </span>
+                          <span style="color:#1D4380;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
+                            2 To 4
+                          </span>
+                          <span style="color:#613704;">
+                            <i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>
+                            More Than 4
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+               <div class="container-fuild">
+              <div class="row mt-2">
+                <div style="text-align:left;">
+                  <button [disabled]="!selectedDriverIds.length" class="btn btn-sm btn-green" type="button" (click)="updateDriverStatus('Authorize',filterFormD.value)" style="color: white; background-color: green;">Verify</button>
+                  <button [disabled]="!selectedDriverIds.length" class="btn btn-sm btn-orange" type="button" (click)="updateDriverStatus('Deactivate',filterFormD.value)" style="color: white;margin-left: 2px; background-color: orange;">Deactivate</button>
+                  <button [disabled]="!selectedDriverIds.length" class="btn btn-sm btn-blue" type="button" (click)="updateDriverStatus('Activate',filterFormD.value)" style="color: white;margin-left: 2px; background-color: #1D4380;">Activate</button>
+                  <!-- <button class="btn btn-sm btn-blue" type="button" (click)="updateDriverStatus('Delete')" style="color: white;margin-left: 2px; background-color: rgb(191, 59, 59);">Delete</button> -->
+                  <!-- <button class="btn btn-sm btn-blue" type="button" (click)="updateDriverStatus('Authorize')" style="color: white;margin-left: 2px; background-color: #23272d;">Authorized</button> -->
+                </div>
+  
+              </div>
+            </div>
+              <!-- /////////////////////////////////////////// -->
+              <div class="container-fuild mt-2">
+               
+                <table class=" table" cellspacing="0" id="DmasterUpload" width="100%">
+                  <thead>
+                    <tr style="text-align: center; white-space: nowrap;">
+                      <th class="table-primary"><input type="checkbox" (change)="toggleDriverAllSelection()" [checked]="allDriverSelected"></th>
+                      <th class="table-primary">SL</th>
+                      <th class="table-primary">Driver Name</th>
+                      <th class="table-primary">Gender
+                      </th>
+                      <th class="table-primary">Vehicle Driving type
+                      </th>
+                      <th class="table-primary">Customer
+                      </th>
+                      <th class="table-primary">Driving Experience (Years)
+                      </th>
+                      <th class="table-primary"> Birth Date
+                      </th>
+                      <th class="table-primary">Mobile Number
+                      </th>
+                      <th class="table-primary"> E-Mail
+                      </th>
+                      <th class="table-primary">Address
+                      </th>
+                      <th class="table-primary"> Documents
+                      </th>
+                      <th class="table-primary"> Status
+                      </th>
+                      <th *ngIf="UserType!=='6'" class="table-primary">Action</th>
+  
+                    </tr>
+                  </thead>
+                  <!-- <tbody>
+  
+                    <tr style="white-space: nowrap;text-align: center;">
+                      <td></td>
+                   
+                      <td></td>
+                      <td></td>
+                     
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td><img src="assets/images/action.png" alt="action"  style="cursor: pointer;"></td>
+  
+  
+  
+  
+                    </tr>
+  
+                  </tbody> -->
+                  <tbody>
+                    <!-- Skeleton Rows -->
+                    <ng-container *ngIf="isLoadingDriverTable">
+                      <tr *ngFor="let i of [1, 2, 3, 4, 5]" style="white-space: nowrap; text-align: center;">
+                        <td><div class="skeleton skeleton-checkbox"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text long"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text medium"></div></td>
+                        <td><div class="skeleton skeleton-text long"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td><div class="skeleton skeleton-text short"></div></td>
+                        <td *ngIf="UserType!=='6'"><div class="skeleton skeleton-text medium"></div></td>
+                      </tr>
+                    </ng-container> 
+                    <ng-container *ngIf="!isLoadingDriverTable">
+                    <tr
+                      *ngFor="let item of driverTableData; let ind = index"
+                      style="white-space: nowrap; text-align: center"
+                    >
+                    <td>
+                      <div class="form-check" style="margin-right: 13px;">
+                        <!-- <input *ngIf="item?.Raised_By === 'customer'" class="form-check-input" type="checkbox"
+                               [checked]="isSelected(item?._id)" id="checkbox-{{ind}}" required
+                               (change)="toggleSelection(item?._id)"> -->
+                               <input type="checkbox"
+                               [checked]="isDriverSelected(item?.DriverId)" id="checkbox-{{ind}}" required
+                               (change)="toggleDriverSelection(item?.DriverId)"
+                               class="checkbox">
+                      </div>
+                    </td>
+                       <td>{{ind+1}}</td>
+                      <td>{{ item?.Name}}</td>
+                      <td>{{ item?.Gender }}</td>
+                      <td>{{ item?.VehicleDutyType}}</td>
+                      <td>{{ item?.Customer?.Name}}</td>
+                      <td>{{ item?.DrivingExpYrs}}</td>
+                      <td>{{ item?.BirthDate}}</td>
+                      <th>{{ item?.MobileNo }}</th>
+                      <td>{{ item?.Email }}</td>
+                      <td>{{ item?.Address }}</td>
+                      <td><a *ngIf="item?.Documents?.AadhaarCard" type="button" href={{item?.Documents?.AadhaarCard?.Path}} target="_blank" >
+                        <img src='assets/icon/Icon/Aadhar.png' alt="adhaar card" class="cssss">
+                      </a>
+                      <a *ngIf="item?.Documents?.DrivingLicense" type="button" href={{item?.Documents?.DrivingLicense?.Path}} target="_blank" >
+                        <img src='assets/icon/Icon/Driving License.png' alt="Pollution Certificate" class="cssss">
+                      </a>
+                      <a *ngIf="item?.Documents?.PanCard" type="button" href={{item?.Documents?.PanCard?.Path}} target="_blank">
+                        <img src='assets/icon/Icon/Pan Card.jpg' alt="Pan card" class="cssss">
+                      </a>
+                      <a *ngIf="item?.Documents?.Photograph" type="button" href={{item?.Documents?.Photograph?.Path}} target="_blank">
+                        <img src='assets/icon/Icon/Aadhar.png' alt="National Goods Permit" class="cssss">
+                      </a>
+                      <a *ngIf="item?.Documents?.VoterId" type="button" href={{item?.Documents?.VoterId?.Path}} target="_blank">
+                        <img src='assets/icon/Icon/Voter id card.jpg' alt="VoterId" class="cssss">
+                      </a>
+                      <a *ngIf="item?.Documents?.Passport" type="button" href={{item?.Documents?.Passport?.Path}} target="_blank">
+                        <img src='assets/icon/Icon/Passport.png' alt="passport" class="cssss">
+                      </a>
+                   </td>
+                   <td ><span [ngClass]="{
+                    'qstatus-base': true,
+                    'qpill-green': item?.Status.startsWith('Active'),
+                    'qpill-yellow ': item?.Status.startsWith('Deactive'),
+                    'qpill-red ': item?.Status.startsWith('Delete')
+                  }">
+                  {{ item?.Status }}
+                  </span></td>
+                      <!-- <td><img (click)="editDriver(item)" src="assets/images/action.png" alt="action"  style="cursor: pointer;"></td> -->
+                      <td *ngIf="UserType!=='6'"><img (click)="editDriver(item)" src="assets/images/action.png" alt="action" style="cursor: pointer;"></td>
+                      <!-- 
+                        <td *ngIf="hide_column">{{item.Vehicle_Contracted}}</td>
+                        <td *ngIf="hide_column">{{item.Vehicle_Used}}</td>
+                        <td *ngIf="hide_column">{{item.Vehicle_Use_In_Current_Month}}</td>
+                        <td *ngIf="hide_column">{{item.Vehicle_Currently_In_Use}}</td>
+                        <td *ngIf="hide_column">{{item.Recommendation_IN_Priority}}</td>
+                        <td  *ngIf="hide_column">{{item.Vehicle_Remaining}}</td> -->
+                        
+                        <!-- <td><button type="button" style="    font-size: 15px; font-weight: bold;
+                          color: green"[ngStyle]="{'color': getButtonColor(item.Transporter_Score)}" >Request</button> </td> -->
+                        </tr>
+                      </ng-container>
+                  </tbody>
+                </table>
+              </div>
+  
+            </div>
+          </div>
+          
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+
+<!-- --------------------------------------VIEW--------------------------------------- -->
+<div class="modal fade" id="View" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="     max-width: 78vw;">
+    <div class="modal-content" style="max-height: 634px;    overflow: scroll;">
+      <!-- (ngSubmit)="Assign_vehicle_Addsubmit()" -->
+      
+        <div class="modal-header" style="background-color: white;">
+          <div style="display:inline-table;">
+
+           Assigned Vehicle
+          </div>&nbsp;
+          <button class="btn-close btn-sm" id="btnUncheckAll" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        </div>
+        <div class="card-body">
+          <div style="overflow-x: auto;">
+          <table class=" table" cellspacing="0" id="Assignvehicle-view" width="100%">
+            <thead>
+              <tr style="text-align: center; white-space: nowrap;">
+                <!-- <th class="table-primary"> </th> -->
+                <th class="table-primary" >Vehicle Number</th>
+        <th class="table-primary">Driving License No</th>
+        <th class="table-primary">Driving License Exp</th>
+        <th class="table-primary">Aadhaar Card No</th>
+        <th class="table-primary">Pan Card No</th>
+        <!-- <th class="table-primary">Photograph</th> -->
+        <th class="table-primary">First Driver Name</th>
+        <th class="table-primary">Second Driver Name</th>
+        <th class="table-primary">Phone</th>
+        <th class="table-primary">Vehicle Type</th>
+        <th class="table-primary">Vehicle Capacity</th>
+        <th class="table-primary">Registration Certificate No</th>
+        <th class="table-primary">Registration Certificate Exp</th>
+        <th class="table-primary">Pollution Certificate No</th>
+        <th class="table-primary">Pollution Certificate Exp</th>
+        <th class="table-primary">Vehicle Insurance No</th>
+        <th class="table-primary">Vehicle Insurance Exp</th>
+        <th class="table-primary">National Goods Permit</th>
+        <th class="table-primary">National Goods Permit Exp</th>
+        <th class="table-primary">Quote</th>
+        <th class="table-primary">Safety Features</th>
+        <th class="table-primary">Remark</th>
+        <!-- <th>Safety Features</th> -->
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of Assigned_vehicle;let ind =index"
+              style="white-space: nowrap;text-align: center;" >
+              <!-- <td><input type="radio" name="value" id="value" (change)="selected_radio(item.OrderNumber,item)"></td> -->
+              <td [ngClass]="{'status-0': item.VehicleNumber_status === 0, 'status-1': item.VehicleNumber_status === 1}">
+                {{item.VehicleNumber}}
+            </td>
+            <td [ngClass]="{'status-0': item.DrivingLicense_status === 0, 'status-1': item.DrivingLicense_status === 1}">
+                {{item.DrivingLicense_No}}
+            </td>
+            <td [ngClass]="{'status-0': item.DrivingLicense_exp === 0, 'status-1': item.DrivingLicense_exp !== 0}">
+                {{item.DrivingLicense_exp}}
+            </td>
+            <td>{{item.AadhaarCard_No}}</td>
+            <td>{{item.PanCard_No}}</td>
+            <!-- <td>{{item.Photograpg}}</td> -->
+            <td>{{item.First_Driver_name}}</td>
+            <td>{{item.Secornd_Driver_name}}</td>
+            <td>{{item.Phone}}</td>
+            <td>{{item.Vehicle_Type}}</td>
+            <td>{{item.Vehicle_Capacity}}</td>
+            <td [ngClass]="{'status-0': item.RegistrationCertificate_status === 0, 'status-1': item.RegistrationCertificate_status === 1}">
+                {{item.RegistrationCertificate_no}}
+            </td>
+            <td [ngClass]="{'status-0': item.RegistrationCertificate_exp === 0, 'status-1': item.RegistrationCertificate_exp !== 0}">
+                {{item.RegistrationCertificate_exp}}
+            </td>
+            <td [ngClass]="{'status-0': item.PollutionCertificate_status === 0, 'status-1': item.PollutionCertificate_status === 1}">
+                {{item.PollutionCertificate_no}}
+            </td>
+            <td [ngClass]="{'status-0': item.PollutionCertificate_exp === 0, 'status-1': item.PollutionCertificate_exp !== 0}">
+                {{item.PollutionCertificate_exp}}
+            </td>
+            <td [ngClass]="{'status-0': item.VehicleInsurance_status === 0, 'status-1': item.VehicleInsurance_status === 1}">
+                {{item.VehicleInsurance_no}}
+            </td>
+            <td [ngClass]="{'status-0': item.VehicleInsurance_exp === 0, 'status-1': item.VehicleInsurance_exp !== 0}">
+                {{item.VehicleInsurance_exp}}
+            </td>
+            <td [ngClass]="{'status-0': item.NationalGoodsPermit_status === 0, 'status-1': item.NationalGoodsPermit_status === 1}">
+                {{item.NationalGoodsPermit}}
+            </td>
+            <td [ngClass]="{'status-0': item.NationalGoodsPermit_exp === 0, 'status-1': item.NationalGoodsPermit_exp !== 0}">
+                {{item.NationalGoodsPermit_exp}}
+            </td>
+            <td>{{item.quote}}</td>
+            <td style="color: green;">
+              <div class="row">
+                <ng-container *ngIf="item.safetyFeatures[0]?.value">
+                <div class="col-3">
+                  <img class="me-2" src="{{Safety_list[0].img}}" style="height: 3vh;">
+                  <!-- <i class='fas fa-lock-open access' style="color: black;" title="{{item.Vehicle_Accessories[0]?.name}}"></i> -->
+                </div>
+                </ng-container>
+                <ng-container *ngIf="item.safetyFeatures[3]?.value">
+                <div class="col-3">
+                  <!-- <i class='fas fa-fire-extinguisher'></i> -->
+                  <img class="me-2" src="{{Safety_list[3].img}}" style="height: 3vh;">
+                  <!-- <i class='fas fa-fire-extinguisher' style="color: red;font-size: 22px;" title="{{item.Vehicle_Accessories[3]?.name}}"></i> -->
+                </div>
+                </ng-container>
+                <ng-container *ngIf="item.safetyFeatures[1]?.value">
+                <div class="col-3">
+                  <img class="me-2" src="{{Safety_list[1].img}}" style="height: 3vh;">
+                  <!-- <i class='fa fa-map-marker access' style="color: green;font-size: 22px;" title="{{item.Vehicle_Accessories[1]?.name}}"></i> -->
+                </div>
+                </ng-container>
+                <ng-container *ngIf="item.safetyFeatures[2]?.value">
+                <div class="col-3">
+                  <!-- <i class="fas fa-user-friends"></i> -->
+                  <img class="me-2" src="{{Safety_list[2].img}}" style="height: 3vh;">
+                  <!-- <i class='fas fa-user-friends access' style="color: black;" title="{{item.Vehicle_Accessories[2]?.name}}"></i> -->
+                </div>
+                </ng-container>
+              </div>
+            </td>
+            <td>{{item.remark}}</td>
+            <!-- <td>{{item.safetyFeatures.join(', ')}}</td> -->
+          </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+    
+    </div>
+
+  </div>
+</div>

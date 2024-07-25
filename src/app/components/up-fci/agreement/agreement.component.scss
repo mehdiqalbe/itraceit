@@ -1,0 +1,73 @@
+.btn-orange {
+    background-color: #EC6625;
+    color: white;
+    // margin-top: 50px;
+
+   
+  }
+  .cutom{
+    // color: #1D4380;
+    color: black;
+    font-weight: 600;
+    font-family: sans-serif;
+   
+  }
+  .column {
+    flex: 1;
+    // padding: 10px;
+    // text-align: center;
+    // border: 1px solid #ccc;
+}
+.cutombox{
+  border: 0.2px solid #1c84c6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+//   .row {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+// }
+
+// .accordion-header {
+//     flex-grow: 1;
+// }
+
+// .accordion-header button {
+//     width: 100%;
+// }
+
+// .row h2 {
+//     margin: 0;
+//     display: flex;
+//     align-items: center;
+// }
+.trash:hover{
+  color: white;
+  color: white !important;;
+
+}
+.trash{
+  color: red;
+  
+
+}
+.accordion-button::after {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2016%2016%27%20fill%3D%27%23ffffff%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M1.646%204.646a.5.5%200%200%201%20.708%200L8%2010.293l5.646-5.647a.5.5%200%200%201%20.708.708l-6%206a.5.5%200%200%201-.708%200l-6-6a.5.5%200%200%201%200-.708z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  transition: transform .2s ease-in-out;
+  // background-color: white !important;
+}
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+.invalid-select {
+  border-color: red;
+}
+

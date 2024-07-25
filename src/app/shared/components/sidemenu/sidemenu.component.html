@@ -1,0 +1,207 @@
+<div class="app-sidebar__overlay" (click)="sidebarClose()"></div>
+<!-- Page SideBar Start -->
+<aside class="app-sidebar" >
+    <!-- <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()" ></button> -->
+    <!-- <div class="side-header">
+        <a class="header-brand1 d-flex align-items-center" >
+            <img src="assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
+            <img src="assets/images/brand/logo-1.png" class="header-brand-img toggle-logo" alt="logo">
+            <img src="assets/images/brand/logo-2.png" class="header-brand-img light-logo" alt="logo">
+            <img src="assets/images/brand/logo-3.png" class="header-brand-img light-logo1" alt="logo" id="change-image">
+        </a>
+
+        <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
+    </div> -->
+    
+    <!-- (mouseover)="hoverEffect($event)"
+            (mouseout)="hoverEffect($event)" -->
+        <perfect-scrollbar >
+       <div  >
+        <div class="app-sidebar__user" style="       background: #1D4380 !important;
+        border-bottom: 1px solid #8080804f;">
+            <div class="dropdown user-pro-body text-center">
+                <div class="user-pic">
+                    <!-- <a class="nav-link icon" ngbDropdownToggle> -->
+                        <!-- <i class=""></i> -->
+                        <!-- <img src="assets/images/users/manash.png" alt="user-img" class=" logo avatar-xl rounded-circle mb-1">
+                        <span class="nav-unread badge bg-success rounded-pill">2</span> -->
+                    <!-- </a> -->
+                   <a (click)="sidebarToggle_open()"> <img  src="assets/images/itraceit_logo1.png" alt="user-img" class=" logo avatar-xl rounded-circle mb-1">
+                   </a>
+                    <!-- <span class="nav-unread badge bg-success rounded-pill">2</span> -->
+                    <!-- <span class="side-menu__label pen"><img src="assets/images/users/pen.png" class="pen"/></span> -->
+                </div>
+               
+               
+                <div class="  user-info">
+                    <!-- Manash Mishra -->
+                   <!-- Welcome To Secutrak -->
+                   <span class="clear">
+                    <span class="block m-t-xs">
+                        <a style="cursor: pointer;">
+                        <strong class="font-bold" style="color: white;font-size: 17px;
+                        padding-left: 16px;">{{username}}</strong>
+                        <!-- <b class="caret"></b> -->
+                        </a>
+                        <div style="display:inline-table;" >
+                            <div class="dropdown" id="searchDropdown">
+                              <button class="" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="false" style="    width: 30px;
+                                   width: 30px;  border: none; margin-top: 0px;left: 30px; background: none;
+                                   box-shadow: none;">
+                               <b class="caret"></b>
+                              <!-- <i class="fa fa-power-off" style="font-size: 21px;color:black;     margin-left: -5px;" title="Setting"></i> -->
+                              </button>
+                              <ul class="dropdown-menu scrollable" aria-labelledby="dropdownMenuButton" id="myDropdownregion" style=" position: absolute; left: -171px !important;">
+                                <!--  -->
+                                           <li><a  (click)="logout()" >
+                                        <i class="fa fa-power-off"style="font-size: 17px;color: black;cursor: pointer;"> 
+                                            <span style="    font-size: 16px; font-family: math;position: relative;    top: -2px;left: 14px;"> Logout</span> </i> </a></li>
+                                      
+                                       
+                                   
+                
+                                <!-- <li><a class="dropdown-item" href="#">Guldhar</a></li> -->
+                              </ul>
+                            </div>
+                          </div>
+                    </span>
+                    
+                    <!-- <span class="text-muted text-xs block">
+                        District Manager                                <b class="caret"></b>
+                    </span> -->
+                </span>
+                    <!-- <span class="text-muted app-sidebar__user-name text-sm">User</span> -->
+                </div>
+            </div>
+        </div>
+        <!-- <div class="sidebar-navs">
+            <ul class="nav  nav-pills-circle">
+                <li class="nav-item" ngbTooltip="Followers" placement="top">
+                    <a routerLink="/pages/profile" class="nav-link text-center m-2">
+                        <i class="fe fe-user"></i>
+                    </a>
+                </li>
+                <li class="nav-item" ngbTooltip="tasks" placement="top">
+                    <a routerLink="/firebase/task-list" class="nav-link text-center m-2">
+                        <i class="fe fe-edit-2"></i>
+                    </a>
+                </li>
+                <li class="nav-item" ngbTooltip="Chat" placement="top">
+                    <a routerLink="/components/default-chat" class="nav-link text-center m-2">
+                        <i class="fe fe-mail"></i>
+                    </a>
+                </li>
+                <li class="nav-item" ngbTooltip="Logout" placement="top">
+                    <a routerLink="/" class="nav-link text-center m-2">
+                        <i class="fe fe-power"></i>
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+        <ul class="side-menu " style="      background: #1D4380 !important;     padding-top:38px;">
+           <ng-container  *ngFor="let menuItem of menuItems; let i=index;">
+            <li class="slide " *ngIf="(menuItem.Account_id == '')||(menuItem.path == 'https://fcs.secutrak.in/polylines/polylineroute' && menuItem.Account_id == '58')||(menuItem.path == 'https://fcs.secutrak.in/polylines/kml_polyline' && menuItem.Account_id == '58')" [ngClass]="{active: menuItem.active  ,'is-expanded': menuItem.active}">
+                <! -- Sub -->
+                <a href="javascript:void(0)" class="side-menu__item" [ngClass]="{active: menuItem.active}"
+                    *ngIf="menuItem.type === 'sub'" (click)="toggleNavActive(menuItem);sidebarToggle_open() ">
+                    
+                    <!-- <i class="side-menu__icon " ></i> -->
+                    <i class="side-menu__icon {{menuItem.deactive_img}}" title="{{menuItem.title}}" ></i>
+                    <!-- <img class="img-responsive side-menu__icon mb-50" src="assets/images/users/{{menuItem.img}}.svg" > -->
+                    <!-- <img class="img-responsive mb-50" src="assets/images/users/{{menuItem.img}}.png" style=" margin-top: 14px;"> -->
+                    <span class="title side-menu__label">{{menuItem.title}}</span>
+
+                    <i class="angle fa fa-angle-{{menuItem.active ? 'left' : 'down'}}" *ngIf="menuItem.children" style="padding-right: 10px;"></i>
+
+                </a>
+                <!-- link -->
+                <!-- <a [routerLink]="!menuItem.type ? null : [menuItem.path]" routerLinkActive="active" class="side-menu__item "
+                    [ngClass]="{active: menuItem.active}" *ngIf="menuItem.type === 'link'" (click)="updateImage(i)">
+                    <i class="side-menu__icon {{menuItem.deactive_img}}" style="color: white;"></i> -->
+                    <!-- For Internal Links -->
+<a *ngIf="menuItem.type === 'link' && !isExternalUrl(menuItem.path)"
+[routerLink]="[menuItem.path]"
+routerLinkActive="active"
+class="side-menu__item"
+[ngClass]="{active: menuItem.active}"
+(click)="updateImage(i)">
+<i class="side-menu__icon {{menuItem.deactive_img}}"  title="{{menuItem.title}}" style="color: white;"></i>
+<span class=" title side-menu__label" >{{menuItem.title}}</span>
+</a>
+
+<!-- For External Links -->
+<a *ngIf="menuItem.type === 'link' && isExternalUrl(menuItem.path)"
+[href]="menuItem.path"
+target="_blank"
+rel="noopener noreferrer"
+class="side-menu__item"
+[ngClass]="{active: menuItem.active}"
+(click)="updateImage(i)">
+<i class="side-menu__icon {{menuItem.deactive_img}}"  title="{{menuItem.title}}"style="color: white;"></i>
+<span class=" title side-menu__label" >{{menuItem.title}}</span>
+</a>
+                    
+                    <!-- <span   *ngIf="menuItem.status == 0">
+                        <img class="img-responsive images " src="assets/images/users/intractive/{{menuItem.deactive_img}}.svg"  >
+                    </span>
+                    <span   *ngIf="menuItem.status == 1">
+                        <img class="img-responsive images1 " src="assets/images/users/intractive/{{menuItem.active_img}}.svg"  >
+                    </span>   -->
+                    
+
+
+                    <!-- <span class=" title side-menu__label" >{{menuItem.title}}</span> -->
+                    <!-- <span class="sub side-menu__label"> <img class="img-responsive" src="assets/images/users/sub.png"/></span> -->
+                <!-- </a> -->
+
+                <!-- 2nd level menu -->
+                <ul class="slide-menu" [ngClass]="{active: menuItem.active}" *ngIf="menuItem.children">
+                    <ng-container *ngFor="let childrenItem of menuItem.children" >
+                    <li 
+                   [ngClass]="{active: childrenItem.active, 'is-expanded': childrenItem.active}" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        <!-- Sub -->
+                        <a href="javascript:void(0)" class="slide-item" *ngIf="childrenItem.type === 'sub'"
+                            (click)="toggleNavActive(childrenItem)">
+                            <span class="sub-side-menu__label" style="margin-left: 60px;
+                            font-size: 13px;
+                            font-weight: 500;">{{childrenItem.title}}</span>
+                            <i class="sub-angle fe fe-chevron-{{childrenItem.active ? 'down' : 'right'}}"
+                                *ngIf="menuItem.children"></i>
+                        </a>
+                        <!-- Link -->
+                        <a [routerLink]="!childrenItem.type ? null : [childrenItem.path]" class="slide-item"
+                            *ngIf="childrenItem.type === 'link'  && !isExternalUrl(childrenItem.path)" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}" style="padding-left: 27% !important;font-size: 13px;">
+                            <span class=" side-menu__label" >{{childrenItem.title}}</span>
+                        </a>
+                        <a *ngIf="childrenItem.type === 'link' && isExternalUrl(childrenItem.path)" [href]="!childrenItem.type ? null : [childrenItem.path]" class="slide-item"
+                         routerLinkActive="active"target="_blank"
+                        [routerLinkActiveOptions]="{exact: true}" style="padding-left: 27% !important;font-size: 13px;">
+                        <span class=" side-menu__label" >{{childrenItem.title}}</span>
+                    </a>
+                        
+                        <ul class="sub-slide-menu" *ngIf="childrenItem.children" [ngClass]="{active: childrenItem.active}">
+                            <li *ngFor="let childrenSubItem of childrenItem.children"
+                                [ngClass]="{active: childrenSubItem.active}">
+                                <!-- link -->
+                                <a class="sub-slide-item"
+                                    [routerLink]="!childrenSubItem.type ? null : [childrenSubItem.path]"
+                                    *ngIf="childrenSubItem.type === 'link'" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact : true}">
+                                    <span class="title side-menu__label">{{childrenSubItem.title}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    </ng-container>
+                </ul>
+            </li>
+           </ng-container>
+        </ul>
+        
+       </div>
+    </perfect-scrollbar>
+    </aside>
+<!-- </div> -->

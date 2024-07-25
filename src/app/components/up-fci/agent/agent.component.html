@@ -1,0 +1,180 @@
+<div class="card">
+    <div class="card-body innerdiv p-0">
+      <!-- headerstart here -->
+      <div class="hor-header">
+        <div style="overflow: hidden;">
+          <div class="row align-items-left">
+            <div  class="col-lg-1">
+              <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4" style="font-weight: 600;font-size:large ;text-align: center;margin-top: 15px;">
+              <span style="margin-right: -104px;">Agent Consolidated Dashboard
+              </span>
+  
+            </div>
+            <div class="col-lg-2 text-center">
+  
+            </div>
+           
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1">
+              <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
+            </div>
+            <div class="col-lg-1 text-center">
+              <a class="header-brand1">
+                <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
+                  style="height: auto; width: 80%;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="col-lg-12" style="margin-top: -20px;">
+    <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+        <p style="color: black">Please Wait.. </p>
+    </ngx-spinner>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Vehicle Status
+                        </h5>
+                        <div class="row">
+                            <div class="col-6 mt-4">
+                                <div id="consSt" class="chart-container"></div>
+                            </div>
+                            <div class="col-6" style="margin-top: -33px;text-align-last: right;">
+                                <img src="assets/images/vehiclestatusnew.png" alt="Vehicle Status" style="height: 50%;">
+                            </div>
+                            <div class="col-12 mt-0 custom">
+                                <span class="status-text" style="color:#6ABD46;"
+                                    (click)="consSTtAct('ConsignmentStatus','GoodTrips')"
+                                    id="numberH">{{SummaryData?.vehicleStatus?.running}}</span>/
+                                <span class="status-text" style="color:red;"
+                                    (click)="consSTtAct('ConsignmentStatus','KPIViolation')"
+                                    id="numberH">{{SummaryData?.vehicleStatus?.stoppage}}</span>/
+                                <span class="status-text" style="color:grey;"
+                                    (click)="consSTtAct('ConsignmentStatus','InActive')"
+                                    id="numberH">{{SummaryData?.vehicleStatus?.inactive}}</span>/
+                                <span class="status-text" style="color:#1D4380;"
+                                    (click)="consSTtAct('ConsignmentStatus','NonGps')"
+                                    id="numberH">{{SummaryData?.vehicleStatus?.nongps}}</span>
+                            </div>
+                        </div>
+
+                        <div class="status-legend mt-2">
+                            <span style="color:#6ABD46;">
+                                <i class='fas fa-square-full' style="margin-right: 2px;"></i> Running
+                            </span>
+                            <span style="color:red;">
+                                <i class='fas fa-square-full' style="margin-right: 2px;"></i> Stop
+                            </span>
+                            <span style="color:grey;">
+                                <i class='fas fa-square-full' style="margin-right: 2px;"></i> In-Active
+                            </span>
+                            <span style="color:#1D4380;">
+                                <i class='fas fa-square-full' style="margin-right: 2px;"></i> Non GPS
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                <div class="card status-card">
+                  <div class="card-body">
+                    <h5 class="card-title">Customer</h5>
+                    <div class="row">
+                      <div class="col-6 mt-4">
+                        <div id="tripSt" class="chart-container"></div>
+                      </div>
+                      <div class="col-6" style="margin-top: -33px;text-align-last: right;">
+                        <img src="assets/images/custo.png" alt="Trip Status" style="height: 50%;">
+                      </div>
+                      <div class="col-12 mt-0 custom">
+                        <span class="status-text" style="color:#EC6625;" (click)="tripSTtAct('TripStatus','PartialDelivered')"
+                          id="numberH">{{SummaryData?.customer?.existing_client}}</span>/
+                        <span class="status-text" style="color:#1D4380;" (click)="tripSTtAct('TripStatus','Delay')"
+                          id="numberH">{{SummaryData?.customer?.new_client}}</span>
+        
+                      </div>
+                    </div>
+                    <div class="status-legend mt-2">
+                      <span style="color:#EC6625;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>Existing Client</span>
+                      <span style="color: #1D4380 ;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>New Client</span>
+        
+        
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- Repeat similar structure for other cards -->
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <h5 class="card-title">IoT</h5>
+                        <div class="row">
+                            <div class="col-6 mt-4">
+                                <div id="deliverySt" class="chart-container"></div>
+                            </div>
+                            <div class="col-6" style="margin-top: -30px;text-align-last: right;">
+                                <img src="assets/images/iot.png" alt="Delivery Status" style="height: 50%">
+                            </div>
+                            <div class="col-12 mt-0 custom">
+                                <span class="status-text" style="color:#EC6625;"
+                                    (click)="deliverySTtAct('DeliveryStatus','PartialDelivered')"
+                                    id="numberH">{{SummaryData?.Iot?.gps}}</span>/
+                                <span class="status-text" style="color:#1D4380;"
+                                    (click)="deliverySTtAct('DeliveryStatus','NonEpod')"
+                                    id="numberH">{{SummaryData?.Iot?.elock}}</span>/
+                                <span class="status-text" style="color:grey;"
+                                    (click)="deliverySTtAct('DeliveryStatus','Epod')"
+                                    id="numberH">{{SummaryData?.Iot?.fuelsensor}}</span>
+
+                            </div>
+                        </div>
+                        <div class="status-legend mt-2">
+                            <span style="color:#EC6625;"><i class='fas fa-square-full'
+                                    style="margin-right: 2px;"></i>GPS</span>
+                            <span style="color:#1D4380;"><i class='fas fa-square-full'
+                                    style="margin-right: 2px;"></i>E-Lock</span>
+                            <span style="color:grey;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>Fuel
+                                Sensor</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <!-- Repeat similar structure for other cards -->
+
+            <!-- Repeat similar structure for other cards -->
+
+        </div>
+    </div>
+    <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+ <!-- <div class="card"> -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="chart-container3">
+                <div id="linechart"></div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="chart-container3">
+                <div id="barchart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->

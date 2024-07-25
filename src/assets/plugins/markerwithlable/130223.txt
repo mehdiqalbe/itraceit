@@ -1,0 +1,18 @@
+new this.markerWithLabel.MarkerWithLabel();
+var marker = new MarkerWithLabel({
+  position: position,
+  map: this.maps,
+  icon: icon2,
+  draggable: false,
+  labelContent: "foo",
+  labelAnchor: new google.maps.Point(-21, 3),
+  labelClass: "labels",
+  // labelStyle: { opacity: 1.0 },
+  // labelStyle: { opacity: 1.0 },
+  // raiseOnDrag: false,
+  // labelContent: finalVehicleLabel,
+  // labelAnchor: label_anchor,//new google.maps.Point(100, 5), 
+  // labelClass: '',  //my_label_class, // the CSS class for the label
+  // labelInBackground: false,
+  // title: vNumberLocal[0]+' => '+this.temp_index[index].RunningStatus,
+});

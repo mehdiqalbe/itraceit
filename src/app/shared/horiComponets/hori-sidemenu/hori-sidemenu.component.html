@@ -1,0 +1,113 @@
+<!--/Horizontal-main -->
+<div class="horizontal-main hor-menu  sticky" (scroll)="onWindowScroll($event)">
+  <div class="horizontal-mainwrapper container ">
+    <!-- Navigation -->
+    <nav class="horizontalMenu ">
+      <div class="horizontal-overlapbg" (click)="removeMenu()"></div>
+      <!-- 1st level -->
+      <ul class="horizontalMenu-list">
+        <li class="" *ngFor="let menuItem of menuItems" [ngClass]="{active: menuItem.active}">
+          <!-- Link -->
+          <a class="sub-icon" [routerLink]="!menuItem.type ? null : [menuItem.path]" routerLinkActive="active"
+            [ngClass]="{active: menuItem.active}" *ngIf="menuItem.type === 'link'">
+            <i class="side-menu__icon ti-{{menuItem.icon}}"></i>
+            {{menuItem.title}}
+          </a>
+
+          <!-- Sub -->
+          <a href="javascript:void(0)" class="sub-icon" [ngClass]="{active: menuItem.active}"
+            *ngIf="menuItem.type === 'sub'" (click)="toggleNavActive(menuItem)">
+            <i class="side-menu__icon ti-{{menuItem.icon}}"></i>
+            {{menuItem.title}}
+            <span class="horizontalMenu-click float-right" [ngClass]="{'ws-activearrow': menuItem.active}">
+              <i class="fa fa-angle-down horizontal-icon"></i>
+            </span>
+          </a>
+
+          <!-- 2nd level -->
+          <ul class="sub-menu" [ngClass]="{active: menuItem.active, isexpanded:menuItem.active}"
+            *ngIf="menuItem.children">
+            <li class="" *ngFor="let childrenItem of menuItem.children" [ngClass]="{active: childrenItem.active}">
+
+              <!-- Link -->
+              <a [routerLink]="!childrenItem.type ? null : [childrenItem.path]" *ngIf="childrenItem.type === 'link'"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                {{childrenItem.title}}
+              </a>
+
+              <!-- Sub -->
+              <a class="sub-menu-sub" href="javascript:void(0)" *ngIf="childrenItem.type === 'sub'"
+                (click)="toggleNavActive(childrenItem)">
+                {{childrenItem.title}}
+                <span class="horizontalMenu-click float-right" [ngClass]="{'ws-activearrow': childrenItem.active}">
+                  <i class="fa fa-angle-down horizontal-icon"></i>
+                </span>
+              </a>
+
+              <!-- 3rd level -->
+              <ul class="sub-menu" *ngIf="childrenItem.children"
+                [ngClass]="{active: childrenItem.active, isexpanded:childrenItem.active}">
+                <li *ngFor="let childrenSubItem of childrenItem.children" [ngClass]="{active: childrenSubItem.active}">
+                  <!-- link -->
+                  <a [routerLink]="!childrenSubItem.type ? null : [childrenSubItem.path]"
+                    *ngIf="childrenSubItem.type === 'link'" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact : true}">
+                    {{childrenSubItem.title}}
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="" *ngFor="let megaMenuItem of megamenuItems" [ngClass]="{active: megaMenuItem.active}">
+          <!-- Link -->
+          <a class="sub-icon" [routerLink]="!megaMenuItem.type ? null : [megaMenuItem.path]" routerLinkActive="active"
+            [ngClass]="{active: megaMenuItem.active}" *ngIf="megaMenuItem.type === 'link'">
+            <i class="side-menu__icon ti-{{megaMenuItem.icon}}"></i>
+            {{megaMenuItem.title}}
+          </a>
+
+          <!-- Sub -->
+          <a href="javascript:void(0)" class="sub-icon" [ngClass]="{active: megaMenuItem.active}"
+            *ngIf="megaMenuItem.type === 'sub'" (click)="toggleNavActive(megaMenuItem)">
+            <i class="side-menu__icon ti-{{megaMenuItem.icon}}"></i>
+            {{megaMenuItem.title}}
+            <span class="horizontalMenu-click float-right" [ngClass]="{'ws-activearrow': megaMenuItem.active}">
+              <i class="horizontalMenu-arrow fa fa-angle-down"></i>
+            </span>
+          </a>
+
+          <div class="horizontal-megamenu" [ngClass]="{active: megaMenuItem.active, isexpanded:megaMenuItem.active}">
+            <div class="container">
+              <div class="mega-menubg">
+                <div class="link-list">
+                  <ul class="megaMenuCustom" [ngClass]="{active: megaMenuItem.active, isexpanded:megaMenuItem.active}"
+                    *ngIf="megaMenuItem.children">
+                    <li *ngFor="let childrenItem of megaMenuItem.children" [ngClass]="{active: childrenItem.active}">
+                      <!-- Link -->
+                      <a [routerLink]="!childrenItem.type ? null : [childrenItem.path]"
+                        *ngIf="childrenItem.type === 'link'" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        {{childrenItem.title}}
+                      </a>
+
+                      <!-- Sub -->
+                      <a class="sub-menu-sub" href="javascript:void(0)" *ngIf="childrenItem.type === 'sub'"
+                        (click)="toggleNavActive(childrenItem)">
+                        {{childrenItem.title}}
+                        <span class="horizontalMenu-click float-right" [ngClass]="{'ws-activearrow': childrenItem.active}">
+                          <i class="horizontalMenu-arrow fa fa-angle-down"></i>
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<!--/Horizontal-main -->

@@ -1,0 +1,3710 @@
+<!-- [(ngModel)]="searchedKeyword" placeholder="Search" aria-label="Search" -->
+<!-- <app-dashboard  class="card p-2"[productList]="data1"></app-dashboard> -->
+<div class="card">
+
+	<div class="card-body innerdiv">
+		<div class="row">
+			<div class="col-md-5 col-lg-5">
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+							<div class="d-flex  ms-auto header-right-icons header-search-icon">
+								<!-- <button type="button" class="btn btn-sucess" ><a  routerLink="Live">route</a></button> -->
+								<!-- <button type="button" class="btn btn-sucess" ><a (click)="nextpage()">route</a></button> -->
+								<div ngbDropdown class="d-md-flex notifications_ref ">
+									<!-- (click)="opengsp(GSPREPORT)" -->
+									<ng-container *ngIf="Live_content==true" style="position: absolute;top: 9px;">
+										<a class="fa fa-home" style="font-size: 25px;color: #337ab7;cursor: pointer;"
+												title="Home" (click)="Live_page()">
+												<span class="live-text">Home</span>
+											</a>
+									</ng-container>
+									<ng-container *ngIf="Live_content==false">
+									<div class=" " (click)="opengsp(GSPREPORT)" style="position: absolute;top: 9px;">
+										<!-- <i class="fa fa-filter" style="font-size: 29px; "></i> -->
+										<img src="https://cdn-icons-png.flaticon.com/512/107/107799.png" height="28px">
+									</div>
+									<div (click)="reload()" class=" "
+										style="position: absolute;top: 10px; margin-left: 44px; cursor: pointer;">
+										<!-- <img src="assets/images/users/refersh.svg" style="height: 25px;"> -->
+										<i class="fe fe-refresh-cw" style="font-size: 25px;font-weight: lighter; "></i>
+									</div>
+									</ng-container>
+								</div>
+							</div> &nbsp;&nbsp;&nbsp;
+    
+							<ng-container *ngIf="Live_content">
+								<div class="d-flex  ms-auto header-right-icons header-search-icon">
+							<div ngbDropdown class="d-md-flex notifications-cluster">
+								<p class="cell-id-cluster"><input type="radio" name="val"(change)="clusterchecked(0)" checked>&nbsp;Without cluster
+									&nbsp;&nbsp;&nbsp;	<input type="radio"name="val"(change)="clusterchecked(1)" class="pointer">&nbsp;With cluster</p>
+							</div>
+								</div> 
+							</ng-container>
+							<ng-container *ngIf="Live_content==false"> 
+								<div class="d-flex  ms-auto header-right-icons header-search-icon">
+
+									<div ngbDropdown class="d-md-flex notifications_ref ">
+									</div>
+									<div ngbDropdown class="d-md-flex notifications">
+										<button type="button" (click)=" header_filter(1)"
+											class="btn btn-outline-warning"
+											style="background: #F7EBDB;">{{Alldata.length}}</button>
+										<p class="content-1">All</p>
+
+
+									</div>
+									<div ngbDropdown class="d-md-flex notifications">
+										<button type="button" (click)=" header_filter(2)"
+											class=" gree btn btn-outline-success"
+											style="background: #86D0A1;">{{active.length}}</button>
+										<span class="content-2">Active</span>
+
+									</div>
+									<div ngbDropdown class="d-md-flex notifications">
+										<!-- <span class="active3 container-fluid" (click)=" getid(3)">
+									<span class="active1_text container-fluid" (click)="callmaps()" >{{inactive}}</span>
+								</span> -->
+										<button type="button" (click)=" header_filter(3)"
+											class="btn btn-outline-secondary"
+											style="background:#E9E9E9">{{inactive.length}}</button>
+										<span class="content-3">Inactive</span>
+									</div>
+									<div ngbDropdown class="d-md-flex notifications">
+
+										<!-- <span class="active4 container-fluid" (click)=" getid(4)">
+									<span class="active1_text container-fluid">{{NoData_length}}</span>
+								</span> -->
+										<button type="button" (click)=" header_filter(4)" class="btn btn-outline-danger"
+											style="background: #F8DBDB;;">{{NoData_length.length}}</button>
+										<span class="content-4">No Data</span>
+									</div>
+									<div ngbDropdown class="d-md-flex notifications">
+										<button type="button" (click)=" header_filter(5)"
+											class=" gree btn btn-outline-primary"
+											style="background: #76a1da7a;">{{NoGPS_length.length}}</button>
+										<span class="content-2">NoGPS</span>
+
+									</div>
+									<div ngbDropdown class="d-md-flex notifications">
+										<label>Interval</label>
+										<select id="data_interval" (change)="interval($event)">
+											<option value="0">Auto</option>
+											<option value="5">5 sec</option>
+											<option value="30" selected>30 sec</option>
+											<option value="60">1 min</option>
+											<option value="120">2 min</option>
+											<option value="240">4 min</option>
+											<option value="300">5 min</option>
+											<option value="600">10 min</option>
+											<option value="900">15 min</option>
+											<option value="1200">20 min</option>
+											<option value="1800">30 min</option>
+											<option value="3600">60 min</option>
+											<option value="7200">120 min</option>
+										</select>
+										<p class="cell-id"><input type="checkbox"> Use Cell ID</p>
+									</div>
+
+								</div>
+							</ng-container>
+							<ng-container *ngIf="Live_content">
+								<div class="d-flex  ms-auto header-right-icons header-search-icon">
+									<div ngbDropdown class="d-md-flex notifications_ref ">
+										<div class="" style="position: absolute;left: 16%;">
+											<a class="fa fa-bolt" style="font-size: 25px;color: #337ab7; cursor: pointer;"
+												title="Live" (click)="nextpage()" >
+												<!-- routerLink="Live"(click)="Live_page()" -->
+												<span class="live-text">Live</span>
+											</a>
+										</div>
+									</div>
+
+								</div>
+							</ng-container>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-3 col-lg-3 justify-content-end">
+
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+							<ng-container *ngIf="Live_content==false">
+								<div class="d-flex  ms-auto header-right-icons header-search-icon">
+									<div ngbDropdown class="d-md-flex notifications_ref ">
+										<div class="" style="position: absolute;">
+											<a class="fa fa-bolt" style="cursor: pointer;font-size: 25px;color: #337ab7;"
+												title="Live" (click)="nextpage()">
+												<!-- (click)="Live_page()"  routerLink="Live"-->
+												<span class="live-text">Live</span>
+											</a>
+										</div>
+									</div>
+
+								</div>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2 col-lg-2 justify-content-end">
+
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+							
+							<ng-container *ngIf="Live_content==false">
+								<div class="d-flex  ms-auto header-right-icons header-search-icon">
+									<div ngbDropdown class="d-md-flex notifications_ref ">
+										<div class="" style="position: absolute; ">
+											<div class="form-check form-switch">
+												<b>map</b>
+												<label class="lable_switch">
+													<input class="form-check-input" type="checkbox" role="switch"
+														id="flexSwitchCheckChecked" (change)="switch_text($event)"
+														style=" height: 16px !important;
+											width: 35px !important;position: absolute;margin-left: 5px; top: 5px;"></label>
+												<b>reports</b>
+												<p style="font-size:  11px;">
+													<input type="checkbox" (click)="latlng_onOff()">
+													Latitude/Longitude
+												</p>
+											</div>
+											<!-- <i  class="fa fa-cog" style="font-size: 25px;" title="Setting"></i> -->
+											<!-- <button type="button" (click)=" logout()"class="btn btn-outline-danger">Logout</button> -->
+										</div>
+									</div>
+
+								</div>
+							</ng-container>
+							<div class="d-flex  ms-auto header-right-icons header-search-icon">
+								<div ngbDropdown class="d-md-flex notifications_ref ">
+									<div class="" style="left:88%;position: absolute; top: 12px;" (click)="settings()">
+										<i class="fa fa-cog" style="font-size: 25px;" title="Setting"></i>
+									</div>
+									<div class="" style="left:77%;position: absolute; top: 34px;">
+									{{this.user}}</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-2 col-lg-2 justify-content-end">
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+
+							<div class="d-flex  ms-auto header-right-icons header-search-icon">
+								<div ngbDropdown class="d-md-flex notifications_ref "> <a class="header-brand1">
+										<img src="assets/images/brand/logo-3.png" class="header-brand-img desktop-logo"
+											alt="logo" id="change-image">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div id="map"></div>
+		<div class="input_latlng"> <input type="text" (input)="onsearch_latlng()" name="latlng-search"
+				placeholder="Search box"></div>
+				<div class="input_latlng1">
+					<ngx-spinner name="spinner-station" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+										[fullScreen]="false" type="ball-spin-clockwise">
+										<p style="color: white">Please Wait.. </p>
+									</ngx-spinner>
+					<table>
+						<tr>
+							<td>
+								
+								<select id="data_interval" (change)="StationMaster($event)" style="width: 176px;">
+									<option>Select Station Type</option>
+									<option *ngFor="let station of Station_Type_list;index as i" [value]="station.id">{{station.text}}</option>
+									<!-- <option value="5">5 sec</option> -->
+								</select>
+								<div *ngIf="RunRoute">
+									
+									<div class="Runroute">
+										
+										<input #search id="search" type="text" class="form-control input-search_plant"
+										name="searchBar" placeholder="Search" aria-label="Search"
+										[(ngModel)]="searchedKeyword1" value="searchedKeyword1"
+										aria-describedby="basic-addon1"  />	<button type="button" (click)="checkAll()" class="btn btn-primary btn-v">Reset</button>
+										
+										<table class="mt-3">
+											
+											<tr *ngFor="let v of run_Routes_list |filter:searchedKeyword1 ;index as i">
+												<td style="width: 5px;"></td>
+												<td><input type="checkbox" name="mm{{i}}" (change)="test_check($event,v.RouteCode)"></td>
+												<td>{{v.RouteCode}}</td>
+											</tr>
+										</table>
+									
+									</div>
+									
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<div><input type="text" (change)="station_value($event)" placeholder="Station" style="border: 1px solid;"></div>
+						</tr>
+					</table>
+					
+					
+				</div>
+		<ng-container *ngIf="Live_content==false">
+			<div class="playtrack">
+				<!-- <div class="form-check " style="    position: absolute;bottom: 4px;"> -->
+				<b> Play Track </b>
+				<label class=" form-switch">
+					<input class="form-check-input " type="checkbox" role="switch" id="flexSwitchCheckChecked"
+						(input)="playtrack($event)" style="width: 38px;height: 18px;top: -2px;">
+				</label><br>
+				<b style="position: relative;right: 12%;"> Zoom </b>
+				<label class=" form-switch">
+					<input class="form-check-input " type="checkbox" role="switch" id="Zoom_id" (input)="zoom($event)"
+						style="width: 38px;height: 18px;top: 0px;position: relative;">
+				</label>
+				<br>
+				<span *ngIf="range_toggle==1"><input type="range" (input)="range($event)" name="latlng-search"></span>
+				<!-- </div> -->
+			</div>
+		</ng-container>
+		<!-- <div class="playtrack"> </div> -->
+		<ng-container *ngIf="Live_content==false">
+			<div class="balloons" (click)="show_balloons()"><i class="fa fa-map-marker"></i> Filter Speed balloons<i
+					class="glyphicon glyphicon-triangle-bottom"></i></div>
+		</ng-container>
+		<span *ngIf="show_balloons_div==true">
+			<div class="balloons-show">
+				<div class="row">
+					<div class="col-lg-3 col-md-3"><a (click)="yellow_cross_show()"><i
+								class="fa fa-map-marker markers-size" style="color: yellow;"></i>
+							<span *ngIf="yellow_cross==true"><i class="fas fa-times cross-show"></i></span></a>1 to 20
+					</div>
+					<div class="col-lg-3 col-md-3"><a (click)="green_cross_show()"><i
+								class="fa fa-map-marker markers-size" style="color: green;"></i>
+							<span *ngIf="green_cross==true"><i class="fas fa-times cross-show"></i></span></a> > 20
+					</div>
+					<div class="col-lg-2 col-md-2"><a (click)="red_cross_show()"><i
+								class="fa fa-map-marker markers-size" style="color: red;"></i>
+							<span *ngIf="red_cross==true"><i class="fas fa-times cross-show"></i></span></a>
+						< 1</div>
+							<div class="col-lg-3 col-md-3"><i class="fa fa-map-marker markers-size"></i> Current
+							</div>
+							<div class="col-lg-1 col-md-1">
+								<div class="Apply"><a (click)="apply_track()">Apply</a></div>
+							</div>
+					</div>
+				</div>
+		</span>
+		<div *ngIf="setting==true" class="changes">
+			<div class="row ">
+				<div class="col-lg-12">
+					<ul style="margin-bottom:0px !important;">
+
+						<li style="    border-bottom: 1px solid #CED2D7; cursor: pointer;">
+							<a (click)="smallsizeOpen11(smallsizemodal11)">
+								<!-- change-p -->
+								<div class="password container-fluid" style="padding: 6px;">
+									<span class="">Change Password</span>
+
+								</div>
+							</a>
+						</li>
+						<li style="border-bottom: 1px solid #CED2D7; cursor: pointer;">
+							<a (click)=" logout()">
+								<!-- change-p -->
+								<div class="password container-fluid" style="padding: 6px; text-align: center;">
+									<span>Logout</span>
+
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- href="https://www.secutrak.in/travel-report?exttkn={{access}}" target="blank" -->
+		<div class=" group container-fluid">
+
+
+			<div class="ul-icon" style="margin-bottom: 0px !important;">
+				<span *ngFor="let item of side_icons;index as i">
+					<div style="border-bottom: 1px solid gray;">
+						<a>
+							<div class="right_side-icon" id="a{{i}}">
+								<a click="dropdown" (click)="drop(i)">
+									<i class="{{item}}" style="font-size: 19px;padding: 8px;"></i>
+								</a>
+							</div>
+						</a>
+					</div>
+				</span>
+				<div style="border-bottom: 1px solid gray;">
+					<a>
+						<div class="right_side-icon">
+							<a click="dropdown">
+								<i class="fas fa-route" style="font-size: 19px;padding: 8px;"></i>
+							</a>
+						</div>
+					</a>
+				</div>
+				<div style="border-bottom: 1px solid gray;">
+					<a>
+						<div class="right_side-icon " id="a9">
+							<a click="dropdown" (click)="mapshow(9)">
+								<!-- (click)="mapshow(5)" -->
+								<!-- mapshow -->
+								<i class="fa fa-building-o" style="font-size: 19px;padding: 8px;"></i>
+							</a>
+						</div>
+					</a>
+				</div>
+
+			</div>
+		</div>
+		<div class="dropdown-content1" *ngIf="dropdowncontent1 == true">
+			<ul style="margin-bottom:0px !important;">
+
+				<li style="    border-bottom: 1px solid #CED2D7; cursor: pointer;">
+					<a>
+						<p style="padding-top: 3px;padding-left: 18px; margin-bottom: 4px;">
+							<input type="checkbox" (change)="landmark_viewall_map()" [checked]="check_value_Map">
+							<span style="margin-left: 5px;">Landmark</span>
+							<img src="assets/images/users/Landmark icon (inactive state).svg"
+								style="height: 17px;position: absolute;">
+						</p>
+					</a>
+				</li>
+				<li style="    border-bottom: 1px solid #CED2D7; cursor: pointer;">
+					<a>
+						<p style="padding-top: 3px;padding-left: 18px; margin-bottom: 4px;">
+							<input type="checkbox" (change)="geofence_viewall_map()" [checked]="check_value_Map1">
+							<span style="margin-left: 5px;">Geofence</span>
+							<img src="assets/images/Tabs_button_icon/Group.svg"
+								style="height: 17px;position: absolute;">
+						</p>
+					</a>
+				</li>
+
+				<!-- </span> -->
+
+			</ul>
+
+
+
+		</div>
+		<div class="dropdown-content" *ngIf="dropdowncontent == true">
+			<ul style="margin-bottom:0px !important;">
+				<span *ngFor="let key of keys_content;index as i">
+					<li style="    border-bottom: 1px solid #CED2D7;">
+
+						<a href="{{key.url}}{{access}}" target="_blank">
+							<div class="row">
+								<!-- <div class="col-lg-2 col-md-2"><input type="checkbox" [checked]="key.checked"(change)="rightsidechange(key.id,$event)" ></div> -->
+								<div class="col-md-12 col-lg-12" style="margin-bottom: 0px;text-align: center">
+									<!-- <a  > -->
+									{{key.label}}
+									<!-- </a> -->
+
+								</div>
+							</div>
+						</a>
+					</li>
+				</span>
+
+			</ul>
+
+
+
+		</div>
+		<div *ngIf="!isShowmarkerDivIf" class="marker-detail">
+
+			<div class="panel panel-primary" style=" padding-left: 0px !important;">
+
+
+				<!-- Tabs -->
+				<ul ngbNav #nav1="ngbNav" [(activeId)]="TabStyle1">
+
+					<li [ngbNavItem]="1" style="margin-top: 0px !important;">
+						<ng-template ngbNavContent>
+							<div class="row">
+								<div class="col-lg-12 col-md-12">
+
+									<div class="row marker-detail-row1">
+										<div class="col-lg-3 col-md-3">
+											<div class="driver-t1"
+												style="height: 66px !important; width:66px !important">
+												<span *ngIf="DriverProfile_data.DriverImage !==''">
+													<img src="{{DriverProfile_data.DriverImage}}" alt=""
+														style="height: 64px;">
+												</span>
+												<span *ngIf="DriverProfile_data.DriverImage == ''">
+													<img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+														alt="" style="height: 64px;">
+												</span>
+												<span *ngIf="DriverProfile_data.DriverImage == undefined">
+													<img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+														alt="" style="height: 64px;">
+												</span>
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-4">
+											<span *ngIf="VehicleCategory==''">
+												------
+											</span>
+											<span *ngIf="VehicleCategory!==''">
+												<div class="Mahindra">{{current.VehicleCategory}}</div>
+											</span>
+
+
+											<span *ngIf="this.current.VehicleStatus=='Active'">
+												<div class="UP78-active">{{current.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current.VehicleStatus=='InActive'">
+												<div class="UP78-inactive">{{current.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current.VehicleStatus=='NoGPS'">
+												<div class="UP78-NoGPS">{{current.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current.VehicleStatus=='NoData'">
+												<div class="UP78-NoData">{{current.VehicleNo}}</div>
+											</span>
+
+
+
+										</div>
+										<div class="col-lg-5 col-md-5">
+
+										</div>
+									</div>
+
+									<div class="row marker-detail-row2"
+										style="border-bottom: 1px solid #eaedf1;height: 20px;">
+
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												Name
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance">
+												<span *ngIf="DriverProfile_data.FirstName!==''">
+													<p class="distance-text">
+														{{DriverProfile_data.FirstName}}{{DriverProfile_data.MiddleName}}
+													</p>
+												</span>
+												<span *ngIf="DriverProfile_data.FirstName==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.FirstName==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												Phone
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance">
+												<span *ngIf="DriverProfile_data.PrimaryPhone!==''">
+													<p class="distance-text">{{DriverProfile_data.PrimaryPhone}}</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryPhone==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryPhone==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												Email
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance">
+												<span *ngIf="DriverProfile_data.PrimaryEmail!==''">
+													<p class="distance-text">{{DriverProfile_data.Email}}</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryEmail ==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryEmail ==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												DlNumber
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance" style="margin-left: 15.31px !important;">
+												<span *ngIf="DriverProfile_data.DlNumber!==''">
+													<p class="distance-text">{{DriverProfile_data.DlNumber}}</p>
+												</span>
+												<span *ngIf="DriverProfile_data.DlNumber==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.DlNumber==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+
+									</div>
+									<div class="row" style="    margin-top: 9.26px;">
+										<div class="col-lg-4 col-md-4">
+											<div class="map-icon1">
+												Address
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Location icon.svg"alt=""> -->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8" style="height: 28px;overflow: auto;">
+											<div class="address" style="margin-left: 15px;">
+												<span *ngIf="DriverProfile_data.Address==''">
+													<p>- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.Address==undefined">
+													<p>- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.Address !==''">
+													<p class="address-text"> {{DriverProfile_data.Address}}</p>
+												</span>
+
+
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+
+						</ng-template>
+					</li>
+					<li [ngbNavItem]="2" style="margin-top: 0px !important;">
+						<ng-template ngbNavContent>
+							<div class="row">
+								<!-- *ngFor="let item of Document;index as i"  -->
+								<div class="col-lg-12 col-md-12">
+									<div class="row marker-detail-row1">
+										<div class="col-lg-2 col-md-2">
+											<div class="driver-t">
+												<!-- <img src="assets/images/temp/Rectangle 1203.png" alt=""
+														style="height: 42px;"> -->
+												<span *ngIf="current.VehicleImage=='N/A'">
+													<i class="fas fa-truck" style="width: 30px;"></i>
+												</span>
+												<!-- assets/images/users/truck2.png -->
+												<span *ngIf="current.VehicleImage !=='N/A'">
+													<img src="{{current.VehicleImage}}" alt="" class="img-size2"
+														style="width: 30px">
+												</span>
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-4">
+											<span *ngIf="VehicleCategory==''">
+												------
+											</span>
+											<span *ngIf="VehicleCategory!==''">
+												<div class="Mahindra">{{current.VehicleCategory}}</div>
+											</span>
+											<span *ngIf="this.current.VehicleStatus=='Active'">
+												<div class="UP78-active">{{current.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current.VehicleStatus=='InActive'">
+												<div class="UP78-inactive">{{current.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current.VehicleStatus=='NoGPS'">
+												<div class="UP78-NoGPS">{{current.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current.VehicleStatus=='NoData'">
+												<div class="UP78-NoData">{{current.VehicleNo}}</div>
+											</span>
+
+
+
+										</div>
+										<div class="col-lg-6 col-md-6">
+											<div class="weather-box">
+												<!-- <div class="degree">29°C</div> -->
+												<div class="Vehicle-location"> Vehicle Location</div>
+												<!-- <div class="Cloudy"> Cloudy</div> -->
+												<div class=" cloud">
+													<span *ngIf="weather < 2">
+														<img src="assets/images/users/Weather icon image.png"
+															style="height: 19px;" alt="">
+													</span>
+													<span *ngIf="(weather >= 2 && weather <10) ">
+														<img src="assets/images/users/Weather icon image.png"
+															style="height: 19px;" alt="">
+													</span>
+													<span *ngIf="(weather >= 10 && weather <= 40) ">
+														<img src="assets/images/users/Weather icon image.png"
+															style="height: 19px;" alt="">
+													</span>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12 col-md-12">
+											<div class="table-responsive" style="height: 184px;">
+												<table class="table-striped">
+													<!-- table-responsive -->
+													<thead>
+														<tr class="table_header" style="text-align: center;">
+															<!-- <th class=" border-bottom-0">Sno.</th> -->
+															<th>Name</th>
+															<th>Exp date</th>
+															<th></th>
+															<th></th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<!-- style=" height: 200px;overflow: auto;"*ngFor="let table of dataTable" -->
+														<tr *ngFor="let head of Document ; let i = index"
+															style="border-bottom: 1px solid rgb(0 50 126 / 12%) !important;">
+
+															<td>
+																{{head.DocumentFile.substring(0,10)}}
+															</td>
+															<td style="text-align:center;">
+																<div style="width: 140px">
+																	{{head.CreateDate}}
+																</div>
+
+															</td>
+															<td></td>
+															<!-- <td class="border-bottom-0">table.startdate</td> -->
+															<td class="border-bottom-0 container-fluid">
+																<!-- <a class="btn btn-sm btn-primary me-2" href="javascript:;"><i class="fa fa-edit"></i> Edit</a> -->
+																<div style="margin-right: 17px; text-align: end">
+																	<button type="button"
+																		class="btn btn-danger">view</button>
+																</div>
+															</td>
+															<!-- <td class="border-bottom-0"><div class="delete container-fluid"><i class="fa fa-trash" aria-hidden="true" style="color: red  ;"></i></div></td> -->
+														</tr>
+													</tbody>
+												</table>
+												<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+													[fullScreen]="false" type="ball-spin-clockwise">
+													<p style="color: white">Please Wait.. </p>
+												</ngx-spinner>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+
+				</ul>
+				<div [ngbNavOutlet]="nav1" class="tabs-menu-body tab-content panel-body tabs-menu-body"
+					style="height: 287px;     border-bottom: 1px solid beige;"></div>
+				<div ngbNav #nav1="ngbNav" [(activeId)]="TabStyle1" class=" " style="padding: 8px;margin-left: -7px;">
+
+					<div class="row" style="width: 335px">
+						<div class="col-lg-4 col-md-4 box-col">
+							<button class="btn button-center btncl" [ngbNavItem]="5"><a ngbNavLink>
+									<!-- <div class=" truck-live"> -->
+									<div class="truct-icon">
+										<img src="assets/images/users/Weather forecast icon.svg" alt="">
+									</div>
+									<div class="truck-text">
+										<p>Weather<br> forecast</p>
+									</div>
+									<!-- </div> -->
+								</a></button>
+						</div>
+						<div class="col-lg-4 col-md-4 box-col">
+							<button class="btn  button-center btncl" (click)=" hello()"><a>
+									<!-- <div class=" truck-live"> -->
+									<div class="truct-icon">
+										<img src="assets/images/Tabs_button_icon/Group 39920.svg" alt="">
+									</div>
+									<div class="truck-text">
+										<p>Add<br>geofence</p>
+									</div>
+									<!-- </div> -->
+								</a></button>
+						</div>
+						<div class="col-lg-4 col-md-4 box-col">
+							<button class="btn button-center btncl" (click)=" Landmaradd()"><a>
+									<!-- <div class=" truck-live"> -->
+									<div class="truct-icon">
+										<img src="assets/images/users/Landmark icon (inactive state).svg" alt="">
+									</div>
+									<div class="truck-text-docu">
+										<p>Add<br> Landmark</p>
+									</div>
+									<!-- </div> -->
+								</a></button>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+			<div class="removeall">
+				<a (click)=" removeall();">
+					<img src="assets/images/users/x.svg" alt="" class="cross">
+				</a>
+			</div>
+		</div>
+		<div class="rectangle-864" (click)="show = !show">
+			<img class=" box-arrow img-responsive mb-50" src="assets/images/users/arrow.png">
+		</div>
+
+
+		<div class="box" [class.opened]="show" [class.closed]="!show">
+			<ng-container *ngIf="Live_content==false">
+				<div class="content">
+					<div class="panel panel-primary">
+						<ngx-spinner name="spinner-1" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+							[fullScreen]="false" type="ball-spin-clockwise">
+							<p style="color: white">Please Wait.. </p>
+						</ngx-spinner>
+						<!-- saumya-va -->
+						
+						<div class="tab-menu-heading" 
+							style="padding: 0; padding-left: 0px;  padding-right:0px ;border: none; width: 100%;">
+	
+							<nav class="tabs-menu " style="width: 91%;">
+								<div class="nav nav-tabs panel-tabs" id="nav-tab" role="tablist">
+									<div class="search-data">
+										<!-- <span *ngIf="search_value==1"> -->
+										<input #search id="search" type="text" class="form-control input-search"
+											name="searchBar" placeholder="Search" aria-label="Search"
+											[(ngModel)]="searchedKeyword" value="searchedKeyword"
+											aria-describedby="basic-addon1" (input)="onsearch()" />
+										<!-- </span> -->
+										<!-- <span *ngIf="search_value==2">
+													<input #search id="search" type="text" class="form-control" name="searchBar"
+													[(ngModel)]="searchedKeyword" value="searchedKeyword"placeholder="Search" aria-label="Search"
+													aria-describedby="basic-addon1"  />
+												</span> -->
+										<!-- (change)="onsearch()" 		[(ngModel)]="searchedKeyword"-->
+										<!--  -->
+										<span><img class="img-responsive search-icon"
+												src="assets/images/users/Vector (11).png"></span>
+									</div>
+									<button class="nav-link active item_box" id="nav-home-tab" data-bs-toggle="tab"
+										data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+										aria-selected="true" (click)="load_data()">
+										<i class='fa fa-truck class-icon' title="Vehicle List"></i>
+									</button>
+	
+									<button class="nav-link item_box" id="nav-profile-tab" data-bs-toggle="tab"
+										data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+										aria-selected="false" (click)="load_data()">
+										<img class="img-responsive Track1" src="assets/images/Tabs_button_icon/Group.svg"
+											title="Geofence List">
+									</button>
+									<button class="nav-link item_box" id="nav-contact-tab" data-bs-toggle="tab"
+										data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact"
+										aria-selected="false" (click)="load_data()">
+										<i class='fa fa-building-o' style='font-size: 23px; ' title="Landmark List"></i>
+									</button>
+									<button class="nav-link item_box" id="nav-contact-1-tab" data-bs-toggle="tab"
+										data-bs-target="#nav-contact-1" type="button" role="tab"
+										aria-controls="nav-contact-1" aria-selected="false" (click)="load_data()">
+										<i class='icon icon-user' style='font-size: 23px; margin-top: -7px;'
+											title="Driver List"></i>
+									</button>
+									<button class="nav-link item_box" id="nav-contact-tab-2" data-bs-toggle="tab"
+										data-bs-target="#nav-contact-2" type="button" role="tab"
+										aria-controls="nav-contact-2" aria-selected="false" (click)="load_data()">
+										<i class='fas fa-route' style='font-size: 23px; margin-top: -7px;'
+											title="Route List"></i>
+									</button>
+								</div>
+								<div class="rectangle-863 justify-content-center" (click)="toggles()">
+									<img class="img-responsive mb-50" src="assets/images/users/Polygon.png"
+										style=" margin-top: 14px;">
+								</div>
+							</nav>
+	
+							<div class="tab-content  bg-light" id="nav-tabContent">
+								<div class="tab-pane fade active show" id="nav-home" role="tabpanel"
+									aria-labelledby="nav-home-tab">
+	
+									<form [formGroup]="reports" novalidate>
+										<!-- (ngSubmit)="onSubmit1()"  -->
+										<div class=" row"
+											style="background: #FCFCFC; height: 54px; width: 366px;    border-bottom: 1px solid #dee2e6;">
+	
+											<!-- <span>Last Location</span> -->
+											<div class="col-lg-2 col-md-2">
+												<!-- <div style="font-size: 6px">last location</div> -->
+												<span *ngIf="LastStatus==0">
+													<div class="trackingorlast">LastLocation</div>
+													<input type="checkbox" (click)="onSelectAll();" class="input"
+														[checked]="check_value" style="    margin-top: 13px;">
+												</span>
+												<span *ngIf="LastStatus==1">
+													<div class="trackingorlast1">Tracking</div>
+												</span>
+	
+	
+												<!-- (change)="selectallcheckes($event)" -->
+												<div class="form-check form-switch"
+													style="    position: absolute;left: 40px;bottom: 4px;">
+													<input class="form-check-input" type="checkbox" role="switch"
+														id="flexSwitchCheckChecked" (change)="switch($event)">
+												</div>
+	
+	
+											</div>
+	
+											<div class="col-lg-4 col-md-4">
+												<label class="lable_date">Start Date</label>
+												<input type="text" formControlName="Fromdaydate" id="datepicker"(click)="va()" 
+													data-date-format="DD-MM-YYYY HH:mm:ss" class="form-control inputform"
+													[ngModel]="Fromdaydatetimepicker" >
+												<!-- <input name="data[PolylineCluster][stoppage_time]" class="form-control timepicker" placeholder="HH:MM" maxlength="11" type="text"  (click)="chan()"> -->
+												<!-- (change)="datestime($event)"        datepicker-->
+												<!-- <input class="form-control inputform" matInput [max]="myDate"
+																formControlName="Fromdaydate" [ngModel]="Fromdaydate"
+																type="datetime-local" id="modified"  /> -->
+											</div>
+	
+	
+											<div class="col-lg-4 col-md-4">
+												<label class="lable_date">End Date</label>
+												<input type="text" formControlName="todaydate" id="datepicker1"
+													class="form-control inputform" (click)="end()" [(ngModel)]="myDate1"
+													name="myDate" data-date-format="DD-MM-YYYY HH:mm:ss">
+												<!-- (change)="datestime($event.target)" -->
+												<!-- <input required class="form-control inputform" id="modified"
+																formControlName="todaydate" [(ngModel)]="myDate"
+																[min]="Fromdaydate" type="datetime-local" name="myDate" /> -->
+	
+											</div>
+											<!-- <button type="submit" class="btn btn-primary">hhhhh</button> -->
+											<div class="col-lg-2 col-md-2">
+												<span *ngIf="LastStatus==0">
+													<div class=" live_status pointer">
+														<a (click)="show_vehicle()" class="pointer" placement="left"
+															title="Last location" href="javascript:;">
+															<div class="track_go" type="submit">Go</div>
+															<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Backbuttonpng.png"
+																			style="height: 26px;
+																left: 40%;
+																position: absolute;
+																top: 9px;" /> -->
+														</a>
+													</div>
+												</span>
+												<span *ngIf="LastStatus==1">
+													<div class="live_status pointer">
+														<a (click)="track()" class="pointer" placement="left"
+															title="Last location" href="javascript:;">
+															<div class="track_go" type="submit">Go</div>
+														</a>
+													</div>
+												</span>
+	
+											</div>
+	
+	
+										</div>
+									</form>
+									<div class="table-responsive" style="width: 368px;height: 350px; overflow-y: scroll">
+										<table class=" table-striped">
+	
+											<tbody>
+												<tr
+													*ngFor="let arr of data1 | slice:pageStart:pageEnd | filter:searchedKeyword; let i=index">
+	
+													<td>
+														<span *ngIf="LastStatus==0">
+															<input type="checkbox" [checked]="arr.Checked"
+																class="input_temp"
+																(change)="selectcheck(arr?.VehicleId,i,$event,arr?.VehicleNo)">
+															<!-- (change)="selectcheck(head?.VehicleId,idx,$event,head?.VehicleNo)" -->
+														</span>
+														<span *ngIf="LastStatus==1">
+															<input class="input_temp" type="radio" name="flexRadioDefault"
+																id="flexRadioDefault2" 
+																(change)="region(arr.VehicleId,arr.VehicleNo,arr.ImeiNo)">
+															<!-- (change)="region(head.VehicleId,head.VehicleNo,head.ImeiNo)" -->
+	
+														</span>
+													</td>
+													<td>
+														<div class="image-box">
+															<span *ngIf="arr.VehicleImage=='N/A'">
+																<i class=" fa fa-truck fa-2x" style="color: brown;"></i>
+															</span>
+															<!-- assets/images/users/truck2.png -->
+															<span *ngIf="arr.VehicleImage !=='N/A'">
+																<img src="{{arr.VehicleImage}}" alt="" class="img-icon"
+																	style="width: 30px">
+															</span>
+	
+														</div>
+													</td>
+	
+													<td style="width: 60px;">
+														<span *ngIf="arr.VehicleStatus=='Active'">
+															<div class=" ">
+	
+																<div title="{{arr.VehicleNo}}"
+																	class="active_data_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	<!-- (click)="show_infowindow(arr.VehicleNo)" -->
+																	{{arr.VehicleNo}}
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.VehicleStatus=='InActive'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive1_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	{{arr.VehicleNo}}
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.VehicleStatus=='NoGPS'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive2_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	{{arr.VehicleNo}}
+																	<!-- .substring(0,10) -->
+																</div>
+															</div>
+														</span>
+														<span>
+															<div class=" " *ngIf="arr.VehicleStatus=='NoData'">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive3_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	{{arr.VehicleNo}}
+																</div>
+															</div>
+														</span>
+													</td>
+													<td>
+														<div class="key-status_temp" placement="top" title="Engine Status">
+															<ng-container *ngIf="arr.VehicleStatus=='InActive'">
+																<span>
+																	<i class="fas fa-key"
+																		style="height: 13px; color:gray; font-size: 14px;width: 25px;"
+																		title="Engine Status {{arr.EngineStatus}}"></i>
+																</span>
+															</ng-container>
+															<ng-container *ngIf="arr.VehicleStatus !=='InActive'">
+																<span *ngIf="arr.EngineStatus=='Off'">
+																	<i class="fas fa-key"
+																		style="height: 13px; color:red;font-size: 14px; width: 25px;"
+																		title="Engine Status (OFF)"></i>
+																</span>
+																<span *ngIf="arr.EngineStatus=='On'">
+																	<i class="fas fa-key"
+																		style="height: 13px; color:green;font-size: 14px;width: 25px;"
+																		title="Engine Status (ON)"></i>
+																</span>
+																<span *ngIf="arr.EngineStatus=='N/A'">
+																	<i class="fas fa-key"
+																		style="height: 13px; color:gray; font-size: 14px;width: 25px;"
+																		title="Engine Status (NO Data)"></i>
+																</span>
+																<span *ngIf="arr.EngineStatus==undefined">
+																	<img src="assets/images/Tabs_button_icon/InactiveEnginestatusicon.svg"
+																		style="height: 17px;">
+																	<!-- <i class="fa fa-key"style="height: 13px; color:gray; font-size: 14px;width: 25px;" ></i> -->
+																</span>
+															</ng-container>
+															
+														</div>
+													</td>
+													<td>
+
+														<div class="overlap-group--1_temp" title="{{arr.Battery}}%Battery">
+															<ng-container *ngIf="arr.VehicleStatus=='InActive'">
+																<span *ngIf="(arr.Battery >= 0 && arr.Battery <= 24 )">
+	
+																	<i class="fa fa-battery-1"
+																		style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 25 && arr.Battery <= 50)">
+		
+																	<i class="fa fa-battery-2"
+																		style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 51 && arr.Battery <= 74)">
+		
+																	<i class="fa fa-battery-3"
+																		style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 75 && arr.Battery <= 100)">
+		
+																	<i class="fa fa-battery-4"
+																		style=" height: 11px;margin-top: 3px; color: gray; font-size: 17px;"></i>
+																</span>
+															</ng-container>
+															<ng-container *ngIf="arr.VehicleStatus!=='InActive'">
+																<span *ngIf="(arr.Battery >= 0 && arr.Battery <= 24 )">
+	
+																	<i class="fa fa-battery-1"
+																		style="height: 11px;margin-top: 3px; color: red;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 25 && arr.Battery <= 50)">
+		
+																	<i class="fa fa-battery-2"
+																		style="height: 11px;margin-top: 3px; color: rgb(230, 173, 19);font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 51 && arr.Battery <= 74)">
+		
+																	<i class="fa fa-battery-3"
+																		style="height: 11px;margin-top: 3px; color: rgb(147, 194, 38);font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 75 && arr.Battery <= 100)">
+		
+																	<i class="fa fa-battery-4"
+																		style=" height: 11px;margin-top: 3px; color: rgb(12, 167, 45); font-size: 17px;"></i>
+																</span>
+															</ng-container>
+															
+														</div>
+													</td>
+													<td class="border-bottom-0">
+														<div class="live_box_temp pointer" placement="top" title="Go_Live">
+															<a class="pointer">
+																<i class="fa fa-play-circle"
+																	style="font-size:16px;color:red"></i>
+																<!-- <img class=" live_img"src="assets/images/New icons for clearity/Play track.svg" /> -->
+															</a>
+														</div>
+													</td>
+													<td class="border-bottom-0">
+														<div class="overlap-group_temp" placement="top" title="Temperature">
+															<span *ngIf="arr.Temperature !== undefined">
+																<span *ngIf="arr.Temperature !=='N/A'">
+																	<i class="fa fa-temperature-half"
+																		style="font-size: 20px;"
+																		title="{{arr.Temperature}}°C"></i>
+																	<!-- <div class="number1 valign-text-middle robotosemi-bold-nevada 10px">
+																		
+																			{{arr.Temperature}}
+																			
+																		</div> -->
+																</span>
+																<span *ngIf="arr.Temperature =='N/A'">
+																	<p>-</p>
+																	<!-- <img class="vector-1"
+																			src="assets/images/New icons for clearity/AC on.svg"
+																			style="height: 19px;" /> -->
+																	<!-- <div class="number1 valign-text-middle robotosemi-bold-nevada 10px">
+																			{{arr.Temperature}}°C
+																		</div> -->
+																</span>
+															</span>
+															<span *ngIf="arr.Temperature == undefined">
+																<!-- <span *ngIf="arr.Temperature =='N/A'"> -->
+																<p>-</p>
+	
+																<!-- </span> -->
+															</span>
+														</div>
+													</td>
+													<td class="border-bottom-0">
+														<!-- <i class="fas fa-gas-pump-slash"></i> -->
+														<div class="fuel_temp" placement="top">
+															<span *ngIf="arr.FuelLevel=='kk'">
+																<!-- <img class="rectangle-1231"
+																			src="assets/images/users/Secutrak Dashboard Design Assets/Fuelstatusfull.svg"
+																			style="height: 10px;" title="Fuel"> -->
+															</span>
+															<span *ngIf="arr.FuelLevel=='kk'">
+																<!-- <img class="rectangle-1231"
+																			src="assets/images/users/Secutrak Dashboard Design Assets/Fuelstatusmedium.svg"
+																			style="height: 10px;" title="Fuel"> -->
+															</span>
+															<span *ngIf="arr.FuelLevel=='N/A'">
+																<p>-</p>
+																<!-- <img class="rectangle-1231"
+																		src="assets/images/Inactive icons Sept updated/Fuelstatusinactiveicon.svg"
+																		style="height: 15px;"> -->
+	
+	
+															</span>
+															<span *ngIf="arr.FuelLevel== !'N/A'">
+																<!-- <img class="rectangle-1231"
+																		src="assets/images/New icons for clearity/FuelstatusemptyFuel status.svg"
+																		style="height: 15px;"> -->
+															</span>
+	
+														</div>
+													</td>
+	
+													<td class="border-bottom-0">
+														<div class="Alerts_temp pointer" placement="top" title="Alert">
+															<span *ngIf="arr.Alert==0">
+																<p>-</p>
+															</span>
+															<span *ngIf="arr.Alert==1">
+																<a class="pointer">
+																	<i class="fa fa-exclamation-triangle"
+																		style="color:#f53a59;font-size: 16px;"></i>
+																</a>
+															</span>
+															<span *ngIf="arr.Alert==2">
+																<a class="pointer">
+																	<i class="fa fa-exclamation-triangle"
+																		style="color:#dbc14f;font-size: 16px;"></i>
+																	<!-- <img src="assets/images/users/Alerts icon.svg" style="height: 13px;"   /> -->
+																</a>
+	
+															</span>
+	
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+	
+										<!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default"
+														size="small" [fullScreen]="false" type="ball-spin-clockwise">
+														<p style="color: white">Please Wait.. </p>
+													</ngx-spinner> -->
+									</div>
+	
+									<div class="modal-footer footer">
+										<div class="row" style="margin: 0px;">
+											<div class="col-lg-1 col-md-1">
+												<span class="active_dot"></span>
+											</div>
+											<div class="col-lg-2 col-md-2">
+												<span class="activedot_text">Active</span>
+											</div>
+											<div class="col-lg-1 col-md-1">
+												<span class="inactive_dot"></span> <span
+													class="activedot_text">Inactive</span>
+											</div>
+											<div class="col-lg-2 col-md-2">
+												<span class="activedot_text">Inactive</span>
+											</div>
+											<div class="col-lg-1 col-md-1">
+												<span class="Nogps_dot"></span>
+											</div>
+											<div class="col-lg-2 col-md-2">
+												<span class="activedot_text">NoGPS</span>
+											</div>
+											<div class="col-lg-1 col-md-1">
+												<span class="Nodata_dot"></span>
+	
+											</div>
+											<div class="col-lg-2 col-md-2">
+												<span class="activedot_text">NoData</span>
+	
+											</div>
+										</div>
+	
+									</div>
+	
+								</div>
+								<div class="tab-pane fade" id="nav-profile" role="tabpanel"
+									aria-labelledby="nav-profile-tab">
+									<div class="table-responsive" style="width: 368px;">
+										<div class="header_tab ">
+											<button type="button" class="btn  view_li " data-bs-dismiss="modal" title="View"
+												aria-label="Close" (click)="view_geofence()">
+												<!-- <imgs rc="assets/images/users/Group 39920.svg" /> -->
+												<i class="fa fa-eye view eyes" aria-hidden="true"></i>
+											</button>
+											<button type="button" class="btn btn-outline-secondary excel_button"
+												(click)='exportAsExcelFile1(geo_list,"file")'><i class="fa fa-file-excel-o"
+													aria-hidden="true"></i></button>
+											<!-- <button type="button"ngbTooltip="Save" class="btn  save"
+														data-bs-dismiss="modal" aria-label="Close"(click)=" geofenceUpdate()">
+														<i class="fa fa-save" ></i></button> -->
+	
+	
+											<button type="button" class="btn  add " data-bs-dismiss="modal" title="Add "
+												aria-label="Close" (click)=" hello()">
+												<i class="fa fa-plus add_li plus"></i></button>
+	
+										</div>
+										<div class="row">
+											<div class="col-xl-12">
+												<div class="">
+	
+													<div class="card-body" style="padding: 0px; height: 392px;">
+														<div class="table-responsive" style="    height: 392px;">
+															<table class=" table-striped" id="example2">
+																<!-- table-responsive -->
+																<thead>
+																	<tr class="table_header">
+																		<!-- <th class=" border-bottom-0">Sno.</th> -->
+																		<th class=" border-bottom-0"></th>
+																		<th class=" border-bottom-0" style="width: 29%; font-size: 12px;">
+																			Geofence Name
+																		</th>
+																		<th class=" border-bottom-0"
+																			style="padding-left: 20px !important ;">
+																		</th>
+																		<th class=" border-bottom-0"></th>
+	
+																	</tr>
+																</thead>
+																<tbody style=" height: 200px;overflow: auto;">
+																	<!-- *ngFor="let table of dataTable" -->
+																	<tr class="tr_hover" style="height: 27px !important;"
+																		*ngFor="let head of geo_list  | filter:searchedKeyword; let i = index">
+																		<!-- <td class="border-bottom-0">{{i+1}}</td> -->
+																		<td class="border-bottom-0">
+																			<div class="driver_img">
+																				<input type="checkbox"
+																					(change)="geofence(head.GeoId,$event)"
+																					class=" ">
+																			</div>
+																		</td>
+																		<td class="border-bottom-0"
+																			style="text-align: center;">
+																			<div>
+																				<span style="font-family: 'Roboto';">
+																					{{head.GeoName}}
+																				</span>
+																			</div>
+																		</td>
+	
+																		<td class="border-bottom-0">
+																			<div style="    color: black;">
+	
+																			</div>
+																		</td>
+																		<!-- <td class="border-bottom-0">table.startdate</td> -->
+																		<td class="border-bottom-0 container-fluid">
+																			<!-- <a class="btn btn-sm btn-primary me-2" href="javascript:;"><i class="fa fa-edit"></i> Edit</a> -->
+																			<div
+																				style="margin-right: 17px; text-align: end">
+																				<a (click)="call(head.GeoId)"
+																					class="edit_driver">
+																					<i class="fa fa-edit edit_icon"
+																						style="color: rgb(8 11 146);"></i>
+																				</a>
+																				<a (click)="geofenceDelete(head.GeoId) "
+																					class="delete_driver">
+																					<i class="fa fa-trash delete_icon"
+																						style="color: red"></i>
+																				</a>
+																			</div>
+																		</td>
+																		<!-- <td class="border-bottom-0"><div class="delete container-fluid"><i class="fa fa-trash" aria-hidden="true" style="color: red  ;"></i></div></td> -->
+																	</tr>
+																</tbody>
+															</table>
+															<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default"
+																size="small" [fullScreen]="false"
+																type="ball-spin-clockwise">
+																<p style="color: white">Please Wait.. </p>
+															</ngx-spinner>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="nav-contact" role="tabpanel"
+									aria-labelledby="nav-contact-tab">
+									<div class="table-responsive" style="width: 368px;">
+										<div class="header_tab ">
+											<button type="button" class="btn  view_li " data-bs-dismiss="modal" title="View"
+												aria-label="Close" (click)="view_Landmark()">
+												<!-- <imgs rc="assets/images/users/Group 39920.svg" /> -->
+												<i class="fa fa-eye view eyes" aria-hidden="true"></i>
+											</button>
+											<button type="button" class="btn btn-outline-secondary excel_button"
+												(click)='exportAsExcelFile(Landmark_list,"file")'><i
+													class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+											<!-- <button type="button"title="Save" class="btn  save"
+														data-bs-dismiss="modal" aria-label="Close"(click)=" geofenceUpdate()">
+														<i class="fa fa-save" ></i></button> -->
+	
+	
+											<button type="button" class="btn  add " data-bs-dismiss="modal" title="Add "
+												aria-label="Close" (click)=" Landmaradd()">
+												<i class="fa fa-plus add_li plus"></i></button>
+	
+										</div>
+										<div class="row">
+											<div class="col-xl-12">
+												<div class="">
+	
+													<div class="card-body" style="padding: 0px; height: 392px;">
+														<div class="table-responsive" style="    height: 392px;">
+															<table class=" table-striped" id="example2"
+																style=" height: 200px;overflow: auto;">
+																<!-- table-responsive -->
+																<thead>
+																	<tr class="table_header">
+																		<!-- <th class=" border-bottom-0">Sno.</th> -->
+																		<th class=" border-bottom-0"></th>
+																		<th class=" border-bottom-0" style="width: 29%; font-size: 12px;">
+																			Landmark Name
+																		</th>
+																		<th class=" border-bottom-0"
+																			style="padding-left: 20px !important ;">
+																		</th>
+																		<th class=" border-bottom-0"></th>
+	
+																	</tr>
+																</thead>
+	
+																<tbody>
+																	<!-- *ngFor="let table of dataTable" -->
+																	<tr class="tr_hover" style="height: 27px !important;"
+																		*ngFor="let head of Landmark_list  | filter:searchedKeyword; let i = index">
+																		<!-- <td class="border-bottom-0">{{i+1}}</td> -->
+																		<td class="border-bottom-0">
+																			<div class="driver_img">
+																				<input type="checkbox"
+																					(change)="Landmark_change(head.LandmarkId,$event)"
+																					class=" ">
+																			</div>
+																		</td>
+																		<td class="border-bottom-0"
+																			style="text-align: center;">
+																			<div>
+																				<span style="font-family: 'Roboto';">
+																					{{head.LandmarkName}}
+																				</span>
+																			</div>
+																		</td>
+	
+																		<td class="border-bottom-0">
+																			<div style="    color: black;">
+	
+																			</div>
+																		</td>
+																		<!-- <td class="border-bottom-0">table.startdate</td> -->
+																		<td class="border-bottom-0 container-fluid">
+																			<!-- <a class="btn btn-sm btn-primary me-2" href="javascript:;"><i class="fa fa-edit"></i> Edit</a> -->
+																			<div
+																				style="margin-right: 17px; text-align: end">
+																				<a (click)="Landmark_edit(head.LandmarkId)"
+																					class="edit_driver">
+																					<i class="fa fa-edit edit_icon"
+																						style="color: rgb(8 11 146);"></i>
+																				</a>
+																				<a (click)="Landmark_delete(head.LandmarkId) "
+																					class="delete_driver">
+																					<i class="fa fa-trash delete_icon"
+																						style="color: red"></i>
+																				</a>
+																			</div>
+																		</td>
+																		<!-- <td class="border-bottom-0"><div class="delete container-fluid"><i class="fa fa-trash" aria-hidden="true" style="color: red  ;"></i></div></td> -->
+																	</tr>
+																</tbody>
+															</table>
+															<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default"
+																size="small" [fullScreen]="false"
+																type="ball-spin-clockwise">
+																<p style="color: white">Please Wait.. </p>
+															</ngx-spinner>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="nav-contact-1" role="tabpanel"
+									aria-labelledby="nav-contact-1-tab">
+									<div class="table-responsive" style="width: 368px;">
+										<div class="header_tab ">
+											<!-- <button type="button" class="btn  view_li " data-bs-dismiss="modal"
+														title="View" aria-label="Close" (click)="view_Landmark()">
+															
+															<i class="fa fa-eye view eyes" aria-hidden="true"></i>
+														</button> -->
+											<!-- <button type="button" class="btn btn-outline-secondary excel_button" (click)='exportAsExcelFile(geo_list,"file")'><i class="fa fa-file-excel-o" aria-hidden="true"></i></button> -->
+											<!-- <button type="button"ngbTooltip="Save" class="btn  save"
+														data-bs-dismiss="modal" aria-label="Close"(click)=" geofenceUpdate()">
+														<i class="fa fa-save" ></i></button> -->
+	
+	
+											<button type="button" class="btn  add " data-bs-dismiss="modal" title="Add "
+												aria-label="Close" (click)=" SmallSizeOpen8(smallsizemodal8);">
+												<i class="fa fa-plus add_li plus"></i></button>
+	
+										</div>
+										<div class="row">
+											<div class="col-xl-12">
+												<div class="">
+	
+													<div class="card-body" style="padding: 0px; height: 392px;">
+														<div class="table-responsive" style="    height: 430px;">
+															<table class=" table-striped" id="example2">
+																<!-- table-responsive -->
+																<thead>
+																	<tr class="table_header">
+																		<!-- <th class=" border-bottom-0">Sno.</th> -->
+																		<th class=" border-bottom-0">Image</th>
+																		<th class=" border-bottom-0"
+																			style=" padding-left: 20px !important;">
+																			Name
+																		</th>
+																		<th class=" border-bottom-0"
+																			style="padding-left: 20px !important ;">
+																			Phone</th>
+																		<th class=" border-bottom-0"></th>
+	
+																	</tr>
+																</thead>
+																<tbody style=" height: 200px;overflow: auto;">
+																	<!-- *ngFor="let table of dataTable" -->
+																	<tr class="tr_hover"
+																		*ngFor="let table of Driver_list | filter:searchedKeyword; index as i">
+																		<!-- <td class="border-bottom-0">{{i+1}}</td> -->
+																		<td class="border-bottom-0">
+																			<div class="driver_img">
+																				<i class="fa fa-user  "
+																					style="color: black;margin-top: -10px;left: 9px;position: absolute;"></i>
+																			</div>
+																		</td>
+																		<td class="border-bottom-0">
+																			<div style="margin-left: 11px;"
+																				title="{{table.FirstName}}">
+																				<a href="javascript:"
+																					(click)="changetabledata(table.DriverId, smallsizemodal7)">
+																					<u style="font-family: 'Roboto';">
+																						<span style="font-family: 'Roboto';">
+																							{{table.FirstName.substring(0,10)}}
+																						</span>
+																					</u>
+																				</a>
+																			</div>
+	
+																		</td>
+																		<!--[innerHTML]="table.FirstName"  -->
+																		<td class="border-bottom-0">
+																			<div class="row">
+																				<div class="col-lg-3  col-md-3">
+																					<div style="color: black;">
+																						<i class="fa fa-phone"
+																							style="transform: rotate(12deg);font-size: 14px;"></i>
+																					</div>
+																				</div>
+																				<div class="col-lg-9 col-md-9">
+																					{{table.PrimaryPhone}}
+																				</div>
+																			</div>
+																			<!-- <div style="    color: black;">
+																					<i class="fa fa-phone" style="transform: rotate(12d eg);font-size: 14px;"></i>	{{table.PrimaryPhone}}</div> -->
+																		</td>
+																		<!-- <td class="border-bottom-0">table.startdate</td> -->
+																		<td class="border-bottom-0 container-fluid">
+																			<!-- <a class="btn btn-sm btn-primary me-2" href="javascript:;"><i class="fa fa-edit"></i> Edit</a> -->
+																			<div style="margin-right: 17px;text-align: end">
+																				<a href="javascript:;" class="edit_driver"
+																					(click)="editable(table.DriverId,smallsizemodal5)"><i
+																						class="fa fa-edit edit_icon"
+																						style="color: rgb(8 11 146);"></i>
+																				</a>
+																				<a href="javascript:;" class="delete_driver"
+																					(click)="Driverdelete(table.DriverId)"><i
+																						class="fa fa-trash delete_icon"
+																						style="color: red"></i> </a>
+																			</div>
+																		</td>
+																		<!-- <td class="border-bottom-0"><div class="delete container-fluid"><i class="fa fa-trash" aria-hidden="true" style="color: red  ;"></i></div></td> -->
+																	</tr>
+																</tbody>
+															</table>
+															<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default"
+																size="small" [fullScreen]="false"
+																type="ball-spin-clockwise">
+																<p style="color: white">Please Wait.. </p>
+															</ngx-spinner>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="nav-contact-2" role="tabpanel"
+									aria-labelledby="nav-contact-2-tab">
+									<div class="table-responsive" style="width: 368px;">
+										<div class="header_tab ">
+											<button type="button" class="btn  view_li " data-bs-dismiss="modal" title="View"
+												aria-label="Close" (click)="Polyline_list()">
+												<!-- <imgs rc="assets/images/users/Group 39920.svg" /> -->
+												<i class="fa fa-eye view eyes" aria-hidden="true"></i>
+											</button>
+											<button type="button" class="btn  excel_button" style="position: absolute;
+																top: -5px;" (click)='exportAsExcelFile(Routedetail_list,"file")'><i class="fa fa-file-excel-o"
+													aria-hidden="true" style="font-size: 25px !important;"></i></button>
+											<!-- <button type="button"ngbTooltip="Save" class="btn  save"
+														data-bs-dismiss="modal" aria-label="Close"(click)=" geofenceUpdate()">
+														<i class="fa fa-save" ></i></button> -->
+											<!-- <a> -->
+											<!-- href="https://www.secutrak.in/polylines/add_cluster?exttkn={{access}}"
+														target="_blank"> -->
+											<!-- <button type="button" class="btn  add "  (click)="add_polylines()" >
+															<i class="fa fa-plus add_li plus"></i></button> -->
+	
+											<!-- </a> -->
+											<!-- <button type="button" class="btn btn-outline-dark" style="position: absolute;left: 12%;top: 54px;" (click)="SmallSizeOpen1(smallsizemodal1)">
+														Union 
+													</button>
+													<button type="button" class="btn btn-outline-dark" style="position: absolute;left: 27%;top: 54px;" (click)="SmallSizeOpen1(smallsizemodal4)">
+														add polyline 
+													</button> -->
+										</div>
+										<div class="row">
+											<div class="col-xl-12">
+												<div class="">
+	
+													<div class="card-body" style="padding: 0px; height: 392px;">
+														<div class="table-responsive" style="    height: 392px;">
+															<table class=" table-striped" id="example2"
+																style=" height: 200px;overflow: auto;">
+																<!-- table-responsive -->
+																<thead>
+																	<tr class="table_header">
+																		<!-- <th class=" border-bottom-0">Sno.</th> -->
+																		<th class=" border-bottom-0"></th>
+																		<th class=" border-bottom-0" style="width: 29%;font-size: 12px;">Polyline Name
+																		</th>
+																		<th class=" border-bottom-0"
+																			style="padding-left: 20px !important ;">
+																		</th>
+																		<th class=" border-bottom-0"></th>
+	
+																	</tr>
+																</thead>
+																<tbody>
+																	<!-- *ngFor="let table of dataTable" -->
+																	<tr class="tr_hover"
+																		*ngFor="let head of Routedetail_list| filter:searchedKeyword ; let i = index">
+																		<!-- <td class="border-bottom-0">{{i+1}}</td> -->
+																		<td class="border-bottom-0">
+																			<div class="driver_img">
+																				<input type="checkbox"
+																					(change)="Route_change(head.PolylineId,$event)"
+																					class=" ">
+																			</div>
+																		</td>
+																		<td class="border-bottom-0"
+																			style="text-align: center;">
+																			<div>
+																				<span style="    font-family: 'Roboto';">
+																					{{head.PolylineName}}
+																				</span>
+																			</div>
+																		</td>
+	
+																		<td class="border-bottom-0">
+																			<div style="    color: black;">
+	
+																			</div>
+																		</td>
+																		<!-- <td class="border-bottom-0">table.startdate</td> -->
+																		<td class="border-bottom-0 container-fluid">
+																			<!-- <a class="btn btn-sm btn-primary me-2" href="javascript:;"><i class="fa fa-edit"></i> Edit</a> -->
+																			<div style="margin-right: 17px;
+																					text-align: end">
+																				<!-- <a href="https://www.secutrak.in/polylines/edit_union_cluster/{{head.RouteId}}?exttkn={{access}}"
+																						target="_blank" 
+																							class="edit_driver"><i
+																								class="fa fa-edit edit_icon"
+																								style="color: rgb(8 11 146);"></i>
+																						</a> -->
+																				<!-- href="https://www.secutrak.in/polylines/cluster_polyline?exttkn={{access}}" -->
+																				<a (click)="polyline_delete(head.Id)"
+																					target="_blank" class="delete_driver"><i
+																						class="fa fa-trash delete_icon"
+																						style="color: red"></i>
+																					<!-- (click)="polyline_delete(head.RouteCode)" -->
+																				</a>
+																			</div>
+																		</td>
+																		<!-- <td class="border-bottom-0"><div class="delete container-fluid"><i class="fa fa-trash" aria-hidden="true" style="color: red  ;"></i></div></td> -->
+																	</tr>
+																</tbody>
+															</table>
+															<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default"
+																size="small" [fullScreen]="false"
+																type="ball-spin-clockwise">
+																<p style="color: white">Please Wait.. </p>
+															</ngx-spinner>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+			<ng-container *ngIf="Live_content">
+				<div class="content_live">
+					<div class="panel panel-primary">
+						<ngx-spinner name="spinner-1" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+							[fullScreen]="false" type="ball-spin-clockwise">
+							<p style="color: white">Please Wait.. </p>
+						</ngx-spinner>
+						<div class="tab-menu-heading"
+						style="padding: 0; padding-left: 0px;  padding-right:0px ;border: none; width: 100%;">
+					
+						<nav class="tabs-menu " style="width: 50%;">
+							<div class="nav nav-tabs panel-tabs-live" id="nav-tab" role="tablist">
+								
+								<button class="nav-link active item_box" id="nav-home-tab" data-bs-toggle="tab"
+									data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+									aria-selected="true" (click)="load_data()" style="width: 70px !important;">
+									<!-- <i class='fa fa-truck class-icon' title="Vehicle List"></i> -->
+									All Vehicle
+
+								</button>
+					
+								<button class="nav-link item_box" id="nav-profile-tab" data-bs-toggle="tab"
+									data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+									aria-selected="false" (click)="load_data()" style="width: 60px;">
+									<!-- <img class="img-responsive Track1" src="assets/images/Tabs_button_icon/Group.svg"
+										title="Geofence List" > -->
+										Live
+								</button>
+								
+							</div>
+							<div class="rectangle-863-live justify-content-center" (click)="toggles()">
+								<img class="img-responsive mb-50" src="assets/images/users/Polygon.png"
+									style=" margin-top: 14px;">
+							</div>
+						</nav>
+					
+						<div class="tab-content  bg-light" id="nav-tabContent" style="width: 216px;;">
+							<div class="tab-pane fade active show" id="nav-home" role="tabpanel"
+								aria-labelledby="nav-home-tab" style="width: 216px;"  >
+								<div class="search-data-live">
+									<!-- <span *ngIf="search_value==1"> -->
+									<input #search id="search" type="text" class="form-control input-search"
+										name="searchBar" placeholder="Search" aria-label="Search"
+										[(ngModel)]="searchedKeyword" value="searchedKeyword"
+										aria-describedby="basic-addon1" (input)="onsearch()" style="height: 26px;"/>
+									<span><img class="img-responsive search-icon-live"
+											src="assets/images/users/Vector (11).png"></span>
+								</div>
+								   
+								<div class="table-responsive" style="width: 216px;height: 350px; overflow-y: scroll">
+									<input type="checkbox" style="position: absolute;margin-left: 6px;"(click)="onSelectAll();">
+									<table class=" table-striped mt-3" >
+					
+										<tbody>
+											<tr
+												*ngFor="let arr of data1 | slice:pageStart:pageEnd | filter:searchedKeyword; let i=index">
+					
+												<td>
+														<input type="checkbox" [checked]="arr.Checked"
+															class="input_temp"
+															(change)="selectcheck(arr?.VehicleId,i,$event,arr?.VehicleNo)">
+														<!-- (change)="selectcheck(head?.VehicleId,idx,$event,head?.VehicleNo)" -->
+													
+													
+												</td>
+												<td>
+													<div class="image-box">
+														<span *ngIf="arr.VehicleImage=='N/A'">
+															<i class=" fa fa-truck fa-2x" style="color: brown;"></i>
+														</span>
+														<!-- assets/images/users/truck2.png -->
+														<span *ngIf="arr.VehicleImage !=='N/A'">
+															<img src="{{arr.VehicleImage}}" alt="" class="img-icon"
+																style="width: 30px">
+														</span>
+					
+													</div>
+												</td>
+					
+												<td style="width: 154px;">
+													<span *ngIf="arr.VehicleStatus=='Active'">
+														<div class=" ">
+					
+															<div title="{{arr.VehicleNo}}"
+																class="active_data_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																(click)="show_infowindow_live(arr.VehicleNo)">
+																<!-- (click)="show_infowindow(arr.VehicleNo)" -->
+																{{arr.VehicleNo}}
+															</div>
+														</div>
+													</span>
+													<span *ngIf="arr.VehicleStatus=='InActive'">
+														<div class="">
+															<div title="{{arr.VehicleNo}}"
+																class="inactive1_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																(click)="show_infowindow_live(arr.VehicleNo)">
+																{{arr.VehicleNo}}
+															</div>
+														</div>
+													</span>
+													<span *ngIf="arr.VehicleStatus=='NoGPS'">
+														<div class="">
+															<div title="{{arr.VehicleNo}}"
+																class="inactive2_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																(click)="show_infowindow_live(arr.VehicleNo)">
+																{{arr.VehicleNo}}
+																<!-- .substring(0,10) -->
+															</div>
+														</div>
+													</span>
+													<span>
+														<div class=" " *ngIf="arr.VehicleStatus=='NoData'">
+															<div title="{{arr.VehicleNo}}"
+																class="inactive3_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																(click)="show_infowindow_live(arr.VehicleNo)">
+																{{arr.VehicleNo}}
+															</div>
+														</div>
+													</span>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="modal-footer footer_alllive" style="margin: 0px;padding-top: 0px;">
+									<div class="row" >
+									<div class="col-lg-1 col-md-1">
+										<input type="radio" name="map_text" (change)="maptext(0)" checked>
+									</div>
+									<div class="col-lg-5 col-md-5" style="font-weight: 500;">
+										map mode
+									</div>
+									<div class="col-lg-1 col-md-1">
+										<input type="radio" name="map_text"(change)="maptext(1)">
+									</div>
+									<div class="col-lg-5 col-md-5" style="font-weight: 500;">
+										Text mode
+									</div>
+									</div>
+									<div class="row mt-0" style="margin-top: -30px;" >
+										<div class="col-lg-2 col-md-2">
+											<i class="fa fa-refresh" style="font-size:18px"></i>
+										</div>
+										<div class="col-lg-6 col-md-6">
+											<select id="data_interval" (change)="sec_live($event)">
+												<option value="0">Auto</option>
+												<option value="10"selected>10 sec</option>
+												<option value="20">20 sec</option>
+												<option value="30">30 sec</option>
+												<option value="60">1 min</option>
+												<option value="120">2 min</option>
+												<option value="240">4 min</option>
+												<option value="300">5 min</option>
+												<option value="600">10 min</option>
+												</select>
+										</div>
+										<div class="col-lg-4 col-md-4" style="text-align: center;">
+											<ng-container *ngIf="map_text==0">
+												<button type="button" style="background: white;height: 20px;
+												border: 1px solid;"><a (click)="GO_Livetracking()">Go</a></button>
+											</ng-container>
+											<ng-container *ngIf="map_text==1">
+												<button type="button" style="background: white;height: 20px;
+												border: 1px solid;"><a (click)="GO_Livetracking()">Go</a></button>
+											</ng-container>
+											
+										</div>
+										</div>
+					               <span><p style="    font-weight: bold;font-size: x-small;">
+									(Note: Below 2 min interval is valid for single vehicle only)
+								   </p></span>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="nav-profile" role="tabpanel"
+									aria-labelledby="nav-profile-tab" style="width: 216px;">
+									
+									<div class="table-responsive mt-3" style="width: 216px;height: 350px; overflow-y: scroll">
+										<table class=" table-striped">
+						
+											<tbody>
+												<tr *ngFor="let arr of temp_index_live ; let i=index">
+						                           <td>
+														<div class="image-box" style="text-align: center;">
+															<span *ngIf="arr.VehicleImage=='N/A'">
+																<i class=" fa fa-truck fa-2x" style="color: brown;"></i>
+															</span>
+															<!-- assets/images/users/truck2.png -->
+															<span *ngIf="arr.VehicleImage !=='N/A'">
+																<img src="{{arr.VehicleImage}}" alt="" class="img-icon"
+																	style="width: 30px">
+															</span>
+						
+														</div>
+													</td>
+						
+													<td style="width: 200px;">
+														<span *ngIf="arr.VehicleStatus=='Active'">
+															<div class=" ">
+						
+																<div title="{{arr.VehicleNo}}"
+																	class="active_data_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	<!-- (click)="show_infowindow(arr.VehicleNo)" -->
+																	{{arr.VehicleNo}}
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.VehicleStatus=='InActive'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive1_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	{{arr.VehicleNo}}
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.VehicleStatus=='NoGPS'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive2_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	{{arr.VehicleNo}}
+																	<!-- .substring(0,10) -->
+																</div>
+															</div>
+														</span>
+														<span>
+															<div class=" " *ngIf="arr.VehicleStatus=='NoData'">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive3_temp  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow(arr.VehicleNo)">
+																	{{arr.VehicleNo}}
+																</div>
+															</div>
+														</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="modal-footer footer_live" style="margin: 0px;padding-top: 0px;">
+									<div class="">
+										<input type="checkbox" style="margin-right: 4px;" [checked]="add_arrow" (change)="Arrow_add()" ><label class="label-live">Add arrow</label>
+										<input type="checkbox" class="addtail"(change)="Add_tail()"><label class="label-live" >Add Tail</label>
+									</div>
+										
+									</div>
+								</div>
+						</div>
+					</div>
+					</div>
+				</div>
+				
+			</ng-container>
+		</div>
+	</div>
+
+	<ngx-spinner name="spinner-3" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small" [fullScreen]="false"
+		type="ball-spin-clockwise"
+		style="top: 60px !important;left: 0 !important;width: 29% !important;height: 77% !important;">
+		<p style="color: white">Please Wait..... </p>
+	</ngx-spinner>
+</div>
+
+<!-- 2ST MODAL------------------------------------ -->
+<ng-template #modal1 let-modal>
+	<form [formGroup]="Landmark" (ngSubmit)="Submit_landmark()">
+		<div class="modal-header justify-content-center" style="background-color: white;">
+			<h3 class="tx-14  tx-bold">Add Landmark</h3>
+		</div>
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			<table class="table justify-content-center">
+
+				<tbody>
+
+					<tr>
+						<td style=" font-weight: 500;">
+							<div>Landmark Name</div>
+						</td>
+						<td> <input type="text" formControlName="Name" (change)="changeName1($event)"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"
+								[ngClass]="{'input-error':submite && Landmark.controls.Name.status=='INVALID'}">
+						</td>
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">Landmark Type</td>
+						<td>
+							<select name="cars" id="cars" formControlName="Type"
+								[ngClass]="{'input-error':submite && Landmark.controls.Type.status=='INVALID'}"
+								style="width: 97%;height: 25px;border: 1px solid #80808033!important;margin-left: 0px;"
+								placeholder="--Select--">
+								<option value="null">--Select--</option>
+								<option *ngFor="let state of Landmark_converted" [value]="state.id">{{state.title}}
+								</option>
+								<!-- <option value="2">Female</option> -->
+							</select>
+							<!-- <ng-select [items]="Landmark_converted" bindLabel="title" formControlName="Type"
+										bindvalue="id" groupBy="countryNames" [multiple]="false" class="select2"
+										[ngClass]="{'input-error':submite &&  Landmark.controls.Type.status=='INVALID'}">
+										<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+										<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+									</ng-select> -->
+							<!-- <input type="text" formControlName="Type" (change)="changeType($event)"
+							[ngClass]="{'input-error':submite && Landmark.controls.Type.status=='INVALID'}"> </td> -->
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">Zoom Level</td>
+						<td>
+							<select name="cars" id="cars" formControlName="Zoom"
+								[ngClass]="{'input-error':submite && Landmark.controls.Zoom.status=='INVALID'}"
+								style="width: 97%;height: 25px;border: 1px solid #80808033!important;margin-left: 0px;"
+								placeholder="--Select--">
+								<option value="null">--Select Zoom Level--</option>
+								<option *ngFor="let state of Zoom_level" [value]="state.id">{{state.id}}</option>
+								<!-- <option value="2">Female</option> -->
+							</select>
+							<!-- <input type="text" formControlName="Zoom" (change)="changeZoom($event)"style="width: 97%;border: 1px solid #80808033;height: 2em;"
+							[ngClass]="{'input-error':submite && Landmark.controls.Zoom.status=='INVALID'}"></td> -->
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">Distance Variable</td>
+						<td>
+							<select name="cars" id="cars" formControlName="Distance"
+								[ngClass]="{'input-error':submite && Landmark.controls.Distance.status=='INVALID'}"
+								style="width: 97%;height: 25px;border: 1px solid #80808033!important;margin-left: 0px;"
+								placeholder="--Select--">
+								<option value="null">--Select Zoom Level--</option>
+								<option *ngFor="let state of Distance_variable" [value]="state.id">{{state.id}}
+								</option>
+								<!-- <option value="2">Female</option> -->
+							</select>
+							<!-- <input type="text" formControlName="Distance"style="width: 97%;border: 1px solid #80808033;height: 2em;"
+							[ngClass]="{'input-error':submite && Landmark.controls.Distance.status=='INVALID'}"> -->
+						</td>
+
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">Landmark Remarks</td>
+						<td><input type="text" formControlName="Remarks"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"></td>
+					</tr>
+				</tbody>
+
+			</table>
+
+		</div><!-- MODAL-BODY -->
+		<div class="modal-footer " style="background-color: white;">
+			<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click'); cancel()">Cancel</button>
+			<button type="submit" class="btn btn-outline-secondary">Save</button>
+			<!-- style="background-color:#52c222; color: white;" style="background-color:   #133cf3; color: white;"-->
+		</div>
+	</form>
+</ng-template>
+<!--- ADD segment saumya-->
+<!-- <ng-template #modal4 let-modal style="width: 80% !important;">
+		<input name="data[PolylineCluster][stoppage_time]" class="form-control timepicker" placeholder="HH:MM" maxlength="11" type="text"  (click)="chan()">
+	</ng-template> -->
+<ng-template #modal4 let-modal style="width: 80% !important;">
+	<form [formGroup]="segments" (ngSubmit)="Submit_segment()">
+		<div class="modal-header justify-content-center" style="background-color: white; height: 45px;">
+			<h4 class="tx-14  tx-bold">Add polyline</h4>
+		</div>
+		<div class="modal-body" style="background-color: rgb(0 50 126 / 6%);">
+			<div class="row">
+				<div class="col-lg-6 col-md-6">
+					<table class="table   justify-content-center">
+
+						<tbody>
+
+							<tr>
+								<td>
+									<h6>Route Name</h6>
+								</td>
+								<td> <input type="text" class="inputset" formControlName="Name"
+										[ngClass]="{'input-error':submite && segments.controls.Name.status=='INVALID'}">
+									<!-- <span *ngIf="this.valid_segment=='INVALID'" style="color: red;">INVALID</span> -->
+									<!-- (change)="changeName1($event)" -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h6>SpeedLimit</h6>
+								</td>
+								<td>
+									<input type="text" formControlName="SpeedLimit" class="inputset"
+										[ngClass]="{'input-error':submite && segments.controls.SpeedLimit.status=='INVALID'}"
+										(change)="changeType($event)">
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<h6>Distance</h6>
+								</td>
+								<td>
+									<select name="cars" id="cars" formControlName="Distance"
+										[ngClass]="{'input-error':submite && Landmark.controls.Distance.status=='INVALID'}"
+										style="width: 97%;height: 25px;border: 1px solid #80808033!important;margin-left: 0px;"
+										placeholder="--Select--">
+										<option value="null">--Select Zoom Level--</option>
+										<option *ngFor="let state of Distance_variable" [value]="state.id">{{state.id}}
+										</option>
+										<!-- <option value="2">Female</option> -->
+									</select>
+									<!-- <input type="text" class="inputset" formControlName="Distance"
+											[ngClass]="{'input-error':submite && segments.controls.Distance.status=='INVALID'}"> -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h6>ColorCode</h6>
+								</td>
+								<td>
+									<input class="form-control wd-200 text-white mg-b-10" class="inputset"
+										formControlName="color1" [value]="color1" name="color1"
+										[ngClass]="{'input-error':submite && segments.controls.color1.status=='INVALID'}"
+										[style.background]="color1" type="color" />
+									<!-- <input type="text" formControlName="ColorCode" color1> [(colorPicker)]="color1" -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h6>Remark</h6>
+								</td>
+								<td><input type="text" class="inputset" formControlName="Remark"
+										[ngClass]="{'input-error':submite && segments.controls.Remark.status=='INVALID'}">
+								</td>
+							</tr>
+
+						</tbody>
+
+					</table>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					<table class="table   justify-content-center">
+
+						<tbody>
+							<tr>
+								<td>
+									<h6>RouteId</h6>
+								</td>
+								<td>
+									<ng-select [items]="Route_converted" bindLabel="title" formControlName="RouteId"
+										bindvalue="id" groupBy="countryNames" [multiple]="false" class="select2"
+										[ngClass]="{'input-error':submite && segments.controls.RouteId.status=='INVALID'}">
+										<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+										<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+									</ng-select>
+									<!-- <input type="text" formControlName="RouteId" (change)="changeName1($event)"> -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h6>Authorized Stoppage</h6>
+								</td>
+								<td>
+									<ng-select [items]="select2Countries1" bindLabel="title"
+										formControlName="AuthorizedStoppage" bindvalue="id" groupBy="countryNames"
+										[ngClass]="{'input-error':submite && segments.controls.AuthorizedStoppage.status=='INVALID'}"
+										[multiple]="false" class="select2">
+										<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+										<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+									</ng-select>
+									<!-- <input type="text" formControlName="AuthorizedStoppage" (change)="changeZoom($event)"> -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h6>Stoppage Time</h6>
+								</td>
+								<td (click)="chan()">
+									<input name="data[PolylineCluster][stoppage_time]" class="form-control timepicker"
+										placeholder="HH:MM" maxlength="11" type="text">
+									<!-- <input type="text" formControlName="StoppageTime"> -->
+									<!-- <ng-select [items]="select2Countries" bindLabel="title"
+											[ngClass]="{'input-error':submite && segments.controls.StoppageTime.status=='INVALID'}"
+											formControlName="StoppageTime" bindvalue="id" groupBy="countryNames"
+											[multiple]="false" class="select2">
+											<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+											<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+										</ng-select> -->
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<h6>Time Taken</h6>
+								</td>
+								<td (click)="chan1()">
+									<!-- <input type="text" formControlName="TimeTaken"> -->
+									<input type="text" name="data[PolylineCluster][stoppage_time]"
+										class="form-control timepicker1" placeholder="HH:MM" maxlength="11"
+										(click)="chan()">
+									<!-- <ng-select [items]="select2Countries2" formControlName="TimeTaken"
+											bindLabel="title"
+											[ngClass]="{'input-error':submite && segments.controls.TimeTaken.status=='INVALID'}"
+											bindvalue="id" groupBy="countryNames" [multiple]="false" class="select2">
+											<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+											<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+										</ng-select> -->
+								</td>
+							</tr>
+
+
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+
+
+		</div><!-- MODAL-BODY -->
+
+
+		<div class="modal-footer " style="background-color: white; height: 56px;">
+			<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click'); cancel()">Cancel</button>
+			<button type="submit" class="btn btn-outline-secondary">Save</button>
+			<!-- (click)="modal.dismiss('Cross click'); cancel()" -->
+			<!-- style="background-color:#52c222; color: white;" style="background-color:   #133cf3; color: white;"-->
+		</div>
+	</form>
+</ng-template>
+
+<!-- END segment -->
+<!-- add segment direct -->
+<ng-template #smallsizemodal11 let-modal>
+	<form [formGroup]="chagePassword" (ngSubmit)="changepassword()">
+		<div class="modal-header justify-content-center" style="background-color: white;">
+			<h3 class="tx-14  tx-bold">Change Password</h3>
+		</div>
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			<table class="table justify-content-center">
+
+				<tbody>
+
+					<tr>
+						<td style=" font-weight: 500;">
+							<div>Current Password</div>
+						</td>
+						<td> <input type="text" formControlName="CurrentPassword"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"
+								[ngClass]="{'input-error':submite && chagePassword.controls.CurrentPassword.status=='INVALID'}">
+						</td>
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">New Password</td>
+						<td>
+							<input type="text" formControlName="NewPassword"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"
+								[ngClass]="{'input-error':submite && chagePassword.controls.NewPassword.status=='INVALID'}">
+						</td>
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">Repeat New</td>
+						<td>
+							<input type="text" formControlName="RepeatNew"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"
+								[ngClass]="{'input-error':submite && chagePassword.controls.RepeatNew.status=='INVALID'}">
+						</td>
+					</tr>
+
+				</tbody>
+
+			</table>
+
+		</div><!-- MODAL-BODY -->
+		<div class="modal-footer " style="background-color: white;">
+			<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click'); cancel()">close</button>
+			<button type="submit" class="btn btn-outline-secondary">Save</button>
+			<!-- style="background-color:#52c222; color: white;" style="background-color:   #133cf3; color: white;"-->
+		</div>
+
+	</form>
+
+</ng-template>
+
+<!-- add segment end -->
+<!-- Union segments -->
+<!-- <ng-template # ></ng-template> -->
+<ng-template #smallsizemodal1 let-modal style="width: 80% !important;">
+	<form [formGroup]="Union_segments" (ngSubmit)="Submit_Union()">
+		<div class="modal-header justify-content-center" style="background-color: white;">
+			<h3 class="tx-14  tx-bold">Union Segment</h3>
+		</div>
+		<div class="modal-body" style="background-color: white;">
+			<table class="table  table-striped d-flex justify-content-center">
+
+				<tbody>
+
+					<tr>
+						<td>Union Name</td>
+						<td> <input type="text" formControlName="Name" (change)="changeName1($event)">
+							<span *ngIf="this.valid_form=='INVALID'" style="color: red;">INVALID</span>
+						</td>
+					</tr>
+					<tr>
+						<td>SegmentIds</td>
+						<td>
+							<ng-select [items]="Segment_converted" bindLabel="title" formControlName="Code"
+								bindvalue="id" groupBy="countryNames" [multiple]="true">
+								<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+								<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+							</ng-select>
+							<!-- <input type="text" formControlName="Code" (change)="changeType($event)"> -->
+						</td>
+					</tr>
+					<tr>
+						<td>code</td>
+						<td>
+
+							<input type="text" formControlName="SegmentIds" (change)="changeZoom($event)">
+						</td>
+					</tr>
+					<tr>
+						<td>Remark</td>
+						<td><input type="text" formControlName="Remark"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+		</div><!-- MODAL-BODY -->
+		<div class="modal-footer " style="background-color: white;">
+			<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click'); cancel()">Cancel</button>
+			<button type="submit" class="btn btn-outline-secondary"
+				(click)="modal.dismiss('Cross click'); cancel()">Save</button>
+			<!-- style="background-color:#52c222; color: white;" style="background-color:   #133cf3; color: white;"-->
+		</div>
+	</form>
+</ng-template>
+<!-- end segments -->
+<ng-template #modal3 let-modal>
+
+	<div class="modal-header justify-content-center" style="background-color: white;">
+		<h3 class="tx-14  tx-bold">Update Geofence</h3>
+	</div>
+	<div class="modal-body" style="background-color: white;">
+		<table class="table  table-striped d-flex justify-content-center">
+
+			<tbody>
+
+				<tr>
+					<td>Name</td>
+					<td> <input type="text" [ngModel]="geof_name" disabled (change)="changeName1($event)"
+							style="background-color: white;"></td>
+				</tr>
+				<tr>
+					<td>Type</td>
+					<td> <input type="text" [ngModel]="geocoord" (change)="changeType($event)"> </td>
+				</tr>
+
+			</tbody>
+
+		</table>
+
+	</div><!-- MODAL-BODY -->
+	<div class="modal-footer " style="background-color: white;">
+		<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+			(click)="modal.dismiss('Cross click'); ">Cancel</button>
+		<button type="submit" class="btn btn-outline-secondary"
+			(click)="modal.dismiss('Cross click'); cancel();geofenceUpdate()">Save</button>
+	</div>
+	<!-- </form> -->
+</ng-template>
+<!-- polylines saumya -->
+<ng-template #smallsizemodal4 let-modal>
+	<form [formGroup]="polyline_segmentsnew" (ngSubmit)="Submit_polyline()">
+		<div class="modal-header justify-content-center" style="background-color: white;">
+			<h3 class="tx-14  tx-bold">Add Polyline</h3>
+		</div>
+		<div class="modal-body" style="background-color: white;">
+			<table class="table  table-striped d-flex justify-content-center">
+
+				<tbody>
+
+					<tr>
+						<td>RouteId</td>
+						<td>
+							<ng-select [items]="Route_converted" bindLabel="title" formControlName="RouteId"
+								bindvalue="id" groupBy="countryNames" [multiple]="false">
+								<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+								<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+							</ng-select>
+							<!-- <input type="text" formControlName="RouteId" (change)="changeName1($event)"> -->
+						</td>
+					</tr>
+					<!-- <tr>
+						<td>UnionSegmentId</td>
+						<td>
+							<ng-select [items]="select2Countries1" bindLabel="title" formControlName="UnionSegmentId"bindvalue="id" groupBy="countryNames"
+                                [multiple]="false">
+                              <ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+                              <ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+                            </ng-select>
+						</td>
+					</tr> -->
+					<tr>
+						<td>code</td>
+						<td>
+							<ng-select [items]="Segmentunion_converted" bindLabel="title" formControlName="codes"
+								bindvalue="id" groupBy="countryNames" [multiple]="false">
+								<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
+								<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
+								<ng-template></ng-template>
+							</ng-select>
+							<!-- <input type="text" formControlName="code" (change)="changeType($event)">  -->
+							<!-- <input type="text" formControlName="AuthorizedStoppage" (change)="changeZoom($event)"> -->
+						</td>
+					</tr>
+					<tr>
+						<td>Remark</td>
+						<td>
+							<input type="text" formControlName="Remark" (change)="changeType($event)">
+							<!-- <input type="text" formControlName="AuthorizedStoppage" (change)="changeZoom($event)"> -->
+						</td>
+					</tr>
+
+
+				</tbody>
+
+			</table>
+
+		</div><!-- MODAL-BODY -->
+		<div class="modal-footer " style="background-color: white;">
+			<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click'); cancel()">Cancel</button>
+			<button type="submit" class="btn btn-outline-secondary"
+				(click)="modal.dismiss('Cross click'); cancel()">Save</button>
+			<!-- style="background-color:#52c222; color: white;" style="background-color:   #133cf3; color: white;"-->
+		</div>
+	</form>
+</ng-template>
+<!-- end -->
+
+
+<ng-template #modal2 let-modal>
+	<form [formGroup]="Landmarkupdate" (ngSubmit)="Submit_Updated()">
+		<div class="modal-header justify-content-center" style="background-color: white;">
+			<h3 class="tx-14  tx-bold">Update Landmark</h3>
+		</div>
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			<table class="table  justify-content-center">
+
+				<tbody>
+					<tr>
+						<td>Landmark Type</td>
+						<td>
+							<select name="cars" id="cars" formControlName="Type"
+								[ngClass]="{'input-error':submite && Landmarkupdate.controls.Type.status=='INVALID'}"
+								style="width: 97%;height: 25px;border: 1px solid #80808033!important;margin-left: 0px;">
+								<!-- <option value="1" [selected]="test_s==test_s1">--Sele--</option> -->
+								<!-- values_landmark.LandmarkTypeId==state.id -->
+								<option *ngFor="let state of Landmark_converted" [value]="state.id"
+									[selected]="state.id== 5">{{state.title}}{{state.id}}
+								</option>
+								<!--   [selected]="state.id==values_landmark"-->
+								<!-- <option value="2">Female</option>   -->
+							</select>
+						</td>
+						<!-- <input type="text" formControlName="Type" (change)="changeType($event)"[value]='Landmark_values.LandmarkTypeName'
+							[ngClass]="{'input-error':submite && Landmarkupdate.controls.Type.status=='INVALID'}"> </td> -->
+					</tr>
+					<tr>
+						<td>Zoom Level</td>
+						<td>
+							<select name="cars" id="cars" formControlName="Zoom"
+								[ngClass]="{'input-error':submite && Landmarkupdate.controls.Zoom.status=='INVALID'}"
+								style="width: 97%;height: 25px;border: 1px solid #80808033!important;margin-left: 0px;"
+								placeholder="--Select--">
+								<option value="null">--Select Zoom Level--</option>
+								<option *ngFor="let state of Zoom_level1" [value]="state"
+									[selected]="Landmark_values.ZoomLevel == state">
+									{{state}}</option>
+								<!--  -->
+								<!-- <option value="2">Female</option> -->
+							</select>
+							<!-- <input type="text" formControlName="Zoom" [ngModel]="Landmark_values.ZoomLevel"class="inputs_landmark"
+							[ngClass]="{'input-error':submite && Landmarkupdate.controls.Zoom.status=='INVALID'}"> -->
+						</td>
+						<!--  -->
+					</tr>
+					<tr>
+						<td>Distance Variable</td>
+						<td>
+							<select name="cars" id="cars" formControlName="Distance"
+								[ngClass]="{'input-error':submite && Landmarkupdate.controls.Distance.status=='INVALID'}"
+								style="width: 97%;height: 25px;border: 1px solid #80808033!important;margin-left: 0px;"
+								placeholder="--Select--">
+								<option value="null">--Select Zoom Level--</option>
+								<option *ngFor="let state of Distance_variable" [value]="state.id">{{state.id}}
+								</option>
+								<!--  [selected]="Landmark_values.DistanceVariable==state.id" -->
+								<!-- <option value="2">Female</option> -->
+							</select>
+							<!-- <input type="text" formControlName="Distance" [ngModel]="Landmark_values.DistanceVariable"class="inputs_landmark"
+							[ngClass]="{'input-error':submite && Landmarkupdate.controls.Distance.status=='INVALID'}"> -->
+						</td>
+					</tr>
+					<tr>
+						<td>Remarks</td>
+						<td><input type="text" formControlName="Remarks" [ngModel]="Landmark_values.Remark"
+								class="inputs_landmark"
+								[ngClass]="{'input-error':submite && Landmarkupdate.controls.Remarks.status=='INVALID'}">
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+		</div><!-- MODAL-BODY -->
+		<div class="modal-footer " style="background-color: white;">
+			<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click')">Cancel</button>
+			<button type="submit" class="btn btn-outline-secondary">Save</button>
+		</div>
+	</form>
+</ng-template>
+
+
+<!-- 5ST MODAL-------------------------------------->
+<ng-template #smallsizemodal9 let-modal>
+	<div class="modal-header" style="background-color: white;">
+		<h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"></h6>
+		<button type="button" class="" data-bs-dismiss="modal" style=" color: white;" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body" style="background-color: white;">
+		<div class="mb-3">
+			<div ngbDropdown class="d-md-flex message mt-3">
+				<select class=" form-select" style="height: 50px;">
+					<option selected>Select Category</option>
+					<option value="1">Plant</option>
+					<option value="2">Customer</option>
+					<option value="3">Route</option>
+					<option value="3">Landmark</option>
+					<option value="3">Geo-Location</option>
+				</select>
+
+			</div>
+			<div ngbDropdown class="d-md-flex message mt-3"> <input type="text" class="form-control" name="input"
+					placeholder="User Input"></div>
+		</div>
+	</div><!-- MODAL-BODY -->
+	<div class="modal-footer" style="background-color: white;">
+		<button type="button" class="btn" data-bs-dismiss="modal" style="background-color:   #133cf3; color: white;"
+			aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+		<button type="button" class="btn " style="background-color:#52c222; color: white;">Save</button>
+	</div>
+</ng-template>
+
+<!-- 6-ST MODAL------------------------------------ -->
+
+
+<ngx-spinner name="spinner-2" bdColor="rgba(51, 51, 51, 0.8)" size="small" [fullScreen]="false"
+	type="ball-spin-clockwise">
+	<p style="color: white">Please Wait.. </p>
+</ngx-spinner>
+<div class="model-content">
+
+	<ng-template #GSPREPORT let-modal class="summarymodal">
+		<div class="model-content">
+			<div class="modal-header">
+				<h6 class="modal-title" id="modal-basic-title"> Filter
+				</h6>
+				<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row filter-funnel">
+					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="">
+							<div class="card-body" style="padding: 0px">
+
+								<ngb-accordion [closeOthers]="true">
+									<ngb-panel *ngFor="let keys of Filter_list_keys ; let i = index" id="static-{{i}}"
+										title="">
+										<ng-template ngbPanelTitle>
+											<div (click)="Tabs(keys)" style="font-size: 15px;">
+												<i class="fa fa-minus-circle plusicon"></i>
+												{{keys}}
+											</div>
+										</ng-template>
+										<ng-template ngbPanelContent>
+											<div class="card-body"
+												style="  padding: 0px;  height: 155px;overflow: auto; ">
+												<ngx-spinner name="spinner-4" bdColor="rgba(51, 51, 51, 0.8)"
+													size="small" [fullScreen]="false" type="ball-spin-clockwise">
+													<p style="color: white">Please Wait .. </p>
+												</ngx-spinner>
+												<div class="row details  "
+													*ngFor="let head of Filter_list1 ;let k = index">
+													<div class="col-lg-4 col-md-4 list-group-input">
+
+														<input type="checkbox" id="head{{k}}" [checked]="head.checked"
+															(change)="changesStatus(k,$event)" class="form-check-input"
+															[value]="head">
+														<!--  -->
+													</div>
+													<div class=" col-lg-6 col-md-6 list-group ">
+
+
+														<label class="form-check-label label-text1" for="check1"
+															id="box">
+
+															<span
+																*ngIf="key_tabs=='VehicleModel'">{{head.model_number}}{{Filter_list['VehicleModel'].length}}</span>
+															<span
+																*ngIf="key_tabs !=='VehicleModel'">{{head.name}}</span>
+														</label>
+
+													</div>
+												</div>
+											</div>
+										</ng-template>
+									</ngb-panel>
+
+								</ngb-accordion>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger " data-bs-dismiss="modal" aria-label="Close"
+					(click)=" List_vehicle()">Reset Filter</button>
+				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close"
+					(click)="filters();modal.dismiss('Cross click')">Apply Filter
+				</button>
+			</div>
+		</div>
+	</ng-template>
+</div>
+
+
+<ng-template #smallsizemodal5 let-modal>
+	<span class="loader" *ngIf="loading" [(ngbCollapse)]="isClosed3">
+		<form [formGroup]="Driverupdate" (ngSubmit)="Driver_editsubmit()">
+			<!-- <form [formGroup]="segments" (ngSubmit)="Submit_segment()"> -->
+
+			<div class="modal-header justify-content-center" style="background-color: white; height: 45px;">
+				<h4 class="tx-14  tx-bold">Update Driver Profile</h4>
+			</div>
+			<div class="modal-body" style="background-color: rgb(0 50 126 / 6%);">
+				<table class="table   justify-content-center" style="margin-left: 71px;">
+
+					<tbody>
+
+						<tr>
+							<td>
+								<div style="width: 30px;">
+									<a href="javascript:;" class="" style="    padding: 0px !important;
+										width: 84px;">
+										<span *ngIf="Editable_driver.DriverImage==''"
+											class="avatar profile-user brround cover-image">
+											<img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+												alt="profile-user" class="avatar profile-user brround cover-image">
+										</span>
+										<span *ngIf="Editable_driver.DriverImage !==''"
+											class="avatar profile-user brround cover-image">
+											<img src="{{Editable_driver.DriverImage}}" alt="profile-user"
+												class="avatar profile-user brround cover-image">
+										</span>
+										<span>
+
+											<input class="input-group-text" type='file' (change)="onFileChange1($event)"
+												id="input-file" />
+											<span (click)="changeText1()" class="selectedFileName"><i
+													class="far fa-edit" style="font-size:15px;color: black;"></i></span>
+										</span>
+									</a>
+								</div>
+							</td>
+							<td>
+								<div class="row" style="margin-top: 10px;">
+									<div class="col-lg-12 col-md-12">
+										<input name="" class="form-control name-driver" formControlName="FirstName"
+											[value]='Editable_driver.FirstName' placeholder="Full name" type="text">
+									</div>
+								</div>
+
+								<div class="row" style="margin-top: 5px;position: absolute;">
+									<div class="col-lg-12 col-md-12">
+										<p><input name="" [value]="Editable_driver.PrimaryPhone"
+												formControlName="PrimaryPhone" type="text" style="background: white;">
+										</p>
+									</div>
+								</div>
+
+
+
+
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-drivers-license"
+													style="margin-right: 7px !important;"></i>DL No </span>
+										</div>
+									</td>
+									<td>
+										<!--  -->
+										<input name="" class="form-control input-border" formControlName="DLNumber"
+											[value]="Editable_driver.DlNumber" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-envelope" style="margin-right: 7px !important;
+							color: brown;"></i>Email </span>
+										</div>
+
+									</td>
+									<td>
+										<input name="" class="form-control input-border" formControlName="PrimaryEmail"
+											[value]="Editable_driver.PrimaryEmail" placeholder="Email address"
+											type="email">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-calendar" style="    margin-right: 7px !important;
+								color: #1f701b;"></i> DOB </span>
+										</div>
+
+									</td>
+									<td>
+										<input class="form-control input-border" [value]="Editable_driver.DOB"
+											formControlName="DOB" placeholder="DOB" type="date">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-id-card"
+													style="margin-right: 7px !important;"></i> Dl Issue</span>
+										</div>
+									</td>
+									<td>
+										<input class="form-control input-border"
+											[value]="Editable_driver.DlIssuingState" formControlName="DLIssuingState"
+											type="date">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-drivers-license"
+													style="margin-right: 7px !important;"></i>Dl Exp</span>
+										</div>
+
+									</td>
+									<td>
+										<input name="" class="form-control input-border"
+											[value]="Editable_driver.DlExpiryDate" formControlName="DlExpiryDate"
+											placeholder="DL no" type="date">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="input-group-prepend labels">
+											<span class="input-group-text"> <i class=" fa fa-map-marker"
+													style="margin-right: 7px !important;"></i> Address</span>
+										</div>
+									</td>
+									<td>
+										<input name="" class="form-control input-border" formControlName="Address"
+											[value]="Editable_driver.PrimaryEmail" placeholder="Email address"
+											type="email">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- <tr>
+								<td>
+									<div class="input-group-prepend labels">
+										<span class="input-group-text"> <i class="fa fa-phone" style="color: darkblue;
+								font-size: 20px; margin-right:7px"></i> Phone: </span>
+									</div>
+		
+								</td>
+								<td>
+									<input name="" class="form-control" [value]="Editable_driver.PrimaryPhone" disabled
+									type="text">
+								</td>
+							</tr> -->
+
+
+
+
+			</div>
+		</form>
+		<div class="modal-footer" style="background-color: white;">
+
+
+			<!-- <button type="submit" class="btn btn-primary btn-block"> Save  </button> -->
+			<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+				style="    margin-right: 50%;" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+			<button type="button" class="btn btn-outline-danger"
+				(click)="modal.dismiss('Cross click');Driverdelete(Editable_driver.DriverId)">Delete</button>
+			<!-- <button type="button" style="background-color:   #133cf3; color: white;" class="btn btn-success"
+					(click)="modal.dismiss('Cross click');enablee();SmallSizeOpen7(smallsizemodal7);">Edit</button> -->
+			<button type="submit" class="btn btn-outline-primary"
+				(click)="enablefalse();modal.dismiss('Cross click')">Save</button>
+		</div>
+		<!-- </form> -->
+	</span>
+</ng-template>
+<!-- Add Driver  -->
+<ng-template #smallsizemodal8 let-modal>
+	<span>
+		<form [formGroup]="DriverAdd" (ngSubmit)="Driver_Addsubmit()" id="some_form">
+			<!-- <form [formGroup]="segments" (ngSubmit)="Submit_segment()"> -->
+
+			<div class="modal-header justify-content-center" style="background-color: white; height: 45px;">
+				<h4 class="tx-14  tx-bold">Add Driver</h4>
+			</div>
+			<div class="modal-body" style="background-color: rgb(0 50 126 / 6%);">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-drivers-license"
+													style="margin-right: 7px !important;"></i>Name </span>
+										</div>
+									</td>
+									<td>
+										<input name="" class="form-control input-border" formControlName="FirstName"
+											placeholder="Enter Name" type="text" value=""
+											[ngClass]="{'input-error':submite && DriverAdd.controls.FirstName.status=='INVALID'}">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-drivers-license"
+													style="margin-right: 7px !important;"></i>DL No </span>
+										</div>
+									</td>
+									<td>
+										<input name="" class="form-control input-border"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.DLNumber.status=='INVALID'}"
+											formControlName="DLNumber" placeholder="Enter DL No" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-envelope" style="margin-right: 7px !important;
+							                    color: brown;"></i>Email </span>
+										</div>
+
+									</td>
+									<td>
+										<input
+											[ngClass]="{'input-error':submite && DriverAdd.controls.PrimaryEmail.status=='INVALID'}"
+											name="" class="form-control input-border" formControlName="PrimaryEmail"
+											placeholder="Enter Email" type="email">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-calendar" style="    margin-right: 7px !important;
+								color: #1f701b;"></i> DOB </span>
+										</div>
+
+									</td>
+									<td>
+										<input class="form-control input-border" formControlName="DOB"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.DOB.status=='INVALID'}"
+											placeholder="  " type="date" value="kanpur">
+									</td>
+								</tr>
+								<!-- <tr>
+								<td>
+									<div class="">
+										<span class="input-group-text"> <i class="fa fa-calendar" style="    margin-right: 7px !important;
+								color: #1f701b;"></i>DLstate </span>
+									</div>
+		
+								</td>
+								<td>
+									<input [ngClass]="{'input-error':submite && DriverAdd.controls.DLIssuingState.status=='INVALID'}" name="" class="form-control input-border" formControlName="DLIssuingState"
+									placeholder="DL Issuing State" type="text">
+									
+								</td>
+						    </tr> -->
+								<tr>
+									<td>
+										<div class="input-group-prepend labels">
+											<span class="input-group-text"> <i class=" fa fa-map-marker"
+													style="margin-right: 7px !important;"></i> Remark</span>
+										</div>
+									</td>
+									<td>
+										<input name="" class="form-control input-border" formControlName="Remark"
+											placeholder="Remark" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-calendar" style="    margin-right: 7px !important;
+								                 color: #1f701b;"></i> Images </span>
+										</div>
+									</td>
+									<td>
+										<input class="input-group-text" type='file' formControlName="fileSource"
+											style="width: 59%;" (change)="onFileChange($event)" />
+										<!-- <input class="form-control input-border" formControlName="file"multiple="multiple"
+										type="file" name="file" id="file" (change)="onFileChanged($event)" > -->
+									</td>
+								</tr>
+
+								<!-- <input type="file" name="file" id="file" (change)="onFileChanged($event)" /> -->
+							</tbody>
+						</table>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-id-card"
+													style="margin-right: 7px !important;"></i>Phone</span>
+										</div>
+									</td>
+									<td>
+										<input name="" type="text" placeholder="Enter Phone Number"
+											formControlName="PrimaryPhone" class="form-control input-border"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.PrimaryPhone.status=='INVALID'}"
+											style="width:155px">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-calendar" style="    margin-right: 7px !important;
+										color: #1f701b;"></i> Gender </span>
+										</div>
+
+									</td>
+									<td>
+										<select name="cars" id="cars" formControlName="Gender"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.Gender.status=='INVALID'}"
+											style="width: 139px;height: 27px;border: 1px solid #dedefd !important;margin-left: 8px;"
+											placeholder="--Select--">
+											<option value="null">--Select--</option>
+											<option value="1">Male</option>
+											<option value="2">Female</option>
+										</select>
+										<!-- <input name="" class="form-control input-border" formControlName="Gender"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.Gender.status=='INVALID'}"placeholder="Email address" type="email"> -->
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-id-card"
+													style="margin-right: 7px !important;"></i> Dl Issue</span>
+										</div>
+									</td>
+									<td>
+										<input class="form-control input-border"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.DLIssuingState.status=='INVALID'}"
+											formControlName="DLIssuingState" type="date">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-drivers-license"
+													style="margin-right: 7px !important;"></i>Dl Exp</span>
+										</div>
+
+									</td>
+									<td>
+										<input name="" class="form-control input-border"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.DLExpiryDate.status=='INVALID'}"
+											formControlName="DLExpiryDate" type="date">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="input-group-prepend labels">
+											<span class="input-group-text"> <i class=" fa fa-map-marker"
+													style="margin-right: 7px !important;"></i> Address</span>
+										</div>
+									</td>
+									<td>
+										<input name="" class="form-control input-border" formControlName="Address"
+											[ngClass]="{'input-error':submite && DriverAdd.controls.Address.status=='INVALID'}"
+											placeholder="Enter address" type="text">
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer" style="background-color: white;">
+				<button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+					style="    margin-right: 50%;" aria-label="Close"
+					(click)="modal.dismiss('Cross click');cancel()">Cancel</button>
+				<button type="button" class="btn btn-outline-danger"
+					(click)="modal.dismiss('Cross click');Driverdelete(Editable_driver.DriverId)">Delete</button>
+				<!-- <button type="button" style="background-color:   #133cf3; color: white;" class="btn btn-success"
+					(click)="modal.dismiss('Cross click');enablee();SmallSizeOpen7(smallsizemodal7);">Edit</button> -->
+				<button type="submit" class="btn btn-outline-primary">Save</button>
+			</div>
+		</form>
+	</span>
+</ng-template>
+<!-- End---- -->
+<ng-template #smallsizemodal7 let-modal class="content_lodar" style="width: 66% !important;">
+	<!-- <div class="preload"><img src="http://i.imgur.com/KUJoe.gif">
+	</div> -->
+
+	<span>
+		<form [formGroup]="segments" (ngSubmit)="Submit_segment()">
+
+			<div class="modal-header justify-content-center" style="background-color: white; height: 45px;">
+				<h4 class="tx-14  tx-bold">Driver Profile</h4>
+			</div>
+			<div class="modal-body" style="background-color: rgb(0 50 126 / 6%);">
+				<table class="table   justify-content-center" style="margin-left: 71px;">
+
+					<tbody>
+
+						<tr>
+							<td>
+								<div style="width: 30px;">
+									<a href="javascript:;" class="" style="    padding: 0px !important;
+								width: 84px;">
+										<span *ngIf="Editable_driver.DriverImage==''"
+											class="avatar profile-user brround cover-image">
+											<img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+												alt="profile-user" class="avatar profile-user brround cover-image">
+										</span>
+										<span *ngIf="Editable_driver.DriverImage !==''"
+											class="avatar profile-user brround cover-image">
+											<img src="{{Editable_driver.DriverImage}}" alt="profile-user"
+												class="avatar profile-user brround cover-image">
+										</span>
+									</a>
+								</div>
+							</td>
+							<td>
+								<div class="row">
+									<div class="col-lg-12 col-md-12">
+										<div class="form-group input-group name-driver">
+											{{Editable_driver.FirstName}}</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12 col-md-12">
+										<p><input name="" [value]="Editable_driver.PrimaryPhone" disabled type="text"
+												style="background: white;"></p>
+									</div>
+								</div>
+
+
+
+
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-drivers-license"
+													style="margin-right: 7px !important;"></i>DL No </span>
+										</div>
+									</td>
+									<td>
+										<input name="" class="form-control" [value]="Editable_driver.DlNumber" disabled
+											placeholder="DL no" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-envelope" style="margin-right: 7px !important;
+					color: brown;"></i>Email </span>
+										</div>
+
+									</td>
+									<td>
+										<input name="" class="form-control" disabled
+											[value]="Editable_driver.PrimaryEmail" placeholder="Email address"
+											type="email">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-calendar" style="    margin-right: 7px !important;
+						color: #1f701b;"></i> DOB </span>
+										</div>
+
+									</td>
+									<td>
+										<input class="form-control" [value]="Editable_driver.DOB" disabled
+											placeholder="DOB" type="date" value="kanpur">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-id-card"
+													style="margin-right: 7px !important;"></i> Dl Issue</span>
+										</div>
+									</td>
+									<td>
+										<input class="form-control" [value]="Editable_driver.DlIssuingState" disabled
+											type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="">
+											<span class="input-group-text"> <i class="fa fa-drivers-license"
+													style="margin-right: 7px !important;"></i>Dl Exp</span>
+										</div>
+
+									</td>
+									<td>
+										<input name="" class="form-control" [value]="Editable_driver.DlExpiryDate"
+											disabled placeholder="DL no" type="text">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="input-group-prepend labels">
+											<span class="input-group-text"> <i class=" fa fa-map-marker"
+													style="margin-right: 7px !important;"></i> Address</span>
+										</div>
+									</td>
+									<td>
+										<input class="form-control" [value]="Editable_driver.Address" disabled
+											placeholder="Address" type="text" value="kanpur">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</form>
+		<div class="modal-footer" style="background-color: white;">
+			<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style=" margin-right: 52%; "
+				aria-label="Close" (click)="modal.dismiss('Cross click')">
+				<div class="btnclass">Cancel</div>
+			</button>
+			<button type="button " class="btn btn-outline-danger"
+				(click)="modal.dismiss('Cross click');Driverdelete(Editable_driver.DriverId)">
+				<div class="btnclass">Delete</div>
+			</button>
+			<!-- <button type="button" class="btn btn-outline-primary"
+					(click)="modal.dismiss('Cross click');enablee(smallsizemodal5)"><div class="btnclass">Edit</div></button> -->
+		</div>
+		<!--</form> -->
+	</span>
+
+</ng-template>
+
+<!-- modal for geofence name and remark -->
+<ng-template #modal let-modal>
+	<form [formGroup]="Geofence" (ngSubmit)="Submit()" novalidate>
+		<div class="modal-header justify-content-center">
+			<h5 class="tx-14  tx-bold">Add Geofence</h5>
+			<!-- <h5 class="modal-title">{{ modalConfig.modalTitle }}</h5> -->
+		</div>
+		<div class="modal-body" style="background: #dedefd36 !important;">
+			<div class="">
+				<!-- <div class="card-body"> -->
+				<div class="row">
+					<div class="col-md-2 col-lg-2"></div>
+					<div class="col-md-8 col-lg-8">
+
+						<div class="">
+							<label class="form-label">Geofence Name</label>
+							<input type="text" class="form-control" formControlName="geo_name"
+								(change)="changeName($event)" name="example-text-input" placeholder="Geofence Name"
+								[ngClass]="{'input-error':submite && Geofence.controls.geo_name.status=='INVALID'}">
+						</div>
+						<div class="">
+							<label class="form-label">Remark</label>
+							<input type="text" class="form-control" formControlName="Remarks"
+								(change)="changeName($event)" name="example-text-input" placeholder="Geofence Name">
+						</div>
+
+					</div>
+					<div class="col-md-2 col-lg-2"></div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer " style="background-color: white;">
+			<button type="reset" class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click');cancel()">Cancel</button>
+			<button type="button" class="btn btn-outline-secondary" (click)="Submit();">Save</button>
+		</div>
+	</form>
+</ng-template>
+<!-- <div>Check Render:{{checkRender()}}</div> -->
+
+<!-- more indo Last data -->
+<ng-template #modal7 let-modal>
+	<form [formGroup]="Landmark" (ngSubmit)="Submit_landmark()">
+
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			<div class="panel panel-primary" style=" padding-left: 0px !important;">
+
+
+				<!-- Tabs -->
+				<ul ngbNav #nav1="ngbNav" [(activeId)]="TabStyle1">
+					<li [ngbNavItem]="1" style="margin-top: 0px !important;">
+						<ng-template ngbNavContent>
+							<div class="row">
+								<div class="col-lg-12 col-md-12">
+
+									<div class="row" style="border-bottom: 1px solid #eaedf1;">
+										<div class="col-lg-3 col-md-3">
+											<div class="" style="padding-bottom: 6px;">
+												<span *ngIf="DriverProfile_data.DriverImage !==''">
+													<img src="{{DriverProfile_data.DriverImage}}" alt=""
+														style="height:60px">
+												</span>
+												<span *ngIf="DriverProfile_data.DriverImage == ''">
+													<img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+														alt="" style="height:60px">
+												</span>
+												<span *ngIf="DriverProfile_data.DriverImage == undefined">
+													<img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+														alt="" style="height:60px">
+												</span>
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-4">
+											<span *ngIf="current1.VehicleCategory==''">
+												------
+											</span>
+											<span *ngIf="current1.VehicleCategory!==''">
+												<div class="Mahindra">{{current1.VehicleCategory}}</div>
+											</span>
+
+
+											<span *ngIf="this.current1.VehicleStatus=='Active'">
+												<div class="UP78-active">{{current1.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current1.VehicleStatus=='InActive'">
+												<div class="UP78-inactive">{{current1.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current1.VehicleStatus=='NoGPS'">
+												<div class="UP78-NoGPS">{{current1.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current1.VehicleStatus=='NoData'">
+												<div class="UP78-NoData">{{current1.VehicleNo}}</div>
+											</span>
+
+
+
+										</div>
+										<div class="col-lg-5 col-md-5">
+
+										</div>
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												Name
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance">
+												<span *ngIf="DriverProfile_data.FirstName!==''">
+													<p class="distance-text">
+														{{DriverProfile_data.FirstName}}{{DriverProfile_data.MiddleName}}
+													</p>
+												</span>
+												<span *ngIf="DriverProfile_data.FirstName==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.FirstName==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												Phone
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance">
+												<span *ngIf="DriverProfile_data.PrimaryPhone!==''">
+													<p class="distance-text">{{DriverProfile_data.PrimaryPhone}}</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryPhone==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryPhone==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												Email
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance">
+												<span *ngIf="DriverProfile_data.PrimaryEmail!==''">
+													<p class="distance-text">{{DriverProfile_data.Email}}</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryEmail ==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.PrimaryEmail ==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+									</div>
+									<div class="row" style="    margin-top: 4.26px;">
+
+										<div class="col-lg-4 col-md-4 ">
+											<div class="flag0">
+												<!-- flag -->
+												DlNumber
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Destination icon.svg"alt="">-->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8">
+											<div class="distance" style="margin-left: 15.31px !important;">
+												<span *ngIf="DriverProfile_data.DlNumber!==''">
+													<p class="distance-text">{{DriverProfile_data.DlNumber}}</p>
+												</span>
+												<span *ngIf="DriverProfile_data.DlNumber==''">
+													<p class="distance-text">- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.DlNumber==undefined">
+													<p class="distance-text">- - - -</p>
+												</span>
+											</div>
+
+										</div>
+
+									</div>
+									<div class="row" style="    margin-top: 9.26px;">
+										<div class="col-lg-4 col-md-4">
+											<div class="map-icon1">
+												Address
+												<!-- <img src="assets/images/users/Secutrak Dashboard Design Assets/Location icon.svg"alt=""> -->
+											</div>
+										</div>
+										<div class="col-lg-8 col-md-8" style="height: 28px;overflow: auto;">
+											<div class="address" style="margin-left: 15px;">
+												<span *ngIf="DriverProfile_data.Address==''">
+													<p>- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.Address==undefined">
+													<p>- - - -</p>
+												</span>
+												<span *ngIf="DriverProfile_data.Address !==''">
+													<p class="address-text"> {{DriverProfile_data.Address}}</p>
+												</span>
+
+
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+
+						</ng-template>
+					</li>
+					<li [ngbNavItem]="4" style="margin-top: 0px !important;">
+						<ng-template ngbNavContent>
+							<div class="row">
+								<!-- *ngFor="let item of Document;index as i"  -->
+								<div class="col-lg-12 col-md-12">
+									<div class="row marker-detail-row1">
+										<div class="col-lg-2 col-md-2">
+											<div class="" style="height: 51px;">
+												<!-- <img src="assets/images/temp/Rectangle 1203.png" alt=""
+														style="height: 42px;"> -->
+												<span *ngIf="current1.VehicleImage=='N/A'">
+													<i class="fas fa-truck" style="width: 30px;"></i>
+												</span>
+												<!-- assets/images/users/truck2.png -->
+												<span *ngIf="current1.VehicleImage !=='N/A'">
+													<img src="{{current1.VehicleImage}}" alt="" class="img-size2"
+														style="width: 30px">
+												</span>
+											</div>
+										</div>
+										<div class="col-lg-4 col-md-4">
+											<span *ngIf="VehicleCategory==''">
+												------
+											</span>
+											<span *ngIf="VehicleCategory!==''">
+												<div class="Mahindra">{{current1.VehicleCategory}}</div>
+											</span>
+											<span *ngIf="this.current1.VehicleStatus=='Active'">
+												<div class="UP78-active">{{current1.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current1.VehicleStatus=='InActive'">
+												<div class="UP78-inactive">{{current1.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current1.VehicleStatus=='NoGPS'">
+												<div class="UP78-NoGPS">{{current1.VehicleNo}}</div>
+											</span>
+											<span *ngIf="this.current1.VehicleStatus=='NoData'">
+												<div class="UP78-NoData">{{current1.VehicleNo}}</div>
+											</span>
+
+
+
+										</div>
+										<div class="col-lg-6 col-md-6">
+											<div class="weather-box">
+												<!-- <div class="degree">29°C</div> -->
+												<div class="Vehicle-location"> Vehicle Location</div>
+												<!-- <div class="Cloudy"> Cloudy</div> -->
+												<div class=" cloud">
+													<span *ngIf="weather < 2">
+														<img src="assets/images/users/Weather icon image.png"
+															style="height: 19px;" alt="">
+													</span>
+													<span *ngIf="(weather >= 2 && weather <10) ">
+														<img src="assets/images/users/Weather icon image.png"
+															style="height: 19px;" alt="">
+													</span>
+													<span *ngIf="(weather >= 10 && weather <= 40) ">
+														<img src="assets/images/users/Weather icon image.png"
+															style="height: 19px;" alt="">
+													</span>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12 col-md-12">
+											<div class="table-responsive" style="height: 184px;">
+												<table class="table-striped">
+													<!-- table-responsive -->
+													<thead>
+														<tr class="table_header" style="text-align: center;">
+															<!-- <th class=" border-bottom-0">Sno.</th> -->
+															<th>Name</th>
+															<th>Exp date</th>
+															<th></th>
+															<th></th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<!-- style=" height: 200px;overflow: auto;"*ngFor="let table of dataTable" -->
+														<tr *ngFor="let head of Document ; let i = index"
+															style="border-bottom: 1px solid rgb(0 50 126 / 12%) !important;">
+
+															<td>
+																{{head.DocumentFile.substring(0,10)}}
+															</td>
+															<td style="text-align:center;">
+																<div style="width: 140px">
+																	{{head.CreateDate}}
+																</div>
+
+															</td>
+															<td></td>
+															<!-- <td class="border-bottom-0">table.startdate</td> -->
+															<td class="border-bottom-0 container-fluid">
+																<!-- <a class="btn btn-sm btn-primary me-2" href="javascript:;"><i class="fa fa-edit"></i> Edit</a> -->
+																<div style="margin-right: 17px; text-align: end">
+																	<button type="button"
+																		class="btn btn-danger">view</button>
+																</div>
+															</td>
+															<!-- <td class="border-bottom-0"><div class="delete container-fluid"><i class="fa fa-trash" aria-hidden="true" style="color: red  ;"></i></div></td> -->
+														</tr>
+													</tbody>
+												</table>
+												<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+													[fullScreen]="false" type="ball-spin-clockwise">
+													<p style="color: white">Please Wait.. </p>
+												</ngx-spinner>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</li>
+
+				</ul>
+				<div [ngbNavOutlet]="nav1" class="tabs-menu-body tab-content panel-body tabs-menu-body"
+					style="border-bottom: 1px solid beige;"></div>
+				<div ngbNav #nav1="ngbNav" [(activeId)]="TabStyle1" class=" " style="padding: 8px;margin-left: -7px;">
+					<div class="row" style="width: 100%;">
+
+						<div class="col-lg-3 col-md-3 box-col">
+							<button class="btn button-center btncl " [ngbNavItem]="1"><a ngbNavLink>
+									<p> <i class="fa fa-user"></i> Driver Profile</p>
+
+								</a></button>
+						</div>
+						<div class="col-lg-3 col-md-3 box-col">
+							<button class="btn button-center btncl" [ngbNavItem]="4">
+								<a ngbNavLink>
+									<p><i class="fa fa-file" aria-hidden="true"></i>Doctument Wallet</p>
+								</a></button>
+						</div>
+						<div class="col-lg-6 col-md-6 box-col"></div>
+					</div>
+				</div>
+			</div>
+		</div><!-- MODAL-BODY -->
+
+	</form>
+</ng-template>
+<ng-template #modal8 let-modal>
+	<!-- <form [formGroup]="Landmark" (ngSubmit)="Submit_landmark()"> -->
+
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			<table class=" table-striped" id="showReportTable">
+				<!-- table-responsive -->
+				<thead class="table_header">
+					<tr >
+						<!-- <th class=" border-bottom-0">Sno.</th> -->
+						<th class=" border-bottom-0">SNo.</th>
+						<th class=" border-bottom-0">DateTime</th>
+						<!-- <th class=" border-bottom-0"></th> -->
+						<th class=" border-bottom-0">Location</th>
+						<th class=" border-bottom-0">Speed</th>
+						<th class=" border-bottom-0">Distance Travel</th>
+
+					</tr>
+				</thead>
+				<tbody style=" height: 200px;overflow: auto;">
+					<!-- *ngFor="let table of dataTable" -->
+					<tr *ngFor="let head1 of Map_info ; let i = index">
+						<!-- <td class="border-bottom-0">{{i+1}}</td> -->
+						<td class="border-bottom-0">
+							{{i}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.DateTime}}
+						</td>
+						<!-- <td class="border-bottom-0">
+								{{head1.DateTime}}
+							</td> -->
+						<td class="border-bottom-0">
+							{{head1.Address}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.Speed}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.Distance}}
+						</td>
+						<!-- <td class="border-bottom-0">
+							</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div><!-- MODAL-BODY -->
+
+	<!-- </form> -->
+</ng-template>
+<ng-template #modallive8 let-modal>
+	<!-- <form [formGroup]="Landmark" (ngSubmit)="Submit_landmark()"> -->
+
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			<table class=" table-striped" id="showReportTable">
+				<!-- table-responsive -->
+				<thead class="table_header">
+					<tr class="table_header">
+						<!-- <th class=" border-bottom-0">Sno.</th> -->
+						<th class=" border-bottom-0">SNo.</th>
+						<th class=" border-bottom-0">VehicleName</th>
+						<th class=" border-bottom-0">IMEI</th>
+						<th class=" border-bottom-0">Speed</th>
+						<th class=" border-bottom-0">DateTime</th>
+						<th class=" border-bottom-0">LastHaltTime</th>
+						<th class=" border-bottom-0">IOStatus</th>
+						<th class=" border-bottom-0">Location</th>
+						<th class=" border-bottom-0">Fault</th>
+						<th class=" border-bottom-0">MovementStatus</th>
+						
+
+					</tr>
+				</thead>
+				<tbody style=" height: 200px;overflow: auto;">
+					<!-- *ngFor="let table of dataTable" -->
+					<tr *ngFor="let head1 of data_table ; let i = index">
+						<!-- <td class="border-bottom-0">{{i+1}}</td> -->
+						<td class="border-bottom-0">
+							{{i}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.VehicleName}}
+						</td>
+						<!-- <td class="border-bottom-0">
+								{{head1.DateTime}}
+							</td> -->
+						<td class="border-bottom-0">
+							{{head1.IMEI}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.Speed}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.DateTime}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.LastHaltTime}}
+						</td>
+						<td class="border-bottom-0">
+							Raw_power{{head1.IOStatus.Raw_power}}
+						</td>
+						<td class="border-bottom-0" style="width: 50%;text-align: center;">
+							{{head1.Location}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.Faul}}
+						</td>
+						<td class="border-bottom-0">
+							{{head1.MovementStatus}}
+						</td>
+						<!-- <td class="border-bottom-0">
+							</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div><!-- MODAL-BODY -->
+
+	<!-- </form> -->
+</ng-template>

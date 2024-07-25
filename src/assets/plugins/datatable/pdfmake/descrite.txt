@@ -1,0 +1,25 @@
+let a and b are the element of group G and a- and b- are respectively inverse of a and b
+
+now 
+     a.a- =e =a-.a  ------1
+     b.b- =e =b-.b  ------2
+     
+     (a.b)b-.a-=
+     [(a.b).b-]-a-------using associative low
+     [a.(b.b-)]-a
+     [a.e]-a
+     =a.-a -----------using identity low
+    (a.b)a-.b-  =e	
+
+now 
+   b-. a- (a.b)=
+    -b[a-.(a.b)]
+    -b[(a-.a).b]
+     -b[e.b]
+     -b.b
+      =e
+
+so when a.a-=e
+        a.b=e
+then a-=b
+so (a.b)-=a-.b-

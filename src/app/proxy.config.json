@@ -1,0 +1,10 @@
+{
+    "/v1/orders": {
+        "target": "https://testapi.secutrak.in/demo_dev-app-secutrak",
+      "secure": true,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/v1/orders": "https://testapi.secutrak.in/demo_dev-app-secutrak/fciTripTextDashboardTest"
+      }
+    }
+  }

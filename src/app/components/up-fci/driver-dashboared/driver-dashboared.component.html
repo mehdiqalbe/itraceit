@@ -1,0 +1,775 @@
+<div class="card">
+    <div class="card-body innerdiv" style="padding: 0">
+      <!-- Header Start -->
+      <div class="header hor-header">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <!-- Sidebar Toggle Button -->
+            <div class="col-6 col-md-3 col-lg-2 order-md-1 order-1">
+              <button
+                class="app-sidebar__toggle"
+                (click)="sidebarToggle()"
+              ></button>
+            </div>
+            <!-- Analytic Dashboard Text -->
+            <div
+              class="col-12 col-md-6 col-lg-8 order-md-2 order-3 text-center my-2 my-md-0"
+            >
+              <span class="font-weight-bold" style="font-size: large"
+                >{{driverFormTitle}}</span
+              >
+            </div>
+            <!-- Logo -->
+            <div
+              class="col-6 col-md-3 col-lg-2 order-md-3 order-2 text-end text-md-start"
+            >
+              <div
+                ngbDropdown
+                class="d-flex justify-content-end justify-content-md-start notifications_ref"
+              >
+                <img
+                  src="assets/images/brand/logo-3.png"
+                  alt="logo"
+                  id="change-image"
+                  class=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Header End -->
+    </div>
+  </div>
+  
+  <div class="container-fluid">
+    <div class="row">
+      <div
+        class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+        style="margin: 5px; padding: 7px"
+      >
+        <form [formGroup]="addDriverForm" (ngSubmit)="driverForm()">
+          <ngx-spinner name="qDriverFormSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+            <p style="color: black">Please Wait.. </p>
+          </ngx-spinner>
+          <div class="row position-relative">
+            <div
+              class="col-lg-12"
+              style="
+                font-size: 16px;
+                font-weight: 800;
+                color: #1d4380;
+                text-decoration: underline;
+                font-family: sans-serif;
+                margin-left: 14px;
+              "
+            >
+              Driver Details
+            </div>
+            <button (click)="qSwitchBackTD()" style="/*! left: -1px; */ right: 40px; text-align: right; top: -20px; font-size: 24px; color: #615959;/*! display: flex; *//*! align-items: center; *//*! justify-content: end; */width: fit-content;"
+            class="position-absolute">
+            <i class="fa-solid fa-xmark"></i></button>
+          </div>
+  
+          <div class="col-md-11 ms-3">
+            <div class="col-lg-12 mt-2">
+              <div class="row justify-content-center mb-4">
+                <div class="colmun">
+                  <label for="DriverName" class="filtor_name">Driver Name</label>
+                  <input
+                    type="text"
+                    formControlName="DriverName"
+                    placeholder="Driver Name"
+                    class="form-control cutombox"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('DriverName')?.touched && addDriverForm.get('DriverName')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter your name
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="Gender" class="filtor_name">Gender</label>
+                  <ng-select
+                    formControlName="Gender"
+                    placeholder="Gender"
+                    class="cutombox"
+                    style="font-size: 14px; font-weight: 400"
+                  >
+                    <ng-option
+                      *ngFor="let gender of ['Male', 'Female']"
+                      [value]="gender"
+                    >
+                      {{ gender }}
+                    </ng-option>
+                  </ng-select>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('Gender')?.touched && addDriverForm.get('Gender')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    select your gender
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="dob" class="filtor_name">Date of Birth</label>
+                  <input
+                    type="date"
+                    formControlName="dob"
+                    class="form-control cutombox"
+                    placeholder="Date of Birth"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('dob')?.touched && addDriverForm.get('dob')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter your date of birth
+                  </span>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('dob')?.touched && addDriverForm.get('dob')?.errors?.['invalidDate']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter a valid date
+                  </span>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('dob')?.touched && addDriverForm.get('dob')?.errors?.['ageInvalid']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    age must be at least 18 years
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="Mobilenum" class="filtor_name">Mobile Number</label>
+                  <input
+                    type="text"
+                    formControlName="Mobilenum"
+                    class="form-control cutombox"
+                    placeholder="Mobile Number"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('Mobilenum')?.touched && addDriverForm.get('Mobilenum')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter your mobile number
+                  </span>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('Mobilenum')?.touched && addDriverForm.get('Mobilenum')?.errors?.['pattern']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter a valid mobile number
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="atlMobile" class="filtor_name"
+                    >Alternate Mobile Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="atlMobile"
+                    class="form-control cutombox"
+                    placeholder="Alternate Mobile Number"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('atlMobile')?.touched && addDriverForm.get('atlMobile')?.errors?.['pattern']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter a valid alternate mobile number
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 mt-2">
+              <div class="row justify-content-center mb-4">
+                <div class="colmun">
+                  <label for="Email" class="filtor_name">Email Id</label>
+                  <input
+                    type="text"
+                    formControlName="Email"
+                    class="form-control cutombox"
+                    placeholder="Email Id"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('Email')?.touched && addDriverForm.get('Email')?.errors?.['email']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter a valid email
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="State" class="filtor_name">State</label>
+                  <ng-select
+                    formControlName="State"
+                    placeholder="State"
+                    (change)="onStateChange($event)"
+                    class="cutombox"
+                    style="font-size: 14px; font-weight: 400"
+                  >
+                    <ng-option *ngFor="let state of states" [value]="state">
+                      {{ state.StateName }}
+                    </ng-option>
+                  </ng-select>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('State')?.touched && addDriverForm.get('State')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    select your state
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="City" class="filtor_name">City</label>
+                  <ng-select
+                    formControlName="City"
+                    placeholder="City"
+                    class="cutombox"
+                    style="font-size: 14px; font-weight: 400"
+                  >
+                    <ng-option *ngFor="let city of cities" [value]="city">
+                      {{ city.CityName }}
+                    </ng-option>
+                  </ng-select>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('City')?.touched && addDriverForm.get('City')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    select your city
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="Address" class="filtor_name">Address</label>
+                  <input
+                    type="text"
+                    formControlName="Address"
+                    class="form-control cutombox"
+                    placeholder="Address"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('Address')?.touched && addDriverForm.get('Address')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter your address
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="PinCode" class="filtor_name">Pin Code</label>
+                  <input
+                    type="text"
+                    formControlName="PinCode"
+                    class="form-control cutombox"
+                    placeholder="Pin Code"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf=" addDriverForm.get('PinCode')?.touched && addDriverForm.get('PinCode')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter your pin code
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 mt-2">
+              <div class="row justify-content-center">
+                <!-- <div class="colmun">
+                  <label for="YearsofExperience" class="filtor_name"
+                    >Years of Experience</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="YearsofExperience"
+                    class="form-control cutombox"
+                    placeholder="Years of Experience"
+                  />
+                </div> -->
+                <div class="colmun">
+                  <label for="DrivingSince" class="filtor_name"
+                    >Driving Since</label
+                  >
+                  <input
+                    id="Date-select"
+                    type="text"
+                    formControlName="DrivingSince"
+                    class="form-control cutombox"
+                    placeholder="Driving Since"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="addDriverForm.get('DrivingSince')?.touched && addDriverForm.get('DrivingSince')?.errors?.['required']"
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    select driving since year
+                  </span>
+                </div>
+  
+                <div class="colmun">
+                  <label for="DrivenvehicleType" class="filtor_name"
+                    >Driven vehicle Type</label
+                  >
+                  <ng-select
+                    formControlName="DrivenvehicleType"
+                    placeholder="Driven vehicle Type"
+                    class="cutombox"
+                    [multiple]="true"
+                    style="font-size: 14px; font-weight: 400"
+                  >
+                    <ng-option
+                      *ngFor="let type of drivenVehicleTypes"
+                      [value]="type"
+                    >
+                      {{ type }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+                <div class="colmun col-2">
+                  <div class="col-12 p-0" *ngIf="UserType=='13'">
+                    <label for="Customers" class="filtor_name"
+                    >Select Customer</label
+                  >
+                  <ng-select
+                    formControlName="customer"
+                    placeholder="Select Customer"
+                    class="cutombox"
+                    style="font-size: 14px; font-weight: 400"
+                  >
+                    <ng-option
+                      *ngFor="let customer of customerList"
+                      [value]="customer"
+                    >
+                      {{ customer?.value }}</ng-option
+                    >
+                  </ng-select>
+                  </div>
+                </div>
+                <div class="colmun"></div>
+                <div class="colmun"></div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Repeat similar blocks for other document sections -->
+          <div class="row mt-3">
+            <div
+              class="col-lg-12"
+              style="
+                font-size: 16px;
+                font-weight: 800;
+                color: #1d4380;
+                text-decoration: underline;
+                font-family: sans-serif;
+                margin-left: 14px;
+              "
+            >
+              Upload Vehicle Documents
+            </div>
+          </div>
+  
+          <div class="col-md-11 ms-3">
+            <div class="col-lg-12 mt-3">
+              <div class="row justify-content-center">
+                <div class="colmun">
+                  <img
+                    src="assets/icon/Icon/Driving License.png"
+                    alt="image"
+                  /><br />
+                  <label for="LicenseDocumentNumber" class="filtor_name"
+                    >Driving License</label
+                  >
+                </div>
+                <div class="colmun">
+                  <label for="LicenseDocumentNumber" class="filtor_name"
+                    >Document Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="LicenseDocumentNumber"
+                    class="form-control cutombox"
+                    placeholder="Document Number"
+                    [ngClass]="{
+                      'border-danger':
+                        !addDriverForm.get('LicenseDocumentNumber')?.value &&
+                        addDriverForm.get('License_file')?.value
+                    }"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="
+                      !addDriverForm.get('LicenseDocumentNumber')?.value &&
+                      addDriverForm.get('License_file')?.value
+                    "
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter the document number</span
+                  >
+                  <!-- <div *ngIf="doc.DocumentFile && !doc.DocumentNo" class="text-danger">Document Number is required</div> -->
+                </div>
+                <div class="colmun">
+                  <label for="Licenseissuedate" class="filtor_name"
+                    >Issue Date</label
+                  >
+                  <input
+                    type="date"
+                    formControlName="Licenseissuedate"
+                    class="form-control cutombox"
+                    placeholder="Issue Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="LicenseExpiryDate" class="filtor_name"
+                    >Expiry Date</label
+                  >
+                  <input
+                    type="date"
+                    formControlName="LicenseExpiryDate"
+                    class="form-control cutombox"
+                    placeholder="Expiry Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="License_file" class="filtor_name">Upload</label>
+                  <input
+                    type="file"
+                    (change)="selectFile($event, 'License_file')"
+                    class="form-control cutombox"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="LicenseRemarks" class="filtor_name">Remarks</label>
+                  <input
+                    type="text"
+                    formControlName="LicenseRemarks"
+                    class="form-control cutombox"
+                    placeholder="Remarks"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 mt-3">
+              <div class="row justify-content-center">
+                <div class="colmun">
+                  <img src="assets/icon/Icon/Aadhar.png" alt="image" /><br />
+                  <label for="Category" class="filtor_name">Aadhaar Card</label>
+                </div>
+                <div class="colmun">
+                  <label for="Category" class="filtor_name"
+                    >Document Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="AadhaarNumber"
+                    id="Document"
+                    class="form-control cutombox"
+                    placeholder="Aadhaar Number"
+                    [ngClass]="{
+                      'border-danger':
+                        !addDriverForm.get('AadhaarNumber')?.value &&
+                        addDriverForm.get('Aadhaarfile')?.value
+                    }"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="
+                      !addDriverForm.get('AadhaarNumber')?.value &&
+                      addDriverForm.get('Aadhaarfile')?.value
+                    "
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter the document number</span
+                  >
+                </div>
+                <div class="colmun">
+                  <label for="Make" class="filtor_name">Issue Date</label>
+                  <input
+                    type="date"
+                    formControlName="Aadhaarissuedate"
+                    class="form-control cutombox"
+                    placeholder="Issue Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Model" class="filtor_name">Expiry Date</label>
+                  <input
+                    type="text"
+                    class="form-control cutombox"
+                    placeholder="Not Applicable"
+                    disabled
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Vehicle" class="filtor_name"></label>
+                  <input
+                    type="file"
+                    class="form-control cutombox"
+                    (change)="selectFile($event, 'Aadhaarfile')"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="VehicleType" class="filtor_name">Remarks</label>
+                  <input
+                    type="text"
+                    formControlName="AadhaarRemarks"
+                    class="form-control cutombox"
+                    placeholder="Remarks"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 mt-3">
+              <div class="row justify-content-center">
+                <div class="colmun">
+                  <img src="assets/icon/Icon/Pan Card.jpg" alt="image" /><br />
+                  <label for="Category" class="filtor_name">PAN Card</label>
+                </div>
+                <div class="colmun">
+                  <label for="Category" class="filtor_name"
+                    >Document Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="PANNumber"
+                    id="Document"
+                    class="form-control cutombox"
+                    placeholder="PAN Number"
+                    [ngClass]="{
+                      'border-danger':
+                        !addDriverForm.get('PANNumber')?.value &&
+                        addDriverForm.get('PANfile')?.value
+                    }"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="
+                      !addDriverForm.get('PANNumber')?.value &&
+                      addDriverForm.get('PANfile')?.value
+                    "
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter the document number</span
+                  >
+                </div>
+                <div class="colmun">
+                  <label for="Make" class="filtor_name">Issue Date</label>
+                  <input
+                    type="date"
+                    formControlName="PANissuedate"
+                    class="form-control cutombox"
+                    placeholder="Issue Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Model" class="filtor_name">Expiry Date</label>
+                  <input
+                    type="text"
+                    class="form-control cutombox"
+                    placeholder="Not Applicable"
+                    disabled
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Vehicle" class="filtor_name"></label>
+                  <input
+                    type="file"
+                    class="form-control cutombox"
+                    (change)="selectFile($event, 'PANfile')"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="VehicleType" class="filtor_name">Remarks</label>
+                  <input
+                    type="text"
+                    formControlName="PANremarks"
+                    class="form-control cutombox"
+                    placeholder="Remarks"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 mt-3">
+              <div class="row justify-content-center">
+                <div class="colmun">
+                  <img
+                    src="assets/icon/Icon/Voter id card.jpg"
+                    alt="image"
+                  /><br />
+                  <label for="Category" class="filtor_name">Voter ID Card</label>
+                </div>
+                <div class="colmun">
+                  <label for="Category" class="filtor_name"
+                    >Document Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="VoterNumber"
+                    id="Document"
+                    class="form-control cutombox"
+                    placeholder="Voter Number"
+                    [ngClass]="{
+                      'border-danger':
+                        !addDriverForm.get('VoterNumber')?.value &&
+                        addDriverForm.get('Voterfile')?.value
+                    }"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="
+                      !addDriverForm.get('VoterNumber')?.value &&
+                      addDriverForm.get('Voterfile')?.value
+                    "
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter the document number</span
+                  >
+                </div>
+                <div class="colmun">
+                  <label for="Make" class="filtor_name">Issue Date</label>
+                  <input
+                    type="date"
+                    formControlName="Voterissuedate"
+                    class="form-control cutombox"
+                    placeholder="Issue Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Model" class="filtor_name">Expiry Date</label>
+                  <input
+                    type="date"
+                    formControlName="VoterExpiryDate"
+                    class="form-control cutombox"
+                    placeholder="Expiry Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Vehicle" class="filtor_name"></label>
+                  <input
+                    type="file"
+                    class="form-control cutombox"
+                    (change)="selectFile($event, 'Voterfile')"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="VehicleType" class="filtor_name">Remarks</label>
+                  <input
+                    type="text"
+                    formControlName="Voterremarks"
+                    class="form-control cutombox"
+                    placeholder="Remarks"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 mt-3">
+              <div class="row justify-content-center">
+                <div class="colmun">
+                  <img src="assets/icon/Icon/Passsport.png" alt="image" /><br />
+                  <label for="Category" class="filtor_name">Passport</label>
+                </div>
+                <div class="colmun">
+                  <label for="Category" class="filtor_name"
+                    >Document Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="PassportNumber"
+                    id="Document"
+                    class="form-control cutombox"
+                    placeholder="Passport Number"
+                    [ngClass]="{
+                      'border-danger':
+                        !addDriverForm.get('PassportNumber')?.value &&
+                        addDriverForm.get('Passportfile')?.value
+                    }"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="
+                      !addDriverForm.get('PassportNumber')?.value &&
+                      addDriverForm.get('Passportfile')?.value
+                    "
+                    class="text-red position-absolute text-sm-center"
+                  >
+                    enter the document number</span
+                  >
+                </div>
+                <div class="colmun">
+                  <label for="Make" class="filtor_name">Issue Date</label>
+                  <input
+                    type="date"
+                    formControlName="Passportissuedate"
+                    class="form-control cutombox"
+                    placeholder="Issue Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Model" class="filtor_name">Expiry Date</label>
+                  <input
+                    type="date"
+                    formControlName="PassportExpiryDate"
+                    class="form-control cutombox"
+                    placeholder="Expiry Date"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="Vehicle" class="filtor_name"></label>
+                  <input
+                    type="file"
+                    class="form-control cutombox"
+                    (change)="selectFile($event, 'Passportfile')"
+                  />
+                </div>
+                <div class="colmun">
+                  <label for="VehicleType" class="filtor_name">Remarks</label>
+                  <input
+                    type="text"
+                    formControlName="Passportremarks"
+                    class="form-control cutombox"
+                    placeholder="Remarks"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Add more document sections here -->
+          <div class="col-lg-12 mt-4">
+            <div class="row justify-content-center">
+              <div class="col-lg-1">
+                <button
+                  [disabled]="!addDriverForm.valid"
+                  [ngClass]="{
+                    'disabled-button': addDriverForm.invalid,
+                    'enabled-button': addDriverForm.valid
+                  }"
+                  type="submit"
+                  class="btn btn-custume2 btn-block"
+                >
+                  Save
+                </button>
+              </div>
+              <div class="col-lg-1">
+                <button type="button" class="btn btn-custome" (click)="qSwitchBackTD()">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

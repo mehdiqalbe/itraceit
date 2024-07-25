@@ -1,0 +1,143 @@
+.status-card {
+    // height: 65%;
+    width: 100%;
+    // background-color: ;
+}
+
+.chart-container {
+    margin-top: -58px;
+    margin-bottom: -54px;
+}
+
+.status-text {
+    cursor: pointer;
+}
+
+.status-legend {
+    font-size: 11px;
+}
+
+.status-legend span {
+    margin-left: 1px;
+    padding-left: 2px;
+}
+.centered-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust the height as needed */
+    font-weight: 500;
+    font-size: 16px;
+    margin-left: 45%;
+  }
+  #numberH:hover{
+    font-size: 14px;
+    font-weight: 900;
+  }
+  #numberH{
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .chart-container1 {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-x: hidden;
+    // top: 0;
+    // left: 0;
+}
+.setv{
+    margin-top: 9px;
+    margin-left: 8px;
+    height: 19px;
+    width: 15px;
+    border-radius: 2px;
+  }
+  .setbox{
+    font-size: 15px;
+    margin-top: 8px;
+    margin-left: -24px;
+    margin-right: 9px;
+    font-weight: 700;
+  }
+  .custom{
+  text-align-last: right;
+  }
+  .status-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .status-item {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+  }
+  .chart-container3 {
+    width: 100%;
+    height: 0;
+    padding-bottom: 0%; /* 4:3 aspect ratio */
+    position: relative;
+    left: 0!important;
+    // margin-top: -22%;
+  }
+  
+  .chart-container3 > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .chart-container2 {
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* 4:3 aspect ratio */
+    position: relative;
+    left: 0!important;
+    margin-top: -5%;
+  }
+  
+  .chart-container2 > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+//   .status-item i {
+//     margin-right: 5px;
+//   }
+  
+//   #chartdummy {
+//     width: 100%;
+//     height: 100%;
+//     overflow-x: auto; /* Set an appropriate height for your chart */
+// }
+
+// @media only screen and (min-width: 576px) {
+//     #chartdummy {
+//         // height: 400px;
+//         width: 400px; /* Adjust height for small devices (sm) */
+//     }
+// }
+
+// @media only screen and (min-width: 768px) {
+//     #chartdummy {
+//         // height: 500px; /* Adjust height for medium devices (md) */status-card
+//         width: 500px;
+//     }
+// }
+
+// @media only screen and (min-width: 992px) {
+//     #chartdummy {
+//         // height: 600px; /* Adjust height for large devices (lg) */
+//         width: 600px;
+//     }
+// }
+
+// @media only screen and (min-width: 1200px) {
+//     #chartdummy {
+//         // height: 700px; /* Adjust height for extra large devices (xl) */
+//         width: 1200px;
+//     }
+// }
+
+
+/* Responsive typography */

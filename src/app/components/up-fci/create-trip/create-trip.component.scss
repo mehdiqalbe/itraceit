@@ -1,0 +1,214 @@
+.roww{
+    // border: 1px solid gray;
+    // border: 2px solid #e8ebed;
+    margin: 19px;
+    // padding-left: 25px;
+    // padding-right: 25px;
+    // border-radius: 10px;
+    // background: #f6f5f5;
+    }
+    .nav-link.active {
+        height: 45px;
+        color: #1D4380 !important;
+        background-color: #fff !important;
+        border: 3px solid !important;
+        font-size: 15px !important;
+        border-color: #dee2e6 #d3d4de #fff !important;
+        // padding: 11px 100px !important;
+        font-family: sans-serif;
+        font-weight: bold;
+    }
+ 
+    .nav-link:hover {
+        // height: 45px;
+        color: #1D4380 !important;
+        background-color: #fff !important;
+        // border: 3px solid !important;
+        // font-size: 15px !important;
+        // border-color: #dee2e6 #d3d4de #fff !important;
+        // padding: 11px 100px !important;
+        // font-family: sans-serif;
+        // font-weight: bold;
+    }
+    .cutom{
+        // color: #1D4380;
+        color: black;
+        font-weight: 550;
+        font-family: sans-serif;
+        font-size: 14px;
+       
+      }
+      .column {
+        flex: 1;
+        // padding: 10px;
+        // text-align: center;
+        // border: 1px solid #ccc;
+    }
+    .HeadingTab{
+      font-family: sans-serif;
+      font-size: 14px;
+      color: #1c84c6;
+      // color: #1D4380;
+      font-weight: 800;
+      margin-left: -18px;
+      border-bottom: 2px solid #eef0f3;
+    }
+      .cutombox{
+        border: 0.2px solid #1c84c6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .btn-orange {
+        background-color: #EC6625;
+        color: white;
+        // margin-top: 50px;
+    
+       
+      }
+      .linkclass{
+        color: #1c84c6;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .nav-tabs .nav-link {
+        font-size: 14px !important;
+      }
+      // .form-control {
+      //   // line-height: 2.5!important;
+      //   color: #1c84c6!important;
+      // }
+      .custume_table th{
+        font-size: 11px !important;
+        // font-weight: 100 !important;
+        color: #1D4380;
+        font-weight: 700;
+        font-family: sans-serif;
+    }
+      .custume_table1 th{
+        font-size: 12px !important;
+        // font-weight: 100 !important;
+        color: #1D4380;
+        font-weight: 700;
+        font-family: sans-serif;
+        // height: 15px;
+    }
+      .custume_table1{
+        font-size: 14px !important;
+        // font-weight: 100 !important;
+        color: #1D4380;
+        font-weight: 700;
+        font-family: sans-serif;
+        // height: 15px;
+    }
+    input[type="file"] {
+      padding: 1px 2px;
+    }
+    .ng-select.ng-select-single .ng-select-container {
+      height: 21px !important;
+  }
+  .customng{
+    min-height: none !important;
+    height: 21px !important;
+  }
+//   td {
+//     padding: 0; /* Remove padding from td */
+// }
+
+// .custom-ng-select {
+//     width: 100%; /* Ensure ng-select takes the full width */
+//     height: 80%; /* Ensure ng-select takes the full height */
+//     box-sizing: border-box; /* Include padding and border in the element's total width and height */
+//     border: 1px solid #ccc; /* Add border to ng-select */
+// }
+
+// .ng-select .ng-select-container {
+//     height: 80%; /* Ensure the inner container of ng-select takes full height */
+// }
+
+// .ng-select .ng-select-container .ng-value-container {
+//     height: 80%; /* Ensure the value container takes full height */
+//     display: flex;
+//     align-items: center; /* Center align the text vertically */
+// }
+
+
+:host ::ng-deep .custom-ng-select.ng-select-single .ng-select-container {
+  height: 21px !important;
+}
+
+:host ::ng-deep .custom-ng-select .ng-select-container {
+  min-height: 21px !important;
+}
+
+/* Additional styles to ensure proper fitting and alignment */
+:host ::ng-deep .custom-ng-select {
+  width: 100%; /* Ensure ng-select takes the full width */
+  height: 100%; /* Ensure ng-select takes the full height of td */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border: 1px solid #ccc; /* Add border to ng-select */
+  font-size: 14px; /* Adjust font size if needed */
+  display: flex;
+  align-items: center; /* Center align the text vertically */
+  border: 0.5px solid #1c84c6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+:host ::ng-deep .custom-ng-select .ng-select-container {
+  padding: 0 8px; /* Adjust padding as needed */
+  box-sizing: border-box; /* Include padding in the height calculation */
+  display: flex;
+  align-items: center; /* Center align the text vertically */
+  border: none!important;
+}
+
+:host ::ng-deep .custom-ng-select .ng-value-container {
+  height: 100%; /* Ensure the value container takes full height */
+  display: flex;
+  align-items: center; /* Center align the text vertically */
+  padding-top: 6px; /* Adjust padding as needed */
+}
+
+/* Add this CSS to your styles */
+.ng-invalid.ng-touched {
+  border-color: red;
+}
+.error-message {
+  color: red;
+  font-size: 12px;
+}
+.image-container {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+}
+
+.image-frame {
+  width: 200px; /* Adjust the width as needed */
+  height: 200px; /* Adjust the height as needed */
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #ddd; /* Optional: Add a border to the frame */
+  border-radius: 5px; /* Optional: Add rounded corners */
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the frame */
+}
+
+.remove-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.columnM
+{
+  width: 250px; /* Set a fixed width for each column */
+display: inline-block; /* Align divs next to each other */
+vertical-align: top; /* Align the top edges */
+// margin-right: 10px; /* Optional: add some space between columns */
+}

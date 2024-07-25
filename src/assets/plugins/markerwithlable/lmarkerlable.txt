@@ -1,0 +1,552 @@
+  setMultipleMarkerLastLive(live:any){
+    this.Live_data=[];
+    this.Live_data=live;
+    // console.log(this.Live_data[0]?.LatLong);
+    // console.log(this.Live_data[1]?.LatLong);
+    // var url_pre = $('#image_url_new').val();
+    var url_pre = 'assets';
+    var add_arrow = $('#add_arrow').val();
+    // var add_trail = $('#add_trail').val();
+    // var prev_lat = $('#prev_lat').val();
+    // var prev_lang = $('#prev_lang').val();
+    // prev_lat = prev_lat.split(',');
+    // prev_lang = prev_lang.split(',');
+    // var lat_store:any=[];
+    // var lng_store:any=[];
+  //   for(var l=0;l<this.Live_data.length;l++){
+  //   var latlng_arr1=this.Live_data[l].LatLong.split(',');
+  //  this. lat_store.push(latlng_arr1[0]);
+  //  this. lng_store.push(latlng_arr1[1]);
+  //   //return false;
+  // }
+
+    // localStorage.setItem('prev_latarr', latlng_arr1[0]);
+    // localStorage.setItem('prev_lngarr', latlng_arr1[1]);
+    this.deleteOverlays_live();
+    if((this.Live_data.length ==1) && (!this.Live_data[0]) && (!this.Live_data[0])) {
+      alert('Sorry! Either -GPS or Data Not Found');
+      // document.getElementById('prepage').style.visibility='hidden';
+      // exit;
+  }
+  if($('#mouseover_click').val()==1) {
+    var mouse_action='mouseover';
+} else {
+    var mouse_action='click';
+}
+var url;
+var latlngbounds = new google.maps.LatLngBounds();
+    var str='';
+    // var clusLat='20.5937';
+    // var clusLng='78.9629';
+    // var zoomCls=5;
+    // if(localStorage.getItem('clusterLat')!='') {
+    //     clusLat = localStorage.getItem('clusterLat');
+    // }
+    // if(localStorage.getItem('clusterLng')!='') {
+    //     clusLng = localStorage.getItem('clusterLng');
+    // }
+
+    // if(localStorage.getItem('clusterZoom')!='') {
+    //     zoomCls = parseInt(localStorage.getItem('clusterZoom'));
+    // }
+    // console.log(clusLat+'vbn');
+
+    // var options_googlemaps = {
+    //     minZoom: 4,
+    //     zoom: zoomCls,
+    //     center: new google.maps.LatLng(clusLat, clusLng),
+    //     maxZoom: 20,
+    //     mapTypeId: google.maps.MapTypeId.ROADMAP,
+    //     streetViewControl: false
+    // }
+// saumya------
+    // if(clusterChk==1) {
+    //     gm_map = new google.maps.Map(document.getElementById('map_canvas'), options_googlemaps);
+    //     var add_trail = document.getElementById('add_trail');
+    //     add_trail.setAttribute('disabled', 'disabled');
+    // }
+
+   
+    for(var i=0;i<this.Live_data.length;i++) {
+      
+      var position;
+      var my_label_class;
+      var my_label_classimg;
+      var latlng_arr=this.Live_data[i]?.LatLong.split(',');
+      var lat_tmp=latlng_arr[0];
+      var lng_tmp=latlng_arr[1];
+      position=new google.maps.LatLng(latlng_arr[0],latlng_arr[1]);
+
+      // latlngbounds.extend(position);
+      var icon1=this.setIconTypeV2(this.temp_index_live[i]?.VehicleCategory);
+      // var icon1='https://maps.gstatic.com/mapfiles/ms2/micons/truck.png'
+      var title='abc';
+      // var dateTime=datetimearr[i];
+      var vSerialLocal=this.Live_data[i]?.Imei;
+      var vNameLocal=this.temp_index_live[i]?.VehicleNo;
+      var Drivername=this.temp_index_live[i]?.DriverName;
+      if(Drivername==''){
+        Drivername='/';
+      }
+      // var vRouteLocal=vRoutes[i];
+      // var vPlantLocal=vPlants[i];
+      var vNumberLocal=this.temp_index_live[i]?.VehicleNo;
+      // vNumberLocal=vNumberLocal.split('$$$');
+      var dMobNoLocal=this.temp_index_live[i].DriverName;
+      var speedLocal=this.Live_data[i].Speed;
+      var rstatusLocal=this.Live_data[i].runningStatus;
+      var ioStrLocal=this.Live_data[i].IO;
+      var dMaxSpeedLocal=this.Live_data[i].DayMaxSpeed;
+      var lHaltSpeedLocal=this.Live_data[i].HaltTime;
+      var venu_color = '#4682B4';
+     var rstatus= this.Live_data[i].runningStatus
+    // }
+// add arrow--------------------------------
+var angle_deg:any;
+var my_scaled= new google.maps.Size(10, 10);
+if(this.add_arrow==1) {
+  // alert(0);
+  if( this. lat_store!=''){
+    // alert("enter");
+    var lat1:any;
+    var lng1:any;
+    for(var p=0;p<this.imeidata_arra.length;p++){
+      if(this.imeidata_arra[p]==this.Live_data[i].Imei){
+        // alert(0);
+
+         lat1 = parseFloat( this. lat_store[p]);
+         lng1 = parseFloat( this. lng_store[p]);
+      }
+    }
+    if(lat1!=''){
+    
+     var lat2 = parseFloat(latlng_arr[0]);
+     var lng2 = parseFloat(latlng_arr[1]);
+      //var yaxis = (lat1 + lat2)/2;
+      //var xaxis = (lng1 + lng2)/2;
+
+      var angle_t = Math.atan( (lat2-lat1)/(lng2-lng1) );
+     angle_deg = 360 * angle_t/(2 * Math.PI);
+      if((lng2-lng1)<0) {
+          angle_deg = 180 + angle_deg;
+      } else if((lat2-lat1)<0) {
+          angle_deg = 360 + angle_deg;
+      }
+
+      angle_deg = Math.round(angle_deg);
+
+      if(this.Live_data[i].runningStatus=='Running') {
+          if(this.add_trail==1) {
+            var  flightPlanCoordinates = [
+                  {lat: lat1, lng: lng1},
+                  {lat: lat2, lng: lng2}
+              ];
+             var flightPath = new google.maps.Polyline({
+                  path: flightPlanCoordinates,
+                  geodesic: true,
+                  strokeColor: '#FF0000',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 5,
+                  imei:vSerialLocal
+              });
+
+              flightPath.setMap(this.maps);
+             var prev_poly = [
+                  {'imei': vSerialLocal},
+                  {'polyline':flightPath}
+              ];
+             var prev_poly1 = [
+                  {vSerialLocal:flightPath}
+              ];
+             this.poly_pt.push(flightPath);
+          }
+      }
+
+      if(this.Live_data[i].runningStatus=='Stopped'){
+          if(this.poly_pt.length>0){
+              for (var ipl = 0; ipl < this.poly_pt.length; ipl++) {
+                  if(this.poly_pt[ipl].imei==vSerialLocal){
+                      this.poly_pt[ipl].setMap(null);
+                  }
+              }
+          }
+          
+      }else{
+        angle_deg=0;
+      }
+  
+
+   my_scaled = new google.maps.Size(10, 10);
+  var vehicleColorDeg = 0;
+  if(angle_deg==0) {
+      if(this.Live_data[i].runningStatus=='Running') {
+          vehicleColorDeg = 120;
+          //url = 'http://localhost/new_nimbumirchee/images/running.png';
+          url = url_pre+'/imagesnew/running.png';
+          my_label_class = 'custom_label_green';
+          my_label_classimg = 'custom_label_greenimg';
+      } else if(this.Live_data[i].runningStatus=='Stopped___') {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_red';
+          my_label_classimg = 'custom_label_redimg';
+      } else if(this.Live_data[i].runningStatus=='Stopped____') {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_gray';
+          my_label_classimg = 'custom_label_grayimg';
+      } else if(this.Live_data[i].runningStatus=='Stopped_') {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_black';
+          my_label_classimg = 'custom_label_blackimg';
+      } else if(this.Live_data[i].runningStatus=='Stopped__') {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_purple';
+          my_label_classimg = 'custom_label_purpleimg';
+      }
+
+      my_scaled = new google.maps.Size(10, 10);
+  } else {
+      //url = 'http://localhost/new_nimbumirchee/images/arrow_images/'+angle_deg+'.png';
+      url = url_pre+'/imagesnew/arrow_images/'+angle_deg+'.png';
+     var forFuture = url;
+  }
+
+  if(this.Live_data[i].runningStatus!='Running') {
+      vehicleColorDeg = 0;
+      url = url_pre+'/imagesnew/stop.png';
+  }
+
+  if(isNaN(angle_deg)) {
+      if(this.Live_data[i].runningStatus=='Running') {
+          vehicleColorDeg = 120;
+          //url = 'http://localhost/new_nimbumirchee/images/running.png';
+          url = url_pre+'/imagesnew/running.png';
+          my_label_class = 'custom_label_green';
+          my_label_classimg = 'custom_label_greenimg';
+      } else if(this.Live_data[i].runningStatus=='Stopped___') {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_red';
+          my_label_classimg = 'custom_label_redimg';
+      } else if(this.Live_data[i].runningStatus=='Stopped_') {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_black';
+          my_label_classimg = 'custom_label_blackimg';
+      } else if(this.Live_data[i].runningStatus=='Stopped__') {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_purple';
+          my_label_classimg = 'custom_label_purpleimg';
+      } else {
+          vehicleColorDeg = 0;
+          //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+          url = url_pre+'/imagesnew/stop.png';
+          my_label_class = 'custom_label_gray';
+          my_label_classimg = 'custom_label_grayimg';
+      }
+
+      my_scaled = new google.maps.Size(10, 10);
+  }
+}
+}else{
+  if(this.Live_data[i].runningStatus=='Running') {
+    vehicleColorDeg = 120;
+    //url = 'http://localhost/new_nimbumirchee/images/running.png';
+    url =url_pre+'/imagesnew/running.png';
+    my_label_class = 'custom_label_green';
+    my_label_classimg = 'custom_label_greenimg';
+} else if(this.Live_data[i].runningStatus=='Stopped___') {
+    vehicleColorDeg = 0;
+    //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+    url = url_pre+'/imagesnew/stop.png';
+    my_label_class = 'custom_label_red';
+    my_label_classimg = 'custom_label_redimg';
+} else if(this.Live_data[i].runningStatus=='Stopped_') {
+    vehicleColorDeg = 0;
+    //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+    url = url_pre+'/imagesnew/stop.png';
+    my_label_class = 'custom_label_black';
+    my_label_classimg = 'custom_label_blackimg';
+} else if(this.Live_data[i].runningStatus=='Stopped__') {
+    vehicleColorDeg = 0;
+    //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+    url = url_pre+'/imagesnew/stop.png';
+    my_label_class = 'custom_label_purple';
+    my_label_classimg = 'custom_label_purpleimg';
+} else {
+    vehicleColorDeg = 0;
+    //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+    url = url_pre+'/imagesnew/stop.png';
+    my_label_class = 'custom_label_gray';
+    my_label_classimg = 'custom_label_grayimg';
+}
+}
+}
+ else {
+  
+  if(this.Live_data[i].runningStatus=='Running') {
+      vehicleColorDeg = 120;
+      //url = 'http://localhost/new_nimbumirchee/images/running.png';
+      url =url_pre+'/imagesnew/running.png';
+      my_label_class = 'custom_label_green';
+      my_label_classimg = 'custom_label_greenimg';
+  } else if(this.Live_data[i].runningStatus=='Stopped___') {
+      vehicleColorDeg = 0;
+      //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+      url = 'assets/imagesnew/stop.png';
+      my_label_class = 'custom_label_red';
+      my_label_classimg = 'custom_label_redimg';
+  } else if(this.Live_data[i].runningStatus=='Stopped_') {
+      vehicleColorDeg = 0;
+      //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+      url = 'assets/imagesnew/stop.png';
+      my_label_class = 'custom_label_black';
+      my_label_classimg = 'custom_label_blackimg';
+  } else if(this.Live_data[i].runningStatus=='Stopped__') {
+      vehicleColorDeg = 0;
+      //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+      url = 'assets/imagesnew/stop.png';
+      my_label_class = 'custom_label_purple';
+      my_label_classimg = 'custom_label_purpleimg';
+  } else {
+      vehicleColorDeg = 0;
+      //url = 'http://localhost/new_nimbumirchee/images/stop.png';
+      url = 'assets/imagesnew/stop.png';
+      my_label_class = 'custom_label_gray';
+      my_label_classimg = 'custom_label_grayimg';
+  }
+ }
+// end arrow-------------------
+if(this.Live_data[i].runningStatus=='Running') {
+  vehicleColorDeg = 120;
+  my_label_class = 'custom_label_green';
+  my_label_classimg = 'custom_label_greenimg';
+} else if(this.Live_data[i].runningStatus=='Stopped___') {
+  vehicleColorDeg = 0;
+  my_label_class = 'custom_label_red';
+  my_label_classimg = 'custom_label_redimg';
+} else if(this.Live_data[i].runningStatus=='Stopped_') {
+  vehicleColorDeg = 0;
+  my_label_class = 'custom_label_black';
+  my_label_classimg = 'custom_label_blackimg';
+} else if(this.Live_data[i].runningStatus=='Stopped__') {
+  vehicleColorDeg = 0;
+  my_label_class = 'custom_label_purple';
+  my_label_classimg = 'custom_label_purpleimg';
+} else {
+  vehicleColorDeg = 0;
+  my_label_class = 'custom_label_gray';
+  my_label_classimg = 'custom_label_grayimg';
+}  
+if(angle_deg>0 &&this.Live_data[i].runningStatus=='Running') {
+  vehicleColorDeg = 120;
+  my_scaled = new google.maps.Size(20, 20);
+}
+
+var icon2 = {
+  url: url,
+  anchor: new google.maps.Point(0, 0),
+  scaledSize: my_scaled,
+  // scaledSize: new google.maps.Size(20, 20),
+  labelOrigin:  new google.maps.Point(20,-5),
+  labelAnchor:  new google.maps.Point(20,-5),
+  
+};
+var groupId = $('#groupId').val();
+var angle_deg2 = 360 - angle_deg;
+var vehicleLabel = '<span class=\"'+ my_label_class + '\">' + vNumberLocal[0] +'</span>';
+var label_anchor = new google.maps.Point(-16, 4);
+// var vehicleIcon = '<img class=\"'+my_label_classimg+'\" src=\"'+resultNow[vNumberLocal[0]]+'\" style=\"width: 25px; margin: 0 7px; transform: rotate('+ angle_deg2 +'deg); -webkit-transform: rotate('+ angle_deg2 +'deg); -webkit-filter: hue-rotate('+ vehicleColorDeg +'deg);filter: hue-rotate('+ vehicleColorDeg +'deg);\"/>';
+// var label_anchor = new google.maps.Point(-16, 4);//new google.maps.Point(100, 5);
+// if (groupId=='0521' && typeof resultNow[vNumberLocal[0]] !== 'undefined' && typeof groupId !== 'undefined' && resultNow[vNumberLocal[0]]!='') {
+//     //var vehicleLabel = document.createElement('img');
+//     //vehicleLabel.setAttribute('style','width:39px');  
+//     //vehicleLabel.src = resultNow[vNumberLocal[0]];
+//     var vehicleLabel = '<img class=\"'+my_label_classimg+'\" src=\"'+resultNow[vNumberLocal[0]]+'\" style=\"width:25px;height:25px;transform: rotate(\"+angle_deg+\"deg);\"/>';
+//     my_label_class = 'class_for_image';//my_label_class+' '+my_label_class_add;
+//     var label_anchor = new google.maps.Point(30, 5);
+// }
+
+var finalVehicleLabel :any;
+if(this.Live_data[i].LatLong.length==1) {
+    finalVehicleLabel = vNameLocal;
+} else {
+    // finalVehicleLabel = vehicleIcon + ' ' + vehicleLabel;
+    finalVehicleLabel = vNameLocal;
+}
+// var MarkerWithLabel = ('markerwithlabel')(google.maps);
+// new markerWithLabel.MarkerWithLabel();
+// finalVehicleLabel='values';
+var marker = new google.maps.Marker({
+    position: position,
+    map: this.maps,
+    icon: icon2,
+    draggable: false, // the CSS class for the label
+    // raiseOnDrag: false,
+  //   labelContent: finalVehicleLabel,
+  //   labelAnchor: label_anchor,//new google.maps.Point(100, 5),
+  //   labelClass: my_label_class,  //my_label_class, // the CSS class for the label
+  //   labelInBackground: false,
+  //  title: vNumberLocal[0]+' => '+this.Live_data[i].runningStatus,
+   vNameLocal:vNameLocal,
+   Drivername:Drivername,
+   vSerialLocal:vSerialLocal,
+   speedLocal:speedLocal,
+   lHaltSpeedLocal:lHaltSpeedLocal,
+   rstatus:rstatus
+});
+latlngbounds.extend(position);
+var origPos = marker.getPosition();
+marker.setMap(this.maps);
+// marker.addListener('drag',function(e){marker.setPosition(origPos);})
+
+this.markers_live.push(marker);
+// if(this.clusterChk==1) {
+//     // clusterMarkers.push(marker);
+// }
+var infowindow = new google.maps.InfoWindow();
+var contentString:any;
+google.maps.event.addListener(marker,"click", (e) => {
+  // alert(e.getPosition());
+  // Close the current InfoWindow.
+  console.log(marker);
+  contentString='<table  border=\"0\">'+
+  '<tr>'+
+  '<td class=\"live_td_css1\" style="font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle Name</td>'+
+  '<td width=\"1%\">:</td>'+
+  '<td class=\"live_td_css2\"style=" color: blue; white-space: nowrap;font-size: 11px;">'+marker.vNameLocal+'</td>'+
+  '</tr>'+
+  '<tr>'+
+  '<td class=\"live_td_css1\" style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name/Contact</td>'+
+  '<td width=\"1%\">:</td>'+
+  '<td class=\"live_td_css2\"style=" color: blue; white-space: nowrap;font-size: 11px;">'+marker.Drivername +'</td>'+
+  '</tr>'+
+  // '<tr class=\"route_class\">'+
+  // '<td class=\"live_td_css1\">Route</td>'+
+  // '<td>:</td>'+
+  // '<td class=\"live_td_css2\">'+vRoute+'</td>'+
+  // '</tr>'+
+  // '<tr>'+
+  // '<td class=\"live_td_css1\">Plant</td>'+
+  // '<td>:</td>'+
+  // // '<td class=\"live_td_css2\">'+vPlant+'</td>'+
+  // '</tr>'+
+  '<tr>'+
+  '<td class=\"live_td_css1\" style="font-size: 11px;font-weight: 900;font-family:Roboto;">Imei</td>'+
+  '<td>:</td>'+
+  '<td class=\"live_td_css2\"style=" color: blue; white-space: nowrap;font-size: 11px;">'+marker.vSerialLocal+'</td>'+
+  '</tr>'+
+  '<!--<tr>'+
+  '<td class=\"live_td_css1\" style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name/Mob </td>'+
+  '<td>:</td>'+
+  '<td class=\"live_td_css2\"style=" color: blue; white-space: nowrap;font-size: 11px;">'+Drivername+'</td>'+
+  '</tr>-->'+
+  // '<tr>'+
+  '<tr>'+
+  '<td class=\"live_td_css1\" style="font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>'+
+  '<td>:</td>'+
+  '<td class=\"live_td_css2\"style=" color: blue; white-space: nowrap;font-size: 11px;">'+marker.speedLocal+'</td>'+
+  '</tr>'+
+  // '<tr>'+
+  // '<td class=\"live_td_css1\">Date Time</td>'+
+  // '<td>:</td>'+
+  // '<td class=\"live_td_css2\">'+dateTimeArr+'</td>'+
+  // '</tr>'+
+//   '<tr>'+
+//   '<td class=\"live_td_css1\">Address</td>'+
+//   '<td>:</td>'+
+//   '<td class=\"live_td_css2\">'+loc_sec+''+ioStr+ '</td>'+
+//  '</tr>'+
+  '<tr>'+
+  '<td class=\"live_td_css1\" style="font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>'+
+  '<td>:</td>'+
+  '<td class=\"live_td_css2\"style=" color: blue; white-space: nowrap;font-size: 11px;">'+marker.lHaltSpeedLocal+'</td>'+
+  '</tr>'+
+  '<tr>'+
+  '<td class=\"live_td_css1\" style="font-size: 11px;font-weight: 900;font-family:Roboto;">Status</td>'+
+  '<td>:</td>'+
+  '<td class=\"live_td_css2\"style=" color: blue; white-space: nowrap;font-size: 11px;">'+marker.rstatus+'</td>'+
+  '</tr>'+
+  '</table>'+
+  '<b><font color=black size=2>('+marker.position+')</font></b>';
+
+  // Create a new InfoWindow.
+  // infoWindow = new google.maps.InfoWindow({
+  //   position:marker.position,
+  // });
+  // infoWindow.close();
+  infowindow.setContent(contentString);
+  // infoWindow.open(marker);
+  // closeLastOpenedInfoWindow();
+  infowindow.open(this.maps, marker); 
+  this.lastOpenedInfoWindow=0; 
+  this.lastOpenedInfoWindow = infowindow;
+
+  // infowindow.setContent(contents);
+     
+  //       closeLastOpenedInfoWindow();
+  //         infowindow.open(this.maps, marker1,this.Address); 
+  //         this.lastOpenedInfoWindow=0; 
+  //         this.lastOpenedInfoWindow = infowindow;
+
+}
+
+);
+const closeLastOpenedInfoWindow = () => {
+  if (this.lastOpenedInfoWindow) {
+      this.lastOpenedInfoWindow.close();
+  }
+}
+// const infowindow = new google.maps.InfoWindow(
+//   {
+//     position:marker.latlng
+//   }
+// );
+// google.maps.event.addListener (
+//     // marker, mouse_action, infoCallbackLive(lat_tmp,lng_tmp,dateTime,vSerialLocal,vNameLocal,vRouteLocal,vPlantLocal,vNumberLocal,speedLocal,ioStrLocal,marker,dMaxSpeedLocal,lHaltSpeedLocal,rstatusLocal,dMobNoLocal)
+//   marker,  "click", (mapsMouseEvent) => { // this.infoCallbackLive(lat_tmp,lng_tmp,vSerialLocal,vNameLocal,vNumberLocal,speedLocal,ioStrLocal,marker,dMaxSpeedLocal,lHaltSpeedLocal,rstatusLocal,dMobNoLocal)
+
+//      } );
+// this. lat_store=[];
+//   this. lng_store=[];
+//   this.imeidata_arra=[];
+// var latlng_arr1=this.Live_data[i].LatLong.split(',');
+// var imeidata_arra=this.Live_data[i].Imei;
+// this. lat_store.push(latlng_arr1[0]);
+// this. lng_store.push(latlng_arr1[1]);
+// this.imeidata_arra.push(imeidata_arra);
+
+}
+
+  
+
+// for (let i = 0; i < this.markers_live.length; i++) {
+//   this.markers_live[i].setMap(this.maps);
+// }
+
+
+
+  
+  this. lat_store=[];
+  this. lng_store=[];
+  this.imeidata_arra=[];
+  for(var l=0;l<this.Live_data.length;l++){
+    var latlng_arr1=this.Live_data[l].LatLong.split(',');
+    var imeidata_arra=this.Live_data[l].Imei;
+   this. lat_store.push(latlng_arr1[0]);
+   this. lng_store.push(latlng_arr1[1]);
+   this.imeidata_arra.push(imeidata_arra);
+    //return false;
+  }
+}

@@ -1,0 +1,28 @@
+.dropdown-toggle::after{
+    display: none;
+}
+
+.dropdown-menu-arrow:before{
+    z-index: -1 !important;
+}
+.responsive-navbar.navbar{
+    z-index: 998 !important;
+}
+.nav-link{
+    display: flex !important;
+}
+::ng-deep{
+    @media (min-width: 768.8px){
+        .dropdown-menu-end{
+            right: 0 !important;
+            left: auto !important;
+        }
+    }
+}
+
+    
+@media only screen and (max-width: 991px){
+    .animated-arrow {
+        left: initial !important;
+    }
+}

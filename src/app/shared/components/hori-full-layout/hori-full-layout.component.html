@@ -1,0 +1,31 @@
+<div class="horizontalMenucontainer">
+    <div class="page">
+        <div class="page-main">
+
+            <!-- Header -->
+            <app-hori-header></app-hori-header>
+            <!-- /Header -->
+
+            <!-- Horizonatal menu-->
+            <app-hori-sidemenu></app-hori-sidemenu>
+            <!--End  Horizonatal menu-->
+            <app-sidemenu></app-sidemenu>
+            <!-- Main Content -->
+            <!-- app-content -->
+            
+            <div class="container app-content" >
+                <div class="" (click)="clickonBody()">
+
+                    <router-outlet></router-outlet>
+
+                </div>
+            </div>
+            <!-- /Main Content -->
+            <app-notification-sidemenu></app-notification-sidemenu>
+            <!-- Footer -->
+            <app-footer></app-footer>
+            <!-- /Footer -->
+        </div>
+    </div>    
+</div>
+

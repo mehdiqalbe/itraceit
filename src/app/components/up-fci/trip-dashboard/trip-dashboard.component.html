@@ -1,0 +1,527 @@
+<div class="card">
+    <div class="card-body innerdiv p-0">
+        <!-- headerstart here -->
+        <div class="hor-header">
+            <div style="overflow: hidden;">
+                <div class="row align-items-left">
+                    <div class="col-lg-1">
+                        <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-6 text-center">
+                        <div class="row" style="display: inline-block;">
+                            <span class="fa-stack" style="display: inline-block;margin-top: 15px;">
+
+                                <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class"
+                                    (click)="tableFilter('All')" ngbTooltip="All" placement="bottom" container="body" id="nod" value="3"><i
+                                        class="fe fe-truck" style="font-size: 20px;color: grey;" id="blink"></i><span
+                                        class="badge rounded-pill badge-notification bg-secondary"
+                                        id="darkicon">{{summary?.running+summary?.stop+summary?.inactive+summary?.nod+summary?.no_gps}}</span></button>
+                                <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class"
+                                    (click)="tableFilter('Running')" ngbTooltip="Running" placement="bottom" container="body" id="nod" value="3"><i
+                                        class="fe fe-truck" style="font-size: 20px;color: green;" id="blink"></i><span
+                                        class="badge rounded-pill badge-notification bg-success"
+                                        id="darkicon">{{summary?.running}}</span></button>
+                                <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class"
+                                    (click)="tableFilter('Stop')" ngbTooltip="Stop"placement="bottom" container="body" id="nod" value="3"><i
+                                        class="fe fe-truck" style="font-size: 20px;color:red" id="blink"></i><span
+                                        class="badge rounded-pill badge-notification bg-danger"
+                                        id="darkicon">{{summary?.stop}}</span></button>
+                                <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class"
+                                    (click)="tableFilter('Inactive')" ngbTooltip="Inactive" placement="bottom" container="body" id="nod" value="3"><i
+                                        class="fe fe-truck" style="font-size: 20px;color:blue" id="blink"></i><span
+                                        class="badge rounded-pill badge-notification bg-primary"
+                                        id="darkicon">{{summary?.inactive}}</span></button>
+                                <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class"
+                                    (click)="tableFilter('NOD')" ngbTooltip="Nod" placement="bottom" container="body" id="nod" value="3"><i
+                                        class="fe fe-truck" style="font-size: 20px;color:black" id="blink"></i><span
+                                        class="badge rounded-pill badge-notification bg-dark"
+                                        id="darkicon">{{summary?.nod}}</span></button>
+                                <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class"
+                                    (click)="tableFilter('NOGPS')" ngbTooltip="NoGps" placement="bottom" container="body" id="nod" value="3"><i
+                                        class="fa fa-ban" style="font-size: 20px;color:red" id="blink"></i><span
+                                        class="badge rounded-pill badge-notification bg-danger"
+                                        id="darkicon">{{summary?.no_gps}}</span></button>
+                                <button type="button" class="text-dark" tooltipClass="customInStopped-tooltip-class"
+                                    (click)="tableFilter('Stop')" data-bs-toggle="modal" data-bs-target="#threatsModal"
+                                    ngbTooltip="All Alerts" placement="bottom" container="body"><i class="fa fa-exclamation-triangle"
+                                        style="font-size: 20px;color: red" id="blink"></i><span
+                                        class="badge rounded-pill badge-notification bg-danger"
+                                        id="darkicon">2</span></button>
+                            </span>
+                        </div>
+                        <!-- <button class="btn-btn-outline-primary btn-sm">ALL</button>
+                        <img src="assets/images/trip1.png" alt="">
+                        <img src="assets/images/Picture2.png" alt="">
+                        <img src="assets/images/Picture3.png" alt=""> -->
+                        <!-- <span class="fw-bold fs-5">Trip Dashboard</span> -->
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-1">
+                        <a routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true"
+                                style="font-size: 22px;color: #1D4380;margin-top: 15px;" ngbTooltip="Create Trip" placement="bottom" container="body"></i></a>
+                    </div>
+                    <div class="col-lg-1 text-center">
+                        <a class="header-brand1">
+                            <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo"
+                                class="header-brand-img desktop-logo" style="height: auto; width: 80%;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="card"> -->
+<div class="container-fluid " style="margin-top: -1%;">
+    <div class="row">
+        <div class="col-lg-2">
+            <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel required name="shipment_no"
+                (change)="routeList($event)">
+                <ng-option value="" selected>All Consigner</ng-option>
+                <ng-option [value]="item.source_id" *ngFor="let item of sourceListdata">{{item.source_name}}</ng-option>
+
+
+            </ng-select>
+        </div>
+        <div class="col-lg-2">
+            <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel="" required name="shipment_no"
+                (change)="routeFilter($event)">
+
+                <ng-option value="" selected>All Route</ng-option>
+                <ng-option [value]="item.route_code" *ngFor="let item of routedata">{{item.route_name}}</ng-option>
+                <!-- <ng-option *ngFor="let item of alltrip |keyvalue" [value]="item.key">{{item.key}}</ng-option> -->
+
+            </ng-select>
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid mt-2">
+    <table class="display nowrap table table-Success table-striped table-hover" cellspacing="0" id="threatTable"
+        width="100%">
+        <thead>
+            <tr style="text-align: center;">
+                <th class="table-primary">S.No.</th>
+
+
+                <th class="table-primary">Action</th>
+                <th class="table-primary">Trip Id
+                </th>
+                <th class="table-primary">Vehicle Number
+
+                </th>
+                <th class="table-primary">Route
+                </th>
+                <th class="table-primary">Vehicle Status
+                </th>
+                <th class="table-primary">Run Date
+                </th>
+                <!-- <th class="table-primary">Threat</th> -->
+                <th class="table-primary">ETA</th>
+                <th class="table-primary">Distance</th>
+                <th class="table-primary">Driver</th>
+                <th class="table-primary">Alert</th>
+
+                <th class="table-primary">Current Location
+                </th>
+                <th class="table-primary">Trip Expense (₹)
+                </th>
+
+
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr style="text-align: center;" *ngFor="let item of DashboardData;let ind=index">
+                <td>{{ind+1}}</td>
+                <td>
+                    <button data-bs-target="#expensivetripModal" data-bs-toggle="modal" ngbTooltip="Add Expenses" placement="bottom" container="body"  (click)="addexpenceID(item.id)"> <i class='fas fa-file-upload'
+                            style="color: black;font-size: 16px;"></i></button>
+                    <button data-bs-target="#canceltripModal" data-bs-toggle="modal" ngbTooltip="Cancel Trip" placement="bottom" container="body" (click)="cancelTripF(item.id)"> <i
+                            class="fa fa-times-circle" style="color: red;font-size:18px"></i></button>
+                    <button data-bs-target="#closetripModal" data-bs-toggle="modal" ngbTooltip="Close Trip" placement="bottom" container="body" (click)="closeTrip(item)"><i
+                            class="fa fa-check-circle" aria-hidden="true"
+                            style="color: blue;font-size:18px"></i></button>
+                     <button data-bs-target="#transShipModal" data-bs-toggle="modal" ngbTooltip="Trans-Shipment" placement="bottom" container="body" (click)="transShipment(item)"><i
+                                class="fa-solid fa-dolly" aria-hidden="true"
+                                style="color: rgb(114, 4, 0);font-size:18px"></i></button>
+
+
+
+
+                </td>
+                <td>
+                    {{item.shipment_no}}
+                </td>
+                <td>{{item.vehicle_no}}</td>
+                <td>{{item.route_code}}
+                </td>
+                <td>{{item.vehiclestatus}}</td>
+                <td>{{item.run_date}}
+                </td>
+                <!-- <td> <i class="fa fa-exclamation-triangle" *ngIf="item.threat.length!=0" [ngbTooltip]="item.threat[0].location" style="color: red;"></i></td> -->
+                <td>{{item.eta}}
+                </td>
+                <td>{{item.distance_km}}</td>
+                <td>{{item.driver}}
+                </td>
+                <td>
+                    <span *ngFor="let subItem of item.alerts_summary">
+                        <label for="floatingInput"
+                            style="color: black;font-weight: 400;font-size: 15px;margin-left: 1px;">{{subItem?.alert_name}}</label>
+                        <sup>
+                            <span class="badge rounded-pill badge-notification"
+                                style="background-color:transparent;color: red;font-size: 10px;">{{subItem?.total_count}}</span>
+                        </sup></span>&nbsp;
+
+                </td>
+
+                <td>{{item.shipment_no}}
+                </td>
+                <td>{{"$"}}
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<!-- </div> -->
+<!-- //////////////////////////////////////////////////////////close trip modal////////////////////////////////////////////////// -->
+<div class="modal fade" id="closetripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" style="margin-left: 458px;width: 420px;">
+        <div class="modal-content" style="height: 310px;border: 3px solid #1c84c6">
+
+            <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+                <!-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" aria-label="Close"><i class="fa fa-arrow-left"
+              ngbTooltip="Back"></i></button> -->
+                <h5 class="modal-title" id="exampleModalLabel"
+                    style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Close Trip
+                </h5>
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #closeT="ngForm" (ngSubmit)="closeTripF(closeT.value);closeT.reset()">
+
+
+
+
+
+                    <!-- <button class="btn btn-outline-primary btn-sm" type="submit" id="AlertButton"
+                style="margin-top: 15px;margin-left: 242px;">Submit</button> -->
+
+
+
+
+
+                    <div class="col-lg-12 cutom">Select Location</div>
+                <div class="col-lg-12">
+                    <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel class="cutombox" required
+                        name="location">
+                        <!-- <ng-option value="" selected>ING001</ng-option> -->
+                        <ng-option [value]="item.id" *ngFor="let item of location">{{item.location_name }}</ng-option>
+                       
+
+
+                    </ng-select>
+                </div>
+                    <div class="col-lg-12 mt-2">
+                        <div class="row">
+                            <div class="col-lg-6 cutom">Closing Odometer Reading</div>
+                            <div class="col-lg-6 cutom">EPOD Date & Time</div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <input type="text" id="form12" class="form-control cutombox" [ngbTooltip]="location.length>1 ? 'Odometer reading only last location' : ''" placement="top" ngModel name="odometer" [disabled]="location.length>1" />
+
+                            </div>
+                            <div class="col-lg-6 ">
+                                <input type="datetime-local" step="1" class="form-control cutombox"
+                                    ngModel="datetimepicker1" required name="time" />
+
+                            </div>
+
+                        </div>
+                        <!-- <div class="row mt-2">
+                        <div class="col-lg-6 cutom">Closing Odometer Reading</div>
+                        <div class="col-lg-6 cutom">Traveling Expense</div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <input type="text" id="form12" class="form-control cutombox" name="" />
+                        </div>
+                        <div class="col-lg-6 ">
+                            <input type="text" id="form12" class="form-control cutombox" name="" />
+                        </div>
+
+                    </div> -->
+                        <!-- <div class="row">
+
+
+
+                        <div class="form-check cutom" style="text-align: end;">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Receipt
+                            </label>
+
+
+                        </div>
+                    </div> -->
+                        <div class="row mt-2">
+                            <div class="col-lg-6 cutom">EPOD Documents</div>
+                            <div class="col-lg-6 cutom">Remarks</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <input class="form-control form-control-sm cutombox" id="formFileSm" type="file" ngModel
+                                    name="file" />
+                            </div>
+                            <div class="col-lg-6 ">
+                                <textarea class="form-control cutombox" rows="1" id="comment" ngModel
+                                    name="remarks"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="row mt-4">
+                            <div style="text-align:center;">
+                                <button class="btn btn-sm btn-orange" type="submit"
+                                    style="width: 70px;color: white;">close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- //////////////////////////////////////////////////////////////cancel trip modal////////////////////////////////////////////////////////////////////// -->
+<div class="modal fade" id="canceltripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" style="margin-left: 458px;width: 420px;">
+        <div class="modal-content" style="height: 200px;border: 3px solid #1D4380">
+
+            <div class="modal-header" style="border-bottom: 2px solid #eef1f6;height: 12px;">
+                <!-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" aria-label="Close"><i class="fa fa-arrow-left"
+              ngbTooltip="Back"></i></button> -->
+                <h5 class="modal-title" id="exampleModalLabel"
+                    style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Cancel Trip
+                </h5>
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <form #closeT="ngForm" (ngSubmit)="closeTrip(closeT.value);closeT.reset()">
+          
+           
+  
+  
+           
+              <button class="btn btn-outline-primary btn-sm" type="submit" id="AlertButton"
+                style="margin-top: 15px;margin-left: 242px;">Submit</button>
+            
+           
+  
+          </form> -->
+
+                <!-- <div class="col-lg-12 cutom">Shipment Number</div>
+                <div class="col-lg-12">
+                    <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel="" class="cutombox" required
+                        name="shipment_no">
+                        <ng-option value="" selected>ING001</ng-option>
+                        <ng-option value="">ING001</ng-option>
+
+
+                    </ng-select>
+                </div> -->
+                <form #canceltrp="ngForm" (ngSubmit)="cancelSubmit(canceltrp.value)">
+                    <div class="col-lg-12 mt-2">
+
+                        <div class="row">
+
+                            <div class="col-lg-12 cutom">Remarks</div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-12 ">
+                                <textarea class="form-control cutombox" rows="1" id="comment" ngModel
+                                    name="remarks"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="row mt-4">
+                            <div style="text-align:center;">
+                                <button class="btn btn-sm btn-orange" type="submit"
+                                    style="width: 70px;color: white;">Cancel</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /////////////////////////////////////////////add expensive////////////////////////////////////////////////////////////////////////////// -->
+<div class="modal fade" id="expensivetripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" style="margin-left: 458px;width: 420px;">
+        <div class="modal-content" style="height: 255px;border: 3px solid #1D4380">
+
+            <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+                <!-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" aria-label="Close"><i class="fa fa-arrow-left"
+              ngbTooltip="Back"></i></button> -->
+                <h5 class="modal-title" id="exampleModalLabel"
+                    style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Add Expenses
+                </h5>
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <form #closeT="ngForm" (ngSubmit)="closeTrip(closeT.value);closeT.reset()">
+          
+           
+  
+  
+           
+              <button class="btn btn-outline-primary btn-sm" type="submit" id="AlertButton"
+                style="margin-top: 15px;margin-left: 242px;">Submit</button>
+            
+           
+  
+          </form> -->
+
+                <!-- <div class="col-lg-12 cutom">Shipment Number</div> -->
+                <form #addExpense="ngForm" (ngSubmit)="addExpenseF(addExpense.value)">
+
+                    <div class="col-lg-12 mt-2">
+                        <div class="row">
+                            <div class="col-lg-6 cutom">Select Expens</div>
+                            <div class="col-lg-6 cutom">Expense Date</div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel class="cutombox"
+                                    required name="expense">
+                                    <ng-option value="" selected>select</ng-option>
+                                    <ng-option [value]="item"
+                                        *ngFor="let item of expenseListdata">{{item.name}}</ng-option>
+
+
+                                </ng-select>
+
+                            </div>
+                            <div class="col-lg-6 ">
+                                <input type="datetime-local" step="1" class="form-control cutombox"
+                                    ngModel="datetimepicker1" required name="from_time" />
+
+                            </div>
+
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-lg-6 cutom">Amount</div>
+                            <div class="col-lg-6 cutom">Remarks</div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <input type="text" id="form12" class="form-control cutombox" name="Amount" ngModel />
+                            </div>
+                            <div class="col-lg-6 ">
+                                <textarea class="form-control cutombox" rows="1" id="comment" name="Remarks" ngModel></textarea>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-4">
+                            <div style="text-align:center;">
+                                <button class="btn btn-sm btn-orange" type="submit"
+                                    style="width: 70px;color: white;">Add</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- //////////////////////////////////////////////////////////Trans Shipment Model////////////////////////////////////////////////// -->
+<div class="modal fade" id="transShipModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog" style="margin-left: 458px;width: 420px;">
+        <div class="modal-content" style="height: 310px;border: 3px solid #1c84c6">
+
+            <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+                <!-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" aria-label="Close"><i class="fa fa-arrow-left"
+              ngbTooltip="Back"></i></button> -->
+                <h5 class="modal-title" id="exampleModalLabel"
+                    style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Trans-Shipment
+                </h5>
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #transShip="ngForm" (ngSubmit)="transShipment(transShip.value);transShip.reset()">
+                    <div class="col-lg-12 cutom">Select Vehicle</div>
+                <div class="col-lg-12">
+                    <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel class="cutombox" required
+                        name="vehicle">
+                        <!-- <ng-option value="" selected>ING001</ng-option> -->
+                        <ng-option [value]="item.id" *ngFor="let item of location">{{item.location_name }}</ng-option>
+                       
+
+
+                    </ng-select>
+                </div>
+                    <div style="white-space:nowrap;" class="col-lg-12 mt-2">
+                        <div class="row">
+                            <div class="col-lg-6 cutom">Opening Odometer Reading</div>
+                            <div class="col-lg-6 cutom">Closing Odometer Reading</div>
+
+                        </div>
+                        <div  class="row">
+                            <div class="col-lg-6 ">
+                                <input type="text" id="form12" placeholder="odometer reading" class="form-control cutombox" [ngbTooltip]="location.length>1 ? 'Odometer reading only last location' : ''" placement="top" [ngModel] name="openOdometer" [disabled]="location.length>1" />
+
+                            </div>
+                            <div class="col-lg-6 ">
+                                <input type="text" id="form12" placeholder="odometer reading"  class="form-control cutombox" [ngbTooltip]="location.length>1 ? 'Odometer reading only last location' : ''" placement="top" ngModel name="closeOdometer" [disabled]="location.length>1" />
+
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-lg-6 cutom">EPOD Documents</div>
+                            <div class="col-lg-6 cutom">Remarks</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <input class="form-control form-control-sm cutombox" id="formFileSm" type="file" ngModel
+                                    name="file" />
+                            </div>
+                            <div class="col-lg-6 ">
+                                <textarea class="form-control cutombox" rows="1" id="comment" placeholder="Remarks..." [ngModel]
+                                    name="remarks"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="row mt-4">
+                            <div style="text-align:center;">
+                                <button class="btn btn-sm btn-orange" type="submit"
+                                    style="width: 70px;color: white;">close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,212 @@
+
+.custom_label_black{
+ width: 100px;
+height: 20px;
+border: 1px solid black;
+ border-radius: 5px;
+ background: #00000085;
+ text-align: center;
+ /* line-height: 20px; */
+ line-height: 30px;
+font-weight: bold;
+font-size: 14px;
+color: #fff;
+}
+.custom_label_purple{ width: 100px;
+ height: 20px;
+ border: 1px solid purple;
+ border-radius: 5px;
+background: #8000804f;
+ text-align: center;
+ /* line-height: 20px; */
+ line-height: 30px;
+ font-weight: bold;
+font-size: 14px;
+color: purple;
+}
+.custom_label_green{
+ width: 100px;
+ height: 20px;
+border: 1px solid green;
+border-radius: 5px;
+background: #00800038;
+ text-align: center;
+ /* line-height: 20px; */
+ line-height: 30px;
+ font-weight: bold;
+ font-size: 14px;
+ color: green;
+}
+.custom_label_red{
+width: 100px; 
+ height: 20px;
+ border: 1px solid #eb3a44;
+ border-radius: 5px;
+ background: #fee1d7;
+ text-align: center;
+ line-height: 30px;
+font-weight: bold;
+ font-size: 14px;
+ color: red;
+}
+.custom_label_gray{
+ width: 100px;
+ height: 20px;
+ border: 1px solid #777;
+ border-radius: 5px;
+background: #7777773b;
+ text-align: center;
+/* line-height: 20px; */
+line-height: 30px;
+ font-weight: bold;
+ font-size: 14px;
+color: #777;
+}
+.custom_label_blue{
+    width: 100px;
+    height: 20px;
+    border: 1px solid #3f1ba5;
+    border-radius: 5px;
+   background: #337ab7cc;
+    text-align: center;
+   /* line-height: 20px; */
+   line-height: 30px;
+    font-weight: bold;
+    font-size: 14px;
+   color: white;
+   }
+.custom_label_orange{
+    width: 100px;
+    height: 20px;
+    border: 1px solid orange;
+    border-radius: 5px;
+   background: #fdc104;
+    text-align: center;
+   /* line-height: 20px; */
+   line-height: 30px;
+    font-weight: bold;
+    font-size: 14px;
+   color: white;
+}
+.custom_label_orange_breakdown{
+    width: 100px;
+    height: 20px;
+    border: 1px solid brown;
+    border-radius: 5px;
+   /* background: #c79a6b; */
+   background-color: #a52a2a3b;
+    text-align: center;
+   /* line-height: 20px; */
+   line-height: 30px;
+    font-weight: bold;
+    font-size: 14px;
+   color: brown;
+}
+.live_td_css1{
+    font-size: 11px;font-weight: 900;font-family:Roboto;
+}
+.live_td_css2{
+    color: blue; white-space: nowrap;font-size: 11px;
+}
+.custom_label_alert{
+    width: 50px;
+    height: 60px;
+    /* border: 1px solid #3f1ba5;
+    border-radius: 5px; */
+   /* background: #337ab7cc; */
+    text-align: center;
+    color: red;
+    margin-top: 0px;
+   /* line-height: 20px; */
+   line-height: 30px;
+    font-weight: bold;
+    font-size: 14px;
+   /* color: white; */
+}
+
+.markerLabels{
+    position: absolute;
+    overflow: visible !important;
+    /* height: 200px !important;
+    width: 300px !important; */
+}
+.cdo_hdr:before {
+    content: '';
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    top: 30%;
+    left: 0%;
+    border-radius: 50%;
+    animation: glow1 1s linear infinite;
+    background: red;
+}
+ .cdo_hdr:after {
+    content: '';
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    top: 30%;
+    left: 0%;
+    border-radius: 50%;
+    animation: glow1 1s linear infinite 0.5s;
+    background: red;
+}
+
+@keyframes glow1 {
+    from {    transform: scale(5);
+        opacity: 0.5;}
+    to {transform: scale(50);
+        opacity: 0;}
+  }
+
+
+  .cdoRunning:before {
+    content: '';
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    top: 30%;
+    left: 0%;
+    border-radius: 50%;
+    animation: glow1 1s linear infinite;
+    background: green;
+}
+ .cdoRunning:after {
+    content: '';
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    top: 30%;
+    left: 0%;
+    border-radius: 50%;
+    animation: glow1 1s linear infinite 0.5s;
+    background: green;
+}
+
+.cdoauto:before {
+    content: '';
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    top: 30%;
+    left: -17px;
+    border-radius: 50%;
+    animation: glow1 1s linear infinite;
+    background: green;
+}
+ .cdoauto:after {
+    content: '';
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    top: 30%;
+    left: -17px;
+    border-radius: 50%;
+    animation: glow1 1s linear infinite 0.5s;
+    background: green;
+}
+.rotate-icon {
+    transform-origin: center center;
+    transform: rotate(45deg); /* Adjust the rotation angle as needed */
+  }
