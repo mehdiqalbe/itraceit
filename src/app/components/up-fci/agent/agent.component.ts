@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,6 +15,15 @@ declare var $: any;
   styleUrls: ['./agent.component.scss']
 })
 export class AgentComponent implements OnInit {
+///////////////////////////////////////////////////////
+
+filterForm_M!: FormGroup;
+ilgicDashboardData:any;
+
+/////////////////////////////////////////////////////////
+
+
+
 
   charttt: any = ''
   chartttime: any = ''
@@ -115,7 +124,7 @@ weektableflag:boolean=true;
      typeName:any
      show_hover:boolean=false
 
-  constructor(private navServices: NavService,private modalService: NgbModal,  private router: Router, private service: CrudService,  private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  constructor(private fb: FormBuilder,private navServices: NavService,private modalService: NgbModal,  private router: Router, private service: CrudService,  private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     let App = document.querySelector('.app')
@@ -124,6 +133,9 @@ weektableflag:boolean=true;
 
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
+    
+
+    this.initForms();
     this.submit();
   }
   
@@ -220,7 +232,7 @@ weektableflag:boolean=true;
                 type: 'pie',
                 radius: ['30%', '70%'],
                 avoidLabelOverlap: false,
-                color:['#6ABD46','red','grey','#1D4380'],
+                color:['#6ABD46','#97291E','grey','#1D4380'],
                 label: {
                     show: false,
                     // position: 'center'
@@ -1111,5 +1123,77 @@ weektableflag:boolean=true;
       }
     
     
+  }
+
+
+  //////////////////////////Mehdi////////////////////////////////////////////////////
+  initForms(): void {
+    this.filterForm_M = this.fb.group(
+      {
+        from_date: [null,Validators.required],
+        to_date: [null,Validators.required],
+        customer_id: [null],
+        gps_vendor: [null],
+      },
+      // { validators: dateRangeValidator() }
+    );
+  
+     this.qFetchDashboardData()
+     
+  }
+  qFetchDashboardData(){
+    console.log("qFetchDashboardData");
+    
+    const formData = new FormData();
+    formData.append('AccessToken', this.token);
+    formData.append('filter_data',"")
+    
+    this.service.getQCVDashboard(formData).subscribe(
+      (response) => {
+        this.ilgicDashboardData=response?.Data
+        this.SummaryData=response?.Data
+        this.qChartLoader()
+        console.log(response,"ilgic data");
+      },
+      (error) => {
+        console.error('Error sending data:', error);
+      }
+    );
+  }
+  qFetchFilterData(){
+    const formData = new FormData();
+    formData.append('AccessToken', this.token);
+    formData.append('filter_data',JSON.stringify(this.filterForm_M.value))
+    console.log(formData,"filterForm ilgic");
+    
+    this.service.getQCVDashboard(formData).subscribe(
+      (response) => {
+        if(response?.Status==='success')
+        {
+          this.SummaryData=response?.Data
+          this.qChartLoader()
+          console.log(response);
+        } 
+        else
+          alert(response?.Message)
+      },
+      (error) => {
+        console.error('Error sending data:', error);
+      }
+    );
+  }
+  onFilterConsolidatedDashboard(){
+    console.log(this.filterForm_M);
+    this.qFetchFilterData()
+    
+  }
+  qChartLoader(){
+
+     
+    this.chart1();
+    this.chart2();
+    this.chart3()
+  this.chartEchart()
+  this.chartEchart2()
   }
 }

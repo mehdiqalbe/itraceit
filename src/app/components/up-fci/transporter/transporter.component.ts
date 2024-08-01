@@ -1,12 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CrudService } from 'src/app/shared/services/crud.service';
 import { NavService } from 'src/app/shared/services/nav.service';
 import * as echarts from 'echarts';
+
 declare var $: any;
 
 @Component({
@@ -15,6 +16,11 @@ declare var $: any;
   styleUrls: ['./transporter.component.scss']
 })
 export class TransporterComponent implements OnInit {
+
+  filterForm_M!: FormGroup;
+  transporterDashboardData!:any
+  formValueForChart:any
+
   charttt: any = ''
   chartttime: any = ''
   chartFlag: boolean = false;
@@ -115,7 +121,7 @@ weektableflag:boolean=true;
      show_hover:boolean=false
      Object = Object;
 
-  constructor(private navServices: NavService,private modalService: NgbModal,  private router: Router, private service: CrudService,  private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  constructor(private fb: FormBuilder,private navServices: NavService,private modalService: NgbModal,  private router: Router, private service: CrudService,  private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     let App = document.querySelector('.app')
@@ -124,6 +130,7 @@ weektableflag:boolean=true;
 
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
+    this.initForms()
     this.submit();
   }
 
@@ -173,6 +180,10 @@ weektableflag:boolean=true;
     //     useDirtyRect: false
     // });
     let chartDom:any = document.getElementById('consSt');
+    const existingChart = echarts.getInstanceByDom(chartDom);
+    if (existingChart) {
+        existingChart.dispose();
+    }
     //  var echart = echarts.init(chartDom);
     chartDom.style.height = '200px'; // Specify units (e.g., pixels)
     chartDom.style.width = '100%';
@@ -329,6 +340,10 @@ weektableflag:boolean=true;
     //     useDirtyRect: false
     // });
     let chartDom:any = document.getElementById('tripSt');
+    const existingChart = echarts.getInstanceByDom(chartDom);
+    if (existingChart) {
+        existingChart.dispose();
+    }
     //  var echart = echarts.init(chartDom);
     chartDom.style.height = '200px'; // Specify units (e.g., pixels)
     chartDom.style.width = '100%';
@@ -486,6 +501,10 @@ weektableflag:boolean=true;
     //     useDirtyRect: false
     // });
     let chartDom:any = document.getElementById('deliverySt');
+    const existingChart = echarts.getInstanceByDom(chartDom);
+    if (existingChart) {
+        existingChart.dispose();
+    }
     //  var echart = echarts.init(chartDom);
     chartDom.style.height = '200px'; // Specify units (e.g., pixels)
     chartDom.style.width = '100%';
@@ -660,11 +679,11 @@ weektableflag:boolean=true;
     console.log("vehicleSt")
     $('#IotModal').modal('show');
     this.typeName=type
-    // this.SpinnerService.show("summeryvehi")
+    this.SpinnerService.show("summeryvehi")
     var formdat = new FormData()
     formdat.append('AccessToken', this.token)
     // formdat.append('StartDate', this.fromdate)
-  
+    formdat.append('filter_data',JSON.stringify(this.formValueForChart))
     // formdat.append('EndDate', this.todate)
     formdat.append('sub_type', status)
     formdat.append('type', 'transporter')
@@ -679,12 +698,19 @@ weektableflag:boolean=true;
               this.summaryVehicle.push(value)
             }
       }
+      this.SpinnerService.hide("summeryvehi")
       setTimeout(() => {
         this.masterUploadTable1()
       }, 2000)
      
       console.log("resddd",this.summaryVehicle)
-    })
+    },
+      (error)=>{
+          console.log(error);
+          this.SpinnerService.hide("summeryvehi")
+          
+      }
+    )
     // this.masterUploadTable6()
    
   }
@@ -694,11 +720,11 @@ weektableflag:boolean=true;
     console.log("vehicleSt")
     $('#utilization').modal('show');
     this.typeName=type
-    // this.SpinnerService.show("summeryvehi")
+    this.SpinnerService.show("summeryvehi")
     var formdat = new FormData()
     formdat.append('AccessToken', this.token)
     // formdat.append('StartDate', this.fromdate)
-  
+    formdat.append('filter_data',JSON.stringify(this.formValueForChart))
     // formdat.append('EndDate', this.todate)
     formdat.append('sub_type', status)
     formdat.append('type', 'transporter')
@@ -713,11 +739,16 @@ weektableflag:boolean=true;
             this.summaryVehicle.push(value)
           }
     }
+    this.SpinnerService.hide("summeryvehi")
     // setTimeout(() => {
       this.masterUploadTable2()
     // }, 3000)
     
+  },(error)=>{
+    console.log(error);
+    this.SpinnerService.hide("summeryvehi")
   })
+
     // this.masterUploadTable2()
   }
   consSTtAct(status,type,flag)
@@ -725,15 +756,16 @@ weektableflag:boolean=true;
     console.log("vehicleSt")
     $('#vehicleModal').modal('show');
     this.typeName=type
-    // this.SpinnerService.show("summeryvehi")
+    this.SpinnerService.show("summeryvehi")
     var formdat = new FormData()
     formdat.append('AccessToken', this.token)
     // formdat.append('StartDate', this.fromdate)
-  
+    formdat.append('filter_data',JSON.stringify(this.formValueForChart))
     // formdat.append('EndDate', this.todate)
     formdat.append('sub_type', status)
     formdat.append('type', 'transporter')
-  
+   console.log(formdat);
+   
     this.service.chartclickS(formdat).subscribe((res: any) => {
       console.log("res",res)
       let data = res.Data
@@ -747,6 +779,9 @@ weektableflag:boolean=true;
   //   this.summaryVehicle=res.data
     this.SpinnerService.hide("summeryvehi")
     this.masterUploadTable()
+    },  (error) => {
+      console.error('Error sending data:', error);
+      this.SpinnerService.hide("summeryvehi")
     })
     // this.masterUploadTable8()
   }
@@ -1709,5 +1744,100 @@ filterSubmitTransporter(data)
 {
   console.log("filterSubmittransporter",data)
 }
+///////////////////////////////////////////////////////// 
+initForms(): void {
+  this.filterForm_M = this.fb.group(
+    {
+      from_date: [null,Validators.required],
+      to_date: [null,Validators.required],
+      customer_id: [null],
+      gps_vendor: [null],
+      agent_id: [null],
+    },
+    // { validators: dateRangeValidator() }
+  );
+   this.formValueForChart=this.filterForm_M.value
+   console.log(this.formValueForChart);
+   
+   this.qFetchDashboardData()
+   
+}
+qFetchDashboardData(){
+  console.log("qFetchDashboardData");
+  
+  const formData = new FormData();
+  formData.append('AccessToken', this.token);
+  formData.append('filter_data',"")
+  this.SpinnerService.show("ilgicDashboardSpinner")
+  this.service.getQCVDashboard(formData).subscribe(
+    (response) => {
+      this.transporterDashboardData=response?.Data
+      this.SummaryData=response?.Data
+      this.SpinnerService.hide("ilgicDashboardSpinner")
+      this.qChartLoader()
+      console.log(response,"ilgic data");
+    },
+    (error) => {
+      console.error('Error sending data:', error);
+      this.SpinnerService.hide("ilgicDashboardSpinner")
+    }
+  );
+}
+qChartLoader(){
+    
+  this.chart1();
+  this.chart2();
+  this.chart3();
+//   this.chart7()
 
+// this.chart5()
+// this.chart6()
+this.chartEchart()
+this.chartEchart2()
+}
+qFetchFilterData(){
+  const formData = new FormData();
+  formData.append('AccessToken', this.token);
+  formData.append('filter_data',JSON.stringify(this.filterForm_M.value))
+  console.log(formData,"filterForm ilgic");
+  this.SpinnerService.show("ilgicDashboardSpinner")
+  this.service.getQCVDashboard(formData).subscribe(
+    (response) => {
+      if(response?.Status==='success')
+      {
+        this.SummaryData=response?.Data
+        this.formValueForChart=this.filterForm_M.value
+        console.log(this.formValueForChart);
+        
+        this.SpinnerService.hide("ilgicDashboardSpinner")
+        this.qChartLoader()
+        console.log(response);
+      } 
+      else
+      {
+        alert(response?.Message)
+        this.SpinnerService.hide("ilgicDashboardSpinner")
+        this.formValueForChart = this.filterForm_M.value
+        Object.keys(this.formValueForChart).forEach(key => {
+          this.formValueForChart[key] = null;
+        });
+      }
+    },
+    (error) => {
+      console.error('Error sending data:', error);
+      this.SpinnerService.hide("ilgicDashboardSpinner")
+    }
+  );
+}
+onFilterConsolidatedDashboard(){
+  console.log(this.filterForm_M);
+  this.qFetchFilterData()
+  
+}
+resetFilter(form){
+  // console.log(form);
+  form.reset()
+  this.qFetchDashboardData()
+  
+}
 }

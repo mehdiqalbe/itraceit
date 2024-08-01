@@ -77,8 +77,11 @@ export class CrudService {
   closeS(val:any){
     return this.http.post(this.url+'cv_tripClose',val);
   }
+  // chartclickS(val:any){
+  //   return this.http.post(this.url+'cvDashboardDetailedData',val);
+  // }
   chartclickS(val:any){
-    return this.http.post(this.url+'cvDashboardDetailedData',val);
+    return this.http.post('https://api-cv2.secutrak.in/api/CVDashboardSummaryData/',val);
   }
   walletMasterS(val:any){
     return this.http.post(this.url+'documentWalletMaster',val);
@@ -123,9 +126,7 @@ export class CrudService {
     )
   }
   public getVehicles( data: FormData): Observable<any> {
-    const url='http://testapi.secutrak.in/dev-app-cv-ilgic/documentWalletMaster'
-
-    
+    const url='https://testapi.secutrak.in/dev-app-cv-ilgic/documentWalletMaster'
     // return this.http.post(url, data);
     return this.http.post<any>(url, data)
   }
@@ -203,7 +204,7 @@ export class CrudService {
   }
   documentMasters(val:any){
     
-    return this.http.post('http://testapi.secutrak.in/dev-app-cv-ilgic/documentWalletMaster',val);
+    return this.http.post('https://testapi.secutrak.in/dev-app-cv-ilgic/documentWalletMaster',val);
   }
   documentAdd(val:any){
     
@@ -234,7 +235,7 @@ export class CrudService {
 
   documentEdit(val:any){
     
-    return this.http.post('http://testapi.secutrak.in/dev-app-cv-ilgic/documentEdit',val);
+    return this.http.post('https://testapi.secutrak.in/dev-app-cv-ilgic/documentEdit',val);
   }
   documentChangeStatus(val:any){
     
@@ -274,10 +275,10 @@ export class CrudService {
     return this.http.post<any>('https://api-cv1.secutrak.in/cv_api/driverCreation', data);
   }
   uploadNewDriverDocument(data): Observable<any> {
-    return this.http.post<any>('http://testapi.secutrak.in/dev-app-cv-ilgic/documentAdd', data);
+    return this.http.post<any>('https://testapi.secutrak.in/dev-app-cv-ilgic/documentAdd', data);
   }
   uploadEditDriverDocument(data): Observable<any> {
-    return this.http.post<any>('http://testapi.secutrak.in/dev-app-cv-ilgic/documentEdit', data);
+    return this.http.post<any>('https://testapi.secutrak.in/dev-app-cv-ilgic/documentEdit', data);
   }
   driverUpdateStatus(data): Observable<any> {
     return this.http.post<any>('https://api-cv1.secutrak.in/cv_api/updateStatus', data);

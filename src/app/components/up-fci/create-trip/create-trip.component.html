@@ -41,15 +41,19 @@
                     <button class="nav-link active" id="nav-Region-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-Region" type="button" role="tab" aria-controls="nav-Region"
                         aria-selected="true">Trip Details</button>
-                    <button class="nav-link" id="nav-District-tab" data-bs-toggle="tab" data-bs-target="#nav-District"
+                        <!-- [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''" -->
+                    <!-- <button *ngIf="!nextTabflag" (click)="openTab('nav-District-tab',tripdetails)" class="nav-link " id="nav-District-tab" data-bs-toggle="tab" data-bs-target="#nav-District"
                         type="button" role="tab" aria-controls="nav-District" aria-selected="false"
                         [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
                         placement="top">Document
-                        Upload</button>
+                    </button> -->
+                    <button  class="nav-link" id="nav-District-tab"  data-bs-target="#nav-District" (click)="openTab('nav-District',tripdetails)"
+            type="button" role="tab" placement="top">Document</button>
+                    
                     <!-- [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''" placement="top" -->
                     <button class="nav-link" id="nav-Agency-tab" data-bs-toggle="tab" data-bs-target="#nav-Agency"
                         type="button" role="tab" aria-controls="nav-Agency" aria-selected="false"
-                        [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
+                        
                         placement="top">Customer
                         Invoice</button>
                     <button class="nav-link" id="nav-Purchase-tab" data-bs-toggle="tab" data-bs-target="#nav-Purchase"
@@ -71,8 +75,19 @@
                     <div class="container">
                         <form #tripdetails="ngForm" (ngSubmit)="tripDetailsF(tripdetails.value, tripdetails)"
                             novalidate>
-                            <div class="col-lg-12 mt-2 HeadingTab">Trip Details</div>
-
+                            <div class="col-lg-12 mt-2 HeadingTab d-flex justify-content-between py-1">
+                                  <p class="m-0">Trip Details</p>
+                                <div style="text-align:right;">
+                                    <!-- <button class="btn btn-sm btn-orange" type="button"
+                                        style="color: white;margin-left: 2px;"
+                                        (click)="tripdetailsreset(tripdetails)">Reset</button> -->
+                                    <button class="btn btn-sm btn-orange" style="color: white;margin-left: 2px;"
+                                        (click)="cancelTrip()">Cancel</button>
+                                    <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="createTripF(tripdetails,tripcreationform_marin.value,addexpense.value)"
+                                        style="color: white;margin-left: 2px;">create trip</button>
+                                </div>
+                            </div>
+                             
                 
 
                             <div class="col-lg-12">
@@ -80,7 +95,7 @@
                                     <div class="columnM">
                                         <label for="" class="column cutom">Challan Number</label>
                                         <input type="text" id="form12" class="form-control cutombox" ngModel placeholder="Challan Number (optional)"
-                                            name="tripId"  [disabled]="tripBoxF" [ngbTooltip]="tripBoxF ? 'Check the Checkbox' : ''"/>
+                                            name="challan_number"  [disabled]="tripBoxF" [ngbTooltip]="tripBoxF ? 'Check the Checkbox' : ''"/>
                                         <!-- <div *ngIf="tripdetails.controls.tripId?.invalid && tripdetails.controls.tripId?.touched"
                                             class="error-message">Please fill out this field</div> -->
                                     </div>
@@ -155,36 +170,54 @@
                                    
                                     <div class="columnM" *ngIf="p_name!=''">
                                         <label for="" *ngIf="p_name!=''" class="column cutom">{{p_name}}</label>
+                                         <div class="position-relative">
                                         <input type="text" *ngIf="p_name!=''" autocomplete="off"
-                                            class="form-control cutombox" style="    background: white;"
-                                            [value]="extraImei.imei1" disabled >
+                                            class="form-control cutombox" style="background: white;"
+                                            [value]="extraImei?.IMEI_1_data?.imei" disabled >
+                                            <p class="position-absolute end-0" [ngStyle]="{'color': extraImei?.IMEI_1_data?.Color}">
+                                                {{ extraImei?.IMEI_1_data?.DeviceLastDateTime }}</p>
+                                            </div>
+                                            <input type="hidden" name="imei1_id" [ngModel]="extraImei?.IMEI_1_data?.imei_id">
+                                           
                                         <!-- <label class="form-check-label linkclass"
                                             for="flexCheckChecked">{{extraImei.imei1}}</label> -->
                                     </div>
                                     <div class="columnM" *ngIf="s_name!=''">
                                         <label for="" *ngIf="s_name!=''" class="column cutom">{{s_name}}</label>
-                                        <input type="text" *ngIf="s_name!=''" autocomplete="off"
-                                            class="form-control cutombox" style="    background: white;"
-                                            [value]="extraImei.imei2" disabled >
+                                        <div class="position-relative">
+                                            <input type="text" *ngIf="s_name!=''" autocomplete="off"
+                                                class="form-control cutombox" style="background: white;"
+                                                [value]="extraImei?.IMEI_2_data?.imei" disabled >
+                                                <p class="position-absolute end-0" [ngStyle]="{'color': extraImei?.IMEI_2_data?.Color}">
+                                                    {{ extraImei?.IMEI_2_data?.DeviceLastDateTime }}</p>
+                                                </div>
+                                                <input type="hidden" name="imei2_id" [ngModel]="extraImei?.IMEI_2_data?.imei_id">
                                         <!-- <label class="form-check-label linkclass"
                                             for="flexCheckChecked">{{extraImei.imei2}}</label> -->
                                     </div>
                                     <div class="columnM" *ngIf="t_name!=''" >
                                         <label for="" *ngIf="t_name!=''" class="column cutom">{{t_name}}</label>
-                                        <input type="text" *ngIf="t_name!=''" autocomplete="off"
-                                            class="form-control cutombox" style="    background: white;"
-                                            [value]="extraImei.imei3" disabled >
+                                            <div class="position-relative">
+                                                <input type="text" *ngIf="t_name!=''" autocomplete="off"
+                                                    class="form-control cutombox" style="background: white;"
+                                                    [value]="extraImei?.IMEI_3_data?.imei" disabled >
+                                                    <p class="position-absolute end-0" [ngStyle]="{'color': extraImei?.IMEI_3_data?.Color}">
+                                                        {{ extraImei?.IMEI_3_data?.DeviceLastDateTime }}</p>
+                                                    </div>
+                                                    <input type="hidden" name="imei3_id" [ngModel]="extraImei?.IMEI_3_data?.imei_id">
                                         <!-- <label class="form-check-label linkclass"
                                             for="flexCheckChecked">{{extraImei.imei3}}</label> -->
                                     </div>
                                     <div class="columnM" *ngIf="portableF==false">
-                                        <label for="" *ngIf="portableF==false" class="column cutom">Portable GPS Device IMEI</label>
-                                        <ng-select *ngIf="portableF==false" placeholder="select an option" id="portable"
-                                            ngModel class="cutombox" name="Imei">
+                                        <label for="" *ngIf="portableF==false" class="column cutom">{{PortvList?.DeviceTypeName}}</label>
+                                        <div class="position-relative">
+                                        <ng-select *ngIf="!portableF" placeholder="Select an option" id="portable" ngModel class="cutombox" name="Imei"   (change)="onPortImeiChange($event)">
                                             <ng-option value="" selected>Select an option</ng-option>
-                                            <ng-option [value]="item"
-                                                *ngFor="let item of PortvList">{{item.device_imei}}</ng-option>
-                                        </ng-select>
+                                            <ng-option [value]="item.value" *ngFor="let item of PortvList?.Data | keyvalue ">{{item.value?.device_imei }}</ng-option>
+                                          </ng-select>
+                                          <p *ngIf="selectedPort?.Color" class="position-absolute end-0" [ngStyle]="{'color': selectedPort?.Color}">
+                                            {{ selectedPort?.DeviceLastDateTime }}</p>
+                                        </div>
                                         <!-- <div *ngIf="tripdetails.controls.Imei?.invalid && tripdetails.controls.Imei?.touched" class="error-message">Please fill out this field</div> -->
                                     </div>
                                     <div class="row">
@@ -276,7 +309,12 @@
                                             <button (click)="removeNgselect()" type="button"><i
                                                     class="fa fa-minus-circle" aria-hidden="true"
                                                     style='font-size:21px;color:white'></i></button>
-                                        </label>
+                                        </label> 
+                                        <div class="d-flex flex-column align-items-start">
+                                            <button style="color: #1D4380;" class="text-decoration-underline" type="button" (click)="openTab('nav-Agency-tab',tripdetails)">Add invoice details</button>
+                                            <button style="color: #1D4380;" class="text-decoration-underline" type="button" (click)="openTab('nav-Purchase-tab',tripdetails)">Add trip expense</button>
+                                            <button style="color: #1D4380;" class="text-decoration-underline" type="button" (click)="openTab('nav-District-tab',tripdetails)">Upload Document</button>
+                                        </div>
                                     </div>
                                     <div class="columnM">
                                         <label for="" class="column cutom">Commodity</label>
@@ -322,8 +360,10 @@
                                     </div> -->
                                 </div>
                             </div>
+                             
+                         
 
-                            <div style="text-align:right;">
+                            <!-- <div style="text-align:right;">
                                 <button class="btn btn-sm btn-orange" type="button"
                                     style="color: white;margin-left: 2px;"
                                     (click)="tripdetailsreset(tripdetails)">Reset</button>
@@ -331,7 +371,7 @@
                                     (click)="cancelTrip()">Cancel</button>
                                 <button class="btn btn-sm btn-orange" id="uploaddoc" type="submit"
                                     style="color: white;margin-left: 2px;">Next</button>
-                            </div>
+                            </div> -->
                         </form>
 
                     </div>
@@ -346,33 +386,139 @@
 
 
                 <div class="tab-pane fade" id="nav-District" role="tabpanel" aria-labelledby="nav-District-tab">
+                    <div class="container">   
                     <form #docupload="ngForm">
+                        <div class="col-lg-12 mt-2 HeadingTab d-flex justify-content-between py-1">
+                            <p class="m-0">Document Upload</p>
+                          <div style="text-align:right;">
+                              <!-- <button class="btn btn-sm btn-orange" type="button"
+                                  style="color: white;margin-left: 2px;"
+                                  (click)="tripdetailsreset(tripdetails)">Reset</button> -->
+                              <button class="btn btn-sm btn-orange" style="color: white;margin-left: 2px;"
+                                  (click)="cancelTrip()">Cancel</button>
+                              <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="createTripF(tripdetails,tripcreationform_marin.value,addexpense.value)"
+                                  style="color: white;margin-left: 2px;">create trip</button>
+                                  <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="qDocumentDetailsF()"
+                                  style="color: white;margin-left: 2px;">create trip</button>
+                          </div>
+                      </div>
                         <div class="container">
                             <div class="col-lg-12">
-                                <div class="row mt-2">
-                                    <div class="col-lg-4 cutom">Select Document Type</div>
+                                <div class="row mt-2 position-relative">
 
-                                </div>
-
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="row">
-
-                                    <div class="col-lg-4">
-                                        <ng-select placeholder="select an option" id="ShipmentNo" ngModel
+                                    <div class="col-lg-2">
+                                        <label for="ShipmentNo" class="cutom">Select Document Type</label>
+                                        <ng-select placeholder="select an option" id="ShipmentNo" [ngModel]
                                             class="cutombox" required name="docName">
                                             <!-- <ng-option value="" selected>select an option</ng-option> -->
-                                            <ng-option [value]="item.id"
+                                            <ng-option [value]="item"
                                                 *ngFor="let item of docListdata">{{item.name}}</ng-option>
 
 
                                         </ng-select>
                                     </div>
-                                    <div class="col-lg-4">
-
-                                        <input class="form-control form-control-sm cutombox" id="formFileSm" type="file"
-                                            (change)="selectFile($event)" #fileInput />
+                                    <div class="col-lg-2">
+                                        <label for="docNumber" class="cutom">Document Number</label>
+                                        <input placeholder="document number" class="form-control form-control-sm cutombox" id="docNumber" type="text" [ngModel] name="docNumber" required />
+                                      </div>
+                                      <div class="col-lg-2">
+                                        <label for="issueDate" class="cutom">Issue Date</label>
+                                        <input class="form-control form-control-sm cutombox" id="issueDate" type="date" [ngModel] name="issueDate" required />
+                                      </div>
+                                      <div class="col-lg-2">
+                                        <label for="expiryDate" class="cutom">Expiry Date</label>
+                                        <input class="form-control form-control-sm cutombox" id="expiryDate" type="date" ngModel name="expiryDate" required />
+                                      </div>
+                                      <div class="col-lg-2">
+                                        <label for="docRemarks" class="cutom">Document Remarks</label>
+                                        <textarea class="form-control cutombox" rows="1" ngModel id="comment"
+                                        name="Remarks"></textarea>
+                                      </div>
+                                    <div class="col-lg-2">
+                                        <label for="formFileSm" class="cutom">Upload File</label>
+                                        <input class="form-control form-control-sm cutombox" ngModel name="docFile" id="formFileSm" type="file"
+                                            (change)="qSelectFile($event)" #fileInput />
                                     </div>
+                                     <div style="left: 101%;bottom: 12px;width:fit-content;" class="position-absolute">
+                                        <button type="button" (click)="addDocument(docupload)">
+                                        <i style="font-size: 24px;" class="fa-solid fa-circle-plus"></i>
+                                     </button></div>
+                                
+                                </div>
+                            </div>
+                            <!-- <div class="container mt-4">
+                                <div *ngFor="let entry of qDocuments | keyvalue">
+                                  <div class="row">
+                                    <div class="col-lg-2">{{entry.value.type?.name}}</div>
+                                    <div class="col-lg-2">{{entry.value.number}}</div>
+                                    <div class="col-lg-2">{{entry.value.issueDate}}</div>
+                                    <div class="col-lg-2">{{entry.value.expiryDate}}</div>
+                                    <div class="col-lg-2">{{entry.value.remarks}}</div>
+                                    <div class="col-lg-2">{{entry.value.file}}</div>
+                                    <div class="col-lg-2">
+                                      <button ngbTooltip="Delete" class="btn btn-sm btn-danger" (click)="removeDocument(entry.key)">
+                                        <i class="fa fa-trash"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div> -->
+                              <div class="row mt-6" style="max-height: 320px;">
+                                <div class="container" style="height: 320px;overflow-y: auto;">
+                                    <table class="display nowrap table table-Success table-hover custume_table1"
+                                        cellspacing="0" width="100%">
+                                        <thead class="custume_table1">
+                                            <tr style="text-align: center;">
+    
+                                                <th class="table-primary" style="position: sticky;">
+                                                    Sr.No.
+    
+                                                </th>
+    
+                                                <th class="table-primary" tyle="position: sticky;">Document Type
+                                                </th>
+                                                <th class="table-primary" tyle="position: sticky;">Document Number
+                                                </th>
+                                                <th class="table-primary" tyle="position: sticky;">Issue Date</th>
+                                                <th class="table-primary" tyle="position: sticky;">Expiry Date
+                                                </th>
+                                                <th class="table-primary" tyle="position: sticky;">Remarks</th>
+                                                <th class="table-primary" tyle="position: sticky;">View Document</th>
+                                                <th class="table-primary" tyle="position: sticky;">Action</th>   
+                                            </tr>
+    
+                                        </thead>
+                                        <tbody>
+                                            <!-- *ngIf="lastAlertdata.length" -->
+                                            <tr style="text-align: center;"
+                                                *ngFor="let entry of qDocuments | keyvalue;let ind=index;">
+                                                <td class="custume_table1">{{ind+1}}</td>
+                                                <td class="custume_table1">
+    
+                                                    {{entry.value.type?.name}}
+                                                </td>
+                                                <td class="custume_table1">
+                                                    {{entry.value.number}}
+                                                </td>
+                                                <td class="custume_table1">
+                                                    {{entry.value.issueDate}}
+                                                </td>
+                                                <td class="custume_table1"> {{entry.value.expiryDate}}</td>
+                                                <td class="custume_table1"> {{entry.value.remarks}}</td>
+                                                <td class="custume_table1"> 
+                                                    <button (click)="viewDocument(entry.value.file)">
+                                                        <i class="fa fa-eye"></i> View
+                                                    </button>
+                                                </td>
+                                               
+                                                <td class="custume_table1">   
+                                                    <button class="" (click)="removeDocument(entry.key)">
+                                                    <i class="fa fa-trash"></i> Delete
+                                                  </button></td>
+    
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -394,8 +540,9 @@
 
                                 </div>
                             </div>
+                          
                             <div class="row">
-                                <div style="text-align:right;margin-top: 40px">
+                                <!-- <div style="text-align:right;margin-top: 40px">
 
                                     <button class="btn btn-sm btn-orange" type="button"
                                         style="color: white;margin-left: 2px;"
@@ -406,21 +553,33 @@
                                     <button class="btn btn-sm btn-orange" type="button"
                                         style="color: white;margin-left: 2px;" (click)="cancelTrip()">Cancel</button>
                                     <button class="btn btn-sm btn-orange" type="button"
-                                        style="color: white;margin-left: 2px;" (click)="openTab('nav-Agency-tab')">
+                                        style="color: white;margin-left: 2px;" (click)="openTab('nav-Agency-tab',tripDetailsF)">
                                         Next</button>
-                                </div>
+                                </div> -->
 
                             </div>
 
                         </div>
                     </form>
-
+                </div>
                 </div>
                 <!-- agency -->
                 <div class="tab-pane fade" id="nav-Agency" role="tabpanel" aria-labelledby="nav-Agency-tab">
                     <!-- //////////////////////////////////////////////////////////invoice//////// -->
                     <div class="container">
-
+                        <div class="col-lg-12 mt-2 HeadingTab d-flex justify-content-between py-1">
+                            <p class="m-0">Customer Invoice</p>
+                          <div style="text-align:right;">
+                              <!-- <button class="btn btn-sm btn-orange" type="button"
+                                  style="color: white;margin-left: 2px;"
+                                  (click)="tripdetailsreset(tripdetails)">Reset</button> -->
+                              <button class="btn btn-sm btn-orange" style="color: white;margin-left: 2px;"
+                                  (click)="cancelTrip()">Cancel</button>
+                              <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="createTripF(tripdetails,tripcreationform_marin.value,addexpense.value)"
+                                  style="color: white;margin-left: 2px;">create trip</button>
+                            
+                          </div>
+                      </div>
                         <div class="row">
                             <div class="col" style="margin-top: 23px;">
                                 <div class="accordion" id="accordionExample">
@@ -703,7 +862,7 @@
 
                                                     </div>
                                                     <div class="row mt-4">
-                                                        <div style="text-align:right;">
+                                                        <!-- <div style="text-align:right;">
 
                                                             <button class="btn btn-sm btn-orange" type="button"
                                                                 style="color: white;margin-left: 2px;"
@@ -718,7 +877,7 @@
                                                                 style="color: white;margin-left: 2px;"
                                                                 (click)="openTab('nav-Purchase-tab')">Next
                                                             </button>
-                                                        </div>
+                                                        </div> -->
 
                                                     </div>
                                                 </form>
@@ -743,6 +902,19 @@
                 <div class="tab-pane fade" id="nav-Purchase" role="tabpanel" aria-labelledby="nav-Purchase-tab">
                     <div class="container">
                         <form #addexpense="ngForm" (submit)="addexpenseF(addexpense.value);">
+                            <div class="col-lg-12 mt-2 HeadingTab d-flex justify-content-between py-1">
+                                <p class="m-0">Customer Invoice</p>
+                              <div style="text-align:right;">
+                                  <!-- <button class="btn btn-sm btn-orange" type="button"
+                                      style="color: white;margin-left: 2px;"
+                                      (click)="tripdetailsreset(tripdetails)">Reset</button> -->
+                                  <button class="btn btn-sm btn-orange" style="color: white;margin-left: 2px;"
+                                      (click)="cancelTrip()">Cancel</button>
+                                  <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="createTripF(tripdetails,tripcreationform_marin.value,addexpense.value)"
+                                      style="color: white;margin-left: 2px;">create trip</button>
+                                
+                              </div>
+                          </div>
                             <div class="col-lg-12 mt-2">
                                 <div class="row">
                                     <div class="column cutom">
@@ -791,9 +963,10 @@
                                     </div>
                                     <div class="column">
                                         <div style="text-align:center;">
-                                            <button class="btn btn-sm btn-orange" type="submit"
-                                                style="width: 70px;color: white;">Add</button>
+                                            <button class="" type="submit"
+                                                style="width: 70px;color: white;"><i style="font-size: 24px;" class="fa-solid fa-circle-plus"></i></button>
                                         </div>
+                                    
                                     </div>
                                 </div>
 
@@ -858,7 +1031,7 @@
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div style="text-align:right;">
+                            <!-- <div style="text-align:right;">
                                 <button class="btn btn-sm btn-orange" type="submit" style="color: white;"
                                     (click)="openTab('nav-Agency-tab')">Back
                                 </button>
@@ -868,7 +1041,7 @@
                                     style="color: white;margin-left: 2px;" (click)="addexpense.reset()">Reset</button>
                                 <button class="btn btn-sm btn-orange" type="button"
                                     style="color: white;margin-left: 2px;" (click)="cancelTrip()">Cancel</button>
-                            </div>
+                            </div> -->
 
                         </div>
                         <!-- </form> -->

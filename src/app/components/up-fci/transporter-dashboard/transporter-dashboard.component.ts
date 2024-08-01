@@ -517,6 +517,7 @@ fetchCustomerAndVehicleData(): void {
   this.crudService.getVehicles(formData).subscribe(
     response=>{
       this.vehicleList=(response.VehicleList);
+      console.log(response,"Vehicle List TMS Billing");
       
     },
     error => {
@@ -2095,28 +2096,44 @@ toggleAllSelection() {
    }
  
    updateVehicleStatus(status: string,values) {
-     let vehicleID= this.selectVehicleIds.reduce((acc, id, index) => {
-       acc[index] = String(id);
-       return acc;
-     }, {})
-     const formData=new FormData()
-     formData.append("AccessToken",this.token)
-     formData.append('action',status)
-     formData.append('vehicle_id',JSON.stringify(vehicleID))
-     console.log(formData);
-     
-     this.service.vehicleUpdateStatus(formData).subscribe((res: any) => {
-      console.log(res);
-     //  this.isLoadingDriverTable=true
+    let vehicleID= this.selectVehicleIds.reduce((acc, id, index) => {
+      acc[index] = String(id);
+      return acc;
+    }, {})
+    const formData=new FormData()
+    formData.append("AccessToken",this.token)
+    formData.append('action',status)
+    formData.append('vehicle_id',JSON.stringify(vehicleID))
+    console.log(formData);
+    if (confirm(`Do you want to ${status}?`)) {
+       this.isLoadingVehicleTable=true
+    this.service.vehicleUpdateStatus(formData).subscribe((res: any) => {
+     console.log(res);
+    if(res.Status==="Success")
+    {
       this.selectVehicleIds=[]
-       this.onVehicleFilter(values)
-     },
-     error => {
-       console.error('Error:', error);
-       // Handle the error accordingly
-     });
-     
-   }
+      this.onVehicleFilter(values)
+      alert(res.Message)
+    }
+    else{
+      if(res.Status==='Fail')
+      {
+        alert('error in updating status')
+        this.isLoadingVehicleTable=false
+      }
+    }
+    },
+    error => {
+      console.error('Error:', error);
+      // Handle the error accordingly
+      this.isLoadingVehicleTable=false
+    });
+  }
+  else{
+    console.log("cancel");
+    
+  }
+  }
    chart1() {
      // var cons=this.SummaryData?.vehicleStatus;
      // console.log("Cons", cons);
@@ -3844,7 +3861,7 @@ toggleAllSelection() {
     return this.selectedDriverIds.includes(itemId);
   }
   updateDriverStatus(status: string,values) {
-    const url = 'https://api-cv1.secutrak.in/cv_api/updateStatus';
+  
     let DriverID= this.selectedDriverIds.reduce((acc, id, index) => {
       acc[index] = String(id);
       return acc;
@@ -3854,18 +3871,31 @@ toggleAllSelection() {
     formData.append('Status',status)
     formData.append('DriverID',JSON.stringify(DriverID))
     console.log(formData);
-    
+    if (confirm(`Do you want to ${status}?`)) {
+      this.isLoadingDriverTable = true;
     this.service.driverUpdateStatus(formData).subscribe((res: any) => {
      console.log(res);
-     this.isLoadingDriverTable=true
-     this.selectedDriverIds=[]
-      this.onFilterDriver(values)
+     if(res.status==="success") 
+      {
+        alert(res.Message)
+        this.selectedDriverIds = [];
+        this.onFilterDriver(values);
+      }
+      else{
+        alert("error in updating status")
+        this.isLoadingDriverTable = false;
+      }
     },
     error => {
       console.error('Error:', error);
+      this.isLoadingDriverTable = false;
       // Handle the error accordingly
     });
+  }
+  else{
+    console.log("cancel");
     
+  }
   }
 
   editDriver(data:any){

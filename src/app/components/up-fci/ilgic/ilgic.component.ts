@@ -8,6 +8,7 @@ import { NavService } from 'src/app/shared/services/nav.service';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import * as echarts from 'echarts';
 import { CrudService } from 'src/app/shared/services/crud.service';
+
 declare var $: any;
 @Component({
   selector: 'app-ilgic',
@@ -18,7 +19,7 @@ declare var $: any;
 export class ILGICComponent implements OnInit {
   filterForm_M!: FormGroup;
   ilgicDashboardData:any;
-
+  vehicleStates:any=[]
 
 
   charttt: any = ''
@@ -133,11 +134,8 @@ weektableflag:boolean=true;
     
     // this.chartEchart2()
     this.initForms()
-  
-     
-
-    this. submit()
-    this.chart4()
+    // this. submit()
+    
   }
   submit()
   {
@@ -156,6 +154,7 @@ weektableflag:boolean=true;
       this.chart1();
       this.chart2();
       this.chart3();
+      // this.chart4();
       this.chart7()
     
     this.chart5()
@@ -175,6 +174,14 @@ weektableflag:boolean=true;
     //     useDirtyRect: false
     // });
     let chartDom:any = document.getElementById('consSt');
+
+    // chartDom.dispose();
+
+    const existingChart = echarts.getInstanceByDom(chartDom);
+    if (existingChart) {
+        existingChart.dispose();
+    }
+
     //  var echart = echarts.init(chartDom);
     chartDom.style.height = '200px'; // Specify units (e.g., pixels)
     chartDom.style.width = '100%';
@@ -285,7 +292,7 @@ weektableflag:boolean=true;
         ]
     };
   
-    option && echart.setOption(option);
+    option && echart.setOption(option,true);
   
     echart.on('click',  (params) => {
       if (params.componentType === 'series') {
@@ -331,6 +338,10 @@ weektableflag:boolean=true;
     //     useDirtyRect: false
     // });
     let chartDom:any = document.getElementById('tripSt');
+    const existingChart = echarts.getInstanceByDom(chartDom);
+    if (existingChart) {
+        existingChart.dispose();
+    }
     //  var echart = echarts.init(chartDom);
     chartDom.style.height = '200px'; // Specify units (e.g., pixels)
     chartDom.style.width = '100%';
@@ -489,6 +500,10 @@ weektableflag:boolean=true;
     //     useDirtyRect: false
     // });
     let chartDom:any = document.getElementById('deliverySt');
+    const existingChart = echarts.getInstanceByDom(chartDom);
+    if (existingChart) {
+        existingChart.dispose();
+    }
     //  var echart = echarts.init(chartDom);
     chartDom.style.height = '200px'; // Specify units (e.g., pixels)
     chartDom.style.width = '100%';
@@ -634,7 +649,18 @@ weektableflag:boolean=true;
     
   }
   chart4() {
-    var cons=this.SummaryData?.VehicleStatus
+    var cons=this.SummaryData?.travel_states
+    let travelStatesData:any = [];
+
+if (cons) {
+  travelStatesData = Object.keys(cons).map(key => ({
+    value: cons[key],
+    name: key
+  }));
+}
+   
+    console.log(travelStatesData,"cons chart4");
+    
     // alert("chart1")
     // let chartDom = document.getElementById('myChart1');
     // let echart = echarts.init(chartDom, {
@@ -711,16 +737,7 @@ weektableflag:boolean=true;
                 labelLine: {
                     show: false
                 },
-                data: [
-                  // 
-                    // { value: this.trip_status.delayed, name: 'Delayed' },
-                    // { value: this.trip_status.without_gps, name: 'W/O GPS' },
-                    // { value: 0, name: 'No Data' },
-                    { value:cons?.Active, name: 'Active' },
-                    { value:cons?.Tamper, name: 'Tamper' },
-                    { value: cons?.InActive, name: 'In-Active' },
-                    { value: cons?.NoGps, name: 'Non-GPS' },
-                ]
+                data: [...travelStatesData]
             },
             {
               type: 'pie',
@@ -783,6 +800,167 @@ weektableflag:boolean=true;
           // alert('You clicked on ' + name + ' with value ' + value);
       }
   });
+  }
+  travelStatesChart() {
+    var cons=this.SummaryData?.travel_states
+    let travelStatesData:any = this.vehicleStates;
+
+   console.log(travelStatesData);
+   
+  
+  
+    // alert("chart1")
+    // let chartDom = document.getElementById('myChart1');
+    // let echart = echarts.init(chartDom, {
+    //     renderer: 'canvas',
+    //     useDirtyRect: false
+    // });
+    let chartDom:any = document.getElementById('travelStates');
+    const existingChart = echarts.getInstanceByDom(chartDom);
+    if (existingChart) {
+        existingChart.dispose();
+    }
+    //  var echart = echarts.init(chartDom);
+    chartDom.style.height = '200px'; // Specify units (e.g., pixels)
+    chartDom.style.width = '100%';
+    
+     var echart = echarts.init(chartDom, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var option;
+  
+    option = {
+        title: {
+            // text: 'Donut Chart',
+            // subtext: 'Living Expenses in Shenzhen'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+          show: false,
+          orient: 'horizontal',
+          left: 'left',
+          // top:60,
+          bottom:-6,
+          textStyle: {
+            fontSize: 10,
+            fontweight: 'bold'
+            // lineHeight: 10, // Adjust the line height if necessary
+            // padding: [-5, 0, 0, 0] // Adjust padding if necessary // Set the font size here
+        },
+        itemHeight: 8,
+        itemWidth: 8,
+            data: ['G', 'E-Lock','Fuel Sensor',"sdf"],
+            layout: 'horizontal',
+              // align: 'right',
+              // verticalAlign: 'bottom',
+              borderWidth: 0,
+              width: '100%',
+        },
+        series: [
+            {
+                name: 'Shipment',
+                type: 'pie',
+                radius: ['30%', '70%'],
+                avoidLabelOverlap: false,
+                color:['#EC6625','#97291E','#1D4380','grey','#6ABD46'],
+                label: {
+                    show: false,
+                    // position: 'center'
+                    position: 'inside',
+                    fontSize: '15',
+                        // rotate:'145',
+                        color:'white',
+                    formatter: '{c}' // display value
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '15',
+                        color:'white',
+                        // rotate:'145',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                 
+                    // { value:cons?.PartialDelivered, name: 'GPS' },
+                    // { value:cons?.NonEpod, name: 'E-Lock'},
+                    // { value: cons?.Epod, name: 'Fuel Sensor'},
+                    ...travelStatesData
+                   
+                ]
+            },
+            {
+              type: 'pie',
+              radius: ['0%', '40%'],
+              silent: true,
+              color:'white',
+             
+              label: {
+                  show: true,
+                  position: 'center',
+                  color:'#1D4380',
+                 
+                  formatter: function(params) {
+                      var total = 0;
+                      for (var i = 0; i < option.series[0].data.length; i++) {
+                          total += option.series[0].data[i].value;
+                      }
+                      return total >= 1000 ? (total / 1000).toFixed(1) + 'k' : total;
+                      // return  total;
+                  },
+                  fontSize: 16,
+                  fontWeight: 'bold'
+              },
+              data: [
+                  {value: 1, name: 'Total'}
+              ]
+          }
+    
+        ]
+    };
+  
+    option && echart.setOption(option);
+  //   echart.on('click',  (params) => {
+  //     if (params.componentType === 'series') {
+  //         // Access the clicked data
+  //         var name = params.name;
+  //         var value = params.value;
+  
+  //         console.log('You clicked on', name, 'with value', value);
+  
+  //         if(name=='GPS')
+  //           {
+  //             this.deliverySTtAct('iot','GPS','Gps')
+  //           }
+  //        else   if(name=='E-Lock')
+  //             {
+  //               this.deliverySTtAct('iot','E-Lock','E-Lock');
+
+  //             }
+  //             else   if(name=='Fuel Sensor')
+  //               {
+  //                 this.deliverySTtAct('iot','Fuel Sensor','FuelSensor');
+  //               }
+  //               // else   if(name=='Geofence')
+  //               //   {
+  //               //     this.deliverySTtAct('DeliveryStatus','Geofence');
+  //               //   }
+          
+  
+  //         // Perform actions based on the clicked segment
+  //         // alert('You clicked on ' + name + ' with value ' + value);
+  //     }
+  // });
+    
+    
   }
   chart5()
   {
@@ -1124,7 +1302,23 @@ weektableflag:boolean=true;
   }
   chart7()
   {
-    var cons=this.SummaryData?.vehicle_status_pi
+    const cons = this.SummaryData?.agent_vehicle_status;
+
+    // Convert object to an array of key-value pairs, sort, and then convert back to an object
+    const sortedObject = Object.entries(cons)
+      .sort(([, valueA], [, valueB]) => {
+        // Assert that values are numbers for comparison
+        const numA = valueA as number;
+        const numB = valueB as number;
+        return numB - numA;
+      })
+      const data = sortedObject.map(([name, value]) => ({
+        value: value,
+        name: name
+      }));
+
+    
+    console.log(...data,"Agent Chart");
     let chartDom:any = document.getElementById('barchart3');
     //  var echart = echarts.init(chartDom);
     chartDom.style.height = '250px'; // Specify units (e.g., pixels)
@@ -1150,8 +1344,8 @@ weektableflag:boolean=true;
           show: true,
         orient: 'vertical',
         // left: 'right',
-        right: '0',
-        top: '30%',
+        right: '-1.5%',
+        top: '20%',
         bottom: '10%',
         textStyle: {
             fontSize: 10,
@@ -1162,7 +1356,7 @@ weektableflag:boolean=true;
           itemWidth: 8,
             
         
-            data: ['Running Vehicle', 'Stopped Vehicle', 'Inactive Vehicle',],
+            // data: ['Running Vehicle', 'Stopped Vehicle', 'Inactive Vehicle',],
             layout: 'horizontal',
               // align: 'right',
               // verticalAlign: 'bottom',
@@ -1211,9 +1405,7 @@ weektableflag:boolean=true;
                     // { value:cons?.Delayed, name: 'Delayed' },
                     // { value: cons?.InActive, name: 'In-Active' },
                     // { value: cons?.NoGps, name: 'Non GPS' },
-                    { value:cons?.running, name: 'Running Vehicle' },
-                    { value:cons?.stoppage, name: 'Stopped Vehicle' },
-                    { value:cons?.inactive, name: 'Inactive Vehicle' },
+                 ...data
                    
                 ]
             }
@@ -1337,17 +1529,19 @@ deliverySTtAct(status,type,flag)
   console.log("vehicleSt")
   $('#IotModal').modal('show');
   this.typeName=type
-  // this.SpinnerService.show("summeryvehi")
+  this.SpinnerService.show("summeryvehi")
   var formdat = new FormData()
   formdat.append('AccessToken', this.token)
   // formdat.append('StartDate', this.fromdate)
-
+  formdat.append('filter_data',JSON.stringify(this.filterForm_M.value))
   // formdat.append('EndDate', this.todate)
   formdat.append('sub_type', status)
   formdat.append('type', "master")
-
+  console.log(formdat,"chartClicks");
+  
   this.service.chartclickS(formdat).subscribe((res: any) => {
     console.log("res",res)
+    this.summaryVehicle=[]
     for (const [key, value] of Object.entries(res.Data)) 
       {
 
@@ -1357,10 +1551,13 @@ deliverySTtAct(status,type,flag)
           }
     }
   //   this.summaryVehicle=res.data
-  //   this.SpinnerService.hide("summeryvehi")
+    this.SpinnerService.hide("summeryvehi")
   //   // this.masterUploadTable8()
   // console.log("masterUploadTable",this.summaryVehicle)
   this.masterUploadTable2()
+  },  (error) => {
+    console.error('Error sending data:', error);
+    this.SpinnerService.hide("summeryvehi")
   })
 
   // this.masterUploadTable6()
@@ -1371,17 +1568,18 @@ tripSTtAct(status,type,flag)
   console.log("vehicleSt")
   $('#deliveryModal').modal('show');
   this.typeName=type
-  // this.SpinnerService.show("summeryvehi")
+  this.SpinnerService.show("summeryvehi")
   var formdat = new FormData()
   formdat.append('AccessToken', this.token)
   // formdat.append('StartDate', this.fromdate)
-
+  formdat.append('filter_data',JSON.stringify(this.filterForm_M.value))
   // formdat.append('EndDate', this.todate)
   formdat.append('sub_type', status)
   formdat.append('type', "master")
 
   this.service.chartclickS(formdat).subscribe((res: any) => {
     console.log("res",res)
+    this.summaryVehicle=[]
     for (const [key, value] of Object.entries(res.Data)) 
       {
 
@@ -1391,17 +1589,20 @@ tripSTtAct(status,type,flag)
           }
     }
   //   this.summaryVehicle=res.data
-  //   this.SpinnerService.hide("summeryvehi")
+    this.SpinnerService.hide("summeryvehi")
   //   // this.masterUploadTable8()
   console.log("masterUploadTable",this.summaryVehicle)
   this.masterUploadTable1()
+  },   (error) => {
+    console.error('Error sending data:', error);
+    this.SpinnerService.hide("summeryvehi")
   })
 
 
 }
 consSTtAct(status,type,flag)
 {
-  this.summaryVehicle=[]
+  
   console.log("vehicleSt")
   $('#summaryModal').modal('show');
   this.typeName=type
@@ -1409,14 +1610,14 @@ consSTtAct(status,type,flag)
   var formdat = new FormData()
   formdat.append('AccessToken', this.token)
   // formdat.append('StartDate', this.fromdate)
-
+  formdat.append('filter_data',JSON.stringify(this.filterForm_M.value))
   // formdat.append('EndDate', this.todate)
   formdat.append('sub_type', status)
   formdat.append('type', "master")
 
   this.service.chartclickS(formdat).subscribe((res: any) => {
     console.log("res",res)
-
+    this.summaryVehicle=[]
     let data = res.Data
     for (const [key, value] of Object.entries(data)) 
       {
@@ -1646,9 +1847,14 @@ chartEchart2() {
      
   //   }
   var cons=this.SummaryData?.chart_data
-  const categories = Object.keys(cons.startegic_fleet_universe);
-  const seriesData1 = categories.map(category => cons.startegic_fleet_universe[category]);
-  const seriesData2 = categories.map(category => cons.vas_penetration[category]);
+  const newArray = Object.keys(cons.strategic_fleet_universe);
+  console.log(newArray,"charte2");
+  const categories = newArray.map(item => item.split(' (')[0]);
+
+console.log("11111111111111111111",categories);
+  
+  const seriesData1 = newArray.map(category => cons.strategic_fleet_universe[category]);
+  const seriesData2 = newArray.map(category => cons.vas_penetration[category]);
   var total_challan:any=[];
   var allotment_mismatch:any=[];
   var in_active:any=[];
@@ -1725,9 +1931,10 @@ chartEchart2() {
       data: categories,
       axisLabel: {
         interval: 0,
-        rotate: 0,
+        rotate: 20,
         fontSize: 12,
         fontWeight: 'bold',
+        // padding:20,
         color: 'black',
         overflow: 'truncate',
         tooltip: {
@@ -2338,16 +2545,17 @@ masterUploadTable2()
 initForms(): void {
   this.filterForm_M = this.fb.group(
     {
-      from_date: ['', Validators.required],
-      to_date: ['', Validators.required],
-      customer_id: [null, Validators.required],
-      gps_vendor: [null, Validators.required],
-      agent_id: [null, Validators.required],
+      from_date: [null,Validators.required],
+      to_date: [null,Validators.required],
+      customer_id: [null],
+      gps_vendor: [null],
+      agent_id: [null],
     },
     // { validators: dateRangeValidator() }
   );
 
    this.qFetchDashboardData()
+   
 }
 // fetchTransporters(): void {
 //   const formData = new FormData();
@@ -2369,14 +2577,18 @@ qFetchDashboardData(){
   const formData = new FormData();
   formData.append('AccessToken', this.token);
   formData.append('filter_data',"")
-  
+  this.SpinnerService.show("ilgicDashboardSpinner")
   this.service.getQCVDashboard(formData).subscribe(
     (response) => {
       this.ilgicDashboardData=response?.Data
+      this.SummaryData=response?.Data
+      this.SpinnerService.hide("ilgicDashboardSpinner")
+      this.qChartLoader()
       console.log(response,"ilgic data");
     },
     (error) => {
       console.error('Error sending data:', error);
+      this.SpinnerService.hide("ilgicDashboardSpinner")
     }
   );
 }
@@ -2385,13 +2597,23 @@ qFetchFilterData(){
   formData.append('AccessToken', this.token);
   formData.append('filter_data',JSON.stringify(this.filterForm_M.value))
   console.log(formData,"filterForm ilgic");
-  
+  this.SpinnerService.show("ilgicDashboardSpinner")
   this.service.getQCVDashboard(formData).subscribe(
     (response) => {
-      console.log(response,"filter ilgic data");
+      if(response?.Status==='success')
+      {
+        this.SummaryData=response?.Data
+        this.SpinnerService.hide("ilgicDashboardSpinner")
+        this.qChartLoader()
+        console.log(response);
+      } 
+      else
+        alert(response?.Message)
+        this.SpinnerService.hide("ilgicDashboardSpinner")
     },
     (error) => {
       console.error('Error sending data:', error);
+      this.SpinnerService.hide("ilgicDashboardSpinner")
     }
   );
 }
@@ -2400,7 +2622,37 @@ onFilterConsolidatedDashboard(){
   this.qFetchFilterData()
   
 }
+qChartLoader(){
 
+  this.vehicleStates=this.SummaryData?.travel_states
+  let travelStatesData:any = [];
+
+  if (this.vehicleStates) {
+    travelStatesData = Object.keys(this.vehicleStates).slice(0, 5).map(key => ({
+      value: this.vehicleStates[key],
+      name: key
+    }));
+  }
+ this.vehicleStates=travelStatesData
+console.log(this.vehicleStates,"vehicle states");
+   
+   
+  this.chart1();
+  this.chart2();
+  this.chart3();
+  this.chart7()
+  this.travelStatesChart()
+this.chart5()
+this.chart6()
+this.chartEchart()
+this.chartEchart2()
+}
+resetFilter(form){
+  // console.log(form);
+  form.reset()
+  this.qFetchDashboardData()
+  
+}
 }
 // $(document).ready(() => {
 //   let count=1;

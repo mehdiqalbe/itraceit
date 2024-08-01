@@ -2,29 +2,42 @@
   <div class="card-body innerdiv p-0">
     <!-- headerstart here -->
     <div class="hor-header">
-      <div style="overflow: hidden;">
+      <div style="overflow: hidden">
         <div class="row align-items-left">
-          <div  class="col-lg-1">
-            <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
+          <div class="col-lg-1">
+            <button
+              class="app-sidebar__toggle ms-auto"
+              (click)="sidebarToggle()"
+            ></button>
           </div>
           <div class="col-lg-2"></div>
-          <div class="col-lg-4" style="font-weight: 600;font-size:large ;text-align: center;margin-top: 15px;">
-            <span style="margin-right: -104px;">ILGIC Consolidated Dashboard
+          <div
+            class="col-lg-4"
+            style="
+              font-weight: 600;
+              font-size: large;
+              text-align: center;
+              margin-top: 15px;
+            "
+          >
+            <span style="margin-right: -104px"
+              >ILGIC Consolidated Dashboard
             </span>
-
           </div>
-          <div class="col-lg-2 text-center">
+          <div class="col-lg-2 text-center"></div>
 
-          </div>
-         
           <div class="col-lg-1"></div>
           <div class="col-lg-1">
             <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
           </div>
           <div class="col-lg-1 text-center">
             <a class="header-brand1">
-              <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
-                style="height: auto; width: 80%;">
+              <img
+                src="assets/images/itraceit_logo1.png"
+                alt="ILGIC Logo"
+                class="header-brand-img desktop-logo"
+                style="height: auto; width: 80%"
+              />
             </a>
           </div>
         </div>
@@ -37,9 +50,15 @@
 
 <!-- ////////////////////////////////filter end//////////////////////////////////////////////////////////////////////// -->
 <!-- ///////////////////////////////////////////////////card//////////////////////////////////////////////// -->
-<div class="col-lg-12" style="margin-top: -20px;">
-  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
-    <p style="color: black">Please Wait.. </p>
+<div class="col-lg-12" style="margin-top: -20px">
+  <ngx-spinner
+    bdColor="rgba(51, 51, 51, 0.8)"
+    size="default"
+    [fullScreen]="true"
+    type="ball-spin-clockwise"
+    name="ilgicDashboardSpinner"
+  >
+    <p style="color: black">Please Wait..</p>
   </ngx-spinner>
   <div class="fiter col-md-10">
     <p class="mb-2">
@@ -65,7 +84,10 @@
           class="card card-body pt-0"
           style="border: none; box-shadow: none; margin-bottom: 0px"
         >
-          <form [formGroup]="filterForm_M" (ngSubmit)="onFilterConsolidatedDashboard()">
+          <form
+            [formGroup]="filterForm_M"
+            (ngSubmit)="onFilterConsolidatedDashboard()"
+          >
             <div class="row col-12 ps-0">
               <div class="col-md-2">
                 <label class="m-0" for="from_date">From</label>
@@ -75,9 +97,13 @@
                   formControlName="from_date"
                   class="form-control cutombox"
                   placeholder="Select Start Date..."
-                  [ngClass]="{'border-danger': filterForm_M.get('from_date')?.touched && filterForm_M.get('from_date')?.invalid}"
-                  />
-                  <span
+                  [ngClass]="{
+                    'border-danger':
+                      filterForm_M.get('from_date')?.touched &&
+                      filterForm_M.get('from_date')?.invalid
+                  }"
+                />
+                <span
                   style="font-size: 11px"
                   *ngIf="filterForm_M.get('from_date')?.touched && filterForm_M.get('from_date')?.errors?.['required']"
                   class="text-danger position-absolute text-sm-center"
@@ -93,9 +119,13 @@
                   formControlName="to_date"
                   class="form-control cutombox"
                   placeholder="Select End Date..."
-                  [ngClass]="{'border-danger': filterForm_M.get('to_date')?.touched && filterForm_M.get('to_date')?.invalid}"
-                  />
-                  <span
+                  [ngClass]="{
+                    'border-danger':
+                      filterForm_M.get('to_date')?.touched &&
+                      filterForm_M.get('to_date')?.invalid
+                  }"
+                />
+                <span
                   style="font-size: 11px"
                   *ngIf="filterForm_M.get('to_date')?.touched && filterForm_M.get('to_date')?.errors?.['required']"
                   class="text-danger position-absolute text-sm-center"
@@ -104,9 +134,7 @@
                 </span>
               </div>
               <div class="col-md-2">
-                <label class="m-0" for="customer"
-                  >Customer</label
-                >
+                <label class="m-0" for="customer">Customer</label>
                 <ng-select
                   id="customer"
                   formControlName="customer_id"
@@ -114,19 +142,29 @@
                   [searchable]="false"
                   placeholder="Select Customer"
                   class="custom-ng-select cutombox"
-                  [ngClass]="{'border-danger': filterForm_M.get('customer_id')?.touched && filterForm_M.get('customer_id')?.invalid}"
+                  [ngClass]="{
+                    'border-danger':
+                      filterForm_M.get('customer_id')?.touched &&
+                      filterForm_M.get('customer_id')?.invalid
+                  }"
                 >
-                <ng-option *ngFor="let customer of ilgicDashboardData?.filter_transporter | keyvalue" [value]="customer.key">
-                  {{ customer.value }}
-              </ng-option>
+                  <ng-option
+                    *ngFor="
+                      let customer of ilgicDashboardData?.filter_transporter
+                        | keyvalue
+                    "
+                    [value]="customer.key"
+                  >
+                    {{ customer.value }}
+                  </ng-option>
                 </ng-select>
                 <span
-                style="font-size: 11px"
-                *ngIf="filterForm_M.get('customer_id')?.touched && filterForm_M.get('customer_id')?.errors?.['required']"
-                class="text-danger position-absolute text-sm-center"
-              >
-                Select customer.
-              </span>
+                  style="font-size: 11px"
+                  *ngIf="filterForm_M.get('customer_id')?.touched && filterForm_M.get('customer_id')?.errors?.['required']"
+                  class="text-danger position-absolute text-sm-center"
+                >
+                  Select customer.
+                </span>
               </div>
               <div class="col-md-2">
                 <label class="m-0" for="gps_vendor">GPS Vendor</label>
@@ -137,19 +175,29 @@
                   appearance="outline"
                   [searchable]="false"
                   placeholder="Select GPS Vendor"
-                  [ngClass]="{'border-danger': filterForm_M.get('gps_vendor')?.touched && filterForm_M.get('gps_vendor')?.invalid}"
+                  [ngClass]="{
+                    'border-danger':
+                      filterForm_M.get('gps_vendor')?.touched &&
+                      filterForm_M.get('gps_vendor')?.invalid
+                  }"
                 >
-                <ng-option *ngFor="let customer of ilgicDashboardData?.filter_gps_vendor | keyvalue" [value]="customer.key">
-                  {{ customer.value }}
-              </ng-option>
+                  <ng-option
+                    *ngFor="
+                      let customer of ilgicDashboardData?.filter_gps_vendor
+                        | keyvalue
+                    "
+                    [value]="customer.key"
+                  >
+                    {{ customer.value }}
+                  </ng-option>
                 </ng-select>
                 <span
-                style="font-size: 11px"
-                *ngIf="filterForm_M.get('gps_vendor')?.touched && filterForm_M.get('gps_vendor')?.errors?.['required']"
-                class="text-danger position-absolute text-sm-center"
-              >
-                Select gps Vendor.
-              </span>
+                  style="font-size: 11px"
+                  *ngIf="filterForm_M.get('gps_vendor')?.touched && filterForm_M.get('gps_vendor')?.errors?.['required']"
+                  class="text-danger position-absolute text-sm-center"
+                >
+                  Select gps Vendor.
+                </span>
               </div>
               <div class="col-md-2">
                 <label class="m-0" for="agent_id">Agent</label>
@@ -160,34 +208,59 @@
                   appearance="outline"
                   [searchable]="false"
                   placeholder="Select Agent"
-                  [ngClass]="{'border-danger': filterForm_M.get('agent_id')?.touched && filterForm_M.get('agent_id')?.invalid}"
+                  [ngClass]="{
+                    'border-danger':
+                      filterForm_M.get('agent_id')?.touched &&
+                      filterForm_M.get('agent_id')?.invalid
+                  }"
                 >
-                <ng-option *ngFor="let customer of ilgicDashboardData?.filter_agent | keyvalue" [value]="customer.key">
-                  {{ customer.value }}
-              </ng-option>
+                  <ng-option
+                    *ngFor="
+                      let customer of ilgicDashboardData?.filter_agent
+                        | keyvalue
+                    "
+                    [value]="customer.key"
+                  >
+                    {{ customer.value }}
+                  </ng-option>
                 </ng-select>
                 <span
-                style="font-size: 11px"
-                *ngIf="filterForm_M.get('agent')?.touched && filterForm_M.get('agent')?.errors?.['required']"
-                class="text-danger position-absolute text-sm-center"
-              >
-                Select Agent
-              </span>
+                  style="font-size: 11px"
+                  *ngIf="filterForm_M.get('agent')?.touched && filterForm_M.get('agent')?.errors?.['required']"
+                  class="text-danger position-absolute text-sm-center"
+                >
+                  Select Agent
+                </span>
               </div>
-             
-              <div class="col-md-2 text-end d-flex align-items-end">
+
+              <div class="col-md-2 gap-3 text-end d-flex align-items-end">
                 <button
-                style="background-color: #1D4380;"
+                  style="background-color: #1d4380"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseExample"
                   type="submit"
+                  
                   class="p-2 px-4 rounded-0 btn-orange shadow-none"
                   [disabled]="filterForm_M.invalid"
                   [ngClass]="{
-                    'disabled-button':filterForm_M.invalid,
-                    'enabled-button':filterForm_M.valid
+                    'disabled-button': filterForm_M.invalid,
+                    'enabled-button': filterForm_M.valid
                   }"
                 >
                   Submit
                 </button>
+                <button
+                (click)="resetFilter(filterForm_M)"
+                style="background-color: #224222"
+                ngbTooltip="reset filter"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                type="button"
+                class="p-2 px-4 rounded-0 btn-orange shadow-none"
+             
+              >
+                reset
+              </button>
               </div>
             </div>
           </form>
@@ -202,42 +275,58 @@
       <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
         <div class="card status-card">
           <div class="card-body">
-            <h5 class="card-title">Vehicle Status
-            </h5>
+            <h5 class="card-title">Vehicle Status</h5>
             <div class="row">
               <div class="col-6">
                 <div id="consSt" class="chart-container"></div>
               </div>
-              <div class="col-6" style="margin-top: -33px;text-align-last: right;">
-                <img src="assets/images/vehiclestatusnew.png" alt="Vehicle Status" style="height: 50%;">
+              <div
+                class="col-6"
+                style="margin-top: -33px; text-align-last: right"
+              >
+                <img
+                  src="assets/images/vehiclestatusnew.png"
+                  alt="Vehicle Status"
+                  style="height: 50%"
+                />
               </div>
               <div class="col-12 mt-0 custom">
-                <span class="status-text" style="color:#6ABD46;" 
-                  id="numberH">{{SummaryData?.vehicleStatus?.running}}</span>/
-                <span class="status-text" style="color:#97291E;"
-                  id="numberH">{{SummaryData?.vehicleStatus?.stoppage}}</span>/
-                <span class="status-text" style="color:grey;"
-                  id="numberH">{{SummaryData?.vehicleStatus?.inactive}}</span>/
-                <span class="status-text" style="color:#1D4380;" 
-                  id="numberH">{{SummaryData?.vehicleStatus?.nongps}}</span>
+                <span class="status-text" style="color: #6abd46" id="numberH">{{
+                  SummaryData?.vehicleStatus?.running
+                }}</span
+                >/
+                <span class="status-text" style="color: #97291e" id="numberH">{{
+                  SummaryData?.vehicleStatus?.stoppage
+                }}</span
+                >/
+                <span class="status-text" style="color: grey" id="numberH">{{
+                  SummaryData?.vehicleStatus?.inactive
+                }}</span
+                >/
+                <span class="status-text" style="color: #1d4380" id="numberH">{{
+                  SummaryData?.vehicleStatus?.nongps
+                }}</span>
               </div>
             </div>
             <!-- (click)="consSTtAct('ConsignmentStatus','NonGps')" -->
             <div class="status-legend mt-1">
-              <span style="color:#6ABD46;">
-                <i class='fas fa-square-full' style="margin-right: 2px;"></i> Running
+              <span style="color: #6abd46">
+                <i class="fas fa-square-full" style="margin-right: 2px"></i>
+                Running
               </span>
-              <span  style="color:#97291E;">
-                <i class='fas fa-square-full' style="margin-right: 2px;"></i> Stop
+              <span style="color: #97291e">
+                <i class="fas fa-square-full" style="margin-right: 2px"></i>
+                Stop
               </span>
-              <span  style="color:grey;">
-                <i class='fas fa-square-full' style="margin-right: 2px;"></i> In-Active
+              <span style="color: grey">
+                <i class="fas fa-square-full" style="margin-right: 2px"></i>
+                In-Active
               </span>
-              <span  style="color:#1D4380;">
-                <i class='fas fa-square-full' style="margin-right: 2px;"></i> Non GPS
+              <span style="color: #1d4380">
+                <i class="fas fa-square-full" style="margin-right: 2px"></i> Non
+                GPS
               </span>
             </div>
-
           </div>
         </div>
       </div>
@@ -250,22 +339,35 @@
               <div class="col-6">
                 <div id="tripSt" class="chart-container"></div>
               </div>
-              <div class="col-6" style="margin-top: -33px;text-align-last: right;">
-                <img src="assets/images/custo.png" alt="Trip Status" style="height: 50%;">
+              <div
+                class="col-6"
+                style="margin-top: -33px; text-align-last: right"
+              >
+                <img
+                  src="assets/images/custo.png"
+                  alt="Trip Status"
+                  style="height: 50%"
+                />
               </div>
               <div class="col-12 mt-0 custom">
-                <span class="status-text" style="color:#EC6625;" 
-                  id="numberH">{{SummaryData?.customer?.existing_client}}</span>/
-                <span class="status-text" style="color:#1D4380;"
-                  id="numberH">{{SummaryData?.customer?.new_client}}</span>
-
+                <span class="status-text" style="color: #ec6625" id="numberH">{{
+                  SummaryData?.customer?.existing_client
+                }}</span
+                >/
+                <span class="status-text" style="color: #1d4380" id="numberH">{{
+                  SummaryData?.customer?.new_client
+                }}</span>
               </div>
             </div>
             <div class="status-legend mt-1">
-              <span style="color:#EC6625;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>Existing Client</span>
-              <span style="color: #1D4380 ;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>New Client</span>
-
-
+              <span style="color: #ec6625"
+                ><i class="fas fa-square-full" style="margin-right: 2px"></i
+                >Existing Client</span
+              >
+              <span style="color: #1d4380"
+                ><i class="fas fa-square-full" style="margin-right: 2px"></i>New
+                Client</span
+              >
             </div>
           </div>
         </div>
@@ -279,24 +381,43 @@
               <div class="col-6">
                 <div id="deliverySt" class="chart-container"></div>
               </div>
-              <div class="col-6" style="margin-top: -30px;text-align-last: right;">
-                <img src="assets/images/iot.png" alt="Delivery Status" style="height: 50%">
+              <div
+                class="col-6"
+                style="margin-top: -30px; text-align-last: right"
+              >
+                <img
+                  src="assets/images/iot.png"
+                  alt="Delivery Status"
+                  style="height: 50%"
+                />
               </div>
               <div class="col-12 mt-0 custom">
-                <span class="status-text" style="color:#EC6625;"
-                  id="numberH">{{SummaryData?.Iot?.gps}}</span>/
-                <span class="status-text" style="color:#1D4380;" 
-                  id="numberH">{{SummaryData?.Iot?.elock}}</span>/
-                <span class="status-text" style="color:grey;" 
-                  id="numberH">{{SummaryData?.Iot?.fuelsensor}}</span>
-
+                <span class="status-text" style="color: #ec6625" id="numberH">{{
+                  SummaryData?.Iot?.gps
+                }}</span
+                >/
+                <span class="status-text" style="color: #1d4380" id="numberH">{{
+                  SummaryData?.Iot?.elock
+                }}</span
+                >/
+                <span class="status-text" style="color: grey" id="numberH">{{
+                  SummaryData?.Iot?.fuelsensor
+                }}</span>
               </div>
             </div>
             <div class="status-legend mt-1">
-              <span style="color:#EC6625;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>GPS</span>
-              <span style="color:#1D4380;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>E-Lock</span>
-              <span style="color:grey;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>Fuel Sensor</span>
-
+              <span style="color: #ec6625"
+                ><i class="fas fa-square-full" style="margin-right: 2px"></i
+                >GPS</span
+              >
+              <span style="color: #1d4380"
+                ><i class="fas fa-square-full" style="margin-right: 2px"></i
+                >E-Lock</span
+              >
+              <span style="color: grey"
+                ><i class="fas fa-square-full" style="margin-right: 2px"></i
+                >Fuel Sensor</span
+              >
             </div>
           </div>
         </div>
@@ -305,32 +426,72 @@
       <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
         <div class="card status-card">
           <div class="card-body">
-            <h5 class="card-title">NA</h5>
+            <h5 class="card-title">Travel States</h5>
             <div class="row">
-              <div class="col-9">
-                <div id="vehicleSt" class="chart-container"></div>
-                <!-- <div id="deliverySt" class="chart-container"></div> -->
+              <div class="col-6">
+                <div id="travelStates" class="chart-container"></div>
               </div>
-              <div class="col-3" style="margin-top: -30px;">
-                <img src=" assets/images/Consignment Status.png" alt="Vehicle Status">
+              <div
+                class="col-6"
+                style="margin-top: -30px; text-align-last: right"
+              >
+                <img
+                  src="assets/images/travelStates.png"
+                  alt="Delivery Status"
+                  style="height: 50%"
+                />
+              </div>
+              <!-- <div class="col-12 mt-0 custom">
+                <span class="status-text" style="color:#EC6625;"
+                  id="numberH">{{SummaryData?.Iot?.gps}}</span>/
+                <span class="status-text" style="color:#1D4380;" 
+                  id="numberH">{{SummaryData?.Iot?.elock}}</span>/
+                <span class="status-text" style="color:grey;" 
+                  id="numberH">{{SummaryData?.Iot?.fuelsensor}}</span>
 
-              </div>
+              </div> -->
               <div class="col-12 mt-0 custom">
-                <span class="status-text" style="color:#6ABD46;" (click)="vehicleStAct('VehicleStatus','Active')"
-                  id="numberH">50</span>/
-                <span class="status-text" style="color:#97291E;" (click)="vehicleStAct('VehicleStatus','Tamper')"
-                  id="numberH">100</span>/
-                <span class="status-text" style="color:grey;" (click)="vehicleStAct('VehicleStatus','InActive')"
-                  id="numberH">200</span>/
-                <span class="status-text" style="color:#1D4380;" (click)="vehicleStAct('VehicleStatus','NonGps')"
-                  id="numberH">400</span>
+                <span
+                  *ngFor="let state of vehicleStates; let i = index"
+                  class="status-text"
+                  [style.color]="
+                    i === 0
+                      ? '#EC6625'
+                      : i === 1
+                      ? '#97291E'
+                      : i === 2
+                      ? '#1D4380'
+                      : i === 3
+                      ? 'grey'
+                      : '#6ABD46'
+                  "
+                  id="numberH"
+                >
+                  {{ state.value }}
+                  <span *ngIf="i < vehicleStates.length - 1">/</span>
+                </span>
               </div>
             </div>
-            <div class="status-legend mt-0">
-              <span style="color:#6ABD46;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>A</span>
-              <span style="color:#97291E;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>B</span>
-              <span style="color:grey;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>C</span>
-              <span style="color:#1D4380;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>D</span>
+            <div class="status-legend mt-1">
+              <span
+              *ngFor="let state of vehicleStates; let i = index"
+              class="status-text"
+              [style.color]="
+                i === 0
+                  ? '#EC6625'
+                  : i === 1
+                  ? '#97291E'
+                  : i === 2
+                  ? '#1D4380'
+                  : i === 3
+                  ? 'grey'
+                  : '#6ABD46'
+              "
+              id="numberH"
+            >
+                <i class="fas fa-square-full" style="margin-right: 2px"></i>
+                {{ state.name }}
+              </span>
             </div>
           </div>
         </div>
@@ -338,8 +499,6 @@
     </div>
   </div>
   <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
-
-
 </div>
 <!-- /////////////////////////////////card end///////////////////////////////////////////////////////////////////////////////// -->
 <!-- <div class="card" style="overflow-x: hidden;">
@@ -359,7 +518,7 @@
     </div> -->
 
 <!-- ///////////////////////////////////////////////////////////////////////////////////// -->
-<div class="container-fluid" style="margin-top: -30px;">
+<div class="container-fluid" style="margin-top: -30px">
   <div class="row">
     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
       <div class="chart-container2">
@@ -379,7 +538,7 @@
   </div>
 </div>
 <!-- ///////////////////////////////////bar chart//////////////////////////////////////////////// -->
-<div class="container" style="overflow: hidden;margin-top: -55px;">
+<div class="container" style="overflow: hidden; margin-top: -55px">
   <div class="row">
     <div class="col-md-6 col-sm-12">
       <div class="chart-container3">
@@ -397,218 +556,205 @@
   <div id="barchart"></div>
 </div> -->
 <!-- /////////////////////////////////////////////////vehicle poup/////////////////////////////////////////////// -->
-<div class="modal fade" id="summaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
+<div
+  class="modal fade"
+  id="summaryModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
-
-      <div class="modal-header" style="height: 45px;">
-
-        <div class="centered-text">
-          Vehicle Status-{{typeName}} Report
-        </div>
+      <div class="modal-header" style="height: 45px">
+        <div class="centered-text">Vehicle Status-{{ typeName }} Report</div>
 
         <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
 
-
-
         <!-- </form> -->
-        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close btn-sm"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-
-
-
-        <div style="overflow-y: auto;">
-          <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise"
-            name="summeryvehi">
-            <p style="color: black">Please Wait.. </p>
+        <div style="overflow-y: auto">
+          <ngx-spinner
+            bdColor="rgba(51, 51, 51, 0.8)"
+            size="default"
+            [fullScreen]="true"
+            type="ball-spin-clockwise"
+            name="summeryvehi"
+          >
+            <p style="color: black">Please Wait..</p>
           </ngx-spinner>
-          <table class="display nowrap  table" cellspacing="0" id="vehicleTable" width="100%">
+          <table
+            class="display nowrap table"
+            cellspacing="0"
+            id="vehicleTable"
+            width="100%"
+          >
             <thead>
-              <tr style="text-align: center;">
+              <tr style="text-align: center">
                 <th class="table-primary">S.No.</th>
 
                 <th class="table-primary">Vehicle Number</th>
                 <th class="table-primary">Status</th>
 
                 <th class="table-primary">Speed</th>
-                <th class="table-primary">Battery</th>
+                <th class="table-primary">Battery(%)</th>
 
-                <th class="table-primary">Current Date
-                </th>
-                <th class="table-primary">Last Halt
-                </th>
+                <th class="table-primary">Current Date</th>
+                <th class="table-primary">Last Halt</th>
                 <th class="table-primary">Ignition</th>
                 <th class="table-primary">IOT</th>
-                <th class="table-primary">Current Location
-                </th>
-                <th class="table-primary">GPS Service provider
-
-                </th>
-
-
-
-
-
+                <th class="table-primary">Current Location</th>
+                <th class="table-primary">GPS Service provider</th>
               </tr>
-
             </thead>
             <tbody>
-              <tr  style="text-align: center;" *ngFor="let item of summaryVehicle[0];let ind=index">
-                  <td>{{ind+1}}</td>
-                
-                 
-                 
-                  <td>{{item.vehicle_no}}</td>
-                  <td>{{item?.vehicle_status}}</td>
-                  <td>{{item.speed}}</td>
-                  <td>{{item?.battery}}</td>
-                 
-                 
-                  <!-- <td>{{item?.speed}}</td> -->
-                  
-                  <td>{{item.current_date}}</td>
-                  <td>{{item.last_halt}}</td>
-                  <td>{{item.ignition}}</td>
-                  <td>{{item.iot}}</td>
-                  <td>{{item.current_location}}</td>
-                  <td>{{item.gps_service_provider}}</td>
-                  
-              
-  
-                  
-  
-                </tr>
+              <tr
+                style="text-align: center"
+                *ngFor="let item of summaryVehicle[0]; let ind = index"
+              >
+                <td>{{ ind + 1 }}</td>
+
+                <td>{{ item.vehicle_no }}</td>
+                <td>{{ item?.vehicle_status }}</td>
+                <!-- <td>{{ item.speed | number:'1.2-2' }}</td> -->
+                <td>{{ item.speed | number:'1.0-2' }}</td>
+                <td>{{ item?.battery === '-' ? 'NA' : item?.battery }}</td>
+
+                <!-- <td>{{item?.speed}}</td> -->
+
+                <td>{{ item.current_date }}</td>
+                <td>{{ item.last_halt }}</td>
+                <td>{{ item.ignition }}</td>
+                <td>{{ item.iot }}</td>
+                <td>{{ item.current_location }}</td>
+                <td>{{ item.gps_service_provider }}</td>
+              </tr>
             </tbody>
           </table>
         </div>
-
       </div>
-
-
-
     </div>
-
   </div>
 </div>
 <!-- /////////////////////////////////////customer/////////////////////////////////////////// -->
-<div class="modal fade" id="deliveryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
+<div
+  class="modal fade"
+  id="deliveryModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
-
-      <div class="modal-header" style="height: 45px;">
-
-        <div class="centered-text">
-          Customer -{{typeName}} Report
-        </div>
+      <div class="modal-header" style="height: 45px">
+        <div class="centered-text">Customer -{{ typeName }} Report</div>
 
         <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
 
-
-
         <!-- </form> -->
-        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close btn-sm"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-
-
-
-
-
-        <div style="overflow-y: auto;">
-          <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise"
-            name="summeryvehi">
-            <p style="color: black">Please Wait.. </p>
-          </ngx-spinner> -->
-          <table class="display nowrap  table" cellspacing="0" id="customerTable" width="100%">
-            <thead>
-              <tr style="text-align: center;">
-                <th class="table-primary">S.No.</th>
-
-                <th class="table-primary">Customer Name
-                </th>
-                <th class="table-primary">Code</th>
-                <th class="table-primary">No of Vehicles
-                </th>
-                <th class="table-primary">Incorporation Date
-                </th>
-                <th class="table-primary">Rating</th>
-               
-
-
-
-
-              </tr>
-
-            </thead>
-            <tbody>
-              <tr  style="text-align: center;"  *ngFor="let item of summaryVehicle[0];let ind=index">
-                  
-                
-                 
-                 
-                 
-                  <td>{{ind+1}}</td>
-                  <td>{{item.customer_name}}</td>
-                  <td>{{item.customer_code}}</td>
-                  <td>{{item.no_of_vehicle}}</td>
-                  <td>{{item.incrprtn_date}}</td>
-                  <td>{{item.rating}}</td>
-                  
-                
-                  
-              
-  
-                  
-  
-                </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </div>
-
-
-
-    </div>
-
-  </div>
-</div>
-<!-- /////////////////////////////////////Iot/////////////////////////////////////////// -->
-<div class="modal fade" id="IotModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content">
-
-      <div class="modal-header" style="height: 45px;">
-
-        <div class="centered-text">
-           IOT-{{typeName}} Report
-        </div>
-
-        <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
-
-
-
-        <!-- </form> -->
-        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-
-
-
-
-        <div style="overflow-y: auto;">
+        <div style="overflow-y: auto">
           <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise"
             name="summeryvehi">
             <p style="color: black">Please Wait.. </p>
           </ngx-spinner>
-          <table class="display nowrap  table" cellspacing="0" id="IotTable" width="100%">
+          <table
+            class="display nowrap table"
+            cellspacing="0"
+            id="customerTable"
+            width="100%"
+          >
             <thead>
-              <tr style="text-align: center;">
+              <tr style="text-align: center">
+                <th class="table-primary">S.No.</th>
+
+                <th class="table-primary">Customer Name</th>
+                <th class="table-primary">Code</th>
+                <th class="table-primary">No of Vehicles</th>
+                <th class="table-primary">Incorporation Date</th>
+                <th class="table-primary">Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                style="text-align: center"
+                *ngFor="let item of summaryVehicle[0]; let ind = index"
+              >
+                <td>{{ ind + 1 }}</td>
+                <td>{{ item.customer_name }}</td>
+                <td>{{ item.customer_code }}</td>
+                <td>{{ item.no_of_vehicle }}</td>
+                <td>{{ item.incrprtn_date }}</td>
+                <td>{{ item.rating }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /////////////////////////////////////Iot/////////////////////////////////////////// -->
+<div
+  class="modal fade"
+  id="IotModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content">
+      <div class="modal-header" style="height: 45px">
+        <div class="centered-text">IOT-{{ typeName }} Report</div>
+
+        <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
+
+        <!-- </form> -->
+        <button
+          type="button"
+          class="btn-close btn-sm"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div style="overflow-y: auto">
+          <ngx-spinner
+            bdColor="rgba(51, 51, 51, 0.8)"
+            size="default"
+            [fullScreen]="true"
+            type="ball-spin-clockwise"
+            name="summeryvehi"
+          >
+            <p style="color: black">Please Wait..</p>
+          </ngx-spinner>
+          <table
+            class="display nowrap table"
+            cellspacing="0"
+            id="IotTable"
+            width="100%"
+          >
+            <thead>
+              <tr style="text-align: center">
                 <th class="table-primary">S.No.</th>
 
                 <th class="table-primary">Vehicle Number</th>
@@ -617,55 +763,38 @@
                 <th class="table-primary">Speed</th>
                 <th class="table-primary">Battery</th>
 
-                <th class="table-primary">Current Date
-                </th>
-                <th class="table-primary">Last Halt
-                </th>
+                <th class="table-primary">Current Date</th>
+                <th class="table-primary">Last Halt</th>
                 <th class="table-primary">Ignition</th>
                 <th class="table-primary">IOT</th>
-                <th class="table-primary">Current Location
-                </th>
-                <th class="table-primary">GPS Service provider
-
-                </th>
-
-
-
-
-
+                <th class="table-primary">Current Location</th>
+                <th class="table-primary">GPS Service provider</th>
               </tr>
-
             </thead>
             <tbody>
-              <tr  style="text-align: center;" *ngFor="let item of summaryVehicle[0];let ind=index">
-                <td>{{ind+1}}</td>
-              
-               
-               
-                <td>{{item.vehicle_no}}</td>
-                <td>{{item?.vehicle_status}}</td>
-                <td>{{item.speed}}</td>
-                <td>{{item?.battery}}</td>
-               
-               
+              <tr
+                style="text-align: center"
+                *ngFor="let item of summaryVehicle[0]; let ind = index"
+              >
+                <td>{{ ind + 1 }}</td>
+
+                <td>{{ item.vehicle_no }}</td>
+                <td>{{ item?.vehicle_status }}</td>
+                <td>{{ item.speed }}</td>
+                <td>{{ item?.battery }}</td>
+
                 <!-- <td>{{item?.speed}}</td> -->
-                
-                <td>{{item.current_date}}</td>
-                <td>{{item.last_halt}}</td>
-                <td>{{item.ignition}}</td>
-                <td>{{item.iot}}</td>
-                <td>{{item.current_location}}</td>
-                <td>{{item.gps_service_provider}}</td>
-                
-            
 
-                
-
+                <td>{{ item.current_date }}</td>
+                <td>{{ item.last_halt }}</td>
+                <td>{{ item.ignition }}</td>
+                <td>{{ item.iot }}</td>
+                <td>{{ item.current_location }}</td>
+                <td>{{ item.gps_service_provider }}</td>
               </tr>
             </tbody>
           </table>
         </div>
-
       </div>
 
       <!-- <div class="modal-footer" >
@@ -676,49 +805,57 @@
            <i class="fe fe-truck" tooltipClass="customInStopped-tooltip-class" ngbTooltip="Device 2"
             style="font-size: 20px;color: red;" id="blink"></i> -->
 
-
       <!-- <button type="button" class="btn btn" data-bs-dismiss="modal"
               style="background-color:#1c84c6;border-color: #1c84c6;color: white ;">Close</button> -->
 
       <!-- </div> -->
-
     </div>
-
   </div>
 </div>
 <!-- /////////////////////////////////////Trip/////////////////////////////////////////// -->
-<div class="modal fade" id="TripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  data-bs-backdrop="static" data-bs-keyboard="false">
+<div
+  class="modal fade"
+  id="TripModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
   <div class="modal-dialog modal-fullscreen">
     <div class="modal-content">
-
-      <div class="modal-header" style="height: 45px;">
-
-        <div class="centered-text">
-          Trip Status-{{typeName}} Report
-        </div>
+      <div class="modal-header" style="height: 45px">
+        <div class="centered-text">Trip Status-{{ typeName }} Report</div>
 
         <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
 
-
-
         <!-- </form> -->
-        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close btn-sm"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-
-
-
-
-
-        <div style="overflow-y: auto;">
-          <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise"
-            name="summeryvehi">
-            <p style="color: black">Please Wait.. </p>
+        <div style="overflow-y: auto">
+          <ngx-spinner
+            bdColor="rgba(51, 51, 51, 0.8)"
+            size="default"
+            [fullScreen]="true"
+            type="ball-spin-clockwise"
+            name="summeryvehi"
+          >
+            <p style="color: black">Please Wait..</p>
           </ngx-spinner>
-          <table class="display nowrap  table" cellspacing="0" id="TripTable" width="100%">
+          <table
+            class="display nowrap table"
+            cellspacing="0"
+            id="TripTable"
+            width="100%"
+          >
             <thead>
-              <tr style="text-align: center;">
+              <tr style="text-align: center">
                 <th class="table-primary">S.No.</th>
 
                 <th class="table-primary">Region</th>
@@ -735,8 +872,6 @@
                 <th class="table-primary">Challan Date</th>
                 <th class="table-primary">Vehicle No</th>
 
-
-
                 <th class="table-primary">RF</th>
                 <th class="table-primary">Un-Auth</th>
                 <th class="table-primary">FC</th>
@@ -744,15 +879,8 @@
                 <th class="table-primary">RD</th>
                 <th class="table-primary">Trip Status</th>
 
-
                 <!-- <th class="table-primary">Delivery Distance</th> -->
-
-
-
-
-
               </tr>
-
             </thead>
             <tbody>
               <!-- <tr  style="text-align: center;" *ngFor="let item of summaryVehicle;let ind=index">
@@ -793,13 +921,8 @@
             </tbody>
           </table>
         </div>
-
       </div>
-
-
-
     </div>
-
   </div>
 </div>
 <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

@@ -284,6 +284,13 @@
                   >
                     enter your pin code
                   </span>
+                  <span
+                  style="font-size: 11px"
+                  *ngIf=" addDriverForm.get('PinCode')?.touched && addDriverForm.get('PinCode')?.errors?.['pattern']"
+                  class="text-red position-absolute text-sm-center"
+                >
+                  enter valid pincode
+                </span>
                 </div>
               </div>
             </div>

@@ -143,3 +143,19 @@
 
 
 /* Responsive typography */
+//////////////////////////////////////////////
+/// ///////////////////////////////////Mehdi code///////////////////////////////////////////
+.cutombox{
+  border: .5px solid #1c84c6;
+  box-shadow: 0 4px 8px #0000001a;
+  border-radius: 5px;
+}
+.disabled-button {
+  opacity: 0.5;
+  pointer-events: none;
+  }
+  
+  .enabled-button {
+  opacity: 1;
+  pointer-events: auto;
+  }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
+// import { environment } from '../../../environments/environment';
 import * as fileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { Observable } from 'rxjs';
@@ -35,7 +35,7 @@ export class CrudService {
   constructor( private http: HttpClient) { }
    url:any='https://testapi.secutrak.in/dev-app-cv-ilgic/'
    Durl:any='https://api-py.secutrak.in/api/'
- 
+   Qurl:any=' https://api-cv2.secutrak.in/api/'
   submitdata(val:any){
     return this.http.post(this.url+'cvDashboard1',val);
   }
@@ -75,8 +75,11 @@ export class CrudService {
   closeS(val:any){
     return this.http.post(this.url+'cv_tripClose',val);
   }
+  // chartclickS(val:any){
+  //   return this.http.post(this.url+'cvDashboardDetailedData',val);
+  // }
   chartclickS(val:any){
-    return this.http.post(this.url+'cvDashboardDetailedData',val);
+    return this.http.post(this.url+'CVDashboardSummaryData/',val);
   }
   walletMasterS(val:any){
     return this.http.post(this.url+'documentWalletMaster',val);

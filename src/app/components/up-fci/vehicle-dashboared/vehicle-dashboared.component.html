@@ -964,44 +964,48 @@
           </div>
         </div>
         <div class="col-lg-12 mt-2">
-          <div class="row justify-content-center">
-            <div class="colmun">
-              <label for="GPS" class="filtor_name">GPS</label>&nbsp;&nbsp;
+          <div class="d-flex justify-content-start">
+            <div class="">
+              
               <input
                 type="checkbox"
                 formControlName="GPS"
                 [checked]="vehicleForm.get('GPS')?.value === 1"
               />
+              <label for="GPS" class="filtor_name">GPS</label>&nbsp;&nbsp;
             </div>
-            <div class="colmun">
-              <label for="FixedDoorELock" class="filtor_name"
-                >Fixed Door E-Lock</label
-              >&nbsp;&nbsp;
+            <div class="">
+            &nbsp;&nbsp;
               <input
                 type="checkbox"
                 formControlName="Fixed_Door"
                 [checked]="vehicleForm.get('Fixed_Door')?.value === 1"
               />
+              <label for="FixedDoorELock" class="filtor_name"
+              >Fixed Door E-Lock</label
+            >
             </div>
-            <div class="colmun">
-              <label for="RefrigeratedVehicle" class="filtor_name"
-                >Refrigerated Vehicle</label
-              >&nbsp;&nbsp;
+            <div class="">
+            &nbsp;&nbsp;
               <input
                 [checked]="vehicleForm.get('Refrigerated')?.value === 1"
                 type="checkbox"
                 formControlName="Refrigerated"
               />
+              <label for="RefrigeratedVehicle" class="filtor_name"
+              >Refrigerated Vehicle</label
+            >
             </div>
-            <div class="colmun">
-              <label for="FireExtinguisher" class="filtor_name"
-                >Fire Extinguisher</label
-              >&nbsp;&nbsp;
+            <div class="">
+            &nbsp;&nbsp;
               <input
                 [checked]="vehicleForm.get('Fire_Extinguisher')?.value === 1"
                 type="checkbox"
                 formControlName="Fire_Extinguisher"
               />
+              <label for="FireExtinguisher" class="filtor_name"
+              >Fire Extinguisher</label
+            >
             </div>
           </div>
         </div>

@@ -13,6 +13,7 @@ declare var $: any;
   styleUrls: ['./trip-dashboard.component.scss']
 })
 export class TripDashboardComponent implements OnInit {
+  UserType:any
   token:any;
   account_id:any;
   sourceListdata:any=[]
@@ -31,7 +32,7 @@ export class TripDashboardComponent implements OnInit {
     let App = document.querySelector('.app')
     // this.navServices.collapseSidebar = this.navServices.collapseSidebar
     App?.classList.add('sidenav-toggled');
-
+    this.UserType=localStorage.getItem('UserType')
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
     // this. tTable()
@@ -132,7 +133,7 @@ export class TripDashboardComponent implements OnInit {
 
 
               },
-              title: 'dashboard_repor'
+              title: 'Dashboard_report'
             },
             {
               extend: 'pdf',
@@ -166,7 +167,7 @@ export class TripDashboardComponent implements OnInit {
                 //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
               },
-              title: 'dashboard_repor'
+              title: 'Dashboard_report'
             },
             {
               extend: 'copy',
@@ -184,7 +185,7 @@ export class TripDashboardComponent implements OnInit {
                 columns: ':visible'
 
               },
-              title: 'dashboard_repor'
+              title: 'Dashboard_report'
             },
             {
               extend: 'excel',
@@ -206,7 +207,7 @@ export class TripDashboardComponent implements OnInit {
                 columns: ':visible'
 
               },
-              title: 'dashboard_repor'
+              title: 'Dashboard_report'
             }],
         "language": {
           search: '',
@@ -255,7 +256,7 @@ export class TripDashboardComponent implements OnInit {
     // formdataCustomer.append('UserType', 'master');
     // formdataCustomer.append('DataFilter', js);
     
-    
+    this.SpinnerService.show('tripDashboardSpinner')
     this.service.dashboardS(formdataCustomer).subscribe((res: any) => {
       console.log("dashboard",res);
       this.summary = res.data.Summary
@@ -299,6 +300,7 @@ export class TripDashboardComponent implements OnInit {
       // console.log("dashboard2",dummydata);      
       //  this. sourceListdata.push(value);
       // }
+      this.SpinnerService.hide('tripDashboardSpinner')
       this.tTable()
      
 
@@ -307,26 +309,33 @@ export class TripDashboardComponent implements OnInit {
   routeFilter(value)
   {
     var table = $('#threatTable').DataTable();
+    console.log(value);
     
-    table.columns(4).search(value).draw();
+    table.columns(6).search(value).draw();
     if(value==undefined)
       {
-        table.columns(4).search("").draw();
+        table.columns(6).search("").draw();
       }
   }
   tableFilter(value)
   {
+    console.log(value);
+    
     var table = $('#threatTable').DataTable();
+   
+    console.log(table);
+    
     if(value=='All')
       {
-        table.columns(5).search(" ").draw();
+        table.search("").draw();
       }
     else  if(value==undefined)
         {
-          table.columns(5).search("").draw();
+          table.columns(8).search("").draw();
         }
     else{
-      table.columns(5).search(value).draw();
+      console.log(value);
+      table.search(value).columns(8).draw()
     }
    
   }

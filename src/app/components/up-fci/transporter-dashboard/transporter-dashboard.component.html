@@ -2037,7 +2037,7 @@
           </div> 
         </div>
         
-        <!-- Driver -->
+        <!-- vehicle -->
          
         <div
           class="tab-pane fade"
@@ -2483,7 +2483,7 @@
                 >
                   Deactivate
                 </button>
-                <button
+                <!-- <button
                   [disabled]="!selectVehicleIds.length"
                   class="btn btn-sm btn-blue"
                   type="submit"
@@ -2497,7 +2497,7 @@
                   "
                 >
                   Delete
-                </button>
+                </button> -->
               </div>
             </div>
             <!-- /////////////////////////////////////////// -->
@@ -2586,7 +2586,7 @@
                       </td>
                       <td>{{ item?.vehicle?.vehicle_number || "" }}</td>
                       <td>
-                        {{ vehicleBodyType[item?.vehicle?.vehicle_type] || "" }}
+                        {{ vehicleBodyType[item?.vehicle?.body_type_id] || "" }}
                       </td>
                       <td>{{ item?.vehicle?.registration_no || "" }}</td>
                       <td>{{ item?.vehicle?.registration_date || "" }}</td>
@@ -2704,7 +2704,7 @@
         </div>
 
         <!-- ---------------------------------------------- -->
-        <!-- Vehicle -->
+        <!-- driver -->
 
         <!-- ////////////////////////////////////////////////// -->
         <div

@@ -104,7 +104,7 @@ export class DriverDashboaredComponent implements OnInit,AfterViewInit {
       State: [null, Validators.required],
       City: [null, Validators.required],
       Address: ['', Validators.required],
-      PinCode: ['', Validators.required],
+      PinCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       DrivingSince: [null, Validators.required],
       DrivenvehicleType: [null, Validators.required],
       LicenseDocumentNumber: [''],
@@ -193,6 +193,7 @@ export class DriverDashboaredComponent implements OnInit,AfterViewInit {
             
         }
         else{
+          this.SpinnerService.show("qDriverFormSpinner")
           this.service.createDriver(formData).subscribe(
             response => {
               this.documentDetails=response?.DocumentDetails
@@ -201,7 +202,15 @@ export class DriverDashboaredComponent implements OnInit,AfterViewInit {
               if(this.documentDetails)
               this.uploadDocuments(this.documentDetails)
               else
-              alert(response.Message)
+              {
+                 if(response.status==='fail')
+                 {
+                  alert(response?.error)
+                  console.log(response.status);
+                  this.SpinnerService.hide("qDriverFormSpinner")
+                 }
+              }
+              
               console.log('Driver created successfully', response);
             },
             error => {
@@ -547,6 +556,8 @@ editDocument(formData: FormData) {
     },
     error => {
       console.error('Error editing document:', error);
+      alert(error)
+      this.onCompleteDocumentIndicator()
     }
   );
 }
@@ -559,6 +570,8 @@ addDocument(formData: FormData) {
     },
     error => {
       console.error('Error adding document:', error);
+      alert(error)
+      this.onCompleteDocumentIndicator()
     }
   );
 }

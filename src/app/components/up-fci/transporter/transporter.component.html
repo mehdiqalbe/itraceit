@@ -78,7 +78,7 @@
     <div class="hor-header">
       <div style="overflow: hidden;">
         <div class="row align-items-left">
-          <div  class="col-lg-1">
+          <div class="col-lg-1">
             <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
           </div>
           <div class="col-lg-2"></div>
@@ -90,7 +90,7 @@
           <div class="col-lg-2 text-center">
 
           </div>
-         
+
           <div class="col-lg-1"></div>
           <div class="col-lg-1">
             <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
@@ -109,82 +109,153 @@
 <!-- /////////////////////////////////////folter////////////////////////////// -->
 <div style=" margin-left: 5px;margin-top: -25px;
 margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
-<div class="col-lg-12">
-<div class="fiter">
-<p>
-  <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
-      aria-controls="collapseExample" style="font-size: 16px;">
-      <i class="fa fa-filter" aria-hidden="true"
-          style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
-  </a>
+  <div class="col-lg-12">
+    <div class="fiter">
+      <p>
+        <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
+          aria-controls="collapseExample" style="font-size: 16px;">
+          <i class="fa fa-filter" aria-hidden="true" style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
+        </a>
 
-</p>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body" style="border: none ; box-shadow: none;">
-      <form #filterForm="ngForm" (ngSubmit)="filterSubmitTransporter(filterForm.value)">
-          <div class="col-lg-12">
-              <div class="row">
-                  <div class="col-lg-2">
-                      <span class="filtor_name">From</span>
-                      <input type="datetime-local" class="form-control" [ngModel]="datetimepicker1"
-                          required name="from_time" />
-                  </div>
-                  <div class="col-lg-2">
-                      <span class="filtor_name">To</span>
-                      <input type="datetime-local" class="form-control" [ngModel]="currentDateTime"
-                          required name="To_time" />
-                  </div>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body" style="border: none ; box-shadow: none;">
+          <form
+          [formGroup]="filterForm_M"
+          (ngSubmit)="onFilterConsolidatedDashboard()"
+        >
+          <div class="row col-12 ps-0">
+            <div class="col-md-2">
+              <label class="m-0" for="from_date">From</label>
+              <input
+                id="from_date"
+                type="date"
+                formControlName="from_date"
+                class="form-control cutombox"
+                placeholder="Select Start Date..."
+                [ngClass]="{
+                  'border-danger':
+                    filterForm_M.get('from_date')?.touched &&
+                    filterForm_M.get('from_date')?.invalid
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="filterForm_M.get('from_date')?.touched && filterForm_M.get('from_date')?.errors?.['required']"
+                class="text-danger position-absolute text-sm-center"
+              >
+                Select start date.
+              </span>
+            </div>
+            <div class="col-md-2">
+              <label class="m-0" for="to_date">To</label>
+              <input
+                id="to_date"
+                type="date"
+                formControlName="to_date"
+                class="form-control cutombox"
+                placeholder="Select End Date..."
+                [ngClass]="{
+                  'border-danger':
+                    filterForm_M.get('to_date')?.touched &&
+                    filterForm_M.get('to_date')?.invalid
+                }"
+              />
+              <span
+                style="font-size: 11px"
+                *ngIf="filterForm_M.get('to_date')?.touched && filterForm_M.get('to_date')?.errors?.['required']"
+                class="text-danger position-absolute text-sm-center"
+              >
+                Select end date.
+              </span>
+            </div>
+            <div class="col-md-2">
+              <label class="m-0" for="gps_vendor">GPS Vendor</label>
+              <ng-select
+                id="gps_vendor"
+                class="cutombox"
+                formControlName="gps_vendor"
+                appearance="outline"
+                [searchable]="false"
+                placeholder="Select GPS Vendor"
+                [ngClass]="{
+                  'border-danger':
+                    filterForm_M.get('gps_vendor')?.touched &&
+                    filterForm_M.get('gps_vendor')?.invalid
+                }"
+              >
+                <ng-option
+                  *ngFor="
+                    let customer of transporterDashboardData?.filter_gps_vendor
+                      | keyvalue
+                  "
+                  [value]="customer.key"
+                >
+                  {{ customer.value }}
+                </ng-option>
+              </ng-select>
+              <span
+                style="font-size: 11px"
+                *ngIf="filterForm_M.get('gps_vendor')?.touched && filterForm_M.get('gps_vendor')?.errors?.['required']"
+                class="text-danger position-absolute text-sm-center"
+              >
+                Select gps Vendor.
+              </span>
+            </div>
+         
+
+            <div class="col-md-2 gap-3 text-end d-flex align-items-end">
+              <button
+                style="background-color: #1d4380"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                type="submit"
                 
-                
-               
-                  <div class="col-lg-2">
-                      <span class="filtor_name">GPS Vendor</span>
-                      <ng-select name="Purchage_Center" placeholder="Select Depot" id="ShipmentNo"
-                          style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo"
-                          [closeOnSelect]="true" [multiple]="false">
-                          <!-- <ng-option >--Select Purchage Center--</ng-option> -->
-                          <!-- <ng-select name="Region_type" placeholder="Select Region" id="ShipmentNo"
-        [ngModel]="ShipmentNo" [multiple]="true" [closeOnSelect]="true"> -->
-
-                          <!-- <ng-option [value]="item"
-                              *ngFor="let item of purches |keyvalue">{{item.value}}</ng-option> -->
-
-
-
-
-
-
-
-                      </ng-select>
-                  </div>
-                 
-
-              </div>&nbsp;
-              
-                
-                  <div class="col-lg-2">
-
-                      <button type="submit" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-                          class="btn btn-outline-primary btn-sm" style="margin-top: 22px;">Submit</button>
-                  </div>
-            
+                class="p-2 px-4 rounded-0 btn-orange shadow-none"
+                [disabled]="filterForm_M.invalid"
+                [ngClass]="{
+                  'disabled-button': filterForm_M.invalid,
+                  'enabled-button': filterForm_M.valid
+                }"
+              >
+                Submit
+              </button>
+              <button
+              (click)="resetFilter(filterForm_M)"
+              style="background-color: #224222"
+              ngbTooltip="reset filter"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample"
+              type="button"
+              class="p-2 px-4 rounded-0 btn-orange shadow-none"
+           
+            >
+              reset
+            </button>
+            </div>
           </div>
-      </form>
+        </form>
 
+        </div>
+      </div>
+      <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+    </div>
   </div>
-</div>
-<!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
-</div>
-</div>
 
 
 
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////// -->
-<div class="col-lg-12" style="margin-top: -20px;">
-  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
-    <p style="color: black">Please Wait.. </p>
-  </ngx-spinner>
+<div class="col-lg-12">
+  <ngx-spinner
+  bdColor="rgba(51, 51, 51, 0.8)"
+  size="default"
+  [fullScreen]="true"
+  type="ball-spin-clockwise"
+  name="ilgicDashboardSpinner"
+>
+  <p style="color: black">Please Wait..</p>
+</ngx-spinner>
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
@@ -202,7 +273,7 @@ margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
               <div class="col-12 mt-0 custom">
                 <span class="status-text" style="color:#6ABD46;"
                   id="numberH">{{SummaryData?.vehicleStatus?.running}}</span>/
-                <span class="status-text" style="color:red;"
+                <span class="status-text" style="color:#97291E"
                   id="numberH">{{SummaryData?.vehicleStatus?.stoppage}}</span>/
                 <span class="status-text" style="color:grey;"
                   id="numberH">{{SummaryData?.vehicleStatus?.inactive}}</span>/
@@ -215,7 +286,7 @@ margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
               <span style="color:#6ABD46;">
                 <i class='fas fa-square-full' style="margin-right: 2px;"></i> Running
               </span>
-              <span style="color:red;">
+              <span style="color:#97291E;">
                 <i class='fas fa-square-full' style="margin-right: 2px;"></i> Stop
               </span>
               <span style="color:grey;">
@@ -277,7 +348,7 @@ margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
 
                 <span class="status-text" style="color:#1D4380;"
                   id="numberH">{{SummaryData?.vehicle_utilization?.utilize_count}}</span>/
-                <span class="status-text" style="color:red;"
+                <span class="status-text" style="color:#97291E"
                   id="numberH">{{SummaryData?.vehicle_utilization?.non_utilize_count}}</span>
 
 
@@ -288,7 +359,7 @@ margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
                                     style="margin-right: 2px;"></i>Utilized</span> -->
               <span style="color: #1D4380 ;"><i class='fas fa-square-full'
                   style="margin-right: 2px;"></i>Utilized</span>
-              <span style="color:red;"><i class='fas fa-square-full' style="margin-right: 2px;"></i>Not
+              <span style="color:#97291E"><i class='fas fa-square-full' style="margin-right: 2px;"></i>Not
                 utilized</span>
 
 
@@ -308,16 +379,16 @@ margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- <div class="card"> -->
-<div class="container" >
-  <div class="row" >
+<div class="container">
+  <div class="row">
     <div class="col-md-6 col-sm-12">
       <div class="chart-container3">
         <div id="barchart2"></div>
       </div>
     </div>
-    <div class="col-md-6 col-sm-12" >
+    <div class="col-md-6 col-sm-12">
       <div class="chart-container3" style="overflow: hidden;">
-        <div id="barchart1"  ></div>
+        <div id="barchart1"></div>
       </div>
     </div>
   </div>
@@ -444,10 +515,10 @@ margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
 
 
         <div style="overflow-y: auto;">
-          <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise"
+          <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise"
           name="summeryvehi">
           <p style="color: black">Please Wait.. </p>
-        </ngx-spinner> -->
+        </ngx-spinner>
           <table class="display nowrap  table" cellspacing="0" id="utilizationTable" width="100%">
             <thead>
               <tr style="text-align: center;">

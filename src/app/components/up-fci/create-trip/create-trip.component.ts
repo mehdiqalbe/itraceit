@@ -8,7 +8,23 @@ import { NavService } from 'src/app/shared/services/nav.service';
 import { FormControl, FormGroup, Validators, FormBuilder, FormArray, NgForm } from '@angular/forms';
 import { DoBootstrap } from '@angular/core';
 import { JsonPipe, KeyValue } from '@angular/common';
+import { event } from 'jquery';
+declare var bootstrap: any;
 declare var $: any;
+interface PortableDevice {
+  device_id: string;
+  device_imei: string;
+  device_type: string;
+  DeviceLastDateTime: string;
+  GPSStatus: string;
+  Color: string;
+}
+
+interface ApiResponse {
+  Data: { [key: string]: PortableDevice };
+  DeviceTypeName: string;
+}  
+
 
 @Component({
   selector: 'app-create-trip',
@@ -25,6 +41,12 @@ export class CreateTripComponent implements OnInit {
   }
   token: any
   account_id: any
+  qDocuments: Map<any, any> = new Map();
+  qArrayDocs:any=[]
+  qFileLists:any=[]
+  qFile:any
+  nextId:number=0
+  selectedPort:any
   // selectbox = {
   //   selectedOption: null
   // };
@@ -37,7 +59,7 @@ export class CreateTripComponent implements OnInit {
   ]
   sourceListdata: any = []
   routedata: any = []
-  PortvList: any = []
+  PortvList: ApiResponse | null = null;
   expensearray: any = []
   expenseListdata: any = []
   docListdata: any = []
@@ -407,9 +429,40 @@ export class CreateTripComponent implements OnInit {
     console.log('created',demoarray)
     // this.invoicedetails=value;
   }
-  openTab(id: any) {
-    $('#' + id).click();
+  openTab(id: any,form ) {
+    this.tripDetailsF(form?.value,form)
+    console.log(this.nextTabflag,"open tab",form.value);
+    
+    if(this.nextTabflag)
+    {
+     this.helpingTab(id) 
+    } 
+  }
+  helpingTab(tabId: string): void {
+    const allTabs = document.querySelectorAll('.tab-pane');
+    const selectedTab = document.getElementById(tabId);
+    allTabs.forEach(tab => {
+      tab.classList.remove('show');
+    });
+    selectedTab?.classList.add('show');
 
+    setTimeout(() => {
+      allTabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      if (selectedTab) {
+        selectedTab.classList.add('show','active');
+      }
+    }, 500); // 1000 milliseconds = 1 second
+
+    const allButtons = document.querySelectorAll('.nav-link');
+    allButtons.forEach(button => {
+      button.classList.remove('active');
+    });
+    const selectedButton = document.getElementById(tabId + '-tab');
+    if (selectedButton) {
+      selectedButton.classList.add('active');
+    }
   }
   vehicleList() {
     // let vList:any=[]
@@ -427,11 +480,9 @@ export class CreateTripComponent implements OnInit {
         this.vList.push(value);
       }
       console.log("vehicleList", this.vList);
-      for (const [key, value] of Object.entries(res.portable_device_data)) {
-
-        this.PortvList.push(value);
-      }
-
+     this.PortvList=res?.portable_device_data
+     console.log("Porttable",this.PortvList);
+     
 
     })
   }
@@ -588,17 +639,18 @@ export class CreateTripComponent implements OnInit {
     this.tripdetailsArray = value;
 
     if (form.invalid) {
+      this.nextTabflag = true;
       Object.keys(form.controls).forEach(field => {
         const control = form.controls[field];
         control.markAsTouched({ onlySelf: true });
       });
-      this.nextTabflag = true;
+      
     }
      else 
     {
       // $('#nav-District-tab').click();
       // Form is valid, proceed to the next step
-      this.openTab('nav-District-tab');
+      // this.openTab('nav-District-tab');
       // this.nextTabflag = false;
 
       // this.tripdetailsArray=value;
@@ -612,6 +664,8 @@ export class CreateTripComponent implements OnInit {
 
 
   }
+ 
+
   tripdetailsreset(form: NgForm) {
     form.reset();
     this.extraImei.imei3=""
@@ -686,72 +740,7 @@ export class CreateTripComponent implements OnInit {
     // console.log("commodityList",value);
     this.commodityListListselected.push(value);
   }
-  createTripF()
-   {
-    console.log("files",this.uploadfiledsk)
-
-    ////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    this.commodityListListselected.push(this.tripdetailsArray?.commodity);
-
-    console.log("invoicedataF",  this.invoicearraydata)
-    console.log("createTripdetailsF", this.tripdetailsArray)
-    console.log("selectboc", this.commodityListListselected);
-    let tripdetails = {
-      "TRIP": {
-        "trip_id": this.tripdetailsArray.tripId,
-        "vehicle_id": this.tripdetailsArray.Vname.vehicle_id,
-
-
-        "vehicle_no": this.tripdetailsArray.Vname.vehicle_number,
-        "portable_imei": this.tripdetailsArray?.Imei?.device_imei,
-        "imei_no_type3":this.tripdetailsArray?.Imei?.device_type,
-        "driver_name": this.tripdetailsArray.Driver1Name,
-        "driver_mobile": this.tripdetailsArray.Driver1Mobno,
-
-        "route_id": this.tripdetailsArray.route_name,
-        "remarks": this.tripdetailsArray.remarks,
-        "run_date": this.tripdetailsArray.runDate,
-        "opening_odometer_reading": this.tripdetailsArray.odometer,
-        "scheduled_in_transit_time": this.tripdetailsArray.transit_Time,
-        // "commodity":this.tripdetailsArray.remarks,
-        "CUSTOMER":  this.invoicearraydata,
-        // "scheduled_in_transit_time":this.tripdetailsArray.remarks,
-
-      },
-      // "Trip_Expense":this.expensearray,
-      // "Trip_docs":this.uploadfiledsk
-    }
-    // if(this.nextTabflag==true)
-    //   {
-    //     alert("Please Fill Trip Details ")
-    //   }
-    //   else{
-
-    
-    var formdataCustomer = new FormData()
-    formdataCustomer.append('AccessToken', this.token)
-    formdataCustomer.append('fields', JSON.stringify(tripdetails));
-    formdataCustomer.append('Trip_docs', this.uploadfiledsk);
-    formdataCustomer.append('Ewaybill', this.uploadeway);
-    formdataCustomer.append('Trip_Expense',JSON.stringify(this.expensearray));
-
-
-    this.service.createTripS(formdataCustomer).subscribe((res: any) => {
-      console.log("tripcreationres",res);
-      alert(res.status )
-     
-
-
-
-    })
-  // }
-
-  }
+ 
   docFile(e)
   {
 
@@ -824,18 +813,18 @@ export class CreateTripComponent implements OnInit {
 
     this.service.ImeiLIstS(formdataCustomer).subscribe((res: any) => {
       console.log("imeiListF", res);
-      this.extraImei=res[0]
-      if(this.extraImei.imei1!="")
+      this.extraImei=res
+      if(this.extraImei.IMEI_1_data!="")
       {
-        this.p_name="Primary IMEI"
+        this.p_name=res?.IMEI_1_data?.device_type_name
       }
-      if(this.extraImei.imei2!="")
+      if(this.extraImei?.IMEI_2_data!="")
       {
-        this.s_name="Secondary IMEI"
+        this.s_name=res?.IMEI_2_data?.device_type_name
       }
-      if(this.extraImei.imei3!="")
+      if(this.extraImei?.IMEI_3_data!="")
       {
-        this.t_name="Tertiary IMEI"
+        this.t_name=res?.IMEI_3_data?.device_type_name
       }
       
       // console.log("customerList", this.routeId);
@@ -853,5 +842,159 @@ export class CreateTripComponent implements OnInit {
       // User clicked "Cancel"
       alert("You clicked Cancel!");
     }
+  }
+  createTripF(tripForm,customerForm,expenseForm)
+  {
+  
+  console.log(tripForm,"==",tripForm.value);
+  
+   this.tripDetailsF(tripForm.value,tripForm)
+   this.submitForm(customerForm)
+   const docData=this.qDocumentDetailsF()
+   console.log(docData);
+   this.addexpenseF(expenseForm)
+   console.log("files",this.uploadfiledsk)
+
+   ////////////////////////////////////////////////////////////////////////////////////
+   console.log(this.tripdetailsArray?.commodity,"create trip commodity");
+
+       if(tripForm.valid)
+{
+   ////////////////////////////////////////////////////////////////////////////////////
+    if(this.tripdetailsArray?.commodity?.id)
+       this.commodityListListselected.push(this.tripdetailsArray?.commodity);
+
+      console.log(this.commodityListListselected,"create trip commodity");
+      
+   console.log("invoicedataF",  this.invoicearraydata)
+   console.log("createTripdetailsF", this.tripdetailsArray)
+   console.log("selectboc", this.commodityListListselected);
+   let tripdetails = {
+     "TRIP": {
+       "trip_id": this.tripdetailsArray?.tripId,
+       "vehicle_id": this.tripdetailsArray?.Vname?.vehicle_id,
+
+
+       "vehicle_no": this.tripdetailsArray?.Vname?.vehicle_number,
+       "portable_imei": this.tripdetailsArray?.Imei?.device_imei,
+       "imei_no_type3":this.tripdetailsArray?.Imei?.device_type,
+       "driver_name": this.tripdetailsArray.Driver1Name,
+       "driver_mobile": this.tripdetailsArray.Driver1Mobno,
+
+       "route_id": this.tripdetailsArray.route_name,
+       "remarks": this.tripdetailsArray.remarks,
+       "run_date": this.tripdetailsArray.runDate,
+       "opening_odometer_reading": this.tripdetailsArray.odometer,
+       "scheduled_in_transit_time": this.tripdetailsArray.transit_Time,
+       // "commodity":this.tripdetailsArray.remarks,
+       "CUSTOMER":  this.invoicearraydata,
+       // "scheduled_in_transit_time":this.tripdetailsArray.remarks,
+
+     },
+     // "Trip_Expense":this.expensearray,
+     // "Trip_docs":this.uploadfiledsk
+   }
+   // if(this.nextTabflag==true)
+   //   {
+   //     alert("Please Fill Trip Details ")
+   //   }
+   //   else{
+
+   
+   var formdataCustomer = new FormData()
+   formdataCustomer.append('AccessToken', this.token)
+   formdataCustomer.append('fields', JSON.stringify(tripdetails));
+   formdataCustomer.append('Doc_Data',JSON.stringify(docData))
+   this.qFileLists.forEach((el,index) => {
+    console.log(el,"qFileLists");
+    formdataCustomer.append(`Trip_docs[${index}]`,el)
+   });
+   this.qFileLists=[];
+  //  formdataCustomer.append('Trip_docs[]',this.qFileLists)
+   formdataCustomer.append('Ewaybill', this.uploadeway);
+   formdataCustomer.append('Trip_Expense',JSON.stringify(this.expensearray));
+
+   console.log(formdataCustomer);
+  
+
+   this.service.createTripS(formdataCustomer).subscribe((res: any) => {
+     console.log("tripcreationres",res);
+     alert(res?.status )
+    
+
+
+
+   })
+ }
+
+ }
+  qDocumentDetailsF(){
+    const docData: any[] = [];
+    const tripDocs: any[] = [];
+    const formData = new FormData();
+
+    this.qDocuments.forEach((doc, index) => {
+      docData.push({
+        DocTypeId: doc.type?.id,
+        DocNo: doc?.number,
+        IssueDate: doc?.issueDate,
+        ExpiryDate: doc?.expiryDate,
+        Remarks: doc?.remarks,
+        Trip_docs:doc?.file||''
+      });
+      if(doc.file)
+        this.qFileLists.push(doc.file)
+    });
+  formData.append("docs",JSON.stringify(this.qDocuments))
+    console.log(formData,"----",docData);
+    return docData
+  }
+  
+  addDocument(form: any) {
+    if (form.valid && this.qFile) {
+      const newDocument = {
+        id: this.nextId++,
+        type: form.value.docName,
+        number: form.value.docNumber,
+        issueDate: form.value.issueDate,
+        expiryDate: form.value.expiryDate,
+        remarks: form.value.Remarks,
+        image: [...this.imageurl], // create a copy of the array
+        file: this.qFile
+      };
+      // this.qArrayDocs.push(newDocument)
+      this.qDocuments.set(newDocument.id, newDocument);
+      form.reset();
+      // this.imageurl = [];
+      // this.qFile = null;
+      console.log(this.qDocuments);
+    
+    } else {
+      alert('Please fill all the fields and select a file.');
+    }
+  }
+  removeDocument(id: number) {
+    this.qDocuments.delete(id);
+  }
+  qSelectFile(event){
+    const file = (event.target).files[0]
+    this.qFile=file
+    console.log(file);
+    
+  }
+  viewDocument(blob: Blob): void {
+    if (blob) {
+      const url = URL.createObjectURL(blob);
+      console.log(url);
+      
+      window.open(url, '_blank');
+    } else {
+      alert('No document available to view.');
+    }
+  }
+  onPortImeiChange(event: any) {
+  
+    this.selectedPort=event
+    console.log('Selected item:', this.selectedPort);
   }
 }

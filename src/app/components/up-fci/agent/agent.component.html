@@ -37,6 +37,171 @@
     <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
         <p style="color: black">Please Wait.. </p>
     </ngx-spinner>
+    <div class="fiter col-md-10">
+      <p class="mb-2">
+        <a
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseExample"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+          style="font-size: 16px"
+        >
+          <i
+            class="fa fa-filter"
+            aria-hidden="true"
+            style="font-size: 20px; color: gray; margin-top: 8px"
+          ></i
+          >FILTER
+        </a>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div>
+          <div
+            class="card card-body pt-0"
+            style="border: none; box-shadow: none; margin-bottom: 0px"
+          >
+            <form
+              [formGroup]="filterForm_M"
+              (ngSubmit)="onFilterConsolidatedDashboard()"
+            >
+              <div class="row col-12 ps-0">
+                <div class="col-md-2">
+                  <label class="m-0" for="from_date">From</label>
+                  <input
+                    id="from_date"
+                    type="date"
+                    formControlName="from_date"
+                    class="form-control cutombox"
+                    placeholder="Select Start Date..."
+                    [ngClass]="{
+                      'border-danger':
+                        filterForm_M.get('from_date')?.touched &&
+                        filterForm_M.get('from_date')?.invalid
+                    }"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="filterForm_M.get('from_date')?.touched && filterForm_M.get('from_date')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center"
+                  >
+                    Select start date.
+                  </span>
+                </div>
+                <div class="col-md-2">
+                  <label class="m-0" for="to_date">To</label>
+                  <input
+                    id="to_date"
+                    type="date"
+                    formControlName="to_date"
+                    class="form-control cutombox"
+                    placeholder="Select End Date..."
+                    [ngClass]="{
+                      'border-danger':
+                        filterForm_M.get('to_date')?.touched &&
+                        filterForm_M.get('to_date')?.invalid
+                    }"
+                  />
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="filterForm_M.get('to_date')?.touched && filterForm_M.get('to_date')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center"
+                  >
+                    Select end date.
+                  </span>
+                </div>
+                <div class="col-md-2">
+                  <label class="m-0" for="customer">Customer</label>
+                  <ng-select
+                    id="customer"
+                    formControlName="customer_id"
+                    appearance="outline"
+                    [searchable]="false"
+                    placeholder="Select Customer"
+                    class="custom-ng-select cutombox"
+                    [ngClass]="{
+                      'border-danger':
+                        filterForm_M.get('customer_id')?.touched &&
+                        filterForm_M.get('customer_id')?.invalid
+                    }"
+                  >
+                    <ng-option
+                      *ngFor="
+                        let customer of ilgicDashboardData?.filter_transporter
+                          | keyvalue
+                      "
+                      [value]="customer.key"
+                    >
+                      {{ customer.value }}
+                    </ng-option>
+                  </ng-select>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="filterForm_M.get('customer_id')?.touched && filterForm_M.get('customer_id')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center"
+                  >
+                    Select customer.
+                  </span>
+                </div>
+                <div class="col-md-2">
+                  <label class="m-0" for="gps_vendor">GPS Vendor</label>
+                  <ng-select
+                    id="gps_vendor"
+                    class="cutombox"
+                    formControlName="gps_vendor"
+                    appearance="outline"
+                    [searchable]="false"
+                    placeholder="Select GPS Vendor"
+                    [ngClass]="{
+                      'border-danger':
+                        filterForm_M.get('gps_vendor')?.touched &&
+                        filterForm_M.get('gps_vendor')?.invalid
+                    }"
+                  >
+                    <ng-option
+                      *ngFor="
+                        let customer of ilgicDashboardData?.filter_gps_vendor
+                          | keyvalue
+                      "
+                      [value]="customer.key"
+                    >
+                      {{ customer.value }}
+                    </ng-option>
+                  </ng-select>
+                  <span
+                    style="font-size: 11px"
+                    *ngIf="filterForm_M.get('gps_vendor')?.touched && filterForm_M.get('gps_vendor')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center"
+                  >
+                    Select gps Vendor.
+                  </span>
+                </div>
+              
+  
+                <div class="col-md-2 text-end d-flex align-items-end">
+                  <button
+                    style="background-color: #1d4380"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample"
+                    type="submit"
+                    class="p-2 px-4 rounded-0 btn-orange shadow-none"
+                    [disabled]="filterForm_M.invalid"
+                    [ngClass]="{
+                      'disabled-button': filterForm_M.invalid,
+                      'enabled-button': filterForm_M.valid
+                    }"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- </ng-container> -->
+        <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+      </div>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
@@ -55,7 +220,7 @@
                                 <span class="status-text" style="color:#6ABD46;"
                                     (click)="consSTtAct('ConsignmentStatus','GoodTrips')"
                                     id="numberH">{{SummaryData?.vehicleStatus?.running}}</span>/
-                                <span class="status-text" style="color:red;"
+                                <span class="status-text" style="color:#97291E;"
                                     (click)="consSTtAct('ConsignmentStatus','KPIViolation')"
                                     id="numberH">{{SummaryData?.vehicleStatus?.stoppage}}</span>/
                                 <span class="status-text" style="color:grey;"
@@ -71,7 +236,7 @@
                             <span style="color:#6ABD46;">
                                 <i class='fas fa-square-full' style="margin-right: 2px;"></i> Running
                             </span>
-                            <span style="color:red;">
+                            <span style="color:#97291E;">
                                 <i class='fas fa-square-full' style="margin-right: 2px;"></i> Stop
                             </span>
                             <span style="color:grey;">

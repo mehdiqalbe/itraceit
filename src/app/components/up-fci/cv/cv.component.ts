@@ -1763,18 +1763,34 @@ export class CvComponent implements OnInit {
     formData.append('action',status)
     formData.append('vehicle_id',JSON.stringify(vehicleID))
     console.log(formData);
-    
+    if (confirm(`Do you want to ${status}?`)) {
+       this.isLoadingVehicleTable=true
     this.service.vehicleUpdateStatus(formData).subscribe((res: any) => {
      console.log(res);
-    //  this.isLoadingDriverTable=true
-     this.selectVehicleIds=[]
+    if(res.Status==="Success")
+    {
+      this.selectVehicleIds=[]
       this.onVehicleFilter(values)
+      alert(res.Message)
+    }
+    else{
+      if(res.Status==='Fail')
+      {
+        alert('error in updating status')
+        this.isLoadingVehicleTable=false
+      }
+    }
     },
     error => {
       console.error('Error:', error);
       // Handle the error accordingly
+      this.isLoadingVehicleTable=false
     });
+  }
+  else{
+    console.log("cancel");
     
+  }
   }
 
   chart1() {
@@ -3582,7 +3598,7 @@ export class CvComponent implements OnInit {
     return this.selectedDriverIds.includes(itemId);
   }
   updateDriverStatus(status: string, values) {
-    const url = 'https://api-cv1.secutrak.in/cv_api/updateStatus';
+   
     let DriverID = this.selectedDriverIds.reduce((acc, id, index) => {
       acc[index] = String(id);
       return acc;
@@ -3592,18 +3608,33 @@ export class CvComponent implements OnInit {
     formData.append('Status', status);
     formData.append('DriverID', JSON.stringify(DriverID));
     console.log(formData);
+    if (confirm(`Do you want to ${status}?`)) {
     this.isLoadingDriverTable = true;
     this.service.driverUpdateStatus(formData).subscribe(
       (res: any) => {
-        console.log(res);   
-        this.selectedDriverIds = [];
-        this.onFilterDriver(values);
+        console.log(res);  
+        if(res.status==="success") 
+        {
+          alert(res.Message)
+          this.selectedDriverIds = [];
+          this.onFilterDriver(values);
+        }
+        else{
+          alert("error in updating status")
+          this.isLoadingDriverTable = false;
+        }
       },
       (error) => {
         console.error('Error:', error);
+        this.isLoadingDriverTable = false;
         // Handle the error accordingly
       }
     );
+  }
+    else{
+         console.log("cancel");
+         
+    }
   }
 
   editDriver(data: any) {
