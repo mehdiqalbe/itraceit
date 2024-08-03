@@ -131,7 +131,7 @@ weektableflag:boolean=true;
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
     this.initForms()
-    this.submit();
+    // this.submit();
   }
 
   sidebarToggle(){

@@ -213,7 +213,7 @@
                                         <div class="position-relative">
                                         <ng-select *ngIf="!portableF" placeholder="Select an option" id="portable" ngModel class="cutombox" name="Imei"   (change)="onPortImeiChange($event)">
                                             <ng-option value="" selected>Select an option</ng-option>
-                                            <ng-option [value]="item.value" *ngFor="let item of PortvList?.Data | keyvalue ">{{item.value?.device_imei }}</ng-option>
+                                            <ng-option [value]="item.value" *ngFor="let item of PortvList?.Data | keyvalue ">{{item.value.device_imei }}</ng-option>
                                           </ng-select>
                                           <p *ngIf="selectedPort?.Color" class="position-absolute end-0" [ngStyle]="{'color': selectedPort?.Color}">
                                             {{ selectedPort?.DeviceLastDateTime }}</p>

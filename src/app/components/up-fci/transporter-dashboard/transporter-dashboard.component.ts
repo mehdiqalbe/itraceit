@@ -29,7 +29,7 @@ export class TransporterDashboardComponent implements OnInit {
   selectVehicleIds:Array<any>=[]
   qallVehicleSelected: boolean = false;
   vehicleTableData:Array<any>=[]
-
+  filterForm_Q!:FormGroup
   ShipmentNo: any;
   token: any = '';
   fullres: any = [];
@@ -209,18 +209,28 @@ export class TransporterDashboardComponent implements OnInit {
     this.GroupTypeId = localStorage.getItem('GroupTypeId')!;
     this.orderfilterfilter_list();
     // this.masterUploadTable()
-    this.initForms();
+    this.initForms()
     this.initSidebar();
-    this.fetchCustomerAndVehicleData();
+    
     this.filterDataagreementF()
     this.transporterDataF()
-    
+    const state =window.history.state
+    if(state?.tab==='driver')
+    {
+      $('#nav-Driver-tab').click();
+    }
+    else if(state?.tab=='vehicle')
+    {
+      $('#nav-Vehicle-tab').click();
+    }
+     console.log(state,"navigation");
+     
       this.Dateselect()
       this.Dateselect1();
       this.masterUploadTable1();
       this.documentMasters();
-      this.vehicleDashboard();
-      this.driverDashboard('')
+      
+      
   }
 
   initForms(): void {
@@ -229,7 +239,7 @@ export class TransporterDashboardComponent implements OnInit {
       vehicles: this.fb.array([])
     });
 
-    this.filterForm = this.fb.group({
+    this.filterForm_Q = this.fb.group({
       dateFrom: ['', Validators.required],
       dateTo: ['', Validators.required],
       transporter: [null, Validators.required],
@@ -327,11 +337,11 @@ export class TransporterDashboardComponent implements OnInit {
     }
   }
   onFilter(): void {
-    const filterValues = this.filterForm.value;
-    console.log(this.filterForm);
+    const filterValues = this.filterForm_Q.value;
+    console.log(this.filterForm_Q);
     this.getBillingDetails(filterValues)
 
-    
+  
   }
  
 
@@ -564,6 +574,8 @@ getBillingDetails({transporter,dateFrom,dateTo,status}):void{
    this.crudService.billingDetails(formData).subscribe(
     response=>{
      this.filterData=response?.data
+     if(this.filterData.length===0)
+       alert('Sorry, no data was found with the provided values. Please try again with different values.')
      this.isLoadingBilling=false;
      this.billingDetailsTable()
      console.log("full",response);
@@ -623,9 +635,16 @@ toggleAllSelection() {
         this.crudService.billingStatus(formData).subscribe(
           (response) => {
             console.log(response);
-            this.selectedIds=[]
+            if(response.Status==='sucess')
+              {
+                this.selectedIds = [];
+                alert("Approved successfully")
+              }
+              else{
+                alert('Sorry,not able to update the status')
+              }
             this.allSelected=false
-            this.getBillingDetails(this.filterForm.value)
+            this.getBillingDetails(this.filterForm_Q.value)
           },
           (error) => {
             console.error('error getting data', error);
@@ -652,9 +671,16 @@ toggleAllSelection() {
         this.crudService.billingStatus(formData).subscribe(
           (response) => {
             console.log(response);
-            this.selectedIds=[]
+            if(response.Status==='sucess')
+              {
+                this.selectedIds = [];
+                alert("Rejected successfully")
+              }
+              else{
+                alert('Sorry,not able to update the status')
+              }
             this.allSelected=false
-            this.getBillingDetails(this.filterForm.value)
+            this.getBillingDetails(this.filterForm_Q.value)
           },
           (error) => {
             console.error('error getting data', error);
@@ -2001,6 +2027,25 @@ toggleAllSelection() {
     }
 
     ////////////////////mehndi code ///////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    onTabClicked(tab){
+      if(tab=='driver'&&!Object.keys(this.driverDashboardData).length)
+      {
+        console.log("driver Tab");
+        this.driverDashboard('')
+      }
+      else if(tab=='vehicle'&&!Object.keys(this.vehicleDashboardData).length)
+      {
+        console.log('vehicle Tab');    
+        this.vehicleDashboard();
+      }
+      else if(tab=='billing'&&this.vehicleList.length==0&&this.customers.length==0)
+      {
+        console.log('billing',this.vehicleList);
+        this.fetchCustomerAndVehicleData();
+      }
+      
+    }
 
     getDocumentPath(item: any, docTypeId: number): string | null {
       if(item?.document?.length)
@@ -3828,8 +3873,6 @@ toggleAllSelection() {
 
     });
   }
-
-
 
 
 

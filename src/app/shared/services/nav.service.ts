@@ -91,7 +91,7 @@ export class NavService implements OnDestroy {
             // path: '/UPFCS/Account', title:'Account Setting', status:0,deactive_img:'far fa-user-circle', active_img:'far fa-user-circle', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,
             title:'Dashboards', status:0,deactive_img:'fa fa-dashboard', active_img:'fa fa-dashboard', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: true,Account_id:'',
             children: [
-                { path: 'https://beta.secutrak.in', title: 'Vehicle Dashboard',active:false,type: 'link' },
+                // { path: 'https://beta.secutrak.in', title: 'Vehicle Dashboard',active:false,type: 'link' },
               
             
                 // { path: '/UPFCS/Summary', title: 'Summary Dashboard', type: 'link', active:false },

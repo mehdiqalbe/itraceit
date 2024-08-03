@@ -438,22 +438,26 @@ export class TripDashboardComponent implements OnInit {
     // formdataCustomer.append('GroupId', '0986');
     // formdataCustomer.append('UserType', 'master');
     formdataCustomer.append('SourceID', e);
-
-
-    this.service.routessList(formdataCustomer).subscribe((res: any) => {
-      console.log(" routeList", res);
-      // this.commodityListA = res.data;
-      // console.log("commodity",this.commodityListA);
-
-
-      for (const [key, value] of Object.entries(res.route_data)) {
-
-
-        this.routedata.push(value);
-      }
-
-
-    })
+  
+    
+       if(e)
+       {
+        this.service.routessList(formdataCustomer).subscribe((res: any) => {
+          console.log(" routeList", res);
+          // this.commodityListA = res.data;
+          // console.log("commodity",this.commodityListA);
+    
+    
+          for (const [key, value] of Object.entries(res.route_data)) {
+    
+    
+            this.routedata.push(value);
+          }
+    
+    
+        })
+       }
+ 
   }
   expenseList() {
     var formdataCustomer = new FormData()

@@ -172,8 +172,21 @@ export class CvComponent implements OnInit {
     this.filterDataagreementF();
     this.transporterDataF();
     this.getQTransporterList();
-    this.driverDashboard('');
-    this.vehicleDashboard();
+    // this.driverDashboard('');
+    // this.vehicleDashboard();
+    const state =window.history.state
+    if(state?.tab==='driver')
+    {
+      $('#nav-Driver-tab').click();
+    }
+    else if(state?.tab=='vehicle')
+    {
+      $('#nav-Vehicle-tab').click();
+    }
+     console.log(state,"navigation");
+
+
+
   }
 
   sidebarToggle() {
@@ -1585,6 +1598,8 @@ export class CvComponent implements OnInit {
     this.crudService.billingDetails(formData).subscribe(
       (response) => {
         this.filterData = response?.data;
+        if(this.filterData.length==0)
+          alert('Sorry, no data was found with the provided values. Please try again with different values.')
         this.isLoadingBilling = false;
         this.billingDetailsTable();
         this.customerItemsCount = this.filterData?.filter(
@@ -1615,9 +1630,16 @@ export class CvComponent implements OnInit {
       this.crudService.billingStatus(formData).subscribe(
         (response) => {
           console.log(response);
-          this.selectedIds = [];
+          if(response.Status==='sucess')
+          {
+            this.selectedIds = [];
+            alert("Approved successfully")
+          }
+          else{
+            alert('Sorry,not able to update the status')
+          }
           this.allSelected = false;
-          this.getBillingDetails(this.filterForm.value);
+          this.getBillingDetails(this.filterForm_Q.value);
         },
         (error) => {
           console.error('error getting data', error);
@@ -1640,10 +1662,16 @@ export class CvComponent implements OnInit {
       console.log(formData);
       this.crudService.billingStatus(formData).subscribe(
         (response) => {
-          console.log(response);
-          this.selectedIds = [];
+          if(response.Status==='sucess')
+            {
+              this.selectedIds = [];
+              alert("Rejected successfully")
+            }
+            else{
+              alert('Sorry,not able to update the status')
+            }
           this.allSelected = false;
-          this.getBillingDetails(this.filterForm.value);
+          this.getBillingDetails(this.filterForm_Q.value);
         },
         (error) => {
           console.error('error getting data', error);
@@ -1707,6 +1735,21 @@ export class CvComponent implements OnInit {
     return this.selectedIds.includes(itemId);
   }
   /////////////////////////////////////////////////mehdi//////////////////////////////////////////////
+  onTabClicked(tab){
+    if(tab=='driver'&&!Object.keys(this.driverDashboardData).length)
+    {
+      console.log("driver Tab");
+      this.driverDashboard('')
+    }
+    else if(tab=='vehicle'&&!Object.keys(this.vehicleDashboardData).length)
+    {
+      console.log('vehicle Tab');    
+      this.vehicleDashboard();
+    }
+    
+  }
+
+
   vehicleDashboard() {
     var formdata: any = new FormData();
     formdata.append('AccessToken', this.token);

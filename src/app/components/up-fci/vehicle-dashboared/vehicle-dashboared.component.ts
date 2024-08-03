@@ -491,9 +491,9 @@ export class VehicleDashboaredComponent implements OnInit {
   };
   qSwitchBackTD() {
     if(this.UserType=='13'||this.UserType=='6')
-      this.router.navigate(['/ILgic/cv']);
+      this.router.navigate(['/ILgic/cv'],{state:{tab:'vehicle'}});
     else
-    this.router.navigate(['/ILgic/TransporterDashboard']);
+    this.router.navigate(['/ILgic/TransporterDashboard'],{state:{tab:'vehicle'}});
   }
 
   populateForm(data) {

@@ -60,14 +60,14 @@
              >Load Planner</button> -->
 
           <button
-            class="nav-link"
+            class="nav-link active"
             id="nav-ORDER-tab"
             data-bs-toggle="tab"
             data-bs-target="#nav-ORDER"
             type="button"
             role="tab"
             aria-controls="nav-ORDER"
-            aria-selected="false"
+            aria-selected="true"
           >
             Order
           </button>
@@ -92,18 +92,7 @@
             </button> -->
 
           <!-- Billing -->
-          <button
-            class="nav-link active"
-            id="nav-Billing-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-Billing"
-            type="button"
-            role="tab"
-            aria-controls="nav-Billing"
-            aria-selected="true"
-          >
-            Billing
-          </button>
+          <button (click)="onTabClicked('billing')" class="nav-link" id="nav-Billing-tab" data-bs-toggle="tab" data-bs-target="#nav-Billing" type="button" role="tab" aria-controls="nav-Billing" aria-selected="false">Billing</button>
 
           <!-- Agreement -->
           <button
@@ -121,6 +110,7 @@
 
           <!-- Vehicle -->
           <button
+          (click)="onTabClicked('vehicle')"
             class="nav-link"
             id="nav-Vehicle-tab"
             data-bs-toggle="tab"
@@ -134,6 +124,7 @@
           </button>
           <!-- Driver -->
           <button
+            (click)="onTabClicked('driver')"
             class="nav-link"
             id="nav-Driver-tab"
             data-bs-toggle="tab"
@@ -153,8 +144,7 @@
            Load planner
           </div> -->
         <!-- ORDER -->
-        <div
-          class="tab-pane fade"
+        <div class="tab-pane fade show active"
           id="nav-ORDER"
           role="tabpanel"
           aria-labelledby="nav-ORDER-tab"
@@ -693,7 +683,7 @@
         </div>
         <!-- Billing -->
         <div
-          class="tab-pane fade show active pt-2"
+          class="tab-pane fade pt-2"
           id="nav-Billing"
           role="tabpanel"
           aria-labelledby="nav-Billing-tab"
@@ -723,7 +713,7 @@
                     class="card card-body pt-0"
                     style="border: none; box-shadow: none; margin-bottom: 0px"
                   >
-                    <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
+                    <form [formGroup]="filterForm_Q" (ngSubmit)="onFilter()">
                       <div class="row col-12 ps-0">
                         <div class="col-md-2">
                           <label class="m-0" for="dateFrom">Date: From</label>
@@ -735,13 +725,13 @@
                             placeholder="Select Start Date..."
                             [ngClass]="{
                               'border-danger':
-                                filterForm.get('dateFrom')?.touched &&
-                                filterForm.get('dateFrom')?.invalid
+                              filterForm_Q.get('dateFrom')?.touched &&
+                              filterForm_Q.get('dateFrom')?.invalid
                             }"
                           />
                           <span
                             style="font-size: 11px"
-                            *ngIf="filterForm.get('dateFrom')?.touched && filterForm.get('dateFrom')?.errors?.['required']"
+                            *ngIf="filterForm_Q.get('dateFrom')?.touched && filterForm_Q.get('dateFrom')?.errors?.['required']"
                             class="text-danger position-absolute text-sm-center"
                           >
                             Select start date.
@@ -757,13 +747,13 @@
                             placeholder="Select End Date..."
                             [ngClass]="{
                               'border-danger':
-                                filterForm.get('dateTo')?.touched &&
-                                filterForm.get('dateTo')?.invalid
+                              filterForm_Q.get('dateTo')?.touched &&
+                              filterForm_Q.get('dateTo')?.invalid
                             }"
                           />
                           <span
                             style="font-size: 11px"
-                            *ngIf="filterForm.get('dateTo')?.touched && filterForm.get('dateTo')?.errors?.['required']"
+                            *ngIf="filterForm_Q.get('dateTo')?.touched && filterForm_Q.get('dateTo')?.errors?.['required']"
                             class="text-danger position-absolute text-sm-center"
                           >
                             Select end date.
@@ -780,8 +770,8 @@
                             class="custom-ng-select"
                             [ngClass]="{
                               'border-danger':
-                                filterForm.get('transporter')?.touched &&
-                                filterForm.get('transporter')?.invalid
+                              filterForm_Q.get('transporter')?.touched &&
+                              filterForm_Q.get('transporter')?.invalid
                             }"
                           >
                             <ng-option
@@ -793,7 +783,7 @@
                           </ng-select>
                           <span
                             style="font-size: 11px"
-                            *ngIf="filterForm.get('transporter')?.touched && filterForm.get('transporter')?.errors?.['required']"
+                            *ngIf="filterForm_Q.get('transporter')?.touched && filterForm_Q.get('transporter')?.errors?.['required']"
                             class="text-danger position-absolute text-sm-center"
                           >
                             Select customer.
@@ -809,8 +799,8 @@
                             placeholder="Select Status"
                             [ngClass]="{
                               'border-danger':
-                                filterForm.get('status')?.touched &&
-                                filterForm.get('status')?.invalid
+                              filterForm_Q.get('status')?.touched &&
+                              filterForm_Q.get('status')?.invalid
                             }"
                           >
                             <ng-option value="1">Pending</ng-option>
@@ -819,7 +809,7 @@
                           </ng-select>
                           <span
                             style="font-size: 11px"
-                            *ngIf="filterForm.get('status')?.touched && filterForm.get('status')?.errors?.['required']"
+                            *ngIf="filterForm_Q.get('status')?.touched && filterForm_Q.get('status')?.errors?.['required']"
                             class="text-danger position-absolute text-sm-center"
                           >
                             Select status.
@@ -827,10 +817,10 @@
                         </div>
                         <div class="col-md-2 text-end d-flex align-items-end">
                           <button
-                            [disabled]="filterForm.invalid"
+                            [disabled]="filterForm_Q.invalid"
                             [ngClass]="{
-                              'disabled-button': filterForm.invalid,
-                              'enabled-button': filterForm.valid
+                              'disabled-button': filterForm_Q.invalid,
+                              'enabled-button': filterForm_Q.valid
                             }"
                             type="submit"
                             class="p-2 px-4 rounded-0 btn-orange shadow-none"

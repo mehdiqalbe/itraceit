@@ -70,11 +70,11 @@ type="ball-spin-clockwise"> </ngx-spinner>
               aria-selected="false">Agreement</button>
   
                   <!-- Vehicle -->
-              <button class="nav-link" id="nav-Vehicle-tab" data-bs-toggle="tab"
+              <button (click)="onTabClicked('vehicle')" class="nav-link" id="nav-Vehicle-tab" data-bs-toggle="tab"
               data-bs-target="#nav-Vehicle" type="button" role="tab" aria-controls="nav-Vehicle"
               aria-selected="false">Vehicle</button>
               <!-- Driver -->
-              <button class="nav-link" id="nav-Driver-tab" data-bs-toggle="tab"
+              <button (click)="onTabClicked('driver')" class="nav-link" id="nav-Driver-tab" data-bs-toggle="tab"
               data-bs-target="#nav-Driver" type="button" role="tab" aria-controls="nav-Driver"
               aria-selected="false">Driver</button>
   
@@ -2103,18 +2103,21 @@ type="ball-spin-clockwise"> </ngx-spinner>
                             <span class="status-text" style="color:#1D4380;" id="numberH">{{driverDashboardData?.Driver_Experience?.Between_5_to_10_yrs}}</span>/
                             <span class="status-text" style="color:#613704;" id="numberH">{{driverDashboardData?.Driver_Experience?.More_than_10_yrs}}</span>
                           </div>
-                          <span style="color:#EC6625;">
-                            <i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>
-                            Less than 5
-                          </span>
-                          <span style="color:#1D4380;">
-                            <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
-                            5 Yrs to 10 Yrs
-                          </span>
-                          <span style="color:#613704;">
-                            <i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>
-                            More than 10 Yrs
-                          </span>
+                          <div>
+                            <span style="color:#EC6625;">
+                              <i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>
+                              Less than 5
+                            </span>
+                            <span style="color:#1D4380;">
+                              <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
+                              5 Yrs to 10 Yrs
+                            </span>
+                            <span style="color:#613704;">
+                              <i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>
+                              More than 10 Yrs
+                            </span>
+                          </div>
+                        
                         </div>
                       </div>
                     </div>
@@ -2142,18 +2145,20 @@ type="ball-spin-clockwise"> </ngx-spinner>
                             <span class="status-text" style="color:#1D4380;" id="numberH">{{driverDashboardData?.Driver_Rating?.Between_2_to_4}}</span>/
                             <span class="status-text" style="color:#613704" id="numberH">{{driverDashboardData?.Driver_Rating?.More_than_4}}</span>
                           </div>
-                          <span style="color:#EC6625;">
-                            <i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>
-                            less Than 2
-                          </span>
-                          <span style="color:#1D4380;">
-                            <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
-                            2 To 4
-                          </span>
-                          <span style="color:#613704;">
-                            <i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>
-                            More Than 4
-                          </span>
+                          <div>
+                            <span style="color:#EC6625;">
+                              <i class='fas fa-square-full' style="margin-right: 2px; color: #EC6625;"></i>
+                              less Than 2
+                            </span>
+                            <span style="color:#1D4380;">
+                              <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i>
+                              2 To 4
+                            </span>
+                            <span style="color:#613704;">
+                              <i class='fas fa-square-full' style="margin-right: 2px; color: #613704;"></i>
+                              More Than 4
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
