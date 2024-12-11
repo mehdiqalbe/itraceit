@@ -15,10 +15,15 @@ export const full_content: Routes = [
     path: 'reports',
     loadChildren: () => import('../../components/advanced-elements/advanced-elements.module').then(m => m.AdvancedElementsModule)
   },
+  {
+    path: 'cv',
+    loadChildren: () => import('../../cv/cv.module').then(m => m.CVModule)
+  },
   // {
   //   path:'reports',
   //   loadChildren: () => import('../../components/reports/reports.module').then(m => m.ReportsModule), canActivate: [AuthGuard]
   // },
+  // cv/specific/Trip-Dashboard
  
 
 ]

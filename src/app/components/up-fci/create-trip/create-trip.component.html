@@ -47,18 +47,20 @@
                         [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
                         placement="top">Document
                     </button> -->
-                    <button  class="nav-link" id="nav-District-tab"  data-bs-target="#nav-District" (click)="openTab('nav-District',tripdetails)"
-            type="button" role="tab" placement="top">Document</button>
+                    <button [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"  class="nav-link" id="nav-District-tab" 
+                     data-bs-target="#nav-District" (click)="openTab('nav-District',tripdetails)"
+            type="button" role="tab" placement="top">Trip Document</button>
                     
                     <!-- [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''" placement="top" -->
-                    <button class="nav-link" id="nav-Agency-tab" data-bs-toggle="tab" data-bs-target="#nav-Agency"
+                    <button class="nav-link" id="nav-Agency-tab" data-bs-target="#nav-Agency"
                         type="button" role="tab" aria-controls="nav-Agency" aria-selected="false"
-                        
+                        (click)="openTab('nav-Agency',tripdetails)"
                         placement="top">Customer
                         Invoice</button>
-                    <button class="nav-link" id="nav-Purchase-tab" data-bs-toggle="tab" data-bs-target="#nav-Purchase"
+                    <button class="nav-link" id="nav-Purchase-tab"   data-bs-target="#nav-Purchase"
+                    (click)="openTab('nav-Purchase',tripdetails)"
                         type="button" role="tab" aria-controls="nav-Purchase" aria-selected="false"
-                        [disabled]="nextTabflag" [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
+                         [ngbTooltip]="nextTabflag ? 'Fill the TripDetails' : ''"
                         placement="top">Trip
                         Expense</button>
 
@@ -95,7 +97,7 @@
                                     <div class="columnM">
                                         <label for="" class="column cutom">Challan Number</label>
                                         <input type="text" id="form12" class="form-control cutombox" ngModel placeholder="Challan Number (optional)"
-                                            name="challan_number"  [disabled]="tripBoxF" [ngbTooltip]="tripBoxF ? 'Check the Checkbox' : ''"/>
+                                            name="challan_number"  />
                                         <!-- <div *ngIf="tripdetails.controls.tripId?.invalid && tripdetails.controls.tripId?.touched"
                                             class="error-message">Please fill out this field</div> -->
                                     </div>
@@ -124,14 +126,14 @@
                                     </div>
                                     <div class="columnM">
                                         <label for="" class="column cutom">Run Date</label>
-                                        <input type="datetime-local" step="1" class="form-control cutombox" ngModel
+                                        <input style="font-size: 12.5px;" type="datetime-local" step="1" class="form-control cutombox" ngModel
                                             name="runDate" required />
                                         <div *ngIf="tripdetails.controls.runDate?.invalid && tripdetails.controls.runDate?.touched"
                                             class="error-message">Please fill out this field</div>
                                     </div>
                                     <div class="columnM">
                                         <label for="" class="column cutom">Scheduled In transit Time</label>
-                                        <input type="datetime-local" id="form12" class="form-control cutombox" ngModel
+                                        <input style="font-size: 12.5px;" type="time"   id="form12" class="form-control cutombox" ngModel
                                             name="transit_Time" required />
                                         <div *ngIf="tripdetails.controls.transit_Time?.invalid && tripdetails.controls.transit_Time?.touched"
                                             class="error-message">Please fill out this field</div>
@@ -159,7 +161,7 @@
                                     <div class="columnM">
                                         <label for="" class="column cutom">Vehicle Number</label>
                                         <ng-select placeholder="select an option" id="ShipmentNo" ngModel
-                                            (change)="imeiListF($event)" class="cutombox" name="Vname" required>
+                                            (change)="vehicleData($event)" class="cutombox" name="Vname" required>
                                             <ng-option value="" selected>Select an option</ng-option>
                                             <ng-option [value]="item"
                                                 *ngFor="let item of vList">{{item.vehicle_number}}</ng-option>
@@ -173,11 +175,11 @@
                                          <div class="position-relative">
                                         <input type="text" *ngIf="p_name!=''" autocomplete="off"
                                             class="form-control cutombox" style="background: white;"
-                                            [value]="extraImei?.IMEI_1_data?.imei" disabled >
+                                            [value]="extraImei?.IMEI_1_data?.imei" disabled />
                                             <p class="position-absolute end-0" [ngStyle]="{'color': extraImei?.IMEI_1_data?.Color}">
                                                 {{ extraImei?.IMEI_1_data?.DeviceLastDateTime }}</p>
                                             </div>
-                                            <input type="hidden" name="imei1_id" [ngModel]="extraImei?.IMEI_1_data?.imei_id">
+                                            <input type="hidden" name="imei1" [ngModel]="extraImei?.IMEI_1_data">
                                            
                                         <!-- <label class="form-check-label linkclass"
                                             for="flexCheckChecked">{{extraImei.imei1}}</label> -->
@@ -191,7 +193,7 @@
                                                 <p class="position-absolute end-0" [ngStyle]="{'color': extraImei?.IMEI_2_data?.Color}">
                                                     {{ extraImei?.IMEI_2_data?.DeviceLastDateTime }}</p>
                                                 </div>
-                                                <input type="hidden" name="imei2_id" [ngModel]="extraImei?.IMEI_2_data?.imei_id">
+                                                <input type="hidden" name="imei2" [ngModel]="extraImei?.IMEI_2_data">
                                         <!-- <label class="form-check-label linkclass"
                                             for="flexCheckChecked">{{extraImei.imei2}}</label> -->
                                     </div>
@@ -204,7 +206,7 @@
                                                     <p class="position-absolute end-0" [ngStyle]="{'color': extraImei?.IMEI_3_data?.Color}">
                                                         {{ extraImei?.IMEI_3_data?.DeviceLastDateTime }}</p>
                                                     </div>
-                                                    <input type="hidden" name="imei3_id" [ngModel]="extraImei?.IMEI_3_data?.imei_id">
+                                                    <input type="hidden" name="imei3" [ngModel]="extraImei?.IMEI_3_data">
                                         <!-- <label class="form-check-label linkclass"
                                             for="flexCheckChecked">{{extraImei.imei3}}</label> -->
                                     </div>
@@ -234,7 +236,102 @@
                                     </div>
                                     
                                 </div>
+
+                                <div *ngIf="vehicleDoc.length!=0"id="vehicle_doc" class="document_files d-flex gap-2 ms-2 mt-3">
+                                    <div  *ngFor="let document of vehicleDoc" class="document-item position-relative">
+                                        <img ngbTooltip={{document?.doc_name}} style="height: 50%;" src={{vehicleDocImag[document.doc_type_id]}} alt="">
+                                        <span style="top:-16px;left: -8px;" ngbTooltip="Document  uploaded" *ngIf="document.is_doc === 1" class="tick position-absolute">
+                                            <i class="fa-solid fa-circle-check" style="color: #00e100;"></i></span>
+
+                                        <span style="top:-16px;left: -8px;" ngbTooltip="Document not uploaded"  *ngIf="document.is_doc === 0" class="cross position-absolute">
+                                            <i class="fa-solid fa-circle-xmark" style="color: #aa0000;"></i>
+                                        </span>
+                                        <!-- <span>{{ document.doc_name }}</span> -->
+                                        
+                                      </div>
+                                      <!-- data-bs-target="#transShipModal" data-bs-toggle="modal" ngbTooltip="Trans-Shipment" placement="bottom" container="body" (click)="transShipment(item) -->
+                                      <button type="button" (click)="openDriverVehicleModal('vehicle')" class="ms-1 d-flex flex-column align-items-center" data-bs-target="#vehcileDocModal" data-bs-toggle="modal" >
+                                        <i class="fa-solid fa-upload" style="color: #023e6f; font-size: 24px;"></i>
+                                        <p style="color: #1c84c6;font-weight: 600;">Upload Documents</p>
+                                      </button>
+                                </div>
                             </div>
+                            <!-- Modal Vehicle -->
+                            <div class="modal fade " id="vehcileDocModal" tabindex="-1" aria-labelledby="vehcileDocModal" aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+                                         uploading... </p></ngx-spinner>
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="uploadDocumentModalLabel">Upload Vehicle Documents</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 style="color: #2460c1 ;">{{tripdetails?.value?.Vname?.vehicle_number||''}}</h4>
+                                        <form [formGroup]="vehicleDocForm" class="row">
+                                            <div formArrayName="documents" *ngIf="documents.controls.length > 0">
+                                              <div *ngFor="let document of documents.controls; let i = index" [formGroupName]="i" class="mb-3 col-md-12 ms-1">
+                                                <div class="col-lg-12 mt-3">
+                                                  <div class="row justify-content-center">
+                                                    <div class="column d-flex flex-column align-items-start mb-2">
+                                                      <img [src]="vehicleDocImag[document.get('doc_type_id')?.value]" style="width: 30px; height: auto; margin-right: 10px;" alt="">
+                                                      <strong style="color: #1D4380 ;">{{ document.get('doc_name')?.value }}</strong>
+                                                    </div>
+                                          
+                                                    <!-- Document Number -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="docNo{{i}}">Document Number</label>
+                                                      <input [required]="(document.get('file_path')?.value!=='') ? true : false" type="text" id="docNo{{i}}" class="form-control" formControlName="doc_no">
+                                                      <div class="position-absolute" *ngIf="document.get('doc_no')?.touched">
+                                                        <small class="text-danger" *ngIf="!document.get('doc_no')?.value && document.get('file_path')?.value">Document Number is required.</small>
+                                                      </div>
+                                                    </div>
+                                          
+                                                    <!-- Issue Date -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="issueDate{{i}}">Issue Date</label>
+                                                      <input [required]="(document.get('file_path')?.value!=='') ? true : false" type="date" id="issueDate{{i}}" class="form-control" formControlName="issue_date">
+                                                      <div class="position-absolute" *ngIf="document.get('issue_date')?.touched">
+                                                        <small class="text-danger" *ngIf="!document.get('issue_date')?.value && document.get('file_path')?.value">Issue Date is required.</small>
+                                                      </div>
+                                                    </div>
+                                          
+                                                    <!-- Expiry Date -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="expiryDate{{i}}">Expiry Date</label>
+                                                      <input [required]="(document.get('file_path')?.value!=='') ? true : false" type="date" id="expiryDate{{i}}" class="form-control" formControlName="expiry_date">
+                                                      <div class="position-absolute" *ngIf="document.get('expiry_date')?.touched">
+                                                        <small class="text-danger" *ngIf="!document.get('expiry_date')?.value && document.get('file_path')?.value">Expiry Date is required.</small>
+                                                      </div>
+                                                    </div>
+                                          
+                                                    <!-- Upload File -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="file{{i}}">Upload File</label>
+                                                      <input type="file" id="file{{i}}" class="form-control" (change)="onFileSelected($event, i,'vehicle')">
+                                                      <a style="font-size: 11px;" class="position-absolute" *ngIf="document.get('previewUrl')?.value" [href]="document.get('previewUrl')?.value" target="_blank">View Document</a>
+                                                    </div>
+                                          
+                                                    <!-- Remarks -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="remarks{{i}}">Remarks</label>
+                                                      <input type="text" id="remarks{{i}}" class="form-control" formControlName="remarks">
+                                                    </div>
+                                          
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </form>
+                                          
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-primary" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
 
                             <div class="col-12 HeadingTab">Driver Details</div>
                             <div class="col-lg-12">
@@ -249,44 +346,163 @@
                                 <div class="row mt-2">
                                     <div class="columnM">
                                         <label for="" class="column cutom">Driver 1- Name</label>
-                                        <input type="text" id="form12" class="form-control cutombox" ngModel
-                                            name="Driver1Name" required />
+                                        <input type="text" id="form12" class="form-control cutombox" 
+                                        [(ngModel)]="driverName" name="Driver1Name" required
+                                        [disabled]="disableDriverText"/>
                                         <div *ngIf="tripdetails.controls.Driver1Name?.invalid && tripdetails.controls.Driver1Name?.touched"
                                             class="error-message">Please fill out this field</div>
                                     </div>
                                     <div class="columnM">
                                         <label for="" class="column cutom">Driver 1- Mobile Number</label>
                                         <input type="number" id="form12" class="form-control cutombox" maxlength="10"
-                                            oninput="this.value=this.value.slice(0,this.maxLength)" ngModel
-                                            name="Driver1Mobno" required />
-                                        <div *ngIf="tripdetails.controls.Driver1Mobno?.invalid && tripdetails.controls.Driver1Mobno?.touched"
-                                            class="error-message">Please fill out this field</div>
+                                            oninput="this.value=this.value.slice(0,this.maxLength)" pattern="\d{10}" (ngModelChange)="onMobileNumberChange($event)" ngModel
+                                            name="Driver1Mobno" #mobile="ngModel" required />
+                                            <div *ngIf="mobile.errors?.pattern && mobile.touched" class="error-message position-absolute ">
+                                                Mobile number must be exactly 10 digits
+                                              </div>
+                                            <div *ngIf="mobile.invalid && mobile.touched&&!mobile.errors?.pattern" class="error-message position-absolute">
+                                                Please fill out this field
+                                              </div>
+                                            <div *ngIf="driverDocMessage.length!=0"
+                                            class="error-message text-purple position-absolute">{{driverDocMessage}}</div>
                                     </div>
-                                    <div class="columnM">
-                                        <label for="" class="column cutom">Driver 2- Name</label>
-                                        <input type="text" id="form12" class="form-control cutombox" ngModel
-                                            name="Driver2Name" />
-                                        <!-- <div *ngIf="tripdetails.controls.Driver2Name?.invalid && tripdetails.controls.Driver2Name?.touched" class="error-message">Please fill out this field</div> -->
+                                    <div *ngIf="driverDoc.length!=0"id="vehicle_doc" class="document_files d-flex gap-2 ms-2 mt-3 " style="width: fit-content;">
+                                        <div  *ngFor="let document of driverDoc" class="document-item position-relative">
+                                            <img ngbTooltip={{document?.doc_name}} style="height: 50%;" src={{driverDocImage[document.doc_type_id]}} alt="">
+                                            <span style="top:-16px;left: -8px;" ngbTooltip="Document  uploaded" *ngIf="document.is_doc === 1" class="tick position-absolute">
+                                                <i class="fa-solid fa-circle-check" style="color: #00e100;"></i></span>
+    
+                                            <span style="top:-16px;left: -8px;" ngbTooltip="Document not uploaded"  *ngIf="document.is_doc === 0" class="cross position-absolute">
+                                                <i class="fa-solid fa-circle-xmark" style="color: #aa0000;"></i>
+                                            </span>
+                                            <!-- <span>{{ document.doc_name }}</span> -->
+                                            
+                                          </div>
+                                          <!-- data-bs-target="#transShipModal" data-bs-toggle="modal" ngbTooltip="Trans-Shipment" placement="bottom" container="body" (click)="transShipment(item) -->
+                                          <button type="button" (click)="openDriverVehicleModal('driver')" class="ms-1 d-flex flex-column align-items-center" data-bs-target="#driverDocModal" data-bs-toggle="modal" >
+                                            <i class="fa-solid fa-upload" style="color: #023e6f; font-size: 24px;"></i>
+                                            <p style="color: #1c84c6;font-weight: 600;">Upload Documents</p>
+                                          </button>
                                     </div>
-                                    <div class="columnM">
-                                        <label for="" class="column cutom">Driver 2- Mobile Number</label>
-                                        <input type="number" id="form12" class="form-control cutombox" ngModel
-                                            name="Driver2Mobno" maxlength="10"
-                                            oninput="this.value=this.value.slice(0,this.maxLength)" />
-                                        <!-- <div *ngIf="tripdetails.controls.Driver2Mobno?.invalid && tripdetails.controls.Driver2Mobno?.touched" class="error-message">Please fill out this field</div> -->
+                                     <!-- Modal Driver -->
+                            <div class="modal fade " id="driverDocModal" tabindex="-1" aria-labelledby="driverDocModal" aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+                                        uploading... </p></ngx-spinner>
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="uploadDocumentModalLabel">Upload Driver Documents</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="columnM">
+                                    <div class="modal-body">
+                                        <h4 style="color: #2460c1 ;">{{driverName||''}}</h4>
+                                        <form [formGroup]="driverDocForm" class="row">
+                                            <div formArrayName="driverDocuments" *ngIf="driverDocuments.controls.length > 0">
+                                                <div *ngFor="let document of driverDocuments.controls; let i = index" [formGroupName]="i" class="mb-3 col-md-12 ms-1">
+                                                <div class="col-lg-12 mt-3">
+                                                  <div class="row justify-content-center">
+                                                    <div class="column d-flex flex-column align-items-start mb-2">
+                                                      <img [src]="driverDocImage[document.get('doc_type_id')?.value]" style="width: 30px; height: auto; margin-right: 10px;" alt="">
+                                                      <strong style="color: #1D4380 ;">{{ document.get('doc_name')?.value }}</strong>
+                                                    </div>
+                                          
+                                                    <!-- Document Number -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="docNo{{i}}">Document Number</label>
+                                                      <input [required]="(document.get('file_path')?.value!=='') ? true : false" type="text" id="docNo{{i}}" class="form-control" formControlName="doc_no">
+                                                      <div class="position-absolute" *ngIf="document.get('doc_no')?.touched">
+                                                        <small class="text-danger" *ngIf="!document.get('doc_no')?.value && document.get('file_path')?.value">Document Number is required.</small>
+                                                      </div>
+                                                    </div>
+                                          
+                                                    <!-- Issue Date -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="issueDate{{i}}">Issue Date</label>
+                                                      <input [required]="(document.get('file_path')?.value!=='') ? true : false" type="date" id="issueDate{{i}}" class="form-control" formControlName="issue_date">
+                                                      <div class="position-absolute" *ngIf="document.get('issue_date')?.touched">
+                                                        <small class="text-danger" *ngIf="!document.get('issue_date')?.value && document.get('file_path')?.value">Issue Date is required.</small>
+                                                      </div>
+                                                    </div>
+                                          
+                                                    <!-- Expiry Date -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="expiryDate{{i}}">Expiry Date</label>
+                                                      <input [required]="(document.get('file_path')?.value!=='') && !(document.get('doc_type_id')?.value == 1 || document.get('doc_type_id')?.value==2) ? true : false" type="date" id="expiryDate{{i}}" class="form-control" 
+                                                      [attr.disabled]="((document.get('doc_type_id')?.value == 1 || document.get('doc_type_id')?.value == 2)) ? true : null"
+                                                      formControlName="expiry_date"/>
+                                                      <div class="position-absolute" *ngIf="document.get('expiry_date')?.touched && !(document.get('doc_type_id')?.value == 1 || document.get('doc_type_id')?.value==2)">
+                                                        <small class="text-danger" *ngIf="!document.get('expiry_date')?.value && document.get('file_path')?.value">Expiry Date is required.</small>
+                                                      </div>
+                                                    </div>
+                                          
+                                                    <!-- Upload File -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="file{{i}}">Upload File</label>
+                                                      <input type="file" id="file{{i}}" class="form-control" (change)="onFileSelected($event, i,'driver')">
+                                                      <a style="font-size: 11px;" class="position-absolute" *ngIf="document.get('previewUrl')?.value" [href]="document.get('previewUrl')?.value" target="_blank">View Document</a>
+                                                    </div>
+                                          
+                                                    <!-- Remarks -->
+                                                    <div class="mb-3 column position-relative">
+                                                      <label for="remarks{{i}}">Remarks</label>
+                                                      <input type="text" id="remarks{{i}}" class="form-control" formControlName="remarks">
+                                                    </div>
+                                          
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </form>
+                                          
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-primary" (click)="uploadDocuments(tripdetails?.value?.Vname,'driver')" >Upload</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                                    <div class="row">
+                                        <div style="flex: 0.17;">
+                                            <div class="form-check" style="text-align: end;">
+
+                                                <label class="form-check-label linkclass" for="flexCheckChecked">Enable
+                                                    Secondary Driver</label> <input class="form-check-input"
+                                                    type="checkbox" value="" id="enableSecondDriver"
+                                                    name="showDriver2Fields"
+                                                    [(ngModel)]="showDriver2"
+                                                    style="margin-left: 5px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2" *ngIf="showDriver2">
+                                        <div class="columnM">
+                                            <label for="" class="column cutom">Driver 2- Name</label>
+                                            <input type="text" id="form12" class="form-control cutombox" ngModel
+                                                name="Driver2Name" />
+                                            <!-- <div *ngIf="tripdetails.controls.Driver2Name?.invalid && tripdetails.controls.Driver2Name?.touched" class="error-message">Please fill out this field</div> -->
+                                        </div>
+                                        <div class="columnM">
+                                            <label for="" class="column cutom">Driver 2- Mobile Number</label>
+                                            <input type="number" id="form12" class="form-control cutombox" ngModel
+                                                name="Driver2Mobno" maxlength="10"
+                                                oninput="this.value=this.value.slice(0,this.maxLength)" />
+                                            <!-- <div *ngIf="tripdetails.controls.Driver2Mobno?.invalid && tripdetails.controls.Driver2Mobno?.touched" class="error-message">Please fill out this field</div> -->
+                                        </div>
+                                    </div>
+                                  
+                                    <!-- <div class="columnM">
                                         <label for="" class="column cutom">Opening Odometer Reading</label>
                                         <input type="text" id="form12" class="form-control cutombox" ngModel
                                             name="odometer" />
                                         <div *ngIf="tripdetails.controls.odometer?.invalid && tripdetails.controls.odometer?.touched"
                                             class="error-message">Please fill out this field</div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                             </div>
 
-                            <div class="col-12 HeadingTab mt-2">Commodity Details</div>
+                            <div class="col-12 HeadingTab mt-2">Basic Details</div>
                             <div class="col-lg-12 mt-2">
                                 <!-- <div class="row">
                                     <div class="column cutom">Add Commodity</div>
@@ -299,7 +515,7 @@
                                 </div> -->
                                 <div class="row" style="height: 180px;">
                                     
-                                    <div class="columnM"
+                                    <!-- <div class="columnM"
                                         >
                                         <label for="" class="column cutom">Add Commodity</label>
                                         <label for=""  style="background-color: #1D4380;color: white;padding: 7px;text-align: center;width:230px;">
@@ -336,6 +552,13 @@
                                                 </ng-select>
                                             </div>
                                         </div>
+                                    </div> -->
+                                    <div class="columnM">
+                                        <label for="" class="column cutom">Opening Odometer Reading</label>
+                                        <input type="number" id="form12" class="form-control cutombox" ngModel
+                                            name="odometer" required/>
+                                        <div *ngIf="tripdetails.controls.odometer?.invalid && tripdetails.controls.odometer?.touched"
+                                            class="error-message">Please fill out this field</div>
                                     </div>
                                     <div class="columnM">
                                         <label for="" class="column cutom">Remarks</label>
@@ -378,7 +601,353 @@
 
 
                     <!-- /////////////////  data table-->
-
+                    <button type="button" data-bs-target="#driverDetailModal" data-bs-toggle="modal">driver details</button>
+                    <div class="modal fade " id="driverDetailModal" tabindex="-1" aria-labelledby="driverDetailModal" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+                                uploading... </p></ngx-spinner>
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="uploadDocumentModalLabel">Driver Details</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h4 style="color: #2460c1 ;">{{driverName||''}}</h4>
+                                <form [formGroup]="addDriverForm" >
+                                    <ngx-spinner name="qDriverFormSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+                                      <p style="color: black">Please Wait.. </p>
+                                    </ngx-spinner>
+                                    <div class="row position-relative">
+                                  
+                                      <!-- <button (click)="qSwitchBackTD()" style="/*! left: -1px; */ right: 40px; text-align: right; top: -20px; font-size: 24px; color: #615959;/*! display: flex; *//*! align-items: center; *//*! justify-content: end; */width: fit-content;"
+                                      class="position-absolute">
+                                      <i class="fa-solid fa-xmark"></i></button> -->
+                                    </div>
+                            
+                                    <div class="col-md-11 ms-3">
+                                      <div class="col-lg-12 mt-2">
+                                        <div class="row justify-content-center mb-4">
+                                          <div class="colmun">
+                                            <label for="DriverName" class="filtor_name">Driver Name</label>
+                                            <input
+                                              type="text"
+                                              formControlName="DriverName"
+                                              placeholder="Driver Name"
+                                              class="form-control cutombox"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('DriverName')?.touched && addDriverForm.get('DriverName')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter your name
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="Gender" class="filtor_name">Gender</label>
+                                            <ng-select
+                                              formControlName="Gender"
+                                              placeholder="Gender"
+                                              class="cutombox"
+                                              style="font-size: 14px; font-weight: 400"
+                                            >
+                                              <ng-option
+                                                *ngFor="let gender of ['Male', 'Female']"
+                                                [value]="gender"
+                                              >
+                                                {{ gender }}
+                                              </ng-option>
+                                            </ng-select>
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('Gender')?.touched && addDriverForm.get('Gender')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              select your gender
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="dob" class="filtor_name">Date of Birth</label>
+                                            <input
+                                              type="date"
+                                              formControlName="dob"
+                                              class="form-control cutombox"
+                                              placeholder="Date of Birth"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('dob')?.touched && addDriverForm.get('dob')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter your date of birth
+                                            </span>
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('dob')?.touched && addDriverForm.get('dob')?.errors?.['invalidDate']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter a valid date
+                                            </span>
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('dob')?.touched && addDriverForm.get('dob')?.errors?.['ageInvalid']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              age must be at least 18 years
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="Mobilenum" class="filtor_name">Mobile Number</label>
+                                            <input
+                                              type="text"
+                                              formControlName="Mobilenum"
+                                              class="form-control cutombox"
+                                              placeholder="Mobile Number"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('Mobilenum')?.touched && addDriverForm.get('Mobilenum')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter your mobile number
+                                            </span>
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('Mobilenum')?.touched && addDriverForm.get('Mobilenum')?.errors?.['pattern']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter a valid mobile number
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="atlMobile" class="filtor_name"
+                                              >Alternate Mobile Number</label
+                                            >
+                                            <input
+                                              type="text"
+                                              formControlName="atlMobile"
+                                              class="form-control cutombox"
+                                              placeholder="Alternate Mobile Number"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('atlMobile')?.touched && addDriverForm.get('atlMobile')?.errors?.['pattern']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter a valid alternate mobile number
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-lg-12 mt-2">
+                                        <div class="row justify-content-center mb-4">
+                                          <div class="colmun">
+                                            <label for="Email" class="filtor_name">Email Id</label>
+                                            <input
+                                              type="text"
+                                              formControlName="Email"
+                                              class="form-control cutombox"
+                                              placeholder="Email Id"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('Email')?.touched && addDriverForm.get('Email')?.errors?.['email']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter a valid email
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="State" class="filtor_name">State</label>
+                                            <ng-select
+                                              formControlName="State"
+                                              placeholder="State"
+                                              (change)="onStateChange($event)"
+                                              class="cutombox"
+                                              style="font-size: 14px; font-weight: 400"
+                                            >
+                                              <ng-option *ngFor="let state of states" [value]="state">
+                                                {{ state.StateName }}
+                                              </ng-option>
+                                            </ng-select>
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('State')?.touched && addDriverForm.get('State')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              select your state
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="City" class="filtor_name">City</label>
+                                            <ng-select
+                                              formControlName="City"
+                                              placeholder="City"
+                                              class="cutombox"
+                                              style="font-size: 14px; font-weight: 400"
+                                            >
+                                              <ng-option *ngFor="let city of cities" [value]="city">
+                                                {{ city.CityName }}
+                                              </ng-option>
+                                            </ng-select>
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('City')?.touched && addDriverForm.get('City')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              select your city
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="Address" class="filtor_name">Address</label>
+                                            <input
+                                              type="text"
+                                              formControlName="Address"
+                                              class="form-control cutombox"
+                                              placeholder="Address"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('Address')?.touched && addDriverForm.get('Address')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter your address
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="PinCode" class="filtor_name">Pin Code</label>
+                                            <input
+                                              type="text"
+                                              formControlName="PinCode"
+                                              class="form-control cutombox"
+                                              placeholder="Pin Code"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf=" addDriverForm.get('PinCode')?.touched && addDriverForm.get('PinCode')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              enter your pin code
+                                            </span>
+                                            <span
+                                            style="font-size: 11px"
+                                            *ngIf=" addDriverForm.get('PinCode')?.touched && addDriverForm.get('PinCode')?.errors?.['pattern']"
+                                            class="text-red position-absolute text-sm-center"
+                                          >
+                                            enter valid pincode
+                                          </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-lg-12 mt-2">
+                                        <div class="row justify-content-center">
+                                          <!-- <div class="colmun">
+                                            <label for="YearsofExperience" class="filtor_name"
+                                              >Years of Experience</label
+                                            >
+                                            <input
+                                              type="text"
+                                              formControlName="YearsofExperience"
+                                              class="form-control cutombox"
+                                              placeholder="Years of Experience"
+                                            />
+                                          </div> -->
+                                          <div class="colmun">
+                                            <label for="DrivingSince" class="filtor_name"
+                                              >Driving Since</label
+                                            >
+                                            <input
+                                              id="Date-select"
+                                              type="text"
+                                              formControlName="DrivingSince"
+                                              class="form-control cutombox"
+                                              placeholder="Driving Since"
+                                            />
+                                            <span
+                                              style="font-size: 11px"
+                                              *ngIf="addDriverForm.get('DrivingSince')?.touched && addDriverForm.get('DrivingSince')?.errors?.['required']"
+                                              class="text-red position-absolute text-sm-center"
+                                            >
+                                              select driving since year
+                                            </span>
+                                          </div>
+                            
+                                          <div class="colmun">
+                                            <label for="DrivenvehicleType" class="filtor_name"
+                                              >Driven vehicle Type</label
+                                            >
+                                            <ng-select
+                                              formControlName="DrivenvehicleType"
+                                              placeholder="Driven vehicle Type"
+                                              class="cutombox"
+                                              [multiple]="true"
+                                              style="font-size: 14px; font-weight: 400"
+                                            >
+                                              <ng-option
+                                                *ngFor="let type of drivenVehicleTypes"
+                                                [value]="type"
+                                              >
+                                                {{ type }}</ng-option
+                                              >
+                                            </ng-select>
+                                          </div>
+                                          <div class="colmun col-2">
+                                            <div class="col-12 p-0" *ngIf="UserType=='13'">
+                                              <label for="Customers" class="filtor_name"
+                                              >Select Customer</label
+                                            >
+                                            <ng-select
+                                              formControlName="customer"
+                                              placeholder="Select Customer"
+                                              class="cutombox"
+                                              style="font-size: 14px; font-weight: 400"
+                                            >
+                                              <ng-option
+                                                *ngFor="let customer of customerLists"
+                                                [value]="customer"
+                                              >
+                                                {{ customer?.value }}</ng-option
+                                              >
+                                            </ng-select>
+                                            </div>
+                                          </div>
+                                          
+                                          <div class="colmun"></div>
+                                          <div class="colmun"></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                            
+                                    <!-- Repeat similar blocks for other document sections -->
+                          
+                            
+                                    <!-- Add more document sections here -->
+                                   
+                                  </form>
+                                  
+                            </div>
+                            <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+                                <button
+                                style="background-color: #1D4380;color:white" class="btn col-lg-2"
+                                (click)="driverForm()"
+                              
+                                type="button"
+                              >
+                                Save
+                              </button>
+                              <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
 
 
@@ -389,7 +958,7 @@
                     <div class="container">   
                     <form #docupload="ngForm">
                         <div class="col-lg-12 mt-2 HeadingTab d-flex justify-content-between py-1">
-                            <p class="m-0">Document Upload</p>
+                            <p class="m-0"> </p>
                           <div style="text-align:right;">
                               <!-- <button class="btn btn-sm btn-orange" type="button"
                                   style="color: white;margin-left: 2px;"
@@ -398,8 +967,8 @@
                                   (click)="cancelTrip()">Cancel</button>
                               <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="createTripF(tripdetails,tripcreationform_marin.value,addexpense.value)"
                                   style="color: white;margin-left: 2px;">create trip</button>
-                                  <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="qDocumentDetailsF()"
-                                  style="color: white;margin-left: 2px;">create trip</button>
+                                  <!-- <button class="btn btn-sm btn-orange" id="uploaddoc" type="button" (click)="qDocumentDetailsF()"
+                                  style="color: white;margin-left: 2px;">create trip</button> -->
                           </div>
                       </div>
                         <div class="container">
@@ -427,7 +996,7 @@
                                       </div>
                                       <div class="col-lg-2">
                                         <label for="expiryDate" class="cutom">Expiry Date</label>
-                                        <input class="form-control form-control-sm cutombox" id="expiryDate" type="date" ngModel name="expiryDate" required />
+                                        <input class="form-control form-control-sm cutombox" id="expiryDate" type="date" ngModel name="expiryDate" required [min]="todayDate"/>
                                       </div>
                                       <div class="col-lg-2">
                                         <label for="docRemarks" class="cutom">Document Remarks</label>
@@ -561,6 +1130,7 @@
 
                         </div>
                     </form>
+                  
                 </div>
                 </div>
                 <!-- agency -->
@@ -568,7 +1138,7 @@
                     <!-- //////////////////////////////////////////////////////////invoice//////// -->
                     <div class="container">
                         <div class="col-lg-12 mt-2 HeadingTab d-flex justify-content-between py-1">
-                            <p class="m-0">Customer Invoice</p>
+                            <p class="m-0"></p>
                           <div style="text-align:right;">
                               <!-- <button class="btn btn-sm btn-orange" type="button"
                                   style="color: white;margin-left: 2px;"
@@ -641,7 +1211,7 @@
                                                                                     aria-placeholder="select">
                                                                                     <!-- <ng-option value="" selected>select
                                                                                         an option</ng-option> -->
-                                                                                    <ng-option value=""
+                                                                                    <ng-option [value]="routeId[item]['id']"
                                                                                         *ngFor="let item of Object.keys(routeId);">{{routeId[item]['name']}}</ng-option>
                                                                                     <!-- <ng-option
                                                                                         *ngFor="let customers of cust_li ;let d=index"
@@ -797,11 +1367,11 @@
                                                                                                     style="  height: 32px;">
                                                                                             </td>
                                                                                             <td class="cs-form"><input
-                                                                                                    type="datetime-local"
+                                                                                                    type="date"
                                                                                                     step="1"
                                                                                                     class="form-control cutombox"
                                                                                                     formControlName="lorryDate"
-                                                                                                    style="  height: 32px; width:145px">
+                                                                                                    style=" font-size: 11px; height: 32px; width:145px">
                                                                                             </td>
                                                                                             <td><input type="text"
                                                                                                     class="form-control cutombox"
@@ -903,7 +1473,7 @@
                     <div class="container">
                         <form #addexpense="ngForm" (submit)="addexpenseF(addexpense.value);">
                             <div class="col-lg-12 mt-2 HeadingTab d-flex justify-content-between py-1">
-                                <p class="m-0">Customer Invoice</p>
+                                <p class="m-0"></p>
                               <div style="text-align:right;">
                                   <!-- <button class="btn btn-sm btn-orange" type="button"
                                       style="color: white;margin-left: 2px;"
@@ -920,7 +1490,7 @@
                                     <div class="column cutom">
                                         Select Expense
                                     </div>
-                                    <div class="column cutom">Expense Data</div>
+                                    <div class="column cutom">Expense Date</div>
                                     <div class="column cutom">Amount</div>
                                     <div class="column cutom">Remarks</div>
                                     <div class="column">
@@ -963,7 +1533,7 @@
                                     </div>
                                     <div class="column">
                                         <div style="text-align:center;">
-                                            <button class="" type="submit"
+                                            <button class="" type="button" (click)="addexpenseF(addexpense);"
                                                 style="width: 70px;color: white;"><i style="font-size: 24px;" class="fa-solid fa-circle-plus"></i></button>
                                         </div>
                                     

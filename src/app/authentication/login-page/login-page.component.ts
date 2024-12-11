@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router,ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
@@ -12,14 +12,17 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
+  showPassword: boolean = false;
   active:any;
   accestoken:any;
   acces_store: string='';
   date = new Date();
   sub_lg:boolean=false;
   show_html:boolean=true;
-  constructor(private authservice: AuthService, private router: Router, private formBuilder : FormBuilder) {
-
+  transporterAccessData:any=[]
+  constructor(private authservice: AuthService, private router: Router, private formBuilder : FormBuilder, private route:ActivatedRoute) {
+    
+   
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         // Could add more chars url:path?=;other possible
@@ -43,8 +46,23 @@ export class LoginPageComponent implements OnInit {
       password : new FormControl('',[Validators.required])
     });
     // this.Access();
+
   }
-  // http://localhost:4200/auth/login/?exttkn=028796o6C7vW014LuODFhy7itAeNj521
+
+
+  // transporterAccess()
+  // {
+  //   const formData = new FormData();
+  //   console.log("accesstoken for access",localStorage.getItem('AccessToken')!)
+  //   formData.append('AccessToken', localStorage.getItem('AccessToken')!);
+   
+  //     this.authservice.transpermissionS(formData).subscribe((resp: any) => {
+  //       console.log("transporteraccess",resp)
+  //       this.transporterAccessData = resp.Data[0]
+  //       console.log("transporteraccess1",this.transporterAccessData)
+  //     })
+  // }
+  // http://localhost:4200/auth/login/?exttkn=32h87N31SoA1yP8vwiT6zF70eHOg8401
 // http://localhost:64759/auth/login ?exttkn=13FCB0050lkEw3385o14cN4ZX3y85410
 
   // https://test-beta.secutrak.in/up_fci/?exttkn=92M3BAuX648k6scDEofv1giPKdxWwZ11 
@@ -55,6 +73,8 @@ export class LoginPageComponent implements OnInit {
   // http://beta.secutrak.in/secutrak/?exttkn=90EhQW2rojs013m0A07k900827wy3150
 
   // http://beta.secutrak.in/secutrak/?exttkn=80EB570vkdA8L44G9f40s74Zy8e21K11
+
+
   access_token(){
     var token=this.router.url;
    var k= token.split('?exttkn='); 
@@ -77,6 +97,12 @@ export class LoginPageComponent implements OnInit {
     this._error = { name: '', message: '' };
   }
    Access(acc:any){
+    
+    var url=this.router.url;
+    var k= url.split('='); 
+    localStorage.setItem('URL',k[0]);
+    console.log("Submit",url);
+    // this.transporterAccess()
     // alert("Access token")
     this.clearErrorMessage();
     const formData = new FormData();
@@ -88,7 +114,27 @@ export class LoginPageComponent implements OnInit {
          
         } else { 
           console.log(resp)
+          const formDataspecific = new FormData();
+          formDataspecific.append('AccessToken', resp.Data.AccessToken);
+          this.authservice.loginSpecificUser(formDataspecific)
+          .subscribe((res: any) => {
+             console.log("specific",res)
 
+             
+             if(res?.specific_permission?.irun_alert_dashboard=='1'){
+            //  localStorage.setItem('IrunDashboard',resp?.specific_permission?.irun_alert_dashboard)
+            // console.log("local storage set");
+            
+            localStorage.setItem('path6', `/ILgic/Irun`); 
+              localStorage.setItem('Title6', 'IRUN Dashboard');
+             }else{
+              //  localStorage.setItem('IrunDashboard',resp?.specific_permission?.irun_alert_dashboard)
+              // console.log("local storage set");
+              
+              localStorage.setItem('path6', `/ILgic/generic/Irun`); 
+                localStorage.setItem('Title6', 'IRUN Dashboard');
+               }
+          })
           // localStorage.setItem('Json', '1');       
           localStorage.setItem('AccessToken',acc);
           localStorage.setItem('GroupId', resp.Data.GroupId);
@@ -99,30 +145,188 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('GroupTypeId',  resp.Data.GroupTypeId);
           localStorage.setItem('AccountId',  resp.Data.AccountId);
           localStorage.setItem('AccountId',  resp.Data.AccountId);
+          localStorage.setItem('UserType',  resp.Data.AccountType);
+          localStorage.setItem('specific_permission',resp.specific_permission);
+          localStorage.setItem('Class',resp.Data.Class);
+
+          this.router.navigate([`/cv/${resp.Data.Class}`]);
+      //     if(resp.specific_permission){
+      //       // Check if specific_trip have values 1 ---
+      //       if(resp.specific_permission.specific_trip==1){
+
+      //         if(resp.specific_permission?.irun_alert_dashboard==1){
+      //           localStorage.setItem('path6', `/ILgic/Irun`);
+      //           localStorage.setItem('Title6', 'IRUN Dashboard');
+      //           }
+      //       else{
+      //         localStorage.setItem('path6', ''); 
+      //           localStorage.setItem('Title6', '');
+      //          }
+
+               
+      //         // For Delay Dashboard----------------------------------- 
+
+
+      //       //    if(resp.specific_permission?.delay_dashboard==1){
+      //       //     localStorage.setItem('path7', `/ILgic/Delay/Dashboard`);
+      //       //     localStorage.setItem('Title7', 'Delay Dashboard');
+      //       //     }
+      //       // else{
+      //       //   localStorage.setItem('path7', ''); 
+      //       //     localStorage.setItem('Title7', '');
+      //       //    }
+
+      //             // For Trip dashboard ---------------------------
+      //          if(resp.specific_permission?.schedule_dashboard==1){
+      //           localStorage.setItem('path4', '/ILgic/Trip-Dashboard'); 
+      //           localStorage.setItem('Title4', 'Trip Dashboard');
+      //           }
+      //       else{
+      //         localStorage.setItem('path4', ''); 
+      //           localStorage.setItem('Title4', '');
+      //          }
+
+
+      //       }else{
+            
+      //     if(resp.specific_permission?.irun_alert_dashboard==1){
+            
+      //         localStorage.setItem('path6', `/ILgic/generic/Irun`);
+      //         localStorage.setItem('Title6', 'IRUN Dashboard');
+      //     }
+      //     else{
+      //       localStorage.setItem('path6', ''); 
+      //         localStorage.setItem('Title6', '');
+      //        }
+      //     // For schedule dashboard ---------------------------
+      //        if(resp.specific_permission?.schedule_dashboard==1){
+      //         localStorage.setItem('path4', '/ILgic/Generic/TripDashboard'); 
+      //         localStorage.setItem('Title4', 'Trip Dashboard');
+      //         }
+      //     else{
+      //       localStorage.setItem('path4', ''); 
+      //         localStorage.setItem('Title4', '');
+      //        }   
           
-          if(resp.Data.AccountType=="10" )
-            {
-              this.router.navigate(['/ILgic/Transport']);
-              localStorage.setItem('path', '/ILgic/Transport'); 
-              localStorage.setItem('Title', 'Transporter Dashboard');
-              localStorage.setItem('path2', '/ILgic/TransporterDashboard'); 
-              localStorage.setItem('Title2', 'TMS Dashboard');
+          
+      //     // For Delay Dashboard---------------------------
+      //   //   if(resp.specific_permission?.delay_dashboard==1){
+      //   //     localStorage.setItem('path7', `/ILgic/generic/Delay/Dashboard`);
+      //   //     localStorage.setItem('Title7', 'Delay Dashboard');
+      //   //     }
+      //   // else{
+      //   //   localStorage.setItem('path7', ''); 
+      //   //     localStorage.setItem('Title7', '');
+      //   //    }
+
+      //       }
+      //       }else{
+      //       //  Need to Blank all only show Trip Dashboard -----------------------
+      //       localStorage.setItem('path6', '');
+      //       localStorage.setItem('Title6', '');
+      //       localStorage.setItem('path4', '/ILgic/Generic/TripDashboard'); 
+      //       localStorage.setItem('Title4', 'Trip Dashboard');
+            
+      //        }
+      //     if(resp.Data.AccountType=="10" )
+      //       {
+      //         // this.transporterAccess()
+      //         // this.router.navigate(['/ILgic/Transport']);
+      //         // localStorage.setItem('path', '/ILgic/Transport'); 
+      //         // localStorage.setItem('Title', 'Transporter Dashboard');
+      //         // console.log("transporter",this.transporterAccessData)
+      //         // if(this.transporterAccessData.document_wallet==1)
+      //         // {
+      //         //   localStorage.setItem('path3', '/ILgic/wallet'); 
+      //         // localStorage.setItem('Title3', 'Document Wallet');
+      //         // }
+      //         // else
+      //         // {
+      //         //   localStorage.setItem('path3', ''); 
+      //         //   localStorage.setItem('Title3', '');
+      //         // }
+      //         // if(this.transporterAccessData.tms_dashboard==1)
+      //         //   {
+      //         //     localStorage.setItem('path2', '/ILgic/TransporterDashboard'); 
+      //         // localStorage.setItem('Title2', 'TMS Dashboard');
+      //         //   }
+      //         //   else
+      //         //   {
+      //         //     localStorage.setItem('path2', ''); 
+      //         //     localStorage.setItem('Title2', '');
+      //         //   }
+      //         //   if(this.transporterAccessData.trip_dashboard==1)
+      //         //     {
+      //         //       localStorage.setItem('path4', '/ILgic/Trip'); 
+      //         //       localStorage.setItem('Title4', 'Trip Dashboardt');
+      //         //     }
+      //         //     else
+      //         //     {
+      //         //       localStorage.setItem('path4', ''); 
+      //         //       localStorage.setItem('Title4', '');
+      //         //     }
+      //         this.router.navigate(['/ILgic/Transport']);
+      //         localStorage.setItem('path', '/ILgic/Transport'); 
+      //         localStorage.setItem('Title', 'Transporter Dashboard');
+      //         localStorage.setItem('path2', '/ILgic/TransporterDashboard'); 
+      //         localStorage.setItem('Title2', 'TMS Dashboard');
+      //         localStorage.setItem('path3', '/ILgic/wallet'); 
+      //         localStorage.setItem('Title3', 'Document Wallet');
+      //         // localStorage.setItem('path4', '/ILgic/Trip'); 
+      //         // localStorage.setItem('Title4', 'Trip Dashboard');
+      //         localStorage.setItem('path5', 'https://itraceit.in/reports/transporter_fleet_performance_report/?exttkn='+localStorage.getItem('AccessToken')!); 
+      //         localStorage.setItem('Title5', 'Fleet Performance');
               
-            }
-       else  if(resp.Data.AccountType=="6"||resp.Data.AccountType=="13")
-            {
-              this.router.navigate(['/ILgic/ilgic']);
-              localStorage.setItem('path', '/ILgic/ilgic');  
-              localStorage.setItem('Title', 'ILGIC Dashboard');
-              localStorage.setItem('path2', '/ILgic/cv'); 
-              localStorage.setItem('Title2', 'TMS Dashboard');
-            }
-            else
-                     {
-          this.router.navigate(['/ILgic/Agent']);
-          localStorage.setItem('path', '/ILgic/Agent'); 
-          localStorage.setItem('Title', 'Agent Dashboard');
-                     }
+      //       }
+      //  else  if(resp.Data.AccountType=="6")
+      //       {
+      //         console.log("hum group 6 mein hain");
+              
+      //         if(resp.Data.GroupTypeId=='7'||resp.Data.GroupTypeId=='20')
+      //           {
+      //             this.router.navigate(['/ILgic/wallet'])
+      //             // localStorage.setItem('path', '/ILgic/wallet');  
+      //             // localStorage.setItem('Title', 'Doc wallet');
+      //           }
+      //           else
+      //           {
+      //             this.router.navigate(['/ILgic/ilgic']);
+      //             localStorage.setItem('path', '/ILgic/ilgic');  
+      //             localStorage.setItem('Title', 'Consolidated Dashboard');
+      //           }
+      //         localStorage.setItem('path2', '/ILgic/cv'); 
+      //         localStorage.setItem('Title2', 'TMS Dashboard');
+      //         localStorage.setItem('path3', '/ILgic/wallet'); 
+      //         localStorage.setItem('Title3', 'Document Wallet');
+      //         // localStorage.setItem('path4', '/ILgic/Trip'); 
+      //         // localStorage.setItem('Title4', 'Trip Dashboard');
+      //         localStorage.setItem('path5', 'https://itraceit.in/reports/fleet_performance_report/?exttkn='+localStorage.getItem('AccessToken')!); 
+      //         localStorage.setItem('Title5', 'Fleet Performance');
+      //       }
+      //       else if(resp.Data.AccountType=="24")
+      //                {  
+            
+      //     this.router.navigate(['/ILgic/Agent']);
+      //     localStorage.setItem('path', '/ILgic/Agent'); 
+      //     localStorage.setItem('Title', 'Agent Dashboard');
+      //     localStorage.setItem('path3', '/ILgic/wallet'); 
+      //         localStorage.setItem('Title3', 'Document Wallet');
+      //         localStorage.setItem('path4', ''); 
+      //         localStorage.setItem('Title4', '');
+      //         localStorage.setItem('Title4', '');
+      //         localStorage.setItem('path2', ''); 
+      //         localStorage.setItem('Title2', '');
+      //                }
+      //       else 
+      //                {
+      //     this.router.navigate(['/ILgic/cv']);
+      //     localStorage.setItem('path2', '/ILgic/cv'); 
+      //     localStorage.setItem('Title2', 'TMS Dashboard');
+      //     // localStorage.setItem('path4', '/ILgic/Trip'); 
+      //     //     localStorage.setItem('Title4', 'Trip Dashboard');
+      //     localStorage.setItem('path', ''); 
+      //     localStorage.setItem('Title', '');
+      //                }
          
         //  this.router.navigate(['/ILgic/ilgic']);
         //  concatMap(() => from(this.router.navigateByUrl('/maps')))
@@ -136,6 +340,18 @@ export class LoginPageComponent implements OnInit {
  
   Submit()
   { 
+    localStorage.clear()
+
+    const domain = window.location.origin;
+    console.log("this.router.url",domain)
+    const fullUrl = this.router.url ;
+  
+    localStorage.setItem('URL', fullUrl);
+    localStorage.setItem('Domain', domain);
+    
+    // console.log("Submit1", this.router);
+    // console.log("Full URL:", fullUrl);
+    // var k= token.split('?exttkn='); 
     this.sub_lg=true;
     if(this.loginForm.status){
     this.clearErrorMessage();
@@ -150,10 +366,9 @@ export class LoginPageComponent implements OnInit {
 
       
         console.log(resp);
-        if (resp.Status === 'error') {
-          
+        if (resp.Status !== 'success') {
+          alert(resp?.Message)
         } else { 
-          //localStorage.clear();
         console.log(resp);
          this.accestoken= resp.Data.AccessToken;
           localStorage.setItem('Json', '1');       
@@ -162,36 +377,205 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('AccountId',  resp.Data.AccountId);
           localStorage.setItem('AccountType', resp.Data.AccountType);
           localStorage.setItem('UserName', this.loginForm.controls['userid'].value);
+          localStorage.setItem('loginUser',resp.Data.AccountName)
           localStorage.setItem('GroupType',  resp.Data.GroupType);
           localStorage.setItem('GroupTypeId',  resp.Data.GroupTypeId);
           localStorage.setItem('UserType',  resp.Data.UserType);
+          localStorage.setItem('FullImage',resp.Data.FullImage);
+          localStorage.setItem('ThumbImage',resp.ThumbImage);
+          localStorage.setItem('specific_permission',resp.specific_permission);
+          localStorage.setItem('Class',resp.Data.Class);
+          // Check if specific_permission have values ---
+
+          this.router.navigate([`/cv/${resp.Data.Class}`]);
+      //     if(resp.specific_permission){
+      //       // Check if specific_trip have values 1 ---
+      //       if(resp.specific_permission.specific_trip==1){
+
+      //         if(resp.specific_permission?.irun_alert_dashboard==1){
+      //           localStorage.setItem('path6', `/ILgic/Irun`);
+      //           localStorage.setItem('Title6', 'IRUN Dashboard');
+      //           }
+      //       else{
+      //         localStorage.setItem('path6', ''); 
+      //           localStorage.setItem('Title6', '');
+      //          }
+
+               
+      //         // For Delay Dashboard----------------------------------- 
+
+
+      //       //    if(resp.specific_permission?.delay_dashboard==1){
+      //       //     localStorage.setItem('path7', `/ILgic/Delay/Dashboard`);
+      //       //     localStorage.setItem('Title7', 'Delay Dashboard');
+      //       //     }
+      //       // else{
+      //       //   localStorage.setItem('path7', ''); 
+      //       //     localStorage.setItem('Title7', '');
+      //       //    }
+
+      //             // For Trip dashboard ---------------------------
+      //          if(resp.specific_permission?.schedule_dashboard==1){
+      //           localStorage.setItem('path4', '/ILgic/Trip-Dashboard'); 
+      //           localStorage.setItem('Title4', 'Trip Dashboard');
+      //           }
+      //       else{
+      //         localStorage.setItem('path4', ''); 
+      //           localStorage.setItem('Title4', '');
+      //          }
+
+
+
+
+
+      //       }else{
+            
+      //     if(resp.specific_permission?.irun_alert_dashboard==1){
+            
+      //         localStorage.setItem('path6', `/ILgic/generic/Irun`);
+      //         localStorage.setItem('Title6', 'IRUN Dashboard');
+      //     }
+      //     else{
+      //       localStorage.setItem('path6', ''); 
+      //         localStorage.setItem('Title6', '');
+      //        }
+      //     // For schedule dashboard ---------------------------
+      //        if(resp.specific_permission?.schedule_dashboard==1){
+      //         localStorage.setItem('path4', '/ILgic/Generic/TripDashboard'); 
+      //         localStorage.setItem('Title4', 'Trip Dashboard');
+      //         }
+      //     else{
+      //       localStorage.setItem('path4', ''); 
+      //         localStorage.setItem('Title4', '');
+      //        }   
           
-          // this.router.navigate(['/maps']);
           
-          // this.router.navigate(['/UPFCS/FCS/']);
-          if(resp.Data.UserType=="10" )
-            {
-              this.router.navigate(['/ILgic/Transport']);
-              localStorage.setItem('path', '/ILgic/Transport'); 
-              localStorage.setItem('Title', 'Transporter Dashboard');
-              localStorage.setItem('path2', '/ILgic/TransporterDashboard'); 
-              localStorage.setItem('Title2', 'TMS Dashboard');
+      //     // For Delay Dashboard---------------------------
+      //   //   if(resp.specific_permission?.delay_dashboard==1){
+      //   //     localStorage.setItem('path7', `/ILgic/generic/Delay/Dashboard`);
+      //   //     localStorage.setItem('Title7', 'Delay Dashboard');
+      //   //     }
+      //   // else{
+      //   //   localStorage.setItem('path7', ''); 
+      //   //     localStorage.setItem('Title7', '');
+      //   //    }
+
+      //       }
+      //       }else{
+      //       //  Need to Blank all only show Trip Dashboard -----------------------
+      //       localStorage.setItem('path6', '');
+      //       localStorage.setItem('Title6', '');
+      //       localStorage.setItem('path4', '/ILgic/Generic/TripDashboard'); 
+      //       localStorage.setItem('Title4', 'Trip Dashboard');
+            
+      //        }
+      //     // this.router.navigate(['/maps']);
+          
+      //     // this.router.navigate(['/UPFCS/FCS/']);
+      //     if(resp.Data.UserType=="10" )
+      //       {
+      //         // this.transporterAccess()
               
-            }
-       else  if(resp.Data.UserType=="6" ||resp.Data.UserType=="13")
-            {
-              this.router.navigate(['/ILgic/ilgic']);
-              localStorage.setItem('path', '/ILgic/ilgic');  
-              localStorage.setItem('Title', 'ILGIC Dashboard');
-              localStorage.setItem('path2', '/ILgic/cv'); 
-              localStorage.setItem('Title2', 'TMS Dashboard');
-            }
-            else
-                     {
-          this.router.navigate(['/ILgic/Agent']);
-          localStorage.setItem('path', '/ILgic/Agent'); 
-          localStorage.setItem('Title', 'Agent Dashboard');
-                     }
+      //         // console.log("transporter",this.transporterAccessData)
+             
+      //         // this.router.navigate(['/ILgic/Transport']);
+      //         // localStorage.setItem('path', '/ILgic/Transport'); 
+      //         // localStorage.setItem('Title', 'Transporter Dashboard');
+      //         // console.log("transporter",this.transporterAccessData)
+      //         // if(this.transporterAccessData.document_wallet==1)
+      //         // {
+      //         //   localStorage.setItem('path3', '/ILgic/wallet'); 
+      //         // localStorage.setItem('Title3', 'Document Wallet');
+      //         // }
+      //         // else
+      //         // {
+      //         //   localStorage.setItem('path3', ''); 
+      //         //   localStorage.setItem('Title3', '');
+      //         // }
+      //         // if(this.transporterAccessData.tms_dashboard==1)
+      //         //   {
+      //         //     localStorage.setItem('path2', '/ILgic/TransporterDashboard'); 
+      //         // localStorage.setItem('Title2', 'TMS Dashboard');
+      //         //   }
+      //         //   else
+      //         //   {
+      //         //     localStorage.setItem('path2', ''); 
+      //         //     localStorage.setItem('Title2', '');
+      //         //   }
+      //         //   if(this.transporterAccessData.trip_dashboard==1)
+      //         //     {
+      //               // localStorage.setItem('path4', '/ILgic/Trip'); 
+      //               // localStorage.setItem('Title4', 'Trip Dashboardt');
+      //         //     }
+      //         //     else
+      //         //     {
+      //         //       localStorage.setItem('path4', ''); 
+      //         //       localStorage.setItem('Title4', '');
+      //         //     }
+            
+      //         this.router.navigate(['/ILgic/Transport']);
+      //         localStorage.setItem('path', '/ILgic/Transport'); 
+      //         localStorage.setItem('Title', 'Transporter Dashboard');
+      //         localStorage.setItem('path2', '/ILgic/TransporterDashboard'); 
+      //         localStorage.setItem('Title2', 'TMS Dashboard');
+      //         localStorage.setItem('path3', '/ILgic/wallet'); 
+      //         localStorage.setItem('Title3', 'Document Wallet');
+      //         // localStorage.setItem('path4', '/ILgic/Trip'); 
+      //         // localStorage.setItem('Title4', 'Trip Dashboard');
+      //         localStorage.setItem('path5', 'https://itraceit.in/reports/transporter_fleet_performance_report/?exttkn='+localStorage.getItem('AccessToken')!); 
+      //         localStorage.setItem('Title5', 'Fleet Performance');
+              
+      //       }
+      //  else  if(resp.Data.UserType=="6")
+      //       {
+              
+      //         if(resp.Data.GroupTypeId=='7'||resp.Data.GroupTypeId=='20')
+      //         {
+      //           this.router.navigate(['/ILgic/wallet'])
+      //           // localStorage.setItem('path', '/ILgic/wallet');  
+      //           // localStorage.setItem('Title', 'Doc wallet');
+      //         }
+      //         else
+      //         {
+      //           this.router.navigate(['/ILgic/ilgic']);
+      //           localStorage.setItem('path', '/ILgic/ilgic');  
+      //           localStorage.setItem('Title', 'Consolidated Dashboard');
+      //         }
+
+          
+      //           localStorage.setItem('path2', '/ILgic/cv'); 
+      //           localStorage.setItem('Title2', 'TMS Dashboard');
+      //           localStorage.setItem('path3', '/ILgic/wallet'); 
+      //           localStorage.setItem('Title3', 'Document Wallet')
+      //           // localStorage.setItem('path4', '/ILgic/Trip'); 
+      //           // localStorage.setItem('Title4', 'Trip Dashboard');
+      //           localStorage.setItem('path5', 'https://itraceit.in/reports/transporter_fleet_performance_report/?exttkn='+localStorage.getItem('AccessToken')!); 
+      //           localStorage.setItem('Title5', 'Fleet Performance');
+              
+            
+      //       }
+      //       else if(resp.Data.UserType=="24")
+      //                {
+      //                 this.router.navigate(['/ILgic/Agent']);
+      //                 localStorage.setItem('path', '/ILgic/Agent'); 
+      //                 localStorage.setItem('Title', 'Agent Dashboard');
+      //                 localStorage.setItem('path3', '/ILgic/wallet'); 
+      //                     localStorage.setItem('Title3', 'Document Wallet');
+      //                     localStorage.setItem('path4', ''); 
+      //         localStorage.setItem('Title4', '');
+      //                     localStorage.setItem('path2', ''); 
+      //         localStorage.setItem('Title2', '');
+      //                }
+      //                else 
+      //                {
+      //     this.router.navigate(['/ILgic/cv']);
+      //     localStorage.setItem('path2', '/ILgic/cv'); 
+      //     localStorage.setItem('Title2', 'TMS Dashboard');
+      //     // localStorage.setItem('path4', '/ILgic/Trip'); 
+      //     //     localStorage.setItem('Title4', 'Trip Dashboard');
+      //     localStorage.setItem('path', ''); 
+      //         localStorage.setItem('Title', '');
+      //                }
          
          
         }

@@ -2,6 +2,9 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -22,6 +25,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ForgetpasswordComponent } from './authentication/forgetpassword/forgetpassword.component';
 import { ConfirmOTPComponent } from './authentication/confirm-otp/confirm-otp.component';
 import { AlltripsComponent } from './components/reports/alltrips/alltrips.component';
+import { DatePipe } from '@angular/common';
 // import * as angular from 'node_modules/@types';
 // import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 @NgModule({
@@ -42,6 +46,7 @@ import { AlltripsComponent } from './components/reports/alltrips/alltrips.compon
     NgbModule,
     SharedModule,
     RouterModule,
+    // DatePipe,
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFirestoreModule,
     // AngularFireAuthModule,
@@ -55,7 +60,7 @@ import { AlltripsComponent } from './components/reports/alltrips/alltrips.compon
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [HttpClient, ExcelService],
+  providers: [HttpClient, ExcelService,DatePipe],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

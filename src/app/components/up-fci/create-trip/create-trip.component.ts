@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CrudService } from 'src/app/shared/services/crud.service';
 import { NavService } from 'src/app/shared/services/nav.service';
-import { FormControl, FormGroup, Validators, FormBuilder, FormArray, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder, FormArray, NgForm, AbstractControl, ValidationErrors, Form, ValidatorFn } from '@angular/forms';
 import { DoBootstrap } from '@angular/core';
 import { JsonPipe, KeyValue } from '@angular/common';
 import { event } from 'jquery';
@@ -34,17 +34,53 @@ interface ApiResponse {
 export class CreateTripComponent implements OnInit {
   tripcreationform_marin: FormGroup;
 
-  constructor(private navServices: NavService, private modalService: NgbModal, private formBuilder: FormBuilder, private router: Router, private service: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) {
+  constructor(private fb: FormBuilder,private navServices: NavService, private modalService: NgbModal, private formBuilder: FormBuilder, private router: Router, private service: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) {
     this.tripcreationform_marin = this.formBuilder.group({
       custumerinvoice: this.formBuilder.array([this.gettable()]),
     });
   }
   token: any
+  UserType:any
+  UserCategory:any
+  drivenVehicleTypes: string[] = ['HMV', 'LMV', 'MGV'];
+  customerLists:any=''
+  states:any = [];
+  cities: any = [];
+  addDriverForm!: FormGroup;
+
+  
   account_id: any
+  todayDate!: string;
   qDocuments: Map<any, any> = new Map();
   qArrayDocs:any=[]
   qFileLists:any=[]
   qFile:any
+  vehicleDoc:any=[]
+  vehicleDocImag:any={
+    6:'assets/icon/Icon/Pollution Certificate.png',
+    5:'assets/icon/Icon/RC.png',
+    7:'assets/icon/Icon/Insurance.png',
+    13:'assets/icon/Icon/Fitness.png',
+    10:'assets/icon/Icon/National Goods Permit.png'
+  }
+  driverDoc:any=[]
+  driverDocImage:any={
+   3:'assets/icon/Icon/Driving License.png',
+   1:'assets/icon/Icon/Aadhar.png',
+   2:'assets/icon/Icon/Pan Card.jpg',
+   15:'assets/icon/Icon/Voter id card.jpg',
+   14:'assets/icon/Icon/Passsport.png',
+  }
+  driverName=''
+  driverId=''
+  driverDocMessage=''
+  pendingDocument=0
+  disableDriverText=false
+  hasCalledDriverApi:boolean=false
+  vehicleDocForm!: FormGroup;
+  driverDocForm!: FormGroup;
+  showDriver2:boolean=false
+  GroupId:any=''
   nextId:number=0
   selectedPort:any
   // selectbox = {
@@ -79,8 +115,9 @@ export class CreateTripComponent implements OnInit {
     let App = document.querySelector('.app')
     // this.navServices.collapseSidebar = this.navServices.collapseSidebar
     App?.classList.add('sidenav-toggled');
-
+    this.GroupId=localStorage.getItem('GroupId')
     this.token = localStorage.getItem('AccessToken')!
+    this.UserType = localStorage.getItem('UserType')!;
     console.log("Access", this.token)
     this.account_id = localStorage.getItem('AccountId')!
     this.tTable()
@@ -90,7 +127,205 @@ export class CreateTripComponent implements OnInit {
     // this.routeList()
     this.expenseList()
     this.docList()
+    const today = new Date();
+    this.todayDate = today.toISOString().split('T')[0];
+
+
+    this.vehicleDocForm = this.formBuilder.group({
+      documents: this.formBuilder.array([])
+    });
+    this.driverDocForm = this.formBuilder.group({
+      driverDocuments: this.formBuilder.array([])
+    });
+
+
+
+
+    this.initForm();
+
+    if(this.UserType=='13')
+      {
+        this.fetchTransporters()
+        this.UserCategory='Corporate'
+          this.addDriverForm.addControl('customer', this.fb.control(null, Validators.required));
+      }
+
+
+
+
+
   }
+  
+  initForm(){
+    this.addDriverForm = this.fb.group({
+      DriverName: ['', Validators.required],
+      Gender: [null, Validators.required],
+      dob: ['', [Validators.required, this.dateValidator, this.ageValidator(18)]],
+      Mobilenum: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+      atlMobile: ['', Validators.pattern(/^[6-9]\d{9}$/)],
+      Email: ['', [Validators.email]],
+      State: [null, Validators.required],
+      City: [null, Validators.required],
+      Address: ['', Validators.required],
+      PinCode: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      DrivingSince: [null, Validators.required],
+      DrivenvehicleType: [null, Validators.required], 
+    },);
+    this.stateData()
+  }
+  onStateChange(state,cityId=''){
+    const formData=new FormData();
+    formData.append("AccessToken",this.token)
+    formData.append('StateID',state?.StateID)
+    console.log(state);
+    this.cities = [];
+    if(!cityId)
+    {
+    this.addDriverForm.get('City')?.setValue(null);
+    this.addDriverForm.get('City')?.markAsTouched();
+    this.addDriverForm.get('City')?.updateValueAndValidity();
+    }
+   
+    console.log(this.addDriverForm);
+    
+    if(state?.StateID)
+    {
+      this.service.cityData(formData).subscribe(
+        response => {
+          this.cities=response
+          console.log(response);
+          
+        },
+        error => {
+          console.error('Error sending data:', error);
+        }
+      ) 
+    }
+   
+  }
+  stateData(){
+    const formData=new FormData();
+    this.token=localStorage.getItem('AccessToken')||'';
+    formData.append("AccessToken",this.token)
+    this.service.stateData(formData).subscribe(
+      response => {
+         this.states=response
+        console.log(response);
+        
+      },
+      error => {
+        console.error('Error sending data:', error);
+      }
+    )
+  }
+  dateValidator(control: AbstractControl): ValidationErrors | null {
+    const dateValue = control.value;
+    if (!dateValue) {
+      return null;
+    }
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return { 'invalidDate': true };
+    }
+    return null;
+  }
+  ageValidator(minAge: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const dateValue = control.value;
+      if (!dateValue) {
+        return null;
+      }
+      const dob = new Date(dateValue);
+      const today = new Date();
+      let age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      return age >= minAge ? null : { 'ageInvalid': true };
+    };
+  }
+  fetchTransporters(): void {
+    this.token = localStorage.getItem('AccessToken') || '';
+    const formData = new FormData();
+    formData.append('AccessToken', this.token);
+
+    this.service.getTransporter(formData).subscribe(
+      (response) => {
+        this.customerLists = response;
+        console.log(response);
+      },
+      (error) => {
+        console.error('Error sending data:', error);
+      }
+    );
+  }
+  driverForm(){
+    if (this.addDriverForm.invalid) {
+      this.addDriverForm.markAllAsTouched(); // Marks all fields as touched
+      console.log('Form is invalid');
+      return;
+    }
+    const formData=new FormData()
+    formData.append('AccessToken',this.token)
+    console.log(this.addDriverForm.value);
+   
+     
+        const driverDetails = {
+          DriverName: this.addDriverForm.get('DriverName')?.value,
+          Gender: this.addDriverForm.get('Gender')?.value,
+          DOB: this.addDriverForm.get('dob')?.value,
+          MobileNo: this.addDriverForm.get('Mobilenum')?.value,
+          AlternateMobNo: this.addDriverForm.get('atlMobile')?.value || '',
+          Email: this.addDriverForm.get('Email')?.value,
+          State_id: String(this.addDriverForm.get('State')?.value?.StateID),
+          City_id: String(this.addDriverForm.get('City')?.value?.CityID),
+          Address: this.addDriverForm.get('Address')?.value,
+          Pincode: this.addDriverForm.get('PinCode')?.value,
+          YrsofExp: String(this.addDriverForm.get('DrivingSince')?.value),
+          DrivenVehType: this.addDriverForm.get('DrivenvehicleType')?.value
+        };
+        if (this.UserType === '13') {
+          driverDetails['TransporterId'] = String(this.addDriverForm.get('customer')?.value?.id); // replace 'some value' with the appropriate value
+        }
+        formData.append('UserCategory',this.UserCategory)
+        formData.append('DriverDetails',JSON.stringify(driverDetails))
+        console.log(formData);
+          this.SpinnerService.show("qDriverFormSpinner")
+          this.service.createDriver(formData).subscribe(
+            response => { 
+            if(response.status==='success'){
+                 alert("Driver Added Successfully")
+            }    
+                else
+                 {
+                  alert(response?.error)
+                  console.log(response.status);
+                  this.SpinnerService.hide("qDriverFormSpinner")
+                 }
+               
+              
+              
+              console.log('Driver created successfully', response);
+            },
+            error => {
+              console.error('Error creating driver:', error);
+            }
+          );
+        
+       
+        console.log(this.addDriverForm);
+        
+      
+  }
+
+
+
+
+
+
+
+
   sidebarToggle() {
 
     let App = document.querySelector('.app')
@@ -101,6 +336,9 @@ export class CreateTripComponent implements OnInit {
       App?.classList.add('sidenav-toggled');
     }
   }
+  
+
+
   addNgselect() {
     // this.selectbox=this.commodityListA
     if (this.selectbox.length < 4) {
@@ -367,7 +605,8 @@ export class CreateTripComponent implements OnInit {
 
   }
   submitForm(data) {
-
+  console.log(data,"customer invoice");
+  
 
 
     console.log("invoice", data);
@@ -380,6 +619,8 @@ export class CreateTripComponent implements OnInit {
       // alert(0)
 
       temp_data=[];
+  
+      // temp_data.push(invoice)
       for(var j=0;j<data.custumerinvoice[i].rows.invoicearray.length;j++)
         {
         // 
@@ -393,9 +634,8 @@ export class CreateTripComponent implements OnInit {
           "net_weight":data.custumerinvoice[i].rows.invoicearray[j].netWeight,
           "gross_weight":data.custumerinvoice[i].rows.invoicearray[j].grossWeight,
           "lorry_no":data.custumerinvoice[i].rows.invoicearray[j].lorryNo,
-          "lorry_date":data.custumerinvoice[i].rows.invoicearray[j].lorryDate,
+          "expiry_date":data.custumerinvoice[i].rows.invoicearray[j].lorryDate?.replace('T'," "),
           "eway_bill_no":data.custumerinvoice[i].rows.invoicearray[j].e_waybill,
-          "Ewaybill":data.custumerinvoice[i].rows.invoicearray[j].upload_e_way,
           "remark":data.custumerinvoice[i].rows.invoicearray[j].remarks,
           // "invoice_no": data.custumerinvoice[i].invoiceNo,
         }
@@ -403,11 +643,17 @@ export class CreateTripComponent implements OnInit {
         // console.log("temp_data",temp_data);
       }
       ///////////////////////////////////////////////////
-      
+      const invoice={
+        "invoice_date": data.custumerinvoice[i].invoiceDate?.replace('T'," "),
+        "invoice_no": data.custumerinvoice[i].invoiceNo,
+        "eta": data.custumerinvoice[i]?.eta?.replace('T'," "),
+        "PRODUCT": temp_data,
+      }
       // if (data.custumerinvoice[i]?.customer?.customer_id !== undefined) {
+    
         temp_array = {
           "customer_id": data.custumerinvoice[i].customer,
-          "Invoice": this.uploadfiledsk[i],
+          "INVOICE": invoice
           // "Invoice": data.custumerinvoice[i].upload,
           // "customer_name": data.custumerinvoice[i].customer?.customer_name,
           // "customer_code": data.custumerinvoice[i].customer?.customer_code,
@@ -417,10 +663,10 @@ export class CreateTripComponent implements OnInit {
           // "destination_name": data.custumerinvoice[i].destination?.destination_name,
           // "destination_geocoord": data.custumerinvoice[i].destination?.destination_geocoord,
           // "destination_code": data.custumerinvoice[i].destination?.destination_code,
-          "invoice_date": data.custumerinvoice[i].invoiceDate,
-          "invoice_no": data.custumerinvoice[i].invoiceNo,
-          "eta": data.custumerinvoice[i]?.eta,
-          "INVOICE": temp_data,
+          // "invoice_date": data.custumerinvoice[i].invoiceDate,
+          // "invoice_no": data.custumerinvoice[i].invoiceNo,
+          // "eta": data.custumerinvoice[i]?.eta,
+          // "PRODUCT": temp_data,
         }
         demoarray.push(temp_array)
       }
@@ -433,7 +679,7 @@ export class CreateTripComponent implements OnInit {
     this.tripDetailsF(form?.value,form)
     console.log(this.nextTabflag,"open tab",form.value);
     
-    if(this.nextTabflag)
+    if(!this.nextTabflag)
     {
      this.helpingTab(id) 
     } 
@@ -453,7 +699,7 @@ export class CreateTripComponent implements OnInit {
       if (selectedTab) {
         selectedTab.classList.add('show','active');
       }
-    }, 500); // 1000 milliseconds = 1 second
+    }, 300); // 1000 milliseconds = 1 second
 
     const allButtons = document.querySelectorAll('.nav-link');
     allButtons.forEach(button => {
@@ -581,8 +827,12 @@ export class CreateTripComponent implements OnInit {
       this.tripBoxF=false;
     }
   }
-  addexpenseF(value: any)
+  addexpenseF(form: any)
    {
+    if(form.valid){
+    let value=form?.value
+    console.log(form);
+    
     let audit:any
     if(value.type==true)
       {
@@ -593,15 +843,20 @@ export class CreateTripComponent implements OnInit {
       }
   
     let data = {
-      'date': value.expenseTime,
+      'date': value.expenseTime?.replace('T'," "),
       'expense_type_id': value.expensetype.id,
       'expense_type_name': value.expensetype.name,
-      'amountType': value.expensevalue,
+      'amount': value.expensevalue,
       'remark': value.remarks,
       'credit': audit
     }
     this.expensearray.push(data)
     console.log("addexpenseF", this.expensearray);
+    form.reset()
+  }
+  else{
+    form.control.markAllAsTouched();
+  }
   }
   expenseList() {
     var formdataCustomer = new FormData()
@@ -631,6 +886,10 @@ export class CreateTripComponent implements OnInit {
 
     })
   }
+
+
+
+
   tripDetailsF(value, form: NgForm)
    {
     this.nextTabflag = false;
@@ -797,40 +1056,118 @@ export class CreateTripComponent implements OnInit {
     }
      console.log("rr", this.uploadeway) 
   }
-    
-  imeiListF(e)
+   
+  
+  async vehicleData(e)
   { this.s_name=''
    this.p_name=''
    this.t_name=''
     this.extraImei=[];
     console.log("imeiListF", e);
+   
+    if (e) {
+      this.ImeiListCall(e);
+  
+      try {
+        const res = await this.DocListCall(e?.vehicle_number, 'vehicle');
+        const filteredDocuments=res?.DocumentList||[]
+        console.log(filteredDocuments,"filterdoc");
+        
+        const validDocTypeIds = new Set(['5', '6', '7', '13', '10']);
+        this.vehicleDoc = filteredDocuments.filter((doc: any) => validDocTypeIds.has(String(doc.doc_type_id)));
+      } catch (error) {
+        console.error('Error fetching or filtering documents:', error);
+      }
+    } else {
+      console.log('Trip: vehicle event empty');
+    }
+  }
+  ImeiListCall(e){
     var formdataCustomer = new FormData()
     formdataCustomer.append('AccessToken', this.token)
-    formdataCustomer.append('VehicleID',e.vehicle_id);
-    // formdataCustomer.append('UserType', 'master');
-    // formdataCustomer.append('DataFilter', js);
-
-
-    this.service.ImeiLIstS(formdataCustomer).subscribe((res: any) => {
-      console.log("imeiListF", res);
-      this.extraImei=res
-      if(this.extraImei.IMEI_1_data!="")
-      {
-        this.p_name=res?.IMEI_1_data?.device_type_name
-      }
-      if(this.extraImei?.IMEI_2_data!="")
-      {
-        this.s_name=res?.IMEI_2_data?.device_type_name
-      }
-      if(this.extraImei?.IMEI_3_data!="")
-      {
-        this.t_name=res?.IMEI_3_data?.device_type_name
-      }
-      
-      // console.log("customerList", this.routeId);
-
-    })
+    formdataCustomer.append('VehicleID',e?.vehicle_id);
+this.service.ImeiLIstS(formdataCustomer).subscribe((res: any) => {
+  // console.log("imeiListF", res);
+  this.extraImei={...res}
+  console.log("extraimei", this.extraImei)
+  if(this.extraImei.IMEI_1_data!="")
+  {
+    this.p_name=res?.IMEI_1_data?.device_type_name
   }
+  if(this.extraImei?.IMEI_2_data!="")
+  {
+    this.s_name=res?.IMEI_2_data?.device_type_name
+  }
+  if(this.extraImei?.IMEI_3_data!="")
+  {
+    this.t_name=res?.IMEI_3_data?.device_type_name
+  }
+  
+  // console.log("customerList", this.routeId);
+
+})
+  }
+  DocListCall(e: string, type: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append("AccessToken", this.token);
+      formData.append("Type", type);
+      formData.append("Number", e);
+      console.log(formData);
+      
+      this.service.qDocVehicleDriver(formData).subscribe(
+        (res: any) => {
+          console.log("createTrip:docList", res);
+          resolve(res);
+        },
+        (error: any) => {
+          console.error('Error fetching document list:', error);
+          reject(error);
+        }
+      );
+    });
+  }
+ async onMobileNumberChange(value: number) {
+    const mobileNumber = value?.toString();
+    if (mobileNumber && mobileNumber?.length === 10 && !this.hasCalledDriverApi) {
+      console.log(value);
+      this.hasCalledDriverApi=true
+      try {
+        const res = await this.DocListCall(mobileNumber, 'driver');
+        console.log(res);
+        
+        if(res?.Status==='success')
+        {
+          const filteredDocuments=res?.DocumentList||[]
+           this.driverName=filteredDocuments[0]?.DriverName
+           this.driverId=filteredDocuments[0]?.DriverId
+           this.disableDriverText=true
+          console.log(filteredDocuments,"filterdoc");
+          
+          const validDocTypeIds = new Set(['3', '1', '2', '15', '14']);
+          this.driverDoc = filteredDocuments.filter((doc: any) => validDocTypeIds.has(String(doc.doc_type_id)));
+          console.log(this.driverDoc,"filter driver document");
+          this.driverDocMessage=''
+        }
+        else if(res?.Status=='failed'){
+           this.driverDocMessage=res?.Message
+           this.disableDriverText=false
+        }
+        
+      } catch (error) {
+        console.error('Error fetching or filtering documents:', error);
+      }
+    //  console.log(docs);   
+    }
+    else if(mobileNumber?.length!==10){
+      this.driverDocMessage=''
+      this.hasCalledDriverApi=false
+      this.disableDriverText=false
+      this.driverName=''
+       this.driverDoc=[]
+    }
+  }
+
   cancelTrip()
   {
     if (confirm("Do you want to proceed?")) {
@@ -849,21 +1186,27 @@ export class CreateTripComponent implements OnInit {
   console.log(tripForm,"==",tripForm.value);
   
    this.tripDetailsF(tripForm.value,tripForm)
-   this.submitForm(customerForm)
-   const docData=this.qDocumentDetailsF()
-   console.log(docData);
-   this.addexpenseF(expenseForm)
-   console.log("files",this.uploadfiledsk)
+
 
    ////////////////////////////////////////////////////////////////////////////////////
    console.log(this.tripdetailsArray?.commodity,"create trip commodity");
+   
 
        if(tripForm.valid)
 {
+  if(confirm("Are you sure you want to create this trip?"))
+  {
+  this.submitForm(customerForm)
+  const docData=this.qDocumentDetailsF()
+  console.log(docData);
+  console.log("files",this.uploadfiledsk)
    ////////////////////////////////////////////////////////////////////////////////////
     if(this.tripdetailsArray?.commodity?.id)
        this.commodityListListselected.push(this.tripdetailsArray?.commodity);
-
+    
+      console.log(tripForm.value,"tripform")
+      
+      
       console.log(this.commodityListListselected,"create trip commodity");
       
    console.log("invoicedataF",  this.invoicearraydata)
@@ -871,20 +1214,27 @@ export class CreateTripComponent implements OnInit {
    console.log("selectboc", this.commodityListListselected);
    let tripdetails = {
      "TRIP": {
-       "trip_id": this.tripdetailsArray?.tripId,
+       "challan_number": this.tripdetailsArray?.challan_number,
        "vehicle_id": this.tripdetailsArray?.Vname?.vehicle_id,
 
 
        "vehicle_no": this.tripdetailsArray?.Vname?.vehicle_number,
-       "portable_imei": this.tripdetailsArray?.Imei?.device_imei,
-       "imei_no_type3":this.tripdetailsArray?.Imei?.device_type,
-       "driver_name": this.tripdetailsArray.Driver1Name,
+       "portable_imei": this.tripdetailsArray?.Imei?.device_imei||'',
+       "imei_no_type3":this.tripdetailsArray?.Imei?.device_type||'',
+       "driver_name": this.tripdetailsArray.Driver1Name||this.driverName,
        "driver_mobile": this.tripdetailsArray.Driver1Mobno,
-
+       "driver_name2":this.tripdetailsArray.Driver2Name||'',
+       "driver_mobile2":this.tripdetailsArray.Driver2Mobno||'',
        "route_id": this.tripdetailsArray.route_name,
        "remarks": this.tripdetailsArray.remarks,
-       "run_date": this.tripdetailsArray.runDate,
+       "run_date": this.tripdetailsArray.runDate?.replace('T'," "),
        "opening_odometer_reading": this.tripdetailsArray.odometer,
+       "sync_device_time":this.extraImei?.IMEI_1_data?.DeviceLastDateTime||'',
+       "sync_device_status":this.extraImei?.IMEI_1_data?.GPSStatus||'',
+       "sync_device_time2":this.extraImei?.IMEI_2_data?.DeviceLastDateTime||'',
+       "sync_device_status2":this.extraImei?.IMEI_2_data?.GPSStatus||'',
+       "sync_device_time3":this.tripdetailsArray?.Imei?.DeviceLastDateTime||"",
+       "sync_device_status3":this.tripdetailsArray?.Imei?.GPSStatus||"",
        "scheduled_in_transit_time": this.tripdetailsArray.transit_Time,
        // "commodity":this.tripdetailsArray.remarks,
        "CUSTOMER":  this.invoicearraydata,
@@ -915,16 +1265,26 @@ export class CreateTripComponent implements OnInit {
    formdataCustomer.append('Trip_Expense',JSON.stringify(this.expensearray));
 
    console.log(formdataCustomer);
-  
+   
 
    this.service.createTripS(formdataCustomer).subscribe((res: any) => {
      console.log("tripcreationres",res);
-     alert(res?.status )
-    
-
-
+     if(res?.status==='success')
+     {
+      alert(res?.Message)
+      this.router.navigate(['/ILgic/Trip']);
+     }
+     else
+     alert(res?.Message )
 
    })
+  }
+  else{
+    console.log("trip cancel");
+    
+  }
+ }else{
+  alert('Fill all the trip details')
  }
 
  }
@@ -935,10 +1295,10 @@ export class CreateTripComponent implements OnInit {
 
     this.qDocuments.forEach((doc, index) => {
       docData.push({
-        DocTypeId: doc.type?.id,
-        DocNo: doc?.number,
-        IssueDate: doc?.issueDate,
-        ExpiryDate: doc?.expiryDate,
+        DocTypeId: doc.type?.id||'',
+        DocNo: doc?.number||'',
+        IssueDate: doc?.issueDate||'',
+        ExpiryDate: doc?.expiryDate||'',
         Remarks: doc?.remarks,
         Trip_docs:doc?.file||''
       });
@@ -997,4 +1357,208 @@ export class CreateTripComponent implements OnInit {
     this.selectedPort=event
     console.log('Selected item:', this.selectedPort);
   }
+
+
+  openDriverVehicleModal(type)
+  {
+    if(type==='vehicle')
+    this.setVehicleDocuments(this.vehicleDoc);
+    else
+     this.setDriverDocuments(this.driverDoc)
+  }
+  createDocumentFormGroup(doc: any = {}): FormGroup {
+    return this.formBuilder.group({
+      is_doc: [doc?.is_doc || ''],
+      previewUrl:[doc?.file_path||''],
+      DocId:[doc?.DocId||''],
+      doc_type_id: [doc?.doc_type_id || ''],
+      doc_name: [doc?.doc_name || ''],
+      doc_no: [doc?.doc_no || ''],
+      issue_date: [doc?.issue_date || ''],
+      expiry_date: [doc?.expiry_date || ''],
+      remarks: [doc?.remarks || ''],
+      file_path: [doc?.file_path || '']
+    });
+  }
+  setVehicleDocuments(vehicleDoc: any[]): void {
+    const documentFormGroups = vehicleDoc.map(doc => this.createDocumentFormGroup(doc));
+    const documentFormArray = this.formBuilder.array(documentFormGroups);
+    this.vehicleDocForm.setControl('documents', documentFormArray);
+  }
+  get documents(): FormArray {
+    return this.vehicleDocForm.get('documents') as FormArray;
+  }
+  setDriverDocuments(driverDoc: any[]): void {
+    const documentFormGroups = driverDoc.map(doc => this.createDocumentFormGroup(doc));
+    const documentFormArray = this.formBuilder.array(documentFormGroups);
+    this.driverDocForm.setControl('driverDocuments', documentFormArray);
+  }
+  get driverDocuments():FormArray{
+    return this.driverDocForm.get('driverDocuments') as FormArray
+  }
+
+  onFileSelected(event: any, index: number,type:string): void {
+    const file = event.target.files[0];
+    let control:FormGroup
+    if(type==='vehicle')
+     control = this.documents.at(index) as FormGroup;
+    else
+     control=this.driverDocuments.at(index) as FormGroup
+    // control.patchValue({ file_path: file });
+    if (file) {
+      control.patchValue({ file_path: file });  // Store the file object
+  
+      const reader = new FileReader();
+      reader.onload = () => {
+        control.patchValue({ previewUrl: reader.result });  // Store the preview URL
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  uploadDocuments(id,type): void {
+  
+    if(type==='vehicle')
+    {
+    if (this.vehicleDocForm.invalid) {
+      this.vehicleDocForm.markAllAsTouched();
+      return;
+    }
+  }
+   else{
+    console.log('driver');
+    
+    if (this.driverDocForm.invalid) {
+      this.driverDocForm.markAllAsTouched();
+      return;
+    }
+   }
+    this.SpinnerService.show("modalSpinner")
+
+   let documents:FormArray
+   if(type==='vehicle')
+    documents = this.documents
+   else
+   documents=this.driverDocuments
+
+   console.log(documents);
+   this.pendingDocument=documents.controls.length
+
+    documents.controls.forEach((control, index) => {
+      const formData = new FormData();
+      if(control.value.file_path)
+      {
+        formData.append('AccessToken', this.token);
+        formData.append('GroupId', this.GroupId);
+
+        
+        if(type=='vehicle')
+        {
+          formData.append('Category', 'vehicle');
+          formData.append('VehicleId', id?.vehicle_id);
+        }
+       else
+       {
+        formData.append('Category', 'driver');
+         formData.append('DriverId', this.driverId);
+       }
+        formData.append(`DocumentTypeName`, control.value.doc_name);
+        formData.append(`DocumentFile`, control.value.file_path);
+        formData.append(`DocumentNo`, control.value.doc_no);
+        formData.append(`DocumentTypeId`, control.value.doc_type_id);
+        formData.append(`IssueDate`, control.value.issue_date);
+        formData.append(`ExpiryDate`, control.value.expiry_date);
+        formData.append(`Remark`, control.value.remarks||'');
+        // console.log('Form Data:', formData);
+        if(control.value.DocId)
+        {
+          formData.append(`DocumentId`, control.value.DocId);
+          this.editDocumentCall(formData)
+        }
+        else{
+          this.addDocumentCall(formData)
+        }
+      }
+      else{
+        this.onCompleteDocumentIndicator()
+      }
+
+      if(this.pendingDocument==0)
+        {
+          console.log("pending docs");
+          
+          if(type==='vehicle')
+          {
+             const modal = bootstrap.Modal.getInstance(document.getElementById('vehcileDocModal'));
+        modal.hide();
+          }
+          else{
+            const modal = bootstrap.Modal.getInstance(document.getElementById('driverDocModal'));
+            modal.hide();
+          }
+        }
+    
+    });    
+   
+  }
+  onCompleteDocumentIndicator = () => {
+    this.pendingDocument--;
+    if (this.pendingDocument=== 0) {
+      // this.loading = false;
+      this.SpinnerService.hide("modalSpinner")
+        alert('document details updated successfully');
+       
+    }
+  };
+  addDocumentCall(formData){
+    console.log(formData);
+    
+    this.service.uploadNewDriverDocument(formData).subscribe(
+      response => {
+        console.log('Document added successfully', response);
+        this.onCompleteDocumentIndicator()
+      },
+      error => {
+        console.error('Error adding document:', error);
+        alert(error)
+        this.onCompleteDocumentIndicator()
+      }
+    );
+   
+  }
+  editDocumentCall(formData){
+    console.log(formData);
+    this.service.uploadEditDriverDocument(formData).subscribe(
+      response => {
+        console.log('Document edited successfully', response);
+        this.onCompleteDocumentIndicator()
+      },
+      error => {
+        console.error('Error editing document:', error);
+        alert(error)
+        this.onCompleteDocumentIndicator()
+      }
+    );
+    
+  }
+
+
+ 
+
+
+
+
+
+
+  //   fileRequiredValidator(control: AbstractControl): ValidationErrors | null {
+  //   const file = control.get('file_path')?.value;
+  //   const docNo = control.get('doc_no')?.value;
+  //   const issueDate = control.get('issue_date')?.value;
+  //   const expiryDate = control.get('expiry_date')?.value;
+  
+  //   if (file && (!docNo || !issueDate || !expiryDate)) {
+  //     return { fileRequired: true };
+  //   }
+  
+  //   return null;
+  // }
 }

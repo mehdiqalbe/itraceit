@@ -28,7 +28,11 @@ const routes: Routes = [
   { path: '', component: ErrorStyleComponent, children: error_content },
   { path: '', component: ContentStyleComponent, children: custom_content },
   { path: '**', redirectTo: '' },
- { path: '', loadChildren: 'reports/reports.module#ReportsModule' }
+ { path: '', loadChildren: 'reports/reports.module#ReportsModule' },
+ 
+ { path: 'cv', loadChildren: () => import('./cv/cv.module').then(m => m.CVModule) },
+  { path: '', redirectTo: 'cv', pathMatch: 'full' },
+  { path: '**', redirectTo: 'cv' }
 ];
 
 @NgModule({
