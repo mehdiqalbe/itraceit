@@ -901,3 +901,126 @@ canvas{
 // .ng-select .ng-select-container {
 //     min-height: 21px !important;
 // }
+
+// --------------------Summary Style------------------------------------------------------------------
+.summary-destination-tooltip-class .tooltip-inner{
+    // width: 400px;
+    //  background-color: blue;
+    width: 150px;
+    // background-color: blue;
+    // background-color: blue;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .summary-source-tooltip-class .tooltip-inner{
+    // width: 400px;
+    //  background-color: blue;
+    padding: 0px;
+    background: #068be97a;
+    border: 1px solid blue;
+  }
+  .summary-Running-tooltip-class .tooltip-inner{
+    // width: 400px;
+    //  background-color: blue;
+    padding: 0px;
+    background: #068be97a;
+    border: 1px solid blue;
+  }
+  .summary-dfg-tooltip-class .tooltip-inner{
+    // width: 400px;
+    //  background-color: blue;
+    padding: 0px;
+    background: #068be97a;
+    border: 1px solid blue;
+  }
+  .summary-force-tooltip-class .tooltip-inner{
+    // width: 400px;
+    //  background-color: blue;
+    padding: 0px;
+    background: #3e113db8;
+    border: 1px solid brown;
+  }
+  .summary-unauthorized-tooltip-class .tooltip-inner{
+    width: 160px;
+    //  background-color: blue;
+    padding: 0px;
+    // background: orange;
+    // border: 1px solid orangered;
+  }
+  .summary-route-tooltip-class .tooltip-inner{
+    // width: 400px;
+    //  background-color: blue;
+    padding: 0px;
+    background: #f4c707d4;
+    border: 1px solid #e9a615;
+  }
+  .summary-red-tooltip-class .tooltip-inner{
+    // width: 400px;
+    //  background-color: blue;
+    padding: 0px;
+    background: var(--bs-red);
+    border: 1px solid red;
+  
+  }
+ng-select{
+    // border: 1px solid blue;
+    height: 30px !important;
+}
+.ng-select .ng-select-container {
+    min-height: 32px !important;
+}
+.ng-select.ng-select-single .ng-select-container {
+    height: 32px !important;
+}
+/* Ensure custom styles override Ag-Grid's default styles */
+.ag-header-cell-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Custom Style for Parent Header */
+  .custom-parent-header {
+    background-color:#6c757de0 !important; /* Blue background */
+    color: white !important;             /* White text */
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Custom Style for Child Headers */
+  .custom-child-header {
+    background-color: #f8f9fa !important; /* Light gray background */
+    color: #343a40 !important;           /* Dark gray text */
+    font-weight: normal;
+    text-align: center;
+  }
+  .custom-child-header {
+    background-color: #f5f5f5;  /* Light background color */
+    text-align: center;  /* Centers the content in the header */
+    padding: 10px;  /* Add some padding */
+  }
+  .multi-line-header {
+    white-space: pre-wrap; /* Allows wrapping of text */
+    text-align: center; /* Optional: Center align the text */
+    line-height: 1.2; /* Adjust line spacing as needed */
+  }
+  .icon-header .ag-header-cell-label::before {
+    content: '\f200' !important; /* Font Awesome icon code for a car */
+    font-family: 'FontAwesome'!important; /* Ensure FontAwesome is loaded */
+    margin-right: 8px !important; /* Space between icon and text */
+    color: brown;
+  }
+  .ag-row-pinned {
+    // background-color: #f0f8ff !important; /* Light blue color */
+    background-color: #80808014 !important;
+    color: #333; /* Text color */
+    font-weight: bold;
+  }
+  .ag-row-pinned .ag-cell {
+    border-top: 2px solid #ccc; /* Optional border for differentiation */
+  }
+  .ag-ltr .ag-cell {
+    border-right-width: 1px;
+    text-align: center;
+}

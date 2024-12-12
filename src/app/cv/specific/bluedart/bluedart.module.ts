@@ -28,12 +28,14 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.component';
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
+import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     IrunDashboardComponent,
-    DelayDashboardComponent
+    DelayDashboardComponent,
+    SummaryDashboardComponent
   ],
   imports: [
     CommonModule,

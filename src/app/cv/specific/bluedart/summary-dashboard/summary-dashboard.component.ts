@@ -21,7 +21,6 @@ import * as echarts from 'echarts';
 import { NavService } from 'src/app/shared/services/nav.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { DtdcService } from '../services/dtdc.service';
 declare var H: any;
 declare var $: any;
 declare const agGrid: any;
@@ -108,10 +107,11 @@ export class SummaryDashboardComponent implements OnInit {
     'chocolate', 
     'olive'
   ];
+  Footer_data: any=[];
   footerData: any=[];
   Filter_flag: boolean=false;
   
-  constructor(private navServices: NavService,private dtdcService:DtdcService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     this.token=localStorage.getItem('AccessToken')!;
@@ -692,35 +692,73 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       headerClass: 'custom-parent-header', // Custom class for parent header
       children: [
         {
-          headerName: 'Total',  // Text of the header
-          field: 'Total',
+          headerName: 'Total Vehicle no',  // Text of the header
+          field: 'TotalVehicleno',
           sortable: true,
           aggFunc: 'sum' ,
           filter: this.Filter_flag,
           // headerClass: 'multi-line-header',
-          headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          with:25,
+          headerClass: 'icon-header',
+          // cellRenderer: (params) => {
+          //   // Create a clickable div or span element
+          //   const span = document.createElement('span');
+          //   span.innerText = params.value;
+          //   span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
+        
+          //   // Add click event listener
+          //   // span.addEventListener('click', () => {
+          //   //   var Region=params.data.Region;
+          //   //   console.log(this.new_array.Data,0)
+          //   //  var temp_data= this.new_array.Data[0].trips;
+          //   //  console.log("temp_data",temp_data)
+          //   //   const completedTrips = temp_data[Region].filter(item => item.TotalTrip=== 1);
+          //   //   this.rowData_popup=completedTrips;
+          //   //   if(this.rowData_popup){
+          //   //     this.Detail();
+          //   //   }else{
+          //   //     alert("Data not found")
+          //   //   }
+          //   // });
+          //   span.addEventListener('click', () => {
+          //     var Region=params.data.Region;
+          //    var temp_data= this.new_array.Data[0].trips;
+          //    console.log(temp_data)
+          //     const completedTrips = temp_data[Region].filter(item => item.TotalTrip=== 1);
+          //     this.rowData_popup=completedTrips;
+          //     console.log(completedTrips)
+          //     if(this.rowData_popup){
+          //       this.Detail();
+          //     }else{
+          //       alert("Data not found")
+          //     }
+          //   });
+          //   return span;
+          // }
           cellRenderer: (params) => {
-            // Create a clickable div or span element
+            // Create a clickable div or span element for cell content
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            span.addEventListener('click', () => {
-              var Region=params.data.Region;
-             var temp_data= this.new_array.Data[0].trips;
-             console.log("temp_data",temp_data)
-              const completedTrips = temp_data[Region]
-              // .filter(item => item.TotalTrip=== 1);
-              this.rowData_popup=completedTrips;
-              if(this.rowData_popup){
+      
+            // Add click event listener for custom logic
+            span.addEventListener('click', (event) => {
+              // Prevent the event from bubbling up to the header and triggering sorting
+              event.stopPropagation();
+              event.stopPropagation();
+              // Handle the custom click logic here
+              var Region = params.data.Region;
+              var temp_data = this.new_array.Data[0].trips;
+              const completedTrips = temp_data[Region].filter(item => item.TotalTrip === 1);
+              this.rowData_popup = completedTrips;
+              if (this.rowData_popup) {
                 this.Detail();
-              }else{
-                alert("Data not found")
+              } else {
+                alert("Data not found");
               }
             });
-        
+      
             return span;
           }
  // Use the custom header component
@@ -729,7 +767,9 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "Schedule",
           field: "Schedule",
           sortable: true,
-          filter: this.Filter_flag,aggFunc: 'sum' ,
+          filter: this.Filter_flag,
+          
+          // aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
           cellRenderer: (params) => {
@@ -738,11 +778,13 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RunningOnTime=== 1);
               this.rowData_popup=completedTrips;
+              console.log(completedTrips)
               if(this.rowData_popup){
                 this.Detail();
               }else{
@@ -789,7 +831,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         
 
 
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.CompletedTrip=== 1);
@@ -837,7 +880,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.DnaTrip=== 1);
@@ -874,7 +918,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               // alert(`You clicked on ${params.value}`);
               // console.log("params",params.data);
               this.new_array.Data[0].wrong_vehicle_data;
@@ -912,7 +957,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               // alert(`You clicked on ${params.value}`);
               console.log("params",params.data);
               this.new_array.Data[0].active;
@@ -950,7 +996,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               // alert(`You clicked on ${params.value}`);
               console.log("params",params.data);
               this.new_array.Data[0].inactive;
@@ -989,7 +1036,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click', () => {
+            span.addEventListener('click',(event) => {
+              event.stopPropagation();
               // alert(`You clicked on ${params.value}`);
               console.log("params",params.data);
               this.new_array.Data[0].nogps;
@@ -1028,8 +1076,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
-          headerClass: 'icon-header',
           // headerClass: 'clickable-header', // Ensure the class is applied to this header
+          headerClass: 'icon-header',
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1056,7 +1104,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.WrongVehicle=== 1);
@@ -1078,10 +1127,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "Route NA",
           field: "RouteNA",
           sortable: true,aggFunc: 'sum' ,
-          filter: this.Filter_flag,  
-          headerClass: 'icon-header',
-          // headerClass: 'clickable-header', // Ensure the class is applied to this header
+          filter: this.Filter_flag,
+            // headerClass: 'clickable-header', // Ensure the class is applied to this header
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1108,7 +1157,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click',(event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.WrongRoute=== 1);
@@ -1129,8 +1179,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           sortable: true,aggFunc: 'sum' ,
           filter: this.Filter_flag,
             // headerClass: 'clickable-header', // Ensure the class is applied to this header
-            headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1157,7 +1207,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.WrongFleet=== 1);
@@ -1212,7 +1263,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.OTD=== 1);
@@ -1231,8 +1283,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "Delayed Departure",
           field: "DelayedDeparture",
           sortable: true,
-          filter: this.Filter_flag,aggFunc: 'sum' ,
           headerClass: 'icon-header',
+          filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           // headerClass: 'custom-child-header'
           cellRenderer: (params) => {
@@ -1241,7 +1293,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.DelayedDeparture=== 1);
@@ -1260,8 +1313,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "ATDNA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
           // headerClass: 'custom-child-header' atdnTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1289,7 +1342,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.ATAN=== 1);
@@ -1339,7 +1393,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.DINA=== 1);
@@ -1358,8 +1413,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "RuningonTime",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          floatingFilter: this.floating_filter,
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1386,7 +1441,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RunningOnTime=== 1);
@@ -1406,8 +1462,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "RuningLate",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          floatingFilter: this.floating_filter,
           // headerClass: 'custom-child-header'
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1435,7 +1491,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RuningLate=== 1);
@@ -1454,8 +1511,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "RuningDNA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
           // headerClass: 'custom-child-header' runningDnaTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1483,7 +1540,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RunningDna=== 1);
@@ -1502,8 +1560,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "OTA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1530,7 +1588,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.OTA=== 1);
@@ -1549,9 +1608,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "ATA Delayed",
           field: "ATADelayed",
           sortable: true,
-          filter: this.Filter_flag,aggFunc: 'sum' ,
-          headerClass: 'icon-header',
+          filter: this.Filter_flag,
+          // aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
           // headerClass: 'custom-child-header' ata_delayedTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1579,7 +1639,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click',(event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.ATADelayed=== 1);
@@ -1606,7 +1667,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "AINA",
           field: "AINA",
           sortable: true,
-          filter: true,aggFunc: 'sum' ,
+          filter: this.Filter_flag,
+          // aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
           // headerClass: 'custom-child-header' ainaTrips
@@ -1636,7 +1698,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
              
             // });
-            span.addEventListener('click', () => {
+            span.addEventListener('click',(event) => {
+              event.stopPropagation();
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.AINA=== 1);
@@ -1657,7 +1720,35 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       this.rowData = this.new_array.Summary.map((person, index) => ({
         sl: index + 1, // Optional: Add row index
         Region: person.Region, // For parent-level columns
-        Total: person.TotalTrip,   // For child columns under "Trip Status"
+        TotalVehicleno: person.TotalTrip,   // For child columns under "Trip Status"
+        Schedule: person.RunningTrip,
+        Complete: person.CompletedTrip,
+        DNA: person.DnaTrip,
+        // Region: person.Region, // For parent-level columns
+        VehicleCount: person.VehicleCount, // For child columns under "GPS Status"
+        GPSActive: person.GPSActive,
+        GPSInactive: person.GPSInactive,
+        GPSNA: person.GPSNA,
+        VehicleNA: person.WrongVehicle, // For child columns under "Trip Creation Exception"
+        RouteNA: person.WrongRoute,
+        FleetNA: person.WrongFleet,
+        OTD: person.OTD, // For child columns under "OTD/OTA Status"
+        DelayedDeparture: person.DelayedDeparture,
+        ATDNA: person.ATAN,
+        DINA: person.DINA,
+        RuningonTime: person.RunningOnTime,
+        RuningLate: person.RunningLate,
+        RuningDNA: person.RunningDna,
+        OTA: person.OTA,
+        ATADelayed: person.ATADelayed,
+        ATANA: person.ATANA,
+        AINA: person.AINA,
+      }));
+
+      this.footerData = this.new_array.Total.map((person, index) => ({
+        sl: index + 1, // Optional: Add row index
+        Region: person.Region, // For parent-level columns
+        TotalVehicleno: person.TotalTrip,   // For child columns under "Trip Status"
         Schedule: person.RunningTrip,
         Complete: person.CompletedTrip,
         DNA: person.DnaTrip,
@@ -1682,33 +1773,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         AINA: person.AINA,
       }));
   
-      this.footerData = this.new_array.Total.map((person, index) => ({
-        sl: index + 1, // Optional: Add row index
-        Region: person.Region, // For parent-level columns
-        Total: person.TotalTrip,   // For child columns under "Trip Status"
-        Schedule: person.RunningTrip,
-        Complete: person.CompletedTrip,
-        DNA: person.DnaTrip,
-        // Region: person.Region, // For parent-level columns
-        VehicleCount: person.VehicleCount, // For child columns under "GPS Status"
-        GPSActive: person.GPSActive,
-        GPSInactive: person.GPSInactive,
-        GPSNA: person.GPSNA,
-        VehicleNA: person.WrongVehicle, // For child columns under "Trip Creation Exception"
-        RouteNA: person.WrongRoute,
-        FleetNA: person.WrongFleet,
-        OTD: person.OTD, // For child columns under "OTD/OTA Status"
-        DelayedDeparture: person.DelayedDeparture,
-        ATDNA: person.ATAN,
-        DINA: person.DINA,
-        RuningonTime: person.RunningOnTime,
-        RuningLate: person.RunningLate,
-        RuningDNA: person.RunningDna,
-        OTA: person.OTA,
-        ATADelayed: person.ATADelayed,
-        ATANA: person.ATANA,
-        AINA: person.AINA,
-      }));
   this.gridOptions = {
   domLayout: 'autoHeight',
   rowHeight: 30,
@@ -1726,14 +1790,18 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     this.gridOptions.columnApi = params.columnApi;
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     const gridContainer = document.querySelector('.ag-root-wrapper');
+    // const gridContainer   = document.querySelector('.icon-header');
 if (gridContainer) {
   gridContainer.addEventListener('click', (event:any) => {
+    // ('click', (event) => {
+      event.stopPropagation();
+      event.stopPropagation();
     const headerElement = event.target.closest('.ag-header-cell');
     if (headerElement) {
       const columnField = headerElement.innerText.trim();
       // console.log(columnField);
       var k = columnField.replace(/\s+/g, '');
-
+      //  console.log("k",k)
       this.getColumnDataByField(k);
     }
   });
@@ -1755,7 +1823,9 @@ getColumnDataByField(columnField: string) {
    console.log(this.gridOptions.api)
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
     const rowNode = this.gridOptions.api.getDisplayedRowAtIndex(rowIndex);
+    console.log('rowNode',rowNode)
     const rowData = rowNode.data;
+    // console.log("columnField",columnField)
     if (rowData[columnField] !== undefined) {
       allData.push(rowData[columnField]);
     }
@@ -1926,29 +1996,21 @@ onGridReady(params: any) {
  
   this.gridApi = params.api;
 }
- 
 
 
-
-
-
-
-
-
-
-  // onSearch(term: any) {
-  //   console.log(term)
-  //   const formdataCustomer = new FormData();
-  //   formdataCustomer.append('AccessToken', this.token);
-  //   formdataCustomer.append('searchQuery',term.term);
-  //   // formdataCustomer.append('route_id', route_id);
+  onSearch(term: any) {
+    console.log(term)
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+    formdataCustomer.append('searchQuery',term.term);
+    // formdataCustomer.append('route_id', route_id);
   
-  //   this.CrudService.getBdVehicle(formdataCustomer).subscribe((res: any) => {
-  //     console.log(res)
-  //     this.dataList = res.Data;
-  //   })
-  //   // this.searchInput.next(term); // Emit the input value
-  // }
+    this.CrudService.getBdVehicle(formdataCustomer).subscribe((res: any) => {
+      console.log(res)
+      this.dataList = res.Data;
+    })
+    // this.searchInput.next(term); // Emit the input value
+  }
 //  onGridReady(params: any) {
 //   this.gridApi = params.api;
  
@@ -1975,11 +2037,11 @@ dtdcTripReportFilter(){
   var formdata=new FormData()
   formdata.append('AccessToken',this.token)
   
-  this.dtdcService.dtdcSummaryFilter(formdata).subscribe((data:any) => {
-    console.log(data)
+  this.CrudService.bdSummaryFilter(formdata).subscribe((data:any) => {
+    // console.log(data)
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
-      console.log(data.Filter)
+      // console.log(data.Filter)
     }else{
       alert("Data not found ")
     }
@@ -1989,7 +2051,7 @@ dtdcTripReportFilter(){
 triggerHstSubmit(eve){
   this.submit=true;
 
-  console.log(eve.value.TripId)
+  // console.log(eve.value.TripId)
   if(eve.form.status=='VALID'){
     this.SpinnerService.show()
   var formdata=new FormData()
@@ -1999,6 +2061,10 @@ triggerHstSubmit(eve){
   // formdata.append('DateTo', $("#datepicker1").val())
   var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
   var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
+  //  formdata.append('DateFrom','2024-12-05')
+  //  formdata.append('DateTo', '2024-12-05')
+  // var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
+  // var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
    formdata.append('DateFrom',starteDate)
    formdata.append('DateTo', endDate)
   // formdata.append('ReportType',eve.value.ReportType);
@@ -2021,14 +2087,15 @@ triggerHstSubmit(eve){
    
     // formdata.append('ETADelay',eve.Delay)
   }
-  formdata.forEach((value, key) => {
-    console.log("formdata",key, value);
-  });
-  this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
+  // formdata.forEach((value, key) => {
+  //   console.log("formdata",key, value);
+  // });
+  this.CrudService.bdSummary(formdata).subscribe((data:any) => {
     this.submit=false;
-    console.log(data)
+    // console.log(data)
     if(data.Status=="success"){
       this.new_array=data.Report;
+      this.Footer_data=data.Summary;
       console.log(this.new_array)
       if(this.new_array.Summary){
       this.Grid_table();}else{
@@ -2063,7 +2130,8 @@ First_call(){
   formdata.forEach((value, key) => {
     console.log("formdata",key, value);
   });
-  this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
+  this.CrudService.bdSummary(formdata).subscribe((data:any) => {
+
     this.submit=false;
     console.log(data)
     if(data.Status=="success"){
@@ -2075,7 +2143,7 @@ First_call(){
       }
       this.SpinnerService.hide();
     }else{
-      alert("Data not found ")
+      alert(data.Message)
     }
     // console.log(data)
   })
@@ -3013,5 +3081,3 @@ initializeMap(): Promise<void> {
 }
 
 }
-
-
