@@ -79,9 +79,11 @@ export class LoginPageComponent implements OnInit {
   access_token(){
     var token=this.router.url;
   //  var k= token.split('?exttkn='); 
+  console.log("Qalbe");
+  
   var k= token?.split('?exttkn=')[1]?.split('&forGroup=')[0];
-  this.path= this.router.url.split('$')[1];
-  console.log("path",k)
+  this.path= this.router.url?.split('$')[1]||'';
+  console.log("pathk",k)
    if(k!==undefined){
     var acc=k;
     if(acc==undefined){
