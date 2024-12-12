@@ -2018,7 +2018,17 @@ bdSummary(data){
   nearbyLocation(val:any){
     return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/nearByVehiclesLocationList',val)
   }
+  genericTripReportFilter(val:any){
+    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReportFilter',val)
+  }
+    
+  genericTripReport(val:any){
+    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReport',val)
+  }
 
+  getGenericVehicle(val:any){
+    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/getGenericVehicle',val)
+  }
 
 }
 

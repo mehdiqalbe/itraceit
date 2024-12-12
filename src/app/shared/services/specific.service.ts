@@ -109,7 +109,9 @@ export class SpecificService implements OnDestroy {
                 {
                  path: 'https://itraceit.in/travel-report/?exttkn=213H1Su703f0Xv7GFN13Q84s7154g570', title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
              },
-        
+             {
+                path: '/cv/specific/bluedart/Report/TripReport', title:'Trip Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+            },
             ]
         
         },
@@ -159,6 +161,9 @@ export class SpecificService implements OnDestroy {
                 {
                  path: 'https://itraceit.in/travel-report/?exttkn=213H1Su703f0Xv7GFN13Q84s7154g570', title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
              },
+             {
+                path: '/cv/specific/dtdc/Report/TripReport', title:'Trip Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+            },
         
             ]
         
@@ -167,10 +172,6 @@ export class SpecificService implements OnDestroy {
         {
             path: 'https://beta.secutrak.in/secutrak/maps/map', title: 'Home',deactive_img:'fa fa-home', active_img:'fa fa-home', status:1, type: 'link', icon: 'nav1', badgeType: 'danger', badgeValue: '3', active: false,Account_id:''
         },
-      
-  
-   
-  
    
          { path: '/charts/chartist', title: 'Chartist', type: 'link' },
                 

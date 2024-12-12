@@ -112,8 +112,7 @@
     <div class="row">
   
       <div class="col-lg-12">
-        <!-- <div class="col-lg-12"> -->
-            <div  id="collapseExample" class="collapse show">
+        <div  id="collapseExample" class="collapse show">
           <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm)">
             <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
                 <div class="row">
@@ -213,15 +212,15 @@
                 </div> -->
   
                 <div class="col-lg-2 col-md-4 col-sm-6 ">
-                  <label for="Report" class="form-label">Report Type</label>
-                  <ng-select placeholder="Select" ngModel name="ReportType" required 
-                  [(ngModel)]="selectedReportType"
-                  [ngClass]="{'input-error':submit && triggerHistoryForm.form.controls.ReportType.status=='INVALID'}">
-                      <ng-option [value]="1" >Standard</ng-option>
-                      <ng-option [value]="2" >Detailed</ng-option>
-                      <!-- <ng-option *ngFor="let item of Master_filter.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option> -->
-                  </ng-select>
-              </div>
+                    <label for="Report" class="form-label">Report Type</label>
+                    <ng-select placeholder="Select" ngModel name="ReportType" required 
+                    [(ngModel)]="selectedReportType"
+                    [ngClass]="{'input-error':submit && triggerHistoryForm.form.controls.ReportType.status=='INVALID'}">
+                        <ng-option [value]="1" >Standard</ng-option>
+                        <ng-option [value]="2" >Detailed</ng-option>
+                        <!-- <ng-option *ngFor="let item of Master_filter.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option> -->
+                    </ng-select>
+                </div>
   
   
               <div class="col-lg-2 col-md-4 col-sm-6 ">
@@ -262,7 +261,6 @@
   </div>
   </ng-container>
   <div id="myGrid" style="height: 317px; width: 100%;" class="ag-theme-alpine grid_table"></div>
-  
   </div>
   
   <div class="modal fade" id="Datail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

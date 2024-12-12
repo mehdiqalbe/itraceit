@@ -3103,8 +3103,7 @@ color: white;}
     // border-top: none !important;
     // border-left: none !important;
     // border-right: none !important;
-    // border: 1px solid #0e6bc9 !important;
-    height: 30px;
+    border: 1px solid #0e6bc9 !important;
 }
 .heading_table{
     background: steelblue;
@@ -4989,15 +4988,9 @@ section[_ngcontent-tbm-c137] {
                 border-radius: 4px;
             }
             ng-select{
-                // border: 1px solid blue;
-                height: 34.1px !important;
+                border: 1px solid blue;
             }
-            .ng-select .ng-select-container {
-                min-height: 33px !important;
-            }
-            .ng-select.ng-select-single .ng-select-container {
-                height: 33px !important;
-            }
+
             // grid table css-------------------------------------------------------------------------------------------
             
 	
@@ -5013,17 +5006,40 @@ section[_ngcontent-tbm-c137] {
         background-color:#e5e6f5 !important;;
         border-bottom: var(--ag-borders-critical) var(--ag-border-color);
     }
-    #map1
-    {
-        height: 100%;
-        width: 100%;
-    }
-    .card {
-        position: relative;
-        margin-bottom: 0.5rem;
-        width: 100%;
-    }
-    .input-error {
-        border: red 1px solid !important;
-        border-radius: 5px;
-    }
+    .ag-theme-alpine .ag-row {
+        border-bottom: 1px solid #ccc !important;
+      }
+      
+      .ag-theme-alpine .ag-cell {
+        border-right: 1px solid #ccc !important;
+      }
+      
+      .ag-theme-alpine .ag-root-wrapper {
+        border: 1px solid #ccc !important;
+      }
+      .ag-row {
+        border-bottom: 1px solid #ccc !important;
+      }
+      
+      .ag-cell {
+        border-right: 1px solid #ccc !important;
+      }
+      
+      .ag-root-wrapper {
+        border: 1px solid #ccc !important;
+      }
+/* Add borders to rows */
+.ag-row {
+    border-bottom: 1px solid #ccc; /* Bottom border for rows */
+  }
+  
+  /* Add borders to cells (columns) */
+  .ag-cell {
+    border-right: 1px solid #ccc; /* Right border for cells */
+  }
+  
+  /* Optional: Add a border around the entire grid */
+  .ag-root-wrapper {
+    border: 1px solid #ccc;
+  }
+              
