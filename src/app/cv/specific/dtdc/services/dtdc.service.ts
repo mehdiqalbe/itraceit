@@ -24,6 +24,7 @@ export class DtdcService {
 
 
 
+
   /////////////////////////Summary Dashboard/////////////////////////////////////////////////////////////////////////
   dtdcSummaryFilter(data){
   
@@ -35,6 +36,20 @@ export class DtdcService {
   dtdcSummary(data){
     
     let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcSummary";
+    
+    return this.http.post(apiurl,data);
+  }
+  // -------------Trip Report--------------------------------------------------------------------------------------------------------
+  dtdcTripReportFilter(data){
+  
+    let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripReportFilter";
+    
+    return this.http.post(apiurl,data);
+  }
+  
+  dtdcTripReport(data){
+    
+    let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripReport";
     
     return this.http.post(apiurl,data);
   }

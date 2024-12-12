@@ -1,11 +1,12 @@
 <div class="row">
     <div class="col-lg-12">
     
-      <div class="card" style="height: 60px;">
+      <div class="card" style="height: 80px;     margin-bottom: 0px !important;">
         <div class="card-body innerdiv">
           <!-- HEADER -->
           <div class="header hor-header">
             <div class="">
+              
               <div>
   
                 <!-- <div class="">
@@ -40,6 +41,10 @@
                             <div class=" align-items-left ">
                                 <div style="width:fit-content" class=" my-2 d-flex">
                                   <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()" type="button"></button>
+                                  <!-- <div class="summary">Summary Report </div><br> -->
+                                  <div _ngcontent-tke-c124="" class="order-header col-lg-12 py-2"><h3 _ngcontent-tke-c124="" class="mb-1" style="color: #1D4380; font-family: Work Sans; font-size: 27px!important; font-weight: 600;"> Trip Report</h3>
+                                    <h5 _ngcontent-tke-c124="" style="color: #808080; font-family: Work Sans; font-size: 15px!important; font-weight: 500;">Home / Trip Report</h5></div>
+                                  <!-- <h5 _ngcontent-tke-c124="" style="color: #808080; font-family: Work Sans; font-size: 15px!important; font-weight: 500;">Home / Schedule Trip Dashboard</h5> -->
                                 </div>
                                 </div>
                             <!-- {{prifile?.Name}}&nbsp; -->
@@ -50,7 +55,7 @@
                         
                           <div style="margin-top:13px" class="d-flex">
                             <div class="" style="display: inline-block;">
-  
+                             
                               <!-- <img style="width:370px" src="assets/IRUN_CV_IMG/BlueDartBrandingLOGO.svg" class="header-brand-img desktop-logo"
                                 alt="logo" id="change-image"> -->
   
@@ -86,34 +91,35 @@
   
       </div>
     </div>
-  </div>
-  <div class="container-flex" style=" padding: 6px;    border-bottom: 1px solid #80808042;">
+</div>
+<div class="container-flex" style=" padding: 6px;    border-bottom: 1px solid #80808042;">
   
     <div class="row">
-  
+      <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+              
+      </ngx-spinner>
       <!-- <div class="col-lg-12"> -->
       <div class="col-lg-1">
         <div class="row" style="display: inline-block;">
-            <!-- <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
-              aria-controls="collapseExample" style="font-size: 13px;font-weight: 500;">
-              <i class="fa fa-filter" aria-hidden="true"
-                style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
-            </a> -->
-            <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="true"
-            aria-controls="collapseExample" style="font-size: 13px; font-weight: 500;">
-            <i class="fa fa-filter" aria-hidden="true" style="font-size: 20px; color: gray; margin-top: 8px;"></i> FILTER
-         </a>
-          </div>
+          <!-- <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
+            aria-controls="collapseExample" style="font-size: 13px;font-weight: 500;">
+            <i class="fa fa-filter" aria-hidden="true"
+              style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
+          </a> -->
+          <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="true"
+          aria-controls="collapseExample" style="font-size: 13px; font-weight: 500;">
+          <i class="fa fa-filter" aria-hidden="true" style="font-size: 20px; color: gray; margin-top: 8px;"></i> FILTER
+       </a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="container-flex" style="    padding-top: 5px !important; padding: 17px;">
+</div>
+<div class="container-flex" style="    margin-top: 5px; padding: 17px;">
   
     <div class="row">
   
       <div class="col-lg-12">
-        <!-- <div class="col-lg-12"> -->
-            <div  id="collapseExample" class="collapse show">
+        <div  id="collapseExample" class="collapse show">
           <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm)">
             <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
                 <div class="row">
@@ -128,26 +134,7 @@
                         <input type="text" step="1" class="form-control" id="datepicker1" (click)="end()" [ngModel]="datetimepicker"
                             required name="to_time"  />
                     </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Region" class="form-label">Feeder Type</label>
-                        <ng-select placeholder="Select" ngModel  name="Feeder" 
-                          #regionSelect="ngModel">
-                            <ng-option value="" selected>Select</ng-option>
-                            
-                            <ng-option *ngFor="let item of Master_filter?.RouteType['34'] | keyvalue " [value]="item.key">
-                              {{item.value}}
-                            </ng-option>
-                          </ng-select>
-                    </div>
-            
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="District" class="form-label">Trip Type</label>
-                        <ng-select placeholder="Select" ngModel name="TripType">
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                            <!-- <ng-option *ngFor="let item of trigger_District | keyvalue" [value]="item">{{item.value}}</ng-option> -->
-                        </ng-select>
-                    </div>
+                    
                     <div class="col-lg-2 col-md-4 col-sm-6 ">
                         <label for="Region" class="form-label">Trip Status</label>
                         <ng-select placeholder="Select" ngModel name="TripStatus">
@@ -155,38 +142,40 @@
                             <ng-option *ngFor="let item of   Master_filter?.TripStatus  | keyvalue" [value]="item.key">{{item.value}}</ng-option>
                         </ng-select>
                     </div>
+                   
                     <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Region" class="form-label">Region</label>
-                        <ng-select placeholder="Select" ngModel name="Region">
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.Region | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                    </div>
+                      <label for="Origin" class="form-label">Origin</label>
+                      <ng-select placeholder="Select" ngModel name="Origin">
+                          <ng-option value="" selected>Select</ng-option>
+                          <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                      </ng-select>
+                  </div>
+                  <div class="col-lg-2 col-md-4 col-sm-6 ">
+                      <label for="Destination" class="form-label">Destination</label>
+                      <ng-select placeholder="Select" ngModel name="Destination" >
+                          <ng-option value="" selected>Select</ng-option>
+                          <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                      </ng-select>
+                  </div>
+                  <div class="col-lg-2 col-md-4 col-sm-6 ">
+                    <label for="Vehicle" class="form-label">Vehicle</label>
+                    <!-- <input type="text" name="Vehicle" class="form-control" ngModel /> -->
+                    <ng-select  (search)="onSearch($event)" ngModel name="vehicle_number">
+                 <ng-option *ngFor="let m of dataList" [value]="m.Id">{{m.vehicle_number}}</ng-option>
+                    </ng-select>
+                </div>
                 </div>
                
                 <div class="row">
+                    
+                  
                     <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Origin" class="form-label">Origin</label>
-                        <ng-select placeholder="Select" ngModel name="Origin">
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Destination" class="form-label">Destination</label>
-                        <ng-select placeholder="Select" ngModel name="Destination" >
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Vehicle" class="form-label">Vehicle</label>
-                        <!-- <input type="text" name="Vehicle" class="form-control" ngModel /> -->
-                        <ng-select  (search)="onSearch($event)" ngModel name="vehicle_number">
-                     <ng-option *ngFor="let m of dataList" [value]="m.Id">{{m.vehicle_number}}</ng-option>
-                        </ng-select>
-                    </div>
-            
+                      <label for="Route" class="form-label">Transporter</label>
+                      <ng-select placeholder="Select" ngModel name="Route">
+                          <ng-option value="" selected>Select</ng-option>
+                          <ng-option *ngFor="let item of Master_filter?.Route | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                      </ng-select>
+                  </div>
                     <div class="col-lg-2 col-md-4 col-sm-6 ">
                         <label for="Route" class="form-label">Route</label>
                         <ng-select placeholder="Select" ngModel name="Route">
@@ -212,15 +201,18 @@
                     </ng-select>
                 </div> -->
   
-                <div class="col-lg-2 col-md-4 col-sm-6 ">
+                <div class="col-lg-2 col-md-4 col-sm-6 "> 
                   <label for="Report" class="form-label">Report Type</label>
-                  <ng-select placeholder="Select" ngModel name="ReportType" required 
-                  [(ngModel)]="selectedReportType"
-                  [ngClass]="{'input-error':submit && triggerHistoryForm.form.controls.ReportType.status=='INVALID'}">
-                      <ng-option [value]="1" >Standard</ng-option>
-                      <ng-option [value]="2" >Detailed</ng-option>
-                      <!-- <ng-option *ngFor="let item of Master_filter.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option> -->
-                  </ng-select>
+                  <ng-select
+                   placeholder="Select"
+                   [(ngModel)]="selectedReportType"
+                   name="ReportType"
+                   required
+                   [ngClass]="{'input-error': submit && triggerHistoryForm.form.controls.ReportType.status === 'INVALID'}">
+                   <ng-option [value]="1">Standard</ng-option>
+                   <ng-option [value]="2">Detailed</ng-option>
+                 </ng-select>
+
               </div>
   
   
@@ -229,42 +221,102 @@
                 <input type="text" class="form-control" ngModel name="TripId">
             </div>
   
-            <div class="col-lg-2 col-md-4 col-sm-6 ">
+            <!-- <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="triggervehicle" class="form-label">Extra Information</label>
               <input type="checkbox" class="ms-5" ngModel name="ExtraInformation" (change)="extra_info($event)" [checked]="extra">
-          </div>
+          </div> -->
                     <div class="col-lg-1 col-md-4 col-sm-6  d-flex align-items-end">
                         <button class="btn btn-outline-primary btn-sm w-100" type="submit">View</button>
                     </div>
                 </div>
             </form>
-  
+
         </div>
       </div>
     </div>
-  </div>
-  
-  
-  <div class="info" style="    padding: 5px;" >
+</div>
+
+
+<div class="info" style="margin: 10px;">
   <!-- <div id="myGrid"></div> -->
-  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
-    <p style="color: black">Please Wait.. </p>
-  </ngx-spinner>
-  <ng-container *ngIf="search_grid">
+   <ng-container *ngIf="show_search">
   <div class="d-flex align-items-center" style="margin-left: 84%;">
     
-    <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Filter..." (input)="onFilterTextBoxChanged()" class="form-control mb-2" />
+    <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Search..." (input)="onFilterTextBoxChanged()" class="form-control mb-2" />
     
         <button (click)="onBtExport()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42"></i>
         </button>
         <!-- <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
   
   </div>
-  </ng-container>
-  <div id="myGrid" style="height: 317px; width: 100%;" class="ag-theme-alpine grid_table"></div>
-  
+   </ng-container>
+   <div id="myGrid" style="height: 375px; width: 100%;" class="ag-theme-alpine grid_table"></div>
+    <!-- <table class="display nowrap  table" cellspacing="0" id="masterUpload">
+      <thead>
+        <tr role="row">
+            <th class="table-primary" tabindex="0">Sl.</th>
+            <th class="table-primary" tabindex="0">RouteType</th>
+            <th class="table-primary" tabindex="0">Region</th>
+            <th class="table-primary" tabindex="0">Origin</th>
+            <th class="table-primary" tabindex="0">Destination</th>
+            <th class="table-primary" tabindex="0">Route</th>
+            <th class="table-primary" tabindex="0">RouteSequence</th>
+            <th class="table-primary" tabindex="0">Fleet</th>
+            <th class="table-primary" tabindex="0">TripId</th>
+            <th class="table-primary" tabindex="0">RunCode</th>
+            <th class="table-primary">RunDate</th>
+            <th class="table-primary">Vehicle</th>
+            <th class="table-primary">TrackHistory</th>
+            <th class="table-primary" tabindex="0">State</th>
+            <th class="table-primary" tabindex="0">Branch</th>
+            <th class="table-primary" tabindex="0">Area</th>
+            <th class="table-primary" tabindex="0">DriverName</th>
+            <th class="table-primary" tabindex="0">DriverNumber</th>
+            <th class="table-primary" tabindex="0">Transporter</th>
+            <th class="table-primary" tabindex="0">STD</th>
+            <th class="table-primary">ATD</th>
+            <th class="table-primary" tabindex="0">DelayDeparture</th>
+            <th class="table-primary" tabindex="0">STA</th>
+            <th class="table-primary">ATA</th>
+            <th class="table-primary" tabindex="0">TT-Mapped</th>
+            <th class="table-primary" tabindex="0">TT-Taken</th>
+            <th class="table-primary" tabindex="0">DelayArrival</th>
+            <th class="table-primary" tabindex="0">DelayTT</th>
+            <th class="table-primary" tabindex="0">ScheduleHalt</th>
+            <th class="table-primary" tabindex="0">ActualHalt</th>
+            <th class="table-primary" tabindex="0">ATT</th>
+            <th class="table-primary" tabindex="0">Alerts</th>
+            <th class="table-primary" tabindex="0">ReverseDriving</th>
+            <th class="table-primary" tabindex="0">FixedGPS(Km)</th>
+            <th class="table-primary" tabindex="0">FixedE-Lock(Km)</th>
+            <th class="table-primary" tabindex="0">PortableE-Lock(Km)</th>
+            <th class="table-primary">GPS Exception-1</th>
+            <th class="table-primary">GPS Exception-2</th>
+            <th class="table-primary">GPS Exception-3</th>
+            <th class="table-primary">SupervisorException</th>
+            <th class="table-primary" tabindex="0">Status</th>
+            <th class="table-primary">SystemRemarks</th>
+            <th class="table-primary" tabindex="0">CloseBy</th>
+            <th class="table-primary" tabindex="0">CloseDate</th>
+            <th class="table-primary" tabindex="0">CreateBy</th>
+            <th class="table-primary" tabindex="0">TotalBag</th>
+            <th class="table-primary" tabindex="0">Remarks</th>
+            <th class="table-primary" tabindex="0">GPSVendor</th>
+            <th class="table-primary" tabindex="0">Fixed E-lock Vendor</th>
+            <th class="table-primary" tabindex="0">Portable E-lock Vendor</th>
+            <th class="table-primary" tabindex="0">CloseDeviceBy</th>
+            <th class="table-primary" tabindex="0">Portable Lock Device</th>
+        </tr>
+        
+      </thead>
+      <tbody>
+        
+      </tbody>
+
+    </table> -->
   </div>
-  
+
+
   <div class="modal fade" id="Datail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" style=" max-width: 1500px;margin-left: 140px;">
       <div class="modal-content" style="height: 634px; width: 835px;">
