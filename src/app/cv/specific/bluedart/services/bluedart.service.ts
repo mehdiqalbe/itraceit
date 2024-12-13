@@ -21,4 +21,12 @@ export class BluedartService {
   specificTDLink(val:any){
     return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardTrackingLink',val)
   }
+
+  bdDelayDashboardFilter(val:any){
+    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit//bdDelayDashboardFilter',val)
+  }
+  bdDelayDashboard(val:any){
+    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/bdDelayDashboard',val)
+  }
+  
 }

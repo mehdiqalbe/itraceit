@@ -370,8 +370,10 @@ export class DelayDashboardComponent implements OnInit {
 
   }
   async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-    console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
-
+    // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
+    if(imei|| imei2|| imei3){
+      alert("IMEI not assign");
+    }else{
     // Clear markers and polylines before starting
     this.clearMarkersAndPolylines();
 
@@ -389,7 +391,7 @@ export class DelayDashboardComponent implements OnInit {
     // Define the array of IMEIs to process
     // const imeis = [imei,imei2,imei3];
     const imeis = [imei, imei2, imei3];
-    console.log(imeis);
+    // console.log(imeis);
 
     // Loop through each IMEI using a for...of loop to support async/await
     for (const imei of imeis) {
@@ -436,7 +438,7 @@ export class DelayDashboardComponent implements OnInit {
           if (res.data === 'Vehicle is inactive.') {
             alert("Track data is not available");
           } else {
-            console.log("trackingData", this.trackingData)
+            console.log("trackingData", this.trackingData);
             // Add markers and polyline data
             this.addMarkersAndPolyline1(imei, vehicle_no);
             // Fetch DFG polyline data
@@ -458,7 +460,7 @@ export class DelayDashboardComponent implements OnInit {
         this.SpinnerService.hide("tracking");
       }
     }
-  }
+}  }
 
   getMarkerIcon(index: number): string {
     if (index === 0) {
