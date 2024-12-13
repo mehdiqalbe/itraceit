@@ -3,8 +3,8 @@
     
     
  <!-- Header Start -->
- <div class="card" style="box-shadow: none;background: #F1F1F1;border:none">
-  <div class="card-body innerdiv p-0">
+ <div class="card" style="box-shadow: none;background: #F1F1F1;border:none;margin-bottom: 9px;">
+  <div class="card-body innerdiv p-0" style="    margin-bottom: 9px;" >
     <!-- headerstart here -->
     <div class="hor-header">
       <div style="overflow: hidden;">
@@ -13,16 +13,8 @@
             <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
           </div>
          
-          <div
-          class="col-lg-11"
-          style="
-            font-weight: 600;
-            font-size: small;
-            text-align: left;
-           
-          "
-        >
-        <div  class="order-header col-lg-11 py-2" >
+          <div class="col-lg-6"style=" font-weight: 600;font-size: small; text-align: left;">
+        <div  class="order-header col-lg-5 py-2" >
           <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
             Irun Dashboard</h3>
           <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Irun Dashboard</h5>
@@ -32,19 +24,143 @@
         </div>
         
         </div>
-          <div class="col-lg-2 text-center ">
+          <!-- <div class="col-lg-2 text-center ">
 
+          </div> -->
+          <div class="col-lg-5" style="padding:0px; width: auto;">
+            <div class="row mt-4" style="display: inline-block;">
+              <span class="fa-stack" style="display: inline-block;margin-top: 5px;">
+          
+                <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class" (click)="dashBoardIconF(2)"
+                  ngbTooltip="NOD" id="nod" value="3"><i class="fe fe-truck" style="font-size: 20px;" id="blink"></i><span
+                    class="badge rounded-pill badge-notification bg-dark" id="darkicon">{{summaryData.NOD}}</span></button>
+          
+                <button type="button" class="text-dark" tooltipClass="customActive-tooltip-class" (click)="dashBoardIconF(3)"
+                  ngbTooltip="InActive"><i class="fe fe-truck" style="font-size: 20px; color:blue" id="blink"></i><span
+                    class="badge rounded-pill badge-notification bg-primary"
+                    id="darkicon">{{summaryData.InActive}}</span></button>
+                <button type="button" class="text-dark" tooltipClass="customIRunning-tooltip-class" (click)="dashBoardIconF(1)"
+                  ngbTooltip="Running"><i class="fe fe-truck" style="font-size: 20px;color: green;" id="blink"></i><span
+                    class="badge rounded-pill badge-notification bg-success" id="darkicon">{{summaryData.Running}}</span></button>
+                <button type="button" class="text-dark" tooltipClass="customInStopped-tooltip-class" (click)="dashBoardIconF(0)"
+                  ngbTooltip="Stopped"><i class="fe fe-truck" style="font-size: 20px;color: red" id="blink"
+                    [ngbPopover]="popContentstopped" container="body" triggers="mouseenter:mouseleave" position="bottom">
+          
+                    <ng-template #popContentstopped>
+                      <div class=" " style=" height: 150px;top:0px !important;border: 1px grey;">
+                        <h5 style="font-weight: 600; color: red;text-align: center;"> Alerts
+                        </h5>
+          
+                        <table>
+                          <tr>
+                            <th>Trigger</th>
+                            <th>Total</th>
+          
+                          </tr>
+                          <!-- <ng-template *ngFor="let item of stock"> -->
+                          <tr style="color: blue;font-size: 12px;font-weight: 700;"
+                            *ngFor="let item of LastAlertSummery.Stop |keyvalue">
+                            <td>{{item.key}}</td>
+                            <td>{{item.value}}</td>
+          
+                          </tr>
+          
+                        </table>
+                      </div>
+                    </ng-template>
+          
+          
+                  </i><span class="badge rounded-pill badge-notification bg-danger"
+                    id="darkicon">{{summaryData.Stop}}</span></button>
+                <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class"
+                  (click)="dashBoardIconF('Total Vehicles')" ngbTooltip="Total Vehicles"><i class="fe fe-truck"
+                    style="font-size: 20px;color: grey;" id="blink" (mouseenter)="tInActiveOver($event)"
+                    (mouseleave)="tInActiveOut($event)"></i><span class="badge rounded-pill badge-notification bg-secondary"
+                    id="inActive">{{summaryData.All}}</span></button>
+          
+          
+                <button type="button" class="text-dark" data-bs-toggle="modal" data-bs-target="#triggerModal"
+                  (click)="totaltriggerF()"><i class="fe fe-bell" style="font-size: 20px;color: red"
+                    (mouseenter)="bellOver($event)" (mouseleave)="bellOut($event)" id="bell" [ngbPopover]="popContent"
+                    container="body" triggers="mouseenter:mouseleave" position="bottom">
+          
+                    <ng-template #popContent>
+                      <div class=" " style=" height: 150px;top:0px !important;border: 1px grey;">
+                        <h5 style="font-weight: 400; color: black;text-align: center;"> Trigger Summary
+                        </h5>
+          
+                        <table>
+                          <tr>
+                            <th>Trigger</th>
+                            <th>Total</th>
+          
+                          </tr>
+                          <!-- <ng-template *ngFor="let item of stock"> -->
+                          <tr style="color: blue;font-size: 12px;font-weight: 700;" *ngFor="let item of stock |keyvalue">
+                            <td>{{item.key}}</td>
+                            <td>{{item.value}}</td>
+          
+                          </tr>
+          
+                        </table>
+                      </div>
+                    </ng-template>
+          
+          
+          
+                  </i><span class="badge rounded-pill badge-notification bg-danger"
+                    id="bellBadge">{{triggerData.Total}}</span></button>
+          
+          
+          
+          
+                <button type="button" class="text-dark" tooltipClass="customInStopped-tooltip-class"
+                  (click)="threatTablefilter('')" data-bs-toggle="modal" data-bs-target="#threatsModal"
+                  ngbTooltip="All Threats"><i class="fa fa-exclamation-triangle" style="font-size: 20px;color: red"
+                    id="blink"></i><span class="badge rounded-pill badge-notification bg-danger"
+                    id="darkicon">{{totalThreat}}</span></button>
+          
+                <button type="button" class="text-dark" tooltipClass="customIRunning-tooltip-class" ngbTooltip="Refresh Page"
+                  (click)="triggerFullData();dashboardData1();threatDataF();qrtList();"><i class="fa fa-refresh"
+                    style="font-size: 20px;color: green" id="blink"></i>
+                </button>
+          
+                <button type="button" class="text-dark" (click)="playAudio()"><i class="fa fa-volume-up" *ngIf="soundFlag"
+                    style="font-size: 20px; color:blue" id="blink" tooltipClass="customActive-tooltip-class"
+                    ngbTooltip="Critical Alert"></i>
+                  <i class="fa fa-volume-off" *ngIf="soundFlag!=true" tooltipClass="customInStopped-tooltip-class"
+                    style="font-size: 20px; color:red" id="blink" ngbTooltip="Critical Alert"></i>
+                  <audio id="myAudio" src="assets/images/users/Vip Police Siren.mp3" preload="auto">
+                  </audio>
+          
+                </button>
+          
+           
+          
+              </span>
+            </div>
           </div>
-
-          <div class="col-lg-1"></div>
+          <!-- <div class="col-lg-1"></div>
           <div class="col-lg-1">
-            <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
-          </div>
-          <div class="col-lg-1 text-center">
+          </div> -->
+          <!-- <div class="col-lg-1 text-center"> -->
             <!-- <a class="header-brand1">
               <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
                 style="height:auto;max-height:48px; width: 80%;">
             </a> -->
+          <!-- </div> -->
+          <div class="col-lg-1">
+            <div class=" mt-4" style="display: inline-block;">
+            <button type="button" class="text-dark" tooltipClass="customActive-tooltip-class"
+              style="margin-top: 7px;font-size: 7px;" ngbTooltip="Trigger Report" (click)="triggerHistoryClickF()"><i
+                class="fa fa-history" style="font-size: 20px; color:blue" id="blink"></i>
+          
+            </button>
+            <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class" ngbTooltip="Trigger Summary">
+              <a target="blank" routerLink="/Map/summaryTrigger"> <i class="fa fa-file" style="font-size: 20px; color:grey"
+                  id="blink"></i></a>
+            </button>
+            </div>
           </div>
         </div>
       </div>
@@ -118,7 +234,7 @@
   </div>
   </div>
   </div>
-  <div class="col-lg-5" style="padding:0px">
+  <!-- <div class="col-lg-5" style="padding:0px">
     <div class="row" style="display: inline-block;">
       <span class="fa-stack" style="display: inline-block;margin-top: 5px;">
   
@@ -148,7 +264,6 @@
                     <th>Total</th>
   
                   </tr>
-                  <!-- <ng-template *ngFor="let item of stock"> -->
                   <tr style="color: blue;font-size: 12px;font-weight: 700;"
                     *ngFor="let item of LastAlertSummery.Stop |keyvalue">
                     <td>{{item.key}}</td>
@@ -186,7 +301,6 @@
                     <th>Total</th>
   
                   </tr>
-                  <!-- <ng-template *ngFor="let item of stock"> -->
                   <tr style="color: blue;font-size: 12px;font-weight: 700;" *ngFor="let item of stock |keyvalue">
                     <td>{{item.key}}</td>
                     <td>{{item.value}}</td>
@@ -230,19 +344,18 @@
   
       </span>
     </div>
-  </div>
-  <div class="col-lg-1">
+  </div> -->
+  <!-- <div class="col-lg-1">
     <button type="button" class="text-dark" tooltipClass="customActive-tooltip-class"
       style="margin-top: 7px;font-size: 7px;" ngbTooltip="Trigger Report" (click)="triggerHistoryClickF()"><i
         class="fa fa-history" style="font-size: 20px; color:blue" id="blink"></i>
   
     </button>
-    <!-- /////////////////////////////////////////////////////////////////////////// -->
     <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class" ngbTooltip="Trigger Summary">
       <a target="blank" routerLink="/Map/summaryTrigger"> <i class="fa fa-file" style="font-size: 20px; color:grey"
           id="blink"></i></a>
     </button>
-  </div>
+  </div> -->
   
 
   </div>

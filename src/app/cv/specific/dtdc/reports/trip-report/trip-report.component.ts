@@ -537,10 +537,10 @@ this.rowData_popup = this.new_array.map((person, index) => ({
   closeDate: person.CloseDate,
   createBy: person.CreateBy,
   totalBag: person.Bag,
-  remarks: person.remarks,
+  remarks: person.Remarks,
   gpsVendor: person.GPSVendorType1,
-  fixedELockVendor: person.DistanceKm2,
-  portableELockVendor: person.DistanceKm3,
+  fixedELockVendor: person.GPSVendorType2,
+  portableELockVendor: person.GPSVendorType3,
   Full: person,
   BranchLocation: person.BranchLocation || "N/A",
   BranchHandoverTime: person.BranchHandoverTime || "N/A",
@@ -933,7 +933,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
       { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
       { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
+      // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
   
       { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter },
       { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
@@ -1128,7 +1128,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
     { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
     { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
+    // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
 
     { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter },
     { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
@@ -1154,17 +1154,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
     { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
    
-
-
-
-
-
-
-
-
-
-
-
     // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
   ];}
@@ -1206,9 +1195,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     delayTt: person.DelayTT,
     scheduleHalt: person.ScheduleHalt,
     actualHalt: person.ActualHalt,
-    att: person.ATT, // Actual Travel Time
-    // alerts: 'person.alerts',
-  //  reverseDriving: 'person.reverse_driving',
+    att: person.ATT, 
     fixedGpsKm:person.DistanceKm1,
     fixedELockKm: person.DistanceKm2,
     portableELockKm:person.DistanceKm3,
@@ -1224,10 +1211,9 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     totalBag: person.Bag,
     remarks: person.remarks,
     gpsVendor: person.GPSVendorType1,
-    fixedELockVendor: person.DistanceKm2,
-    portableELockVendor: person.DistanceKm3,
+    fixedELockVendor: person.GPSVendorType2,
+    portableELockVendor: person.GPSVendorType3,
     Full: person,
-
     BranchLocation: person.BranchLocation || "N/A",
   BranchHandoverTime: person.BranchHandoverTime || "N/A",
   GateInTime: person.GateInTime || "N/A",
@@ -1424,7 +1410,7 @@ triggerHstSubmit(eve){
     // console.log(data)
     if(data.Status=="success"){
       this.new_array=data.Report;
-      // console.log(this.new_array)
+      console.log(this.new_array)
       this.Grid_table();
       this.SpinnerService.hide();
     }else{
@@ -1982,8 +1968,8 @@ fetchCustomerInfo_new(Full: any) {
       // console.log("Customer Info:", this.customer_info);
   
       this.customer_info.forEach((customer:any, index) => {
-  
-        const sequenceNo = 'M'+index; // Ensure this is a string
+        var count:any=index+1;
+        const sequenceNo = 'M'+count;  // Ensure this is a string
      
        
         const latlng = customer.CustGeo.split(',');
