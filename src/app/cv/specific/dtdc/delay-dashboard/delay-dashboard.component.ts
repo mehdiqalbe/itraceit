@@ -8,6 +8,7 @@ import { from, of } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
 import { CrudService } from 'src/app/shared/services/crud.service';
 import { NavService } from 'src/app/shared/services/nav.service';
+import { DtdcService } from '../services/dtdc.service';
 declare var $: any
 declare var H: any;
 interface HTMLCanvasElement {
@@ -34,7 +35,7 @@ export class DelayDashboardComponent implements OnInit {
   polylines: any = [];
   Delay_data: any;
   platform: any;
-  constructor(private navServices: NavService, private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  constructor(private CrudService:CrudService , private navServices: NavService, private dtdcservice: DtdcService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
   ngOnInit(): void {
@@ -54,7 +55,7 @@ export class DelayDashboardComponent implements OnInit {
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
 
-    this.itraceIt.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
+    this.dtdcservice.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
       console.log('delayDashboardGenericr', res);
       if(res.status=="success"){
       this.Delay_data = Object.values(res.data);
@@ -62,7 +63,7 @@ export class DelayDashboardComponent implements OnInit {
       this.DelayTable();
       this.SpinnerService.hide()
       }else{
-        alert("Data is not available");
+        alert(res.Message);
       }
     })
   }
@@ -321,7 +322,7 @@ export class DelayDashboardComponent implements OnInit {
         formData.forEach((value, key) => {
           console.log("formdata...", key, value);
         });
-        this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
+        this.CrudService.vehicleTrackongS(formData).subscribe((res: any) => {
           console.log("tracking res", res);
           if (res.Status == "failed") {
             alert(res?.Message);
@@ -426,7 +427,7 @@ export class DelayDashboardComponent implements OnInit {
 
         try {
           // Wait for the API response
-          const res: any = await this.itraceIt.vehicleTrackongS(formData).toPromise();
+          const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
           // console.log("tracking res", res);
 
           if (res.Status === "failed") {
@@ -575,7 +576,7 @@ export class DelayDashboardComponent implements OnInit {
     formdataCustomer.append('ImeiNo', imei);
     formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
 
-    this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+    this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
       const address = res.Data.Address;
       this.showWindow(trackingData, vehicle_no, address);
       // this.closeLastOpenedInfoWindow();
@@ -592,7 +593,7 @@ export class DelayDashboardComponent implements OnInit {
     formdataCustomer.append('ImeiNo', imei);
     formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
 
-    const res: any = await this.itraceIt.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
+    const res: any = await this.CrudService.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
     console.log("res", res)
     const address = res.Data.Address;
 
@@ -815,7 +816,7 @@ export class DelayDashboardComponent implements OnInit {
     formdataCustomer.append('forGroup', this.group_id);
     formdataCustomer.append('id', Id);
 
-    this.itraceIt.tripCustomerS(formdataCustomer).subscribe((res: any) => {
+    this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
       if (res.message == "success" && res.customer_info !== null) {
         this.customer_info = res.customer_info;
         //  console.log(res)
@@ -908,7 +909,7 @@ export class DelayDashboardComponent implements OnInit {
     formdataCustomer.append('forGroup', this.group_id);
     formdataCustomer.append('route_id', route_id);
 
-    this.itraceIt.vehicle_dfgS(formdataCustomer).subscribe((res: any) => {
+    this.CrudService.vehicle_dfgS(formdataCustomer).subscribe((res: any) => {
       if (res.Polyline) {
         const dfgPolyline: google.maps.LatLng[] = [];
         const str = res.Polyline.replace(/ *\^[^~]*\~ */g, "");

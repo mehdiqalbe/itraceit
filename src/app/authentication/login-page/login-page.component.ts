@@ -117,8 +117,9 @@ export class LoginPageComponent implements OnInit {
     // if (this.validateForm(this.loginForm.controls['userid'].value, this.loginForm.controls['password'].value)) {
       this.authservice.Access(formData).subscribe((resp: any) => {
         console.log(resp)
-        if (resp.Status === 'error') {
-         
+        if (resp.Status === 'fail') {
+         alert(resp.Message);
+         this.router.navigate([`/auth/login`]);
         } else { 
           // console.log(resp)
           const formDataspecific = new FormData();

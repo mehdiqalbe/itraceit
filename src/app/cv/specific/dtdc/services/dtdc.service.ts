@@ -53,4 +53,11 @@ export class DtdcService {
     
     return this.http.post(apiurl,data);
   }
+  dtdc_delayDashboard(data){
+    // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
+    let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/delayDashboardDtdc";
+   
+    return this.http.post(apiurl,data);
+  }
+ 
 }
