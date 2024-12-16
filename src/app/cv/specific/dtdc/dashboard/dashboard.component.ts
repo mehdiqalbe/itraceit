@@ -305,7 +305,7 @@ export class DashboardComponent implements OnInit {
       formData.append("Destination",val?.destination||'')
       formData.append("Route",val?.route||'')
       formData.append("Delay",val?.etaDelay||'0')
-      formData.append("RouteCategory",val?.routeCatgory||'')
+      formData.append("RouteCategory",val?.routeCategory)
       console.log(formData);
       
       this.SpinnerService.show('tableSpinner')
@@ -339,19 +339,25 @@ export class DashboardComponent implements OnInit {
       })
       
     }
-    onRouteCategoryChange(val){
-      if(val)
-      {
+    onRouteCategoryChange(val) {
+      // Clear selected route types
+      this.selectedRoutes = [];
+    
+      if (val) {
         console.log(val);
-        this.filterObject.routeType=this.filterObject.rawRouteType[val]
-      }
-      else{
-        const routeType1 = this.filterObject?.rawRouteType[1];
-           const routeType2 = this.filterObject?.rawRouteType[2];
-           this.filterObject.routeType={...routeType1,...routeType2}
-        
+        this.filterObject.routeType = {
+          "": "All", // Add "All" field
+          ...this.filterObject.rawRouteType[val],
+        };
+      } else {
+        // Merge all values from rawRouteType into a single object and add "All" field
+        this.filterObject.routeType = {
+          "": "All", // Add "All" field
+          ...Object.assign({}, ...Object.values(this.filterObject.rawRouteType)),
+        };
       }
     }
+    
     trackVehicle(item){
      const currentDateTime= new Date().toLocaleString('en-US', {
         month: '2-digit',

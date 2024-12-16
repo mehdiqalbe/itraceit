@@ -221,14 +221,13 @@
                               placeholder="Select Trip Status"
                               class="cutombox"
                               style="font-size: 14px; font-weight: 400"
-                              [closeOnSelect]="true"
-                            >
-                              <ng-option
-                                *ngFor="let item of filterObject?.trip_status | keyvalue"
-                                [value]="item.key"
-                              >
+                              [closeOnSelect]="true" >
+
+                              <ng-option *ngFor="let item of filterObject?.trip_status | keyvalue"
+                                [value]="item.key" >
                                 {{ item.value }}
                               </ng-option>
+
                             </ng-select>
                             </div>
                             <div class="col-lg-2">
@@ -245,7 +244,7 @@
                               >
                               <ng-option
                                 *ngFor="let item of filterObject?.FeederTypes | keyvalue"
-                                [value]="item.key"
+                                [value]="item.value"
                               >
                                 {{ item.value }}
                               </ng-option>
@@ -434,8 +433,7 @@
                         
                         <div class="col-lg-4 " *ngIf="selectedSearchEvent === 'Vehicle'">
                           <span class="filtor_name">Search Criteria</span>
-                          <ng-select
-                            
+                          <ng-select   
                             [ngModel]
                             [virtualScroll]="true"
                             name="tripType"
@@ -443,12 +441,8 @@
                             placeholder="Select Trip Type"
                             class="cutombox"
                             style="font-size: 14px; font-weight: 400"
-                            [closeOnSelect]="true"
-                          >
-                          <ng-option
-                            *ngFor="let item of vehicleData?.data | keyvalue"
-                            [value]="item?.value"
-                          >
+                            [closeOnSelect]="true" >
+                          <ng-option *ngFor="let item of vehicleData?.data | keyvalue" [value]="item?.value">   
                             {{ item.key}}
                           </ng-option>
                           </ng-select>

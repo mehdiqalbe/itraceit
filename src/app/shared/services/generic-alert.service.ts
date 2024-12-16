@@ -82,7 +82,7 @@ export class GenericAlertService implements OnDestroy {
           title:'Dashboard', status:0,deactive_img:'fa fa-dashboard', active_img:'fa fa-dashboard', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: true,Account_id:'',
           children: [
  
-              { path: '/ILgic/Trip', title: 'Trip Dashboard', type: 'link', active:true },
+            { path: '/cv/genericAlert/bpl/Trip-Dashboard', title: 'Trip Dashboard', type: 'link', active:true },
 
               { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
 

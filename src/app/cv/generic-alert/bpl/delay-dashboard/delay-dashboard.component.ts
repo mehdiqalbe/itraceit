@@ -360,7 +360,6 @@ export class DelayDashboardComponent implements OnInit {
     })
 
   }
-
   async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
     console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
 
@@ -1035,10 +1034,8 @@ export class DelayDashboardComponent implements OnInit {
           resolve();
         }
       });
-
       // Show the modal (this might not be necessary to be in the Promise)
       $('#v_track_Modal').modal('show');
     });
   }
 }
-

@@ -1,17 +1,17 @@
 
  <!-- Header Start -->
- <div class="card" style="box-shadow: none;background: #F1F1F1;border:none">
+ <div class="card" style="background:transparent;border:none;margin-bottom: 4px;">
     <div class="card-body innerdiv p-0">
       <!-- headerstart here -->
       <div class="hor-header">
         <div style="overflow: hidden;">
-          <div class="row align-items-left ">
+          <div class="d-flex align-items-left ">
             <div style="width:fit-content" class=" my-2 d-flex">
               <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
             </div>
            
             <div
-            class="col-lg-11"
+            class="w-100"
             style="
               font-weight: 600;
               font-size: small;
@@ -19,11 +19,32 @@
              
             "
           >
-          <div  class="order-header col-lg-11 py-2" >
-            <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
-              Schedule Trip Dashboard</h3>
-            <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Schedule Trip Dashboard</h5>
-  
+          <div  class="order-header d-flex py-2 justify-content-between align-items-center" >
+            <div class="ps-2">
+              <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+                Schedule Trip Dashboard</h3>
+              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Schedule Trip Dashboard</h5>
+            </div>
+     
+
+            <div class="d-flex gap-4 pe-5">
+              <div ngbTooltip="All" class="position-relative" >
+
+               <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:30px;"></button> 
+              </div>
+              <div ngbTooltip="Free Vehicle" class="position-relative" >
+                <span style="right:-15px;top:-12px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span>
+               <button (click)="filterTable('free_vehicle')" type="button"><img src="assets/tripIcon/truckBlue.svg" alt="" style="width:30px;"></button> 
+              </div>
+              <div ngbTooltip="At Source" class="position-relative">
+                <span style="right:-13px;top:-12px;background: #E77817;" class="position-absolute countPill">{{dashboardHeader?.AtSource}}</span>
+                <button (click)="filterTable('at_source')" type="button"> <img src="assets/tripIcon/truckGps.svg" alt="" style="width:30px"></button>
+              </div>
+              <div ngbTooltip="At Destination" class="position-relative">
+                <span style="right:-13px;top:-12px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
+                <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:30px"></button>  
+              </div>
+            </div>
             <!-- <div class="d-flex justify-content-between  align-items-baseline mt-2">
               <div class="d-flex flex-column align-items-baseline">
                 <span>Running:{{dashboardHeader?.running}}</span>
@@ -52,20 +73,20 @@
           </div>
           
           </div>
-            <div class="col-lg-2 text-center ">
+            <!-- <div class="col-lg-2 text-center ">
   
-            </div>
+            </div> -->
   
-            <div class="col-lg-1"></div>
-            <div class="col-lg-1">
-              <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
-            </div>
-            <div class="col-lg-1 text-center">
-              <!-- <a class="header-brand1">
+            <!-- <div class="col-lg-1"></div> -->
+            <!-- <div class="col-lg-1">
+              <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a> 
+            </div> -->
+            <!-- <div class="col-lg-1 text-center">
+              <a class="header-brand1">
                 <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
                   style="height:auto;max-height:48px; width: 80%;">
-              </a> -->
-            </div>
+              </a>
+            </div> -->
           </div>
         </div>
       </div>
@@ -77,7 +98,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div style="border-bottom:1.5px solid #9ba9b591;margin-bottom:12px;" class="headerIcon justify-content-between pe-4 d-flex align-items-center">
           <div>
-            <p style="color: 1D4380; font-weight: 600">
+            <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
               <a
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseExample"
@@ -100,9 +121,9 @@
             </p>
           </div>
           <div class="d-flex align-items-center">
-            <div class="d-flex gap-5 pe-5">
+            <!-- <div class="d-flex gap-5 pe-5">
               <div ngbTooltip="All" class="position-relative" >
-                <!-- <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span> -->
+
                <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:40px;"></button> 
               </div>
               <div ngbTooltip="Free Vehicle" class="position-relative" >
@@ -117,7 +138,7 @@
                 <span style="right:-15px;top:-15px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
                 <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:40px"></button>  
               </div>
-            </div>
+            </div> -->
             <p style="color: 1D4380; font-weight: 600" class="m-0 ">
               <a
               ngbTooltip="Graph"
@@ -127,9 +148,9 @@
                 aria-expanded="false"
                 aria-controls="chartCollapse"
                 class="px-1"
-                style="font-size: 16px;background-color:#1D4380;border-radius: 4px;"
+                style="font-size: 16px;"
               >
-              <i style="color:white" class="fa fa-bars"></i>
+              <i style="color: #1c427f;" class="fas fa-chart-pie"></i>
               </a>
             </p>
           </div>
@@ -169,7 +190,7 @@
                   </p> -->
                   <div class="collapse" id="collapseExample">
                     <div
-                      class="card card-body px-0"
+                      class="card card-body px-0 pb-0 mb-0"
                       style="border: none; box-shadow: none"
                     >
                       <form
