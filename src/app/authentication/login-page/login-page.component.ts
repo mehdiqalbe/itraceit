@@ -89,6 +89,7 @@ export class LoginPageComponent implements OnInit {
     if(acc==undefined){
      }else{
     this.show_html=false;
+    // alert(acc)
     this.Access(acc);
   }
 
@@ -107,7 +108,7 @@ export class LoginPageComponent implements OnInit {
     var url=this.router.url;
     var k= url.split('='); 
     localStorage.setItem('URL',k[0]);
-    console.log("Submit",url);
+    // console.log("Submit",url);
     // this.transporterAccess()
     // alert("Access token")
     this.clearErrorMessage();
@@ -116,15 +117,16 @@ export class LoginPageComponent implements OnInit {
     // if (this.validateForm(this.loginForm.controls['userid'].value, this.loginForm.controls['password'].value)) {
       this.authservice.Access(formData).subscribe((resp: any) => {
         console.log(resp)
-        if (resp.Status === 'error') {
-         
+        if (resp.Status === 'fail') {
+         alert(resp.Message);
+         this.router.navigate([`/auth/login`]);
         } else { 
-          console.log(resp)
+          // console.log(resp)
           const formDataspecific = new FormData();
           formDataspecific.append('AccessToken', resp.Data.AccessToken);
           this.authservice.loginSpecificUser(formDataspecific)
           .subscribe((res: any) => {
-             console.log("specific",res)
+            //  console.log("specific",res)
 
              
              if(res?.specific_permission?.irun_alert_dashboard=='1'){
@@ -154,7 +156,7 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('UserType',  resp.Data.AccountType);
           localStorage.setItem('specific_permission',resp.specific_permission);
           localStorage.setItem('Class',resp.Data.Class);
-              console.log(this.path)
+              // console.log(this.path)
           this.router.navigate([`/cv/${resp.Data.Class}/${this.path}`]);
      
         }
@@ -189,11 +191,11 @@ export class LoginPageComponent implements OnInit {
       .subscribe((resp: any) => {
 
       
-        console.log(resp);
+        // console.log(resp);
         if (resp.Status !== 'success') {
           alert(resp?.Message)
         } else { 
-        console.log(resp);
+        // console.log(resp);
          this.accestoken= resp.Data.AccessToken;
           localStorage.setItem('Json', '1');       
           localStorage.setItem('AccessToken', resp.Data.AccessToken);

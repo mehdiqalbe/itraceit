@@ -6,6 +6,7 @@ import { NavService } from 'src/app/shared/services/nav.service';
 declare var $: any;
 import { from, of } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
+import { BluedartService } from '../services/bluedart.service';
 declare var $: any
 declare var H: any;
 interface HTMLCanvasElement {
@@ -31,7 +32,12 @@ export class DelayDashboardComponent implements OnInit {
   demomarker: any = [];
   polylines: any = [];
   Delay_data: any;
-  constructor(private navServices: NavService, private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  alertData: any;
+  // selectedRouteType: any;
+  selectedRouteType: any[] = [];
+  routeTypes: any[] = []; // Options for ng-select
+  commaSeparatedRoutes: any;
+  constructor(private bluedartService:BluedartService, private navServices: NavService, private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
   ngOnInit(): void {
@@ -43,20 +49,45 @@ export class DelayDashboardComponent implements OnInit {
     this.account_id = localStorage.getItem('AccountId')!
     // console.log("account_id", this.account_id)
     this.group_id = localStorage.getItem('GroupId')!
-    this.delayDashboardGeneric()
+    this.bdDelayDashboardFilter()
   }
 
-  delayDashboardGeneric() {
+  bdDelayDashboardFilter() {
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
 
-    this.itraceIt.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
+    this.bluedartService.bdDelayDashboardFilter(formdataCustomer).subscribe((res: any) => {
       console.log('delayDashboardGenericr', res);
-      this.Delay_data = Object.values(res.data);
-      console.log(this.Delay_data);
-      this.DelayTable();
+      this.alertData = res.data[1];
+      this.selectedRouteType=res.data.defaultFilter
+      console.log(this.selectedRouteType);
+
+      this.routeTypes = Object.keys(this.alertData).map((key) => ({
+        id: key,
+        route_type: this.alertData[key],
+      }));
+      // this.DelayTable();
     })
   }
+  
+  SumbitFilter(){
+    console.log(this.selectedRouteType)
+    this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
+  console.log(this.commaSeparatedRoutes)
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+    formdataCustomer.append('RouteType', this.commaSeparatedRoutes);
+    this.bluedartService.bdDelayDashboard(formdataCustomer).subscribe((res: any) => {
+      console.log('delayDashboardGenericr', res);
+      
+      // this.DelayTable();
+    })
+  }
+
+   
+
+
+
 
 
   sidebarToggle() {

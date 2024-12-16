@@ -19,6 +19,7 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import * as echarts from 'echarts';
 import { NavService } from 'src/app/shared/services/nav.service';
+import { BplService } from '../../services/bpl.service';
 declare var H: any;
 declare var $: any;
 declare const agGrid: any;
@@ -84,7 +85,7 @@ export class TripReportComponent implements OnInit {
   extra:boolean=false;
   submit: boolean=false;
   show_search: boolean=false;
-  constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe , private bplservice:BplService) { }
 
   ngOnInit(): void {
     this.token=localStorage.getItem('AccessToken')!;
@@ -1520,7 +1521,7 @@ genericTripReportFilter(){
   var formdata=new FormData()
   formdata.append('AccessToken',this.token)
   
-  this.CrudService.genericTripReportFilter(formdata).subscribe((data:any) => {
+  this.bplservice.genericTripReportFilter(formdata).subscribe((data:any) => {
     console.log(data)
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
@@ -1571,7 +1572,7 @@ triggerHstSubmit(eve){
   // formdata.forEach((value, key) => {
   //   console.log("formdata",key, value);
   // });
-  this.CrudService.genericTripReport(formdata).subscribe((data:any) => {
+  this.bplservice.genericTripReport(formdata).subscribe((data:any) => {
     this.submit=false;
     // console.log(data)
     if(data.Status=="success"){
@@ -2207,7 +2208,7 @@ onSearch(term: any) {
   formdataCustomer.append('searchQuery',term.term);
   // formdataCustomer.append('route_id', route_id);
 
-  this.CrudService.getGenericVehicle(formdataCustomer).subscribe((res: any) => {
+  this.bplservice.getGenericVehicle(formdataCustomer).subscribe((res: any) => {
     // console.log(res) 
     this.dataList = res.Data;
   })

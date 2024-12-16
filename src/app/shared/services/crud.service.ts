@@ -1382,8 +1382,7 @@ export class CrudService {
   dtdc_delayDashboard(data){
     // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
     let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/delayDashboardDtdc";
-    //let apiurl="https://jsonplaceholder.typicode.com/users";
-   //let apiurl= 'http://localhost:3000/workZone'
+   
     return this.http.post(apiurl,data);
   }
   dtdcTripReportFilter(data){

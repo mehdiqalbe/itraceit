@@ -26,6 +26,7 @@ import { ForgetpasswordComponent } from './authentication/forgetpassword/forgetp
 import { ConfirmOTPComponent } from './authentication/confirm-otp/confirm-otp.component';
 import { AlltripsComponent } from './components/reports/alltrips/alltrips.component';
 import { DatePipe } from '@angular/common';
+// import { DelayDashboardComponent } from './src/app/CV/generic-alert/bpl/delay-dashboard/delay-dashboard.component';
 // import * as angular from 'node_modules/@types';
 // import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 @NgModule({
@@ -36,6 +37,7 @@ import { DatePipe } from '@angular/common';
     ForgetpasswordComponent,
     ConfirmOTPComponent,
     AlltripsComponent,
+    // DelayDashboardComponent,
     // ForgetPasswordComponent,
    
   ],

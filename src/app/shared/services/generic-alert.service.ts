@@ -74,16 +74,15 @@ export class GenericAlertService implements OnDestroy {
       this.screenWidth.next(width);
   }
   
-  MENUITEMS: Menu[] = [
-     
- 
-      {
+  MENUITEM:any={
+    bpl: [ 
+        {
     
           title:'Dashboard', status:0,deactive_img:'fa fa-dashboard', active_img:'fa fa-dashboard', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: true,Account_id:'',
           children: [
  
             { path: '/cv/genericAlert/bpl/Trip-Dashboard', title: 'Trip Dashboard', type: 'link', active:true },
-
+            { path: '/cv/genericAlert/bpl/Delay-Dashboard', title: 'Delay Dashboard', type: 'link', active:false },
               { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
 
 
@@ -98,33 +97,90 @@ export class GenericAlertService implements OnDestroy {
 
       {
          
-          title:'Reports', status:0,deactive_img:'fa fa-file-text-o', active_img:'far fa-user-circle', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,Account_id:'',
-          children: [
-              { path: 'https://itraceit.in/vehicle-report', title:'vehicle report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
-              {
-               path: 'https://itraceit.in/travel-report/?exttkn=213H1Su703f0Xv7GFN13Q84s7154g570', title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
-           },
-      
-          ]
-      
-      },
+            title:'Reports', status:0,deactive_img:'fa fa-file-text-o', active_img:'far fa-user-circle', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,Account_id:'',
+            children: [
+               
+             {
+                path: '/cv/genericAlert/bpl/Report/TripReport', title:'Trip Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+            }, { path: 'https://itraceit.in/vehicle-report/?exttkn='+localStorage.getItem('AccessToken')!, title:'vehicle report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
+            {
+             path: 'https://itraceit.in/travel-report/?exttkn='+localStorage.getItem('AccessToken')!, title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+         },
+            {
+             path: 'https://secutrak.in/reports/distance_report_beta2/?exttkn='+localStorage.getItem('AccessToken')!, title:'Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+         },
+            {
+             path: 'https://secutrak.in/reports/monthly_distance_report_beta/?exttkn='+localStorage.getItem('AccessToken')!, title:'Monthly Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+         },
+            {
+             path: 'https://itraceit.in/reports/halt_report/?exttkn='+localStorage.getItem('AccessToken')!, title:'Halt Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+         },
+        
+        ]
+    
+    },
 
-      {
-          path: 'https://beta.secutrak.in/secutrak/maps/map', title: 'Home',deactive_img:'fa fa-home', active_img:'fa fa-home', status:1, type: 'link', icon: 'nav1', badgeType: 'danger', badgeValue: '3', active: false,Account_id:''
-      },
+    {
+        path: 'https://beta.secutrak.in/secutrak/auth/login?exttkn='+localStorage.getItem('AccessToken')!, title: 'Home',deactive_img:'fa fa-home', active_img:'fa fa-home', status:1, type: 'link', icon: 'nav1', badgeType: 'danger', badgeValue: '3', active: false,Account_id:''
+    },
+   
+        //  { path: '/charts/chartist', title: 'Chartist', type: 'link' },
+                
+  
+        
+    ],
+ 
+    //   {
+    
+    //       title:'Dashboard', status:0,deactive_img:'fa fa-dashboard', active_img:'fa fa-dashboard', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: true,Account_id:'',
+    //       children: [
+ 
+    //           { path: '/ILgic/Trip', title: 'Trip Dashboard', type: 'link', active:true },
+
+    //           { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
+
+
+
+    //       ]
+      
+    //   },
+     
+    //   {
+    //       path: 'https://beta.secutrak.in', title: 'Vehicle Dashboard ', type: 'link', active:false ,
+    //   },
+
+    //   {
+         
+    //       title:'Reports', status:0,deactive_img:'fa fa-file-text-o', active_img:'far fa-user-circle', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,Account_id:'',
+    //       children: [
+    //           { path: 'https://itraceit.in/vehicle-report', title:'vehicle report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
+    //           {
+    //            path: 'https://itraceit.in/travel-report/?exttkn=213H1Su703f0Xv7GFN13Q84s7154g570', title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+    //        },
+      
+    //       ]
+      
+    //   },
+
+    //   {
+    //       path: 'https://beta.secutrak.in/secutrak/maps/map', title: 'Home',deactive_img:'fa fa-home', active_img:'fa fa-home', status:1, type: 'link', icon: 'nav1', badgeType: 'danger', badgeValue: '3', active: false,Account_id:''
+    //   },
     
 
  
 
  
-       { path: '/charts/chartist', title: 'Chartist', type: 'link' },
+    //    { path: '/charts/chartist', title: 'Chartist', type: 'link' },
               
-
+     
       
-  ];
+    };
 
 
 
   //array
-  items = new BehaviorSubject<Menu[]>(this.MENUITEMS);
+  client:any=localStorage.getItem('Class')?.split('/')[1];
+  
+  items = new BehaviorSubject<Menu[]>(this.MENUITEM[this.client]);
+//   items = new BehaviorSubject<Menu[]>(this.MENUITEMS);
 }
