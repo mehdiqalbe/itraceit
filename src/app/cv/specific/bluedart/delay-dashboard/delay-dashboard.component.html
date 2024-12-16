@@ -72,25 +72,26 @@
   
           <!-- <div class="col-lg-12"> -->
           <div class="col-lg-1">
-            <!-- <div class="row" style="display: inline-block;">
+            <div class="row" style="display: inline-block;">
               <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
                 aria-controls="collapseExample" style="font-size: 13px;font-weight: 500;">
                 <i class="fa fa-filter" aria-hidden="true"
                   style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
               </a>
-            </div> -->
+            </div>
           </div>
           <div class="col-lg-12">
-            <!-- <div class="collapse" id="collapseExample">
+            <div class="collapse" id="collapseExample">
               <div style="display:inline-table;">
-                <ng-select class="io-set"  name="trigger_type" placeholder="Select" id="ShipmentNo"   [multiple]="true"[closeOnSelect]="true" >
-                <ng-option value="" >SFC_Network</ng-option>
-                <ng-option value="" selected>Speed Truck</ng-option>
-                 <ng-option *ngFor="let item of alertData  | keyvalue" [value]="item.value">{{item.value}}</ng-option>
+                <ng-select class="io-set"  name="trigger_type" placeholder="Select"  [multiple]="true"[closeOnSelect]="true" 
+                [items]="routeTypes"  bindLabel="route_type"  [(ngModel)]="selectedRouteType"
+                >
+                 <!-- <ng-option *ngFor="let item of alertData  | keyvalue" [value]="item.value">{{item.value}}</ng-option> -->
 
               </ng-select>
               </div>
-            </div> -->
+              <div style="display:inline-table;"><button class="btn-outline-primary" (click)="SumbitFilter()">Submit</button> </div>
+            </div>
           </div>
 
         </div>

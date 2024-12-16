@@ -17,9 +17,11 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
+import { BplRoutingModule } from './bpl-routing.module';
 // import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.component';
 // import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
 // import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.compo
   ],
   imports: [
     CommonModule,
+    BplRoutingModule,
     // DtdcRoutingModule,
     NgSelectModule,
     NgxDatatableModule,

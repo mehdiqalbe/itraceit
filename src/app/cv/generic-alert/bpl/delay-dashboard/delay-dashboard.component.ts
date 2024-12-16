@@ -1034,7 +1034,6 @@ export class DelayDashboardComponent implements OnInit {
           resolve();
         }
       });
-
       // Show the modal (this might not be necessary to be in the Promise)
       $('#v_track_Modal').modal('show');
     });

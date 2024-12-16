@@ -32,6 +32,11 @@ export class DelayDashboardComponent implements OnInit {
   demomarker: any = [];
   polylines: any = [];
   Delay_data: any;
+  alertData: any;
+  // selectedRouteType: any;
+  selectedRouteType: any[] = [];
+  routeTypes: any[] = []; // Options for ng-select
+  commaSeparatedRoutes: any;
   constructor(private bluedartService:BluedartService, private navServices: NavService, private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
@@ -53,11 +58,36 @@ export class DelayDashboardComponent implements OnInit {
 
     this.bluedartService.bdDelayDashboardFilter(formdataCustomer).subscribe((res: any) => {
       console.log('delayDashboardGenericr', res);
-      // this.Delay_data = Object.values(res.data);
-      console.log(this.Delay_data);
+      this.alertData = res.data[1];
+      this.selectedRouteType=res.data.defaultFilter
+      console.log(this.selectedRouteType);
+
+      this.routeTypes = Object.keys(this.alertData).map((key) => ({
+        id: key,
+        route_type: this.alertData[key],
+      }));
       // this.DelayTable();
     })
   }
+  
+  SumbitFilter(){
+    console.log(this.selectedRouteType)
+    this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
+  console.log(this.commaSeparatedRoutes)
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+    formdataCustomer.append('RouteType', this.commaSeparatedRoutes);
+    this.bluedartService.bdDelayDashboard(formdataCustomer).subscribe((res: any) => {
+      console.log('delayDashboardGenericr', res);
+      
+      // this.DelayTable();
+    })
+  }
+
+   
+
+
+
 
 
   sidebarToggle() {
