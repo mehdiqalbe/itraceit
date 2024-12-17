@@ -445,6 +445,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
             this.vehicleData=res?.Data
             console.log("vehicle data",this.vehicleData);
              this.loadData()
+             this.segregateVehicleFunction()
 
           this.SpinnerService.hide('tableSpinner');
         } else {
@@ -460,7 +461,9 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
     );
   }
 
-
+ segregateVehicleFunction(){
+  
+ }
 
   openMapModal(item,filterForm) {
     this.selectedVehcileLtLng=filterForm?.value?.tripType

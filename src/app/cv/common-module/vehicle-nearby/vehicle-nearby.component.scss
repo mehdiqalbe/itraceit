@@ -157,14 +157,16 @@ text-align: left;
   }
   .filter-border{
     font-family: "Work Sans";
-  border: 2.5px solid #1d4380;
-  padding: 2px 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 8px;
-  box-shadow: 0px 4px 15px 0px #B0B0B080;
+    border: 2.5px solid #1d4380;
+    padding: 0px 3px;
+      padding-bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px 0px #B0B0B080;
+    padding-bottom: 0.5px;
   }
   .filter-label{
     background: white;
@@ -172,12 +174,12 @@ text-align: left;
   border-radius: 5px;
   margin-top: -16px;
   font-family: "Work Sans";
-  font-size: 16px;
+  font-size: 13.5px;
   font-weight: 500;
   }
   .border-value{
     font-family: "Work Sans";
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 500;
     background: #1d4380;;
   padding: 2px 10px;

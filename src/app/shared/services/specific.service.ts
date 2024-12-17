@@ -208,6 +208,8 @@ export class SpecificService implements OnDestroy {
   //array
   
    client:any=localStorage.getItem('Class')?.split('/')[1];
+   
+   
   items = new BehaviorSubject<Menu[]>(this.MENUITEM[this.client]);
 }
 

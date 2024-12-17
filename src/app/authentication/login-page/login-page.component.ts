@@ -152,6 +152,8 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('GroupType',  resp.Data.GroupType);
           localStorage.setItem('GroupTypeId',  resp.Data.GroupTypeId);
           localStorage.setItem('AccountId',  resp.Data.AccountId);
+          localStorage.setItem('FullImage',resp.Data.FullImage);
+          localStorage.setItem('ThumbImage',resp.ThumbImage);
           localStorage.setItem('AccountId',  resp.Data.AccountId);
           localStorage.setItem('UserType',  resp.Data.AccountType);
           localStorage.setItem('specific_permission',resp.specific_permission);
