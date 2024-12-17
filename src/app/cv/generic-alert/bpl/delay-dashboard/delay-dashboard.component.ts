@@ -51,10 +51,10 @@ export class DelayDashboardComponent implements OnInit {
     formdataCustomer.append('AccessToken', this.token);
 
     this.itraceIt.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
-      console.log('delayDashboardGenericr', res);
+      // console.log('delayDashboardGenericr', res);
       this.Delay_data = Object.values(res.data);
       console.log(this.Delay_data);
-      this.DelayTable();
+      // this.DelayTable();
     })
   }
 
@@ -969,10 +969,6 @@ export class DelayDashboardComponent implements OnInit {
   </tbody>
 </table>`;
   }
-
-
-
-
 
   initializeMap(): Promise<void> {
     return new Promise<void>((resolve, reject) => {

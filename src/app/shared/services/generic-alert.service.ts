@@ -38,14 +38,9 @@ export class GenericAlertService implements OnDestroy {
   public megaMenuCollapse: boolean = window.innerWidth < 1199 ? true : false;
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
   public fullScreen: boolean = false;
-  constructor(
-      private router: Router
-  ) {
+  constructor( private router: Router ) {
       this.setScreenWidth(window.innerWidth);
-      fromEvent(window, 'resize').pipe(
-          debounceTime(1000),
-          takeUntil(this.unsubscriber)
-      ).subscribe((evt: any) => {
+      fromEvent(window, 'resize').pipe( debounceTime(1000), takeUntil(this.unsubscriber)).subscribe((evt: any) => {
           this.setScreenWidth(evt.target.innerWidth);
           if (evt.target.innerWidth < 991) {
               this.collapseSidebar = false;
@@ -81,12 +76,8 @@ export class GenericAlertService implements OnDestroy {
             title:'Dashboard', status:0,deactive_img:'fa fa-dashboard', active_img:'fa fa-dashboard', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: true,Account_id:'',
             children: [
                 { path: '/cv/genericAlert/bpl/Delay-Dashboard', title: 'Delay Dashboard', type: 'link', active:false },
-                { path: '/ILgic/Trip', title: 'Trip Dashboard', type: 'link', active:true },
-  
-                { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
-  
-  
-  
+                // { path: '/ILgic/Trip', title: 'Trip Dashboard', type: 'link', active:true },
+                // { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
             ]
         
         },
@@ -118,7 +109,7 @@ export class GenericAlertService implements OnDestroy {
         
         ]
     
-    },
+        },
 
     {
         path: 'https://beta.secutrak.in/secutrak/auth/login?exttkn='+localStorage.getItem('AccessToken')!, title: 'Home',deactive_img:'fa fa-home', active_img:'fa fa-home', status:1, type: 'link', icon: 'nav1', badgeType: 'danger', badgeValue: '3', active: false,Account_id:''

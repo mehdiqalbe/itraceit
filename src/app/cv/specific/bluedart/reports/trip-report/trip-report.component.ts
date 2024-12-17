@@ -852,7 +852,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter },
       { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
       { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter , cellRenderer: params => {
+      { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,
+         cellRenderer: params => {
         // Create the container div
         const container = document.createElement("div");
         container.style.display = "flex";
@@ -1021,7 +1022,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter },
     { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
     { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter , cellRenderer: params => {
+    { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter , 
+      cellRenderer: params => {
       // Create the container div
       const container = document.createElement("div");
       container.style.display = "flex";

@@ -35,8 +35,8 @@
                           <div class="col-lg-3 " style="margin-top:13px" >
                             <div class="" style="display: inline-block;">
   
-                              <img style="width:370px" src="assets/IRUN_CV_IMG/BlueDartBrandingLOGO.svg" class="header-brand-img desktop-logo"
-                                alt="logo" id="change-image">
+                              <!-- <img style="width:370px" src="assets/IRUN_CV_IMG/BlueDartBrandingLOGO.svg" class="header-brand-img desktop-logo"
+                                alt="logo" id="change-image"> -->
   
                             </div>
                           </div>
@@ -90,7 +90,11 @@
 
               </ng-select>
               </div>
-              <div style="display:inline-table;"><button class="btn-outline-primary" (click)="SumbitFilter()">Submit</button> </div>
+              <!-- <div style="display:inline-table;"><button class="btn-outline-primary" (click)="SumbitFilter()">Submit</button> </div> -->
+              <button _ngcontent-iwn-c232="" class="btn btn-success ms-5" style="
+              padding: 4px;
+              font-size: 13px;
+              width: 77px;" (click)="SumbitFilter()">Submit</button>
             </div>
           </div>
 
@@ -115,7 +119,17 @@
       <div  style="overflow: auto; margin: 25px 5px;">
         <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
         </ngx-spinner>
-        <table class="display nowrap  table"cellspacing="0" id="DelayTable" style="text-align: center;">
+        <div class="d-flex align-items-center" style="margin-left: 84%;">
+    
+          <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Filter..." (input)="onFilterTextBoxChanged()" class="form-control mb-2" />
+          
+              <button (click)="onBtExport()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42"></i>
+              </button>
+              <!-- <button (click)="exportPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
+        
+        </div>
+        <div id="myGrid" style=" width: 100%;" class="ag-theme-alpine grid_table "></div>
+        <!-- <table class="display nowrap  table"cellspacing="0" id="DelayTable" style="text-align: center;">
           <thead>
             <tr>
                 
@@ -126,25 +140,18 @@
                 <th class="sorting table-primary" aria-label="STA: activate to sort column ascending">STA</th>
                 <th class="sorting table-primary" aria-label="Delaying STA: activate to sort column ascending">Delaying STA</th>
                 <th class="sorting table-primary" aria-label="Delay Hours: activate to sort column ascending">Delay Hours</th>
-                <!-- <th class="sorting table-primary" aria-label="DelayHalt: activate to sort column ascending">Delay Halt</th> -->
-                <!-- <th class="sorting table-primary" aria-label="DelayReason: activate to sort column ascending">Delay Reason</th> -->
                 <th class="sorting table-primary" aria-label="CurrentLocation: activate to sort column ascending">Current Location</th>
                 <th class="sorting table-primary" aria-label="Vehicle Status: activate to sort column ascending">Vehicle Status</th>
-                <!-- <th class="sorting table-primary" aria-label="RouteType: activate to sort column ascending">RouteType</th> -->
-                <!-- <th class="sorting table-primary" aria-label="Region: activate to sort column ascending">Region</th> -->
                 <th class="sorting table-primary" aria-label="Route: activate to sort column ascending">Route</th>
-                <!-- <th class="sorting table-primary" aria-label="Fleet: activate to sort column ascending">Fleet</th> -->
                 <th class="sorting table-primary" aria-label="Run Date: activate to sort column ascending">Run Date</th>
                 <th class="sorting table-primary" aria-label="DriverName: activate to sort column ascending">Driver Name</th>
                 <th class="sorting table-primary" aria-label="DriverNumber: activate to sort column ascending">Driver Number</th>
                 <th class="sorting table-primary" aria-label="Transporter: activate to sort column ascending">Transporter</th>
                 <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Trip Id</th>
-                <!-- <th class="sorting table-primary" aria-label="Run Code: activate to sort column ascending">Run Code</th> -->
-                <th class="no-sort table-primary sorting_disabled"> <!-- Fixed GPS -->Device-1</th>
-                <th class="no-sort table-primary sorting_disabled"> <!-- Fixed Lock -->Device-2</th>
-                <th class="no-sort table-primary sorting_disabled"> <!-- Portable Lock -->Device-3</th>
+                <th class="no-sort table-primary sorting_disabled"> Device-1</th>
+                <th class="no-sort table-primary sorting_disabled"> Device-2</th>
+                <th class="no-sort table-primary sorting_disabled"> Device-3</th>
                 <th class="no-sort table-primary sorting_disabled">Track(All)</th>
-                <!-- <th class="no-sort table-primary sorting_disabled">Trip Action</th> -->
             </tr>
             
           </thead>
@@ -157,73 +164,55 @@
               <td>{{item.schedule_arrival}}</td>
               <td>{{item.delaying_sta}}</td>
               <td>{{item.delay_hr}}</td>
-              <!-- <td>{{item.vehicle_no}}</td> -->
-              <!-- <td>{{item.delay_reason}}</td> -->
               <td>{{item.last_address_current}}</td>
               <td> <span class="vehicle_status_current">  {{item.vehicle_status_current}}</span></td>
-              <!-- <td>{{item?.route_type}}</td> -->
-              <!-- <td>{{item?.Region}}</td> -->
+            
               <td>{{item?.route_name}}</td>
-              <!-- <td>{{item?.Fleet}}</td> -->
               <td>{{item?.run_date}}</td>
               <td>{{item?.driver_name}}</td>
               <td>{{item?.driver_mobile}}</td>
               <td>{{item?.vehicle_no}}</td>
               <td>{{item?.vehicle_no}}</td>
-              <!-- <td>{{item?.vehicle_no}}</td> -->
-              <!-- <td>{{item?.vehicle_no}}</td> -->
               <td>
                 <ng-container *ngIf="item?.imei_no !=='NA' && item?.imei_no !==''">
                 <a (click)="vehicleTrackF_new( item?.imei_no,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
-                  <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
                   <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                 </a>
                 </ng-container>
                 <ng-container *ngIf="item?.imei_no =='NA' || item?.imei_no ==''">
                 NA
                  </ng-container>  
-                
-                <!-- {{item?.fixed_lock}} -->
               </td>
               <td>
                 <ng-container *ngIf="item?.imei_no2 !=='NA' && item?.imei_no2 !==''">
                   <a (click)="vehicleTrackF_new( '',item?.imei_no2,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
-                    <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
                     <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                   </a>
                   </ng-container>
                   <ng-container *ngIf="item?.imei_no2 =='NA' || item?.imei_no2 ==''">
                      NA
                    </ng-container>  
-                <!-- {{item?.portable_lock}} -->
-              </td>
+                 </td>
               <td>
                 <ng-container *ngIf="item?.imei_no3 !=='NA' && item?.imei_no3 !==''">
                   <a (click)="vehicleTrackF_new( '',item?.imei_no3,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
-                    <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
                     <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                   </a>
                   </ng-container>
                   <ng-container *ngIf="item?.imei_no3 =='NA' || item?.imei_no3 ==''">
                      NA
                    </ng-container>  
-                <!-- {{item?.portable_lock}} -->
               </td>
-              <!-- <td>{{item?.portable_lock}}</td> -->
               <td>
                 <ng-container *ngIf="item?.imei_no !=='NA' ||item?.imei_no2 !=='NA' ||item?.imei_no3 !=='NA' || item?.imei_no !==''||item?.imei_no2 !==''||item?.imei_no3 !==''">
                 <a (click)="vehicleTrackF_new( item?.imei_no,item?.imei_no2,item?.imei_no3,item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
                   <i class="fa fa-circle map-table-marker" aria-hidden="true" ></i>
                 </a>
                 </ng-container>
-                <!-- <ng-container *ngIf="">
-
-                </ng-container> -->
               </td>
-           <!-- <td></td> -->
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
 
 
