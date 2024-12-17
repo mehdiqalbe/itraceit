@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// import { DtdcRoutingModule } from './dtdc-routing.module';
-// import { DashboardComponent } from './dashboard/dashboard.component';
-
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
+import { BplRoutingModule } from './bpl-routing.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -16,23 +15,15 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
-import { BplRoutingModule } from './bpl-routing.module';
-// import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.component';
-// import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
-// import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
-
 
 @NgModule({
   declarations: [
-    // DelayDashboardComponent
-  
+    DashboardComponent,
     DelayDashboardComponent
   ],
   imports: [
     CommonModule,
     BplRoutingModule,
-    // DtdcRoutingModule,
     NgSelectModule,
     NgxDatatableModule,
     // DatePipe,
@@ -47,8 +38,7 @@ import { BplRoutingModule } from './bpl-routing.module';
     NgxSpinnerModule,
     NgMultiSelectDropDownModule,
     FormsModule, ReactiveFormsModule,
-    LeafletModule,
-    // BplRoutingModule
+    LeafletModule
   ]
 })
 export class BplModule { }

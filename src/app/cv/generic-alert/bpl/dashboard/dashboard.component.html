@@ -1,0 +1,1445 @@
+
+  
+  
+  <!-- Header Start -->
+  <div class="card" style="border:none;margin-bottom:4px;">
+    <div class="card-body innerdiv p-0">
+      <!-- headerstart here -->
+      <div class="hor-header">
+        <div style="overflow: hidden;">
+          <div class="d-flex align-items-left ">
+            <div style="width:fit-content" class=" my-2 d-flex">
+              <button type="button" class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
+            </div>
+           
+            <div class="d-flex justify-content-between w-100 align-items-center ms-2" style=" font-weight: 600;font-size: small; text-align: left;">
+              <div  class="order-header  py-2" >
+                  <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+                  Schedule Trip Dashboard</h3>
+                  <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Schedule Trip Dashboard</h5>
+             </div>
+             <div class="d-flex">
+              <div class="d-flex gap-4 pe-5">
+
+              <div ngbTooltip="All" class="position-relative" >
+                <!-- <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span> -->
+               <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:30px;"></button> 
+              </div>
+              <!-- <div ngbTooltip="Free Vehicle" class="position-relative " >
+                <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span>
+               <button (click)="filterTable('free_vehicle')" type="button"><img src="assets/tripIcon/truckBlue.svg" alt="" style="width:40px;"></button> 
+              </div> -->
+              <div ngbTooltip="At Source" class="position-relative">
+                <span style="right:-15px;top:-15px;background: #E77817;" class="position-absolute countPill">{{dashboardHeader?.AtSource}}</span>
+                <button (click)="filterTable('at_source')" type="button"> <img src="assets/tripIcon/truckGps.svg" alt="" style="width:30px"></button>
+              </div>
+              <div ngbTooltip="At Destination" class="position-relative">
+                <span style="right:-15px;top:-15px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
+                <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:30px"></button>  
+              </div>
+            </div>
+                <div class="col-lg-1 text-center d-flex align-items-center" style="padding-right:36px;">
+                    <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a> 
+                </div>
+             </div>
+          
+           </div>
+            <!-- <div class="col-lg-2 text-center ">
+  
+            </div>
+  
+            <div class="col-lg-1"></div> -->
+          
+            <!-- <div class="col-lg-1 text-center">
+                <div class="info col-lg-12 overflow-scroll">
+                 
+                  </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- HEADER END -->
+  <div class="container-fluid specificDashboard">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div style="border-bottom:1.5px solid #9ba9b591;margin-bottom:12px;" class="headerIcon justify-content-between pe-4 d-flex align-items-center">
+          <div>
+            <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
+              <a
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                style="font-size: 16px"
+              >
+                <i
+                  class="fa fa-filter"
+                  aria-hidden="true"
+                  style="
+                    font-size: 20px;
+                    color: #1d4380;
+                    margin-top: 8px;
+                  "
+                ></i>
+                FILTER
+              </a>
+            </p>
+          </div>
+          <div class="d-flex align-items-center">
+           
+            <p style="color: 1D4380; font-weight: 600" class="m-0 ">
+              <a
+                ngbTooltip="Graph"
+                data-bs-toggle="collapse"
+                data-bs-target="#chartCollapse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="chartCollapse"
+                class="px-1"
+                style="font-size: 16px;"
+              >
+              <i style="color: #1c427f;" class="fas fa-chart-pie"></i>
+              </a>
+            </p>
+          </div>
+        
+        </div>
+        <div class="container-flex" >
+          <ngx-spinner name="tableSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+            <p style="color: black">Please Wait.. </p>
+          </ngx-spinner>
+          <div class="col-lg-12">
+            <div class="row">
+           
+              <div class="col-lg-12 px-0">
+                 <!-- Filter----------------------------------------------- -->
+                <div class="fiter">
+             
+                  <!-- <p style="color: 1D4380; font-weight: 600">
+                    <a
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseExample"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
+                      style="font-size: 16px"
+                    >
+                      <i
+                        class="fa fa-filter"
+                        aria-hidden="true"
+                        style="
+                          font-size: 20px;
+                          color: #1d4380;
+                          margin-top: 8px;
+                        "
+                      ></i
+                      >FILTER
+                    </a>
+                  </p> -->
+                  <div class="collapse" id="collapseExample">
+                    <div
+                      class="card card-body px-0 mb-0"
+                      style="border: none; box-shadow: none"
+                    >
+                      <form
+                        #filterFormD="ngForm"
+                        (ngSubmit)="onFilterDashboard(filterFormD.value)"
+                      >
+                        <div class="col-lg-12" style="margin-top: -20px">
+                          <div class="row">
+                            <!-- <div class="col-lg-2">
+                              <span class="filtor_name">Region</span>
+                              <ng-select
+                              [ngModel]
+                              name="Region"
+                              id="region"
+                              placeholder="Select Region"
+                              class="cutombox"
+                              style="font-size: 14px; font-weight: 400"
+                              [closeOnSelect]="true"
+                            >
+                              <ng-option
+                                *ngFor="let item of filterObject?.region | keyvalue"
+                                [value]="item.value"
+                              >
+                                {{ item.value }}
+                              </ng-option>
+                            </ng-select>
+                            </div> -->
+                            <div class="col-lg-2">
+                              <span class="filtor_name">Origin</span>
+                              <ng-select
+                                [ngModel]
+                                [virtualScroll]="true"
+                                name="Origin"
+                                id="origin"
+                                placeholder="Select Origin"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                              <ng-option
+                                *ngFor="let item of filterObject?.origin | keyvalue"
+                                [value]="item.key"
+                              >
+                                {{ item.value }}
+                              </ng-option>
+                              </ng-select>
+                            </div>
+                            <div class="col-lg-2">
+                              <span class="filtor_name">Destination</span>
+                              <ng-select
+                                [ngModel]
+                                [virtualScroll]="true"
+                                name="destination"
+                                id="destination"
+                                placeholder="Select Destination"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                                <ng-option
+                                  *ngFor="let item of filterObject?.origin | keyvalue"
+                                  [value]="item.key"
+                                >
+                                {{ item.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div>
+                            <!-- <div class="col-lg-2">
+                              <span class="filtor_name">Route</span>
+                              <ng-select
+                              [virtualScroll]="true"
+                                [ngModel]
+                                name="route"
+                                id="route"
+                                placeholder="Select Route"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                                <ng-option
+                                  *ngFor="let item of filterObject?.origin | keyvalue"
+                                  [value]="item?.key"
+                                >
+                                  {{ item?.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div> -->
+                            <div class="col-lg-2">
+                              <span class="filtor_name">Eta Delay</span>
+                              <ng-select
+                                [ngModel]
+                                name="etaDelay"
+                                id="etaDelay"
+                                placeholder="Select Eta Delay"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                                <ng-option
+                                  *ngFor="let item of filterObject?.etaDelay | keyvalue"
+                                  [value]="item?.key"
+                                >
+                                  {{ item?.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div>
+                            <!-- <div class="col-lg-2">
+                              <span class="filtor_name">Route Category</span>
+                              <ng-select
+                              (change)="onRouteCategoryChange($event)"
+                                [ngModel]
+                                name="routeCategory"
+                                id="routeCategory"
+                                placeholder="Select Route"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                              <ng-option value="" selected>All</ng-option>
+                                <ng-option
+                                  *ngFor="let item of filterObject?.routeCategory | keyvalue"
+                                  [value]="item?.key"
+                                >
+                                  {{ item?.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div> -->
+                            <!-- <div class="col-lg-4">
+                              <span class="filtor_name">Route Type</span> -->
+                              <!-- <ng-select
+                                [multiple]="true"
+                                [ngModel]
+                                name="routeType"
+                                id="routeType"
+                                placeholder="route type"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="false"
+                              >
+                              <ng-option
+                              *ngFor="let item of filterObject?.routeType | keyvalue"
+                              [value]="item?.key"
+                            >
+                              {{ item?.value }}</ng-option
+                                >
+                              </ng-select> -->
+                              <!-- <div class="col-lg-4 mt-2">
+                                <span class="filtor_name">Route Type</span>
+                                <ng-select
+                                  [(ngModel)]="selectedRoutes"
+                                  name="routeType"
+                                  id="routeType"
+                                  placeholder="Select Route Type"
+                                  class="cutombox"
+                                  style="font-size: 14px; font-weight: 400"
+                                  [multiple]="true"
+                                  [closeOnSelect]="false"
+                                >
+                                  <ng-option
+                                    *ngFor="let item of filterObject?.routeType | keyvalue"
+                                    [value]="item?.key"
+                                  >
+                                    {{ item?.value }}
+                                  </ng-option>
+                                </ng-select>
+                              </div> -->
+                              
+                            <!-- </div> -->
+                            <div class="col-lg-2 mt-2">
+                              <button
+                                type="submit"
+                                class=""
+                                style="margin-top: 16px;
+                                background-color: #1D4380;
+                                color: white;
+                                font-family: Work Sans;
+                                font-size: 15px;
+                                padding: 6px 22px;
+                                border-radius: 5px;"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </div>
+                          &nbsp;
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+                 <!-- Charts----------------------------------------------- -->
+                 <div class="fiter">
+                  <div class="collapse mt-3" id="chartCollapse">
+  
+                    <div class="col-xl-12 d-flex px-0"
+                      style="border: none; box-shadow: none">
+                    <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 mb-0">
+                      <div class="card status-card">
+                        <div class="card-body position-relative" style="font-family:'Work Sans'">
+                          <h5 class="card-title">On Trip
+                          </h5>
+                          <div class="row">
+                            <div
+                            class="col-6"
+                            style="width: 110px; height: 110px;"
+                          >
+                            <div id="consSt" class=""></div>
+                          </div>
+                            <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                              <img src="assets/tripIcon/Group.svg" alt="Vehicle Status" style="height:auto;width:36%;max-height:48px;">
+                            </div>
+                            <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                              <span class="status-text" style="color:#E77817;"
+                                id="numberH">{{dashboardHeader?.TripCompleted}}</span>/
+                                
+                              <!-- <span class="status-text" style="color:#97291E"
+                                id="numberH">{{SummaryData?.vehicleStatus?.stoppage}}</span>/ -->
+                             
+                              <span class="status-text" style="color:#1D4380;"
+                                id="numberH">{{dashboardHeader?.TripSchedule}}</span>
+                            </div>
+                          </div>
+              
+                          <div class="status-legend mt-2 d-flex justify-content-between">
+                            <div class="d-flex flex-column gap-2">
+                              <!-- <span style="color:#E77817;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i> All
+                              </span> -->
+                              <span style="color:#1D4380;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i> Schedule
+                              </span>
+                              <span style="color:#1D4380;visibility:hidden;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i> Schedule
+                              </span>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                            <span style="color:#E77817;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i> Completed
+                            </span>
+                            </div>
+                          </div>
+              
+                        </div>
+                      </div>
+                    </div>
+                    <div class="d-none col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-0">
+                      <div class="card status-card">
+                        <div class="card-body position-relative" style="font-family:'Work Sans'">
+                          <h5 class="card-title">Delay
+                          </h5>
+                          <div class="row">
+                            <div
+                            class="col-6"
+                            style="width: 110px; height: 110px;"
+                          >
+                            <div id="chartDelay" class=""></div>
+                          </div>
+                            <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                              <img src="assets/tripIcon/DelayIcon.svg" alt="Vehicle Status" style="height:auto;max-height:48px;width:36%">
+                            </div>
+                            <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                              <span class="status-text" style="color:#31aa87;"
+                              id="numberH">{{dashboardHeader?.OnTimeTrip}}</span>/
+                              <span class="status-text" style="color:#f07475;"
+                                id="numberH">{{dashboardHeader?.Delay}}</span>/
+                              <!-- <span class="status-text" style="color:#97291E"
+                                id="numberH">{{SummaryData?.vehicleStatus?.stoppage}}</span>/ -->
+                              <!-- <span class="status-text" style="color:grey;"
+                                id="numberH">{{dashboardHeader?.TripCompleted}}</span>/ -->
+                              <span class="status-text" style="color:#714169;"
+                                id="numberH">{{dashboardHeader?.CriticalDelay}}</span>
+                            </div>
+                          </div>
+              
+                          <div class="status-legend mt-2 d-flex justify-content-between">
+                            <div class="d-flex flex-column gap-2">
+                              <span style="color:#31aa87;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i> On Time
+                              </span>
+                              <span style="color:#714169;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i> Critical Delay
+                              </span>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                            <span style="color:#f07475;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i> Delay
+                            </span>
+                            </div>
+                          </div>
+              
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 mb-0">
+                      <div class="card status-card">
+                        <div class="card-body position-relative" style="font-family:'Work Sans'">
+                          <h5 class="card-title">ETA
+                          </h5>
+                          <div class="row">
+                            <div
+                            class="col-6"
+                            style="width: 110px; height: 110px;"
+                          >
+                            <div id="chartETA" class=""></div>
+                          </div>
+                            <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                              <img src="assets/tripIcon/Eta.svg" alt="Vehicle Status" style="height:auto;max-height:48px;width:32%">
+                            </div>
+                            <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                              <span class="status-text" style="color:#00c0f3;"
+                                id="numberH">{{dashboardHeader?.ETA_2HrsMore}}</span>/
+                                <span class="status-text" style="color:#f4858e;"
+                                id="numberH">{{dashboardHeader?.ETA_2Hrs}}</span>
+                              <!-- <span class="status-text" style="color:#97291E"
+                                id="numberH">{{SummaryData?.vehicleStatus?.stoppage}}</span>/ -->
+                              <!-- <span class="status-text" style="color:grey;"
+                                id="numberH">{{dashboardHeader?.TripCompleted}}</span>/ -->
+                              <!-- <span class="status-text" style="color:#FF3B30;"
+                                id="numberH">{{dashboardHeader?.CriticalDelay}}</span> -->
+                            </div>
+                          </div>
+              
+                          <div class="status-legend mt-2 d-flex justify-content-between">
+                            <div class="d-flex flex-column gap-2">
+                              <span style="color:#00c0f3;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i>More than 2 hrs
+                              </span>
+                              <span style="color:#34C759;visibility: hidden;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i>Less than 2 hrs
+                              </span>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                             <span style="color:#f4858e;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i>Less than 2 hrs
+                              </span>
+                            </div>
+                          </div>
+              
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 mb-0">
+                      <div class="card status-card">
+                        <div class="card-body position-relative" style="font-family:'Work Sans'">
+                          <h5 class="card-title">Stoppage
+                          </h5>
+                          <div class="row">
+                            <div
+                            class="col-6"
+                            style="width: 110px; height: 110px;"
+                          >
+                            <div id="chartStoppage" class=""></div>
+                          </div>
+                            <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                              <img src="assets/tripIcon/stoppageIcon.svg" alt="Vehicle Status" style="height:auto;max-height:48px;width:34%">
+                            </div>
+                            <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                              <span class="status-text" style="color:#e77817;"
+                                id="numberH">{{dashboardHeader?.Running}}</span>/
+                                <span class="status-text" style="color:#00c0f3;"
+                                id="numberH">{{dashboardHeader?.Stop_2HrsLess}}</span>/
+                              <span class="status-text" style="color:#f4858e"
+                                id="numberH">{{dashboardHeader?.Stop_2Hrs}}</span>
+                              <!-- <span class="status-text" style="color:grey;"
+                                id="numberH">{{dashboardHeader?.TripCompleted}}</span>/ -->
+                              <!-- <span class="status-text" style="color:#FF3B30;"
+                                id="numberH">{{dashboardHeader?.CriticalDelay}}</span> -->
+                            </div>
+                          </div>
+              
+                          <div class="status-legend mt-2 d-flex justify-content-between">
+                            <div class="d-flex flex-column gap-2">
+                              <span style="color:#e77817;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i>Running
+                              </span>
+                              <span style="color:#f4858e;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i>More than 2 hrs
+                              </span>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                              <span style="color:#00c0f3;">
+                                <i class='fa fa-circle' style="margin-right: 2px;"></i>Less than 2 hrs
+                              </span>
+                            </div>
+                          </div>
+              
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+  
+                    <div class=" col-xl-12 d-flex px-0"
+                    style="border: none; box-shadow: none">
+                  <div class="d-none col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body position-relative" style="font-family:'Work Sans'">
+                        <h5 class="card-title">Stoppage Alerts
+                        </h5>
+                        <div class="row">
+                          <div
+                          class="col-6"
+                          style="width: 110px; height: 110px;"
+                        >
+                          <div id="chartAlerts" class=""></div>
+                        </div>
+                          <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                            <img src="assets/tripIcon/alerts.svg" alt="Vehicle Status" style="height:auto;max-height:48px;width:34%">
+                          </div>
+                          <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                            <span class="status-text" style="color:#e77817;"
+                              id="numberH">{{dashboardHeader?.LockAlert}}</span>/
+                              <span class="status-text" style="color:#00c0f3;"
+                              id="numberH">{{dashboardHeader?.Halt}}</span>/
+                            <span class="status-text" style="color:#f4858e"
+                              id="numberH">{{dashboardHeader?.RouteDeviation}}</span>
+                            <!-- <span class="status-text" style="color:grey;"
+                              id="numberH">{{dashboardHeader?.TripCompleted}}</span>/ -->
+                            <!-- <span class="status-text" style="color:#FF3B30;"
+                              id="numberH">{{dashboardHeader?.CriticalDelay}}</span> -->
+                          </div>
+                        </div>
+            
+                        <div class="status-legend mt-2 d-flex justify-content-between">
+                          <div class="d-flex flex-column gap-2">
+                            <span style="color:#e77817;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Lock Alert
+                            </span>
+                            <span style="color:#f4858e;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Route Deviation
+                            </span>
+                          </div>
+                          <div class="d-flex flex-column gap-2">
+                            <span style="color:#00c0f3;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Halt Alert
+                            </span>
+                          </div>
+                        </div>
+            
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body position-relative" style="font-family:'Work Sans'">
+                        <h5 class="card-title">GPS
+                        </h5>
+                        <div class="row">
+                          <div
+                          class="col-6"
+                          style="width: 110px; height: 110px;"
+                        >
+                          <div id="chartGPS" class=""></div>
+                        </div>
+                          <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                            <img src="assets/tripIcon/gps.svg" alt="Vehicle Status" style="height:auto;max-height:48px;width:31%">
+                          </div>
+                          <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                            <span class="status-text" style="color:#e77817;"
+                              id="numberH">{{dashboardHeader?.Running}}</span>/
+                              <span class="status-text" style="color:#97291e;"
+                              id="numberH">{{dashboardHeader?.Stopped}}</span>/
+                            <span class="status-text" style="color:#d0cebb"
+                              id="numberH">{{dashboardHeader?.InActive}}</span>/
+                            <span class="status-text" style="color:#00C0F3;"
+                              id="numberH">{{dashboardHeader?.NonGPS}}</span>
+                            <!-- <span class="status-text" style="color:#FF3B30;"
+                              id="numberH">{{dashboardHeader?.CriticalDelay}}</span> -->
+                          </div>
+                        </div>
+            
+                        <div class="status-legend mt-2 d-flex justify-content-between">
+                          <div class="d-flex flex-column gap-2">
+                            <span style="color:#e77817;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Running
+                            </span>
+                            <span style="color:#97291e;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Stopped
+                            </span>
+                          </div>
+                          <div class="d-flex flex-column gap-2">
+                           <span style="color:#d0cebb;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>In-Active
+                            </span>
+                            <span style="color:#00C0F3;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Non GPS
+                            </span>
+                          </div>
+                        </div>
+            
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body position-relative" style="font-family:'Work Sans'">
+                        <h5 class="card-title">Fixed E-lock
+                        </h5>
+                        <div class="row">
+                          <div
+                          class="col-6"
+                          style="width: 110px; height: 110px;"
+                        >
+                          <div id="chartFixedLock" class=""></div>
+                        </div>
+                          <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                            <img src="assets/tripIcon/fixedElock.svg" alt="Vehicle Status" style="height:auto;max-height:48px;width:34%">
+                          </div>
+                          <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                            <span class="status-text" style="color:#97291e;"
+                              id="numberH">{{dashboardHeader?.FixedLockClose}}</span>/
+                              <span class="status-text" style="color:#E77817;"
+                              id="numberH">{{dashboardHeader?.FixedLockOpen}}</span>
+                            <!-- <span class="status-text" style="color:#C7C7CC"
+                              id="numberH">{{dashboardHeader?.InActive}}</span>/
+                            <span class="status-text" style="color:#000000;"
+                              id="numberH">{{dashboardHeader?.NonGPS}}</span> -->
+                            <!-- <span class="status-text" style="color:#FF3B30;"
+                              id="numberH">{{dashboardHeader?.CriticalDelay}}</span> -->
+                          </div>
+                        </div>
+            
+                        <div class="status-legend mt-2 d-flex justify-content-between">
+                          <div class="d-flex flex-column gap-2">
+                            <span style="color:#97291e;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Lock Close
+                            </span>
+                            <span style="color:#FF3B30;visibility: hidden;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Lock Open
+                            </span>
+                          </div>
+                          <div class="d-flex flex-column gap-2">
+                           <span style="color:#E77817;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Lock Open
+                            </span>
+                            <!-- <span style="color:#000000;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Non E-Lock
+                            </span> -->
+                          </div>
+                        </div>
+            
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-lg-3 col-md-6 col-sm-12 mb-0">
+                    <div class="card status-card">
+                      <div class="card-body position-relative" style="font-family:'Work Sans'">
+                        <h5 class="card-title">Portable E-lock
+                        </h5>
+                        <div class="row">
+                          <div
+                          class="col-6"
+                          style="width: 110px; height: 110px;"
+                        >
+                          <div id="portableElock" class=""></div>
+                        </div>
+                          <div class="col-6 position-absolute" style="text-align-last: right;top:12px;right:12px;">
+                            <img src="assets/tripIcon/PortableElock.svg" alt="Vehicle Status" style="height:auto;max-height:48px;width:34%">
+                          </div>
+                          <div class="col-12 custom" style="text-align: right;margin-top:-20px">
+                            <span class="status-text" style="color:#97291e;"
+                              id="numberH">{{dashboardHeader?.PortableLockClose}}</span>/
+                              <span class="status-text" style="color:#E77817;"
+                              id="numberH">{{dashboardHeader?.PortableLockOpen}}</span>
+                            <!-- <span class="status-text" style="color:#C7C7CC"
+                              id="numberH">{{dashboardHeader?.InActive}}</span>/
+                            <span class="status-text" style="color:#000000;"
+                              id="numberH">{{dashboardHeader?.NonGPS}}</span> -->
+                            <!-- <span class="status-text" style="color:#FF3B30;"
+                              id="numberH">{{dashboardHeader?.CriticalDelay}}</span> -->
+                          </div>
+                        </div>
+            
+                        <div class="status-legend mt-2 d-flex justify-content-between">
+                          <div class="d-flex flex-column gap-2">
+                            <span style="color:#97291e;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Lock Close
+                            </span>
+                            <span style="color:#FF3B30;visibility: hidden;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Lock Open
+                            </span>
+                          </div>
+                          <div class="d-flex flex-column gap-2">
+                           <span style="color:#E77817;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Lock Open
+                            </span>
+                            <!-- <span style="color:#000000;">
+                              <i class='fa fa-circle' style="margin-right: 2px;"></i>Non E-Lock
+                            </span> -->
+                          </div>
+                        </div>
+            
+                      </div>
+                    </div>
+                  </div>
+                  </div>                  
+                  </div>
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+              </div>
+        
+            </div>
+  
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12" >
+       
+  
+        <div class="info col-lg-12 overflow-scroll">
+            <table class="  table "  cellspacing="0" id="masterUpload">
+                <thead>
+                  <tr style="text-align: center; white-space: nowrap;">
+                    <th style="border-top-left-radius: 4px;" class="table-primar"></th>
+                    <th  class="table-primar">Sl.</th>
+                    <th class="table-primar">Action</th>
+                    <th  class="table-primar d-none">Free Vehicle</th>
+                    <th  class="table-primar d-none">At Source</th>
+                    <th  class="table-primar d-none">At Destination</th>
+                    <th class="table-primar">E-Lock Status</th>
+                    <th class="table-primar">En-Route Status</th>
+                    <!-- <th class="table-primar">Route Type</th>
+                    <th class="table-primar">Region</th> -->
+                    <th class="table-primar">Origin</th>
+                    <th class="table-primar">Destination</th>
+                    <th class="table-primar">Route</th>
+                    <!-- <th class="table-primar">Fleet</th> -->
+                    <th class="table-primar">Run Date</th>
+                    <th class="table-primar">ATA</th>
+                    <th class="table-primar d-none">STA</th>
+                    <th class="table-primar">ATD</th>
+                    <th class="table-primar">STD</th>
+                    <th class="table-primar">ETA(Hrs.)</th>
+                    <th class="table-primar">ETD(Km.)</th>
+                    <!-- <th  class="table-primar">Distance Covers(Km.)</th> -->
+                    <th  class="table-primar d-none">Delay in Arrival</th>
+                    <th class="table-primar">Vehicle</th>
+                    <!-- <th class="table-primar">Track(Dev-1/Dev-2/Dev-3/All)</th> -->
+                    <th class="table-primar">Vehicle Status</th>
+                    <th class="table-primar" >Vehicle Last Time</th>
+                     <th class="table-primar">Track(Dev-1/Dev-2/Dev-3/All)</th>
+                    <th class="table-primar">Last Location</th>
+                    <th class="table-primar" >Last Halt</th>
+                    <th class="table-primar" >Driver 1</th>
+                    <th class="table-primar" >Driver 2</th>
+                    <th class="table-primar" >Transporter</th>
+                    <th class="table-primar" >Device Service Providers</th>
+                    <!-- <th class="table-primar" >Trip Status</th>
+                    <th class="table-primar" >Close By</th>
+                    <th class="table-primar" >Close Date</th> -->
+                    <th class="table-primar" >Trip Id</th>
+                    <!-- <th class="table-primar" >Run Code</th> -->
+                    <th style="border-top-right-radius: 4px;" class="table-primar" >Challan No.</th>
+    
+        
+                  </tr>
+                </thead>
+                <tbody >
+                  <tr style="text-align: center; white-space: nowrap;" *ngFor="let key of Object.keys(tripArray);let ind=index">
+
+                    <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(tripArray[key]?.MTripId,tripArray[key])"><i class="fa fa-plus"></i></button></td>
+                    <td>{{ind+1}}</td>
+                    <td >
+                        <button data-bs-target="#expensivetripModal" data-bs-toggle="modal" ngbTooltip="Add Expenses" placement="bottom" container="body"  (click)="addexpenceID(tripArray[key]?.MTripId)"> <i class='fa fa-file-upload'
+                            style="color: black;font-size: 16px;"></i></button>
+                    <button data-bs-target="#canceltripModal" data-bs-toggle="modal" ngbTooltip="Cancel Trip" placement="bottom" container="body" (click)="cancelTripF(tripArray[key]?.MTripId)"> <i
+                            class="fa fa-times-circle" style="color: red;font-size:18px"></i></button>
+                    <button data-bs-target="#closetripModal" data-bs-toggle="modal" ngbTooltip="Close Trip" placement="bottom" container="body" (click)="closeTrip(tripArray[key])"><i
+                            class="fa fa-check-circle" aria-hidden="true"
+                            style="color: blue;font-size:18px"></i></button>
+                     <button style="width: 26px;" data-bs-target="#transShipModal" data-bs-toggle="modal" ngbTooltip="Trans-Shipment" placement="bottom" container="body" (click)="transShipment(tripArray[key]?.MTripId)">
+                        <img style="width: 15.43px;margin-top: 1.1px;vertical-align: top;" src="assets/images/transShipment.png" alt="">
+                     </button>
+                     
+                     <button style="width: 26px;" data-bs-target="#updateDriverModal" data-bs-toggle="modal" type="button" ngbTooltip="Update Driver" placement="bottom" container="body" (click)="cancelTripF(tripArray[key]?.MTripId)">
+                        <img style="width: 15.43px;margin-top: 1.1px;vertical-align: top;" src="assets/icon/Icon/Driving License.png" alt=""></button>
+                      <div class="d-inline-block me-3">
+                          <button type="button" ngbTooltip="Generate link" placement="bottom" container="body" (click)="linkPopup(tripArray[key])"><img *ngIf="tripArray[key]?.TripStatus === 'Schedule'" style="cursor:pointer;" src="assets/tripIcon/add_link.svg" alt=""></button>
+                          <img  *ngIf="tripArray[key]?.TripStatus !== 'Schedule'"  src="assets/tripIcon/disable_link.svg" alt="">
+                      </div>
+                    </td>
+               
+                    <td class="d-none">{{tripArray[key]?.FreeVehicles}}</td>
+                    <td class="d-none">{{tripArray[key]?.AtSource}}</td>
+                    <td class="d-none">{{tripArray[key]?.AtDestination}}</td>
+                    <td>
+                      {{
+                        (tripArray[key]?.FixedLockOpen && tripArray[key]?.FixedLockOpen !== 'NA' ? tripArray[key]?.FixedLockOpen : '-') +
+                        ' / '}} 
+                        <span>
+                          {{ (tripArray[key]?.PortableLockOpen && tripArray[key]?.PortableLockOpen !== 'NA' ? tripArray[key]?.PortableLockOpen : '-')
+                      }}
+                        </span>
+                    
+                    </td>
+                    <td>{{ tripArray[key]?.RouteDeviation === 'NA' || tripArray[key]?.RouteDeviation === '' ? '' : tripArray[key]?.RouteDeviation }}</td>
+                    <!-- <td>{{tripArray[key]?.ShipmentMethod}}</td>
+                    <td>{{tripArray[key]?.Region}}</td> -->
+                    <td>{{tripArray[key]?.Origin}}</td>
+                    <td>{{tripArray[key]?.Destination}}</td>
+                    <td>{{tripArray[key]?.Route}}</td>
+                    <!-- <td >{{tripArray[key]?.FleetNo}}</td> -->
+                    <td >{{tripArray[key]?.RunDate}}</td>
+                    <td>{{tripArray[key]?.ATA}}</td>
+                    <td class="d-none">{{tripArray[key]?.STA}}</td>
+                    <td>{{tripArray[key]?.ATD}}</td>
+                    <td>{{tripArray[key]?.STD}}</td>
+                    <td >{{tripArray[key]?.ETA}}</td>
+                    <td>{{tripArray[key]?.RemainingDistance}}</td>
+                    <!-- <td>{{tripArray[key]?.DistanceCover}}</td> -->
+                    <td class="d-none">{{tripArray[key]?.DelayedArrived}}</td>
+                    <td> <a  (click)="openMapModal(tripArray[key],'')" style="color:rgb(66, 66, 138);cursor:pointer">{{tripArray[key]?.VehicleNo}}</a></td>
+                    <!-- <td (click)="vehicleTrackF(tripArray[key])">{{tripArray[key]?.ImeiNo1}}</td> -->
+                    <td>{{tripArray[key]?.VehicleStatus}}</td>
+                    <td><p  class="mapTrigger mb-0" (click)="openMapModal(tripArray[key],'')">{{tripArray[key]?.VehicleLastTime}}</p></td>
+                    <td>
+                      <i
+                        *ngIf="tripArray[key]?.ImeiNo1"
+                        (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo1)"
+                        ngbTooltip="Device 1"
+                        container="body"
+                        class="fa fa-map-marker"
+                        [ngStyle]="{ color: 'red', cursor: 'pointer', fontSize: '1.5em' }"
+                        aria-hidden="true"
+                      ></i>
+                      <i
+                        *ngIf="tripArray[key]?.ImeiNo2"
+                        ngbTooltip="Device 2"
+                        container="body"
+                        (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo2)"
+                        class="fa fa-map-marker ms-2"
+                        [ngStyle]="{ color: 'blue', cursor: 'pointer', fontSize: '1.5em' }"
+                        aria-hidden="true"
+                      ></i>
+                      <i
+                        *ngIf="tripArray[key]?.ImeiNo3"
+                        (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo3)"
+                        ngbTooltip="Device 3"
+                        container="body"
+                        class="fa fa-map-marker ms-2"
+                        [ngStyle]="{ color: 'green', cursor: 'pointer', fontSize: '1.5em' }"
+                        aria-hidden="true"
+                      ></i>
+                    </td> 
+                    <td>{{tripArray[key]?.LastLocation}}</td>
+                    <td>{{tripArray[key]?.Halt}}</td>
+                    <td>{{tripArray[key]?.DriverName}}/{{tripArray[key]?.DriverNumber}}</td>
+                    <td>{{tripArray[key]?.DriverName2}}</td>
+                    <td>{{tripArray[key]?.Transporter}}</td>
+                    <td>
+                      {{
+                        (tripArray[key]?.GPSVendor1 ? tripArray[key]?.GPSVendor1 : '') +
+                        (tripArray[key]?.GPSVendor2 ? '/' + tripArray[key]?.GPSVendor2 : '') +
+                        (tripArray[key]?.GPSVendor3 ? '/' + tripArray[key]?.GPSVendor3 : '')
+                      }}
+                    </td>
+                    <!-- <td>{{tripArray[key]?.TripStatus}}</td>
+                    <td>{{tripArray[key]?.CloseBy}}</td>
+                    <td>{{tripArray[key]?.CloseDate}}</td> -->
+                    <td>{{tripArray[key]?.ShipmentNo}}</td>
+                    <!-- <td>{{tripArray[key]?.RunCode}}</td> -->
+                    <td>{{tripArray[key]?.ChallanNo}}</td>
+      
+                  </tr>
+                </tbody>
+        
+              </table>
+        </div>
+      </div>
+         
+      </div>
+    </div>
+  
+  
+  <!-- //////////////////////////saumya  modal//////////////////////// -->
+  
+    
+    
+    
+    
+    
+  <div class="modal fade " id="vehcileDocModal" tabindex="-1" aria-labelledby="vehcileDocModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style=" max-width:1400px;">
+      
+        <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+             uploading... </p></ngx-spinner>
+        <div class="modal-content m-auto" style="height: 85vh; width: 80% !important;">
+        <div class="modal-header" style="background:#0e213ff2">
+          <h5 class="modal-title" id="uploadDocumentModalLabel">Map</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body" style="width:90%px;height: 98%;">
+          <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div>
+        </div>
+  
+        <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+            <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
+          <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+    <!-- /////////////////////////////////////////Link Popup/////////////////////////////////////////////////// -->
+    <div class="modal fade " id="linkModal" tabindex="-1" aria-labelledby="linkModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style=" max-width:600px;">
+        <ngx-spinner name="linkSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-scale-ripple" [fullScreen] = "false"><p style="color: white" > Loading... </p>
+        </ngx-spinner>
+          <!--   -->
+          <div class="modal-content" style="width: 1200px !important;">
+          <div class="modal-header">
+            <h4 style="color: #1D4380;font-weight: 500;" class="modal-title" id="uploadDocumentModalLabel">Tracking Link</h4>
+            <button (click)="closeLinkModal()" style="width: 4px;height: 4px;" type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+    
+          <div class="modal-body" style="width:600px">
+            <!-- <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div> -->
+            <div class="shareLink pt-4" style="padding: 54px 0px;">
+              <div class="permalink" style="margin: auto;width:83%">
+                <input class="textLink" id="linkTextQ" type="text" name="shortlink" value={{linkValue}}  readonly="">
+                <button type="button"  placement="bottom" class="copyLink" id="copy" [ngbTooltip]="linkObject?.text"  autoClose="false"  (click)="copyToClipboard()">
+                  <i *ngIf="linkObject?.copyVariable" class="fa-regular fa-copy"></i>
+                  <i *ngIf="!linkObject?.copyVariable" class="fa-regular fa-circle-check" style="color: #00bd00;"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+    
+          <!-- <div class="modal-footer justify-content-center col-lg-6 mx-auto"> -->
+              <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
+            <!-- <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button> -->
+          <!-- </div> -->
+    
+        </div>
+      </div>
+    </div>
+    <!-- ///////////////////////////////////////////////////////////////////map pop///////////////////////// -->
+
+    <!-- <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style=" max-width: 1027px;margin-left: 260px;">
+        <div class="modal-content" style="height: 634px; width: 835px;">
+    
+          <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel" style="margin-left: 220px;font-weight:400;"></h6>
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="map">
+            </div>
+          </div>
+          <div class="modal-footer" style="margin-bottom: 28px;">
+    
+   
+    
+            <button type="button" class="btn-outline-danger btn-sm" data-bs-dismiss="modal">Close</button>
+    
+          </div>
+        </div>
+      </div>
+    </div> -->
+  
+
+  
+  
+  
+  
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
+         <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
+          <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+              uploading... </p></ngx-spinner>
+          <div class="modal-header" style="background:#0e213ff2">
+            <h5 class="modal-title" id="mapModalLabel" style="color:white;">Map</h5>
+            <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+              <i style="font-size: 24px;color:white" class="fa fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body p-0 pt-1" style="width:100%;height: 100%;">
+            <div #mapContainer style="width: 100%; height: 100%;" class="mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+      <!-- //////////////////////////////////////////////////////////close trip modal////////////////////////////////////////////////// -->
+<div class="modal fade" id="closetripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog" style="margin-left: 458px;width: 520px;max-width: 1000px;">
+    <div class="modal-content" style="height: 310px;border: 3px solid #1c84c6">
+
+        <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+ 
+            <h5 class="modal-title" id="exampleModalLabel"
+                style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Close Trip
+            </h5>
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form #closeT="ngForm" (ngSubmit)="closeTripF(closeT.value);closeT.reset()">
+                <div class="col-lg-12 cutom">Select Location</div>
+            <div class="col-lg-12">
+                <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel class="cutombox" required
+                    name="location">
+                    <ng-option [value]="item.id" *ngFor="let item of location">{{item.location_name }}</ng-option>
+                </ng-select>
+            </div>
+                <div class="col-lg-12 mt-2">
+                    <div class="row">
+                        <div class="col-lg-6 cutom">Closing Odometer Reading</div>
+                        <div class="col-lg-6 cutom">EPOD Date & Time</div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <input type="text" id="form12" class="form-control cutombox" [ngbTooltip]="location.length>1 ? 'Odometer reading only last location' : ''" placement="top" ngModel name="odometer" />
+
+                        </div>
+                        <div class="col-lg-6 ">
+                            <input  style="font-size: 12px;" type="datetime-local" step="1" class="form-control cutombox"
+                                ngModel="datetimepicker1" required name="time" />
+
+                        </div>
+
+                    </div>
+       
+                    <div class="row mt-2">
+                        <div class="col-lg-6 cutom">EPOD Documents</div>
+                        <div class="col-lg-6 cutom">Remarks</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <input class="form-control form-control-sm cutombox" id="formFileSm" type="file" ngModel
+                                name="file" />
+                        </div>
+                        <div class="col-lg-6 ">
+                            <textarea class="form-control cutombox" rows="1" id="comment" ngModel
+                                name="remarks"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="row mt-4">
+                        <div style="text-align:center;">
+                            <button class="btn btn-sm btn-orange" type="submit"
+                                style="width: 70px;color: white;">close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+<!-- //////////////////////////////////////////////////////////////cancel trip modal////////////////////////////////////////////////////////////////////// -->
+<div class="modal fade" id="canceltripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog" style="margin-left: 458px;width: 420px;">
+    <div class="modal-content" style="height: 200px;border: 3px solid #1D4380">
+
+        <div class="modal-header" style="border-bottom: 2px solid #eef1f6;height: 12px;">
+            <!-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" aria-label="Close"><i class="fa fa-arrow-left"
+          ngbTooltip="Back"></i></button> -->
+            <h5 class="modal-title" id="exampleModalLabel"
+                style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Cancel Trip
+            </h5>
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- <form #closeT="ngForm" (ngSubmit)="closeTrip(closeT.value);closeT.reset()">
+      
+       
+
+
+       
+          <button class="btn btn-outline-primary btn-sm" type="submit" id="AlertButton"
+            style="margin-top: 15px;margin-left: 242px;">Submit</button>
+        
+       
+
+      </form> -->
+
+            <!-- <div class="col-lg-12 cutom">Shipment Number</div>
+            <div class="col-lg-12">
+                <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel="" class="cutombox" required
+                    name="shipment_no">
+                    <ng-option value="" selected>ING001</ng-option>
+                    <ng-option value="">ING001</ng-option>
+
+
+                </ng-select>
+            </div> -->
+            <form #canceltrp="ngForm" (ngSubmit)="cancelSubmit(canceltrp.value)">
+                <div class="col-lg-12 mt-2">
+
+                    <div class="row">
+
+                        <div class="col-lg-12 cutom">Remarks</div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-12 ">
+                            <textarea class="form-control cutombox" rows="1" id="comment" ngModel
+                                name="remarks"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="row mt-4">
+                        <div style="text-align:center;">
+                            <button class="btn btn-sm btn-orange" type="submit"
+                                style="width: 70px;color: white;">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+<!-- /////////////////////////////////////////////add expensive////////////////////////////////////////////////////////////////////////////// -->
+<div class="modal fade" id="expensivetripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog" style="margin-left: 458px;width: 420px;">
+    <div class="modal-content" style="height: 255px;border: 3px solid #1D4380">
+
+        <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+            <!-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" aria-label="Close"><i class="fa fa-arrow-left"
+          ngbTooltip="Back"></i></button> -->
+            <h5 class="modal-title" id="exampleModalLabel"
+                style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Add Expenses
+            </h5>
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <!-- <form #closeT="ngForm" (ngSubmit)="closeTrip(closeT.value);closeT.reset()">
+      
+       
+
+
+       
+          <button class="btn btn-outline-primary btn-sm" type="submit" id="AlertButton"
+            style="margin-top: 15px;margin-left: 242px;">Submit</button>
+        
+       
+
+      </form> -->
+
+            <!-- <div class="col-lg-12 cutom">Shipment Number</div> -->
+            <form #addExpense="ngForm" (ngSubmit)="addExpenseF(addExpense.value)">
+
+                <div class="col-lg-12 mt-2">
+                    <div class="row">
+                        <div class="col-lg-6 cutom">Select Expens</div>
+                        <div class="col-lg-6 cutom">Expense Date</div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel class="cutombox"
+                                required name="expense">
+                                <ng-option value="" selected>select</ng-option>
+                                <ng-option [value]="item"
+                                    *ngFor="let item of expenseListdata">{{item.name}}</ng-option>
+
+
+                            </ng-select>
+
+                        </div>
+                        <div class="col-lg-6 ">
+                            <input type="datetime-local" step="1" class="form-control cutombox"
+                                ngModel="datetimepicker1" required name="from_time" />
+
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-6 cutom">Amount</div>
+                        <div class="col-lg-6 cutom">Remarks</div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <input type="text" id="form12" class="form-control cutombox" name="Amount" ngModel />
+                        </div>
+                        <div class="col-lg-6 ">
+                            <textarea class="form-control cutombox" rows="1" id="comment" name="Remarks" ngModel></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-4">
+                        <div style="text-align:center;">
+                            <button class="btn btn-sm btn-orange" type="submit"
+                                style="width: 70px;color: white;">Add</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+<!-- //////////////////////////////////////////////////////////Trans Shipment Model////////////////////////////////////////////////// -->
+<div class="modal fade" id="transShipModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"data-bs-backdrop="static" data-bs-keyboard="false">
+
+    <div class="modal-dialog" style="margin-left: 458px;width: 420px;">
+    <div class="modal-content" style="height: 310px;border: 3px solid #1c84c6">
+
+        <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+ 
+            <h5 class="modal-title" id="exampleModalLabel"
+                style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Trans-Shipment
+            </h5>
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+            <form #transShip="ngForm" (ngSubmit)="transShipment(transShip.value);transShip.reset()">
+                <div class="col-lg-12 cutom">Select Vehicle</div>
+            <div class="col-lg-12">
+                <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel class="cutombox" required
+                    name="vehicle">
+                
+                    <ng-option [value]="item.id" *ngFor="let item of location">{{item.location_name }}</ng-option>
+                   
+
+
+                </ng-select>
+            </div>
+                <div style="white-space:nowrap;" class="col-lg-12 mt-2">
+                    <div class="row">
+                        <div class="col-lg-6 cutom">Opening Odometer Reading</div>
+                        <div class="col-lg-6 cutom">Closing Odometer Reading</div>
+
+                    </div>
+                    <div  class="row">
+                        <div class="col-lg-6 ">
+                            <input type="text" id="form12" placeholder="odometer reading" class="form-control cutombox" [ngbTooltip]="location.length>1 ? 'Odometer reading only last location' : ''" placement="top" [ngModel] name="openOdometer" [disabled]="location.length>1" />
+
+                        </div>
+                        <div class="col-lg-6 ">
+                            <input type="text" id="form12" placeholder="odometer reading"  class="form-control cutombox" [ngbTooltip]="location.length>1 ? 'Odometer reading only last location' : ''" placement="top" ngModel name="closeOdometer" [disabled]="location.length>1" />
+
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-6 cutom">Transshipment Documents</div>
+                        <div class="col-lg-6 cutom">Remarks</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <input class="form-control form-control-sm cutombox" id="formFileSm" type="file" ngModel
+                                name="file" />
+                        </div>
+                        <div class="col-lg-6 ">
+                            <textarea class="form-control cutombox" rows="1" id="comment" placeholder="Remarks..." [ngModel]
+                                name="remarks"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="row mt-4">
+                        <div style="text-align:center;">
+                            <button class="btn btn-sm btn-orange" type="submit"
+                                style="width: 70px;color: white;">close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<!-- //////////////////////////////////////////////////////////Update Driver Model////////////////////////////////////////////////// -->
+<div class="modal fade" id="updateDriverModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog" style="margin-left: auto; width:255px;">
+    <div class="modal-content" style="border: 3px solid #1c84c6">
+
+        <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+            <!-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" aria-label="Close"><i class="fa fa-arrow-left"
+          ngbTooltip="Back"></i></button> -->
+            <h5 class="modal-title" id="exampleModalLabel"
+                style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Update Driver
+            </h5>
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+            <form #updateDriverForm="ngForm" (ngSubmit)="updateDriveTrip(updateDriverForm.value);updateDriverForm.reset()">
+                <div class="col-lg-12 cutom">Select Driver</div>
+            <div class="col-lg-12">
+                <ng-select name="subassets" placeholder="" id="ShipmentNo" ngModel class="cutombox" required
+                    name="vehicle">
+                    <!-- <ng-option value="" selected>ING001</ng-option> -->
+                    <ng-option [value]="item" *ngFor="let item of driverData">{{item.Name}}/{{item.MobileNo}}</ng-option>
+                   
+
+
+                </ng-select>
+            </div>
+                <div style="white-space:nowrap;" class="col-lg-12 mt-2">
+                    <div class="row mt-4">
+                        <div style="text-align:center;">
+                            <button class="btn btn-sm btn-orange" type="submit"
+                                style="color: white;">Update Driver</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+
+  <!-- /////////////////////////////////alert model/////////////////////////////////////////////////////////////////////////////// -->
+  
+  <div class="modal fade" id="alertPopUp">
+    <div class="modal-dialog modal-dialog-centered" style=" max-width:1400px;">
+    
+     
+      <div class="modal-content" style="height: fit-content; width: 80% !important;margin:auto">
+        <ngx-spinner name="alertSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+          uploading... </p></ngx-spinner>
+      <div class="modal-header">
+        <!-- <h5 class="modal-title" id="">Map</h5> -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body" style="width:100%;height: fit-content;">
+        <table class="display nowrap  table"  cellspacing="0" id="tripHeaderTable" width="100%">
+          <thead>
+            <tr style="text-align: center;">
+              <th style="border-top-left-radius: 4px;" class="table-primar" >Trip Id</th>
+              <th class="table-primar">Run Date</th>
+              <th class="table-primar">Route</th>
+              <th style="border-top-right-radius: 4px;" class="table-primar">Vehicle</th>  
+            </tr>
+          </thead>
+          <tbody >
+            <tr style="text-align: center; " >
+              <td>{{tripSingle?.TripId}}</td>
+              <td>{{tripSingle?.RunDate}}</td>
+              <td>{{tripSingle?.Route}}</td>
+              <td> {{tripSingle?.Vehicle}}</td>
+            </tr>
+          </tbody>
+  
+        </table>
+        <div class="mt-4">
+
+        </div>
+        <table class="display nowrap  table mt-4"  cellspacing="0" id="tripDetailTable" width="100%">
+          <thead>
+            <tr style="text-align: center;">
+              <th style="border-top-left-radius: 4px;" class="table-primar" >Source</th>
+              <th class="table-primar">STD</th>
+              <th class="table-primar">ATD</th>
+              <th class="table-primar">STA</th>
+              <th class="table-primar">ATA</th>
+              <th class="table-primar">Delay in Arrival</th>
+              <!-- <th class="table-primar">Status in Arrival</th> -->
+              <th style="border-top-right-radius: 4px;" class="table-primar">Status in Arrival</th>  
+            </tr>
+          </thead>
+          <tbody >
+            <tr style="text-align: center;" *ngFor="let item of tripSingle?.details;" >
+              <td>{{item?.Source}}</td>
+              <td>{{item?.STD}}</td>
+              <td>{{item?.ATD}}</td>
+              <td> {{item?.STA}}</td>
+              <td> {{item?.ATA}}</td>
+              <td> {{item?.DelayArrival}}</td>
+              <td> {{item?.Status}}</td>
+            </tr>
+          </tbody>
+  
+        </table>
+      </div>
+
+      <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+          <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
+        <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+  </div>

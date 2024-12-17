@@ -25,6 +25,7 @@ export class SidemenuComponent implements OnInit {
   //For Horizontal Menu
   public margin: any = 0;
   public width: any = window.innerWidth;
+  profileImage: any='';
 
   constructor(
     private router: Router,
@@ -114,6 +115,7 @@ export class SidemenuComponent implements OnInit {
 
     // Determine which service to use based on the class
     const userClass = localStorage.getItem('Class')?.split('/')[0];
+    this.profileImage=localStorage.getItem('FullImage')
     if (userClass === 'genericAlert') {
       this.loadGenericAlertMenu();
     } else if (userClass === 'specific') {

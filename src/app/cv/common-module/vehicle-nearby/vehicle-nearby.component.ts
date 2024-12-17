@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CrudService } from 'src/app/shared/services/crud.service';
 import { NavService } from 'src/app/shared/services/nav.service';
+import { CommonModuleService } from '../services/common-module.service';
 declare const agGrid: any;
 declare const pdfMake: any;
 declare var $: any;
@@ -41,6 +42,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
     private navServices: NavService,
     private SpinnerService: NgxSpinnerService,
     private service:CrudService,
+    private commonModuleService:CommonModuleService,
     private http: HttpClient
   ) {
   }
@@ -79,7 +81,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
   initApi(){
     const formData=new FormData()
     formData.append('AccessToken',this.token)
-    this.service.nearbyFilter(formData).subscribe(
+    this.commonModuleService.nearbyFilter(formData).subscribe(
       (res: any) => {
         // this.tripArray=res?.MainDashboard
 
@@ -87,20 +89,8 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         // console.log(this.SpinnerService);
                this.filterObject=res?.Filter
                console.log('nearbyFilter', this.filterObject);
-               
-        // // this.masterUploadTable()
-        // if (res?.Status == 'success') {
-        //   this.tripArray = res?.MainDashboard;
-        //   this.dashboardHeader = res?.Header;
-        //   console.log('dashboardHeader', this.dashboardHeader);
+              
 
-        //   this.masterUploadTable();
-        //   this.SpinnerService.hide('tableSpinner');
-        // } else {
-        //   this.SpinnerService.hide('tableSpinner');
-        // }
-        // this.routeId = (res?.data);
-        // console.log("customerList", this.routeId);
       },
       (error) => {
         console.error('error getting data', error);
@@ -134,7 +124,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
       const formData=new FormData()
       formData.append('AccessToken',this.token)
       formData.append('LocationCode',val)
-      this.service.nearbyLocation(formData).subscribe(
+      this.commonModuleService.nearbyLocation(formData).subscribe(
         (res: any) => {
           // this.tripArray=res?.MainDashboard
           
@@ -384,56 +374,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
       this.gridApi.exportDataAsCsv({ fileName: 'table-data.csv' });
     }
   }
-  /**
-   * Export AG Grid data to PDF using pdfMake CDN
-   */
-  // exportToPDF(): void {
-  //   // Prepare the table header
-  //   const headers = this.columnDefs.map((col) => col.headerName);
 
-  //   // Prepare the table body
-  //   const body = this.rowData.map((row) =>
-  //     this.columnDefs.map((col) => row[col.field])
-  //   );
-
-  //   // Add headers to the table body
-  //   body.unshift(headers);
-
-  //   // Define the document content
-  //   const docDefinition = {
-  //     content: [
-  //       { text: 'Vehicle Nearby Data', style: 'header', alignment: 'center' },
-  //       { text: '\n' }, // Add space
-  //       {
-  //         table: {
-  //           headerRows: 1,
-  //           widths: Array(headers.length).fill('*'), // Adjust column widths
-  //           body: body,
-  //         },
-  //       },
-  //     ],
-  //     styles: {
-  //       header: {
-  //         fontSize: 18,
-  //         bold: true,
-  //         margin: [0, 0, 0, 10],
-  //       },
-  //       tableHeader: {
-  //         bold: true,
-  //         fontSize: 12,
-  //         color: 'white',
-  //         fillColor: '#0074D9',
-  //         alignment: 'center',
-  //       },
-  //       tableBody: {
-  //         fontSize: 10,
-  //       },
-  //     },
-  //   };
-
-  //   // Generate and download the PDF using the global pdfMake object
-  //   pdfMake.createPdf(docDefinition).download('vehicle-nearby-data.pdf');
-  // }
   exportToPDF(): void {
     const headers = this.columnDefs.map((col) => col.headerName);
     const body = this.rowData.map((row) =>
@@ -487,46 +428,42 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
   onFilterDashboard(val) {
     console.log(val);
     let formData = new FormData();
-    // formData.append("AccessToken",this.token)
-    formData.append('RouteType', val?.routeType);
-    formData.append('Region', val?.Region || '');
-    formData.append('Origin', val?.Origin || '');
-    formData.append('Destination', val?.destination || '');
-    formData.append('Route', val?.route || '');
-    formData.append('Delay', val?.etaDelay || '0');
-    formData.append('RouteCategory', val?.routeCatgory || '');
+    formData.append("AccessToken",this.token)
+    formData.append('TripStatus', val?.tripStatus);
+    formData.append('FeederType', val?.tripType);
+    formData.append('Transporter', val?.transporter);
+
     console.log(formData);
 
     this.SpinnerService.show('tableSpinner');
-    // this.service.specificTripDashboard(formData).subscribe(
-    //   (res: any) => {
-    //     // this.tripArray=res?.MainDashboard
+    this.commonModuleService.nearbyVehicleFilter(formData).subscribe(
+      (res: any) => {
+        console.log('specificDashboard', res);
 
-    //     console.log('specificDashboard', res);
-    //     // console.log(this.SpinnerService);
+        if (res?.Status == 'success') {
+       
+            this.vehicleData=res?.Data
+            console.log("vehicle data",this.vehicleData);
+             this.loadData()
+             this.segregateVehicleFunction()
 
-    //     // this.masterUploadTable()
-    //     if (res?.Status == 'success') {
-    //       this.tripArray = res?.MainDashboard;
-    //       this.dashboardHeader = res?.Header;
-    //       console.log('dashboardHeader', this.dashboardHeader);
-
-    //       this.masterUploadTable();
-    //       this.SpinnerService.hide('tableSpinner');
-    //     } else {
-    //       this.SpinnerService.hide('tableSpinner');
-    //     }
-    //     // this.routeId = (res?.data);
-    //     // console.log("customerList", this.routeId);
-    //   },
-    //   (error) => {
-    //     console.error('error getting data', error);
-    //     this.SpinnerService.hide('tableSpinner');
-    //   }
-    // );
+          this.SpinnerService.hide('tableSpinner');
+        } else {
+          this.SpinnerService.hide('tableSpinner');
+          console.log("qalbe");
+          
+        }
+      },
+      (error) => {
+        console.error('error getting data', error);
+        this.SpinnerService.hide('tableSpinner');
+      }
+    );
   }
 
-
+ segregateVehicleFunction(){
+  
+ }
 
   openMapModal(item,filterForm) {
     this.selectedVehcileLtLng=filterForm?.value?.tripType
@@ -563,44 +500,61 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
       hour12: false // To use 24-hour format
     }).replace(',', '');
 
-    const formData=new FormData()
+    // const formData=new FormData()
    
+    // // formData.append('AccessToken', this.token)
     // formData.append('AccessToken', this.token)
-    formData.append('AccessToken', this.token)
-    // formData.append('startdate', item?.RunDate);
-    formData.append('startdate', '2024-11-27 13:42:05');
-    formData.append('enddate', currentDateTime);
-    formData.append('time_interval', '60');
-    // formData.append('imei', item?.ImeiNo1||item?.ImeiNo2||item?.ImeiNo3);
-    formData.append('imei','2065860241')
-    formData.append('group_id', '5690');
-    formData.append('AccountId', '177914');
-    this.service.vehicleTrackongS(formData).subscribe((res: any) => {
-      console.log("Response:", res);
+    // // formData.append('startdate', item?.RunDate);
+    // formData.append('startdate', '2024-11-27 13:42:05');
+    // formData.append('enddate', currentDateTime);
+    // formData.append('time_interval', '60');
+    // // formData.append('imei', item?.ImeiNo1||item?.ImeiNo2||item?.ImeiNo3);
+    // formData.append('imei','2065860241')
+    // formData.append('group_id', '5690');
+    // formData.append('AccountId', '177914');
+    // this.service.vehicleTrackongS(formData).subscribe((res: any) => {
+    //   console.log("Response:", res);
      
       
-      if (res.Status === 'success' && Array.isArray(res.data) && res.data.length > 0) {
+    //   if (res.Status === 'success' && Array.isArray(res.data) && res.data.length > 0) {
         // Extract coordinates from the data array
-        const res=[this.selectedVehcileLtLng]
-        console.log('myres',res);
-        
-        const coordinates = res.map(location => ({
-          lat: this.normalizeCoordinate(location?.Latitude), // Use the correct key for latitude
-          lng: this.normalizeCoordinate(location?.Longitude) // Use the correct key for longitude
-        }));
-        this.trackingData=this.vehicleData?.data
-           console.log(coordinates);
-           
-        // Initialize the map with the coordinates
-        this.initializeMap(nearbyVehicles, this.selectedVehcileLtLng, radius);
-      } else {
-        alert(res?.Message)
-        console.log('No valid locations found in the response.');
-      }
-    }, error => {
-      alert('Error fetching vehicle tracking data:')
-      console.error('Error fetching vehicle tracking data:', error);
-    });
+   
+        setTimeout(() => {
+          const res=[this.selectedVehcileLtLng]
+          console.log('myres',res);
+          
+          const coordinates = res.map(location => ({
+            lat: this.normalizeCoordinate(location?.Latitude), // Use the correct key for latitude
+            lng: this.normalizeCoordinate(location?.Longitude) // Use the correct key for longitude
+          }));
+          this.trackingData=this.vehicleData?.data
+             console.log(coordinates);
+             
+          // Initialize the map with the coordinates
+          this.initializeMap(nearbyVehicles, this.selectedVehcileLtLng, radius);
+        }, 2000); 
+      // } else {
+      //   alert(res?.Message)
+      //   console.log('No valid locations found in the response.');
+      // }
+    // }, error => {
+    //   alert('Error fetching vehicle tracking data:')
+    //   console.error('Error fetching vehicle tracking data:', error);
+    // });
+  
+    // const res=[this.selectedVehcileLtLng]
+    // console.log('myres',res);
+    
+    // const coordinates = res.map(location => ({
+    //   lat: this.normalizeCoordinate(location?.Latitude), // Use the correct key for latitude
+    //   lng: this.normalizeCoordinate(location?.Longitude) // Use the correct key for longitude
+    // }));
+    // this.trackingData=this.vehicleData?.data
+    //    console.log("coordinates",coordinates);
+       
+    // // Initialize the map with the coordinates
+    // this.initializeMap(nearbyVehicles, this.selectedVehcileLtLng, radius);
+  
   }
 
 //   addCircleToMap(coordinate,item){
@@ -620,6 +574,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
 //       }
 //     ));
 //   }
+
   addInfoBubble(marker: any, coord: { lat: number, lng: number },trackingData): void {
     marker.addEventListener('tap', async (evt) => {
       // Close existing bubbles
@@ -796,6 +751,7 @@ return `<p>Aman</p>`
 //   // Initialize map with nearby vehicles
 //   this.initializeMap(nearbyVehicles, this.selectedVehcileLtLng, radius);
 // }
+
 normalizeCoordinate(coord: string | number):any {
   if (typeof coord === 'number') {
     return coord; // Already a number
@@ -822,11 +778,11 @@ findNearbyVehicles(selectedLatLng: { Latitude: number; Longitude: number }, radi
       const vehicle = this.vehicleData.data[vehicleKey];
       const vehicleLat = this.normalizeCoordinate(vehicle.Latitude);
       const vehicleLng = this.normalizeCoordinate(vehicle.Longitude);
-      //  console.log(vehicle?.Latitude);
+      
        
       // Skip invalid coordinates
       if (isNaN(vehicleLat) || isNaN(vehicleLng)) {
-        // console.warn(`Invalid coordinates for vehicle: ${vehicle.vehicle_number}`);
+        console.warn(`Invalid coordinates for vehicle: ${vehicle.vehicle_number}`);
         continue;
       }
 
@@ -895,7 +851,7 @@ initializeMap(coordinates,item,radius) {
       this.mapContainer.nativeElement,
       this.defaultLayers.vector.normal.map,
       {
-        center:  item? item : { lat: 50, lng: 5 },
+        center:   { lat: 17.6732, lng: 78.4977 },
         zoom: 6,
         pixelRatio: window.devicePixelRatio || 1
       }
@@ -916,6 +872,8 @@ initializeMap(coordinates,item,radius) {
   let swLng = this.normalizeCoordinate(coordinates[0]?.Longitude)
   let neLat = this.normalizeCoordinate(coordinates[0]?.Latitude)
   let neLng = this.normalizeCoordinate(coordinates[0]?.Longitude)
+  console.log("SW",swLat,swLng,neLat,neLng);
+  
   function iconFn(color){
     return `<svg width="40" height="40" viewBox="0 0 40 40" fill='${color}' xmlns="http://www.w3.org/2000/svg">
     <path d="M2.25706 28.4622C1.58948 29.0343 1.13085 29.8382 0.994575 30.751H0.454183C0.204379 30.751 0 30.5467 0 30.2969V28.9163C0 28.6665 0.204314 28.4622 0.454183 28.4622L2.25706 28.4622ZM7.46137 30.751C7.49771 30.928 7.51588 31.1051 7.51588 31.2914C7.51588 32.849 6.2534 34.116 4.69118 34.116C3.13353 34.116 1.86647 32.849 1.86647 31.2914C1.86647 31.1051 1.88458 30.928 1.92092 30.751C2.17065 29.4475 3.3151 28.4621 4.69111 28.4621C6.06712 28.4621 7.21614 29.4475 7.46137 30.751ZM6.10353 31.2914C6.10353 31.1007 6.06726 30.9144 5.99458 30.751C5.78569 30.2378 5.28157 29.879 4.69124 29.879C4.10085 29.879 3.5968 30.2378 3.38784 30.751C3.31516 30.9144 3.27889 31.1007 3.27889 31.2914C3.27889 32.0679 3.91013 32.7037 4.69124 32.7037C5.47235 32.7037 6.10353 32.0679 6.10353 31.2914ZM1.11804 26.6502V13.1124C1.11804 12.36 1.72804 11.75 2.48046 11.75H24.188C24.9405 11.75 25.5504 12.36 25.5504 13.1124V26.6502C25.5504 26.8999 25.3461 27.1043 25.0963 27.1043H1.57222C1.32242 27.1043 1.11804 26.8999 1.11804 26.6502ZM22.2533 25.1218C22.2533 25.3374 22.4281 25.5122 22.6437 25.5122H22.6559C22.8714 25.5122 23.0462 25.3374 23.0462 25.1218V13.8889C23.0462 13.6733 22.8714 13.4986 22.6559 13.4986H22.6437C22.4281 13.4986 22.2533 13.6733 22.2533 13.8889V25.1218ZM18.5826 25.1218C18.5826 25.3374 18.7573 25.5122 18.9729 25.5122H18.985C19.2007 25.5122 19.3754 25.3374 19.3754 25.1218V13.8889C19.3754 13.6733 19.2007 13.4986 18.985 13.4986H18.9729C18.7573 13.4986 18.5826 13.6733 18.5826 13.8889V25.1218ZM14.9118 25.1218C14.9118 25.3374 15.0866 25.5122 15.3022 25.5122H15.3143C15.5299 25.5122 15.7046 25.3374 15.7046 25.1218V13.8889C15.7046 13.6733 15.5299 13.4986 15.3143 13.4986H15.3022C15.0866 13.4986 14.9118 13.6733 14.9118 13.8889V25.1218ZM11.2412 25.1218C11.2412 25.3374 11.4159 25.5122 11.6315 25.5122H11.6437C11.8592 25.5122 12.034 25.3374 12.034 25.1218V13.8889C12.034 13.6733 11.8592 13.4986 11.6437 13.4986H11.6315C11.4159 13.4986 11.2412 13.6733 11.2412 13.8889V25.1218ZM7.57046 25.1218C7.57046 25.3374 7.74516 25.5122 7.96078 25.5122H7.97294C8.1885 25.5122 8.3632 25.3374 8.3632 25.1218V13.8889C8.3632 13.6733 8.1885 13.4986 7.97294 13.4986H7.96078C7.74516 13.4986 7.57046 13.6733 7.57046 13.8889V25.1218ZM3.89974 25.1218C3.89974 25.3374 4.07451 25.5122 4.29007 25.5122H4.30222C4.51784 25.5122 4.69255 25.3374 4.69255 25.1218V13.8889C4.69255 13.6733 4.51784 13.4986 4.30222 13.4986H4.29007C4.07451 13.4986 3.89974 13.6733 3.89974 13.8889V25.1218ZM14.4324 30.751C14.4687 30.928 14.4869 31.1051 14.4869 31.2914C14.4869 32.849 13.2244 34.116 11.6622 34.116C10.1044 34.116 8.83745 32.849 8.83745 31.2914C8.83745 31.1051 8.85562 30.928 8.8919 30.751C9.1417 29.4475 10.2861 28.4621 11.6622 28.4621C13.0382 28.4621 14.1871 29.4475 14.4324 30.751ZM13.0745 31.2914C13.0745 31.1007 13.0382 30.9144 12.9701 30.751C12.7566 30.2378 12.2525 29.879 11.6622 29.879C11.0718 29.879 10.5676 30.2378 10.3542 30.751C10.2861 30.9144 10.2498 31.1007 10.2498 31.2914C10.2498 32.0679 10.881 32.7037 11.6622 32.7037C12.4433 32.7037 13.0745 32.0679 13.0745 31.2914ZM9.22797 28.4622H7.12542C7.58863 28.8617 7.95647 29.3749 8.17902 29.9562C8.39693 29.375 8.76477 28.8617 9.22797 28.4622ZM40 28.9162V30.2968C40 30.5466 39.7956 30.751 39.5459 30.751H35.8675C35.6041 28.948 34.0554 27.5539 32.1799 27.5539C30.3043 27.5539 28.7512 28.948 28.4878 30.751H15.3588C15.2225 29.8381 14.7639 29.0343 14.0963 28.4621H26.8484V15.4739C26.8484 14.9743 27.2525 14.5656 27.7566 14.5656H32.0437C33.2516 14.5656 34.3779 15.1651 35.0544 16.1642L37.8201 20.2605C38.2243 20.8599 38.4423 21.5684 38.4423 22.2904V28.4621H39.5458C39.7956 28.4622 40 28.6664 40 28.9162ZM35.3951 20.3649L33.1835 17.2223C33.0972 17.1042 32.961 17.0316 32.8111 17.0316H29.3643C29.1146 17.0316 28.9101 17.2359 28.9101 17.4858V20.6238C28.9101 20.8781 29.1146 21.0779 29.3643 21.0779H35.0227C35.3907 21.0779 35.604 20.6646 35.3951 20.3649ZM35.0045 31.2914C35.0045 32.849 33.7375 34.116 32.1798 34.116C30.6176 34.116 29.3551 32.849 29.3551 31.2914C29.3551 29.7292 30.6176 28.4622 32.1798 28.4622C33.7376 28.4622 35.0045 29.7291 35.0045 31.2914ZM33.5922 31.2914C33.5922 30.5103 32.961 29.879 32.1799 29.879C31.3988 29.879 30.7675 30.5103 30.7675 31.2914C30.7675 32.0679 31.3988 32.7037 32.1799 32.7037C32.961 32.7037 33.5922 32.0679 33.5922 31.2914Z"  fill="${color}"/>
@@ -930,19 +888,20 @@ initializeMap(coordinates,item,radius) {
   this.normalizeCoordinate(coordinates[0]?.Longitude), 
   this.normalizeCoordinate(coordinates[0]?.Latitude), 
   this.normalizeCoordinate(coordinates[0]?.Longitude));
+  
 // Create an icon, an object holding the latitude and longitude, and a marker:
 // var icon = new H.map.Icon(svgMarkup)
     // Create markers and update bounds
     coordinates.forEach((coord,index) => {
       const icon = index === 0 ? sourceIcon : (index === coordinates.length - 1 ? destinationIcon : intermediateIcon);
-      this.addMarker(coord, icon);
+      // this.addMarker(coord, icon);
 
-    
+    const latlong={lat:coord?.Latitude,lng:coord?.Longitude}
 
       // Add marker using the helper function
-     const marker= this.addMarker(coord, icon);
-      
-      this.addInfoBubble(marker, coord,this.trackingData[index]);
+     const marker= this.addMarker(latlong, icon);
+     console.log("SW1",swLat,swLng,neLat,neLng);
+      this.addInfoBubble(marker, latlong,this.trackingData[index]);
             // // Update bounds
             swLat = Math.min(swLat, coord.Latitude);
             swLng = Math.min(swLng, coord.Longitude);
@@ -950,10 +909,11 @@ initializeMap(coordinates,item,radius) {
             neLng = Math.max(neLng, coord.Longitude);
      // Expand the bounds to include each coordinate
      const padding = 0.01;
-     bounds = this.calculateBoundsFromRadius(item,radius);
-     bounds = bounds.mergePoint(coord);
+     bounds = this.calculateBoundsFromRadius({ lat: 17.6732, lng: 78.4977 },radius);
+     bounds = bounds.mergePoint(latlong);
 
     });
+console.log("below info bubble");
 
     // Create bounds with updated southwest and northeast points
     // const bounds = new H.geo.Rect(swLat, swLng, neLat, neLng);
@@ -966,7 +926,7 @@ initializeMap(coordinates,item,radius) {
     this.map.getViewModel().setLookAtData({
       bounds: bounds
     });
-    this.addCircleToMap(item,radius);
+    this.addCircleToMap({ lat: 17.6732, lng: 78.4977 },radius);
   }
   this.SpinnerService.hide('mapSpinner')
 }

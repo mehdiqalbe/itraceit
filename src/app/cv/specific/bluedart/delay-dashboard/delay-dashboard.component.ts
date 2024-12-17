@@ -741,6 +741,7 @@ adjustGridHeight() {
     })
 
   }
+
   async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
     console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
 

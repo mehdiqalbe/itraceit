@@ -73,20 +73,24 @@ export class GenericAlertService implements OnDestroy {
     bpl: [ 
         {
     
-            title:'Dashboard', status:0,deactive_img:'fa fa-dashboard', active_img:'fa fa-dashboard', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: true,Account_id:'',
-            children: [
-                { path: '/cv/genericAlert/bpl/Delay-Dashboard', title: 'Delay Dashboard', type: 'link', active:false },
-                // { path: '/ILgic/Trip', title: 'Trip Dashboard', type: 'link', active:true },
-                // { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
-            ]
-        
-        },
-       
-        // {
-        //     path: 'https://beta.secutrak.in', title: 'Vehicle Dashboard ', type: 'link', active:false ,
-        // },
-  
-        {
+          title:'Dashboard', status:0,deactive_img:'fa fa-dashboard', active_img:'fa fa-dashboard', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: true,Account_id:'',
+          children: [
+ 
+            { path: '/cv/genericAlert/bpl/Trip-Dashboard', title: 'Trip Dashboard', type: 'link', active:true },
+            { path: '/cv/genericAlert/bpl/Delay-Dashboard', title: 'Delay Dashboard', type: 'link', active:false },
+              { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
+
+
+
+          ]
+      
+      },
+     
+      {
+          path: 'https://beta.secutrak.in', title: 'Vehicle Dashboard ', type: 'link', active:false ,
+      },
+
+      {
          
             title:'Reports', status:0,deactive_img:'fa fa-file-text-o', active_img:'far fa-user-circle', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,Account_id:'',
             children: [

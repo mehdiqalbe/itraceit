@@ -1,16 +1,16 @@
 <!-- Header Start -->
-<div class="card" style="box-shadow: none;background: #F1F1F1;border:none">
+<div class="card mb-0" style="border:none">
     <div class="card-body innerdiv p-0">
       <!-- headerstart here -->
       <div class="hor-header">
         <div style="overflow: hidden;">
-          <div class="row align-items-left ">
+          <div class="d-flex align-items-left ">
             <div style="width:fit-content" class=" my-2 d-flex">
               <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
             </div>
            
             <div
-            class="col-lg-11"
+            class="w-100 pe-3"
             style="
               font-weight: 600;
               font-size: small;
@@ -18,10 +18,13 @@
              
             "
           >
-          <div  class="order-header col-lg-11 py-2" >
-            <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
-              Vehicle Nearby</h3>
-            <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Vehicle Nearby</h5>
+          <div  class="order-header d-flex justify-content-between py-2" >
+            <div class="d-flex flex-column">
+              <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+                Vehicle Nearby</h3>
+              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Vehicle Nearby</h5>
+            </div>
+       
   
             <!-- <div class="d-flex justify-content-between  align-items-baseline mt-2">
               <div class="d-flex flex-column align-items-baseline">
@@ -46,25 +49,84 @@
                 <span>At Destination: {{dashboardHeader?.at_destination}}</span>
               </div>
             </div> -->
+            <div class="d-flex gap-3 align-items-center" style="align-self: end;margin-bottom:4px">
+              <div class="all filter-border">
+                  <div class="filter-label">
+                      <p style="color:#1d4380">All</p>
+                  </div>
+                  <div class="border-value">
+                       <p>13216</p>
+                  </div>
+               </div>
+               <div class="Active filter-border" style="border-color: #2cc844;">
+                  <div class="filter-label">
+                      <p style="color:#2cc844">Active</p>
+                  </div>
+                  <div class="border-value" style="background:#2cc844;">
+                       <p>3318</p>
+                  </div>
+               </div>
+               <div class="NOD filter-border" style="border-color: #e74938;">
+                  <div class="filter-label">
+                      <p style="color:#e74938">NOD</p>
+                  </div>
+                  <div class="border-value" style="background:#e74938;">
+                       <p>764</p>
+                  </div>
+               </div>
+               <div class="NGPs filter-border" style="border-color: #007AFF;">
+                  <div class="filter-label">
+                      <p style="color:#007AFF">NGPs</p>
+                  </div>
+                  <div class="border-value" style="background:#1d4380;">
+                       <p>1</p>
+                  </div>
+               </div>
+               <div class="NON filter-border" style="border-color: #00C7BE;">
+                  <div class="filter-label">
+                      <p style="color:#00C7BE">NON</p>
+                  </div>
+                  <div class="border-value" style="background:#1d4380;">
+                       <p>1</p>
+                  </div>
+               </div>
+               <div class="Inactive filter-border" style="border-color: #8E8E93;">
+                  <div class="filter-label">
+                      <p style="color:#8E8E93">Inactive <span style="color: #1d4380;border-left: 2px solid #8E8E939E;padding: 0px 6px;">8988</span></p>
+                  </div>
+                  <div class="d-flex gap-2">
+                      <div class="border-value" style="background:#FF9500;">
+                          <p>8698</p>
+                     </div>
+                     <div class="border-value" style="background:#007AFF;">
+                         <p>290</p>
+                    </div>
+                  </div>
+               </div>
+              <!-- <p style="color: 1D4380; font-weight: 600" class="m-0 ">
+                <a
+                ngbTooltip="Graph"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#chartCollapse"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="chartCollapse"
+                  class="px-1"
+                  style="font-size: 16px;background-color:#1D4380;border-radius: 4px;"
+                >
+                <i style="color:white" class="fa fa-bars"></i>
+                </a>
+              </p> -->
+            </div>
             
          
           </div>
           
           </div>
-            <div class="col-lg-2 text-center ">
+    
   
-            </div>
-  
-            <div class="col-lg-1"></div>
-            <div class="col-lg-1">
-              <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
-            </div>
-            <div class="col-lg-1 text-center">
-              <!-- <a class="header-brand1">
-                <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
-                  style="height:auto;max-height:48px; width: 80%;">
-              </a> -->
-            </div>
+       
+        
           </div>
         </div>
       </div>
@@ -98,75 +160,7 @@
               </a>
             </p>
           </div>
-          <div class="d-flex gap-3 align-items-center">
-            <div class="all filter-border">
-                <div class="filter-label">
-                    <p style="color:#1d4380">All</p>
-                </div>
-                <div class="border-value">
-                     <p>13216</p>
-                </div>
-             </div>
-             <div class="Active filter-border" style="border-color: #2cc844;">
-                <div class="filter-label">
-                    <p style="color:#2cc844">Active</p>
-                </div>
-                <div class="border-value" style="background:#2cc844;">
-                     <p>3318</p>
-                </div>
-             </div>
-             <div class="NOD filter-border" style="border-color: #e74938;">
-                <div class="filter-label">
-                    <p style="color:#e74938">NOD</p>
-                </div>
-                <div class="border-value" style="background:#e74938;">
-                     <p>764</p>
-                </div>
-             </div>
-             <div class="NGPs filter-border" style="border-color: #007AFF;">
-                <div class="filter-label">
-                    <p style="color:#007AFF">NGPs</p>
-                </div>
-                <div class="border-value" style="background:#1d4380;">
-                     <p>1</p>
-                </div>
-             </div>
-             <div class="NON filter-border" style="border-color: #00C7BE;">
-                <div class="filter-label">
-                    <p style="color:#00C7BE">NON</p>
-                </div>
-                <div class="border-value" style="background:#1d4380;">
-                     <p>1</p>
-                </div>
-             </div>
-             <div class="Inactive filter-border" style="border-color: #8E8E93;">
-                <div class="filter-label">
-                    <p style="color:#8E8E93">Inactive <span style="color: #1d4380;border-left: 2px solid #8E8E939E;padding: 0px 6px;">8988</span></p>
-                </div>
-                <div class="d-flex gap-2">
-                    <div class="border-value" style="background:#FF9500;">
-                        <p>8698</p>
-                   </div>
-                   <div class="border-value" style="background:#007AFF;">
-                       <p>290</p>
-                  </div>
-                </div>
-             </div>
-            <!-- <p style="color: 1D4380; font-weight: 600" class="m-0 ">
-              <a
-              ngbTooltip="Graph"
-                data-bs-toggle="collapse"
-                data-bs-target="#chartCollapse"
-                role="button"
-                aria-expanded="false"
-                aria-controls="chartCollapse"
-                class="px-1"
-                style="font-size: 16px;background-color:#1D4380;border-radius: 4px;"
-              >
-              <i style="color:white" class="fa fa-bars"></i>
-              </a>
-            </p> -->
-          </div>
+      
         
         </div>
         <div class="container-flex" >
@@ -221,14 +215,13 @@
                               placeholder="Select Trip Status"
                               class="cutombox"
                               style="font-size: 14px; font-weight: 400"
-                              [closeOnSelect]="true"
-                            >
-                              <ng-option
-                                *ngFor="let item of filterObject?.trip_status | keyvalue"
-                                [value]="item.key"
-                              >
+                              [closeOnSelect]="true" >
+
+                              <ng-option *ngFor="let item of filterObject?.trip_status | keyvalue"
+                                [value]="item.key" >
                                 {{ item.value }}
                               </ng-option>
+
                             </ng-select>
                             </div>
                             <div class="col-lg-2">
@@ -245,7 +238,7 @@
                               >
                               <ng-option
                                 *ngFor="let item of filterObject?.FeederTypes | keyvalue"
-                                [value]="item.key"
+                                [value]="item.value"
                               >
                                 {{ item.value }}
                               </ng-option>
@@ -434,8 +427,7 @@
                         
                         <div class="col-lg-4 " *ngIf="selectedSearchEvent === 'Vehicle'">
                           <span class="filtor_name">Search Criteria</span>
-                          <ng-select
-                            
+                          <ng-select   
                             [ngModel]
                             [virtualScroll]="true"
                             name="tripType"
@@ -443,12 +435,8 @@
                             placeholder="Select Trip Type"
                             class="cutombox"
                             style="font-size: 14px; font-weight: 400"
-                            [closeOnSelect]="true"
-                          >
-                          <ng-option
-                            *ngFor="let item of vehicleData?.data | keyvalue"
-                            [value]="item?.value"
-                          >
+                            [closeOnSelect]="true" >
+                          <ng-option *ngFor="let item of vehicleData?.data | keyvalue" [value]="item?.value">   
                             {{ item.key}}
                           </ng-option>
                           </ng-select>
