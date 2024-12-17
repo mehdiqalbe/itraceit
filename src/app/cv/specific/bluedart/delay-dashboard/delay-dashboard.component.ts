@@ -12,6 +12,16 @@ declare var H: any;
 interface HTMLCanvasElement {
   willReadFrequently?: boolean;
 }
+declare const agGrid: any;
+interface HTMLCanvasElement {
+  willReadFrequently?: boolean;
+}
+declare const pdfMake: any;
+declare global {
+  interface Window {
+    jspdf: any;
+  }
+}
 @Component({
   selector: 'app-delay-dashboard',
   templateUrl: './delay-dashboard.component.html',
@@ -37,6 +47,14 @@ export class DelayDashboardComponent implements OnInit {
   selectedRouteType: any[] = [];
   routeTypes: any[] = []; // Options for ng-select
   commaSeparatedRoutes: any;
+  // -------------------------------------------------------------------
+  columnDefs:any=[]  
+  rowData:any=[] 
+  gridOptions:any=[] 
+  gridApi:any;
+  new_array: any=[
+    // {agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'}
+  ];
   constructor(private bluedartService:BluedartService, private navServices: NavService, private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
@@ -49,47 +67,380 @@ export class DelayDashboardComponent implements OnInit {
     this.account_id = localStorage.getItem('AccountId')!
     // console.log("account_id", this.account_id)
     this.group_id = localStorage.getItem('GroupId')!
-    this.bdDelayDashboardFilter()
+    this.bdDelayDashboardFilter();
   }
+  Grid_table(){
 
+    if (this.gridApi) {
+      this.gridApi.destroy();
+    }
+  // Define column definitions
+  this.columnDefs = [
+    { headerName: "Sl No.", field: "slNo", sortable: true },
+    { headerName: "Vehicle No", field: "vehicleNo", sortable: true ,
+      cellRenderer: params => {
+        // Create the container div
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+      
+        // Create the span for the serial number
+        const serialSpan = document.createElement("span");
+        serialSpan.textContent = params.value;
+      
+        // Create the button
+        
+        const button = document.createElement("button");
+        button.innerHTML = "";
+        button.style.border = "none";
+        button.style.background = "none";
+        button.style.marginLeft = "5px";
+        button.style.cursor = "pointer";
+        // Clear previous content
+  
+          button.innerHTML += `<strong style="color: #1D4380; font-size:12px">${params.data.Full?.imei_current}</i></strong>`;
+          button.addEventListener("click", () => {
+            // console.log("Row Data:", params.data.Full);
+            // this.Detail(params.data.Full)
+            this.vehicleTrackF_new( params.data.Full?.imei_current,'','',params.data.Full?.run_date, params.data.Full?.vehicle_no, params.data.Full?.item, params.data.Full?.shipment_no, params.data.Full?.route_id)
+            // this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
+          });
+       
+        // Append span and button to the container
+        container.appendChild(serialSpan);
+        container.appendChild(button);
+      
+        return container;
+      },
+    },
+    { headerName: "Origin", field: "origin", sortable: true },
+    { headerName: "Destination", field: "destination", sortable: true },
+    { headerName: "STA", field: "sta", sortable: true },
+    { headerName: "Delaying STA", field: "delayingSta", sortable: true },
+    { headerName: "Delay Hours", field: "delayHours", sortable: true },
+    { headerName: "Current Location", field: "currentLocation", sortable: true },
+    { headerName: "Vehicle Status", field: "vehicleStatus", sortable: true },
+    { headerName: "Route", field: "route", sortable: true },
+    { headerName: "Run Date", field: "runDate", sortable: true },
+    { headerName: "Driver Name", field: "driverName", sortable: true },
+    { headerName: "Driver Number", field: "driverNumber", sortable: true },
+    { headerName: "Transporter", field: "transporter", sortable: true },
+    { headerName: "Trip Id", field: "tripId", sortable: true },
+    { headerName: "Device-1", field: "device1", sortable: false ,
+      cellRenderer: params => {
+        // Create the container div
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+      
+        // Check the condition for imei_no
+        // console.log("params.data.imei_no",params.data.Full)
+        if (params.data.Full.imei_no !== 'NA' && params.data.Full.imei_no !== '') {
+          // Create anchor tag for valid imei_no
+          const anchor = document.createElement("a");
+          anchor.style.cursor = "pointer";
+          anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#1D4380;">-1</i>`;
+          
+          // Add click event listener to the anchor tag
+          anchor.addEventListener("click", () => {
+            this.vehicleTrackF_new(
+              params.data.Full.imei_no,
+              '',
+              '',
+              params?.data?.Full?.run_date,
+              params?.data?.Full?.vehicle_no,
+              params?.data?.Full,
+              params?.data?.Full?.shipment_no,
+              params?.data?.Full?.route_id
+            );
+          });
+      
+          // Append anchor to the container
+          container.appendChild(anchor);
+        } else {
+          // Display 'NA' for invalid imei_no
+          const naSpan = document.createElement("span");
+          naSpan.textContent = "NA";
+          container.appendChild(naSpan);
+        }
+      
+        return container;
+      }
+      
+     },
+    { headerName: "Device-2", field: "device2", sortable: false ,
+      cellRenderer: params => {
+        // Create the container div
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+      
+        // Check the condition for imei_no
+        if (params.data.Full.imei_no2 !== 'NA' && params.data.Full.imei_no2 !== '') {
+          // Create anchor tag for valid imei_no
+          const anchor = document.createElement("a");
+          anchor.style.cursor = "pointer";
+          anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#1D4380;">-1</i>`;
+          
+          // Add click event listener to the anchor tag
+          anchor.addEventListener("click", () => {
+            this.vehicleTrackF_new(
+              params?.data.Full.imei_no2,
+              '',
+              '',
+              params?.data.Full.run_date,
+              params?.data.Full.vehicle_no,
+              params?.data.Full,
+              params?.data.Full.shipment_no,
+              params?.data.Full.route_id
+            );
+          });
+      
+          // Append anchor to the container
+          container.appendChild(anchor);
+        } else {
+          // Display 'NA' for invalid imei_no
+          const naSpan = document.createElement("span");
+          naSpan.textContent = "NA";
+          container.appendChild(naSpan);
+        }
+      
+        return container;
+      }
+    },
+    { headerName: "Device-3", field: "device3", sortable: false,
+      cellRenderer: params => {
+        // Create the container div
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+      
+        // Check the condition for imei_no
+        if (params.data.Full.imei_no3 !== 'NA' && params.data.Full.imei_no3 !== '') {
+          // Create anchor tag for valid imei_no
+          const anchor = document.createElement("a");
+          anchor.style.cursor = "pointer";
+          anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#1D4380;">-1</i>`;
+          
+          // Add click event listener to the anchor tag
+          anchor.addEventListener("click", () => {
+            this.vehicleTrackF_new(
+              params?.data.Full.imei_no3,
+              '',
+              '',
+              params?.data.Full.run_date,
+              params?.data.Full.vehicle_no,
+              params?.data.Full,
+              params?.data.Full.shipment_no,
+              params?.data.Full.route_id
+            );
+          });
+      
+          // Append anchor to the container
+          container.appendChild(anchor);
+        } else {
+          // Display 'NA' for invalid imei_no
+          const naSpan = document.createElement("span");
+          naSpan.textContent = "NA";
+          container.appendChild(naSpan);
+        }
+      
+        return container;
+      }
+     },
+    { headerName: "Track(All)", field: "trackAll", sortable: false,
+      cellRenderer: params => {
+        // Create the container div
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+      
+        // Check the condition for imei_no
+        // console.log("params.data.imei_no",params.data.Full)
+        // if (params.data.Full.imei_no3 !== 'NA' && params.data.Full.imei_no3 !== '') {
+          // Create anchor tag for valid imei_no
+          const anchor = document.createElement("a");
+          anchor.style.cursor = "pointer";
+          anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#1D4380;"></i>`;
+          
+          // Add click event listener to the anchor tag
+          anchor.addEventListener("click", () => {
+            this.vehicleTrackF_new(
+              params?.data.Full.imei_no,
+              params?.data.Full.imei_no2,
+              params?.data.Full.imei_no3,
+              params?.data.Full.run_date,
+              params?.data.Full.vehicle_no,
+              params?.data.Full,
+              params?.data.Full.shipment_no,
+              params?.data.Full.route_id
+            );
+          });
+      
+          // Append anchor to the container
+          container.appendChild(anchor);
+        // } else {
+        //   // Display 'NA' for invalid imei_no
+        //   const naSpan = document.createElement("span");
+        //   naSpan.textContent = "NA";
+        //   container.appendChild(naSpan);
+        // }
+      
+        return container;
+      }
+     },
+    { headerName: "Full", field: "Full", sortable: false ,hide:true}
+  ];
+    this.rowData = this.new_array.map((person, index) => ({
+  
+      slNo:index+1 ,
+      vehicleNo:'',
+      origin:person?.source_code,
+      destination:person?.destination_code,
+      sta:person?.schedule_arrival,
+      delayingSta:person?.delaying_sta,
+      delayHours:person?.delay_hr,
+      currentLocation:person?.last_address_current,
+      vehicleStatus:person?.vehicle_status_current,
+      route:person?.route_name,
+      runDate: person?.run_date,
+      driverName:person?.driver_name,
+      driverNumber:person?.driver_mobile,
+      transporter: person?.transporter_name,
+      tripId: person?.shipment_no,
+      device1:'',
+      device2: '',
+      device3:'',
+      trackAll:'',
+      Full:person
+    }));
+    
+  
+  this.gridOptions = {
+      rowHeight: 30,
+      headerHeight: 40,
+      
+      columnDefs: this.columnDefs,
+      rowData: this.rowData,
+      pagination: true,
+      paginationPageSize: 50,
+      paginationPageSizeSelector: [10, 50, 100,500,1000],
+     
+      animateRows: true,
+  
+      // onGridReady: (params) => this.onGridReady(params),
+      onGridReady: (params) => {
+        this.onGridReady(params);
+        this.adjustGridHeight(); // Adjust the grid height after initialization
+      },
+     
+    };
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // this.gridOptions = {
+  //     rowHeight: 30,
+  //     headerHeight: 40,
+      
+  //     columnDefs: this.columnDefs,
+  //     rowData: this.rowData,
+  //     pagination: true,
+  //     paginationPageSize: 50,
+  //     paginationPageSizeSelector: [10, 50, 100,500,1000],
+     
+  //     animateRows: true,
+  // onGridReady: (params) => {
+  //   this.onGridReady(params);
+  //   this.adjustGridHeight(); // Adjust the grid height after initialization
+  // },
+      
+    
+  //   };
+    const gridDiv = document.querySelector('#myGrid');
+    new agGrid.Grid(gridDiv, this.gridOptions);
+   }
+   onGridReady(params: any) {
+    this.gridApi = params.api;
+   
+    // this.gridOptions.api = params.api;
+     // Check if API is assigned correctly
+  }
+  // Function to adjust grid height dynamically
+adjustGridHeight() {
+  const rowCount = this.rowData?.length || 0; // Get the number of rows
+  const rowsToShow = Math.min(rowCount, 16); // Show up to 10 rows
+  const totalHeight = (rowsToShow * this.gridOptions.rowHeight) + this.gridOptions.headerHeight;
+
+  // Set the height of the grid container dynamically
+  const gridElement = document.querySelector('.ag-theme-alpine'); // Adjust selector to match your theme
+  if (gridElement) {
+    (gridElement as HTMLElement).style.height = `${totalHeight}px`;
+  }
+}
   bdDelayDashboardFilter() {
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
 
     this.bluedartService.bdDelayDashboardFilter(formdataCustomer).subscribe((res: any) => {
-      console.log('delayDashboardGenericr', res);
+      
+      if(res.status=='success'){
+
+      
       this.alertData = res.data[1];
       this.selectedRouteType=res.data.defaultFilter
-      console.log(this.selectedRouteType);
+      
 
       this.routeTypes = Object.keys(this.alertData).map((key) => ({
         id: key,
         route_type: this.alertData[key],
       }));
+      this.SumbitFilter();
+    }else{
+      alert(res.Message);
+    }
       // this.DelayTable();
     })
   }
-  
+  onFilterTextBoxChanged() {
+    // console.log("hii");
+    
+    this.gridApi.setGridOption(
+      "quickFilterText",
+      (document.getElementById("filter-text-box") as HTMLInputElement).value,
+    )
+  }
   SumbitFilter(){
-    console.log(this.selectedRouteType)
+    this.SpinnerService.show();
+    // console.log(this.selectedRouteType)
     this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
-  console.log(this.commaSeparatedRoutes)
+    
     const formdataCustomer = new FormData();
-    formdataCustomer.append('AccessToken', this.token);
+    formdataCustomer.append('AccessToken', this.token); 
     formdataCustomer.append('RouteType', this.commaSeparatedRoutes);
     this.bluedartService.bdDelayDashboard(formdataCustomer).subscribe((res: any) => {
-      console.log('delayDashboardGenericr', res);
-      
+      // console.log('delayDashboardGenericr', res);
+      if(res.status=="success"){
+
+        const values:any = Object.values(res.data);
+      this.new_array=values
+      this.SpinnerService.hide();
+      this.Grid_table()
+    }
+      else{
+        this.SpinnerService.hide();
+        alert(res.Message);
+      }
       // this.DelayTable();
     })
   }
-
-   
-
-
-
-
-
+  onBtExport() {
+    // this.gridApi!.exportDataAsExcel();
+    this. gridApi!.exportDataAsCsv();
+    }
   sidebarToggle() {
     let App = document.querySelector('.app');
     // App?.classList.add('sidenav-toggled');
@@ -221,7 +572,6 @@ export class DelayDashboardComponent implements OnInit {
       this.demomarker.forEach(marker => marker.setMap(null));
       this.demomarker = [];  // Clear the array after removing markers
     }
-    // console.log("handleAlertMarkers",item)
     item.forEach(alert => {
       // Check for alert_name and provide a fallback if it's undefined
       const alertName = alert.alert_type
@@ -1002,11 +1352,11 @@ export class DelayDashboardComponent implements OnInit {
 </table>`;
   }
 
-
-
-
-
   initializeMap(): Promise<void> {
+    if (this.map1) {
+      this.map1.dispose(); // Dispose of the existing map instance
+      this.map1 = null;    // Reset the map reference
+    }
     return new Promise<void>((resolve, reject) => {
       $('#v_track_Modal').on('shown.bs.modal', () => {
         if (!this.map1) {
@@ -1071,5 +1421,70 @@ export class DelayDashboardComponent implements OnInit {
       $('#v_track_Modal').modal('show');
     });
   }
+  exportPDF(): void {
+    // Step 1: Prepare the table body with data from the grid
+    const tableBody:any = [];
+  
+    // Step 2: Add column headers (mapping from `columnDefs`)
+    const headers = this.columnDefs.map(col => col.headerName || col.field);
+    console.log('Headers:', headers);  // Log headers to check their validity
+    tableBody.push(headers);
+  
+    // Step 3: Iterate over the rows of the grid and extract data for each column
+    this.gridOptions.api.forEachNode((node) => {
+      const row:any = [];
+      this.columnDefs.forEach((col) => {
+        // Handle custom cell renderer for "Vehicle No" column
+        let value = node.data[col.field] || '';
+  
+        // If the column is "vehicleNo", extract the inner text of the button
+        if (col.field === 'vehicleNo' && node.data[col.field]) {
+          // Extracting the "imei_current" value (from the button's innerHTML)
+          value = node.data[col.field].imei_current || '';
+        }
+  
+        row.push(value);
+      });
+      tableBody.push(row);
+    });
+  
+    console.log('Table Body:', tableBody);  // Log tableBody to check structure
+  
+    // Step 4: Define the PDF document structure
+    const docDefinition = {
+      content: [
+        { text: 'Vehicle Tracking Report', style: 'header' },
+        { text: `Generated on: ${new Date().toLocaleString()}`, style: 'subheader' },
+        { text: '\n' },  // Spacer
+        {
+          table: {
+            headerRows: 1,  // Number of header rows
+            widths: Array(headers.length).fill('*'),  // Auto width for each column based on number of columns
+            body: tableBody   // Table content (headers + rows)
+          },
+          layout: 'lightHorizontalLines'  // Optional layout for table
+        }
+      ],
+      styles: {
+        header: { fontSize: 18, bold: true, alignment: 'center' },
+        subheader: { fontSize: 12, italics: true, alignment: 'center' }
+      }
+    };
+  
+    // Log the final docDefinition before generating the PDF
+    console.log('Final Document Definition:', docDefinition);
+  
+    // Step 5: Generate and download the PDF
+    pdfMake.createPdf(docDefinition).download('vehicle-tracking-report.pdf');
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
-
