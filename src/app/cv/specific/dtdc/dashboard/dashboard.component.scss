@@ -41,7 +41,8 @@ text-align: left;
   font-weight: 600;
 }
 .table-primar{
-  background-color:#b9b9b94d
+  background-color:#b9b9b94d;
+  text-transform: none!important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
   color: white !important;
@@ -133,3 +134,9 @@ text-align: left;
     background-color: #EC6625;
     color: white;
   }
+  .th {
+    text-transform:lowercase  !important;
+}
+.red-row{
+  background-color: #EE554673;
+}

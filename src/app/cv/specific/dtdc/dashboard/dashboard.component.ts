@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CrudService } from 'src/app/shared/services/crud.service';
 import { NavService } from 'src/app/shared/services/nav.service';
 import { DtdcService } from '../services/dtdc.service';
+import { DatePipe } from '@angular/common';
 declare var $: any
 declare var H:any;
 @Component({
@@ -52,14 +53,24 @@ export class DashboardComponent implements OnInit {
       { value: this.dashboardHeader?.TripSchedule,name: 'Scheduled Trip'}],
     colors:['rgb(239, 91, 11)', '#1D4380', 'red', 'grey']
   }]
+  demomarker: any=[];
+  demoPolyline: any=[];
+  map1: any;
+  customer_info: any=[];
+  marker: any[]=[];
+  poly_line: any[]=[];
+  map_flag: any;
+  contentsInfo: string | Node | undefined;
+  lastOpenedInfoWindow: any;
 
-  constructor(private navServices: NavService,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
+  constructor(private datepipe: DatePipe,private navServices: NavService,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
     
-    this.platform = new H.service.Platform({
-      apikey: 'vQTBCs4xOBkG-mSZlCymIb0G-Jj2TF2pO_p7e9Lc90o'
-    });
+    // this.platform = new H.service.Platform({
+    //   apikey: 'vQTBCs4xOBkG-mSZlCymIb0G-Jj2TF2pO_p7e9Lc90o'
+    // });
+    this.initMap1()
     this.initApiCalls()
   }
     ///////////////////////////////////////////////////////////search function////////////////////////////////
@@ -167,8 +178,8 @@ export class DashboardComponent implements OnInit {
       this.chartObject=[{
         id:'consSt',
         name:'Trip',
-        data:[{name:'Completed Trip',value:this.dashboardHeader?.TripCompleted},
-          { value: this.dashboardHeader?.TripSchedule,name: 'Scheduled Trip'}],
+        data:[{name:'Completed',value:this.dashboardHeader?.TripCompleted},
+          { value: this.dashboardHeader?.TripSchedule,name: 'Schedule'}],
         colors:['rgb(239, 91, 11)', '#1D4380', 'red', 'grey'],
         img:"assets/tripIcon/Group.svg"
        }
@@ -179,11 +190,11 @@ export class DashboardComponent implements OnInit {
         data:[
           {
             value: this.dashboardHeader?.ETA_2Hrs,
-            name: 'less than 2 hrs',
+            name: 'ETA<2Hrs',
           },
           {
             value: this.dashboardHeader?.ETA_2HrsMore,
-            name: 'more than 2 hrs',
+            name: 'ETA>2Hrs',
           },],
         colors:['#f4858e', '#00c0f3', '#34C759', 'grey']
       },
@@ -212,9 +223,9 @@ export class DashboardComponent implements OnInit {
         name:'Stoppage',
         data:[{value: this.dashboardHeader?.Running, name: 'Running',
           },
-          { value: this.dashboardHeader?.Stop_2HrsLess, name: 'less than 2 hrs',
+          { value: this.dashboardHeader?.Stop_2HrsLess, name: 'Stop<2Hrs',
           },
-          { value: this.dashboardHeader?.Stop_2Hrs, name: 'more than 2 hrs',
+          { value: this.dashboardHeader?.Stop_2Hrs, name: 'Stop>2Hrs',
           },
         ],
         colors:['#e77817', '#00c0f3', '#f4858e', 'grey']
@@ -251,7 +262,7 @@ export class DashboardComponent implements OnInit {
           name: 'Inactive',
         },
         { value: this.dashboardHeader?.NonGPS,
-          name: 'Non GPS',
+          name: 'NonGPS',
         },
         ],
         colors:['#e77817', '#97291e', '#d0cebb', '#00C0F3']
@@ -277,11 +288,11 @@ export class DashboardComponent implements OnInit {
         name:'Portable E-Lock',
         data:[{
           value: this.dashboardHeader?.PortableLockClose,
-          name: 'Running',
+          name: 'Close',
         },
         {
           value: this.dashboardHeader?.PortableLockOpen,
-          name: 'Stopped',
+          name: 'Open',
         },
         ],
         colors:['#97291e', '#E77817', '#d0cebb', '00c0f3']
@@ -381,11 +392,38 @@ export class DashboardComponent implements OnInit {
         console.log("trackvehicle",res);
       })
     }
-    filterTable(value){
-      let table = $('#masterUpload').DataTable();
+    clearFilter(table){
+      table.search("").draw()
+      table.columns(39).search("").draw();
       table.columns(3).search("").draw();
       table.columns(4).search("").draw();
       table.columns(5).search("").draw();
+      table.columns(6).search("").draw();
+      table.columns(7).search("").draw();
+      table.columns(8).search("").draw();
+      table.columns(9).search("").draw();
+    }
+    filterTableByChart(column,value){
+      console.log(value);
+      
+      let table = $('#masterUpload').DataTable();
+       this.clearFilter(table)
+
+      if(column=='Trip')
+        table.columns(39).search(value).draw();
+      else if(column=='GPS')
+        table.column(6).search(value).draw();
+      else if(column=='Stoppage')
+        table.column(7).search(value).draw();
+      else if(column=='Delay')
+        table.column(8).search(value).draw();
+      else if(column=='ETA')
+        table.column(9).search(value).draw();
+    }
+    filterTable(value){
+      let table = $('#masterUpload').DataTable();
+      
+    this.clearFilter(table)
       // table.destroy()
       if(value=='free_vehicle')
         {
@@ -589,7 +627,7 @@ export class DashboardComponent implements OnInit {
   
               // fieldSeparator: ';',
               // fieldBoundary: '',
-              filename: 'export',
+              filename: 'Dashboard Report',
               bom: true,
               columns: ':visible',
   
@@ -657,7 +695,7 @@ export class DashboardComponent implements OnInit {
                 columns: ':visible',
                 //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
               },
-              title: 'report',
+              title: 'Dashboard Report',
             },
             {
               extend: 'copy',
@@ -1067,7 +1105,28 @@ export class DashboardComponent implements OnInit {
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)',
+          appendToBody: true, 
         },
+        // tooltip: {
+        //   trigger: 'item',
+        //   formatter: '{a} <br/>{b}: {c} ({d}%)',
+        //   position: function (point, params, dom, rect, size) {
+        //     // point: [x, y] of the mouse position
+        //     // size: {contentSize: [width, height], viewSize: [width, height]}
+        //     console.log(point,params,dom,rect,size);
+            
+        //     let [x, y] = point;
+        //     let {contentSize, viewSize} = size;
+        //     let tooltipWidth = contentSize[0];
+        //     let tooltipHeight = contentSize[1];
+        
+        //     // Prevent the tooltip from overflowing
+        //     if (x + tooltipWidth > viewSize[0]) x -= tooltipWidth;
+        //     if (y + tooltipHeight > viewSize[1]) y -= tooltipHeight;
+        
+        //     return [x, y];
+        //   },
+        // },
         legend: {
           show: false,
           orient: 'horizontal',
@@ -1155,35 +1214,35 @@ export class DashboardComponent implements OnInit {
       innerDiv.style.zIndex = '1';
   
       console.log(innerDiv);
-      //   echart.on('click',  (params) => {
-      //     if (params.componentType === 'series') {
-      //         // Access the clicked data
-      //         var name = params.name;
-      //         var value = params.value;
-  
-      //         console.log('You clicked on', name, 'with value', value);
-  
-      //         if(name=='Good')
-      //           {
-      //             this.consSTtAct('ConsignmentStatus','GoodTrips');
-      //           }
-      //        else   if(name=='KPI Violation')
-      //             {
-      //               this.consSTtAct('ConsignmentStatus','KPIViolation');
-      //             }
-      //             else   if(name=='In-Active')
-      //               {
-      //                 this.consSTtAct('ConsignmentStatus','InActive');
-      //               }
-      //               else   if(name=='Non GPS')
-      //                 {
-      //                   this.consSTtAct('ConsignmentStatus','NonGps');
-      //                 }
-  
-      //         // Perform actions based on the clicked segment
-      //         // alert('You clicked on ' + name + ' with value ' + value);
-      //     }
-      // });
+      echart.on('click',  (params) => {
+        if (params.componentType === 'series') {
+            // Access the clicked data
+            var label = params.name;
+            var value = params.value;
+
+            console.log('You clicked on', name, 'with value', params,name);
+            this.filterTableByChart(name,label)
+          //   if(name=='Good')
+          //     {
+          //       this.consSTtAct('ConsignmentStatus','GoodTrips');
+          //     }
+          //  else   if(name=='KPI Violation')
+          //       {
+          //         this.consSTtAct('ConsignmentStatus','KPIViolation');
+          //       }
+          //       else   if(name=='In-Active')
+          //         {
+          //           this.consSTtAct('ConsignmentStatus','InActive');
+          //         }
+          //         else   if(name=='Non GPS')
+          //           {
+          //             this.consSTtAct('ConsignmentStatus','NonGps');
+          //           }
+
+            // Perform actions based on the clicked segment
+            // alert('You clicked on ' + name + ' with value ' + value);
+        }
+    });
     }
     chart1() {
       let chartDom: any = document.getElementById('consSt');
@@ -1342,135 +1401,530 @@ export class DashboardComponent implements OnInit {
       // });
     }
   
-    openMapModal(item) {
+    openMapModal(item,imei) {
     
-      $('#mapModal').modal('show'); // Open modal using jQuery
+       // Open modal using jQuery
       this.SpinnerService.show('mapSpinner')
       // Call the tracking function
-      this.vehicleTrackF(item);
+      // this.vehicleTrackF(item,imei);
+      this.vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,"")
     }
-    vehicleTrackF(item) {
-      // this.loading = true; // Set loading to true when API call starts
+    // vehicleTrackF(item,imei) {
+    //   // this.loading = true; // Set loading to true when API call starts
   
-      const currentDateTime = new Date().toLocaleString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false // To use 24-hour format
-      }).replace(',', '');
+    //   const currentDateTime = new Date().toLocaleString('en-US', {
+    //     month: '2-digit',
+    //     day: '2-digit',
+    //     year: 'numeric',
+    //     hour: '2-digit',
+    //     minute: '2-digit',
+    //     hour12: false // To use 24-hour format
+    //   }).replace(',', '');
   
-      const formData=new FormData()
-      formData.append('AccessToken', this.token)
-      formData.append('startdate', item?.RunDate);
-      formData.append('enddate', currentDateTime);
-      formData.append('time_interval', '60');
-      formData.append('imei', item?.ImeiNo1||item?.ImeiNo2||item?.ImeiNo3);
-      formData.append('group_id', this.group_id);
-      formData.append('AccountId', this.account_id);
-      this.service.vehicleTrackongS(formData).subscribe((res: any) => {
-        console.log("Response:", res);
+    //   const formData=new FormData()
+    //   formData.append('AccessToken', this.token)
+    //   formData.append('startdate', item?.RunDate);
+    //   formData.append('enddate', currentDateTime);
+    //   formData.append('time_interval', '60');
+    //   if(imei)
+    //     formData.append('imei', imei);
+    //     else
+    //   formData.append('imei', item?.ImeiNo1||item?.ImeiNo2||item?.ImeiNo3);
+    //   formData.append('group_id', this.group_id);
+    //   formData.append('AccountId', this.account_id);
+    //   this.service.vehicleTrackongS(formData).subscribe((res: any) => {
+    //     console.log("Response:", res);
        
         
-        if (res.Status === 'success' && Array.isArray(res.data) && res.data.length > 0) {
-          // Extract coordinates from the data array
-          const coordinates = res.data.map(location => ({
-            lat: location.lat, // Use the correct key for latitude
-            lng: location.long  // Use the correct key for longitude
-          }));
-          this.trackingData=res?.data
-             console.log(coordinates);
+    //     if (res.Status === 'success' && Array.isArray(res.data) && res.data.length > 0) {
+    //       // Extract coordinates from the data array
+    //       const coordinates = res.data.map(location => ({
+    //         lat: location.lat, // Use the correct key for latitude
+    //         lng: location.long  // Use the correct key for longitude
+    //       }));
+    //       this.trackingData=res?.data
+    //          console.log(coordinates);
              
-          // Initialize the map with the coordinates
-          this.initializeMap(coordinates);
-        } else {
-          alert(res?.Message)
-          console.log('No valid locations found in the response.');
-        }
-      }, error => {
-        alert('Error fetching vehicle tracking data:')
-        console.error('Error fetching vehicle tracking data:', error);
-      });
-    }
-  
-    initializeMap(coordinates: { lat: number, lng: number }[]) {
-      if (!this.map) {
-        // Initialize HERE map platform and default layers
-        // const platform = new H.service.Platform({
-        //   apikey: 'your-api-key' // Replace with your actual API key
-        // });
-        this.defaultLayers = this.platform.createDefaultLayers();
-    
-        // Create the map
-        this.map = new H.Map(
-          this.mapContainer.nativeElement,
-          this.defaultLayers.vector.normal.map,
-          {
-            center: coordinates.length > 0 ? coordinates[0] : { lat: 50, lng: 5 },
-            zoom: 5,
-            pixelRatio: window.devicePixelRatio || 1
-          }
-        );
-    
-        // Make the map interactive
-        const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
-        this.ui=H.ui.UI.createDefault(this.map, this.defaultLayers);
-      }
-    
-      // Clear existing markers
-      this.map.removeObjects(this.map.getObjects());
-    
-      // Check if there are coordinates
-      if (coordinates.length > 0) {
-      // Create icons for source, destination, and intermediate points
-      let swLat = coordinates[0].lat;
-      let swLng = coordinates[0].lng;
-      let neLat = coordinates[0].lat;
-      let neLng = coordinates[0].lng;
-      const sourceIcon = new H.map.Icon('assets/images/users/start_marker.png');
-          const destinationIcon = new H.map.Icon('assets/images/users/stop_marker.png');
-          const intermediateIcon = new H.map.Icon('assets/images/users/green_Marker1.png');
-  
-      let bounds = new H.geo.Rect(coordinates[0].lat, coordinates[0].lng, coordinates[0].lat, coordinates[0].lng);
-    // Create an icon, an object holding the latitude and longitude, and a marker:
-    // var icon = new H.map.Icon(svgMarkup)
-        // Create markers and update bounds
-        coordinates.forEach((coord,index) => {
-          const icon = index === 0 ? sourceIcon : (index === coordinates.length - 1 ? destinationIcon : intermediateIcon);
-          this.addMarker(coord, icon);
-  
-        
-  
-          // Add marker using the helper function
-         const marker= this.addMarker(coord, icon);
-  
-          this.addInfoBubble(marker, coord,this.trackingData[index]);
-                // // Update bounds
-                swLat = Math.min(swLat, coord.lat);
-                swLng = Math.min(swLng, coord.lng);
-                neLat = Math.max(neLat, coord.lat);
-                neLng = Math.max(neLng, coord.lng);
-         // Expand the bounds to include each coordinate
-         const padding = 0.01;
-         bounds = new H.geo.Rect(swLat+padding, swLng-padding, neLat-padding, neLng+padding);
-         bounds = bounds.mergePoint(coord);
-  
-        });
-    
-        // Create bounds with updated southwest and northeast points
-        // const bounds = new H.geo.Rect(swLat, swLng, neLat, neLng);
-        this.addPolyline(coordinates);
-  
+    //       // Initialize the map with the coordinates
+    //       this.initializeMap(item,coordinates);
+    //     } else {
+    //       console.log('No valid locations found in the response.');
+    //     }
+    //   }, error => {
        
+    //     console.error('Error fetching vehicle tracking data:', error);
+    //   });
+    // }
+
+    async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+      this.SpinnerService.show("tracking");
   
-        // Use setLookAtData to center and zoom the map to the bounds
-        this.map.getViewModel().setLookAtData({
-          bounds: bounds
-        });
-      }
-      this.SpinnerService.hide('mapSpinner')
+    // Clear markers and polylines if they exist
+    if (this.demomarker.length > 0) {
+      this.demomarker.forEach(marker => marker.setMap(null));
+      this.demomarker = [];  // Clear the array after removing markers
     }
+    
+    if (this.demoPolyline.length > 0) {
+      this.demoPolyline.forEach(polyline => polyline.setMap(null));
+      this.demoPolyline = [];  // Clear the array after removing polylines
+    }
+      // console.log(imei, imei2, imei3);
+      if (imei === '' && imei2 === '' && imei3 === '') {
+        alert("IMEI not assign");
+      }else{
+      // Clear markers and polylines before starting
+      $('#mapModal').modal('show');
+      this.clearMarkersAndPolylines();
+  
+      // Initialize map
+      try {
+        // await this.initializeMap();
+      } catch (error) {
+        console.error('Error initializing map:', error);
+        this.SpinnerService.hide('spinner-1');
+      }
+  
+      // Show tracking spinner
+      this.SpinnerService.show("mapSpinner");
+  
+      // Define the array of IMEIs to process
+      // const imeis = [imei,imei2,imei3];
+      const imeis = [imei, imei2, imei3];
+      // console.log(imeis);
+  
+      // Loop through each IMEI using a for...of loop to support async/await
+      for (const imei of imeis) {
+        // console.log(imei);
+  
+        // Reset tracking data for each IMEI
+        this.trackingData = [];
+        this.customer_info = [];
+        this.marker = [];
+        this.poly_line = [];
+        this.map_flag = '';
+  
+        if (imei === "") {
+          this.map_flag = 'Device unavailable';
+        } else {
+          this.map_flag = 'Please wait';
+          const formData = new FormData();
+          const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+  
+          formData.append('AccessToken', this.token);
+          formData.append('startdate', run_date);
+          formData.append('enddate', currentDateTime);
+          formData.append('time_interval', '120');
+          formData.append('imei', imei);
+          formData.append('group_id', this.group_id);
+          formData.append('AccountId', this.account_id);
+  
+          // Log form data for debugging
+          formData.forEach((value, key) => {
+            console.log("formdata...", key, value);
+          });
+  
+          // try {
+            // Wait for the API response
+            const res: any = await this.service.vehicleTrackongS(formData).toPromise();
+            console.log("tracking res", res);
+            this.SpinnerService.hide("mapSpinner");
+            if (res.Status === "failed") {
+              alert(res?.Message);
+            }
+  
+            this.trackingData = res.data;
+  
+            if (res.data === 'Vehicle is inactive.') {
+              alert("Track data is not available");
+            } else {
+              console.log("trackingData", this.trackingData);
+              // Add markers and polyline data
+              this.addMarkersAndPolyline1(imei, vehicle_no);
+              // Fetch DFG polyline data
+              // this.fetchDFGPolyline_new(route_id);
+          // this.fetchCustomerInfo(Id);
+              // Fetch customer info
+              // this.fetchCustomerInfo_new(Id);
+  
+              // Handle alert markers
+              // this.handleAlertMarkers(item);
+              this.fetchCustomerInfo(item?.Customer);
+            }
+  
+          // } catch (error) {
+          //   console.error("Error in API call:", error);
+          //   alert("An error occurred while fetching tracking data");
+          // }
+  
+          // Hide the tracking spinner after the API call
+          this.SpinnerService.hide("mapSpinner");
+        }
+      }
+  }  }
+  
+  clearMarkersAndPolylines() {
+    // Clear existing markers
+    if (this.markers.length > 0) {
+      this.markers.forEach(marker => this.map1.removeObject(marker));
+      this.markers = []; // Reset the markers array
+    }
+
+    // Clear existing polylines
+    if (this.polylines?.length > 0) {
+      this.polylines?.forEach(polyline => this.map1.removeObject(polyline));
+      this.polylines = []; // Reset the polylines array
+    }
+  }
+  addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+  
+    // Prepare arrays for markers and polylines
+    const markers: any = [];
+    const polylinePath: google.maps.LatLng[] = [];
+    
+    // Use requestAnimationFrame for batch processing
+    // requestAnimationFrame(() => {
+      for (let i = 0; i < this.trackingData.length; i++) {
+        const icon = this.getMarkerIcon(i);
+        const position = new google.maps.LatLng(this.trackingData[i].lat, this.trackingData[i].long);
+        polylinePath.push(position);
+  
+        // Create a marker
+        const mark = new google.maps.Marker({
+          map: this.map1,
+          position: position,
+          title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
+          icon: icon
+        });
+  
+        // Store marker for future reference
+        markers.push(mark);
+        this.demomarker.push(mark);
+  
+        // Handle marker click events
+        // const markerPosition = mark.getPosition(); 
+        var trackingData:any=this.trackingData[i];
+        mark.addListener('click', (event) => this.handleMarkerClick(event, trackingData, vehicle_no, imei));
+  
+        // Create an InfoWindow but don't attach it yet
+        const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+      }
+  
+      // Add markers to the map in batch
+      // this.demomarker = markers;
+  
+      // Create and display polyline
+      const draw_polyline = new google.maps.Polyline({
+        path: polylinePath,
+        geodesic: true,
+        strokeColor: 'green',
+        strokeOpacity: 0.8,
+        strokeWeight: 1.5,
+        map: this.map1,
+        icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW }, offset: '100%', repeat: '2000px' }]
+      });
+  
+      this.demoPolyline.push(draw_polyline);
+  
+      // Optionally fit bounds to include all markers and polyline
+      if (markers.length > 0) {
+        const bounds = new google.maps.LatLngBounds();
+        markers.forEach(marker => bounds.extend(marker.getPosition()));
+        this.map1.fitBounds(bounds);
+      }
+    // });
+  }
+  fetchCustomerInfo(customer) {
+    // this.customer_info=[]
+    this.customer_info = customer||[]
+    // if (this.demomarker.length > 0) {
+    //   this.demomarker.forEach(marker => marker.setMap(null));
+    //   this.demomarker = [];  // Clear the array after removing markers
+    // }
+    // console.log("Removing",Id)
+    const markers: google.maps.Marker[] = [];
+    // if (this.demomarker.length > 0) {
+    //   this.demomarker.forEach(marker => {
+    //     // console.log("Removing marker from map", marker);
+    //     marker.setMap(null);
+    //   });
+    //   this.demomarker = [];  // Clear the array after removing markers
+    //   console.log("Marker array cleared");
+    // }
+    // const formdataCustomer = new FormData();
+    // formdataCustomer.append('AccessToken', this.token);
+    // formdataCustomer.append('forGroup', this.group_id);
+    // formdataCustomer.append('id', Id);
+  
+    // this.service.tripCustomerS(formdataCustomer).subscribe((res: any) => {
+      // console.log(res)
+      // if(res.status=='success'){
+        if(this.customer_info.length){
+      
+  
+      // Log the customer data for debugging
+      console.log("Customer Info:", this.customer_info);
+      //  if(this.customer_info!==null){
+      this.customer_info.forEach((customer, index) => {
+        // Log SequenceNo to check its value
+        console.log("Customer SequenceNo:", customer?.location_label);
+        if (customer?.location_geocoord) {
+                              const [lat, lng] =customer?.location_geocoord.split(',').map(Number);
+                              const coord = { lat, lng };
+        const sequenceNo = customer.location_label ? customer.location_label.toString() : ''; // Ensure this is a string
+        // const sequenceNo = customer.SequenceNo  // Ensure this is a string
+  
+        let mark = new google.maps.Marker({
+          map: this.map1,
+          position: new google.maps.LatLng(coord.lat, coord.lng),
+          title: `${coord.lat}, ${coord.lng}`,
+          label: {
+            text: sequenceNo,  // Ensure this is a string
+            color: 'black'
+          }
+        });
+  
+        this.demomarker.push(mark);
+        markers.push(mark);
+        google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
+      }
+      }
+    );
+    }
+  // }
+      // this.demomarker=markers;
+    // });
+  }
+
+  getMarkerIcon(index: number): string {
+    // console.log(index)
+    if (index === 0) {
+      return 'assets/images/users/start_marker.png';
+    }
+    else if (index + 1 === this.trackingData.length) {
+
+      setTimeout(() => {
+        this.SpinnerService.hide("mapSpinner");
+      }, 5000);
+      return 'assets/images/users/stop_marker.png';
+    } else {
+      return 'assets/images/users/green_Marker1.png';
+    }
+  }
+  handleMarkerClick(event, trackingData, vehicle_no, imei) {
+  
+    // const markerPosition = event.getPosition();
+    // const k = event.toString();
+    // console.log(event.toString())
+    // this.str= (((k.split('(')).join('')).split(')')).join('').split(' ').join('');
+    // console.log(trackingData)
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+    formdataCustomer.append('VehicleId', vehicle_no);
+    formdataCustomer.append('ImeiNo', imei);
+    formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+  
+    this.service.addressS(formdataCustomer).subscribe((res: any) => {
+      console.log(res)
+      const address = res.Data.Address;
+      this.showWindow(trackingData, vehicle_no, address);
+      this.closeLastOpenedInfoWindow();
+      const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+      infowindowMarker.setPosition(event.latLng);
+      infowindowMarker.open(this.map1);
+    });
+  }
+  closeLastOpenedInfoWindow() {
+    if (this.lastOpenedInfoWindow) {
+      this.lastOpenedInfoWindow.close();
+    }
+  }
+  showWindow(data, vnumber, add) {
+    // var add:any
+    this.contentsInfo = ''
+    // console.log('show window of vehicle information', data, add)
+    /////////////////////////address api////////////////////////////////////////////////////
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+     this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
+      '<tbody style="border:none !important">' +
+
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
+      '<td style="width:1%;color: blue;border:none !important">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
+      '<td style="width:1%;color: blue;border:none !important">:</td>' +
+      '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+      '</tr>' +
+      '</tbody>' +
+      '</table>'
+
+
+
+
+
+
+  }
+  handleCustomerMarkerClick(event, index) {
+    const customer = this.customer_info[index];
+    console.log(this.customer_info);
+    
+    const customer_Info = this.generateCustomerInfo(customer);
+  // return customer_Info;
+    this.closeLastOpenedInfoWindow();
+    const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
+    infowindowMarker_custo.setPosition(event.latLng);
+    infowindowMarker_custo.open(this.map1);
+    this.lastOpenedInfoWindow = infowindowMarker_custo;
+  }
+  
+  generateCustomerInfo(customer): string {
+    let pod = customer?.PodStatus === 1 ? 'DONE' : '-';
+    let type = customer?.LocationSequence === 0 ? 'ORIGIN' : customer?.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
+    let arrival_time = customer?.GeoArrivalTime ? `${customer?.GeoArrivalTime} [GPS]` : customer?.ArrivalTime;
+    let departure_time = customer?.GeoDepartureTime ? `${customer?.GeoDepartureTime} [GPS]` : customer?.DepartureTime;
+    
+    return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important">
+    <tbody style="border:none !important">
+      <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Location</td><td style="border:none !important">:</td><td style="border:none !important">${customer.LocationCode}</td></tr>
+      <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">PodStatus</td><td style="border:none !important">:</td><td style="border:none !important">${pod}</td></tr>
+      <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Type</td><td style="border:none !important">:</td><td style="border:none !important">${type}</td></tr>
+      <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">ArrivalTime</td><td style="border:none !important">:</td><td style="border:none !important">${arrival_time}</td></tr>
+      <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">DepartureTime</td><td style="border:none !important">:</td><td style="border:none !important">${departure_time}</td></tr>
+    </tbody>
+  </table>`;
+  }
+  initMap1() 
+  {
+ 
+ 
+   //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+    const center = { lat: 23.2599, lng: 77.4126 };
+ 
+   //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+   // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+ // 
+ 
+    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+      zoom: 4,
+       center: center,
+ 
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scaleControl: true,
+ 
+    }
+    );
+ 
+  
+ 
+    
+      
+  }
+
+  //   initializeMap(item, coordinates: { lat: number, lng: number }[]) {
+  //     if (!this.map) {
+  //         // Initialize HERE map platform and default layers
+  //         this.defaultLayers = this.platform.createDefaultLayers();
+  
+  //         // Create the map
+  //         this.map = new H.Map(
+  //             this.mapContainer.nativeElement,
+  //             this.defaultLayers.vector.normal.map,
+  //             {
+  //                 center: coordinates.length > 0 ? coordinates[0] : { lat: 50, lng: 5 },
+  //                 zoom: 5,
+  //                 pixelRatio: window.devicePixelRatio || 1,
+  //             }
+  //         );
+  
+  //         // Make the map interactive
+  //         const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+  //         this.ui = H.ui.UI.createDefault(this.map, this.defaultLayers);
+  //     }
+  
+  //     // Clear existing objects from the map
+  //     this.map.removeObjects(this.map.getObjects());
+  
+  //     if (coordinates.length > 0) {
+  //         // Icons for different marker types
+  //         const sourceIcon = new H.map.Icon('assets/images/users/start_marker.png');
+  //         const destinationIcon = new H.map.Icon('assets/images/users/stop_marker.png');
+  //         const intermediateIcon = new H.map.Icon('assets/images/users/green_Marker1.png');
+  
+  //         let bounds = new H.geo.Rect(coordinates[0].lat, coordinates[0].lng, coordinates[0].lat, coordinates[0].lng);
+  
+  //         // Add customer markers (DOM-based)
+  //         const customer = item?.Customer;
+  //         if (customer) {
+  //           console.log("customer",customer.length,customer);
+            
+  //             customer.forEach(({ location_geocoord,location_label },index) => {
+  //                 if (location_geocoord) {
+  //                     const [lat, lng] = location_geocoord.split(',').map(Number);
+  //                     const coord = { lat, lng };
+  //                     this.addCustomerDomMarker(coord,location_label); // Use the DOM marker function for customers
+  //                     bounds = bounds.mergePoint(coord);
+  //                 }
+  //             });
+  //         }
+  
+  //         // Add regular markers for source, destination, and intermediate points
+  //         coordinates.forEach((coord, index) => {
+  //             const icon = index === 0 ? sourceIcon : (index === coordinates.length - 1 ? destinationIcon : intermediateIcon);
+  //             const marker = this.addMarker(coord, icon); // Regular marker function
+  //             this.addInfoBubble(marker, coord, this.trackingData[index]);
+  //             bounds = bounds.mergePoint(coord);
+  //         });
+  
+  //         // Draw a polyline for the route
+  //         this.addPolyline(coordinates);
+  
+  //         // Adjust the map view to fit all markers
+  //         this.map.getViewModel().setLookAtData({ bounds });
+  //     }
+  //     this.SpinnerService.hide('mapSpinner');
+  // }
   
     addInfoBubble(marker: any, coord: { lat: number, lng: number },trackingData): void {
       marker.addEventListener('tap', async (evt) => {
@@ -1516,7 +1970,53 @@ export class DashboardComponent implements OnInit {
       this.map.addObject(marker);
       return marker
   }
+  // Function to create and add a customer DOM marker with a sequence number
+addCustomerDomMarker(coord: { lat: number, lng: number }, sequenceNo) {
+  console.log(sequenceNo);
   
+  const html = document.createElement('div');
+  const divIcon = document.createElement('div');
+  const divText = document.createElement('div');
+  const imgIco = document.createElement('img');
+
+  imgIco.setAttribute('src', 'assets/imagesnew/redmarker_end.png');
+  imgIco.style.width = '26px'; // Adjust marker image width
+  imgIco.style.height = '37px'; // Adjust marker image height
+
+  divText.setAttribute("class", "textData");
+  html.setAttribute("class", "parentDiv");
+
+  divIcon.appendChild(imgIco);
+  divText.textContent = sequenceNo.toString(); // Display sequence number
+  divText.style.top = '40%';
+  divText.style.left = '50%';
+  divText.style.position = 'absolute';
+  divText.style.transform = 'translate(-50%, -50%)';
+  divText.style.color = 'white'; // Set text color
+  divText.style.fontWeight = 'bold'; // Bold text for visibility
+
+  html.appendChild(divIcon);
+  html.appendChild(divText);
+
+  const domIcon = new H.map.DomIcon(html);
+  const marker = new H.map.DomMarker(coord, { icon: domIcon });
+
+  // Add marker to the map
+  this.map.addObject(marker);
+
+  // Add click listener to the marker
+  marker.addEventListener('tap', async (evt) => {
+      // Remove existing bubbles
+      this.ui.getBubbles().forEach(bubble => this.ui.removeBubble(bubble));
+
+      // Handle marker click
+      const infoContent = `Customer Sequence: ${sequenceNo}`;
+      const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+          content: infoContent
+      });
+      this.ui.addBubble(infoBubble);
+  });
+}
   createBubble(data,add,vnumber) {
   
   return  '<table style="line-height: 16px; border:none !important">' +

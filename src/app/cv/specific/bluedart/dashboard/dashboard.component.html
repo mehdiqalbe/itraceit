@@ -764,15 +764,14 @@
         <div class="info col-lg-12 overflow-scroll">
           <table class="table"  cellspacing="0" id="masterUpload">
             <thead>
-              <tr style="text-align: center; white-space: nowrap;">
+              <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
                 <th style="border-top-left-radius: 4px;" class="table-primar"></th>
-                <th class="table-primar">Action</th>
                 <th  class="table-primar">Sl.</th>
+                <th class="table-primar">Link</th>
                 <th  class="table-primar d-none">Free Vehicle</th>
                 <th  class="table-primar d-none">At Source</th>
                 <th  class="table-primar d-none">At Destination</th>
                 <th class="table-primar">E-Lock Status</th>
-                <th class="table-primar">En-Route Status</th>
                 <th class="table-primar">Route Type</th>
                 <th class="table-primar">Region</th>
                 <th class="table-primar">Origin</th>
@@ -780,19 +779,21 @@
                 <th class="table-primar">Route</th>
                 <th class="table-primar">Fleet</th>
                 <th class="table-primar">Run Date</th>
-                <th class="table-primar">ATA</th>
+                <th class="table-primar" >Trip Id</th>
+                <th class="table-primar">Vehicle</th>
+                <th class="table-primar">Track(Dev-1/Dev-2/Dev-3/All)</th>
+                <th class="table-primar">Vehicle Status</th>
+                <th class="table-primar" >Vehicle Last Time</th>
+                <th class="table-primar">Last Location</th>
+                <th class="table-primar">En-Route Status</th>
+                <th class="table-primar">STD</th>
                 <th class="table-primar">STA</th>
                 <th class="table-primar">ATD</th>
-                <th class="table-primar">STD</th>
+                <th class="table-primar">ATA</th>
                 <th class="table-primar">ETA(Hrs.)</th>
                 <th class="table-primar">ETD(Km.)</th>
                 <th  class="table-primar">Distance Covers(Km.)</th>
                 <th class="table-primar">Delay in Arrival</th>
-                <th class="table-primar">Vehicle</th>
-                <th class="table-primar">Vehicle Status</th>
-                <th class="table-primar" >Vehicle Last Time</th>
-                <th class="table-primar">Last Location</th>
-                <th class="table-primar">Track(Dev-1/Dev-2/Dev-3/All)</th>
                 <th class="table-primar" >Last Halt</th>
                 <th class="table-primar" >Driver 1</th>
                 <th class="table-primar" >Driver 2</th>
@@ -801,7 +802,7 @@
                 <th class="table-primar" >Trip Status</th>
                 <th class="table-primar" >Close By</th>
                 <th class="table-primar" >Close Date</th>
-                <th class="table-primar" >Trip Id</th>
+                
                 <th class="table-primar" >Run Code</th>
                 <th style="border-top-right-radius: 4px;" class="table-primar" >Challan No.</th>
                 <!-- <th style="display: none;" id="tableHead">Color</th>
@@ -819,19 +820,20 @@
             </thead>
             <tbody >
               <tr style="text-align: center; white-space: nowrap;" *ngFor="let key of Object.keys(tripArray);let ind=index">
-                <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(tripArray[key]?.MTripId,tripArray[key])"><i class="fa-solid fa-plus"></i></button></td>
-                <td>
+                <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(tripArray[key]?.MTripId,tripArray[key])"><i class="fa fa-plus"></i></button></td>
+                <td>{{ind+1}}</td>
+
+                <td >
                   
-                  <button type="button" (click)="linkPopup(tripArray[key])">
-                    <img *ngIf="tripArray[key]?.TripStatus === 'Schedule'" style="cursor:pointer;" src="assets/tripIcon/add_link.svg" alt=""></button>
+                  <button *ngIf="tripArray[key]?.TripStatus === 'Schedule'" type="button" (click)="linkPopup(tripArray[key])">
+                    <img  style="cursor:pointer;" src="assets/tripIcon/add_link.svg" alt=""></button>
                   <img  *ngIf="tripArray[key]?.TripStatus !== 'Schedule'"  src="assets/tripIcon/disable_link.svg" alt="">
                 </td>
-                <td>{{ind+1}}</td>
+              
                 <td class="d-none">{{tripArray[key]?.FreeVehicles}}</td>
                 <td class="d-none">{{tripArray[key]?.AtSource}}</td>
                 <td class="d-none">{{tripArray[key]?.AtDestination}}</td>
                 <td>{{elockFunctionDisplay(tripArray[key]?.FixedLockOpen,tripArray[key]?.PortableLockOpen)}}</td>
-                <td>{{ tripArray[key]?.RouteDeviation === 'NA' || tripArray[key]?.RouteDeviation === '' ? '' : tripArray[key]?.RouteDeviation }}</td>
                 <td>{{tripArray[key]?.ShipmentMethod}}</td>
                 <td>{{tripArray[key]?.Region}}</td>
                 <td>{{tripArray[key]?.Origin}}</td>
@@ -839,22 +841,12 @@
                 <td>{{tripArray[key]?.Route}}</td>
                 <td>{{tripArray[key]?.FleetNo}}</td>
                 <td>{{tripArray[key]?.RunDate}}</td>
-                <td>{{tripArray[key]?.ATA}}</td>
-                <td>{{tripArray[key]?.STA}}</td>
-                <td>{{tripArray[key]?.ATD}}</td>
-                <td>{{tripArray[key]?.STD}}</td>
-                <td >{{tripArray[key]?.ETA}}</td>
-                <td>{{tripArray[key]?.RemainingDistance}}</td>
-                <td>{{tripArray[key]?.DistanceCover}}</td>
-                <td>{{tripArray[key]?.DelayedArrived}}</td>
-                <td> <a  (click)="openMapModal(tripArray[key])"style="color:rgb(66, 66, 138);cursor:pointer">{{tripArray[key]?.VehicleNo}}</a></td>
-                <td>{{tripArray[key]?.VehicleStatus}}</td>
-                <td>{{tripArray[key]?.VehicleLastTime}}</td>
-                <td>{{tripArray[key]?.LastLocation}}</td>
+                <td>{{tripArray[key]?.ShipmentNo}}</td>
+                <td> <a  (click)="openMapModal(tripArray[key],'')" style="color:rgb(66, 66, 138);cursor:pointer">{{tripArray[key]?.VehicleNo}}</a></td>
                 <td>
                   <i
                     *ngIf="tripArray[key]?.ImeiNo1"
-                    (click)="openMapModal(tripArray[key])"
+                    (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo1)"  
                     ngbTooltip="Device 1"
                     container="body"
                     class="fa fa-map-marker"
@@ -864,24 +856,39 @@
                   <i
                     *ngIf="tripArray[key]?.ImeiNo2"
                     ngbTooltip="Device 2"
-                    container="body"
-                    (click)="openMapModal(tripArray[key])"
-                    class="fa fa-map-marker ms-2"
+                    (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo2)"  
+                    class="fa fa-map-marker"
                     [ngStyle]="{ color: 'blue', cursor: 'pointer', fontSize: '1.5em' }"
                     aria-hidden="true"
                   ></i>
                   <i
                     *ngIf="tripArray[key]?.ImeiNo3"
-                    (click)="openMapModal(tripArray[key])"
+                    (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo3)"  
                     ngbTooltip="Device 3"
-                    container="body"
-                    class="fa fa-map-marker ms-2"
+                    class="fa fa-map-marker"
                     [ngStyle]="{ color: 'green', cursor: 'pointer', fontSize: '1.5em' }"
                     aria-hidden="true"
                   ></i>
-                </td>  
+                </td>    
+                <td>{{tripArray[key]?.VehicleStatus}}</td>
+                <td>{{tripArray[key]?.VehicleLastTime}}</td>
+                <td >{{tripArray[key]?.LastLocation}}</td>
+                <td>{{ tripArray[key]?.RouteDeviation === 'NA' || tripArray[key]?.RouteDeviation === '' ? '' : tripArray[key]?.RouteDeviation }}</td>
+
+                <td>{{tripArray[key]?.STD}}</td>
+                <td>{{tripArray[key]?.STA}}</td>
+                <td>{{tripArray[key]?.ATD}}</td>
+                <td>{{tripArray[key]?.ATA}}</td>
+              
+                
+                <td >{{tripArray[key]?.ETA}}</td>
+                <td>{{tripArray[key]?.RemainingDistance}}</td>
+                <td>{{tripArray[key]?.DistanceCover}}</td>
+                <td>{{tripArray[key]?.DelayedArrived}}</td>
+                
+                   
                 <td>{{tripArray[key]?.Halt}}</td>
-                <td>{{tripArray[key]?.DriverName}}</td>
+                <td>{{tripArray[key]?.DriverName}}/{{tripArray[key]?.DriverNumber}}</td>
                 <td>{{tripArray[key]?.DriverNumber}}</td>
                 <td>{{tripArray[key]?.Transporter}}</td>
                 <td>
@@ -894,10 +901,10 @@
                 <td>{{tripArray[key]?.TripStatus}}</td>
                 <td>{{tripArray[key]?.CloseBy}}</td>
                 <td>{{tripArray[key]?.CloseDate}}</td>
-                <td>{{tripArray[key]?.ShipmentNo}}</td>
+              
                 <td>{{tripArray[key]?.RunCode}}</td>
                 <td>{{tripArray[key]?.reason}}</td>
-              
+  
               </tr>
             </tbody>
     
@@ -912,33 +919,7 @@
   <!-- //////////////////////////saumya  modal//////////////////////// -->
   
     
-    
-    
-    
-    
-  <div class="modal fade " id="vehcileDocModal" tabindex="-1" aria-labelledby="vehcileDocModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style=" max-width:1400px;">
-      
-        <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
-             uploading... </p></ngx-spinner>
-        <div class="modal-content m-auto" style="height: 85vh; width: 80% !important;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="uploadDocumentModalLabel">Map</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-  
-        <div class="modal-body" style="width:90%px;height: 98%;">
-          <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div>
-        </div>
-  
-        <div class="modal-footer justify-content-center col-lg-6 mx-auto">
-            <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
-          <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
-        </div>
-  
-      </div>
-    </div>
-  </div>
+
     <!-- /////////////////////////////////////////Link Popup/////////////////////////////////////////////////// -->
     <div class="modal fade " id="linkModal" tabindex="-1" aria-labelledby="linkModal" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" style=" max-width:600px;">
@@ -975,15 +956,17 @@
      
     <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
-          <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
-              uploading... </p></ngx-spinner>
          <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
-          <div class="modal-header">
-            <h5 class="modal-title" id="mapModalLabel">HERE WeGo Map</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+              uploading... </p></ngx-spinner>
+          <div class="modal-header" style="background:#0e213ff2">
+            <h5 class="modal-title" id="mapModalLabel" style="color:white;">Map</h5>
+            <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+              <i style="font-size: 24px;color:white" class="fa fa-times"></i>
+            </button>
           </div>
-          <div class="modal-body" style="width:90%px;height: 98%;">
-            <div #mapContainer style="width: 98%; height: 95%;" class="mx-auto"></div>
+          <div class="modal-body p-0 pt-1" style="width:100%;height: 100%;">
+            <div #mapContainer style="width: 100%; height: 100%;" class="mx-auto"></div>
           </div>
         </div>
       </div>

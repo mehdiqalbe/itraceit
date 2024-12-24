@@ -50,49 +50,49 @@
               </div>
             </div> -->
             <div class="d-flex gap-3 align-items-center" style="align-self: end;margin-bottom:4px">
-              <div class="all filter-border">
+              <div style="cursor: pointer;" class="all filter-border" (click)="filterTable('All')">
                   <div class="filter-label">
                       <p style="color:#1d4380">All</p>
                   </div>
                   <div class="border-value">
-                       <p>13216</p>
+                       <p>{{(headerObject?.All | keyvalue)?.length}}</p>
                   </div>
                </div>
-               <div class="Active filter-border" style="border-color: #2cc844;">
+               <div class="Active filter-border" style="border-color: #2cc844;" (click)="filterTable('Active')">
                   <div class="filter-label">
                       <p style="color:#2cc844">Active</p>
                   </div>
-                  <div class="border-value" style="background:#2cc844;">
-                       <p>3318</p>
+                  <div class="border-value" style="background:#2cc844;" >
+                       <p>{{(headerObject?.Active)?.length}}</p>
                   </div>
                </div>
-               <div class="NOD filter-border" style="border-color: #e74938;">
+               <div class="NOD filter-border" style="border-color: #e74938;" (click)="filterTable('Nod')">
                   <div class="filter-label">
                       <p style="color:#e74938">NOD</p>
                   </div>
                   <div class="border-value" style="background:#e74938;">
-                       <p>764</p>
+                       <p>{{(headerObject?.Nod)?.length}}</p>
                   </div>
                </div>
-               <div class="NGPs filter-border" style="border-color: #007AFF;">
+               <div class="NGPs filter-border" style="border-color: #007AFF;" (click)="filterTable('NGPs')">
                   <div class="filter-label">
                       <p style="color:#007AFF">NGPs</p>
                   </div>
                   <div class="border-value" style="background:#1d4380;">
-                       <p>1</p>
+                       <p>{{(headerObject?.NGps)?.length}}</p>
                   </div>
                </div>
-               <div class="NON filter-border" style="border-color: #00C7BE;">
+               <div class="NON filter-border" style="border-color: #00C7BE;" >
                   <div class="filter-label">
                       <p style="color:#00C7BE">NON</p>
                   </div>
                   <div class="border-value" style="background:#1d4380;">
-                       <p>1</p>
+                    <p>1</p>
                   </div>
                </div>
                <div class="Inactive filter-border" style="border-color: #8E8E93;">
-                  <div class="filter-label">
-                      <p style="color:#8E8E93">Inactive <span style="color: #1d4380;border-left: 2px solid #8E8E939E;padding: 0px 6px;">8988</span></p>
+                  <div class="filter-label" (click)="filterTable('InActive')">
+                      <p style="color:#8E8E93">Inactive <span style="color: #1d4380;border-left: 2px solid #8E8E939E;padding: 0px 6px;">{{(headerObject?.InActive)?.length}}</span></p>
                   </div>
                   <div class="d-flex gap-2">
                       <div class="border-value" style="background:#FF9500;">
@@ -213,7 +213,7 @@
                               name="tripStatus"
                               id="tripStatus"
                               placeholder="Select Trip Status"
-                              class="cutombox"
+                              class=""
                               style="font-size: 14px; font-weight: 400"
                               [closeOnSelect]="true" >
 
@@ -232,10 +232,11 @@
                                 name="tripType"
                                 id="tripType"
                                 placeholder="Select Trip Type"
-                                class="cutombox"
+                                class=""
                                 style="font-size: 14px; font-weight: 400"
                                 [closeOnSelect]="true"
                               >
+                              <ng-option value="All">All</ng-option>
                               <ng-option
                                 *ngFor="let item of filterObject?.FeederTypes | keyvalue"
                                 [value]="item.value"
@@ -252,10 +253,11 @@
                                 name="transporter"
                                 id="transporter"
                                 placeholder="Select Transporter"
-                                class="cutombox"
+                                class=""
                                 style="font-size: 14px; font-weight: 400"
                                 [closeOnSelect]="true"
                               >
+                              <ng-option value="All">All</ng-option>
                                 <ng-option
                                   *ngFor="let item of filterObject?.Transporters | keyvalue"
                                   [value]="item.key"
@@ -415,7 +417,7 @@
                             name="tripStatus"
                             id="tripStatus"
                             placeholder="Select Trip Status"
-                            class="cutombox"
+                            class=""
                             style="font-size: 14px; font-weight: 400"
                             [closeOnSelect]="true"
                             (change)="onOptionSelected($event)"
@@ -433,7 +435,7 @@
                             name="tripType"
                             id="tripType"
                             placeholder="Select Trip Type"
-                            class="cutombox"
+                            class=""
                             style="font-size: 14px; font-weight: 400"
                             [closeOnSelect]="true" >
                           <ng-option *ngFor="let item of vehicleData?.data | keyvalue" [value]="item?.value">   
@@ -450,7 +452,7 @@
                             name="tripType"
                             id="tripType"
                             placeholder="Enter Location"
-                            class="cutombox"
+                            class=""
                             style="font-size: 14px; font-weight: 400"
                             [closeOnSelect]="true"
                             
@@ -468,8 +470,8 @@
                           <span class="filtor_name">Radius (in Km.)</span>
                           <input
                             type="number"
-                            class="cutombox form-control flex-grow-1"
-                            style="font-size: 14px; font-weight: 400; width: 100%;"
+                            class=" form-control cutombox flex-grow-1"
+                            style="font-size: 14px; font-weight: 400; width: 100%;height: auto;"
                             ngModel
                             name="radius"
                             id="radius"

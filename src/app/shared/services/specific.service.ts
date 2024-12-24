@@ -89,6 +89,7 @@ export class SpecificService implements OnDestroy {
   
                 { path: '/cv/specific/bluedart/Irun-Dashboard', title: 'Irun Dashboard', type: 'link', active:false },
                 { path: '/cv/specific/bluedart/Delay-Dashboard', title: 'Delay Dashboard', type: 'link', active:false },
+                { path: '/cv/specific/bluedart/vehicle-nearby', title: 'Vehicle Nearby', type: 'link', active:false },
                 { path: '/ILgic/wallet', title: 'Document Wallet', type: 'link', active:false },
   
   

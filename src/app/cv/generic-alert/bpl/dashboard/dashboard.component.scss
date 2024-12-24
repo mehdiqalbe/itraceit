@@ -41,7 +41,8 @@ text-align: left;
   font-weight: 600;
 }
 .table-primar{
-  background-color:#b9b9b94d
+  background-color:#b9b9b94d;
+  text-transform: none!important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
   color: white !important;

@@ -20,8 +20,8 @@ export class DashboardComponent implements OnInit {
   [x: string]: any;
   // @ViewChild('closeModalDesk') closeModalDesk: TemplateRef<ModalComponent> | undefined;
   @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
-  @ViewChild('modal1') private modalContent1: TemplateRef<ModalComponent> | undefined
-  private modalRef1!: NgbModalRef;
+  // @ViewChild('modal1') private modalContent1: TemplateRef<ModalComponent> | undefined
+  // private modalRef1!: NgbModalRef;
   Object = Object;
   imageurl = ''
   public show: boolean = false;
@@ -395,6 +395,10 @@ export class DashboardComponent implements OnInit {
             this.SpinnerService.hide('tableSpinner')
           })
         }
+        else if(res.Status=='fail'){
+          alert(res?.Message)
+          this.SpinnerService.hide('tableSpinner')
+         }
         // this.routeId = (res?.data);
         // console.log("customerList", this.routeId);
   
@@ -581,42 +585,47 @@ export class DashboardComponent implements OnInit {
       })
       
     }
-    onRouteCategoryChange(val){
-      if(val)
-      {
+    onRouteCategoryChange(val) {
+      // Clear selected route types
+      this.selectedRoutes = [];
+    
+      if (val) {
         console.log(val);
-        this.filterObject.routeType=this.filterObject.rawRouteType[val]
-      }
-      else{
-        const routeType1 = this.filterObject?.rawRouteType[1];
-           const routeType2 = this.filterObject?.rawRouteType[2];
-           this.filterObject.routeType={...routeType1,...routeType2}
-        
+        this.filterObject.routeType = {
+          "": "All", // Add "All" field
+          ...this.filterObject.rawRouteType[val],
+        };
+      } else {
+        // Merge all values from rawRouteType into a single object and add "All" field
+        this.filterObject.routeType = {
+          "": "All", // Add "All" field
+          ...Object.assign({}, ...Object.values(this.filterObject.rawRouteType)),
+        };
       }
     }
     trackVehicle(item){
-     const currentDateTime= new Date().toLocaleString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false // To use 24-hour format
-      }).replace(',', '');
-
-      console.log(item);
-      const formData=new FormData()
-      formData.append('AccessToken', this.token)
-      formData.append('startdate', item?.RunDate);
-      formData.append('enddate', currentDateTime);
-      formData.append('time_interval', '60');
-      formData.append('imei', item?.ImeiNo1||item?.ImeiNo2||item?.ImeiNo3);
-      formData.append('group_id', this.group_id);
-      formData.append('AccountId', this.account_id);
-      this.service.vehicleTrackongS(formData).subscribe((res:any)=>{
-        console.log("trackvehicle",res);
-      })
-    }
+      const currentDateTime= new Date().toLocaleString('en-US', {
+         month: '2-digit',
+         day: '2-digit',
+         year: 'numeric',
+         hour: '2-digit',
+         minute: '2-digit',
+         hour12: false // To use 24-hour format
+       }).replace(',', '');
+   
+       console.log(item);
+       const formData=new FormData()
+       formData.append('AccessToken', this.token)
+       formData.append('startdate', item?.RunDate);
+       formData.append('enddate', currentDateTime);
+       formData.append('time_interval', '60');
+       formData.append('imei', item?.ImeiNo1||item?.ImeiNo2||item?.ImeiNo3);
+       formData.append('group_id', this.group_id);
+       formData.append('AccountId', this.account_id);
+       this.service.vehicleTrackongS(formData).subscribe((res:any)=>{
+         console.log("trackvehicle",res);
+       })
+     }
     filterTableByChart(column,value){
       
       let table = $('#masterUpload').DataTable();
@@ -2665,14 +2674,14 @@ export class DashboardComponent implements OnInit {
       //     }
       // });
     }
-    openMapModal(item) {
+    openMapModal(item,imei) {
     
       $('#mapModal').modal('show'); // Open modal using jQuery
-  
+      this.SpinnerService.show('mapSpinner')
       // Call the tracking function
-      this.vehicleTrackF(item);
+      this.vehicleTrackF(item,imei);
     }
-    vehicleTrackF(item) {
+    vehicleTrackF(item,imei) {
       // this.loading = true; // Set loading to true when API call starts
   
       const currentDateTime = new Date().toLocaleString('en-US', {
@@ -2689,6 +2698,9 @@ export class DashboardComponent implements OnInit {
       formData.append('startdate', item?.RunDate);
       formData.append('enddate', currentDateTime);
       formData.append('time_interval', '60');
+      if(imei)
+        formData.append('imei', imei);
+        else
       formData.append('imei', item?.ImeiNo1||item?.ImeiNo2||item?.ImeiNo3);
       formData.append('group_id', this.group_id);
       formData.append('AccountId', this.account_id);
@@ -2706,7 +2718,7 @@ export class DashboardComponent implements OnInit {
              console.log(coordinates);
              
           // Initialize the map with the coordinates
-          this.initializeMap(coordinates);
+          this.initializeMap(item,coordinates);
         } else {
           console.log('No valid locations found in the response.');
         }
@@ -2716,7 +2728,9 @@ export class DashboardComponent implements OnInit {
       });
     }
   
-    initializeMap(coordinates: { lat: number, lng: number }[]) {
+    initializeMap(item,coordinates: { lat: number, lng: number }[]) {
+      console.log(item);
+      
       if (!this.map) {
         // Initialize HERE map platform and default layers
         // const platform = new H.service.Platform({
@@ -2743,6 +2757,7 @@ export class DashboardComponent implements OnInit {
       // Clear existing markers
       this.map.removeObjects(this.map.getObjects());
     
+  
       // Check if there are coordinates
       if (coordinates.length > 0) {
       // Create icons for source, destination, and intermediate points
@@ -2779,7 +2794,7 @@ export class DashboardComponent implements OnInit {
          bounds = bounds.mergePoint(coord);
   
         });
-    
+        // const marker = this.addCustomerMarker(item);
         // Create bounds with updated southwest and northeast points
         // const bounds = new H.geo.Rect(swLat, swLng, neLat, neLng);
         this.addPolyline(coordinates);
@@ -2791,6 +2806,7 @@ export class DashboardComponent implements OnInit {
           bounds: bounds
         });
       }
+      this.SpinnerService.hide('mapSpinner')
     }
   
     addInfoBubble(marker: any, coord: { lat: number, lng: number },trackingData): void {

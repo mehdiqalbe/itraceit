@@ -682,86 +682,130 @@ if(flag_exist_lock==1 && flag_lock_status_show==0)
     });
   }
 
-  initializeMap(item,coordinates: { lat: number, lng: number }[]) {
-    console.log(item);
-    
+  initializeMap(item, coordinates: { lat: number, lng: number }[]) {
     if (!this.map) {
-      // Initialize HERE map platform and default layers
-      // const platform = new H.service.Platform({
-      //   apikey: 'your-api-key' // Replace with your actual API key
-      // });
-      this.defaultLayers = this.platform.createDefaultLayers();
-  
-      // Create the map
-      this.map = new H.Map(
-        this.mapContainer.nativeElement,
-        this.defaultLayers.vector.normal.map,
-        {
-          center: coordinates.length > 0 ? coordinates[0] : { lat: 50, lng: 5 },
-          zoom: 5,
-          pixelRatio: window.devicePixelRatio || 1
-        }
-      );
-  
-      // Make the map interactive
-      const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
-      this.ui=H.ui.UI.createDefault(this.map, this.defaultLayers);
-    }
-  
-    // Clear existing markers
-    this.map.removeObjects(this.map.getObjects());
-  
+        // Initialize HERE map platform and default layers
+        this.defaultLayers = this.platform.createDefaultLayers();
 
-    // Check if there are coordinates
+        // Create the map
+        this.map = new H.Map(
+            this.mapContainer.nativeElement,
+            this.defaultLayers.vector.normal.map,
+            {
+                center: coordinates.length > 0 ? coordinates[0] : { lat: 50, lng: 5 },
+                zoom: 5,
+                pixelRatio: window.devicePixelRatio || 1,
+            }
+        );
+
+        // Make the map interactive
+        const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+        this.ui = H.ui.UI.createDefault(this.map, this.defaultLayers);
+    }
+
+    // Clear existing objects from the map
+    this.map.removeObjects(this.map.getObjects());
+
     if (coordinates.length > 0) {
-    // Create icons for source, destination, and intermediate points
-    let swLat = coordinates[0].lat;
-    let swLng = coordinates[0].lng;
-    let neLat = coordinates[0].lat;
-    let neLng = coordinates[0].lng;
-    const sourceIcon = new H.map.Icon('assets/images/users/start_marker.png');
+        // Icons for different marker types
+        const sourceIcon = new H.map.Icon('assets/images/users/start_marker.png');
         const destinationIcon = new H.map.Icon('assets/images/users/stop_marker.png');
         const intermediateIcon = new H.map.Icon('assets/images/users/green_Marker1.png');
 
-    let bounds = new H.geo.Rect(coordinates[0].lat, coordinates[0].lng, coordinates[0].lat, coordinates[0].lng);
-  // Create an icon, an object holding the latitude and longitude, and a marker:
-  // var icon = new H.map.Icon(svgMarkup)
-      // Create markers and update bounds
-      coordinates.forEach((coord,index) => {
-        const icon = index === 0 ? sourceIcon : (index === coordinates.length - 1 ? destinationIcon : intermediateIcon);
-        this.addMarker(coord, icon);
+        let bounds = new H.geo.Rect(coordinates[0].lat, coordinates[0].lng, coordinates[0].lat, coordinates[0].lng);
 
-      
+        // Add customer markers (DOM-based)
+        const customer = item?.Customer;
+        if (customer) {
+            customer.forEach(({ location_geocoord },index) => {
+                if (location_geocoord) {
+                    const [lat, lng] = location_geocoord.split(',').map(Number);
+                    const coord = { lat, lng };
+                    this.addCustomerDomMarker(coord,index); // Use the DOM marker function for customers
+                    bounds = bounds.mergePoint(coord);
+                }
+            });
+        }
 
-        // Add marker using the helper function
-       const marker= this.addMarker(coord, icon);
+        // Add regular markers for source, destination, and intermediate points
+        coordinates.forEach((coord, index) => {
+            const icon = index === 0 ? sourceIcon : (index === coordinates.length - 1 ? destinationIcon : intermediateIcon);
+            const marker = this.addMarker(coord, icon); // Regular marker function
+            this.addInfoBubble(marker, coord, this.trackingData[index]);
+            bounds = bounds.mergePoint(coord);
+        });
 
-        this.addInfoBubble(marker, coord,this.trackingData[index]);
-              // // Update bounds
-              swLat = Math.min(swLat, coord.lat);
-              swLng = Math.min(swLng, coord.lng);
-              neLat = Math.max(neLat, coord.lat);
-              neLng = Math.max(neLng, coord.lng);
-       // Expand the bounds to include each coordinate
-       const padding = 0.01;
-       bounds = new H.geo.Rect(swLat+padding, swLng-padding, neLat-padding, neLng+padding);
-       bounds = bounds.mergePoint(coord);
+        // Draw a polyline for the route
+        this.addPolyline(coordinates);
 
-      });
-      // const marker = this.addCustomerMarker(item);
-      // Create bounds with updated southwest and northeast points
-      // const bounds = new H.geo.Rect(swLat, swLng, neLat, neLng);
-      this.addPolyline(coordinates);
-
-     
-
-      // Use setLookAtData to center and zoom the map to the bounds
-      this.map.getViewModel().setLookAtData({
-        bounds: bounds
-      });
+        // Adjust the map view to fit all markers
+        this.map.getViewModel().setLookAtData({ bounds });
     }
-    this.SpinnerService.hide('mapSpinner')
-  }
+    this.SpinnerService.hide('mapSpinner');
+}
+
+// Function to create and add a customer DOM marker with a sequence number
+addCustomerDomMarker(coord: { lat: number, lng: number }, sequenceNo: number) {
+  const html = document.createElement('div');
+  const divIcon = document.createElement('div');
+  const divText = document.createElement('div');
+  const imgIco = document.createElement('img');
+
+  imgIco.setAttribute('src', 'assets/imagesnew/redmarker_end.png');
+  imgIco.style.width = '26px'; // Adjust marker image width
+  imgIco.style.height = '37px'; // Adjust marker image height
+
+  divText.setAttribute("class", "textData");
+  html.setAttribute("class", "parentDiv");
+
+  divIcon.appendChild(imgIco);
+  divText.textContent = sequenceNo.toString(); // Display sequence number
+  divText.style.top = '40%';
+  divText.style.left = '50%';
+  divText.style.position = 'absolute';
+  divText.style.transform = 'translate(-50%, -50%)';
+  divText.style.color = 'white'; // Set text color
+  divText.style.fontWeight = 'bold'; // Bold text for visibility
+
+  html.appendChild(divIcon);
+  html.appendChild(divText);
+
+  const domIcon = new H.map.DomIcon(html);
+  const marker = new H.map.DomMarker(coord, { icon: domIcon });
+
+  // Add marker to the map
+  this.map.addObject(marker);
+
+  // Add click listener to the marker
+  marker.addEventListener('tap', async (evt) => {
+      // Remove existing bubbles
+      this.ui.getBubbles().forEach(bubble => this.ui.removeBubble(bubble));
+
+      // Handle marker click
+      const infoContent = `Customer Sequence: ${sequenceNo}`;
+      const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+          content: infoContent
+      });
+      this.ui.addBubble(infoBubble);
+  });
+}
+
+
+// Function to add regular markers
+// addMarker(coord: { lat: number, lng: number }, icon) {
+//     const marker = new H.map.Marker(coord, { icon });
+//     this.map.addObject(marker);
+//     return marker;
+// }
+
+// // Function to add a polyline for the route
+// addPolyline(coordinates: { lat: number, lng: number }[]) {
+//     const lineString = new H.geo.LineString();
+//     coordinates.forEach(coord => lineString.pushPoint(coord));
+//     const polyline = new H.map.Polyline(lineString, { style: { strokeColor: 'blue', lineWidth: 3 } });
+//     this.map.addObject(polyline);
+// }
+
 
   addInfoBubble(marker: any, coord: { lat: number, lng: number },trackingData): void {
     marker.addEventListener('tap', async (evt) => {
