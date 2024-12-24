@@ -15,12 +15,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {TripReportComponent } from './trip-report/trip-report.component';
 import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
+import { DelayReportComponent } from './delay-report/delay-report.component';
 
 
 @NgModule({
   declarations: [
     TripReportComponent,
-    SlotwiseDistanceReportComponent
+    SlotwiseDistanceReportComponent,
+    DelayReportComponent
   ],
   imports: [
     CommonModule,
