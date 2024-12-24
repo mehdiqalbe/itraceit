@@ -15,11 +15,13 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DelayDashboardComponent
+    DelayDashboardComponent,
+    IrunDashboardComponent
   ],
   imports: [
     CommonModule,

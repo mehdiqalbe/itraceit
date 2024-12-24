@@ -15,6 +15,7 @@ const routes: Routes = [{
     { path: 'Delay-Dashboard', component:DelayDashboardComponent },
     { path: 'Summary-Dashboard', component:SummaryDashboardComponent },
     { path: 'Report', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },
+    { path: 'Manage', loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule) },
      // Feature rout
   ]
   }];

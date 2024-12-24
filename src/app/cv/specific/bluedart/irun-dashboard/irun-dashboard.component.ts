@@ -270,6 +270,18 @@ export class IrunDashboardComponent implements OnInit
       ]
     },
     {
+      category: "Schedule Halt",
+      icon: "assets/images/IRUN/scheduleHalt.png",
+      title:'SCHEDULED_HALT',
+      filters: [
+        { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
+        { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
+      ]
+    },
+    {
       category: "Sensitive Halt",
       icon: "assets/IRUN_CV_IMG/sensitivehalt.svg",
       title:'SENSITIVE_HALT',
@@ -1137,7 +1149,7 @@ sidebarToggle() {
    formdata.append('forGroup', this.group_id)
    formdata.append('Critical', localStorage.getItem('critial')!)
    this.itraceIt.AlltriggerS(formdata).subscribe(data => {
-
+     
      // console.log("control console", data)
      this.triggerData = data
      // this.TriggerInfo=this.triggerData.TriggerInfo
@@ -1151,33 +1163,7 @@ sidebarToggle() {
      }
      
        this.triggerTable();
-     
-     
-     // console.log("allTrigger data", this.TriggerInfo)
-
-     // this.workZoneNode = JSON.parse(JSON.stringify(data))
-     // this.triggerTable();
-     // console.log("called",this.TriggerInfo.length)
      var temp: any = [];
-   
-     
-     // if(this.lastlaertFlag==false)
-     // {
-     //   // this.SpinnerService.show("LastAlert")
-     //   this.graceBtnFlag = true
-     //   this.escalationbtnFlag = true
-     //   this.iscloseFlagbtn = true
-     //   this.qrtFlag = true
-     //   setTimeout(() => {
-       
-     //   this.lastalertNew(this.lastalertmsg);
-     //   // $('#triggerModal').modal('show');
-     //   // this.SpinnerService.hide("LastAlert")
-     // },500);
-     // } 
- 
-  
-     
 
    })
 
@@ -6862,12 +6848,20 @@ handleMarkerClick1(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
 
   this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+    if(res.Status=="success")
+      {
+        
     const address = res.Data.Address;
     this.showWindow(trackingData, vehicle_no, address);
+      }else{
+        alert(res?.Message);
+        this.SpinnerService.hide("tracking");
+        
     // this.closeLastOpenedInfoWindow();
     // const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
     // infowindowMarker.setPosition(event.latLng);
     // infowindowMarker.open(this.map1);
+      }
   });
 }
 async handleMarkerClick(event, trackingData, vehicle_no, imei) {
@@ -11486,7 +11480,7 @@ pie_viewall_chart1(id:any,x){
     },
     series: [
       {
-        name: 'Shipment',
+        name: id,
         type: 'pie',
         radius: ['50%', '70%'],
         avoidLabelOverlap: false,
@@ -11540,53 +11534,37 @@ pie_viewall_chart1(id:any,x){
       },
     ],
   };
-
+  echart.on('click', (params) => {
+   
+    // Type guard to check if 'params.data' has a 'name' property
+    if (typeof params.data === 'object' && 'name' in params.data) {
+      const clickedData = params.data as { name: string; value: any };
+  
+      if (clickedData.name === '< 30') {
+            this.filterAlerts(params.seriesName,30,0)
+      } else if(clickedData.name === '< 1 Hours') {
+        this.filterAlerts(params.seriesName,60,30)
+      } else if(clickedData.name === '< 2 Hours') {
+        this.filterAlerts(params.seriesName,120,60)
+      } else if(clickedData.name === '< 4 Hours') {
+        this.filterAlerts(params.seriesName,180,120)
+      } else if(clickedData.name === '> 4 Hours') {
+        this.filterAlerts(params.seriesName,240,180)
+      }
+    } else {
+      console.log('Clicked data does not have a name property:', params.data);
+    }
+  });
   option && echart.setOption(option);
 }
 
 filterAlerts(alertTypeToFilter,time_duration,lessvalue) {
   this.new_array=[];
   const currentTime = new Date();
-  // const alertTypeToFilter = "DFG"; // Change this to your desired alert type
-
-  // this.new_array = this.main_array.flatMap(item =>
-  //   item.alerts.filter(alert => {
-  //     const alertStartTime = new Date(alert.start_time);
-  //     const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // difference in minutes
-  //     return alert.alert_type === alertTypeToFilter && timeDifference <= 30 && timeDifference >= 0;
-  //   })
-  // );
-  // this.new_array = this.main_array.map(item => {
-
-  //   const filteredAlerts = item.alerts.filter(alert => {
-  //     const alertStartTime = new Date(alert.start_time);
-  //     const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Difference in minutes
-  //     if(time_duration=='181'){
-  //       return alert.alert_type === alertTypeToFilter && timeDifference > 180 && timeDifference >= 0;
-  //     }else{
-  //     return alert.alert_type === alertTypeToFilter && timeDifference < time_duration && timeDifference >= 0;}
-  //   });
-  //   return { ...item, alerts: filteredAlerts };
-
-
-  // }).filter(item => item.alerts.length > 0); 
-
-
   this.new_array = this.main_array.map(item => {
     const filteredAlerts = item.alerts.filter(alert => {
       const alertStartTime = new Date(alert.sts);
       const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Difference in minutes
-  
-      // Check if alert type is 'DFG', time condition is met, and 'escalate_grace_taken_time' is blank
-      // if (time_duration === '240') {
-      //   return (
-      //     alert.alert_type === alertTypeToFilter &&
-      //     timeDifference > 240 &&
-      //     timeDifference >= 0 &&
-      //     !alert.escalate_grace_taken_time
-      //   );
-      // } else {
-        
         return (
           alert.alert_type === alertTypeToFilter && (timeDifference >= lessvalue) &&
           timeDifference <= time_duration &&

@@ -35,6 +35,8 @@ export class DelayDashboardComponent implements OnInit {
   polylines: any = [];
   Delay_data: any;
   platform: any;
+  demoPolyline: any=[];
+  lastOpenedInfoWindow: any;
   constructor(private CrudService:CrudService , private navServices: NavService, private dtdcservice: DtdcService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
@@ -45,21 +47,47 @@ export class DelayDashboardComponent implements OnInit {
 
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
+    this.initMap1();
     // console.log("account_id", this.account_id)
     this.group_id = localStorage.getItem('GroupId')!
     this.delayDashboardGeneric()
   }
-
+  initMap1() 
+  {
+ 
+ 
+   //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+    const center = { lat: 23.2599, lng: 77.4126 };
+ 
+   //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+   // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+ // 
+ 
+    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+      zoom: 4,
+       center: center,
+ 
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scaleControl: true,
+ 
+    }
+    );
+ 
+  
+ 
+    
+      
+  }
   delayDashboardGeneric() {
     this.SpinnerService.show()
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
 
     this.dtdcservice.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
-      console.log('delayDashboardGenericr', res);
+      // console.log('delayDashboardGenericr', res);
       if(res.status=="success"){
       this.Delay_data = Object.values(res.data);
-      console.log(this.Delay_data);
+      // console.log(this.Delay_data);
       this.DelayTable();
       this.SpinnerService.hide()
       }else{
@@ -345,6 +373,7 @@ export class DelayDashboardComponent implements OnInit {
             alert("Track data is not available");
           } else {
             this.addMarkersAndPolyline1(imei, vehicle_no);
+                    this.fetchCustomerInfo(Id);
             // Fetch DFG polyline data
             // this.fetchDFGPolyline_new(route_id);
 
@@ -370,203 +399,60 @@ export class DelayDashboardComponent implements OnInit {
     })
 
   }
-  async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-    // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
-    if(imei|| imei2|| imei3){
-      alert("IMEI not assign");
-    }else{
-    // Clear markers and polylines before starting
-    this.clearMarkersAndPolylines();
-
-    // Initialize map
-    try {
-      await this.initializeMap();
-    } catch (error) {
-      console.error('Error initializing map:', error);
-      this.SpinnerService.hide('spinner-1');
-    }
-
-    // Show tracking spinner
-    this.SpinnerService.show("tracking");
-
-    // Define the array of IMEIs to process
-    // const imeis = [imei,imei2,imei3];
-    const imeis = [imei, imei2, imei3];
-    // console.log(imeis);
-
-    // Loop through each IMEI using a for...of loop to support async/await
-    for (const imei of imeis) {
-      // console.log(imei);
-
-      // Reset tracking data for each IMEI
-      this.trackingData = [];
-      this.customer_info = [];
-      this.marker = [];
-      this.poly_line = [];
-      this.map_flag = '';
-
-      if (imei === "") {
-        this.map_flag = 'Device unavailable';
-      } else {
-        this.map_flag = 'Please wait';
-        const formData = new FormData();
-        const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-
-        formData.append('AccessToken', this.token);
-        formData.append('startdate', run_date);
-        formData.append('enddate', currentDateTime);
-        formData.append('time_interval', '120');
-        formData.append('imei', imei);
-        formData.append('group_id', this.group_id);
-        formData.append('AccountId', this.account_id);
-
-        // Log form data for debugging
-        // formData.forEach((value, key) => {
-        //   console.log("formdata...", key, value);
-        // });
-
-        try {
-          // Wait for the API response
-          const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
-          // console.log("tracking res", res);
-
-          if (res.Status === "failed") {
-            alert(res?.Message);
+  fetchCustomerInfo(Id: string) {
+    this.customer_info = []
+    // if (this.demomarker.length > 0) {
+    //   this.demomarker.forEach(marker => marker.setMap(null));
+    //   this.demomarker = [];  // Clear the array after removing markers
+    // }
+    // console.log("Removing",Id)
+    const markers: google.maps.Marker[] = [];
+    // if (this.demomarker.length > 0) {
+    //   this.demomarker.forEach(marker => {
+    //     // console.log("Removing marker from map", marker);
+    //     marker.setMap(null);
+    //   });
+    //   this.demomarker = [];  // Clear the array after removing markers
+    //   console.log("Marker array cleared");
+    // }
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+    formdataCustomer.append('forGroup', this.group_id);
+    formdataCustomer.append('id', Id);
+  
+    this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
+      console.log(res)
+      if(res.status=='success'){
+        if(res.customer_info!==null){
+      this.customer_info = res.customer_info;
+  
+      // Log the customer data for debugging
+      console.log("Customer Info:", this.customer_info);
+      //  if(this.customer_info!==null){
+      this.customer_info.forEach((customer, index) => {
+        // Log SequenceNo to check its value
+        console.log("Customer SequenceNo:", customer.SequenceNo);
+  
+        const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
+        // const sequenceNo = customer.SequenceNo  // Ensure this is a string
+  
+        let mark = new google.maps.Marker({
+          map: this.map1,
+          position: new google.maps.LatLng(customer.Lat, customer.Lng),
+          title: `${customer.Lat}, ${customer.Lng}`,
+          label: {
+            text: sequenceNo,  // Ensure this is a string
+            color: 'black'
           }
-
-          this.trackingData = res.data;
-
-          if (res.data === 'Vehicle is inactive.') {
-            alert("Track data is not available");
-          } else {
-            console.log("trackingData", this.trackingData);
-            // Add markers and polyline data
-            this.addMarkersAndPolyline1(imei, vehicle_no);
-            // Fetch DFG polyline data
-            // this.fetchDFGPolyline_new(route_id);
-
-            // Fetch customer info
-            this.fetchCustomerInfo_new(Id);
-
-            // Handle alert markers
-            // this.handleAlertMarkers(item);
-          }
-
-        } catch (error) {
-          console.error("Error in API call:", error);
-          alert("An error occurred while fetching tracking data");
-        }
-
-        // Hide the tracking spinner after the API call
-        this.SpinnerService.hide("tracking");
-      }
-    }
-}  }
-
-  getMarkerIcon(index: number): string {
-    if (index === 0) {
-      return 'assets/images/users/start_marker.png';
-    }
-    else if (index + 1 === this.trackingData.length) {
-
-      setTimeout(() => {
-        this.SpinnerService.hide("tracking");
-      }, 5000);
-      return 'assets/images/users/stop_marker.png';
-    } else {
-      return 'assets/images/users/green_Marker1.png';
-    }
-  }
-  addMarkersAndPolyline1(imei: string, vehicle_no: string) {
-    var lineString = new H.geo.LineString();
-
-    let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
-    // const ui = H.ui.UI.createDefault(this.map1, new H.map.Platform({apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'}).createDefaultLayers());
-    // const platform = new H.service.Platform({
-    //   apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
-    // });
-    const defaultLayers = this.platform.createDefaultLayers();
-    const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
-    for (let i = 0; i < this.trackingData.length; i++) {
-      const position: any = this.trackingData[i];
-      lineString.pushPoint({ lat: this.trackingData[i].lat, lng: this.trackingData[i].long });
-
-      const locationOfMarker = { lat: position.lat, lng: position.long };
-
-      const icon_temp = this.getMarkerIcon(i);
-      const marker = this.createMarker(locationOfMarker, icon_temp, '2');
-
-      // Add the marker to the map
-      this.map1.addObject(marker);
-      this.markers.push(marker);
-
-
-
-
-
-      // Attach click event to each marker
-      marker.addEventListener('tap', async (evt) => {
-        //  var position= evt.latLng.lat()
-        // Remove existing bubbles, if any
-        ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
-
-        // Create content for the info window
-        // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
-        console.log(position, i)
-        const infoContent = await this.handleMarkerClick(evt, position, vehicle_no, imei);
-
-        //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
-
-        // Create an info bubble at the marker's location
-        const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-          content: infoContent
         });
-
-        // Add the info bubble to the map
-        ui.addBubble(infoBubble);
+  
+        this.demomarker.push(mark);
+        markers.push(mark);
+        google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
       });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      // Update min and max lat/lng values to create bounding box
-      minLat = Math.min(minLat, position.lat);
-      minLng = Math.min(minLng, position.long);
-      maxLat = Math.max(maxLat, position.lat);
-      maxLng = Math.max(maxLng, position.long);
-    }
-
-    // Define padding in degrees (adjust as needed)
-    const padding = 0.01;
-
-    // Create a bounding box with padding
-    const boundingBox = new H.geo.Rect(
-      maxLat + padding,    // Top latitude (maxLat + padding)
-      minLng - padding,    // Left longitude (minLng - padding)
-      minLat - padding,    // Bottom latitude (minLat - padding)
-      maxLng + padding     // Right longitude (maxLng + padding)
-    );
-
-    // Set the map view to fit all markers within the padded bounding box
-    this.map1.getViewModel().setLookAtData({
-      bounds: boundingBox
+    }}
+      // this.demomarker=markers;
     });
-
-
-
-    console.log("lineString", lineString)
-    this.addPolylineToMap(lineString)
   }
   handleMarkerClick1(event, trackingData, vehicle_no, imei) {
     const markerPosition = event.target.getGeometry();
@@ -585,88 +471,21 @@ export class DelayDashboardComponent implements OnInit {
       // infowindowMarker.open(this.map1);
     });
   }
-  async handleMarkerClick(event, trackingData, vehicle_no, imei) {
-    const markerPosition = event.target.getGeometry();
-    const formdataCustomer = new FormData();
-    formdataCustomer.append('AccessToken', this.token);
-    formdataCustomer.append('VehicleId', vehicle_no);
-    formdataCustomer.append('ImeiNo', imei);
-    formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
+  // async handleMarkerClick(event, trackingData, vehicle_no, imei) {
+  //   const markerPosition = event.target.getGeometry();
+  //   const formdataCustomer = new FormData();
+  //   formdataCustomer.append('AccessToken', this.token);
+  //   formdataCustomer.append('VehicleId', vehicle_no);
+  //   formdataCustomer.append('ImeiNo', imei);
+  //   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
 
-    const res: any = await this.CrudService.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
-    console.log("res", res)
-    const address = res.Data.Address;
+  //   const res: any = await this.CrudService.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
+  //   console.log("res", res)
+  //   const address = res.Data.Address;
 
-    return this.showWindow(trackingData, vehicle_no, address); // Return the content
-  }
-
-  showWindow(data, vnumber, add) {
-    // var add:any
-    this.contentsInfo = ''
-    console.log('show window of vehicle information', data, add)
-    /////////////////////////address api////////////////////////////////////////////////////
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-
-    return this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
-      '<tbody style="border:none !important">' +
-
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
-      '<td style="width:1%;color: blue;border:none !important">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
-      '<td style="width:1%;color: blue;border:none !important">:</td>' +
-      '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
-      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
-      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
-      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
-      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
-      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
-      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
-      '</tr>' +
-      '<tr style=" border:none !important">' +
-      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
-      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
-      '</tr>' +
-      '</tbody>' +
-      '</table>'
-
-
-
-
-
-
-  }
+  //   return this.showWindow(trackingData, vehicle_no, address); // Return the content
+  // }
+ 
 
   // Assuming you have imported or included Supercluster in your project
 
@@ -805,7 +624,7 @@ export class DelayDashboardComponent implements OnInit {
     const markers: google.maps.Marker[] = [];
     if (this.demomarker.length > 0) {
       this.demomarker.forEach(marker => {
-        console.log("Removing marker from map", marker);
+        // console.log("Removing marker from map", marker);
         marker.setMap(null);
       });
       this.demomarker = [];  // Clear the array after removing markers
@@ -1046,6 +865,277 @@ export class DelayDashboardComponent implements OnInit {
       // Show the modal (this might not be necessary to be in the Promise)
       $('#v_track_Modal').modal('show');
     });
+  }
+  // -----------------------Google map---------------------------------------------
+  async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+   
+    this.SpinnerService.show("tracking");
+
+  // Clear markers and polylines if they exist
+  if (this.demomarker.length > 0) {
+    this.demomarker.forEach(marker => marker.setMap(null));
+    this.demomarker = [];  // Clear the array after removing markers
+  }
+  
+  if (this.demoPolyline.length > 0) {
+    this.demoPolyline.forEach(polyline => polyline.setMap(null));
+    this.demoPolyline = [];  // Clear the array after removing polylines
+  }
+    // console.log(imei, imei2, imei3);
+    if (imei === '' && imei2 === '' && imei3 === '') {
+      alert("IMEI not assign");
+    }else{
+    // Clear markers and polylines before starting
+    this.clearMarkersAndPolylines();
+
+    // Initialize map
+    try {
+      // await this.initializeMap();
+    } catch (error) {
+      console.error('Error initializing map:', error);
+      this.SpinnerService.hide('spinner-1');
+    }
+
+    // Show tracking spinner
+    this.SpinnerService.show("tracking");
+
+    // Define the array of IMEIs to process
+    // const imeis = [imei,imei2,imei3];
+    $('#v_track_Modal').modal('show');
+    const imeis = [imei, imei2, imei3];
+    // console.log(imeis);
+
+    // Loop through each IMEI using a for...of loop to support async/await
+    for (const imei of imeis) {
+      // console.log(imei);
+
+      // Reset tracking data for each IMEI
+      this.trackingData = [];
+      this.customer_info = [];
+      this.marker = [];
+      this.poly_line = [];
+      this.map_flag = '';
+
+      if (imei === "") {
+        this.map_flag = 'Device unavailable';
+      } else {
+        this.map_flag = 'Please wait';
+        const formData = new FormData();
+        const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+        formData.append('AccessToken', this.token);
+        formData.append('startdate', run_date);
+        formData.append('enddate', currentDateTime);
+        formData.append('time_interval', '120');
+        formData.append('imei', imei);
+        formData.append('group_id', this.group_id);
+        formData.append('AccountId', this.account_id);
+
+        // Log form data for debugging
+        formData.forEach((value, key) => {
+          console.log("formdata...", key, value);
+        });
+
+        // try {
+          // Wait for the API response
+          const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
+          console.log("tracking res", res);
+          this.SpinnerService.hide("tracking");
+          if (res.Status === "failed") {
+            alert(res?.Message);
+          }
+
+          this.trackingData = res.data;
+
+          if (res.data === 'Vehicle is inactive.') {
+            alert("Track data is not available");
+          } else {
+            console.log("trackingData", this.trackingData);
+            // Add markers and polyline data
+            this.addMarkersAndPolyline1(imei, vehicle_no);
+           
+            this.fetchCustomerInfo(Id);
+          }
+
+        // } catch (error) {
+        //   console.error("Error in API call:", error);
+        //   alert("An error occurred while fetching tracking data");
+        // }
+
+        // Hide the tracking spinner after the API call
+        this.SpinnerService.hide("tracking");
+      }
+    }
+}  }
+
+  getMarkerIcon(index: number): string {
+    // console.log(index)
+    if (index === 0) {
+      return 'assets/images/users/start_marker.png';
+    }
+    else if (index + 1 === this.trackingData.length) {
+
+      setTimeout(() => {
+        this.SpinnerService.hide("tracking");
+      }, 5000);
+      return 'assets/images/users/stop_marker.png';
+    } else {
+      return 'assets/images/users/green_Marker1.png';
+    }
+  }
+ 
+  addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+  
+    // Prepare arrays for markers and polylines
+    const markers: any = [];
+    const polylinePath: google.maps.LatLng[] = [];
+    
+    // Use requestAnimationFrame for batch processing
+    // requestAnimationFrame(() => {
+      for (let i = 0; i < this.trackingData.length; i++) {
+        const icon = this.getMarkerIcon(i);
+        const position = new google.maps.LatLng(this.trackingData[i].lat, this.trackingData[i].long);
+        polylinePath.push(position);
+  
+        // Create a marker
+        const mark = new google.maps.Marker({
+          map: this.map1,
+          position: position,
+          title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
+          icon: icon
+        });
+  
+        // Store marker for future reference
+        markers.push(mark);
+        this.demomarker.push(mark);
+  
+        // Handle marker click events
+        // const markerPosition = mark.getPosition(); 
+        var trackingData:any=this.trackingData[i];
+        mark.addListener('click', (event) => this.handleMarkerClick(event, trackingData, vehicle_no, imei));
+  
+        // Create an InfoWindow but don't attach it yet
+        const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+      }
+  
+      // Add markers to the map in batch
+      // this.demomarker = markers;
+  
+      // Create and display polyline
+      const draw_polyline = new google.maps.Polyline({
+        path: polylinePath,
+        geodesic: true,
+        strokeColor: 'green',
+        strokeOpacity: 0.8,
+        strokeWeight: 1.5,
+        map: this.map1,
+        icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW }, offset: '100%', repeat: '2000px' }]
+      });
+  
+      this.demoPolyline.push(draw_polyline);
+  
+      // Optionally fit bounds to include all markers and polyline
+      if (markers.length > 0) {
+        const bounds = new google.maps.LatLngBounds();
+        markers.forEach(marker => bounds.extend(marker.getPosition()));
+        this.map1.fitBounds(bounds);
+      }
+    // });
+  }
+   closeLastOpenedInfoWindow() {
+    if (this.lastOpenedInfoWindow) {
+      this.lastOpenedInfoWindow.close();
+    }
+  }
+  handleMarkerClick(event, trackingData, vehicle_no, imei) {
+  
+    // const markerPosition = event.getPosition();
+    // const k = event.toString();
+    // console.log(event.toString())
+    // this.str= (((k.split('(')).join('')).split(')')).join('').split(' ').join('');
+    // console.log(trackingData)
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+    formdataCustomer.append('VehicleId', vehicle_no);
+    formdataCustomer.append('ImeiNo', imei);
+    formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+  
+    this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
+      console.log(res)
+      const address = res.Data.Address;
+      this.showWindow(trackingData, vehicle_no, address);
+      this.closeLastOpenedInfoWindow();
+      const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+      infowindowMarker.setPosition(event.latLng);
+      infowindowMarker.open(this.map1);
+    });
+  }
+  showWindow(data, vnumber, add) {
+    // var add:any
+    this.contentsInfo = ''
+    // console.log('show window of vehicle information', data, add)
+    /////////////////////////address api////////////////////////////////////////////////////
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+     this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
+      '<tbody style="border:none !important">' +
+
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
+      '<td style="width:1%;color: blue;border:none !important">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
+      '<td style="width:1%;color: blue;border:none !important">:</td>' +
+      '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+      '</tr>' +
+      '<tr style=" border:none !important">' +
+      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
+      '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+      '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+      '</tr>' +
+      '</tbody>' +
+      '</table>'
+
+
+
+
+
+
   }
 }
 

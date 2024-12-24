@@ -1151,6 +1151,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     vehicle: person.VehicleNo ?? "",
     trackHistory: "",
     state: person.State,
+
     branch: person.BranchName,
     area: person.Area,
     driverName: person.Driver ?? "",
@@ -1170,6 +1171,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     scheduleHalt: person.ScheduleHalt,
     actualHalt: person.ActualHalt,
     att: person.ATT, // Actual Travel Time
+
+    
     // alerts: 'person.alerts',
   //  reverseDriving: 'person.reverse_driving',
     fixedGpsKm:person.DistanceKm1,
@@ -1338,7 +1341,8 @@ bdTripReportFilter(){
       this.Master_filter=data.Filter.Master;
       console.log(data.Filter)
     }else{
-      alert("Data not found ")
+      // alert("Data not found ")
+      alert(data?.Message);
     }
     // console.log(data)
   })
@@ -1386,7 +1390,8 @@ triggerHstSubmit(eve){
       this.Grid_table();
       this.SpinnerService.hide();
     }else{
-      alert("Data not found ")
+      // alert("Data not found ")
+      alert(data?.Message);
       this.SpinnerService.hide();
     }
     // console.log(data)

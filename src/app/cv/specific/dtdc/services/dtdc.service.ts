@@ -10,6 +10,7 @@ export class DtdcService {
   constructor( private http: HttpClient) { }
 
   specificTripDashboard(val:any){
+    // https://apicvmob.secutrak.in/dev-app-dtdc
     return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardDtdc',val);
   }
   specificTripDashboardFilter(val:any){
@@ -21,7 +22,10 @@ export class DtdcService {
   specificTDLink(val:any){
     return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardDtdcTrackingLink',val)
   }
-
+  networkVehicleDelayReport(val:any){
+    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/networkVehicleDelayReport',val)
+  }
+  
 
 
 

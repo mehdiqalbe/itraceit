@@ -110,15 +110,29 @@ export class SummaryDashboardComponent implements OnInit {
   ];
   footerData: any=[];
   Filter_flag: boolean=false;
-  
+  Route_type: any;
+  // width: any;
+  // min_width: any;
+  // maxWidth: any;
+  width: any=70;// Default width
+  min_width: any=70 ;// Minimum width
+  maxWidth:any=70; // Maximum width
+  demoPolyline: any=[];
+  lastOpenedInfoWindow: any;
   constructor(private navServices: NavService,private dtdcService:DtdcService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
+    let App = document.querySelector('.app');
+    App?.classList.add('sidenav-toggled');
+
     this.token=localStorage.getItem('AccessToken')!;
+    this.group_id=localStorage.getItem('GroupId')!;
+    this.account_id=localStorage.getItem('AccountId')!;
     this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.datetimepicker =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.end();
     this.start();
+    this.initMap1();
     // this.masterUploadTable();
     // this.Grid_table();
     this.dtdcTripReportFilter();
@@ -127,6 +141,32 @@ export class SummaryDashboardComponent implements OnInit {
     this.First_call();
     
   }
+  initMap1() 
+ {
+
+
+  //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+   const center = { lat: 23.2599, lng: 77.4126 };
+
+  //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+  // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+// 
+
+   this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+     zoom: 4,
+      center: center,
+
+     mapTypeId: google.maps.MapTypeId.ROADMAP,
+     scaleControl: true,
+
+   }
+   );
+
+ 
+
+   
+     
+ }
   sidebarToggle() {
     let App = document.querySelector('.app');
     // App?.classList.add('sidenav-toggled');
@@ -332,7 +372,7 @@ export class SummaryDashboardComponent implements OnInit {
    // console.log("table length2",datatable.length)
  }
  Detail(){
-
+// alert(0)
  
   $('#Datail').modal('show');
 //  this.detail_data=eve;
@@ -341,38 +381,107 @@ export class SummaryDashboardComponent implements OnInit {
   // this.gridApi_popup='';
 }
  this.columnDefs_popup = [
-  { field: 'Sl', headerName: 'Sl', sortable: true, filter: true },
-  { field: 'RouteType', headerName: 'Route Type', sortable: true, filter: true },
-  { field: 'Region', headerName: 'Region', sortable: true, filter: true },
-  { field: 'Origin', headerName: 'Origin', sortable: true, filter: true },
-  { field: 'Destination', headerName: 'Destination', sortable: true, filter: true },
-  { field: 'Route', headerName: 'Route', sortable: true, filter: true },
-  { field: 'Fleet', headerName: 'Fleet', sortable: true, filter: true },
-  { field: 'TripID', headerName: 'Trip ID', sortable: true, filter: true },
-  { field: 'RunCode', headerName: 'Run Code', sortable: true, filter: true },
-  { field: 'RunDate', headerName: 'Run Date', sortable: true, filter: true },
-  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true },
-  { field: 'Track', headerName: 'Track', sortable: true, filter: true },
-  { field: 'GPSVendor', headerName: 'GPS Vendor', sortable: true, filter: true },
-  { field: 'FixedElockVendor', headerName: 'Fixed E-lock Vendor', sortable: true, filter: true },
-  { field: 'PortableElockVendor', headerName: 'Portable E-lock Vendor', sortable: true, filter: true },
-  { field: 'DriverName', headerName: 'Driver Name', sortable: true, filter: true },
-  { field: 'DriverNumber', headerName: 'Driver Number', sortable: true, filter: true },
-  { field: 'Transporter', headerName: 'Transporter', sortable: true, filter: true },
-  { field: 'STD', headerName: 'STD', sortable: true, filter: true },
-  { field: 'ATD', headerName: 'ATD', sortable: true, filter: true },
-  { field: 'DelayDeparture', headerName: 'Delay Departure', sortable: true, filter: true },
-  { field: 'STA', headerName: 'STA', sortable: true, filter: true },
-  { field: 'ATA', headerName: 'ATA', sortable: true, filter: true },
-  { field: 'ttMapped', headerName: 'TT-Mapped', sortable: true, filter: true },
-  { field: 'TT-Taken', headerName: 'TT-Taken', sortable: true, filter: true },
-  { field: 'delayArrival', headerName: 'Delay Arrival', sortable: true, filter: true },
-  { field: 'DelayTT', headerName: 'Delay TT', sortable: true, filter: true },
-  { field: 'Distance', headerName: 'Distance (Km)', sortable: true, filter: true },
-  { field: 'GPSException', headerName: 'GPS Exception', sortable: true, filter: true },
-  { field: 'Status', headerName: 'Status', sortable: true, filter: true },
-  { field: 'CloseBy', headerName: 'Close By', sortable: true, filter: true },
-  { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true },
+  { field: 'Sl', headerName: 'Sl', sortable: true, filter: true, width: 50,  minWidth: 50, maxWidth: 50, },
+  { field: 'RouteType', headerName: 'Route Type', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'Region', headerName: 'Region', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Origin', headerName: 'Origin', sortable: true, filter: true, width: 100,  minWidth: 100, maxWidth: 100, },
+  { field: 'Destination', headerName: 'Destination', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Route', headerName: 'Route', sortable: true, filter: true, width: 100,  minWidth: 100, maxWidth: 100, },
+  { field: 'Fleet', headerName: 'Fleet', sortable: true, filter: true, width: 100,  minWidth: 100, maxWidth: 100, },
+  { field: 'TripID', headerName: 'Trip ID', sortable: true, filter: true , width: 100,  minWidth: 100, maxWidth: 100,},
+  { field: 'RunCode', headerName: 'Run Code', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'RunDate', headerName: 'Run Date', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true , width: 100,  minWidth: 100, maxWidth: 100,},
+  { field: 'Track', headerName: 'Track', sortable: true, filter: true,
+    cellRenderer: params => {
+      // Create the container div
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.justifyContent = "center";
+    
+      // Create the span for the serial number
+      const serialSpan = document.createElement("span");
+      serialSpan.textContent = params.value;
+    
+      // Create the button
+      
+      const button = document.createElement("button");
+      button.innerHTML = "";
+      button.style.border = "none";
+      button.style.background = "none";
+      button.style.marginLeft = "5px";
+      button.style.cursor = "pointer";
+      // console.log(params.data.Full.TrackHistory1)
+      // Clear previous content
+  
+      if (params.data.Full?.Imei !== '') {
+        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+        button.addEventListener("click", () => {
+          console.log("Row Data:", params.data.Full);
+          // this.Detail(params.data.Full)
+          this.vehicleTrackF_new('', '',params.data.Full?.Imei, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
+        });
+      } else {
+        button.innerHTML += `<span style="color: black;">Na</span>|`;
+      }
+      
+      if (params.data.Full?.Imei2 !== '') {
+        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+        
+        button.addEventListener("click", () => {
+          // console.log("Row Data:", params.data.Full);
+          // this.Detail(params.data.Full)
+          this.vehicleTrackF_new('', '',params.data.Full?.Imei2, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
+        });
+      } else {
+        button.innerHTML += `<span style="color: black;">Na</span>|`;
+      }
+      
+      if (params.data.Full?.Imei3 !== '') {
+        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+       
+        button.addEventListener("click", () => {
+          // console.log("Row Data:", params.data.Full);
+          // this.Detail(params.data.Full)
+          this.vehicleTrackF_new('', '',params.data.Full?.Imei3, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
+        });
+      } else {
+        button.innerHTML += `<span style="color: black;">Na</span>|`;
+      }
+      
+      // Attach event listener to the button
+     
+    
+      // Append span and button to the container
+      container.appendChild(serialSpan);
+      container.appendChild(button);
+    
+      return container;
+    },
+
+   },
+  { field: 'GPSVendor', headerName: 'GPS Vendor', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'FixedElockVendor', headerName: 'Fixed E-lock Vendor', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'PortableElockVendor', headerName: 'Portable E-lock Vendor', sortable: true, filter: true , width: 250,  minWidth: 250, maxWidth: 250,},
+  { field: 'DriverName', headerName: 'Driver Name', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'DriverNumber', headerName: 'Driver Number', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'Transporter', headerName: 'Transporter', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'STD', headerName: 'STD', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'ATD', headerName: 'ATD', sortable: true, filter: true, width: 200,  minWidth: 200, maxWidth: 200, },
+  { field: 'DelayDeparture', headerName: 'Delay Departure', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'STA', headerName: 'STA', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'ATA', headerName: 'ATA', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'ttMapped', headerName: 'TT-Mapped', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'TT-Taken', headerName: 'TT-Taken', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'delayArrival', headerName: 'Delay Arrival', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'DelayTT', headerName: 'Delay TT', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Distance', headerName: 'Distance (Km)', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'GPSException', headerName: 'GPS Exception', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Status', headerName: 'Status', sortable: true, filter: true , width: 100,  minWidth: 100, maxWidth: 100,},
+  { field: 'CloseBy', headerName: 'Close By', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'Full', headerName: 'Full', sortable: true, filter: true, hide:true, width: 100,  minWidth: 100, maxWidth: 100, },
 ];
 
 // onGridReady: params => {
@@ -428,6 +537,7 @@ CreateBy: person.CreateBy,
   // gpsException3: person.GPSException3,
   // supervisorException: person.SupervisorException,
   Status: person.status,
+  Full:person
   // systemRemarks: person.Remarks,
   // closeBy: person.CloseBy,
   // closeDate: person.CloseDate,
@@ -513,7 +623,14 @@ this.gridOptions_popup = {
   pagination: true,
   paginationPageSize: 50,
   paginationPageSizeSelector: [10, 50, 100,500,1000],
- 
+  defaultColDef: {
+    sortable: true,
+    filter: true,
+    resizable: true,
+    tooltipComponentParams: {
+      color: "#ececec" // Optional parameter for custom styling
+    }
+  },
   animateRows: true,
   onGridReady: (params) => this.onGridReady_pop(params),
  
@@ -552,10 +669,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
  this.columnDefs_popup = [
   { field: 'Sl', headerName: 'Sl', sortable: true, filter: true },
   // { field: 'RouteType', headerName: 'Route Type', sortable: true, filter: true },
-  { field: 'Region', headerName: 'Region', sortable: true, filter: true },
-  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true },
-  { field: 'LastStatus', headerName: 'Last Status', sortable: true, filter: true },
-  { field: 'TripCount', headerName: 'Trip Count', sortable: true, filter: true },
+  { field: 'Region', headerName: 'Region', sortable: true, filter: true, },
+  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true ,width:150},
+  { field: 'LastStatus', headerName: 'Last Status', sortable: true, filter: true ,},
+  { field: 'TripCount', headerName: 'Trip Count', sortable: true, filter: true, },
   // { field: 'Destination', headerName: 'Destination', sortable: true, filter: true },
   // { field: 'Route', headerName: 'Route', sortable: true, filter: true },
   // { field: 'Fleet', headerName: 'Fleet', sortable: true, filter: true },
@@ -683,8 +800,13 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       sortable: true, 
       filter: true, 
       floatingFilter: this.floating_filter,
+      headerClass: 'icon-header',
       // headerClass: 'custom-parent-header',
-      headerClass: 'clickable-header', // Custom class for child headers
+      // headerClass: 'clickable-header', 
+      width: this.width, // Default width
+      minWidth: this.min_width, // Minimum width
+      maxWidth: this.maxWidth, // Maximum width
+      // Custom class for child headers
     },
     
     {
@@ -692,6 +814,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       headerClass: 'custom-parent-header', // Custom class for parent header
       children: [
         {
+          // cellStyle: {  }, // Set blue text color
           headerName: 'Total',  // Text of the header
           field: 'Total',
           sortable: true,
@@ -700,6 +823,11 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           // headerClass: 'multi-line-header',
           headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          autoHeight: true ,// Automatically adjust row height for wrapped content
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -732,6 +860,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          autoHeight: true ,// Automatically adjust row height for wrapped content
+          cellClass: 'wrap-cell', // Apply the CSS class for wrapping
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -760,6 +894,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -810,6 +948,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
+          width: 100, // Default width
+          minWidth: 100, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: 100, // Maximum width
           headerClass: 'icon-header',
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -865,8 +1007,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: 'VehicleCount',
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -899,15 +1045,21 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
  // Use the custom header component
         },
         {
+
           headerName: "GPS Active",
           field: "GPSActive",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
+            
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
@@ -937,12 +1089,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           // headerClass: 'custom-child-header'
         },
         {
+
           headerName: "GPS Inactive",
           field: "GPSInactive",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -976,12 +1133,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           // headerClass: 'custom-child-header'
         },
         {
+
           headerName: "GPS NA",
           field: "GPSNA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1026,9 +1188,13 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: 'Vehicle NA',  // Text of the header
           field: 'VehicleNA',
           sortable: true,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'clickable-header', // Ensure the class is applied to this header
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1036,26 +1202,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].wrong_vehicle_data;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].wrong_vehicle_data;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail(); 
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1079,35 +1225,20 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "RouteNA",
           sortable: true,aggFunc: 'sum' ,
           filter: this.Filter_flag,  
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           headerClass: 'icon-header',
           // headerClass: 'clickable-header', // Ensure the class is applied to this header
           floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
+           
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1131,6 +1262,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             // headerClass: 'clickable-header', // Ensure the class is applied to this header
             headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1186,6 +1321,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1233,8 +1372,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           headerClass: 'icon-header',
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           floatingFilter: this.floating_filter,
           // headerClass: 'custom-child-header'
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1262,6 +1405,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' atdnTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1312,6 +1459,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header'
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1360,6 +1511,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1405,9 +1560,13 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "Runing Late",
           field: "RuningLate",
           sortable: true,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header'
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1456,6 +1615,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' runningDnaTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1504,6 +1667,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1552,6 +1719,10 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+                    cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' ata_delayedTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1606,9 +1777,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "AINA",
           field: "AINA",
           sortable: true,
-          filter: true,aggFunc: 'sum' ,
+          filter: false,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' ainaTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1684,7 +1858,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   
       this.footerData = this.new_array.Total.map((person, index) => ({
         sl: index + 1, // Optional: Add row index
-        Region: person.Region, // For parent-level columns
+        Region: 'Total', // For parent-level columns
         Total: person.TotalTrip,   // For child columns under "Trip Status"
         Schedule: person.RunningTrip,
         Complete: person.CompletedTrip,
@@ -1709,50 +1883,161 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         ATANA: person.ATANA,
         AINA: person.AINA,
       }));
-  this.gridOptions = {
-  domLayout: 'autoHeight',
-  rowHeight: 30,
-  headerHeight: 40,
-  columnDefs: this.columnDefs,
-  rowData: this.rowData,
-  pagination: true,
-  paginationPageSize: 50,
-  paginationPageSizeSelector: [10, 50, 100, 500, 1000],
-  pinnedBottomRowData: this.footerData, // Add footer data
-  // animateRows: true,
-  onGridReady: (params) =>  {
-    this.onGridReady(params);
-    this.gridOptions.api = params.api;
-    this.gridOptions.columnApi = params.columnApi;
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-    const gridContainer = document.querySelector('.ag-root-wrapper');
-if (gridContainer) {
-  gridContainer.addEventListener('click', (event:any) => {
-    const headerElement = event.target.closest('.ag-header-cell');
-    if (headerElement) {
-      const columnField = headerElement.innerText.trim();
-      // console.log(columnField);
-      var k = columnField.replace(/\s+/g, '');
-
-      this.getColumnDataByField(k);
-    }
-  });
-}
-
-  },
-};
+      this.gridOptions = {
+        rowHeight: 50,
+        headerHeight: 80,
+        rowData: this.rowData,
+        resizable: true,
+        defaultColDef: {
+          sortable: true,
+          filter: true,
+          resizable: true,
+          tooltipComponentParams: {
+            color: "#ececec", // Optional parameter for custom styling
+          },
+        },
+        columnDefs: this.columnDefs.map((col, index) => ({
+          ...col,
+          children: col.children?.map((childCol) => ({
+            ...childCol,
+            // Apply blue text color for regular rows only
+            cellStyle: (params) =>
+              params.node.rowPinned ? {} : { color: 'blue' },
+          })),
+        })),
+        pagination: true,
+        paginationPageSize: 50,
+        paginationPageSizeSelector: [10, 50, 100, 500, 1000],
+        pinnedBottomRowData: this.footerData, // Footer data
+        getRowStyle: (params) => {
+          if (params.node.rowPinned) {
+            return { color: 'black', fontWeight: 'bold' }; // Style for footer rows
+          }
+          return null; // No custom styling for regular rows
+        },
+        onGridReady: (params) => {
+          this.onGridReady(params);
+          this.adjustGridHeight();
+          this.gridOptions.api = params.api;
+          this.gridOptions.columnApi = params.columnApi;
+      
+          // Add custom click functionality for headers
+          const gridContainer = document.querySelector('.ag-root-wrapper');
+          if (gridContainer) {
+            gridContainer.addEventListener('click', (event: any) => {
+              const headerElement = event.target.closest('.ag-header-cell');
+              if (headerElement) {
+                const columnField = headerElement.innerText.trim();
+                const fieldName = columnField.replace(/\s+/g, '');
+                this.getColumnDataByField(fieldName);
+              }
+            });
+          }
+        },
+      };
+      
+      
 
 
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
+
+
+ exportToCSV(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'GridData.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+//  adjustGridHeight() {
+//   const rowCount = this.rowData?.length || 0; // Get the number of rows
+//   const rowsToShow = Math.min(rowCount, 16); // Show up to 10 rows
+//   const totalHeight = (rowsToShow * this.gridOptions.rowHeight) + this.gridOptions.headerHeight;
+
+//   // Set the height of the grid container dynamically
+//   const gridElement = document.querySelector('.ag-theme-alpine'); // Adjust selector to match your theme
+//   if (gridElement) {
+//     (gridElement as HTMLElement).style.height = `${totalHeight}px`;
+//   }
+// }
+adjustGridHeight(): void {
+  const rowCount = this.gridOptions.api.getDisplayedRowCount(); // Get visible rows
+  const rowHeight = this.gridOptions.rowHeight || 30; // Row height
+  const headerHeight = this.gridOptions.headerHeight || 40; // Header height
+  const footerHeight = this.footerData ? rowHeight : 0; // Footer height
+  const paginationHeight = this.gridOptions.pagination ? 35 : 0; // Pagination height
+
+  // Ensure a minimum height for no rows
+  const gridHeight = rowCount > 0 
+    ? headerHeight + (rowCount * rowHeight) + footerHeight + paginationHeight
+    : headerHeight + footerHeight + paginationHeight + 100; // Fallback height
+
+  const gridContainer:any = document.querySelector('#myGrid');
+  if (gridContainer) {
+    console.log('gridHeight',gridHeight)
+    gridContainer.style.height = `${gridHeight+100}px`;
+  }
+}
+
+
 // Function to fetch column data dynamically
+
 getColumnDataByField(columnField: string) {
   $('#v_track_Modal1').modal('show');
   const allData:any = [];
   const Region_array:any=[];
   const rowCount = this.gridOptions.api.getDisplayedRowCount();
-   console.log(this.gridOptions.api)
+  //  console.log(this.gridOptions.api)
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
     const rowNode = this.gridOptions.api.getDisplayedRowAtIndex(rowIndex);
     const rowData = rowNode.data;
@@ -1976,12 +2261,13 @@ dtdcTripReportFilter(){
   formdata.append('AccessToken',this.token)
   
   this.dtdcService.dtdcSummaryFilter(formdata).subscribe((data:any) => {
-    console.log(data)
+    // console.log(data)
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
-      console.log(data.Filter)
+      // console.log(data.Filter)
     }else{
-      alert("Data not found ")
+      // alert("Data not found ")
+      alert(data?.Message);
     }
     // console.log(data)
   })
@@ -1989,11 +2275,11 @@ dtdcTripReportFilter(){
 triggerHstSubmit(eve){
   this.submit=true;
 
-  console.log(eve.value.TripId)
+  // console.log(eve.value.TripId)
   if(eve.form.status=='VALID'){
     this.SpinnerService.show()
   var formdata=new FormData()
-  console.log($("#datepicker").val())
+  // console.log($("#datepicker").val())
   formdata.append('AccessToken',this.token)
   // formdata.append('DateFrom', $("#datepicker").val())
   // formdata.append('DateTo', $("#datepicker1").val())
@@ -2026,29 +2312,41 @@ triggerHstSubmit(eve){
   });
   this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
     this.submit=false;
-    console.log(data)
+    // console.log(data)
     if(data.Status=="success"){
       this.new_array=data.Report;
-      console.log(this.new_array)
+      // console.log(this.new_array)
       if(this.new_array.Summary){
-      this.Grid_table();}else{
+      this.Grid_table();
+    }else{
+      if (this.gridApi) {
+        this.gridApi.destroy();
+      }
         alert("Data not found ")
       }
       this.SpinnerService.hide();
     }else{
-      alert("Data not found ")
+      if (this.gridApi) {
+        this.gridApi.destroy();
+      }
+      alert(data?.Message)
     }
     // console.log(data)
   })
 
 }
 }
+RouteCategory(eve:any){
+  // console.log(this.Master_filter?.RouteType[eve[0]])
+  this.Route_type=this.Master_filter?.RouteType[eve[0]];
+  // console.log(eve)
+}
 First_call(){
   this.submit=true;
 
     this.SpinnerService.show()
   var formdata=new FormData()
-  console.log($("#datepicker").val())
+  // console.log($("#datepicker").val())
   formdata.append('AccessToken',this.token)
   // formdata.append('DateFrom', $("#datepicker").val())
   // formdata.append('DateTo', $("#datepicker1").val())
@@ -2065,17 +2363,20 @@ First_call(){
   });
   this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
     this.submit=false;
-    console.log(data)
+    // console.log(data)
     if(data.Status=="success"){
       this.new_array=data.Report;
-      console.log(this.new_array)
+      // console.log(this.new_array)
       if(this.new_array.Summary){
       this.Grid_table();}else{
+        if (this.gridApi) {
+          this.gridApi.destroy();
+        }
         alert("Data not found ")
       }
       this.SpinnerService.hide();
     }else{
-      alert("Data not found ")
+      alert(data?.Message);
     }
     // console.log(data)
   })
@@ -2129,56 +2430,87 @@ onFilterTextBoxChanged_pop() {
   )
 }
 
-// exportToPDF(): void {
-  
-//   const headers = this.columnDefs.map((col) => col.headerName);
-//   const body = this.rowData.map((row) =>
-//     this.columnDefs.map((col) => row[col.field])
-//   );
-//   body.unshift(headers);
+exportToPDF(): void {
+  // Step 1: Extract parent and child headers dynamically
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  this.columnDefs.forEach((colDef) => {
+    if (colDef.children) {
+      parentHeaders.push({ text: colDef.headerName, colSpan: colDef.children.length, alignment: 'center', bold: true });
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push(''); // Fill empty cells for colspan
+      }
+      colDef.children.forEach((child) => {
+        childHeaders.push({ text: child.headerName, alignment: 'center' });
+      });
+    } else {
+      parentHeaders.push({ text: colDef.headerName, alignment: 'center', bold: true });
+      childHeaders.push('');
+    }
+  });
 
-//   const docDefinition = {
-//     content: [
-//       { text: 'Vehicle Nearby Data', style: 'header', alignment: 'center' },
-//       { text: '\n' },
-//       {
-//         table: {
-//           headerRows: 1,
-//           widths: Array(headers.length).fill('auto'),
-//           body: body,
-//         },
-//         layout: {
-//           fillColor: (rowIndex) => (rowIndex === 0 ? '#0074D9' : null),
-//           hLineWidth: () => 0.5,
-//           vLineWidth: () => 0.5,
-//         },
-//       },
-//     ],
-//     pageOrientation: 'landscape',
-//     styles: {
-//       header: {
-//         fontSize: 18,
-//         bold: true,
-//         margin: [0, 0, 0, 10],
-//       },
-//       tableHeader: {
-//         bold: true,
-//         fontSize: 12,
-//         color: 'white',
-//         fillColor: '#0074D9',
-//         alignment: 'center',
-//       },
-//       tableBody: {
-//         fontSize: 10,
-//       },
-//     },
-//     defaultStyle: {
-//       fontSize: 9,
-//     },
-//   };
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
 
-//   pdfMake.createPdf(docDefinition).download('vehicle-nearby-data.pdf');
-// }
+  // Add row data dynamically
+  this.rowData.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || ''); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || ''); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => (rowIndex === 0 ? '#0074D9' : rowIndex === 1 ? '#DDDDDD' : null), // Parent and child header colors
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
+}
+
+
+
 // exportToPDF() {
 //   const { jsPDF } = window.jspdf;
 //   const doc = new jsPDF();
@@ -2322,8 +2654,8 @@ this.markers.push(marker);
   });
 }
 
-async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-  // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
+async vehicleTrackF_new_here(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
   
   // Clear markers and polylines before starting
   this.clearMarkersAndPolylines();
@@ -2362,10 +2694,10 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
       const formData = new FormData();
       
       let currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-      if(item.CloseDt!=='-'){
-        currentDateTime=item.CloseDt;
-      }
-
+      // if(item.CloseBy!=='-'){
+      //   currentDateTime=item.CloseBy;
+      // }
+        console.log(run_date,currentDateTime,imei,this.group_id,this.account_id)
       formData.append('AccessToken', this.token);
       formData.append('startdate', run_date);
       formData.append('enddate', currentDateTime);
@@ -2376,7 +2708,7 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
       try {
         // Wait for the API response
         const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
-        // console.log("tracking res", res);
+        console.log("tracking res", res);
 
         if (res.Status === "failed") {
           alert(res?.Message);
@@ -2402,7 +2734,7 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
 
       } catch (error) {
         console.error("Error in API call:", error);
-        alert("An error occurred while fetching tracking data");
+        // alert("An error occurred while fetching tracking data");
       }
       
       // Hide the tracking spinner after the API call
@@ -2411,7 +2743,7 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
   }
 }
 
-getMarkerIcon(index: number): string {
+getMarkerIcon_here(index: number): string {
   if (index === 0) {
     return 'assets/images/users/start_marker.png';
   }
@@ -2425,7 +2757,7 @@ getMarkerIcon(index: number): string {
     return 'assets/images/users/green_Marker1.png';
   }
 }
-addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+addMarkersAndPolyline1_here(imei: string, vehicle_no: string) {
   var lineString = new H.geo.LineString();
 
 let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
@@ -2533,7 +2865,7 @@ handleMarkerClick1(event, trackingData, vehicle_no, imei) {
     // infowindowMarker.open(this.map1);
   });
 }
-async handleMarkerClick(event, trackingData, vehicle_no, imei) {
+async handleMarkerClick_here(event, trackingData, vehicle_no, imei) {
   const markerPosition = event.target.getGeometry();
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
@@ -2548,7 +2880,7 @@ async handleMarkerClick(event, trackingData, vehicle_no, imei) {
   return this.showWindow(trackingData, vehicle_no, address); // Return the content
 }
 
-showWindow(data, vnumber, add) {
+showWindow_here(data, vnumber, add) {
   // var add:any
   this.contentsInfo = ''
   console.log('show window of vehicle information', data, add)
@@ -3012,6 +3344,494 @@ initializeMap(): Promise<void> {
   });
 }
 
+
+exportToPDF_popup(): void {
+  // Step 1: Extract parent and child headers dynamically
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  
+  this.columnDefs_popup.forEach((colDef) => {
+    if (colDef.children) {
+      // Add the parent header with colspan
+      parentHeaders.push({
+        text: colDef.headerName,
+        colSpan: colDef.children.length,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      // Fill empty cells for the colspan
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push('');
+      }
+      // Add child headers
+      colDef.children.forEach((child) => {
+        childHeaders.push({
+          text: child.headerName,
+          alignment: 'center',
+          fillColor: '#DDDDDD',
+        });
+      });
+    } else {
+      // For standalone columns without children
+      parentHeaders.push({
+        text: colDef.headerName,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      childHeaders.push('');
+    }
+  });
+
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
+
+  // Add row data dynamically
+  this.rowData_popup.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs_popup.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || '-'); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || '-'); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => {
+            if (rowIndex === 0) return '#0074D9'; // Parent header color
+            if (rowIndex === 1) return '#DDDDDD'; // Child header color
+            return null; // No fill color for data rows
+          },
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
+}
+
+exportToCSV_popup(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs_popup.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions_popup.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs_popup.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'GridData.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------
+
+
+async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  $('#v_track_Modal').modal('show');
+  this.SpinnerService.show("tracking");
+
+// Clear markers and polylines if they exist
+if (this.demomarker.length > 0) {
+  this.demomarker.forEach(marker => marker.setMap(null));
+  this.demomarker = [];  // Clear the array after removing markers
+}
+
+if (this.demoPolyline.length > 0) {
+  this.demoPolyline.forEach(polyline => polyline.setMap(null));
+  this.demoPolyline = [];  // Clear the array after removing polylines
+}
+  // console.log(imei, imei2, imei3);
+  if (imei === '' && imei2 === '' && imei3 === '') {
+    alert("IMEI not assign");
+  }else{
+  // Clear markers and polylines before starting
+  this.clearMarkersAndPolylines();
+
+  // Initialize map
+  try {
+    // await this.initializeMap();
+  } catch (error) {
+    console.error('Error initializing map:', error);
+    this.SpinnerService.hide('spinner-1');
+  }
+
+  // Show tracking spinner
+  this.SpinnerService.show("tracking");
+
+  // Define the array of IMEIs to process
+  // const imeis = [imei,imei2,imei3];
+  const imeis = [imei, imei2, imei3];
+  // console.log(imeis);
+
+  // Loop through each IMEI using a for...of loop to support async/await
+  for (const imei of imeis) {
+    // console.log(imei);
+
+    // Reset tracking data for each IMEI
+    this.trackingData = [];
+    this.customer_info = [];
+    this.marker = [];
+    this.poly_line = [];
+    this.map_flag = '';
+
+    if (imei === "") {
+      this.map_flag = 'Device unavailable';
+    } else {
+      this.map_flag = 'Please wait';
+      const formData = new FormData();
+      const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+      formData.append('AccessToken', this.token);
+      formData.append('startdate', run_date);
+      formData.append('enddate', currentDateTime);
+      formData.append('time_interval', '120');
+      formData.append('imei', imei);
+      formData.append('group_id', this.group_id);
+      formData.append('AccountId', this.account_id);
+
+      // Log form data for debugging
+      formData.forEach((value, key) => {
+        console.log("formdata...", key, value);
+      });
+
+      // try {
+        // Wait for the API response
+        const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
+        console.log("tracking res", res);
+        this.SpinnerService.hide("tracking");
+        if (res.Status === "failed") {
+          alert(res?.Message);
+        }
+
+        this.trackingData = res.data;
+
+        if (res.data === 'Vehicle is inactive.') {
+          alert("Track data is not available");
+        } else {
+          console.log("trackingData", this.trackingData);
+          // Add markers and polyline data
+          this.addMarkersAndPolyline1(imei, vehicle_no);
+         
+          this.fetchCustomerInfo(Id);
+        }
+
+      // } catch (error) {
+      //   console.error("Error in API call:", error);
+      //   alert("An error occurred while fetching tracking data");
+      // }
+
+      // Hide the tracking spinner after the API call
+      this.SpinnerService.hide("tracking");
+    }
+  }
+}  }
+fetchCustomerInfo(Id: string) {
+  this.customer_info = []
+  // if (this.demomarker.length > 0) {
+  //   this.demomarker.forEach(marker => marker.setMap(null));
+  //   this.demomarker = [];  // Clear the array after removing markers
+  // }
+  // console.log("Removing",Id)
+  const markers: google.maps.Marker[] = [];
+  // if (this.demomarker.length > 0) {
+  //   this.demomarker.forEach(marker => {
+  //     // console.log("Removing marker from map", marker);
+  //     marker.setMap(null);
+  //   });
+  //   this.demomarker = [];  // Clear the array after removing markers
+  //   console.log("Marker array cleared");
+  // }
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('forGroup', this.group_id);
+  formdataCustomer.append('id', Id);
+
+  this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
+    console.log(res)
+    if(res.status=='success'){
+      if(res.customer_info!==null){
+    this.customer_info = res.customer_info;
+
+    // Log the customer data for debugging
+    console.log("Customer Info:", this.customer_info);
+    //  if(this.customer_info!==null){
+    this.customer_info.forEach((customer, index) => {
+      // Log SequenceNo to check its value
+      console.log("Customer SequenceNo:", customer.SequenceNo);
+
+      const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
+      // const sequenceNo = customer.SequenceNo  // Ensure this is a string
+
+      let mark = new google.maps.Marker({
+        map: this.map1,
+        position: new google.maps.LatLng(customer.Lat, customer.Lng),
+        title: `${customer.Lat}, ${customer.Lng}`,
+        label: {
+          text: sequenceNo,  // Ensure this is a string
+          color: 'black'
+        }
+      });
+
+      this.demomarker.push(mark);
+      markers.push(mark);
+      google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
+    });
+  }}
+    // this.demomarker=markers;
+  });
+}
+getMarkerIcon(index: number): string {
+  // console.log(index)
+  if (index === 0) {
+    return 'assets/images/users/start_marker.png';
+  }
+  else if (index + 1 === this.trackingData.length) {
+
+    setTimeout(() => {
+      this.SpinnerService.hide("tracking");
+    }, 5000);
+    return 'assets/images/users/stop_marker.png';
+  } else {
+    return 'assets/images/users/green_Marker1.png';
+  }
+}
+
+addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+
+  // Prepare arrays for markers and polylines
+  const markers: any = [];
+  const polylinePath: google.maps.LatLng[] = [];
+  
+  // Use requestAnimationFrame for batch processing
+  // requestAnimationFrame(() => {
+    for (let i = 0; i < this.trackingData.length; i++) {
+      const icon = this.getMarkerIcon(i);
+      const position = new google.maps.LatLng(this.trackingData[i].lat, this.trackingData[i].long);
+      polylinePath.push(position);
+
+      // Create a marker
+      const mark = new google.maps.Marker({
+        map: this.map1,
+        position: position,
+        title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
+        icon: icon
+      });
+
+      // Store marker for future reference
+      markers.push(mark);
+      this.demomarker.push(mark);
+
+      // Handle marker click events
+      // const markerPosition = mark.getPosition(); 
+      var trackingData:any=this.trackingData[i];
+      mark.addListener('click', (event) => this.handleMarkerClick(event, trackingData, vehicle_no, imei));
+
+      // Create an InfoWindow but don't attach it yet
+      const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    }
+
+    // Add markers to the map in batch
+    // this.demomarker = markers;
+
+    // Create and display polyline
+    const draw_polyline = new google.maps.Polyline({
+      path: polylinePath,
+      geodesic: true,
+      strokeColor: 'green',
+      strokeOpacity: 0.8,
+      strokeWeight: 1.5,
+      map: this.map1,
+      icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW }, offset: '100%', repeat: '2000px' }]
+    });
+
+    this.demoPolyline.push(draw_polyline);
+
+    // Optionally fit bounds to include all markers and polyline
+    if (markers.length > 0) {
+      const bounds = new google.maps.LatLngBounds();
+      markers.forEach(marker => bounds.extend(marker.getPosition()));
+      this.map1.fitBounds(bounds);
+    }
+  // });
+}
+ closeLastOpenedInfoWindow() {
+  if (this.lastOpenedInfoWindow) {
+    this.lastOpenedInfoWindow.close();
+  }
+}
+handleMarkerClick(event, trackingData, vehicle_no, imei) {
+
+  // const markerPosition = event.getPosition();
+  // const k = event.toString();
+  // console.log(event.toString())
+  // this.str= (((k.split('(')).join('')).split(')')).join('').split(' ').join('');
+  // console.log(trackingData)
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('VehicleId', vehicle_no);
+  formdataCustomer.append('ImeiNo', imei);
+  formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+
+  this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
+    console.log(res)
+    const address = res.Data.Address;
+    this.showWindow(trackingData, vehicle_no, address);
+    this.closeLastOpenedInfoWindow();
+    const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    infowindowMarker.setPosition(event.latLng);
+    infowindowMarker.open(this.map1);
+  });
+}
+showWindow(data, vnumber, add) {
+  // var add:any
+  this.contentsInfo = ''
+  // console.log('show window of vehicle information', data, add)
+  /////////////////////////address api////////////////////////////////////////////////////
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+   this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
+    '<tbody style="border:none !important">' +
+
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
+    '<td style="width:1%;color: blue;border:none !important">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
+    '<td style="width:1%;color: blue;border:none !important">:</td>' +
+    '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+    '</tr>' +
+    '</tbody>' +
+    '</table>'
+
+
+
+
+
+
+}
 }
 
 

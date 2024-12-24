@@ -3,7 +3,7 @@
     
     
  <!-- Header Start -->
- <div class="card" style="box-shadow: none;background: #F1F1F1;border:none;margin-bottom: 9px;">
+ <div class="card" style="margin-bottom: 7px;" >
   <div class="card-body innerdiv p-0" style="    margin-bottom: 9px;" >
     <!-- headerstart here -->
     <div class="hor-header">
@@ -13,9 +13,9 @@
             <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
           </div>
          
-          <div class="col-lg-6"style=" font-weight: 600;font-size: small; text-align: left;">
-        <div  class="order-header col-lg-5 py-2" >
-          <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+          <div class="col-lg-4"style=" font-weight: 600;font-size: small; text-align: left;">
+        <div  class="order-header py-2" >
+          <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 26px!important;font-weight: 600;" class=" mb-1">
             Irun Dashboard</h3>
           <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Irun Dashboard</h5>
 
@@ -24,25 +24,23 @@
         </div>
         
         </div>
-          <!-- <div class="col-lg-2 text-center ">
-
-          </div> -->
           <div class="col-lg-5" style="padding:0px; width: auto;">
             <div class="row mt-4" style="display: inline-block;">
               <span class="fa-stack" style="display: inline-block;margin-top: 5px;">
           
                 <button type="button" class="text-dark" tooltipClass="customInactive-tooltip-class" (click)="dashBoardIconF(2)"
+                container="body"
                   ngbTooltip="NOD" id="nod" value="3"><i class="fe fe-truck" style="font-size: 20px;" id="blink"></i><span
                     class="badge rounded-pill badge-notification bg-dark" id="darkicon">{{summaryData.NOD}}</span></button>
           
-                <button type="button" class="text-dark" tooltipClass="customActive-tooltip-class" (click)="dashBoardIconF(3)"
+                <button type="button" class="text-dark" tooltipClass="customActive-tooltip-class" (click)="dashBoardIconF(3)" container="body"
                   ngbTooltip="InActive"><i class="fe fe-truck" style="font-size: 20px; color:blue" id="blink"></i><span
                     class="badge rounded-pill badge-notification bg-primary"
                     id="darkicon">{{summaryData.InActive}}</span></button>
-                <button type="button" class="text-dark" tooltipClass="customIRunning-tooltip-class" (click)="dashBoardIconF(1)"
+                <button type="button" class="text-dark" tooltipClass="customIRunning-tooltip-class" (click)="dashBoardIconF(1)" container="body"
                   ngbTooltip="Running"><i class="fe fe-truck" style="font-size: 20px;color: green;" id="blink"></i><span
                     class="badge rounded-pill badge-notification bg-success" id="darkicon">{{summaryData.Running}}</span></button>
-                <button type="button" class="text-dark" tooltipClass="customInStopped-tooltip-class" (click)="dashBoardIconF(0)"
+                <button type="button" class="text-dark" tooltipClass="customInStopped-tooltip-class" (click)="dashBoardIconF(0)" container="body"
                   ngbTooltip="Stopped"><i class="fe fe-truck" style="font-size: 20px;color: red" id="blink"
                     [ngbPopover]="popContentstopped" container="body" triggers="mouseenter:mouseleave" position="bottom">
           
@@ -57,7 +55,6 @@
                             <th>Total</th>
           
                           </tr>
-                          <!-- <ng-template *ngFor="let item of stock"> -->
                           <tr style="color: blue;font-size: 12px;font-weight: 700;"
                             *ngFor="let item of LastAlertSummery.Stop |keyvalue">
                             <td>{{item.key}}</td>
@@ -72,14 +69,14 @@
           
                   </i><span class="badge rounded-pill badge-notification bg-danger"
                     id="darkicon">{{summaryData.Stop}}</span></button>
-                <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class"
+                <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class" container="body"
                   (click)="dashBoardIconF('Total Vehicles')" ngbTooltip="Total Vehicles"><i class="fe fe-truck"
                     style="font-size: 20px;color: grey;" id="blink" (mouseenter)="tInActiveOver($event)"
                     (mouseleave)="tInActiveOut($event)"></i><span class="badge rounded-pill badge-notification bg-secondary"
                     id="inActive">{{summaryData.All}}</span></button>
           
           
-                <button type="button" class="text-dark" data-bs-toggle="modal" data-bs-target="#triggerModal"
+                <button type="button" class="text-dark" data-bs-toggle="modal" data-bs-target="#triggerModal" container="body"
                   (click)="totaltriggerF()"><i class="fe fe-bell" style="font-size: 20px;color: red"
                     (mouseenter)="bellOver($event)" (mouseleave)="bellOut($event)" id="bell" [ngbPopover]="popContent"
                     container="body" triggers="mouseenter:mouseleave" position="bottom">
@@ -95,7 +92,6 @@
                             <th>Total</th>
           
                           </tr>
-                          <!-- <ng-template *ngFor="let item of stock"> -->
                           <tr style="color: blue;font-size: 12px;font-weight: 700;" *ngFor="let item of stock |keyvalue">
                             <td>{{item.key}}</td>
                             <td>{{item.value}}</td>
@@ -114,21 +110,20 @@
           
           
           
-                <button type="button" class="text-dark" tooltipClass="customInStopped-tooltip-class"
+                <button type="button" class="text-dark" tooltipClass="customInStopped-tooltip-class" container="body"
                   (click)="threatTablefilter('')" data-bs-toggle="modal" data-bs-target="#threatsModal"
                   ngbTooltip="All Threats"><i class="fa fa-exclamation-triangle" style="font-size: 20px;color: red"
                     id="blink"></i><span class="badge rounded-pill badge-notification bg-danger"
                     id="darkicon">{{totalThreat}}</span></button>
           
-                <button type="button" class="text-dark" tooltipClass="customIRunning-tooltip-class" ngbTooltip="Refresh Page"
+                <button type="button" class="text-dark" tooltipClass="customIRunning-tooltip-class" ngbTooltip="Refresh Page" container="body"
                   (click)="triggerFullData();dashboardData1();threatDataF();qrtList();"><i class="fa fa-refresh"
                     style="font-size: 20px;color: green" id="blink"></i>
                 </button>
           
-                <button type="button" class="text-dark" (click)="playAudio()"><i class="fa fa-volume-up" *ngIf="soundFlag"
-                    style="font-size: 20px; color:blue" id="blink" tooltipClass="customActive-tooltip-class"
-                    ngbTooltip="Critical Alert"></i>
-                  <i class="fa fa-volume-off" *ngIf="soundFlag!=true" tooltipClass="customInStopped-tooltip-class"
+                <button type="button" class="text-dark" (click)="playAudio()" >
+                  <i class="fa fa-volume-up" *ngIf="soundFlag" container="body"  style="font-size: 20px; color:blue" id="blink" tooltipClass="customActive-tooltip-class"  ngbTooltip="Critical Alert" container="body"></i>
+                  <i class="fa fa-volume-off" container="body" *ngIf="soundFlag!=true" tooltipClass="customInStopped-tooltip-class"
                     style="font-size: 20px; color:red" id="blink" ngbTooltip="Critical Alert"></i>
                   <audio id="myAudio" src="assets/images/users/Vip Police Siren.mp3" preload="auto">
                   </audio>
@@ -140,23 +135,14 @@
               </span>
             </div>
           </div>
-          <!-- <div class="col-lg-1"></div>
-          <div class="col-lg-1">
-          </div> -->
-          <!-- <div class="col-lg-1 text-center"> -->
-            <!-- <a class="header-brand1">
-              <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
-                style="height:auto;max-height:48px; width: 80%;">
-            </a> -->
-          <!-- </div> -->
-          <div class="col-lg-1">
+          <div class="col-lg-1" style="width: auto;">
             <div class=" mt-4" style="display: inline-block;">
-            <button type="button" class="text-dark" tooltipClass="customActive-tooltip-class"
+            <button type="button" class="text-dark" tooltipClass="customActive-tooltip-class" container="body"
               style="margin-top: 7px;font-size: 7px;" ngbTooltip="Trigger Report" (click)="triggerHistoryClickF()"><i
                 class="fa fa-history" style="font-size: 20px; color:blue" id="blink"></i>
           
             </button>
-            <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class" ngbTooltip="Trigger Summary">
+            <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class" ngbTooltip="Trigger Summary" container="body">
               <a target="blank" routerLink="/Map/summaryTrigger"> <i class="fa fa-file" style="font-size: 20px; color:grey"
                   id="blink"></i></a>
             </button>
@@ -174,7 +160,7 @@
         <div class="row">
   
           <!-- <div class="col-lg-12"> -->
-          <div class="col-lg-1">
+          <div class="col-lg-1" style="width: auto;">
             <div class="row" style="display: inline-block;">
               <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
                 aria-controls="collapseExample" style="font-size: 13px;font-weight: 500;">
@@ -189,8 +175,8 @@
                 <ng-container *ngFor="let data of alert_keys;ind">
                 <div class="dropdown" id="searchDropdown">
                   <button class=" dropdown-toggle viewall-icon" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <img  [src]="getIconUrlByTitle(data)" class="img-view">
+                  aria-expanded="false" style="    height: auto;">
+                  <img  [src]="getIconUrlByTitle(data)" class="img-view" style="height: 27px;">
                 </button>
                 <ul class="dropdown-menu scrollable" aria-labelledby="dropdownMenuButton" id="myDropdownroute">
                   <li style="font-weight: bold;">{{data}}</li>
@@ -226,7 +212,7 @@
                 </ng-container>
   <div class="dropdown" id="searchDropdown">
     <button class=" dropdown-toggle viewall-icon" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-      aria-expanded="false" (click)="viewmodal()" data-bs-toggle="modal" data-bs-target="#ViewModal">
+      aria-expanded="false" (click)="viewmodal()" data-bs-toggle="modal" data-bs-target="#ViewModal" style="    height: auto;">
       <img src="assets/IRUN_CV_IMG/ViewAll.svg" class="img-view" style="height: 27px; width: 53px;margin-top: 4px;">
       <!-- <div> View All</div> -->
     </button>
@@ -361,7 +347,7 @@
   </div>
   </div>
   
-  <div class="container-flex" style="    margin-top: 12px; padding: 17px;">
+  <div class="container-flex" style=" padding-bottom: 17px;">
   
     <div class="row">
   
@@ -724,7 +710,7 @@
   
             <td style="display:none;">{{item.vehiclestatus}}</td>
   
-            <!-- <td>
+             <td>
               <button *ngIf="item.imei!=''" style="color:blue"
                 (click)="vehicleTrackF(item.run_date,item.imei,item.name,item.alerts,item.id,item.route_id,item.alerts_summary,item.lat,item.lng)"><span>
                   <i class="fa fa-map-marker" style="font-size: 20px;" [ngbTooltip]="item.imei+'/'+item.imei_type"
@@ -783,10 +769,10 @@
   
                   3</span>
               </button>
-            </td> -->
+            </td> 
   
   
-            <td>
+            <!-- <td>
               <button *ngIf="item.imei!=''" style="color:blue"
                 (click)="vehicleTrackF_new(item.run_date,item.imei,item.name,item.alerts,item.id,item.route_id,item.alerts_summary,item.lat,item.lng)"><span>
                   <i class="fa fa-map-marker" style="font-size: 20px;" [ngbTooltip]="item.imei+'/'+item.imei_type"
@@ -845,7 +831,7 @@
   
                   3</span>
               </button>
-            </td>
+            </td> -->
   
             <td style="display:none;">{{item.imei}} {{item.imei2}}</td>
   
@@ -5828,8 +5814,8 @@
   
   <!-- view chart  -->
   <div class="modal fade" id="ViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style=" max-width:1658px;height: 45px;     margin-left: 171px;
-      width: 1658px;">
+    <div class="modal-dialog" style=" max-width:1485px;height: 45px;     margin-left: 94px;
+      width: 100%;">
       <div class="modal-content">
   
         <div class="modal-header" style="height: 60px;background-color: white;">
@@ -5852,13 +5838,24 @@
                       <h6 class="card-title" style="    width: 85%;">{{ch}}</h6>
                       <div class="row">
                         <div class="col-6">
-                          <div id="consSt" class="chart-container" _echarts_instance_="ec_1729747370784"
-                            style="height: 200px; width: 100%; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;">
+                          <div id="consSt" class="chart-container" 
+                           style="    height: 220px;"
+                          >
+                          <!--  style="height: 200px; width: 100%; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;" -->
                             <div
-                              style="position: relative; width: 137px; height: 200px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
-                             
-                              <canvas data-zr-dom-id="zr_0" width="171" height="250" [id]="ch"
-                                style="position: absolute;     left: -12px;top: 15px; width: 137px; height: 200px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                             >
+                             <!--                               style="position: relative; width: 137px; height: 200px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                               -->
+                              <canvas  width="171" height="250" [id]="ch"
+                                style="   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                                user-select: none;
+                                padding: 0px;
+                                border-width: 0px;
+                                cursor: pointer;
+                                position: relative;
+                                left: -25px;
+                                top: -11px; "></canvas>
+                                <!--  left: -12px;top: 15px; width: 137px; height: 200px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px; -->
                             </div>
                             <div class=""
                               style="position: absolute; display: block; border-style: solid; white-space: nowrap; z-index: 9999999; box-shadow: rgba(0, 0, 0, 0.2) 1px 2px 10px; transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.2s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); background-color: rgb(255, 255, 255); border-width: 1px; border-radius: 4px; color: rgb(102, 102, 102); font: 14px / 21px ; padding: 10px; top: 0px; left: 0px; transform: translate3d(-172px, 97px, 0px); border-color: grey; pointer-events: none; visibility: hidden; opacity: 0;">
@@ -5868,8 +5865,8 @@
                         <div _ngcontent-dki-c122="" class="col-6" style="margin-top: -33px; ">
                           <!-- <img  src="assets/images/vehiclestatusnew.png" alt="Vehicle Status"style="height: 50%;"> -->
                           <button class=" dropdown-toggle viewall-icon" type="button" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="    margin-left: 74px;">
-                            <img [src]="getIconUrlByTitle(ch)" class="img-view">
+                            data-bs-toggle="dropdown" aria-expanded="false" style="  width: 35% !important;  margin-left: 74px;">
+                            <img [src]="getIconUrlByTitle(ch)" class="img-view" style="height: 27px;">
                           </button>
                           <ul class="dropdown-menu scrollable" aria-labelledby="dropdownMenuButton" id="myDropdownroute">
                             <li style="font-weight: bold;">{{ch}}</li>
