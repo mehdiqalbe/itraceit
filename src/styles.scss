@@ -876,7 +876,7 @@ div.dt-buttons {
     }
 }
 canvas{
-    width: 100% !important;
+    // width: 100% !important;
   }
   perfect-scrollbar>.ps {
     display: block;
@@ -982,7 +982,7 @@ ng-select{
   
   /* Custom Style for Parent Header */
   .custom-parent-header {
-    background-color:#6c757de0 !important; /* Blue background */
+    background-color:#5da3ed !important; /* Blue background */
     color: white !important;             /* White text */
     font-weight: bold;
     text-align: center;
@@ -1009,8 +1009,18 @@ ng-select{
     content: '\f200' !important; /* Font Awesome icon code for a car */
     font-family: 'FontAwesome'!important; /* Ensure FontAwesome is loaded */
     margin-right: 8px !important; /* Space between icon and text */
-    color: brown;
+    color: red;
   }
+  .icon-header{
+    background-color: rgb(53, 177, 136) !important;
+    color: white;
+  } 
+  .ag-header-cell:not(.ag-header-cell-auto-height) .ag-header-cell-comp-wrapper {
+    height: 100%;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
   .ag-row-pinned {
     // background-color: #f0f8ff !important; /* Light blue color */
     background-color: #80808014 !important;

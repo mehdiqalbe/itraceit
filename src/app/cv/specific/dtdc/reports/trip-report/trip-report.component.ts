@@ -79,9 +79,13 @@ export class TripReportComponent implements OnInit {
   extra:boolean=false;
   submit: boolean=false;
   search_grid: boolean=false;
+  demoPolyline: any=[];
+  lastOpenedInfoWindow: any;
   constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
 
   ngOnInit(): void {
+    let App = document.querySelector('.app');
+    App?.classList.add('sidenav-toggled');
     this.token=localStorage.getItem('AccessToken')!;
     this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
    
@@ -91,6 +95,33 @@ export class TripReportComponent implements OnInit {
     // this.masterUploadTable();
     // this.Grid_table();
     this.dtdcTripReportFilter()
+    this.initMap1();
+  }
+  initMap1() 
+  {
+ 
+ 
+   //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+    const center = { lat: 23.2599, lng: 77.4126 };
+ 
+   //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+   // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+ // 
+ 
+    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+      zoom: 4,
+       center: center,
+ 
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scaleControl: true,
+ 
+    }
+    );
+ 
+  
+ 
+    
+      
   }
   sidebarToggle() {
     let App = document.querySelector('.app');
@@ -343,19 +374,20 @@ export class TripReportComponent implements OnInit {
   
   //   return container;
   // },
-  width: 120 },
-  { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter , cellRenderer: params => {
+  width: 100 },
+  // { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100, },
+  { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100, },
+  { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,},
+  { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
+  { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,
+    cellRenderer: params => {
     // Create the container div
     const container = document.createElement("div");
     container.style.display = "flex";
@@ -374,7 +406,7 @@ export class TripReportComponent implements OnInit {
     button.style.background = "none";
     button.style.marginLeft = "5px";
     button.style.cursor = "pointer";
-    console.log(params.data.Full.TrackHistory1)
+
     // Clear previous content
 
     if (params.data.Full?.TrackHistory1 !== 'NA') {
@@ -421,63 +453,63 @@ export class TripReportComponent implements OnInit {
   
     return container;
   },
-  width: 150 },
-  { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Area", field: "area", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "DriverName", field: "driverName", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "DriverNumber", field: "driverNumber", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Transporter", field: "transporter", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "DelayTT", field: "delayTt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "ScheduleHalt", field: "scheduleHalt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "ActualHalt", field: "actualHalt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter },
+   },
+  { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "Area", field: "area", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "DriverName", field: "driverName", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
+  { headerName: "DriverNumber", field: "driverNumber", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150, },
+  { headerName: "Transporter", field: "transporter", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
+  { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
+  { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
+  { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100, },
+  { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
+  { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
+  { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200, },
+  { headerName: "DelayTT", field: "delayTt", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "ScheduleHalt", field: "scheduleHalt", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,},
+  { headerName: "ActualHalt", field: "actualHalt", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150, },
+  { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
   // { headerName: "Alerts", field: "alerts", sortable: true, filter: true, floatingFilter: true },
   // { headerName: "ReverseDriving", field: "reverseDriving", sortable: true, filter: true, floatingFilter: true },
-  { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "FixedE-Lock(Km)", field: "fixedELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "PortableE-Lock(Km)", field: "portableELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "GPS Exception-1", field: "gpsException1", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "GPS Exception-2", field: "gpsException2", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "GPS Exception-3", field: "gpsException3", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "SupervisorException", field: "supervisorException", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Status", field: "status", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "SystemRemarks", field: "systemRemarks", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter },
+  { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200, },
+  { headerName: "FixedE-Lock(Km)", field: "fixedELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,},
+  { headerName: "PortableE-Lock(Km)", field: "portableELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200, },
+  { headerName: "GPS Exception-1", field: "gpsException1", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,},
+  { headerName: "GPS Exception-2", field: "gpsException2", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,},
+  { headerName: "GPS Exception-3", field: "gpsException3", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,},
+  { headerName: "SupervisorException", field: "supervisorException", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200, },
+  { headerName: "Status", field: "status", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,},
+  { headerName: "SystemRemarks", field: "systemRemarks", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,},
+  { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+  { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150, },
+  { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200, },
+  { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter, width: 200, },
+  { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  },
+  { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  },
+  { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
+  { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
   // { headerName: "Full", field: "Full", sortable: false, filter: false, floatingFilter: false,hide: true},
   // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
   // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
 
-  { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-  { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
+  { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
+  { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
+  { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
+  { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
+  { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
+  { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
  
 
 ];
@@ -492,38 +524,41 @@ export class TripReportComponent implements OnInit {
 //  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving
 this.rowData_popup = this.new_array.map((person, index) => ({
   sl: index + 1,
-  routeType: person.route_type,
+  // routeType: person.route_type,
   region: person.Region,
-  origin: person.origin,
-  destination: person.destination,
-  route: person.RouteCode,
-  routeSequence: person.RouteName,
-  fleet: person.FleetNo,
+  origin: person.Source ?? "",
+  destination: person.Destination ?? "",
+  route: person.RouteCode ?? "",
+  routeSequence: person.RouteName ?? "",
+  fleet: person.FleetNo ?? "",
   tripId: person.ShipmentNo,
   runCode: person.RunCode,
-  runDate: person.RunDate,
-  vehicle: person.VehicleNo,
-  trackHistory:'',
+  runDate: person.RunDate ?? "",
+  vehicle: person.VehicleNo ?? "",
+  trackHistory: "",
   state: person.State,
+
   branch: person.BranchName,
   area: person.Area,
-  driverName: person.Driver,
-  driverNumber: person.DriverMobile,
-  transporter: person.Transporter,
-  std: person.STD, // Standard Time of Departure
-  atd: person.ATD, // Actual Time of Departure
-  delayDeparture: person.DelayDeparture,
-  sta: person.STA, // Standard Time of Arrival
-  ata: person.ATA, // Actual Time of Arrival
-  ttMapped: person.TTMapped,
-  ttTaken: person.TTTaken,
-  delayArrival: person.DelayArrival,
+  driverName: person.Driver ?? "",
+  driverNumber: person.DriverMobile ?? "",
+  driverName_s: person.Driver_S ?? "",
+  driverNumber_s: person.DriverMobile_S ?? "",
+  transporter: person.Transporter ?? "",
+  std: person.STD ?? "", // Standard Time of Departure
+  atd: person.ATD ?? "", // Actual Time of Departure
+  delayDeparture: person.DelayDeparture ?? "",
+  sta: person.STA ?? "", // Standard Time of Arrival
+  ata: person.ATA ?? "", // Actual Time of Arrival
+  ttMapped: person.TTMapped ?? "",
+  ttTaken: person.TTTaken ?? "",
+  delayArrival: person.DelayArrival ?? "",
   delayTt: person.DelayTT,
   scheduleHalt: person.ScheduleHalt,
   actualHalt: person.ActualHalt,
   att: person.ATT, // Actual Travel Time
-  // alerts: 'person.alerts',
-//  reverseDriving: 'person.reverse_driving',
+
+
   fixedGpsKm:person.DistanceKm1,
   fixedELockKm: person.DistanceKm2,
   portableELockKm:person.DistanceKm3,
@@ -537,26 +572,27 @@ this.rowData_popup = this.new_array.map((person, index) => ({
   closeDate: person.CloseDate,
   createBy: person.CreateBy,
   totalBag: person.Bag,
-  remarks: person.Remarks,
+  remarks: person.remarks,
   gpsVendor: person.GPSVendorType1,
   fixedELockVendor: person.GPSVendorType2,
   portableELockVendor: person.GPSVendorType3,
   Full: person,
   BranchLocation: person.BranchLocation || "N/A",
-  BranchHandoverTime: person.BranchHandoverTime || "N/A",
-  GateInTime: person.GateInTime || "N/A",
-  GateOutTime: person.GateOutTime || "N/A",
-  GPSATA: person.GpsAta || "N/A",
-  GPSATD: person.GpsAtd || "N/A",
-  Bay: person.BayNoIn+'/'+person.BayNoOut || "N/A",
-  ShipmentCount: person.ShipmentCountIn+'/'+person.ShipmentCountOut || 0,
-  Weight: person.WeightIn+'/'+person.WeightOut || 0,
-  ServerGPSReceivedIn:  this.extra ? person.ServerGPSReceivedIn : null,
-  ServerGPSProcessedIn:  this.extra ? person.ServerGPSProcessedIn : null,
-  ServerGPSReceivedOut:  this.extra ? person.ServerGPSReceivedOut : null,
-  ServerGPSProcessedOut:  this.extra ? person.ServerGPSProcessedOut : null,
-  PushTimeIn:  this.extra ? person.PushTimeIn : null,
-  PushTimeOut:  this.extra ? person.PushTimeOut : null,
+BranchHandoverTime: person.BranchHandoverTime || "N/A",
+GateInTime: person.GateInTime || "N/A",
+GateOutTime: person.GateOutTime || "N/A",
+GPSATA: person.GpsAta || "N/A",
+GPSATD: person.GpsAtd || "N/A",
+Bay: person.BayNoIn+'/'+person.BayNoOut || "N/A",
+ShipmentCount: person.ShipmentCountIn+'/'+person.ShipmentCountOut || 0,
+Weight: person.WeightIn+'/'+person.WeightOut || 0,
+
+ServerGPSReceivedIn:  this.extra ? person.ServerGPSReceivedIn : null,
+ServerGPSProcessedIn:  this.extra ? person.ServerGPSProcessedIn : null,
+ServerGPSReceivedOut:  this.extra ? person.ServerGPSReceivedOut : null,
+ServerGPSProcessedOut:  this.extra ? person.ServerGPSProcessedOut : null,
+PushTimeIn:  this.extra ? person.PushTimeIn : null,
+PushTimeOut:  this.extra ? person.PushTimeOut : null,
 
   // closeDeviceBy:' person.close_device_by',
   // portableLockDevice: 'person.portable_lock_device'
@@ -778,7 +814,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       { headerName: "Sl.", field: "sl", sortable: true, filter: true, floatingFilter: this.floating_filter, 
         
         cellRenderer: params => {
-          console.log(params.data)
   
         // Create the container div
         const container = document.createElement("div");
@@ -817,19 +852,19 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         return container;
           
     },
-      width: 120 },
-      { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter , cellRenderer: params => {
+    minWidth: 100, maxWidth: 100, },
+      // { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
+      { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
+      { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
+      { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100,},
+      { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter ,Width: 200},
+      { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200,},
+      { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
+      { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
+      { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
+      { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100,},
+      { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+      { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200, cellRenderer: params => {
         // Create the container div
         const container = document.createElement("div");
         container.style.display = "flex";
@@ -848,7 +883,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         button.style.background = "none";
         button.style.marginLeft = "5px";
         button.style.cursor = "pointer";
-        console.log(params.data.Full.TrackHistory1)
+  
         // Clear previous content
   
         if (params.data.Full?.TrackHistory1 !== 'NA') {
@@ -895,64 +930,70 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       
         return container;
       },
-      width: 150 },
-      { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Area", field: "area", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "DriverName", field: "driverName", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "DriverNumber", field: "driverNumber", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Transporter", field: "transporter", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "DelayTT", field: "delayTt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "ScheduleHalt", field: "scheduleHalt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "ActualHalt", field: "actualHalt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      // { headerName: "Alerts", field: "alerts", sortable: true, filter: true, floatingFilter: true },
-      // { headerName: "ReverseDriving", field: "reverseDriving", sortable: true, filter: true, floatingFilter: true },
-      { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "FixedE-Lock(Km)", field: "fixedELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "PortableE-Lock(Km)", field: "portableELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "GPS Exception-1", field: "gpsException1", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "GPS Exception-2", field: "gpsException2", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "GPS Exception-3", field: "gpsException3", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "SupervisorException", field: "supervisorException", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Status", field: "status", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "SystemRemarks", field: "systemRemarks", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
-  
-      { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      // if(){
-      { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-      // }
-  
+       },
+       { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
+       { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
+       { headerName: "Area", field: "area", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
+       { headerName: "DriverName", field: "driverName", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200},
+       { headerName: "DriverNumber", field: "driverNumber", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
+       { headerName: "Transporter", field: "transporter", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
+       { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
+       { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
+       { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
+       { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+       { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+       { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "DelayTT", field: "delayTt", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "ScheduleHalt", field: "scheduleHalt", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "ActualHalt", field: "actualHalt", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+       { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100},
+       // { headerName: "Alerts", field: "alerts", sortable: true, filter: true, floatingFilter: true },
+       // { headerName: "ReverseDriving", field: "reverseDriving", sortable: true, filter: true, floatingFilter: true },
+       { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "FixedE-Lock(Km)", field: "fixedELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "PortableE-Lock(Km)", field: "portableELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "GPS Exception-1", field: "gpsException1", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "GPS Exception-2", field: "gpsException2", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "GPS Exception-3", field: "gpsException3", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "SupervisorException", field: "supervisorException", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Status", field: "status", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "SystemRemarks", field: "systemRemarks", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+       { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+       { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+       { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+       // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
+   
+       { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
+       { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+       { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300},
+       { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       // if(){
+       // { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
+       // { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
+       // { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
+       // { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
+       // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
+       // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
+       // }
+       { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250 },
+       { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
+       { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
+       { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
+       { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
+       { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
+      
   
   
   
@@ -970,10 +1011,9 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   } else{
   this.columnDefs = [
 
-    { headerName: "Sl.", field: "sl", sortable: true, filter: true, floatingFilter: this.floating_filter, 
+    { headerName: "Sl.", field: "sl", sortable: true, filter: true, floatingFilter: this.floating_filter, width:100,
       
       cellRenderer: params => {
-        console.log(params.data)
 
       // Create the container div
       const container = document.createElement("div");
@@ -1012,19 +1052,19 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       return container;
         
   },
-    width: 120 },
-    { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter , cellRenderer: params => {
+   },
+    // { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
+    { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
+    { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
+    { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
+    { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100},
+    { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
+    { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
+    { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
+    { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150},
+    { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
+    { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
+    { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200, cellRenderer: params => {
       // Create the container div
       const container = document.createElement("div");
       container.style.display = "flex";
@@ -1043,7 +1083,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       button.style.background = "none";
       button.style.marginLeft = "5px";
       button.style.cursor = "pointer";
-      console.log(params.data.Full.TrackHistory1)
+
       // Clear previous content
 
       if (params.data.Full?.TrackHistory1 !== 'NA') {
@@ -1090,55 +1130,55 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     
       return container;
     },
-    width: 150 },
-    { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Area", field: "area", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "DriverName", field: "driverName", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "DriverNumber", field: "driverNumber", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Transporter", field: "transporter", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "DelayTT", field: "delayTt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "ScheduleHalt", field: "scheduleHalt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "ActualHalt", field: "actualHalt", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter },
+     },
+    { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
+    { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
+    { headerName: "Area", field: "area", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
+    { headerName: "DriverName", field: "driverName", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200},
+    { headerName: "DriverNumber", field: "driverNumber", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
+    { headerName: "Transporter", field: "transporter", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
+    { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
+    { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
+    { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
+    { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+    { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "DelayTT", field: "delayTt", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "ScheduleHalt", field: "scheduleHalt", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "ActualHalt", field: "actualHalt", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+    { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100},
     // { headerName: "Alerts", field: "alerts", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "ReverseDriving", field: "reverseDriving", sortable: true, filter: true, floatingFilter: true },
-    { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "FixedE-Lock(Km)", field: "fixedELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "PortableE-Lock(Km)", field: "portableELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "GPS Exception-1", field: "gpsException1", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "GPS Exception-2", field: "gpsException2", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "GPS Exception-3", field: "gpsException3", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "SupervisorException", field: "supervisorException", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Status", field: "status", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "SystemRemarks", field: "systemRemarks", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter },
+    { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "FixedE-Lock(Km)", field: "fixedELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "PortableE-Lock(Km)", field: "portableELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "GPS Exception-1", field: "gpsException1", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "GPS Exception-2", field: "gpsException2", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "GPS Exception-3", field: "gpsException3", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "SupervisorException", field: "supervisorException", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Status", field: "status", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "SystemRemarks", field: "systemRemarks", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+    { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
 
-    { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter },
+    { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
+    { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+    { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300},
+    { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     // if(){
     // { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
@@ -1147,12 +1187,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // }
-    { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-    { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
+    { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250 },
+    { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
+    { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
+    { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
+    { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
+    { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
    
     // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
@@ -1166,36 +1206,41 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   this.rowData = this.new_array.map((person, index) => ({
 
     sl: index + 1,
-    routeType: person.route_type,
+    // routeType: person.route_type,
     region: person.Region,
-    origin: person.origin,
-    destination: person.destination,
-    route: person.RouteCode,
-    routeSequence: person.RouteName,
-    fleet: person.FleetNo,
+    origin: person.Source ?? "",
+    destination: person.Destination ?? "",
+    route: person.RouteCode ?? "",
+    routeSequence: person.RouteName ?? "",
+    fleet: person.FleetNo ?? "",
     tripId: person.ShipmentNo,
     runCode: person.RunCode,
-    runDate: person.RunDate,
-    vehicle: person.VehicleNo,
-    trackHistory:'',
+    runDate: person.RunDate ?? "",
+    vehicle: person.VehicleNo ?? "",
+    trackHistory: "",
     state: person.State,
+
     branch: person.BranchName,
     area: person.Area,
-    driverName: person.Driver,
-    driverNumber: person.DriverMobile,
-    transporter: person.Transporter,
-    std: person.STD, // Standard Time of Departure
-    atd: person.ATD, // Actual Time of Departure
-    delayDeparture: person.DelayDeparture,
-    sta: person.STA, // Standard Time of Arrival
-    ata: person.ATA, // Actual Time of Arrival
-    ttMapped: person.TTMapped,
-    ttTaken: person.TTTaken,
-    delayArrival: person.DelayArrival,
+    driverName: person.Driver ?? "",
+    driverNumber: person.DriverMobile ?? "",
+    driverName_s: person.Driver_S ?? "",
+    driverNumber_s: person.DriverMobile_S ?? "",
+    transporter: person.Transporter ?? "",
+    std: person.STD ?? "", // Standard Time of Departure
+    atd: person.ATD ?? "", // Actual Time of Departure
+    delayDeparture: person.DelayDeparture ?? "",
+    sta: person.STA ?? "", // Standard Time of Arrival
+    ata: person.ATA ?? "", // Actual Time of Arrival
+    ttMapped: person.TTMapped ?? "",
+    ttTaken: person.TTTaken ?? "",
+    delayArrival: person.DelayArrival ?? "",
     delayTt: person.DelayTT,
     scheduleHalt: person.ScheduleHalt,
     actualHalt: person.ActualHalt,
-    att: person.ATT, 
+    att: person.ATT, // Actual Travel Time
+
+
     fixedGpsKm:person.DistanceKm1,
     fixedELockKm: person.DistanceKm2,
     portableELockKm:person.DistanceKm3,
@@ -1290,7 +1335,14 @@ this.gridOptions = {
     pagination: true,
     paginationPageSize: 50,
     paginationPageSizeSelector: [10, 50, 100,500,1000],
-   
+    defaultColDef: {
+      sortable: true,
+      filter: true,
+      resizable: true,
+      tooltipComponentParams: {
+        color: "#ececec" // Optional parameter for custom styling
+      }
+    },
     animateRows: true,
     onGridReady: (params) => this.onGridReady(params),
    
@@ -1314,8 +1366,6 @@ this.gridOptions = {
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
-
-
   onSearch(term: any) {
     console.log(term)
     const formdataCustomer = new FormData();
@@ -1361,7 +1411,8 @@ dtdcTripReportFilter(){
       this.Master_filter=data.Filter.Master;
       console.log(data.Filter)
     }else{
-      alert("Data not found ")
+      // alert("Data not found ")
+      alert(data?.Message);
     }
     // console.log(data)
   })
@@ -1414,15 +1465,14 @@ triggerHstSubmit(eve){
       this.Grid_table();
       this.SpinnerService.hide();
     }else{
-      alert("Data not found ")
+      // alert("Data not found ")
+      alert(data?.Message);
     }
     // console.log(data)
   })
 
 }
 }
-
-
 onFilterTextBoxChanged() {
   // console.log("hii");
   
@@ -1441,14 +1491,6 @@ onFilterTextBoxChanged_pop() {
 }
 
 
-onBtExport() {
-// this.gridApi!.exportDataAsExcel();
-this. gridApi!.exportDataAsCsv();
-}
-onBtExport_pop() {
-  // this.gridApi!.exportDataAsExcel();
-  this. gridApi_popup!.exportDataAsCsv();
-  }
 
 // ------------------------------------------------MAP---------------------------------------------
 handleAlertMarkers(item) {
@@ -1511,159 +1553,157 @@ this.markers.push(marker);
   });
 }
 
-async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-  // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
+// async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+//   // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
   
-  // Clear markers and polylines before starting
-  this.clearMarkersAndPolylines();
+//   // Clear markers and polylines before starting
+//   this.clearMarkersAndPolylines();
   
-  // Initialize map
-  try {
-    await this.initializeMap();
-  } catch (error) {
-    console.error('Error initializing map:', error);
-    this.SpinnerService.hide('spinner-1');
-  }
+//   // Initialize map
+//   try {
+//     await this.initializeMap();
+//   } catch (error) {
+//     console.error('Error initializing map:', error);
+//     this.SpinnerService.hide('spinner-1');
+//   }
 
-  // Show tracking spinner
-  this.SpinnerService.show("tracking");
+//   // Show tracking spinner
+//   this.SpinnerService.show("tracking");
   
-  // Define the array of IMEIs to process
-  // const imeis = [imei,imei2,imei3];
-  const imeis = [imei,imei2,imei3];
-  console.log(imeis);
+//   // Define the array of IMEIs to process
+//   // const imeis = [imei,imei2,imei3];
+//   const imeis = [imei,imei2,imei3];
+//   console.log(imeis);
   
-  // Loop through each IMEI using a for...of loop to support async/await
-  for (const imei of imeis) {
-    // console.log(imei);
+//   // Loop through each IMEI using a for...of loop to support async/await
+//   for (const imei of imeis) {
+//     // console.log(imei);
     
-    // Reset tracking data for each IMEI
-    this.trackingData = [];
-    this.customer_info = [];
-    this.marker = [];
-    this.poly_line = [];
-    this.map_flag = '';
+//     // Reset tracking data for each IMEI
+//     this.trackingData = [];
+//     this.customer_info = [];
+//     this.marker = [];
+//     this.poly_line = [];
+//     this.map_flag = '';
 
-    if (imei === "") {
-      this.map_flag = 'Device unavailable';
-    } else {
-      this.map_flag = 'Please wait';
-      const formData = new FormData();
+//     if (imei === "") {
+//       this.map_flag = 'Device unavailable';
+//     } else {
+//       this.map_flag = 'Please wait';
+//       const formData = new FormData();
       
-      let currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-      if(item.CloseDt!=='-'){
-        currentDateTime=item.CloseDt;
-      }
+//       let currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+//       if(item.CloseDt!=='-'){
+//         currentDateTime=item.CloseDt;
+//       }
 
-      formData.append('AccessToken', this.token);
-      formData.append('startdate', run_date);
-      formData.append('enddate', currentDateTime);
-      formData.append('time_interval', '120');
-      formData.append('imei', imei);
-      formData.append('group_id', this.group_id);
-      formData.append('AccountId', this.account_id);
-      try {
-        // Wait for the API response
-        const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
-        // console.log("tracking res", res);
+//       formData.append('AccessToken', this.token);
+//       formData.append('startdate', run_date);
+//       formData.append('enddate', currentDateTime);
+//       formData.append('time_interval', '120');
+//       formData.append('imei', imei);
+//       formData.append('group_id', this.group_id);
+//       formData.append('AccountId', this.account_id);
+//       try {
+//         // Wait for the API response
+//         const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
+//         // console.log("tracking res", res);
 
-        if (res.Status === "failed") {
-          alert(res?.Message);
-        }
+//         if (res.Status === "failed") {
+//           alert(res?.Message);
+//         }
 
-        this.trackingData = res.data;
+//         this.trackingData = res.data;
 
-        if (res.data === 'Vehicle is inactive.') {
-          alert("Track data is not available");
-        } else {
-          console.log("trackingData",this.trackingData)
-          // Add markers and polyline data
-          this.addMarkersAndPolyline1(imei, vehicle_no);
-          // Fetch DFG polyline data
-          // this.fetchDFGPolyline_new(route_id);
+//         if (res.data === 'Vehicle is inactive.') {
+//           alert("Track data is not available");
+//         } else {
+//           console.log("trackingData",this.trackingData)
+//           // Add markers and polyline data
+//           this.addMarkersAndPolyline1(imei, vehicle_no);
+//           // Fetch DFG polyline data
+//           // this.fetchDFGPolyline_new(route_id);
       
-          // Fetch customer info
-          this.fetchCustomerInfo_new(item);
+//           // Fetch customer info
+//           this.fetchCustomerInfo_new(item);
       
-          // Handle alert markers
-          // this.handleAlertMarkers(item);
-        }
+//           // Handle alert markers
+//           // this.handleAlertMarkers(item);
+//         }
 
-      } catch (error) {
-        console.error("Error in API call:", error);
-        alert("An error occurred while fetching tracking data");
-      }
+//       } catch (error) {
+//         console.error("Error in API call:", error);
+//         alert("An error occurred while fetching tracking data");
+//       }
       
-      // Hide the tracking spinner after the API call
-      this.SpinnerService.hide("tracking");
-    }
-  }
-}
+//       // Hide the tracking spinner after the API call
+//       this.SpinnerService.hide("tracking");
+//     }
+//   }
+// }
 
-getMarkerIcon(index: number): string {
-  if (index === 0) {
-    return 'assets/images/users/start_marker.png';
-  }
-  else if (index + 1 === this.trackingData.length) {
+// getMarkerIcon(index: number): string {
+//   if (index === 0) {
+//     return 'assets/images/users/start_marker.png';
+//   }
+//   else if (index + 1 === this.trackingData.length) {
 
-    setTimeout(() => {
-      this.SpinnerService.hide("tracking");
-    }, 5000);
-    return 'assets/images/users/stop_marker.png';
-  } else {
-    return 'assets/images/users/green_Marker1.png';
-  }
-}
-addMarkersAndPolyline1(imei: string, vehicle_no: string) {
-  var lineString = new H.geo.LineString();
+//     setTimeout(() => {
+//       this.SpinnerService.hide("tracking");
+//     }, 5000);
+//     return 'assets/images/users/stop_marker.png';
+//   } else {
+//     return 'assets/images/users/green_Marker1.png';
+//   }
+// }
+// addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+//   var lineString = new H.geo.LineString();
 
-let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
-// const ui = H.ui.UI.createDefault(this.map1, new H.map.Platform({apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'}).createDefaultLayers());
-const platform = new H.service.Platform({
-apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
-});
-const defaultLayers = platform.createDefaultLayers();
-const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
-for (let i = 0; i < this.trackingData.length; i++) {
-const position :any= this.trackingData[i];
-lineString.pushPoint({ lat: this.trackingData[i].lat, lng: this.trackingData[i].long });
+// let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
+// // const ui = H.ui.UI.createDefault(this.map1, new H.map.Platform({apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'}).createDefaultLayers());
+// const platform = new H.service.Platform({
+// apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
+// });
+// const defaultLayers = platform.createDefaultLayers();
+// const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
+// for (let i = 0; i < this.trackingData.length; i++) {
+// const position :any= this.trackingData[i];
+// lineString.pushPoint({ lat: this.trackingData[i].lat, lng: this.trackingData[i].long });
 
-const locationOfMarker = { lat: position.lat, lng: position.long };
+// const locationOfMarker = { lat: position.lat, lng: position.long };
 
-const icon_temp = this.getMarkerIcon(i);
-const marker = this.createMarker(locationOfMarker, icon_temp, '2');
+// const icon_temp = this.getMarkerIcon(i);
+// const marker = this.createMarker(locationOfMarker, icon_temp, '2');
 
-// Add the marker to the map
-this.map1.addObject(marker);
-this.markers.push(marker);
-
-
+// // Add the marker to the map
+// this.map1.addObject(marker);
+// this.markers.push(marker);
 
 
 
-// Attach click event to each marker
-marker.addEventListener('tap',  async (evt) => {
-//  var position= evt.latLng.lat()
-  // Remove existing bubbles, if any
-  ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
+
+
+// // Attach click event to each marker
+// marker.addEventListener('tap',  async (evt) => {
+// //  var position= evt.latLng.lat()
+//   // Remove existing bubbles, if any
+//   ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
   
-  // Create content for the info window
-  // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
-  console.log(position,i)
-  const infoContent = await this.handleMarkerClick(evt, position, vehicle_no, imei);
+//   // Create content for the info window
+//   // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
+//   console.log(position,i)
+//   const infoContent = await this.handleMarkerClick(evt, position, vehicle_no, imei);
 
-  //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
+//   //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
    
-  // Create an info bubble at the marker's location
-  const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-    content: infoContent
-  });
+//   // Create an info bubble at the marker's location
+//   const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+//     content: infoContent
+//   });
 
-  // Add the info bubble to the map
-  ui.addBubble(infoBubble);
-});
-
-
+//   // Add the info bubble to the map
+//   ui.addBubble(infoBubble);
+// });
 
 
 
@@ -1677,133 +1717,135 @@ marker.addEventListener('tap',  async (evt) => {
 
 
 
-// Update min and max lat/lng values to create bounding box
-minLat = Math.min(minLat, position.lat);
-minLng = Math.min(minLng, position.long);
-maxLat = Math.max(maxLat, position.lat);
-maxLng = Math.max(maxLng, position.long);
-}
-
-// Define padding in degrees (adjust as needed)
-const padding = 0.01;
-
-// Create a bounding box with padding
-const boundingBox = new H.geo.Rect(
-maxLat + padding,    // Top latitude (maxLat + padding)
-minLng - padding,    // Left longitude (minLng - padding)
-minLat - padding,    // Bottom latitude (minLat - padding)
-maxLng + padding     // Right longitude (maxLng + padding)
-);
-
-// Set the map view to fit all markers within the padded bounding box
-this.map1.getViewModel().setLookAtData({
-bounds: boundingBox
-});
 
 
+// // Update min and max lat/lng values to create bounding box
+// minLat = Math.min(minLat, position.lat);
+// minLng = Math.min(minLng, position.long);
+// maxLat = Math.max(maxLat, position.lat);
+// maxLng = Math.max(maxLng, position.long);
+// }
 
-console.log("lineString",lineString)
-  this.addPolylineToMap(lineString)
-}
-handleMarkerClick1(event, trackingData, vehicle_no, imei) {
-  const markerPosition = event.target.getGeometry();
-  const formdataCustomer = new FormData();
-  formdataCustomer.append('AccessToken', this.token);
-  formdataCustomer.append('VehicleId', vehicle_no);
-  formdataCustomer.append('ImeiNo', imei);
-  formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
+// // Define padding in degrees (adjust as needed)
+// const padding = 0.01;
 
-  this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
-    const address = res.Data.Address;
-    this.showWindow(trackingData, vehicle_no, address);
-    // this.closeLastOpenedInfoWindow();
-    // const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
-    // infowindowMarker.setPosition(event.latLng);
-    // infowindowMarker.open(this.map1);
-  });
-}
-async handleMarkerClick(event, trackingData, vehicle_no, imei) {
-  const markerPosition = event.target.getGeometry();
-  const formdataCustomer = new FormData();
-  formdataCustomer.append('AccessToken', this.token);
-  formdataCustomer.append('VehicleId', vehicle_no);
-  formdataCustomer.append('ImeiNo', imei);
-  formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
+// // Create a bounding box with padding
+// const boundingBox = new H.geo.Rect(
+// maxLat + padding,    // Top latitude (maxLat + padding)
+// minLng - padding,    // Left longitude (minLng - padding)
+// minLat - padding,    // Bottom latitude (minLat - padding)
+// maxLng + padding     // Right longitude (maxLng + padding)
+// );
 
-  const res:any = await this.CrudService.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
- console.log("res",res)
-  const address = res.Data.Address;
+// // Set the map view to fit all markers within the padded bounding box
+// this.map1.getViewModel().setLookAtData({
+// bounds: boundingBox
+// });
+
+
+
+// console.log("lineString",lineString)
+//   this.addPolylineToMap(lineString)
+// }
+// handleMarkerClick1(event, trackingData, vehicle_no, imei) {
+//   const markerPosition = event.target.getGeometry();
+//   const formdataCustomer = new FormData();
+//   formdataCustomer.append('AccessToken', this.token);
+//   formdataCustomer.append('VehicleId', vehicle_no);
+//   formdataCustomer.append('ImeiNo', imei);
+//   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
+
+//   this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
+//     const address = res.Data.Address;
+//     this.showWindow(trackingData, vehicle_no, address);
+//     // this.closeLastOpenedInfoWindow();
+//     // const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+//     // infowindowMarker.setPosition(event.latLng);
+//     // infowindowMarker.open(this.map1);
+//   });
+// }
+// async handleMarkerClick(event, trackingData, vehicle_no, imei) {
+//   const markerPosition = event.target.getGeometry();
+//   const formdataCustomer = new FormData();
+//   formdataCustomer.append('AccessToken', this.token);
+//   formdataCustomer.append('VehicleId', vehicle_no);
+//   formdataCustomer.append('ImeiNo', imei);
+//   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
+
+//   const res:any = await this.CrudService.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
+//  console.log("res",res)
+//   const address = res.Data.Address;
   
-  return this.showWindow(trackingData, vehicle_no, address); // Return the content
-}
+//   return this.showWindow(trackingData, vehicle_no, address); // Return the content
+// }
 
-showWindow(data, vnumber, add) {
-  // var add:any
-  this.contentsInfo = ''
-  console.log('show window of vehicle information', data, add)
-  /////////////////////////address api////////////////////////////////////////////////////
-
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-
-return  this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
-    '<tbody style="border:none !important">' +
-
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
-    '<td style="width:1%;color: blue;border:none !important">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
-    '<td style="width:1%;color: blue;border:none !important">:</td>' +
-    '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
-    '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
-    '</tr>' +
-    '</tbody>' +
-    '</table>'
+// showWindow(data, vnumber, add) {
+//   // var add:any
+//   this.contentsInfo = ''
+//   console.log('show window of vehicle information', data, add)
+//   /////////////////////////address api////////////////////////////////////////////////////
 
 
+
+//   ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+// return  this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
+//     '<tbody style="border:none !important">' +
+
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
+//     '<td style="width:1%;color: blue;border:none !important">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
+//     '<td style="width:1%;color: blue;border:none !important">:</td>' +
+//     '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
+//     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
+//     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
+//     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
+//     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
+//     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
+//     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+//     '</tr>' +
+//     '<tr style=" border:none !important">' +
+//     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
+//     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+//     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+//     '</tr>' +
+//     '</tbody>' +
+//     '</table>'
 
 
 
 
-}
+
+
+// }
 
 // Assuming you have imported or included Supercluster in your project
 
@@ -2196,5 +2238,605 @@ initializeMap(): Promise<void> {
     $('#v_track_Modal').modal('show');
   });
 }
+onBtExport() {
+  // this.gridApi!.exportDataAsExcel();
+  this. gridApi!.exportDataAsCsv();
+  }
+  
+exportToPDF(): void {
+  // Step 1: Extract parent and child headers dynamically
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  this.columnDefs.forEach((colDef) => {
+    if (colDef.children) {
+      parentHeaders.push({ text: colDef.headerName, colSpan: colDef.children.length, alignment: 'center', bold: true });
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push(''); // Fill empty cells for colspan
+      }
+      colDef.children.forEach((child) => {
+        childHeaders.push({ text: child.headerName, alignment: 'center' });
+      });
+    } else {
+      parentHeaders.push({ text: colDef.headerName, alignment: 'center', bold: true });
+      childHeaders.push('');
+    }
+  });
 
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
+
+  // Add row data dynamically
+  this.rowData.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || ''); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || ''); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => (rowIndex === 0 ? '#0074D9' : rowIndex === 1 ? '#DDDDDD' : null), // Parent and child header colors
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
+}
+exportToCSV(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'GridData.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
+onBtExport_pop() {
+  // this.gridApi!.exportDataAsExcel();
+  this. gridApi_popup!.exportDataAsCsv();
+  }
+
+exportToPDF_popup(): void {
+  // Step 1: Extract parent and child headers dynamically
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  this.columnDefs_popup.forEach((colDef) => {
+    if (colDef.children) {
+      parentHeaders.push({ text: colDef.headerName, colSpan: colDef.children.length, alignment: 'center', bold: true });
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push(''); // Fill empty cells for colspan
+      }
+      colDef.children.forEach((child) => {
+        childHeaders.push({ text: child.headerName, alignment: 'center' });
+      });
+    } else {
+      parentHeaders.push({ text: colDef.headerName, alignment: 'center', bold: true });
+      childHeaders.push('');
+    }
+  });
+
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
+
+  // Add row data dynamically
+  this.rowData_popup.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs_popup.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || ''); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || ''); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => (rowIndex === 0 ? '#0074D9' : rowIndex === 1 ? '#DDDDDD' : null), // Parent and child header colors
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
+}
+exportToCSV_popup(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs_popup.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions_popup.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs_popup.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'GridData.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+// ----------------------------------------------------------------------------------------------------------------------------------------------
+async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  $('#v_track_Modal').modal('show');
+  this.SpinnerService.show("tracking");
+
+// Clear markers and polylines if they exist
+if (this.demomarker.length > 0) {
+  this.demomarker.forEach(marker => marker.setMap(null));
+  this.demomarker = [];  // Clear the array after removing markers
+}
+
+if (this.demoPolyline.length > 0) {
+  this.demoPolyline.forEach(polyline => polyline.setMap(null));
+  this.demoPolyline = [];  // Clear the array after removing polylines
+}
+  // console.log(imei, imei2, imei3);
+  if (imei === '' && imei2 === '' && imei3 === '') {
+    alert("IMEI not assign");
+  }else{
+  // Clear markers and polylines before starting
+  this.clearMarkersAndPolylines();
+
+  // Initialize map
+  try {
+    // await this.initializeMap();
+  } catch (error) {
+    console.error('Error initializing map:', error);
+    this.SpinnerService.hide('spinner-1');
+  }
+
+  // Show tracking spinner
+  this.SpinnerService.show("tracking");
+
+  // Define the array of IMEIs to process
+  // const imeis = [imei,imei2,imei3];
+  const imeis = [imei, imei2, imei3];
+  // console.log(imeis);
+
+  // Loop through each IMEI using a for...of loop to support async/await
+  for (const imei of imeis) {
+    // console.log(imei);
+
+    // Reset tracking data for each IMEI
+    this.trackingData = [];
+    this.customer_info = [];
+    this.marker = [];
+    this.poly_line = [];
+    this.map_flag = '';
+
+    if (imei === "") {
+      this.map_flag = 'Device unavailable';
+    } else {
+      this.map_flag = 'Please wait';
+      const formData = new FormData();
+      const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+      formData.append('AccessToken', this.token);
+      formData.append('startdate', run_date);
+      formData.append('enddate', currentDateTime);
+      formData.append('time_interval', '120');
+      formData.append('imei', imei);
+      formData.append('group_id', this.group_id);
+      formData.append('AccountId', this.account_id);
+
+      // Log form data for debugging
+      formData.forEach((value, key) => {
+        console.log("formdata...", key, value);
+      });
+
+      // try {
+        // Wait for the API response
+        const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
+        
+        this.SpinnerService.hide("tracking");
+        if (res.Status === "failed") {
+          alert(res?.Message);
+        }
+
+        this.trackingData = res.data;
+
+        if (res.data === 'Vehicle is inactive.') {
+          alert("Track data is not available");
+        } else {
+          console.log("trackingData", this.trackingData);
+          // Add markers and polyline data
+          this.addMarkersAndPolyline1(imei, vehicle_no);
+         
+          this.fetchCustomerInfo(Id);
+        }
+
+      // } catch (error) {
+      //   console.error("Error in API call:", error);
+      //   alert("An error occurred while fetching tracking data");
+      // }
+
+      // Hide the tracking spinner after the API call
+      this.SpinnerService.hide("tracking");
+    }
+  }
+} 
+ }
+fetchCustomerInfo(Id: string) {
+  this.customer_info = []
+  // if (this.demomarker.length > 0) {
+  //   this.demomarker.forEach(marker => marker.setMap(null));
+  //   this.demomarker = [];  // Clear the array after removing markers
+  // }
+  // console.log("Removing",Id)
+  const markers: google.maps.Marker[] = [];
+  // if (this.demomarker.length > 0) {
+  //   this.demomarker.forEach(marker => {
+  //     // console.log("Removing marker from map", marker);
+  //     marker.setMap(null);
+  //   });
+  //   this.demomarker = [];  // Clear the array after removing markers
+  //   console.log("Marker array cleared");
+  // }
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('forGroup', this.group_id);
+  formdataCustomer.append('id', Id);
+
+  this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
+    console.log(res)
+    if(res.status=='success'){
+      if(res.customer_info!==null){
+    this.customer_info = res.customer_info;
+
+    // Log the customer data for debugging
+    console.log("Customer Info:", this.customer_info);
+    //  if(this.customer_info!==null){
+    this.customer_info.forEach((customer, index) => {
+      // Log SequenceNo to check its value
+      console.log("Customer SequenceNo:", customer.SequenceNo);
+
+      const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
+      // const sequenceNo = customer.SequenceNo  // Ensure this is a string
+
+      let mark = new google.maps.Marker({
+        map: this.map1,
+        position: new google.maps.LatLng(customer.Lat, customer.Lng),
+        title: `${customer.Lat}, ${customer.Lng}`,
+        label: {
+          text: sequenceNo,  // Ensure this is a string
+          color: 'black'
+        }
+      });
+
+      this.demomarker.push(mark);
+      markers.push(mark);
+      google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
+    });
+  }}
+    // this.demomarker=markers;
+  });
+}
+getMarkerIcon(index: number): string {
+  // console.log(index)
+  if (index === 0) {
+    return 'assets/images/users/start_marker.png';
+  }
+  else if (index + 1 === this.trackingData.length) {
+
+    setTimeout(() => {
+      this.SpinnerService.hide("tracking");
+    }, 5000);
+    return 'assets/images/users/stop_marker.png';
+  } else {
+    return 'assets/images/users/green_Marker1.png';
+  }
+}
+
+addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+
+  // Prepare arrays for markers and polylines
+  const markers: any = [];
+  const polylinePath: google.maps.LatLng[] = [];
+  
+  // Use requestAnimationFrame for batch processing
+  // requestAnimationFrame(() => {
+    for (let i = 0; i < this.trackingData.length; i++) {
+      const icon = this.getMarkerIcon(i);
+      const position = new google.maps.LatLng(this.trackingData[i].lat, this.trackingData[i].long);
+      polylinePath.push(position);
+
+      // Create a marker
+      const mark = new google.maps.Marker({
+        map: this.map1,
+        position: position,
+        title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
+        icon: icon
+      });
+
+      // Store marker for future reference
+      markers.push(mark);
+      this.demomarker.push(mark);
+
+      // Handle marker click events
+      // const markerPosition = mark.getPosition(); 
+      var trackingData:any=this.trackingData[i];
+      mark.addListener('click', (event) => this.handleMarkerClick(event, trackingData, vehicle_no, imei));
+
+      // Create an InfoWindow but don't attach it yet
+      const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    }
+
+    // Add markers to the map in batch
+    // this.demomarker = markers;
+
+    // Create and display polyline
+    const draw_polyline = new google.maps.Polyline({
+      path: polylinePath,
+      geodesic: true,
+      strokeColor: 'green',
+      strokeOpacity: 0.8,
+      strokeWeight: 1.5,
+      map: this.map1,
+      icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW }, offset: '100%', repeat: '2000px' }]
+    });
+
+    this.demoPolyline.push(draw_polyline);
+
+    // Optionally fit bounds to include all markers and polyline
+    if (markers.length > 0) {
+      const bounds = new google.maps.LatLngBounds();
+      markers.forEach(marker => bounds.extend(marker.getPosition()));
+      this.map1.fitBounds(bounds);
+    }
+  // });
+}
+ closeLastOpenedInfoWindow() {
+  if (this.lastOpenedInfoWindow) {
+    this.lastOpenedInfoWindow.close();
+  }
+}
+handleMarkerClick(event, trackingData, vehicle_no, imei) {
+
+  // const markerPosition = event.getPosition();
+  // const k = event.toString();
+  // console.log(event.toString())
+  // this.str= (((k.split('(')).join('')).split(')')).join('').split(' ').join('');
+  // console.log(trackingData)
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('VehicleId', vehicle_no);
+  formdataCustomer.append('ImeiNo', imei);
+  formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+
+  this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
+    console.log(res)
+    const address = res.Data.Address;
+    this.showWindow(trackingData, vehicle_no, address);
+    this.closeLastOpenedInfoWindow();
+    const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    infowindowMarker.setPosition(event.latLng);
+    infowindowMarker.open(this.map1);
+  });
+}
+showWindow(data, vnumber, add) {
+  // var add:any
+  this.contentsInfo = ''
+  // console.log('show window of vehicle information', data, add)
+  /////////////////////////address api////////////////////////////////////////////////////
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+   this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
+    '<tbody style="border:none !important">' +
+
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
+    '<td style="width:1%;color: blue;border:none !important">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
+    '<td style="width:1%;color: blue;border:none !important">:</td>' +
+    '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+    '</tr>' +
+    '</tbody>' +
+    '</table>'
+
+
+
+
+
+
+}
 }

@@ -16,6 +16,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {TripReportComponent } from './trip-report/trip-report.component';
 import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
 
+
 @NgModule({
   declarations: [
     TripReportComponent,

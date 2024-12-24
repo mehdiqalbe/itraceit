@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {TripReportComponent } from './trip-report/trip-report.component';
 import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
+import {DelayReportComponent} from './delay-report/delay-report.component'
+
 const routes: Routes = 
   [{
     path: '',
@@ -10,6 +12,7 @@ const routes: Routes =
       { path: '', redirectTo: 'TripReport', pathMatch: 'full' }, // Default route
       { path: 'TripReport', component:TripReportComponent},
       { path: 'SlotwiseReport', component:SlotwiseDistanceReportComponent},
+      { path: 'DelayReport', component:DelayReportComponent},
        // Feature rout
     ]
     }];

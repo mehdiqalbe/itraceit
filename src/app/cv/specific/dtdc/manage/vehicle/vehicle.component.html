@@ -1,0 +1,518 @@
+<div class="card" style="    height: 80px;">
+    <div class="card-body innerdiv p-0">
+      <!-- headerstart here -->
+      <div class="hor-header">
+        <div style="overflow: hidden;">
+          <div class="row align-items-left ">
+            <div class="col-lg-1 my-2 d-flex">
+              <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
+            </div>
+            <div class="col-lg-2"></div>
+            <div
+            class="col-lg-4"
+            style="
+              font-weight: 600;
+              font-size: large;
+              text-align: center;
+             
+            "
+          >
+          <div *ngIf="showOrderTile" class="order-header col-lg-8" >
+            <div class="bid-summary">
+              <div class="bid-item" style="color:gray"  container="body" ngbTooltip="Total Bids: {{ totalBids }}">
+                <!-- <i class="fas fa-chart-bar bid-icon"></i> -->
+             <!-- icon666.com - MILLIONS vector ICONS FREE -->
+             <svg style="height:27px" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 48 48" id="Bid" viewBox="11 5 26 38">  <g fill="#909293" class="color000000 svgShape">    <path d="M28 25h-7.5c-.82843 0-1.5.67157-1.5 1.5s.67157 1.5 1.5 1.5H25c.54999 0 1 .45001 1 1s-.45001 1-1 1h-4.5c-.82843 0-1.5.67157-1.5 1.5s.67157 1.5 1.5 1.5H25c.54999 0 1 .45001 1 1s-.45001 1-1 1h-4c-.82843 0-1.5.67157-1.5 1.5S20.17157 38 21 38h4c.54999 0 1 .45001 1 1s-.45001 1-1 1h-3c-.82843 0-1.5.67157-1.5 1.5S21.17157 43 22 43h6c1.65686 0 3-1.34314 3-3V28C31 26.34314 29.65686 25 28 25zM14 29v4c0 2.04999 1.53998 3.73999 3.53003 3.96997C17.51001 36.82001 17.5 36.65997 17.5 36.5c0-.85999.31-1.65002.83002-2.26001C17.52002 33.59998 17 32.60999 17 31.5c0-.98004.40002-1.85999 1.04999-2.5C17.40002 28.35999 17 27.47998 17 26.5c0-.51001.10999-1 .32001-1.44C15.42999 25.38 14 27.01996 14 29zM18.53003 38.97998C18.34998 38.98999 18.17999 39 18 39c-1.09998 0-2.12-.29004-3-.81V39c0 2.15997 1.70001 3.90997 3.84003 3.98999C18.62 42.53998 18.5 42.02997 18.5 41.5c0-.76001.23999-1.46002.65002-2.03003C18.92999 39.32996 18.71997 39.15997 18.53003 38.97998z" fill="#909293" class="color000000 svgShape"></path>    <rect width="6" height="2" x="21" y="21" fill="#909293" class="color000000 svgShape"></rect>    <path d="M18.75 13h-1v1h1c.27588 0 .5-.22412.5-.5S19.02588 13 18.75 13zM29.25 10h-1v4h1c.55127 0 1-.44873 1-1v-2C30.25 10.44873 29.80127 10 29.25 10zM18.75 10.5c0-.27588-.22412-.5-.5-.5h-.5v1h.5C18.52588 11 18.75 10.77588 18.75 10.5z" fill="#909293" class="color000000 svgShape"></path>    <path d="M36,5H12c-0.55225,0-1,0.44775-1,1v12c0,0.55225,0.44775,1,1,1h24c0.55225,0,1-0.44775,1-1V6C37,5.44775,36.55225,5,36,5z    M18.75,16h-2c-0.55225,0-1-0.44775-1-1V9c0-0.55225,0.44775-1,1-1h1.5c1.37842,0,2.5,1.12158,2.5,2.5   c0,0.42432-0.10645,0.82422-0.29346,1.1748C20.94434,12.13135,21.25,12.78076,21.25,13.5C21.25,14.87842,20.12842,16,18.75,16z    M24.75,15c0,0.55225-0.44775,1-1,1s-1-0.44775-1-1V9c0-0.55225,0.44775-1,1-1s1,0.44775,1,1V15z M32.25,13c0,1.6543-1.3457,3-3,3   h-2c-0.55225,0-1-0.44775-1-1V9c0-0.55225,0.44775-1,1-1h2c1.6543,0,3,1.3457,3,3V13z" fill="#909293" class="color000000 svgShape"></path>  </g></svg>
+                          <span class="bid-value badge rounded-pill badge-notification" style="background:gray ;">{{ totalBids }}</span>
+              </div>
+              <div class="bid-item" style="color:#cd7f32" container="body" ngbTooltip="Pending Bids: {{ pendingBids }}">
+                <i class="fas fa-hourglass-half bid-icon"></i>
+                <span class="bid-value badge rounded-pill badge-notification" style="background:#cd7f32 ;">{{ pendingBids }}</span>
+              </div>
+              <div class="bid-item" style="color:#28a745" container="body" ngbTooltip="Completed Bids: {{ completedBids }}">
+                <i class="fas fa-check-circle bid-icon"></i>
+             
+                <span class="bid-value badge rounded-pill badge-notification" style="background:#28a745">{{ completedBids }}</span>
+              </div>
+              <div class="bid-item" style="color:#bb1d1d" container="body" ngbTooltip="Cancelled Bids: {{ canceledBids }}">
+                <i class="fas fa-times-circle bid-icon"></i>
+          
+                <span class="bid-value badge rounded-pill badge-notification" style="background:#bb1d1d">{{ canceledBids }}</span>
+              </div>
+            </div>
+          </div>
+          
+          </div>
+            <div class="col-lg-2 text-center ">
+  
+            </div>
+  
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1">
+              <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
+            </div>
+            <div class="col-lg-1 text-center">
+              <!-- <a class="header-brand1">
+                <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
+                  style="height: auto; width: 80%;">
+              </a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="col-lg-12">
+    <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+      <p style="color: black">Please Wait.. </p>
+    </ngx-spinner> -->
+
+    <!-- <div style=" margin-left: 5px; -->
+    <!-- margin-right: 5px;"> -->
+
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="fiter">
+                    <p style="color: 1D4380; font-weight: 600">
+                        <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button"
+                            aria-expanded="false" aria-controls="collapseExample" style="font-size: 16px">
+                            <i class="fa fa-filter" aria-hidden="true" style="
+                    font-size: 20px;
+                    color: #1d4380;
+                    margin-top: 8px;
+                  "></i>FILTER
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body" style="border: none; box-shadow: none">
+                            <form #filterFormVehicle="ngForm" (ngSubmit)="onVehicleFilter(filterFormVehicle.value)">
+                                <div class="col-lg-12" style="margin-top: -20px">
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <span class="filtor_name">From</span>
+                                            <input type="date" class="form-control cutombox" required name="from_date"
+                                                ngModel />
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <span class="filtor_name">To</span>
+                                            <input type="date" class="form-control cutombox" required name="to_date"
+                                                ngModel />
+                                        </div>
+
+                                        <div class="col-lg-2">
+                                            <button type="submit" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseExample" class="btn btn-outline-primary btn-sm"
+                                                style="margin-top: 22px">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                    &nbsp;
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+            </div>
+            <div class="col-lg-2 mt-2">
+                <div style="text-align: right">
+                    <i class="fa fa-upload d-none" style="font-size: 28px; color: #1D4380; "></i>
+                    &nbsp;&nbsp;
+                    <button type="button">
+                        <i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 28px; color: #1D4380; "
+                            (click)="switch()"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- </div> -->
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+          <div class="card status-card">
+            <div class="card-body">
+              <h5 class="card-title">Vehicle
+              </h5>
+              <div class="row">
+                <div class="col-6">
+                  <div id="consSt" class="chart-container"></div>
+                </div>
+                <div class="col-6" style="margin-top: -28px;text-align-last: right;">
+                  <img src="assets/images/v.png" alt="Vehicle Status" style="height: 38%;">
+                </div>
+                <div class="col-12 mt-0 custom">
+           
+                  <span class="status-text" style="color:rgb(239, 91, 11);" id="numberH">{{vehicleDashboardData?.vehicle?.existing_vehicle}}</span>/
+            
+                  <span class="status-text" style="color:#1D4380;" id="numberH">{{vehicleDashboardData?.vehicle?.new_vehicle}}</span>
+                </div>
+              </div>
+
+              <div class="status-legend mt-1">
+        
+                <span style="color:rgb(239, 91, 11);">
+                  <i class='fas fa-square-full' style="margin-right: 2px; color: rgb(239, 91, 11);"></i>
+                  Existing Vehcile
+                </span>
+        
+                <span style="color:#1D4380;">
+                  <i class='fas fa-square-full' style="margin-right: 2px; color: #1D4380;"></i> New Vehicle
+                </span>
+              </div>
+
+            </div>
+          </div>
+        </div> -->
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Vehicle</h5>
+                            <img src="assets/images/v.png" alt="Vehicle Status" style="height: 45px; margin-top: 0px" />
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="width: 150px; height: 150px; margin-top: -42px">
+                                <div id="consSt" class=""></div>
+                            </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px">
+                            <div class="col-12" *ngIf="isqVehicleChartLoading">
+                                <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                            </div>
+                            <div *ngIf="!isqVehicleChartLoading" class="col-12 mt-0 custom">
+                                <span class="status-text" style="color: rgb(239, 91, 11)" id="numberH">{{
+                                    vehicleDashboardData?.vehicle?.existing_vehicle
+                                    }}</span>/
+                                <span class="status-text" style="color: #1d4380" id="numberH">{{
+                                    vehicleDashboardData?.vehicle?.new_vehicle
+                                    }}</span>
+                            </div>
+                            <span style="color: rgb(239, 91, 11)"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: rgb(239, 91, 11)"></i>Existing Vehicle</span>
+                            <span style="color: #1d4380"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: #1d4380"></i>New Vehicle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Repeat similar structure for other cards -->
+            <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-0">
+          <div class="card status-card">
+            <div class="card-body">
+              <h5 class="card-title">Type Of Vehicle</h5>
+              <div class="row">
+                <div class="col-6">
+                  <div id="tripSt" class="chart-container"></div>
+                </div>
+                <div class="col-6" style="margin-top: -28px;text-align-last: right;">
+                  <img src="assets/images/tov.png" alt="Trip Status" style="height: 38%;">
+                </div>
+                <div class="col-12 mt-0 custom">
+                  <span class="status-text" style="color:#EC6625;" id="numberH">4</span>/
+                  
+                  <span class="status-text" style="color:#1D4380;" id="numberH">10</span>/
+                  <span class="status-text" style="color:#613704;" id="numberH">10</span>
+
+                </div>
+              </div>
+              <div class="status-legend mt-1">
+                <span style="color:#EC6625;"><i class='fas fa-square-full'
+                    style="margin-right: 2px; color: #EC6625;"></i>Heavy Duty</span>
+                <span style="color: #1D4380 ;"><i class='fas fa-square-full'
+                    style="margin-right: 2px; color: #1D4380;"></i>Medium Duty
+                </span>
+                <span style="color: #613704 ;"><i class='fas fa-square-full'
+                    style="margin-right: 2px; color: #613704;"></i>Light Duty
+                </span>
+
+
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Body Type</h5>
+                            <img src="assets/images/tov.png" alt="Delivery Status"
+                                style="height: 45px; margin-top: 0px" />
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="width: 150px; height: 150px; margin-top: -42px">
+                                <div id="deliverySt" class=""></div>
+                            </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px">
+                            <div class="col-12" *ngIf="isqVehicleChartLoading">
+                                <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                            </div>
+                            <div *ngIf="!isqVehicleChartLoading" class="col-12 mt-0 custom">
+                                <span class="status-text" style="color: #ec6625" id="numberH">{{
+                                    vehicleDashboardData?.body_type?.open_body
+                                    }}</span>/
+                                <span class="status-text" style="color: #1d4380" id="numberH">{{
+                                    vehicleDashboardData?.body_type?.closed_body
+                                    }}</span>/
+                                <span class="status-text" style="color: rgb(253, 195, 5)" id="numberH">{{
+                                    vehicleDashboardData?.body_type?.container
+                                    }}</span>
+                            </div>
+                            <span style="color: #ec6625"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: #ec6625"></i>Open Body</span>
+                            <span style="color: #1d4380"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: #1d4380"></i>Closed Body</span>
+                            <span style="color: rgb(253, 195, 5)"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: rgb(253, 195, 5)"></i>Container</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Repeat similar structure for other cards -->
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-0">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">Vehicle Rating</h5>
+                            <img src="assets/images/vr.png" alt="Vehicle Status"
+                                style="height: 45px; margin-top: 0px" />
+                        </div>
+                        <div class="row">
+                            <div class="col-9" style="width: 150px; height: 150px; margin-top: -42px">
+                                <div id="vehicleSt" class=""></div>
+                            </div>
+                        </div>
+                        <div class="status-legend" style="margin-top: -42px">
+                            <div class="col-12" *ngIf="isqVehicleChartLoading">
+                                <div class="skeleton col-12 skeleton-checkbox short ms-auto me-0"></div>
+                            </div>
+                            <div *ngIf="!isqVehicleChartLoading" class="col-12 mt-0 custom">
+                                <span class="status-text" style="color: #ec6625" id="numberH">{{
+                                    vehicleDashboardData?.vehicle_rating
+                                    ?.less_than_two
+                                    }}</span>/
+                                <span class="status-text" style="color: #1d4380" id="numberH">{{
+                                    vehicleDashboardData?.vehicle_rating?.two_to_four
+                                    }}</span>/
+                                <span class="status-text" style="color: #613704" id="numberH">{{
+                                    vehicleDashboardData?.vehicle_rating
+                                    ?.more_than_four
+                                    }}</span>
+                            </div>
+                            <span style="color: #ec6625"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: #ec6625"></i>Less Than 2</span>
+                            <span style="color: #1d4380"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: #1d4380"></i>2 To 4</span>
+                            <span style="color: #613704"><i class="fas fa-square-full"
+                                    style="margin-right: 2px; color: #613704"></i>More Than 4</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+    <div class="row mt-2">
+        <div class="col-lg-2" style="text-align: left">
+            <button [disabled]="!selectVehicleIds.length" class="btn btn-sm btn-green col-lg-5" type="submit"
+                style="color: white; background-color: green" (click)="
+            updateVehicleStatus('active', filterFormVehicle.value)
+          ">
+                Activate
+            </button>
+            <button [disabled]="!selectVehicleIds.length" class="btn btn-sm btn-orange col-lg-5" type="submit" style="
+            color: white;
+            margin-left: 2px;
+            background-color: orange;
+          " (click)="
+            updateVehicleStatus('de-active', filterFormVehicle.value)
+          ">
+                Deactivate
+            </button>
+            <!-- <button
+          [disabled]="!selectVehicleIds.length"
+          class="btn btn-sm btn-blue"
+          type="submit"
+          style="
+            color: white;
+            margin-left: 2px;
+            background-color: #1d4380;
+          "
+          (click)="
+            updateVehicleStatus('delete', filterFormVehicle.value)
+          "
+        >
+          Delete
+        </button> -->
+        </div>
+    </div>
+    <!-- /////////////////////////////////////////// -->
+    <div class="info mt-2">
+        <table class="table" cellspacing="0" id="masterUpload" width="100%">
+            <thead>
+                <tr style="text-align: center; white-space: nowrap">
+                    <th class="table-primary">
+                        <input type="checkbox" (change)="qtoggleVehcileAllSelection()"
+                            [checked]="qallVehicleSelected" />
+                    </th>
+                    <th class="table-primary">SL</th>
+                    <th class="table-primary">Category</th>
+                    <th class="table-primary">Make & Model</th>
+                    <th class="table-primary">Vehicle Number</th>
+                    <th class="table-primary">Type</th>
+                    <th class="table-primary">Reg. No.</th>
+                    <th class="table-primary">Reg. Date</th>
+                    <th class="table-primary">Capacity</th>
+                    <th class="table-primary">Fuel Type</th>
+                    <th class="table-primary">Speed Limit</th>
+                    <th class="table-primary">Vehicle Documents</th>
+
+                    <!-- <th class="table-primary">Remarks</th> -->
+                    <th class="table-primary">Status</th>
+                    <th class="table-primary">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="isLoadingVehicleTable">
+                    <tr *ngFor="let i of [1, 2, 3, 4, 5]" style="white-space: nowrap; text-align: center">
+                        <td>
+                            <div class="skeleton skeleton-checkbox"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text short"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text medium"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text medium"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text medium"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text medium"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text long"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text short"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text short"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text medium"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text long"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text short"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text medium"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton skeleton-text medium"></div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!isLoadingVehicleTable">
+                    <tr style="white-space: nowrap; text-align: center"
+                        *ngFor="let item of vehicleTableData; let i = index">
+                        <td>
+                            <!-- <input class="vehiclecheck" type="checkbox"  > -->
+                            <input type="checkbox" class="vehiclecheck" [checked]="isVehicleSelected(item?.vehicle?.id)"
+                                id="checkbox-{{ item?.vehicle?.id }}" required
+                                (change)="qtoggleVehicleSelection(item?.vehicle?.id)" class="checkbox" />
+                        </td>
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            {{
+                            vehicleCategory[item?.vehicle?.vehicle_category_id]
+                            }}
+                        </td>
+                        <td>
+                            {{ vehicleMake[item?.vehicle?.vehicle_make_id] }}-{{
+                            vehicleModel[item?.vehicle?.vehicle_model_id]
+                            }}
+                        </td>
+                        <td>{{ item?.vehicle?.vehicle_number || "" }}</td>
+                        <td>
+                            {{ vehicleBodyType[item?.vehicle?.body_type_id] || "" }}
+                        </td>
+                        <td>{{ item?.vehicle?.registration_no || "" }}</td>
+                        <td>{{ item?.vehicle?.registration_date || "" }}</td>
+                        <td>
+                            {{
+                            vehicleCapacityType[
+                            item?.vehicle?.vehicle_capacity_tons
+                            ]
+                            ? vehicleCapacityType[
+                            item?.vehicle?.vehicle_capacity_tons
+                            ] + " tons"
+                            : ""
+                            }}
+                        </td>
+                        <td>
+                            {{ vehicleFuelType[item?.vehicle?.fuel_type] || "" }}
+                        </td>
+                        <td>{{ item?.vehicle?.max_speed || "" }}</td>
+
+                        <td class="align-left" style="text-align: left !important">
+                            <a *ngIf="getDocumentPath(item, 5)" type="button" [href]="getDocumentPath(item, 5)"
+                                download="reg_certificate.png" target="_blank">
+                                <img src="assets/icon/Icon/RC.png" alt="Registration Certificate" class="cssss" />
+                            </a>
+                            <a *ngIf="getDocumentPath(item, 6)" type="button" [href]="getDocumentPath(item, 6)"
+                                download="pollution_certificate.png" target="_blank">
+                                <img src="assets/icon/Icon/Pollution Certificate.png" alt="Pollution Certificate"
+                                    class="cssss" />
+                            </a>
+                            <a *ngIf="getDocumentPath(item, 10)" type="button" [href]="getDocumentPath(item, 10)"
+                                download="national_goods_permit.png" target="_blank">
+                                <img src="assets/icon/Icon/National Goods Permit.png" alt="National Goods Permit"
+                                    class="cssss" />
+                            </a>
+                            <a *ngIf="getDocumentPath(item, 7)" type="button" [href]="getDocumentPath(item, 7)"
+                                download="insurance_certificate.png" target="_blank">
+                                <img src="assets/icon/Icon/Insurance.png" alt="Insurance Certificate" class="cssss" />
+                            </a>
+                            <a *ngIf="getDocumentPath(item, 13)" type="button" [href]="getDocumentPath(item, 13)"
+                                download="fitness_certificate.png" target="_blank">
+                                <img src="assets/icon/Icon/Fitness.png" alt="Fitness Certificate" class="cssss" />
+                            </a>
+                        </td>
+                        <td>
+                            <span [ngClass]="{
+                  'qstatus-base': true,
+                  'qpill-green': item?.vehicle?.status === 1,
+                  'qpill-yellow': item?.vehicle?.status === 2,
+                  'qpill-red': item?.vehicle?.status === 0
+                }">
+                                {{ item?.vehicle?.status === 1 ? 'Active' : item?.vehicle?.status === 2 ? 'Deactive' :
+                                'Deleted' }}
+                            </span>
+                        </td>
+                        <td>
+                            <img src="assets/images/action.png" alt="action" (click)="switch(item)"
+                                style="cursor: pointer; height: 24px" />
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>
