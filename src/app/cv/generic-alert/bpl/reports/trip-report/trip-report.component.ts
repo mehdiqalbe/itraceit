@@ -1509,7 +1509,6 @@ exportAsExcel() {
 }
 
 onGridReady_pop(params: any) {
- 
   this.gridApi_popup = params.api;
 }
 exportAsExcel_pop() {
@@ -1527,7 +1526,7 @@ genericTripReportFilter(){
       this.Master_filter=data.Filter.Master;
       console.log(data.Filter)
     }else{
-      alert("Data not found ")
+      alert(data?.Message)
     }
     // console.log(data)
   })
@@ -1582,7 +1581,8 @@ triggerHstSubmit(eve){
       this.SpinnerService.hide();
     }else{
       this.SpinnerService.hide();
-      alert("Data not found ")
+      // alert("Data not found ")
+      alert(data?.Message);
     }
     // console.log(data)
   })

@@ -78,6 +78,7 @@ export class GenericAlertService implements OnDestroy {
  
             { path: '/cv/genericAlert/bpl/Trip-Dashboard', title: 'Trip Dashboard', type: 'link', active:true },
             { path: '/cv/genericAlert/bpl/Delay-Dashboard', title: 'Delay Dashboard', type: 'link', active:false },
+            { path: '/cv/genericAlert/bpl/Irun-Dashboard', title: 'Irun Dashboard', type: 'link', active:false },
               { path: '/ILgic/wallet', title: 'Document Wallet ', type: 'link', active:false },
 
 

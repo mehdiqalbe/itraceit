@@ -2121,7 +2121,7 @@ First_call(){
   // formdata.append('DateTo', $("#datepicker1").val())
   var starteDate:any=this.datepipe.transform(this.datetimepicker, 'yyyy-MM-dd');
   var endDate:any=this.datepipe.transform(this.datetimepicker1, 'yyyy-MM-dd');
-   formdata.append('DateFrom',starteDate)
+   formdata.append('DateFrom','2024-12-19')
    formdata.append('DateTo', endDate)
   // formdata.append('ReportType',eve.value.ReportType);
 
@@ -2149,6 +2149,60 @@ First_call(){
   })
 
 // }
+}
+exportToCSV(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'GridData.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 // triggerHstSubmit1(eve){
 //   this.submit=true;
