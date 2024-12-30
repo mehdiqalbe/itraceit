@@ -47,12 +47,12 @@ export class DelayDashboardComponent implements OnInit {
 
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
-    this.initMap1();
+    this.initMap2();
     // console.log("account_id", this.account_id)
     this.group_id = localStorage.getItem('GroupId')!
     this.delayDashboardGeneric()
   }
-  initMap1() 
+  initMap2() 
   {
  
  
@@ -63,7 +63,7 @@ export class DelayDashboardComponent implements OnInit {
    // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
  // 
  
-    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+    this.map1 = new google.maps.Map(document.getElementById('map2') as HTMLElement, {
       zoom: 4,
        center: center,
  
@@ -902,6 +902,9 @@ export class DelayDashboardComponent implements OnInit {
     // Define the array of IMEIs to process
     // const imeis = [imei,imei2,imei3];
     $('#v_track_Modal').modal('show');
+    // if(!this.map1){
+      this.initMap2()
+    // }
     const imeis = [imei, imei2, imei3];
     // console.log(imeis);
 

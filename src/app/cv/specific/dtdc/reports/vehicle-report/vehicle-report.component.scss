@@ -4820,27 +4820,10 @@ section[_ngcontent-tbm-c137] {
   overflow:auto;  
 }
 .table th, .text-wrap table th {
-    // color: #2e3138;
-    color: white;
+    color: #2e3138;
     text-transform: capitalize!important;
     font-size: 0.875rem;
-    text-align: center;
-    font-weight: 500;
-    color: white;
-    text-transform: capitalize !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    word-wrap: break-word !important;
-    padding: 9px !important;
-    white-space: pre-wrap !important;
-    overflow-wrap: break-word !important;
-    text-align: center !important;
-    vertical-align: top !important;
- }
+    font-weight: 500; }
 
     // .swal-modal { width: 600px!important;height: 50px!important; }
  #newAlert
@@ -5044,106 +5027,6 @@ section[_ngcontent-tbm-c137] {
         border: red 1px solid !important;
         border-radius: 5px;
     }
-    /* Parent Header Style */
-/* Ensure custom styles override Ag-Grid's default styles */
-.ag-header-cell-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Custom Style for Parent Header */
-  .custom-parent-header {
-    background-color: #5da3ed !important; /* Blue background */
-    color: white !important;             /* White text */
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  /* Custom Style for Child Headers */
-  .custom-child-header {
-    background-color: #f8f9fa !important; /* Light gray background */
-    color: #343a40 !important;           /* Dark gray text */
-    font-weight: normal;
-    text-align: center;
-  }
-//   #myGrid {
-//     width: 100%;
-//     height: auto;
-//     max-height: 400px;
-//     min-height: 150px; /* Ensure a minimum height */
-//     overflow: hidden; /* Prevent scrollbars from cutting off content */
-//   }
-.wrap-cell {
-    white-space: normal; /* Allow text to wrap */
-    word-wrap: break-word; /* Break long words if needed */
-    line-height: 1.2em; /* Adjust line spacing for better readability */
-  }
-  ::ng-deep {
-    .ag-header-cell:not(.ag-header-cell-auto-height) .ag-header-cell-comp-wrapper {
-    height: 100%;
-    font-weight: 600;
-   
-    display: flex;
-    height: 100%;
-    font-weight: 600;
-    width: 100% !important;
-    display: flex;
-    align-items: center;
-    white-space: normal;
-    text-align: center;
-    word-break: break-word;
-    align-items: center;
-}
-.blue-text {
-    color: blue !important;
-    cursor: pointer;
-  }
-.ag-header-cell {
-    padding: 5px !important;
-}
-.ag-header.ag-header-allow-overflow .ag-header-row {
-    overflow: visible;
-    // height: 39px !important;
-}
-#simple_datatable thead th {
-    color: white;
-    text-transform: capitalize !important;
-    font-size: 0.875rem;
-    text-align: center;
-    font-weight: 500;
-    word-wrap: break-word;
-    padding: 2px;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    text-align: center;
-    vertical-align: top;
-
-
-    // ----------------
-    color: white;
-    text-transform: capitalize !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    word-wrap: break-word !important;
-    padding: 9px !important;
-    white-space: pre-wrap !important;
-    overflow-wrap: break-word !important;
-    text-align: center !important;
-    vertical-align: top !important;
-
-}
-
-#simple_datatable {
-    width: 100% !important;
-    text-align: center;
-}
-.fa{
-    cursor: pointer;
-}
-  }
-  
+    th {
+        text-transform: none !important;
+    }
