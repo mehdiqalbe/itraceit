@@ -53,7 +53,6 @@ export class VehicleDashboaredComponent implements OnInit {
   };
   selectedFiles: { [key: string]: File } = {};
   // Object/: any;
-
   constructor(
     private fb: FormBuilder,
     private Task_Service: TaskService,
@@ -171,7 +170,6 @@ export class VehicleDashboaredComponent implements OnInit {
       }
     );
   }
-
   fileRequiredValidator(
     fileControlName: string,
     relatedControls: string[]
@@ -323,8 +321,6 @@ export class VehicleDashboaredComponent implements OnInit {
     }
   
   }
-
-
   selectFile(event: any, documentType: string) {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];

@@ -1,0 +1,268 @@
+<div class="row">
+    <div class="col-lg-12">
+    
+      <div class="card" style="height: 60px;">
+        <div class="card-body innerdiv">
+          <!-- HEADER -->
+          <div class="header hor-header">
+            <div class="">
+              <div>
+                <div>
+                  <div>
+                    <div aria-label="Basic example" id="header-button">
+                        <div class="d-flex justify-content-between">
+                          <div class="" style="color: #1c84c6;font-weight: 600;font-size: large;    width: auto;">
+                            <div class=" align-items-left ">
+                                <div style="width:fit-content" class=" my-2 d-flex">
+                                  <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()" type="button"></button>
+                                </div>
+                                </div>
+                          </div>
+                        
+                          <div style="margin-top:13px" class="d-flex">
+                            <div class="" style="display: inline-block;">
+  
+                            </div>
+                            <div  style="display: inline-block;">
+                                <a class="header-brand1">
+                                  <img style="width:100px" src="assets/images/itraceit_logo1.png" class="header-brand-img desktop-logo"
+                                    alt="logo" id="change-image">
+      
+                                </a>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+  
+  
+                  </div><!-- NOTIFICATIONS -->
+  
+                </div>
+  
+              </div>
+            </div>
+          </div>
+          <!-- End HEADER -->
+  
+        </div>
+  
+  
+      </div>
+    </div>
+  </div>
+  <div class="container-flex" style=" padding: 6px;    border-bottom: 1px solid #80808042;">
+  
+    <div class="row">
+      <div class="col-lg-1">
+        <div class="row" style="display: inline-block;">
+            <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="true"
+            aria-controls="collapseExample" style="font-size: 13px; font-weight: 500;">
+            <i class="fa fa-filter" aria-hidden="true" style="font-size: 20px; color: gray; margin-top: 8px;"></i> FILTER
+         </a>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-flex" style="    padding-top: 5px !important; padding: 17px;">
+  
+    <div class="row">
+  
+      <div class="col-lg-12">
+            <div  id="collapseExample" class="collapse show">
+          <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm)">
+            <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
+                <div class="row">
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="from_time" class="form-label">From Date</label>
+                        <input type="text" data-date-format="YYYY-MM-DD" id="datepicker" (click)="start()"
+                            class="form-control" [ngModel]="datetimepicker1" required name="from_time" />
+                    </div>
+            
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="to_time" class="form-label">To Date</label>
+                        <input type="text" step="1" class="form-control" id="datepicker1" (click)="end()" [ngModel]="datetimepicker"
+                            required name="to_time"  />
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="Region" class="form-label">Feeder Type</label>
+                        <ng-select placeholder="Select" ngModel  name="Feeder" 
+                          #regionSelect="ngModel">
+                            <ng-option value="" selected>Select</ng-option>
+                            
+                            <ng-option *ngFor="let item of Master_filter?.RouteType['34'] | keyvalue " [value]="item.key">
+                              {{item.value}}
+                            </ng-option>
+                          </ng-select>
+                    </div>
+            
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="District" class="form-label">Trip Type</label>
+                        <ng-select placeholder="Select" ngModel name="TripType">
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                            <!-- <ng-option *ngFor="let item of trigger_District | keyvalue" [value]="item">{{item.value}}</ng-option> -->
+                        </ng-select>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="Region" class="form-label">Trip Status</label>
+                        <ng-select placeholder="Select" ngModel name="TripStatus">
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of   Master_filter?.TripStatus  | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="Region" class="form-label">Region</label>
+                        <ng-select placeholder="Select" ngModel name="Region">
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.Region | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="Origin" class="form-label">Origin</label>
+                        <ng-select placeholder="Select" ngModel name="Origin">
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="Destination" class="form-label">Destination</label>
+                        <ng-select placeholder="Select" ngModel name="Destination" >
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="Vehicle" class="form-label">Vehicle</label>
+                        <!-- <input type="text" name="Vehicle" class="form-control" ngModel /> -->
+                        <ng-select  (search)="onSearch($event)" ngModel name="vehicle_number">
+                     <ng-option *ngFor="let m of dataList" [value]="m.Id">{{m.vehicle_number}}</ng-option>
+                        </ng-select>
+                    </div>
+            
+                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                        <label for="Route" class="form-label">Route</label>
+                        <ng-select placeholder="Select" ngModel name="Route">
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.Route | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                        </ng-select>
+                    </div>
+  
+                <div class="col-lg-2 col-md-4 col-sm-6 ">
+                  <label for="Report" class="form-label">Report Type</label>
+                  <ng-select placeholder="Select" ngModel name="ReportType" required 
+                  [(ngModel)]="selectedReportType"
+                  [ngClass]="{'input-error':submit && triggerHistoryForm.form.controls.ReportType.status=='INVALID'}">
+                      <ng-option [value]="1" >Standard</ng-option>
+                      <ng-option [value]="2" >Detailed</ng-option>
+                      <!-- <ng-option *ngFor="let item of Master_filter.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option> -->
+                  </ng-select>
+              </div>
+  
+  
+              <div class="col-lg-2 col-md-4 col-sm-6 ">
+                <label for="triggervehicle" class="form-label">Trip Id</label>
+                <input type="text" class="form-control" ngModel name="TripId">
+            </div>
+  
+            <!-- <div class="col-lg-2 col-md-4 col-sm-6 ">
+              <label for="triggervehicle" class="form-label">Extra Information</label>
+              <input type="checkbox" class="ms-5" ngModel name="ExtraInformation" (change)="extra_info($event)" [checked]="extra">
+          </div> -->
+                    <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-end">
+                        <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="width: 100px !important;">Submit</button>
+                    </div>
+                </div>
+            </form>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="info" style="    padding: 5px;" >
+  <!-- <div id="myGrid"></div> -->
+  <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+    <p style="color: black">Please Wait.. </p>
+  </ngx-spinner>
+  <ng-container *ngIf="search_grid">
+  <div class="d-flex align-items-center" style="margin-left: 84%;">
+    
+    <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Search..." (input)="onFilterTextBoxChanged()" class="form-control mb-2" />
+    
+        <button (click)="onBtExport()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42" title=" Download excel file"></i>
+        </button>
+        <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;" title=" Download PDF file"></i></button>
+                  <!-- <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
+        
+                  <button (click)="exportToCSV()"><i class="fa fa-file-text-o" style="font-size: 18px;color: blue !important;" title=" Download CSV file"></i></button>
+                  
+        <!-- <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
+  
+  </div>
+  </ng-container>
+  <div id="myGrid" style="height: 317px; width: 100%;" class="ag-theme-alpine grid_table"></div>
+  
+  </div>
+  
+  <div class="modal fade" id="Datail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style=" max-width: 1500px;margin-left: 140px;">
+      <div class="modal-content" style="height: 634px; width: 835px;">
+  
+        <div class="modal-header" style="height: 45px;">
+          
+            <label for="" style="margin-left: 480px;font-weight: 500;font-size: 16px;">Detail</label>
+          <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <hr>
+          <div style="overflow-y: auto;">
+            <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+              
+            </ngx-spinner>
+            <div class="d-flex align-items-center" style="margin-left: 84%;">
+    
+              <input class="cutombox p-2" type="text" id="filter-text-box-pop" placeholder="Search..." (input)="onFilterTextBoxChanged_pop()" class="form-control mb-2" />
+              
+                  <button (click)="onBtExport_pop()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42" title=" Download Excel file"></i>
+                  </button>
+                  <button (click)="exportToPDF_popup()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;" title=" Download PDF file"></i></button>
+                 
+                  <button (click)="exportToCSV_popup()"><i class="fa fa-file-text-o" style="font-size: 18px;color: blue !important;" title=" Download CSV file"></i></button>
+                 
+            </div>
+            <div id="myGrid-popup" style="height: 400px; width: 100%;" class="ag-theme-alpine grid_table"></div>
+            
+          </div>
+  
+        </div>
+       
+  
+      </div>
+  
+    </div>
+  </div>
+  
+  <div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+      data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog " style=" max-width: 1500px;">
+        <div class="modal-content" style="height: 700px;">
+    
+          <div class="modal-header">
+            <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close" ></button>
+              <!-- (click)="closeMap()" -->
+          </div>
+          <div class="modal-body">
+            <div id="map1">
+    
+    
+            </div>
+          </div>
+          <div class="modal-footer" style="height: 25px;">
+          </div>
+        </div>
+      </div>
+    </div>

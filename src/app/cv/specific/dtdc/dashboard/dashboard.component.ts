@@ -62,6 +62,7 @@ export class DashboardComponent implements OnInit {
   map_flag: any;
   contentsInfo: string | Node | undefined;
   lastOpenedInfoWindow: any;
+  values_Array: any=[];
 
   constructor(private datepipe: DatePipe,private navServices: NavService,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
 
@@ -136,6 +137,7 @@ export class DashboardComponent implements OnInit {
             {
            
              this.tripArray=res?.MainDashboard
+              this.values_Array = Object.values(res?.MainDashboard);
              this.dashboardHeader=res?.Header
              console.log("dashboardHeader",this.tripArray);
              
@@ -1404,7 +1406,7 @@ export class DashboardComponent implements OnInit {
     openMapModal(item,imei) {
     
        // Open modal using jQuery
-      this.SpinnerService.show('mapSpinner')
+      // this.SpinnerService.show('mapSpinner')
       // Call the tracking function
       // this.vehicleTrackF(item,imei);
       this.vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,"")
@@ -1457,7 +1459,10 @@ export class DashboardComponent implements OnInit {
     // }
 
     async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-      this.SpinnerService.show("tracking");
+      // if(!this.map1){
+        // this.initMap1()
+      // }
+      // this.SpinnerService.show("tracking");
   
     // Clear markers and polylines if they exist
     if (this.demomarker.length > 0) {
@@ -1838,7 +1843,7 @@ export class DashboardComponent implements OnInit {
   initMap1() 
   {
  
- 
+    // if(!this.map1){
    //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
     const center = { lat: 23.2599, lng: 77.4126 };
  
@@ -1857,7 +1862,7 @@ export class DashboardComponent implements OnInit {
     );
  
   
- 
+//  }
     
       
   }
