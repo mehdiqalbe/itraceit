@@ -211,7 +211,7 @@
           name="date"
           id="date"
           style="font-size: 14px; font-weight: 400"
-          (change)="updateExceptionDateRange($event, filterFormReport.value.day)"
+          (change)="updateExceptionDateRange($event, filterFormReport.value.day,filterFormReport)"
         />
       </div>
 
@@ -258,7 +258,7 @@
           id="day"
           placeholder="Select Day"
           style="font-size: 14px; font-weight: 400"
-          (change)="updateExceptionDateRange(filterFormReport.value.date, $event)"
+          (change)="updateExceptionDateRange(filterFormReport.value.date, $event,filterFormReport)"
           [closeOnSelect]="true">
           <ng-option *ngFor="let day of filterObject?.days" [value]="day">
             {{ day }}
@@ -285,7 +285,7 @@
     name="exceptionDate"
     id="datepicker1"
     style="font-size: 14px; font-weight: 400"
-  (click)="end()"
+  (click)="end(filterFormReport.value.date,filterFormReport.value.day)"
   />
   </div>
       <!-- Submit Button -->

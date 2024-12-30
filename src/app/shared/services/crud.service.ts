@@ -1995,38 +1995,38 @@ bdSummary(data){
 
 
   genericTripDashboard(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardGeneric',val);
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardGeneric',val);
   }
   genericTripDashboardFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardGenericFilter',val);
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardGenericFilter',val);
   }
   genericTDLink(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardGenericTrackingLink',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardGenericTrackingLink',val)
   }
   genericTDDetails(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardDetailsGeneric',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardDetailsGeneric',val)
   }
   specificTDLink(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardTrackingLink',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardTrackingLink',val)
   }
 
   // ---------------------------------Vehcile Nearby--------------------------------------------------------------------//
   nearbyFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/nearByVehiclesFilter',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/nearByVehiclesFilter',val)
   }
   nearbyLocation(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/nearByVehiclesLocationList',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/nearByVehiclesLocationList',val)
   }
   genericTripReportFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReportFilter',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/genericTripReportFilter',val)
   }
     
   genericTripReport(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReport',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/genericTripReport',val)
   }
 
   getGenericVehicle(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/getGenericVehicle',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/getGenericVehicle',val)
   }
 
 }

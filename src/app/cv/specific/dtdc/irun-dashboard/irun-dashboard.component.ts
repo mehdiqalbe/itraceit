@@ -570,10 +570,6 @@ sidebarToggle() {
  ///////////////////////////datatable table//////////////////////////////////
  masterUploadTable()
   {
-
-
-
-
    var tbl = $('#masterUpload')
    var table = $('#masterUpload').DataTable();
    table.clear()
@@ -12740,6 +12736,7 @@ liveLocation_new(lat, long, driver_mobile, driver_name, halt_time, transporter_n
 
 $(document).ready(function () {
   let modal: any = $('.modal'); // Select the entire modal
+  console.log("Irun ",modal)
   modal.draggable({
     handle: '.modal-header, .modal-footer', // Allow dragging from both header and footer
     revert: false,

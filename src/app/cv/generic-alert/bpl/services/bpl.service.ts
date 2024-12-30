@@ -9,15 +9,15 @@ export class BplService {
   constructor(private http: HttpClient) { }
   BASE_URL = "https://api.secutrak.in/dev-app-bpl";
   genericTripReportFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReportFilter',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/genericTripReportFilter',val)
   }
     
   genericTripReport(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReport',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/genericTripReport',val)
   }
 
   getGenericVehicle(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/getGenericVehicle',val)
+    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/getGenericVehicle',val)
   }
   // BASE_URL = "https://api.secutrak.in/dev-app-bpl";
   createAlertS(data)

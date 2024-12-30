@@ -112,18 +112,18 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
     this.loadLocation(location)
   }
 
-  loadVehicles(): void {
-    this.http.get('../../../../assets/vehicle.json').subscribe(
-      (data:any) => {
-        this.vehicleData=data?.Data
-        console.log("vehicle data",this.vehicleData);
-         this.loadData()
-      },
-      (error) => {
-        console.error('Error loading vehicle data:', error);
-      }
-    );
-  }
+  // loadVehicles(): void {
+  //   this.http.get('../../../../assets/vehicle.json').subscribe(
+  //     (data:any) => {
+  //       this.vehicleData=data?.Data
+  //       console.log("vehicle data",this.vehicleData);
+  //        this.loadData()
+  //     },
+  //     (error) => {
+  //       console.error('Error loading vehicle data:', error);
+  //     }
+  //   );
+  // }
 
   loadLocation(val):any{
     console.log("hii");
