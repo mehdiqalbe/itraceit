@@ -19,6 +19,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.component';
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
+// import { DtdcFeature1Component } from './components/dtdc-feature1/dtdc-feature1.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard
     DashboardComponent,
     IrunDashboardComponent,
     DelayDashboardComponent,
-    SummaryDashboardComponent
+    SummaryDashboardComponent,
+    // DtdcFeature1Component,
+    MapComponent
   ],
   imports: [
     CommonModule,

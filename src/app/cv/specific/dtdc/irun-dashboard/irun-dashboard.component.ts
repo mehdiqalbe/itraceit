@@ -7269,6 +7269,10 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 vehicleTrackF(run_date, imei, vehicle_no, item, Id, route_id, alertsummary, lati, long) {
+  // if(!this.map1){
+    // this.initMap1()
+    this.initMap();
+    // }
   console.log("demomarker", this.demomarker);
   this.SpinnerService.show("tracking");
 
@@ -12734,16 +12738,15 @@ liveLocation_new(lat, long, driver_mobile, driver_name, halt_time, transporter_n
 }
 
 
-$(document).ready(function () {
-  let modal: any = $('.modal'); // Select the entire modal
-  console.log("Irun ",modal)
-  modal.draggable({
-    handle: '.modal-header, .modal-footer', // Allow dragging from both header and footer
-    revert: false,
-    backdrop: false,
-    show: true
-  });
-});
+// $(document).ready(function () {
+//   let modal: any = $('.modal'); // Select the entire modal
+//   modal.draggable({
+//     handle: '.modal-header, .modal-footer', // Allow dragging from both header and footer
+//     revert: false,
+//     backdrop: false,
+//     show: true
+//   });
+// });
 
 
 

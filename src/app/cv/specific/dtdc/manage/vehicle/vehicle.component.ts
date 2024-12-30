@@ -62,6 +62,7 @@ export class VehicleComponent implements OnInit {
   // isLoadingVehicleTable: boolean;
   isqVehicleChartLoading: Boolean = true;
   isLoadingVehicleTable: boolean = true;
+  venderList: any;
   constructor(
     private fb: FormBuilder,
     private formBuilder: FormBuilder,
@@ -81,8 +82,28 @@ export class VehicleComponent implements OnInit {
     this.datetimepicker1 = this.datepipe.transform(new Date(), 'yyyy-MM-dd');
     this.group_id = localStorage.getItem('GroupId')!;
     this.GroupTypeId = localStorage.getItem('GroupTypeId')!;
+  this.transporterDataF()
+    const state = window.history.state;
+    if (state?.tab === 'driver') {
+      $('#nav-Driver-tab').click();
+    } else if (state?.tab == 'vehicle') {
+      $('#nav-Vehicle-tab').click();
+    }
+    console.log(state, 'navigation');
+
   }
-  
+  transporterDataF() {
+    var formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+    // formdataCustomer.append('GroupId', '0986');
+    // formdataCustomer.append('UserType', 'master');
+    // formdataCustomer.append('DataFilter', js);
+
+    this.service.venderListS(formdataCustomer).subscribe((res: any) => {
+      console.log('res', res);
+      this.venderList = res?.Filter?.customer;
+    });
+  }
   switch(vehicleData: any = null) {
     this.router.navigate(['/VehicleEdit/'], {
       state: {
@@ -122,16 +143,14 @@ export class VehicleComponent implements OnInit {
     formdata.append('from_date', value?.from_date || '');
     formdata.append('to_date', value?.to_date || '');
     this.isLoadingVehicleTable = true;
-
-    console.log(value);
-
+    // console.log(value);
     this.service.vehicleDashboard(formdata).subscribe((res: any) => {
       this.isLoadingVehicleTable = false;
 
       this.vehicleDashboardData = res?.Data;
       this.vehicleTableData =
         this.vehicleDashboardData?.listing_data?.vehicle_data;
-      console.log('vehicleTableData', this.vehicleTableData);
+      // console.log('vehicleTableData', this.vehicleTableData);
 
       // this.vehicleDashboardData = res.Data;
       // console.log(this.fullres);
@@ -170,8 +189,8 @@ export class VehicleComponent implements OnInit {
         this.vehicleDashboardData?.listing_data?.filters_name?.vehicle_capacity_data;
       this.vehicleDocumentType =
         this.vehicleDashboardData?.listing_data?.filters_name?.vehicle_DocType;
-      console.log(this.vehicleTableData, 'aman');
-      console.log(this.vehicleModel);
+      // console.log(this.vehicleTableData, 'aman');
+      // console.log(this.vehicleModel);
       this.chart1();
       // this.chart2()
       this.chart3();

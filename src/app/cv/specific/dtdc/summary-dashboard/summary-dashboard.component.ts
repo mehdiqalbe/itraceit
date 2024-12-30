@@ -22,6 +22,7 @@ import { NavService } from 'src/app/shared/services/nav.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DtdcService } from '../services/dtdc.service';
+import { Router } from '@angular/router';
 declare var H: any;
 declare var $: any;
 declare const agGrid: any;
@@ -80,34 +81,23 @@ export class SummaryDashboardComponent implements OnInit {
   dataList: any[] = []; // List of data to display
   extra:boolean=false;
   submit: boolean=false;
-   colors = [
-    'red', 
-    'green', 
-    'blue', 
-    'yellow', 
-    'orange', 
-    'purple', 
-    'pink', 
-    'brown', 
-    'gray', 
-    'teal', 
-    'cyan', 
-    'lime', 
-    'indigo', 
-    'violet', 
-    'lightblue', 
-    'lightgreen', 
-    'lightcoral', 
-    'lightpink', 
-    'gold', 
-    'silver', 
-    'crimson', 
-    'coral', 
-    'salmon', 
-    'turquoise', 
-    'chocolate', 
-    'olive'
+  colors = [
+    '#FF5733',  // Red-Orange
+  // '#33FF57',  // Green
+  '#3357FF',  // Blue
+  '#FF33A1',  // Pink
+  '#FFAA33',  // Orange
+  '#33F5FF',  // Light Blue
+  '#F5FF33',  // Yellow
+  '#9B59B6',  // Purple
+  '#F39C12',  // Amber
+  '#2ECC71',  // Emerald Green
+  '#E74C3C',  // Red
+  '#3498DB',  // Light Blue
+  '#F1C40F',  // Yellow
+  '#1ABC9C',  // Turquoise
   ];
+  
   footerData: any=[];
   Filter_flag: boolean=false;
   Route_type: any;
@@ -119,7 +109,8 @@ export class SummaryDashboardComponent implements OnInit {
   maxWidth:any=70; // Maximum width
   demoPolyline: any=[];
   lastOpenedInfoWindow: any;
-  constructor(private navServices: NavService,private dtdcService:DtdcService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  header_text: any;
+  constructor(private router: Router,private navServices: NavService,private dtdcService:DtdcService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     let App = document.querySelector('.app');
@@ -128,12 +119,17 @@ export class SummaryDashboardComponent implements OnInit {
     this.token=localStorage.getItem('AccessToken')!;
     this.group_id=localStorage.getItem('GroupId')!;
     this.account_id=localStorage.getItem('AccountId')!;
-    this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
+    // this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
+    const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  this.datetimepicker1 = this.datepipe.transform(yesterday, 'yyyy-MM-dd');
     this.datetimepicker =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.end();
     this.start();
     this.initMap1();
-    // this.masterUploadTable();
+
     // this.Grid_table();
     this.dtdcTripReportFilter();
     // this.Grid_table();
@@ -205,180 +201,204 @@ export class SummaryDashboardComponent implements OnInit {
   
     
   }
-
-  masterUploadTable()
-  {
-
-
-
-
-   var tbl = $('#masterUpload')
-   var table = $('#masterUpload').DataTable();
-   table.clear()
-   table.destroy();
-   // table.draw()
-   // $('#masterUpload').DataTable().clear;
-   // if(datatable.length!=)
-   // console.log("table length",datatable.length)
-   //  $('#masterUpload tbody').empty();
-
-
-
-   $(document).ready(function () {
-
-
-
-     $('#masterUpload').DataTable({
-
-
-       "language": {
-         search: '',
-         searchPlaceholder: 'Search'
-       },
-       pageLength: 10,
-       fixedHeader: true,
-       // scrollX: true,
-       scrollY: '450px',
-       scrollCollapse: true,
-       paging: true,
-       scrollX: true,
-       destroy: true,
-       responsive: true,
-
-
-       //   fixedColumns:   {
-       //     leftColumns: 11,
-       //     select: true,
-
-       //     // rightColumns: 5
-       // },
-
-
-       "order": [],
-       dom: '<"html5buttons"B>lTfgitp',
-       columnDefs: [
-         { targets: 'no-sort', orderable: false }
-       ],
-
-       buttons:
-         [
-
-
-           {
-             extend: 'csv',
-             footer: true,
-             autoClose: 'true',
-             titleAttr: 'Download csv file',
-
-             className: 'datatablecsv-btn fa fa-file-text-o ',
-             text: '',
-             tag: 'span',
-
-             exportOptions: {
-
-               columns: ':visible',
-
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'pdf',
-             footer: true,
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-
-             autoClose: 'true',
-
-             titleAttr: 'Download Pdf file',
-             tag: 'span',
-
-             className: 'datatablepdf-btn fa fa-file-pdf-o ',
-             text: '',
-             customize: function (doc) {
-               var colCount = new Array();
-               $(tbl).find('tbody tr:first-child td').each(() => {
-                 if ($(this).attr('colspan')) {
-                   for (var i = 1; i <= $(this).attr('colspan'); i++) {
-                     colCount.push('*');
-                   }
-                 } else { colCount.push('*'); }
-               });
-               doc.content[1].table.widths = colCount;
-             },
-
-
-             exportOptions: {
-
-               columns: ':visible',
-               //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'copy',
-             footer: true,
-             titleAttr: ' Copy  file',
-
-             tag: 'span',
-
-             className: 'datatablecopy-btn fa fa-copy ',
-             text: '',
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-             exportOptions: {
-
-               columns: ':visible'
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'excel',
-             footer: true,
-             autoClose: 'true',
-             //text: '',
-             //className: 'fa fa-file-pdf-o',
-             //color:'#ff0000',
-
-             buttons: ['excel'],
-             titleAttr: ' Download excel file',
-
-             tag: 'span',
-
-             className: 'datatableexcel-btn fa fa-file-excel-o',
-             text: '',
-             exportOptions: {
-
-               columns: ':visible'
-
-             },
-             title: 'dashboard_repor'
-           }]
-     }
-
-     );
-   });
-
-
-   setTimeout(() => {
-     this.SpinnerService.hide();
-     // console.log("Timeout")
-     this.SpinnerService.hide("LastAlert")
-
-   }, 3000);
-
-   // console.log("table length2",datatable.length)
- }
- Detail(){
-// alert(0)
+ masterUploadTable() {
+  var tbl = $('#simple_datatable')
+  // var table = $('#simple_datatable').DataTable();
+  // table.clear();
+  // table.destroy();
+  $(document).ready(function () {
+    $('#simple_datatable').DataTable({
+      "language": {
+        search: '',
+        searchPlaceholder: 'Search'
+      },
+      pageLength: 10,
+      fixedHeader: {
+        header: true, // Enables fixed header
+        footer: false // Set to true if you want the footer to be fixed as well
+      },
+      paging: true,
+      destroy: true,
+      responsive: false,
+    
+      "order": [],
+      dom: '<"html5buttons"B>lTfgitp',
+      columnDefs: [
+        { targets: 'no-sort', orderable: false }
+      ],
  
+      buttons:
+        [
+ 
+ 
+          {
+            extend: 'csv',
+            footer: true,
+            autoClose: 'true',
+            titleAttr: 'Download csv file',
+ 
+            className: 'datatablecsv-btn fa fa-file-text-o ',
+            text: '',
+            tag: 'span',
+ 
+            exportOptions: {
+ 
+              columns: ':visible',
+ 
+ 
+            },
+            title: 'dashboard_repor'
+          },
+          {
+            extend: 'pdf',
+            footer: true,
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+ 
+            autoClose: 'true',
+ 
+            titleAttr: 'Download Pdf file',
+            tag: 'span',
+ 
+            className: 'datatablepdf-btn fa fa-file-pdf-o ',
+            text: '',
+            customize: function (doc) {
+              var colCount = new Array();
+              $(tbl).find('tbody tr:first-child td').each(() => {
+                if ($(this).attr('colspan')) {
+                  for (var i = 1; i <= $(this).attr('colspan'); i++) {
+                    colCount.push('*');
+                  }
+                } else { colCount.push('*'); }
+              });
+              doc.content[1].table.widths = colCount;
+            },
+ 
+ 
+            exportOptions: {
+ 
+              columns: ':visible',
+              //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
+ 
+            },
+            title: 'dashboard_repor'
+          },
+          {
+            extend: 'copy',
+            footer: true,
+            titleAttr: ' Copy  file',
+ 
+            tag: 'span',
+ 
+            className: 'datatablecopy-btn fa fa-copy ',
+            text: '',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            exportOptions: {
+ 
+              columns: ':visible'
+ 
+            },
+            title: 'dashboard_repor'
+          },
+          {
+            extend: 'excel',
+            footer: true,
+            autoClose: 'true',
+            //text: '',
+            //className: 'fa fa-file-pdf-o',
+            //color:'#ff0000',
+ 
+            buttons: ['excel'],
+            titleAttr: ' Download excel file',
+ 
+            tag: 'span',
+ 
+            className: 'datatableexcel-btn fa fa-file-excel-o',
+            text: '',
+            exportOptions: {
+ 
+              columns: ':visible'
+ 
+            },
+            title: 'dashboard_repor'
+          }]
+    });
+  });
+}
+// masterUploadTable(){
+//   $('#simple_datatable').DataTable({
+//       responsive: true, // Enables responsive table
+//       autoWidth: false, // Prevents DataTables from setting widths
+//       paging: true, // Enables pagination
+//       searching: true, // Enables search box
+//       ordering: true, // Enables sorting
+//       lengthMenu: [[500, 1000, -1], [500, "1,000", "All"]], // Number of rows per page
+//       pageLength: 500, // Default rows per page
+//       dom: 'Bfrtip', // Placement of buttons and table controls
+//       buttons: [
+//           'copy', 'csv', 'excel', 'pdf'
+//       ], // Export buttons
+//       initComplete: function () { 
+//           // Adjust column widths to match existing styles
+//           this.api().columns.adjust();
+//       },
+//       language: {
+//           search: "Filter records:", // Custom placeholder for search
+//           lengthMenu: "Display _MENU_ records per page",
+//           zeroRecords: "No matching records found",
+//           info: "Showing _START_ to _END_ of _TOTAL_ entries",
+//           infoEmpty: "Showing 0 to 0 of 0 entries",
+//           infoFiltered: "(filtered from _MAX_ total entries)"
+//       }
+//   });
+// }
+summary_detail(eve,tripsKey){
+  const temp_data = this.new_array.Data[0].trips;
+    const completedTrips = temp_data[eve]
+    this.rowData_popup=completedTrips;
+    console.log(completedTrips)
+    if(this.rowData_popup){
+      this.Detail();
+    }else{
+      alert("Data not found")
+    }
+}
+summary_detail_1(eve,tripsKey){
+  const temp_data = this.new_array.Data[0].trips;
+    const completedTrips = temp_data[eve].filter(item => item[tripsKey]=== 1);
+    this.rowData_popup=completedTrips;
+    console.log(completedTrips)
+    if(this.rowData_popup){
+      this.Detail();
+    }else{
+      alert("Data not found")
+    }
+}
+summary_detail_2(eve,tripsKey){
+  const temp_data = this.new_array.Data[0][tripsKey];
+    const completedTrips = temp_data[eve];
+    this.rowData_popup=completedTrips;
+    if(this.rowData_popup){
+      this.Detail1();
+    }else{
+      alert("Data not found")
+    }
+}
+summary_detail_3(eve,tripsKey){
+  const temp_data = this.new_array.Data[0][tripsKey];
+    const completedTrips = temp_data[eve];
+    this.rowData_popup=completedTrips;
+    if(this.rowData_popup){
+      this.Detail1();
+    }else{
+      alert("Data not found")
+    }
+}
+ Detail(){
   $('#Datail').modal('show');
-//  this.detail_data=eve;
  if (this.gridApi_popup) {
   this.gridApi_popup.destroy();
-  // this.gridApi_popup='';
 }
  this.columnDefs_popup = [
   { field: 'Sl', headerName: 'Sl', sortable: true, filter: true, width: 50,  minWidth: 50, maxWidth: 50, },
@@ -483,16 +503,6 @@ export class SummaryDashboardComponent implements OnInit {
   { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
   { field: 'Full', headerName: 'Full', sortable: true, filter: true, hide:true, width: 100,  minWidth: 100, maxWidth: 100, },
 ];
-
-// onGridReady: params => {
-  // Dynamically hide the "Full" column
-
-// }
-// routeSequence
-// tripId
-// trackHistory
-// alerts
-//  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving   Destination
 this.rowData_popup = this.rowData_popup.map((person, index) => ({
   Sl: index + 1,
   RouteType: person.RouteType,
@@ -566,54 +576,6 @@ CreateBy: person.CreateBy,
   // PushTimeIn:  this.extra ? person.PushTimeIn : null,
   // PushTimeOut:  this.extra ? person.PushTimeOut : null,
 }));
-
-// this.rowData = this.new_array.map((person, index) => ({
-//   si: index + 1,
-//   agency: person.agency_name_hn,
-//   region: person.region_name,
-//   district: person.district_name,
-//   // Purchase_Center: person.source_display,
-//   // mill: person?.destination_display,
-//   // vehicles: person.name,
-//   // status: person.trip_status,
-//   // driver_mobile: person.driver_mobile,
-//   // driver_name: person.driver_name,
-//   // Consignment_no: person.shipment_no,
-//   // Consignment_Score: person.rating1,
-//   // Consignment_Time: person.run_date,
-//   // Consignment_Time1: person.close_date,
-  
-//   // duration: person.time,
-//   // KML_Distance: person.polyline_route_dis,
-//   // Missed_KML_Distance: person.missed_route_dis,
-//   // Route_Deviation_Score: person.route_deviation_score,
-//   // Route_Stoppage_Count: person.enroute_count,
-//   // Route_Stoppage_Score: person.enroute_stoppage_score,
-//   // // EPOD_Done: person.epod,
-//   // // EPOD_Score: person.epod_score
-//   // // ,
-//   // Geofence_Done: person.geofence_done,
-//   // Geofence_Score: person.geofence_score,
-//   // // Trip_Closer_Type: person,
-//   // Route_Deviation: person.route_deviation_score,
-//   // Count_Force_Close: person.forceful_closure_count,
-//   // Count_Auth: person.un_auth_loc_count,
-//   // Count_Red_Flag: person.red_flag_count,
-//   // Consignmen_Score: person.rating1,
-//   // Transporter_Score: person.rating3,
-//   // Distance_Travelled: person.distance_km,
-//   // Transporter_Name: person.transporter_name,
-//   // bags: person.quantity,
-//   // quantity: person.load,
-//   // full_data: person,
-//   // Sorce: person.source_flag,
-//   // destinaton: person.destination_flag,
-//   // trip_status: person.trip_status
-
-// }));
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 this.gridOptions_popup = {
   rowHeight: 30,
   headerHeight: 40,
@@ -634,33 +596,16 @@ this.gridOptions_popup = {
   animateRows: true,
   onGridReady: (params) => this.onGridReady_pop(params),
  
-  // onGridReady: (params: any) => {
-  //   this.gridOptions.api = params.api; // Store API reference for later use
-  // },
- 
-
-//   onGridReady: (params) => {
-//     this.gridApi = params.api; // Store the API for later use
-//     console.log('Grid API methods:', Object.getOwnPropertyNames(this.gridApi)); // Log the available API methods
-// },
-  // onGridReady: this.onGridReady.bind(this),  // Call `onGridReady` when the grid is ready
-  // onCellClicked: (event) => {
-  //   if (event.colDef.field === 'user_name') {
-  //     // this.onUserClick(event.value); // Call your method
-  //   }
-  // },
 
 };
-
 const gridDiv = document.querySelector('#myGrid-popup');
 new agGrid.Grid(gridDiv, this.gridOptions_popup);
-// this.gridOptions_popup.columnApi.setColumnVisible("Full", false);
  }
 
  Detail1(){
 
  
-  $('#Datail').modal('show');
+  $('#Datail1').modal('show');
 //  this.detail_data=eve;
  if (this.gridApi_popup) {
   this.gridApi_popup.destroy();
@@ -720,7 +665,6 @@ this.rowData_popup = this.rowData_popup.map((person, index) => ({
   TripCount: person.TripCnt,
 
  }));
-
 // this.rowData = this.new_array.map((person, index) => ({
 //   si: index + 1,
 //   agency: person.agency_name_hn,
@@ -771,20 +715,16 @@ this.rowData_popup = this.rowData_popup.map((person, index) => ({
 this.gridOptions_popup = {
   rowHeight: 30,
   headerHeight: 40,
-  
   columnDefs: this.columnDefs_popup,
   rowData: this.rowData_popup,
   pagination: true,
   paginationPageSize: 50,
   paginationPageSizeSelector: [10, 50, 100,500,1000],
- 
   animateRows: true,
   onGridReady: (params) => this.onGridReady_pop(params),
- 
- 
 };
 
-const gridDiv = document.querySelector('#myGrid-popup');
+const gridDiv = document.querySelector('#myGrid-popup1');
 new agGrid.Grid(gridDiv, this.gridOptions_popup);
 // this.gridOptions_popup.columnApi.setColumnVisible("Full", false);
  }
@@ -1849,13 +1789,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         DINA: person.DINA,
         RuningonTime: person.RunningOnTime,
         RuningLate: person.RunningLate,
-        RuningDNA: person.RunningDna,
+        RuningDNA: person.RuningDNA,
         OTA: person.OTA,
         ATADelayed: person.ATADelayed,
         ATANA: person.ATANA,
         AINA: person.AINA,
       }));
-  
       this.footerData = this.new_array.Total.map((person, index) => ({
         sl: index + 1, // Optional: Add row index
         Region: 'Total', // For parent-level columns
@@ -1920,8 +1859,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           this.adjustGridHeight();
           this.gridOptions.api = params.api;
           this.gridOptions.columnApi = params.columnApi;
-      
-          // Add custom click functionality for headers
           const gridContainer = document.querySelector('.ag-root-wrapper');
           if (gridContainer) {
             gridContainer.addEventListener('click', (event: any) => {
@@ -1935,15 +1872,9 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           }
         },
       };
-      
-      
-
-
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
-
-
  exportToCSV(): void {
   const rows: string[] = [];
   const parentHeaders: string[] = [];
@@ -1998,7 +1929,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   link.click();
   document.body.removeChild(link);
 }
-
 //  adjustGridHeight() {
 //   const rowCount = this.rowData?.length || 0; // Get the number of rows
 //   const rowsToShow = Math.min(rowCount, 16); // Show up to 10 rows
@@ -2028,16 +1958,12 @@ adjustGridHeight(): void {
     gridContainer.style.height = `${gridHeight+100}px`;
   }
 }
-
-
 // Function to fetch column data dynamically
-
 getColumnDataByField(columnField: string) {
   $('#v_track_Modal1').modal('show');
   const allData:any = [];
   const Region_array:any=[];
   const rowCount = this.gridOptions.api.getDisplayedRowCount();
-  //  console.log(this.gridOptions.api)
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
     const rowNode = this.gridOptions.api.getDisplayedRowAtIndex(rowIndex);
     const rowData = rowNode.data;
@@ -2048,12 +1974,6 @@ getColumnDataByField(columnField: string) {
       Region_array.push(rowData['Region']);
     }
   }
-
-
-    // console.log(Region_array)
-
-
-  // $('#v_track_Modal').on('shown.bs.modal', () => {
     console.log(`Data for column "${columnField}":`, allData);
     // const array_data:any=[];
     var arr=allData;
@@ -2061,14 +1981,6 @@ getColumnDataByField(columnField: string) {
       value: item,
       name: Region_array[index]
     }));
-    
-    // console.log("array_data", array_data);
-
-
-
-
-
-    // console.log(arr,arr[0])
   let chartDom:any = document.getElementById('pieChartContainer1');
   //  var echart = echarts.init(chartDom);
    var echart = echarts.init(chartDom, {
@@ -2160,31 +2072,7 @@ getColumnDataByField(columnField: string) {
   };
 
   option && echart.setOption(option);
-
-  // option &&  this.echart.setOption(option);
-
-  // });
-
-  // Show the modal (this might not be necessary to be in the Promise)
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
-
 //  onGridReady(params) {
 //   // alert(5)
 //   this.gridOptions.api = params.api;
@@ -2211,16 +2099,6 @@ onGridReady(params: any) {
  
   this.gridApi = params.api;
 }
- 
-
-
-
-
-
-
-
-
-
   // onSearch(term: any) {
   //   console.log(term)
   //   const formdataCustomer = new FormData();
@@ -2245,8 +2123,6 @@ exportAsExcel() {
     this.gridApi.exportDataAsCsv({ fileName: 'table-data.csv' });
   }
 }
-
-
 onGridReady_pop(params: any) {
  
   this.gridApi_popup = params.api;
@@ -2350,25 +2226,27 @@ First_call(){
   formdata.append('AccessToken',this.token)
   // formdata.append('DateFrom', $("#datepicker").val())
   // formdata.append('DateTo', $("#datepicker1").val())
-  var starteDate:any=this.datepipe.transform(this.datetimepicker, 'yyyy-MM-dd');
-  var endDate:any=this.datepipe.transform(this.datetimepicker1, 'yyyy-MM-dd');
+  var starteDate:any=this.datepipe.transform(this.datetimepicker1, 'yyyy-MM-dd');
+  var endDate:any=this.datepipe.transform(this.datetimepicker, 'yyyy-MM-dd');
    formdata.append('DateFrom',starteDate)
    formdata.append('DateTo', endDate)
   // formdata.append('ReportType',eve.value.ReportType);
 
-  
-  
   formdata.forEach((value, key) => {
     console.log("formdata",key, value);
   });
   this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
+  
     this.submit=false;
-    // console.log(data)
+    console.log(data)
     if(data.Status=="success"){
       this.new_array=data.Report;
+      this.masterUploadTable();
       // console.log(this.new_array)
       if(this.new_array.Summary){
-      this.Grid_table();}else{
+      // this.Grid_table();
+
+    }else{
         if (this.gridApi) {
           this.gridApi.destroy();
         }
@@ -2411,8 +2289,6 @@ First_call(){
 
 // // }
 // }
-
-
 onFilterTextBoxChanged() {
   // console.log("hii");
   
@@ -2429,7 +2305,6 @@ onFilterTextBoxChanged_pop() {
     (document.getElementById("filter-text-box-pop") as HTMLInputElement).value,
   )
 }
-
 exportToPDF(): void {
   // Step 1: Extract parent and child headers dynamically
   const parentHeaders: any[] = [];
@@ -2508,9 +2383,6 @@ exportToPDF(): void {
   // Step 4: Generate and download the PDF
   pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
 }
-
-
-
 // exportToPDF() {
 //   const { jsPDF } = window.jspdf;
 //   const doc = new jsPDF();
@@ -2558,8 +2430,6 @@ exportToPDF(): void {
 
 //   doc.save('table-data.pdf');
 // }
-
-
 onBtExport() {
 // this.gridApi!.exportDataAsExcel();
 this. gridApi!.exportDataAsCsv();
@@ -2568,7 +2438,6 @@ onBtExport_pop() {
   // this.gridApi!.exportDataAsExcel();
   this. gridApi_popup!.exportDataAsCsv();
   }
-
 // ------------------------------------------------MAP---------------------------------------------
 handleAlertMarkers(item) {
   if (this.demomarker.length > 0) {
@@ -2653,7 +2522,6 @@ this.markers.push(marker);
   
   });
 }
-
 async vehicleTrackF_new_here(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
   console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
   
@@ -2742,7 +2610,6 @@ async vehicleTrackF_new_here(imei, imei2, imei3, run_date, vehicle_no, item, Id,
     }
   }
 }
-
 getMarkerIcon_here(index: number): string {
   if (index === 0) {
     return 'assets/images/users/start_marker.png';
@@ -2879,7 +2746,6 @@ async handleMarkerClick_here(event, trackingData, vehicle_no, imei) {
   
   return this.showWindow(trackingData, vehicle_no, address); // Return the content
 }
-
 showWindow_here(data, vnumber, add) {
   // var add:any
   this.contentsInfo = ''
@@ -2947,7 +2813,6 @@ return  this.contentsInfo = '<table style="line-height: 16px; border:none !impor
 
 
 }
-
 // Assuming you have imported or included Supercluster in your project
 
 // addMarkersAndPolyline1(imei: string, vehicle_no: string) {
@@ -3046,8 +2911,6 @@ return  this.contentsInfo = '<table style="line-height: 16px; border:none !impor
 //       }
 //   });
 // }
-
-
 createMarker(point, ico, label = '') {
 
   var html = document.createElement('div'),
@@ -3193,7 +3056,6 @@ addPolylineToMap(lineString) {
   this.map1.addObject(polyline);
   this.polylines.push(polyline);
 }
-
 fetchDFGPolyline_new(route_id: string) {
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
@@ -3243,8 +3105,6 @@ clearMarkersAndPolylines() {
     this.polylines = []; // Reset the polylines array
   }
 }
-
-
 handleCustomerMarkerClick(event, index) {
 const customer = this.customer_info[index];
 const customer_Info = this.generateCustomerInfo(customer);
@@ -3255,7 +3115,6 @@ return customer_Info;
 // infowindowMarker_custo.open(this.map1);
 // this.lastOpenedInfoWindow = infowindowMarker_custo;
 }
-
 generateCustomerInfo(customer): string {
 let pod = customer.CustVisited === 1 ? 'Already DONE' : 'Not Done';
 // let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
@@ -3274,10 +3133,6 @@ extra_info(eve){
   console.log(isChecked)
   this.extra=isChecked;
 }
-
-
-
-
 initializeMap(): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     $('#v_track_Modal').on('shown.bs.modal', () => {
@@ -3343,9 +3198,167 @@ initializeMap(): Promise<void> {
     $('#v_track_Modal').modal('show');
   });
 }
-
-
 exportToPDF_popup(): void {
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  
+  this.columnDefs_popup.forEach((colDef) => {
+    if (colDef.children) {
+      // Add the parent header with colspan
+      parentHeaders.push({
+        text: colDef.headerName,
+        colSpan: colDef.children.length,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      // Fill empty cells for the colspan
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push('');
+      }
+      // Add child headers
+      colDef.children.forEach((child) => {
+        childHeaders.push({
+          text: child.headerName,
+          alignment: 'center',
+          fillColor: '#DDDDDD',
+          style: 'tableHeader',  // Apply tableHeader style for child headers
+        });
+      });
+    } else {
+      // For standalone columns without children
+      parentHeaders.push({
+        text: colDef.headerName,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      childHeaders.push('');
+    }
+  });
+
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
+
+  // Add row data dynamically
+  this.rowData_popup.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs_popup.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || '-'); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || '-'); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => {
+            if (rowIndex === 0) return '#0074D9'; // Parent header color
+            if (rowIndex === 1) return '#DDDDDD'; // Child header color
+            return null; // No fill color for data rows
+          },
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+        fillColor: '#DDDDDD',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic.pdf');
+}
+
+exportToCSV_popup(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs_popup.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions_popup.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs_popup.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'GridData.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+exportToPDF_popup1(): void {
   // Step 1: Extract parent and child headers dynamically
   const parentHeaders: any[] = [];
   const childHeaders: any[] = [];
@@ -3449,8 +3462,7 @@ exportToPDF_popup(): void {
   // Step 4: Generate and download the PDF
   pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
 }
-
-exportToCSV_popup(): void {
+exportToCSV_popup1(): void {
   const rows: string[] = [];
   const parentHeaders: string[] = [];
   const childHeaders: string[] = [];
@@ -3504,15 +3516,141 @@ exportToCSV_popup(): void {
   link.click();
   document.body.removeChild(link);
 }
-
-
+onBtExport1() {
+  // this.gridApi!.exportDataAsExcel();
+  this. gridApi!.exportDataAsCsv();
+  }
+  onBtExport_pop1() {
+    // this.gridApi!.exportDataAsExcel();
+    this. gridApi_popup!.exportDataAsCsv();
+    }
 // ---------------------------------------------------------------------------------------------------------------
+showcommon_chart(columnIndex,text) {
+  this.header_text=text;
+  var table = $('#simple_datatable').DataTable();
+  var columnData = table.column(columnIndex).data().toArray().map(function (data) {
+      // If the data is a string (e.g., "Region 1"), just return it as-is
+      if (typeof data === "string") {
+          var tempDiv:any = document.createElement("div");
+          tempDiv.innerHTML = data;  // Ensure any HTML tags are stripped
+          return tempDiv.textContent.trim();  // Extract the plain text
+      }
+      return data;  // Return data as-is if it's already in the correct format
+  });
+  // console.log("columnData",columnData);
+  var columnData_Region = table.column(0).data().toArray().map(function (data) {
+    // If the data is a string (e.g., "Region 1"), just return it as-is
+    if (typeof data === "string") {
+        var tempDiv:any = document.createElement("div");
+        tempDiv.innerHTML = data;  // Ensure any HTML tags are stripped
+        return tempDiv.textContent.trim();  // Extract the plain text
+    }
+    return data;  // Return data as-is if it's already in the correct format
+});
+  $('#v_track_Modal1').modal('show');
+  const array_data = columnData.map((item, index) => ({
+    value: item,
+    name: columnData_Region[index]
+  }));
+let chartDom:any = document.getElementById('pieChartContainer1');
+ var echart = echarts.init(chartDom, {
+  renderer: 'canvas',
+  useDirtyRect: false,
+});
+var option;
+option = {
+    title: {
+        // text: 'Donut Chart',
+        // subtext: 'Living Expenses in Shenzhen'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left:370 ,
+        top:120,
+        // bottom:'1',
+        // fontsize:10,
+        fontSize: '10',
+        data:  columnData_Region
+    },
+    series: [
+        {
+            name: '',
+            type: 'pie',
+            radius: ['0%', '70%'],
+            avoidLabelOverlap: false,
+            color:this.colors,
+            label: {
+                show: true,
+                // position: 'center'
+                position: 'inside',
+                fontSize: '15',
+                    // rotate:'145',
+                    color:'white',
+                formatter: '{c}' // display value
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: '15',
+                    color:'white',
+                    // rotate:'145',
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data:array_data,
+             
+            backgroundStyle: {
+              color: '#f0f0f0' // Change this color as needed
+          }
+        },
+        {
+          type: 'pie',
+          radius: ['0%', '40%'],
+          silent: true,
+          color:'white',
+         
+          label: {
+              show: true,
+              position: 'center',
+              color:'#1D4380',
+             
+              // formatter: function(params) {
+              //     var total = 0;
+              //     for (var i = 0; i < option.series[0].data.length; i++) {
+              //         total += option.series[0].data[i].value;
+              //     }
+              //     return  total;
+              // },
+              fontSize: 25,
+              fontWeight: 'bold'
+          },
+          // data: [
+          //     {value: 1, name: 'Total'}
+          // ]
+      }
+
+    ],
+    backgroundColor: '#fff'
+};
+option && echart.setOption(option);
+
+}
+async vehicleTrackF_new_1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+
+ 
 
 
-async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-  $('#v_track_Modal').modal('show');
-  this.SpinnerService.show("tracking");
 
+  // $('#v_track_Modal').modal('show');
+  // this.SpinnerService.show("tracking");
+  // this.initMap1()
 // Clear markers and polylines if they exist
 if (this.demomarker.length > 0) {
   this.demomarker.forEach(marker => marker.setMap(null));
@@ -3539,7 +3677,7 @@ if (this.demoPolyline.length > 0) {
   }
 
   // Show tracking spinner
-  this.SpinnerService.show("tracking");
+  // this.SpinnerService.show("tracking");
 
   // Define the array of IMEIs to process
   // const imeis = [imei,imei2,imei3];
@@ -3560,70 +3698,119 @@ if (this.demoPolyline.length > 0) {
     if (imei === "") {
       this.map_flag = 'Device unavailable';
     } else {
+
+
       this.map_flag = 'Please wait';
       const formData = new FormData();
       const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      this.router.navigate(['/cv/specific/dtdc/map'], {
+        // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
+        state: {
+          structuredata: {
+            token:this.token,
+            run_date:run_date,
+            currentDateTime:currentDateTime,
+            imei:imei,
+            group_id:this.group_id,
+            account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
 
-      formData.append('AccessToken', this.token);
-      formData.append('startdate', run_date);
-      formData.append('enddate', currentDateTime);
-      formData.append('time_interval', '120');
-      formData.append('imei', imei);
-      formData.append('group_id', this.group_id);
-      formData.append('AccountId', this.account_id);
-
-      // Log form data for debugging
-      formData.forEach((value, key) => {
-        console.log("formdata...", key, value);
-      });
-
-      // try {
-        // Wait for the API response
-        const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
-        console.log("tracking res", res);
-        this.SpinnerService.hide("tracking");
-        if (res.Status === "failed") {
-          alert(res?.Message);
+          },
+          array: 'worldgyan'
         }
+      })
 
-        this.trackingData = res.data;
 
-        if (res.data === 'Vehicle is inactive.') {
-          alert("Track data is not available");
-        } else {
-          console.log("trackingData", this.trackingData);
-          // Add markers and polyline data
-          this.addMarkersAndPolyline1(imei, vehicle_no);
+
+      // formData.append('AccessToken', this.token);
+      // formData.append('startdate', run_date);
+      // formData.append('enddate', currentDateTime);
+      // formData.append('time_interval', '120');
+      // formData.append('imei', imei);
+      // formData.append('group_id', this.group_id);
+      // formData.append('AccountId', this.account_id);
+
+      // // Log form data for debugging
+      // formData.forEach((value, key) => {
+      //   console.log("formdata...", key, value);
+      // });
+
+      // // try {
+      //   // Wait for the API response
+      //   const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
+      //   console.log("tracking res", res);
+      //   this.SpinnerService.hide("tracking");
+      //   if (res.Status === "failed") {
+      //     alert(res?.Message);
+      //   }
+      //   this.trackingData = res.data;
+      //   if (res.data === 'Vehicle is inactive.') {
+      //     alert("Track data is not available");
+      //   } else {
+      //     console.log("trackingData", this.trackingData);
+      //     // Add markers and polyline data
+      //     this.addMarkersAndPolyline1(imei, vehicle_no);
          
-          this.fetchCustomerInfo(Id);
-        }
-
-      // } catch (error) {
-      //   console.error("Error in API call:", error);
-      //   alert("An error occurred while fetching tracking data");
-      // }
-
-      // Hide the tracking spinner after the API call
-      this.SpinnerService.hide("tracking");
+      //     this.fetchCustomerInfo(Id);
+      //   }
+      // // Hide the tracking spinner after the API call
+      // this.SpinnerService.hide("tracking");
     }
   }
-}  }
+} 
+ }
+
+
+
+ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  // $('#Datail').modal('hide');
+  const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+  // this.router.navigate(['/cv/specific/dtdc/map'], {
+  //   // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
+  //   state: {
+  //     structuredata: {
+  //       token:this.token,
+  //       run_date:run_date,
+  //       currentDateTime:currentDateTime,
+  //       imei:imei,
+  //       group_id:this.group_id,
+  //       account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
+
+  //     },
+  //     array: 'worldgyan'
+  //   }
+  // })
+  const stateData = {
+    structuredata: {
+      token: this.token,
+      run_date: run_date,
+      currentDateTime: currentDateTime,
+      imei: imei,
+      group_id: this.group_id,
+      account_id: this.account_id,
+      vehicle_no: vehicle_no,
+      item: item,
+      Id: Id,
+      route_id: route_id,
+    },
+    array: 'worldgyan',
+  };
+  
+  // Serialize the state data
+  const stateString = encodeURIComponent(JSON.stringify(stateData));
+  
+  // Construct the URL
+  const url = `/cv/specific/dtdc/map?state=${stateString}`;
+  
+  // Open in a new tab
+  window.open(url, '_blank');
+  
+ }
+
+
+
 fetchCustomerInfo(Id: string) {
   this.customer_info = []
-  // if (this.demomarker.length > 0) {
-  //   this.demomarker.forEach(marker => marker.setMap(null));
-  //   this.demomarker = [];  // Clear the array after removing markers
-  // }
-  // console.log("Removing",Id)
   const markers: google.maps.Marker[] = [];
-  // if (this.demomarker.length > 0) {
-  //   this.demomarker.forEach(marker => {
-  //     // console.log("Removing marker from map", marker);
-  //     marker.setMap(null);
-  //   });
-  //   this.demomarker = [];  // Clear the array after removing markers
-  //   console.log("Marker array cleared");
-  // }
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
   formdataCustomer.append('forGroup', this.group_id);
@@ -3678,7 +3865,6 @@ getMarkerIcon(index: number): string {
     return 'assets/images/users/green_Marker1.png';
   }
 }
-
 addMarkersAndPolyline1(imei: string, vehicle_no: string) {
 
   // Prepare arrays for markers and polylines

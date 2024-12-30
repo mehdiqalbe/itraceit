@@ -761,6 +761,8 @@ export class CrudService {
                   this.apiurl="https://api.secutrak.in/dev-app-itraceit/";
           }
    }
+   baseURL:any="https://apinode2.secutrak.in:3001/dev-app-itraceit/";
+   // https://apinode2.secutrak.in/dev-app-itraceit
    url:any='https://testapi.secutrak.in/dev-app-cv-ilgic/'
    Durl:any='https://api-py.secutrak.in/api/'
    Qurl:any=' https://api-cv1.secutrak.in/cv_api/'
@@ -785,13 +787,13 @@ export class CrudService {
   }
 ///////////////////////////////////////////////////////
   specificTripDashboard(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboard',val);
+    return this.http.post(this.baseURL+'scheduleDashboard',val);
   }
   specificTripDashboardFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardFilter',val);
+    return this.http.post(this.baseURL+'scheduleDashboardFilter',val);
   }
   specificTripDashboardDetails(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/scheduleDashboardDetails',val);
+    return this.http.post(this.baseURL+'scheduleDashboardDetails',val);
   }
   vehicleTrackongS(val:any)
   {
@@ -1374,27 +1376,27 @@ export class CrudService {
   //   return this.http.post(apiurl,data);
   // }
   delayDashboardGeneric(data){
-    let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/delayDashboardGeneric";
+    let apiurl=this.baseURL+"delayDashboardGeneric";
     //let apiurl="https://jsonplaceholder.typicode.com/users";
    //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl,data);
   }
   dtdc_delayDashboard(data){
     // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
-    let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/delayDashboardDtdc";
+    let apiurl=this.baseURL+"delayDashboardDtdc";
    
     return this.http.post(apiurl,data);
   }
   dtdcTripReportFilter(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripReportFilter";
+  let apiurl=this.baseURL+"dtdcTripReportFilter";
   
   return this.http.post(apiurl,data);
 }
 
 dtdcTripReport(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripReport";
+  let apiurl=this.baseURL+"dtdcTripReport";
   
   return this.http.post(apiurl,data);
 }
@@ -1942,91 +1944,91 @@ escalaHistoryS(data)
 
 getVehicle(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/getVehicle";
+  let apiurl=this.baseURL+"getVehicle";
   
   return this.http.post(apiurl,data);
 }
 getBdVehicle(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/getBdVehicle";
+  let apiurl=this.baseURL+"getBdVehicle";
   
   return this.http.post(apiurl,data);
 }
 
 dtdcSummaryFilter(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcSummaryFilter";
+  let apiurl=this.baseURL+"dtdcSummaryFilter";
   
   return this.http.post(apiurl,data);
 }
 
 dtdcSummary(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcSummary";
+  let apiurl=this.baseURL+"dtdcSummary";
   
   return this.http.post(apiurl,data);
 }
 
 bdTripReport(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/bdTripReport";
+  let apiurl=this.baseURL+"bdTripReport";
   
   return this.http.post(apiurl,data);
 }
 bdTripReportFilter(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/bdTripReportFilter";
+  let apiurl=this.baseURL+"bdTripReportFilter";
   
   return this.http.post(apiurl,data);
 }
 bdSummaryFilter(data){
   
-  let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/bdSummaryFilter";
+  let apiurl=this.baseURL+"bdSummaryFilter";
   
   return this.http.post(apiurl,data);
 }
 
 bdSummary(data){
   
-  let apiurl=" https://apinode2.secutrak.in/dev-app-itraceit/bdSummary";
+  let apiurl=this.baseURL+"bdSummary";
   
   return this.http.post(apiurl,data);
 }
 
 
   genericTripDashboard(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardGeneric',val);
+    return this.http.post(this.baseURL+'scheduleDashboardGeneric',val);
   }
   genericTripDashboardFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardGenericFilter',val);
+    return this.http.post(this.baseURL+'scheduleDashboardGenericFilter',val);
   }
   genericTDLink(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardGenericTrackingLink',val)
+    return this.http.post(this.baseURL+'scheduleDashboardGenericTrackingLink',val)
   }
   genericTDDetails(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardDetailsGeneric',val)
+    return this.http.post(this.baseURL+'scheduleDashboardDetailsGeneric',val)
   }
   specificTDLink(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardTrackingLink',val)
+    return this.http.post(this.baseURL+'scheduleDashboardTrackingLink',val)
   }
 
   // ---------------------------------Vehcile Nearby--------------------------------------------------------------------//
   nearbyFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/nearByVehiclesFilter',val)
+    return this.http.post(this.baseURL+'nearByVehiclesFilter',val)
   }
   nearbyLocation(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/nearByVehiclesLocationList',val)
+    return this.http.post(this.baseURL+'nearByVehiclesLocationList',val)
   }
   genericTripReportFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/genericTripReportFilter',val)
+    return this.http.post(this.baseURL+'genericTripReportFilter',val)
   }
     
   genericTripReport(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/genericTripReport',val)
+    return this.http.post(this.baseURL+'genericTripReport',val)
   }
 
   getGenericVehicle(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/getGenericVehicle',val)
+    return this.http.post(this.baseURL+'getGenericVehicle',val)
   }
 
 }

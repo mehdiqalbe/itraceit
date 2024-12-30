@@ -1009,8 +1009,6 @@ adjustGridHeight() {
   //       }
   //   });
   // }
-
-
   createMarker(point, ico, label = '') {
 
     var html = document.createElement('div'),
@@ -1145,7 +1143,6 @@ adjustGridHeight() {
     this.map1.addObject(polyline);
     this.polylines.push(polyline);
   }
-
   fetchDFGPolyline_new(route_id: string) {
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
@@ -1195,8 +1192,6 @@ adjustGridHeight() {
       this.polylines = []; // Reset the polylines array
     }
   }
-
-
   handleCustomerMarkerClick(event, index) {
     const customer = this.customer_info[index];
     const customer_Info = this.generateCustomerInfo(customer);
@@ -1207,7 +1202,6 @@ adjustGridHeight() {
     // infowindowMarker_custo.open(this.map1);
     // this.lastOpenedInfoWindow = infowindowMarker_custo;
   }
-
   generateCustomerInfo(customer): string {
     let pod = customer.PodStatus === 1 ? 'DONE' : '-';
     let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';

@@ -8,22 +8,22 @@ export class DtdcService {
 
  
   constructor( private http: HttpClient) { }
-
+  baseURL:any="https://apinode2.secutrak.in:3001/dev-app-itraceit/";
   specificTripDashboard(val:any){
     // https://apicvmob.secutrak.in/dev-app-dtdc
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardDtdc',val);
+    return this.http.post(this.baseURL+'scheduleDashboardDtdc',val);
   }
   specificTripDashboardFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardDtdcFilter',val);
+    return this.http.post(this.baseURL+'scheduleDashboardDtdcFilter',val);
   }
   specificTripDashboardDetails(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardDtdcDetails',val);
+    return this.http.post(this.baseURL+'scheduleDashboardDtdcDetails',val);
   }
   specificTDLink(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/scheduleDashboardDtdcTrackingLink',val)
+    return this.http.post(this.baseURL+'scheduleDashboardDtdcTrackingLink',val)
   }
   networkVehicleDelayReport(val:any){
-    return this.http.post('https://apinode2.secutrak.in:3001/dev-app-itraceit/networkVehicleDelayReport',val)
+    return this.http.post(this.baseURL+'networkVehicleDelayReport',val)
   }
   
 
@@ -32,34 +32,34 @@ export class DtdcService {
   /////////////////////////Summary Dashboard/////////////////////////////////////////////////////////////////////////
   dtdcSummaryFilter(data){
   
-    let apiurl="https://apinode2.secutrak.in:3001/dev-app-itraceit/dtdcSummaryFilter";
+    let apiurl=this.baseURL+"dtdcSummaryFilter";
     
     return this.http.post(apiurl,data);
   }
   
   dtdcSummary(data){
     
-    let apiurl="https://apinode2.secutrak.in:3001/dev-app-itraceit/dtdcSummary";
+    let apiurl=this.baseURL+"dtdcSummary";
     
     return this.http.post(apiurl,data);
   }
   // -------------Trip Report--------------------------------------------------------------------------------------------------------
   dtdcTripReportFilter(data){
   
-    let apiurl="https://apinode2.secutrak.in:3001/dev-app-itraceit/dtdcTripReportFilter";
+    let apiurl=this.baseURL+"dtdcTripReportFilter";
     
     return this.http.post(apiurl,data);
   }
   
   dtdcTripReport(data){
     
-    let apiurl="https://apinode2.secutrak.in:3001/dev-app-itraceit/dtdcTripReport";
+    let apiurl=this.baseURL+"dtdcTripReport";
     
     return this.http.post(apiurl,data);
   }
   dtdc_delayDashboard(data){
     // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
-    let apiurl="https://apinode2.secutrak.in:3001/dev-app-itraceit/delayDashboardDtdc";
+    let apiurl=this.baseURL+"delayDashboardDtdc";
    
     return this.http.post(apiurl,data);
   }
