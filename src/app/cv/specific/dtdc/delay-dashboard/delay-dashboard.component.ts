@@ -37,6 +37,14 @@ export class DelayDashboardComponent implements OnInit {
   platform: any;
   demoPolyline: any=[];
   lastOpenedInfoWindow: any;
+  alertData: any;
+  selectedRouteType: any;
+  routeTypes: any=[];
+  selectedRoute: any;
+  filterdata: any=[];
+  routeTypes_filter: any=[];
+  eve: any;
+  commaSeparatedRoutes: any;
   constructor(private CrudService:CrudService , private navServices: NavService, private dtdcservice: DtdcService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
@@ -50,7 +58,10 @@ export class DelayDashboardComponent implements OnInit {
     this.initMap2();
     // console.log("account_id", this.account_id)
     this.group_id = localStorage.getItem('GroupId')!
-    this.delayDashboardGeneric()
+    this.delayDashboardDtdcFilter();
+    // this.delayDashboardGeneric();
+    this.delayDashboardDisclaimer();
+
   }
   initMap2() 
   {
@@ -79,15 +90,19 @@ export class DelayDashboardComponent implements OnInit {
       
   }
   delayDashboardGeneric() {
+    
+    this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
+    // console.log("delayDashboardGeneric",this.commaSeparatedRoutes)
     this.SpinnerService.show()
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
-
+    formdataCustomer.append('RouteType', this.commaSeparatedRoutes);
+    
     this.dtdcservice.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
       // console.log('delayDashboardGenericr', res);
       if(res.status=="success"){
       this.Delay_data = Object.values(res.data);
-      // console.log(this.Delay_data);
+      console.log(this.Delay_data);
       this.DelayTable();
       this.SpinnerService.hide()
       }else{
@@ -1140,5 +1155,76 @@ export class DelayDashboardComponent implements OnInit {
 
 
   }
+
+
+
+  delayDashboardDtdcFilter() {
+    this.SpinnerService.show()
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+
+    this.dtdcservice.delayDashboardDtdcFilter(formdataCustomer).subscribe((res: any) => {
+      
+      if(res.Status=="success"){
+      // console.log(res)
+      
+      this.alertData = res.data.filter1;
+      this.selectedRoute=res.data.defaultFilter2
+      this.selectedRouteType=res.data.defaultFilter1
+      console.log( this.selectedRoute)
+      this.filterdata=res.data.filter2;
+      this.delayDashboardGeneric()
+      // this.routeTypes = Object.keys(this.alertData).map((key) => ({
+      //   id: key,
+      //   route_type: this.alertData[key],
+      // }));
+      // this.SumbitFilter();
+    }else{
+      alert(res.Message);
+    }
+      // this.DelayTable();
+    })
+  }
+  changeRoutetype(eve){
+    this.routeTypes_filter=[];
+    console.log(this.filterdata,eve);
+    this.eve=eve;
+    this.selectedRouteType = []; // Reset to empty array to clear selection
+    var routeTypes_filter:any=this.filterdata[eve];
+    this.routeTypes_filter = Object.keys(routeTypes_filter).map(key => ({ route_type: key }));
+    console.log(this.routeTypes_filter)
+
+  }
+  delayDashboardDisclaimer(){
+    // alert(0)
+    // this.SpinnerService.show()
+    const formdataCustomer = new FormData();
+    formdataCustomer.append('AccessToken', this.token);
+
+    this.dtdcservice.delayDashboardDisclaimer(formdataCustomer).subscribe((res: any) => {
+      
+      
+      if(res.status=="success"){
+      const marqueeContent:any = document.getElementById('marquee-content');
+      const row = document.createElement('tr');
+      Object.entries(res.data).forEach(([key, value]) => {
+         
+          const cell = document.createElement('td');
+          cell.innerHTML = `${key}: <span id="lbl_${key.replace(/ /g, '_')}" class="badge" style="background: white; color: red; font-weight: bold; font-size: 9px;margin-right: 49px;margin-left: 2px;">${value}</span>`;
+          row.appendChild(cell);
+          marqueeContent.appendChild(row);
+      });
+      // this.routeTypes = Object.keys(this.alertData).map((key) => ({
+      //   id: key,
+      //   route_type: this.alertData[key],
+      // }));
+      // this.SumbitFilter();
+    }else{
+      alert(res.Message);
+    }
+      // this.DelayTable();
+    })
+ 
+}
 }
 

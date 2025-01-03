@@ -383,9 +383,10 @@ export class TripReportComponent implements OnInit {
   { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
   { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
   { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
-  { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
-  { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
-  { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
+  { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+  { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+  { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
   { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,
     cellRenderer: params => {
     // Create the container div
@@ -461,7 +462,7 @@ export class TripReportComponent implements OnInit {
   { headerName: "DriverNumber", field: "driverNumber", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150, },
   { headerName: "Transporter", field: "transporter", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
   { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
-  { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
+  { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
   { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100, },
   { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
   { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
@@ -498,18 +499,18 @@ export class TripReportComponent implements OnInit {
   { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  },
   { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
   { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
-  { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
-  { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
+  { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  },
   // { headerName: "Full", field: "Full", sortable: false, filter: false, floatingFilter: false,hide: true},
   // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
   // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
 
-  { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
-  { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
-  { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
-  { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
-  { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300, },
-  { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 300,  },
+  { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  },
+  { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  },
+  { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+  { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  },
  
 
 ];
@@ -533,7 +534,8 @@ this.rowData_popup = this.new_array.map((person, index) => ({
   fleet: person.FleetNo ?? "",
   tripId: person.ShipmentNo,
   runCode: person.RunCode,
-  runDate: person.RunDate ?? "",
+  runDate: new Date(person.RunDate).toLocaleDateString('en-CA') ?? "",
+  runtime: person.RunDate ? new Date(person.RunDate).toLocaleTimeString('en-GB') : "",
   vehicle: person.VehicleNo ?? "",
   trackHistory: "",
   state: person.State,
@@ -685,129 +687,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   if (this.gridApi) {
     this.gridApi.destroy();
   }
-  // this.columnDefs = [
-  //   { headerName: 'Sl.', field: 'si', sortable: true, filter: false,width: '75%' },
-  //   { headerName: 'Agency', field: 'agency', sortable: true,filter: true, floatingFilter: true, },
-  //   { headerName: 'Region', field: 'region', sortable: true, filter: true,floatingFilter: true,
-
-      // cellRenderer: (params) => {
-      //   // Create a clickable div or span element
-      //   const span = document.createElement('span');
-      //   span.innerText = params.value;
-      //   span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-    
-      //   // Add click event listener
-      //   span.addEventListener('click', () => {
-      //     // alert(`You clicked on ${params.value}`);
-      
-      //     console.log("params",params);
-      //     // this.vehicle_newFunction(params.data.full_data)
-      //     // this.show_track(params.data.full_data)
-         
-      //   });
-    
-      //   return span;
-      // }
-     
-
-  //    },
-  //   { headerName: 'District', field: 'district', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'Purchase Center', field: 'Purchase_Center', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Mill', field: 'mill', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Vehicle No.', field: 'vehicles', sortable: true, filter: true,floatingFilter: true,
-  //   //   cellStyle: (params) => {
-  //   //     if (params) {
-  //   //       return { color: 'blue' };  // If status is 0, make background red
-  //   //     } else  {
-  //   //       return { color: 'green' }; // If status is not 0, make background blue
-  //   //     }
-  //   //   },
-  //   //   cellRenderer: (params) => {
-  //   //     // Create a clickable div or span element
-  //   //     const span = document.createElement('span');
-  //   //     span.innerText = params.value;
-  //   //     span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-    
-  //   //     // Add click event listener
-  //   //     span.addEventListener('click', () => {
-  //   //       // alert(`You clicked on ${params.value}`);
-  //   //       console.log("params",params);
-  //   //       // this.vehicle_newFunction(params.data.full_data)
-  //   //       // this.show_track(params.data.full_data)
-         
-  //   //     });
-    
-  //   //     return span;
-  //   //   }
-  //   //  },
-  //   // // { headerName: 'Epod Or Geofence Status', field: 'epod_status', sortable: true, filter: true },
-  //   // { headerName: 'Driver Mobile No.', field: 'driver_number', sortable: true, filter: true ,floatingFilter: true,
-  //   //   cellRenderer: (params: any) => {
-  //   //     return `
-  //   //       <div>
-           
-  //   //         <small>${params.data.driver_name}</small>/
-  //   //         <small>${params.data.driver_mobile}</small>
-  //   //       </div>
-  //   //     `;
-  //   //   }
-  //   // },
-  //   // { headerName: 'Consignment No', field: 'Consignment_no', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'Consignment Score', field: 'Consignment_Score', sortable: true, filter: true,floatingFilter: true,
-  //   //   cellStyle: (params) => {
-  //   //     if (params) {
-  //   //       return { color: 'blue' };  // If status is 0, make background red
-  //   //     } else  {
-  //   //       return { color: 'green' }; // If status is not 0, make background blue
-  //   //     }
-  //   //   },
-  //   //   cellRenderer: (params) => {
-  //   //     // Create a clickable div or span element
-  //   //     const span = document.createElement('span');
-  //   //     span.innerText = params.value;
-  //   //     span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-    
-  //   //     // Add click event listener
-  //   //     span.addEventListener('click', () => {
-  //   //       // alert(`You clicked on ${params.value}`);
-  //   //       console.log("params",params);
-  //   //       // this.vehicle_newFunction(params.data.full_data)
-  //   //       // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-         
-  //   //     });
-    
-  //   //     return span;
-  //   //   }
-  //   //  },
-  //   // { headerName: 'Consignment Start & End Time', field: '',
-
-  //   //   valueGetter: (params: any) => {
-  //   //     return `${params.data.Consignment_Time} / ${params.data.Consignment_Time1}`;
-  //   //   },
-  //   //    sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'Duration', field: 'duration', sortable: true, filter: true },
-  //   // { headerName: 'Missed KML Distance', field: 'Missed_KML_Distance', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'KML Distance/Total Distance', field: 'KML_Distance', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Route Deviation Score', field: 'Route_Deviation_Score', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'En-Route Stoppage Count', field: 'Route_Stoppage_Count', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'En-Route Stoppage Score', field: 'Route_Stoppage_Score', sortable: true, filter: true,floatingFilter: true, },
-  //   // // { headerName: 'EPOD Done', field: 'EPOD_Done', sortable: true, filter: true },
-  //   // // { headerName: 'EPOD Score', field: 'EPOD_Score', sortable: true, filter: true },
-  //   // { headerName: 'Geofence Done', field: 'Geofence_Done', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Geofence Score', field: 'Geofence_Score', sortable: true, filter: true ,floatingFilter: true,},
-  //   // // { headerName: 'Trip Closer Type', field: 'Trip_Closer_Type', sortable: true, filter: true },
-  //   // { headerName: 'Route Deviation', field: 'Route_Deviation', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Count Of Force Close', field: 'Count_Force_Close', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Count Of Un-Auth', field: 'Count_Auth', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'Count Of Red Flag', field: 'Count_Red_Flag', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Consignment/District/Region Score', field: 'Consignmen_Score', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Transporter/DFMO/AMO/MI Score', field: 'Transporter_Score', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Distance Travelled', field: 'Distance_Travelled', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'Transporter Name', field: 'Transporter_Name', sortable: true, filter: true,floatingFilter: true, },
-  //   // { headerName: 'No. Of Bags', field: 'bags', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'Quantity', field: 'quantity', sortable: true, filter: true ,floatingFilter: true,},
-  //   // { headerName: 'Trip Status', field: 'trip_status', sortable: true, filter: true,floatingFilter: true, },
-  // ]
   if(this.extra){
     this.columnDefs = [
 
@@ -861,8 +740,9 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200,},
       { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
       { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
-      { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
-      { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100,},
+      { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200, },
+      { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+      { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
       { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
       { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200, cellRenderer: params => {
         // Create the container div
@@ -979,32 +859,13 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
        { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300},
        { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
-       // if(){
-       // { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-       // { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-       // { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-       // { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-       // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
-       // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
-       // }
-       { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250 },
-       { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
-       { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
-       { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
-       { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
-       { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
+       { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+       { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+       { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+       { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+       { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
       
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
       // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
       // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
     ];
@@ -1057,12 +918,13 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
     { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
-    { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100},
+    { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
     { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
     { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150},
     { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
+    { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
     { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
     { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200, cellRenderer: params => {
       // Create the container div
@@ -1177,7 +1039,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-    { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300},
+    { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     // if(){
     // { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
@@ -1187,22 +1049,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // }
-    { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250 },
-    { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
-    { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
-    { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
-    { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
-    { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 250  },
+    { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+    { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+    { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
    
     // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
   ];}
 
-  // routeSequence
-  // tripId
-  // trackHistory
-  // alerts
-  //  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving
   this.rowData = this.new_array.map((person, index) => ({
 
     sl: index + 1,
@@ -1215,7 +1072,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     fleet: person.FleetNo ?? "",
     tripId: person.ShipmentNo,
     runCode: person.RunCode,
-    runDate: person.RunDate ?? "",
+    runDate: new Date(person.RunDate).toLocaleDateString('en-CA') ?? "",
+    runtime: person.RunDate ? new Date(person.RunDate).toLocaleTimeString('en-GB') : "",
     vehicle: person.VehicleNo ?? "",
     trackHistory: "",
     state: person.State,
@@ -1279,51 +1137,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     // portableLockDevice: 'person.portable_lock_device'
   }));
   
-  // this.rowData = this.new_array.map((person, index) => ({
-  //   si: index + 1,
-  //   agency: person.agency_name_hn,
-  //   region: person.region_name,
-  //   district: person.district_name,
-  //   // Purchase_Center: person.source_display,
-  //   // mill: person?.destination_display,
-  //   // vehicles: person.name,
-  //   // status: person.trip_status,
-  //   // driver_mobile: person.driver_mobile,
-  //   // driver_name: person.driver_name,
-  //   // Consignment_no: person.shipment_no,
-  //   // Consignment_Score: person.rating1,
-  //   // Consignment_Time: person.run_date,
-  //   // Consignment_Time1: person.close_date,
-    
-  //   // duration: person.time,
-  //   // KML_Distance: person.polyline_route_dis,
-  //   // Missed_KML_Distance: person.missed_route_dis,
-  //   // Route_Deviation_Score: person.route_deviation_score,
-  //   // Route_Stoppage_Count: person.enroute_count,
-  //   // Route_Stoppage_Score: person.enroute_stoppage_score,
-  //   // // EPOD_Done: person.epod,
-  //   // // EPOD_Score: person.epod_score
-  //   // // ,
-  //   // Geofence_Done: person.geofence_done,
-  //   // Geofence_Score: person.geofence_score,
-  //   // // Trip_Closer_Type: person,
-  //   // Route_Deviation: person.route_deviation_score,
-  //   // Count_Force_Close: person.forceful_closure_count,
-  //   // Count_Auth: person.un_auth_loc_count,
-  //   // Count_Red_Flag: person.red_flag_count,
-  //   // Consignmen_Score: person.rating1,
-  //   // Transporter_Score: person.rating3,
-  //   // Distance_Travelled: person.distance_km,
-  //   // Transporter_Name: person.transporter_name,
-  //   // bags: person.quantity,
-  //   // quantity: person.load,
-  //   // full_data: person,
-  //   // Sorce: person.source_flag,
-  //   // destinaton: person.destination_flag,
-  //   // trip_status: person.trip_status
-
-  // }));
-
+ 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 this.gridOptions = {
@@ -1366,8 +1180,137 @@ this.gridOptions = {
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
+ Grid_table1(){
+  this.columnDefs = [
+    {
+      headerName: "Sl.",
+      field: "sl",
+      sortable: true,
+      filter: true,
+      floatingFilter: this.floating_filter,
+      cellRenderer: params => {
+        // Create the container div
+        const container = document.createElement("div");
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+  
+        // Create the span for the serial number
+        const serialSpan = document.createElement("span");
+        serialSpan.textContent = params.value;
+  
+        // Create the button
+        const button = document.createElement("button");
+        button.style.border = "none";
+        button.style.background = "none";
+        button.style.marginLeft = "5px";
+        button.style.cursor = "pointer";
+  
+        if (params.data.Full.Detail.length !== 0) {
+          button.innerHTML = `<strong style="color: blue;"><i class="fa fa-plus" style="font-size:15px; color:black"></i></strong>`;
+          
+          // Attach event listener to expand/collapse the child table
+          button.addEventListener("click", () => {
+            const node = params.node;
+            node.setExpanded(!node.expanded); // Toggle row expansion
+          });
+        }
+  
+        // Append span and button to the container
+        container.appendChild(serialSpan);
+        container.appendChild(button);
+  
+        return container;
+      },
+      minWidth: 100,
+      maxWidth: 100,
+    },
+    { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter, width: 100, minWidth: 100, maxWidth: 100 },
+    { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter, width: 100, minWidth: 100, maxWidth: 100 },
+    { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter, width: 100, minWidth: 100, maxWidth: 100 },
+    { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter, width: 200 },
+  ];
+  // this.rowData = this.new_array.map((person, index) => ({
+  //   sl: index + 1,
+  //   region: person.Region,
+  //   origin: person.Source ?? "",
+  //   destination: person.Destination ?? "",
+  //   route: person.Route ?? "",
+  //   Full: {
+  //     Detail: person.Details || [], // Child rows go here
+  //   }
+  // }));
+  this.rowData = [
+    {
+      sl: 1,
+      region: "North",
+      origin: "City A",
+      destination: "City B",
+      route: "Route 1",
+      Full: {
+        Detail: [
+          { sl: "1.1", region: "North", origin: "City AA", destination: "City BB", route: "Route 1A" },
+          { sl: "1.2", region: "North", origin: "City CC", destination: "City DD", route: "Route 1B" },
+        ],
+      },
+    },
+    {
+      sl: 2,
+      region: "South",
+      origin: "City C",
+      destination: "City D",
+      route: "Route 2",
+      Full: {
+        Detail: [
+          { sl: "1.1", region: "North", origin: "City AA", destination: "City BB", route: "Route 1A" },
+          { sl: "1.2", region: "North", origin: "City CC", destination: "City DD", route: "Route 1B" },
+        ],
+      },
+    },
+    {
+      sl: 3,
+      region: "East",
+      origin: "City E",
+      destination: "City F",
+      route: "Route 3",
+      Full: {
+        Detail: [
+          { sl: "1.1", region: "North", origin: "City AA", destination: "City BB", route: "Route 1A" },
+          { sl: "1.2", region: "North", origin: "City CC", destination: "City DD", route: "Route 1B" },
+        ],
+      },
+    },
+  ];
+  
+  this.gridOptions = {
+    columnDefs: this.columnDefs,
+    rowData: this.rowData,
+    masterDetail: true,
+    detailCellRendererParams: {
+      detailGridOptions: {
+        columnDefs: this.columnDefs, // Use the same columns
+        defaultColDef: {
+          sortable: true,
+          filter: true,
+          resizable: true,
+        },
+      },
+      getDetailRowData: (params) => {
+        // Pass child rows to the detail grid
+        params.successCallback(params.data.Full.Detail);
+      },
+    },
+  };
+  
+  const gridDiv = document.querySelector('#myGrid');
+  new agGrid.Grid(gridDiv, this.gridOptions);
+ }
+
+
+
   onSearch(term: any) {
     console.log(term)
+    if(term.term.length>=3){
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
     formdataCustomer.append('searchQuery',term.term);
@@ -1377,6 +1320,7 @@ this.gridOptions = {
       console.log(res)
       this.dataList = res.Data;
     })
+  }
     // this.searchInput.next(term); // Emit the input value
   }
  onGridReady(params: any) {
@@ -1386,10 +1330,18 @@ this.gridOptions = {
   console.log('Grid API:', this.gridApi); // Check if API is assigned correctly
 }
 exportAsExcel() {
+
   if (this.gridApi) {
-    this.gridApi.exportDataAsCsv({ fileName: 'table-data.csv' });
+    this.gridApi.exportDataAsCsv({
+      fileName: 'table-data.csv',
+      columnKeys: this.columnDefs
+        .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
+        .map(colDef => colDef.field),
+    });
   }
 }
+
+
 
 
 onGridReady_pop(params: any) {
@@ -2240,7 +2192,15 @@ initializeMap(): Promise<void> {
 }
 onBtExport() {
   // this.gridApi!.exportDataAsExcel();
-  this. gridApi!.exportDataAsCsv();
+  // this. gridApi!.exportDataAsCsv();
+  if (this.gridApi) {
+    this.gridApi.exportDataAsCsv({
+      fileName: 'table-data.csv',
+      columnKeys: this.columnDefs
+        .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
+        .map(colDef => colDef.field),
+    });
+  }
   }
   
 exportToPDF(): void {
@@ -2326,13 +2286,16 @@ exportToCSV(): void {
   const parentHeaders: string[] = [];
   const childHeaders: string[] = [];
 
-  // Extract parent and child headers
+  // Extract parent and child headers, excluding 'trackHistory'
   this.columnDefs.forEach((colDef: any) => {
     if (colDef.children) {
       // Parent header for grouped columns
-      parentHeaders.push(colDef.headerName);
-      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
-    } else {
+      const filteredChildren = colDef.children.filter((child: any) => child.field !== 'trackHistory');
+      if (filteredChildren.length > 0) {
+        parentHeaders.push(colDef.headerName);
+        childHeaders.push(...filteredChildren.map((child: any) => child.headerName));
+      }
+    } else if (colDef.field !== 'trackHistory') {
       // Parent and child headers are the same for non-grouped columns
       parentHeaders.push(colDef.headerName);
       childHeaders.push(colDef.headerName);
@@ -2351,11 +2314,12 @@ exportToCSV(): void {
     rowData.push(node.data);
   });
 
-  // Map row data to match the column fields
+  // Map row data to match the column fields, excluding 'trackHistory'
   rowData.forEach((row: any) => {
     const rowValues = childHeaders.map((header: string) => {
       const field = this.columnDefs.find((colDef: any) =>
-        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+        colDef.children?.some((child: any) => child.headerName === header && child.field !== 'trackHistory') ||
+        (colDef.headerName === header && colDef.field !== 'trackHistory')
       )?.field;
       return field ? row[field] || '' : '';
     });
@@ -2377,9 +2341,18 @@ exportToCSV(): void {
 }
 
 
+
 onBtExport_pop() {
   // this.gridApi!.exportDataAsExcel();
-  this. gridApi_popup!.exportDataAsCsv();
+  // this. gridApi_popup!.exportDataAsCsv();
+  if (this.gridApi_popup) {
+    this.gridApi_popup.exportDataAsCsv({
+      fileName: 'table-data.csv',
+      columnKeys: this.columnDefs_popup
+        .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
+        .map(colDef => colDef.field),
+    });
+  }
   }
 
 exportToPDF_popup(): void {
@@ -2465,13 +2438,16 @@ exportToCSV_popup(): void {
   const parentHeaders: string[] = [];
   const childHeaders: string[] = [];
 
-  // Extract parent and child headers
+  // Extract parent and child headers, excluding 'trackHistory'
   this.columnDefs_popup.forEach((colDef: any) => {
     if (colDef.children) {
-      // Parent header for grouped columns
-      parentHeaders.push(colDef.headerName);
-      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
-    } else {
+      // Filter out children with 'field === trackHistory'
+      const filteredChildren = colDef.children.filter((child: any) => child.field !== 'trackHistory');
+      if (filteredChildren.length > 0) {
+        parentHeaders.push(colDef.headerName);
+        childHeaders.push(...filteredChildren.map((child: any) => child.headerName));
+      }
+    } else if (colDef.field !== 'trackHistory') {
       // Parent and child headers are the same for non-grouped columns
       parentHeaders.push(colDef.headerName);
       childHeaders.push(colDef.headerName);
@@ -2490,11 +2466,12 @@ exportToCSV_popup(): void {
     rowData.push(node.data);
   });
 
-  // Map row data to match the column fields
+  // Map row data to match the column fields, excluding 'trackHistory'
   rowData.forEach((row: any) => {
     const rowValues = childHeaders.map((header: string) => {
       const field = this.columnDefs_popup.find((colDef: any) =>
-        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+        colDef.children?.some((child: any) => child.headerName === header && child.field !== 'trackHistory') ||
+        (colDef.headerName === header && colDef.field !== 'trackHistory')
       )?.field;
       return field ? row[field] || '' : '';
     });
@@ -2514,11 +2491,12 @@ exportToCSV_popup(): void {
   link.click();
   document.body.removeChild(link);
 }
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
   $('#v_track_Modal').modal('show');
+  this.initMap1()
   this.SpinnerService.show("tracking");
-
 // Clear markers and polylines if they exist
 if (this.demomarker.length > 0) {
   this.demomarker.forEach(marker => marker.setMap(null));
@@ -2580,7 +2558,7 @@ if (this.demoPolyline.length > 0) {
 
       // Log form data for debugging
       formData.forEach((value, key) => {
-        console.log("formdata...", key, value);
+        // console.log("formdata...", key, value);
       });
 
       // try {

@@ -5,6 +5,7 @@ import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.componen
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
 import { MapComponent } from './map/map.component';
+import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.component';
 const routes: Routes = [{
   path: '',
   children: [
@@ -15,6 +16,8 @@ const routes: Routes = [{
     { path: 'Delay-Dashboard', component:DelayDashboardComponent },
     { path: 'Summary-Dashboard', component:SummaryDashboardComponent },
     { path: 'map', component:MapComponent },
+    { path: 'TriggerSummary', component:TriggerSummaryComponent },
+    
     
     { path: 'Report', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },
     { path: 'Manage', loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule) },
