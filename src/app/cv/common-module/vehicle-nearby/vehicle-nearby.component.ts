@@ -15,6 +15,7 @@ declare var H: any;
 })
 export class VehicleNearbyComponent implements OnInit, AfterViewInit {
   @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
+  vehicelRadius: number = 50;
   columnDefs: any[] = [];
   rowData: any[] = [];
   gridOptions: any = {};
@@ -37,7 +38,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
     All:[],
     Active:[],
     Nod:[],
-    NGps:[],
+    NGPs:[],
     NON:[],
     InActive:[]
   }
@@ -180,14 +181,14 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         field: 'si',
         sortable: true,
         filter: false,
-        width: 75,
-      },
+        width:'50px'      },
       {
         headerName: 'Vehicle',
         field: 'vehicles',
         sortable: true,
         filter: true,
         floatingFilter: false,
+        flex:0.6
       },
       {
         headerName: 'Vehicle Status',
@@ -195,7 +196,9 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         sortable: true,
         filter: true,
         floatingFilter: false,
+        flex:0.6
       },
+
       // {
       //   headerName: 'Close Date',
       //   field: 'closeDate',
@@ -203,19 +206,21 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
       //   filter: true,
       //   floatingFilter: false,
       // },
-      {
-        headerName: 'Distance Radius',
-        field: 'distanceRadius',
-        sortable: true,
-        filter: true,
-        floatingFilter: false,
-      },
+      // {
+      //   headerName: 'Distance Radius',
+      //   field: 'distanceRadius',
+      //   sortable: true,
+      //   filter: true,
+      //   floatingFilter: false,
+      // },
+      
       {
         headerName: 'Driver Details',
         field: 'driverDetails',
         sortable: true,
         filter: true,
         floatingFilter: false,
+        flex:0.6
       },
       {
         headerName: 'Transporter',
@@ -223,6 +228,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         sortable: true,
         filter: true,
         floatingFilter: false,
+        flex:0.6
       },
       {
         headerName: 'GPS Provider',
@@ -230,6 +236,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         sortable: true,
         filter: true,
         floatingFilter: false,
+        flex:0.6
       },
       {
         headerName: 'Last Data',
@@ -237,6 +244,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         sortable: true,
         filter: true,
         floatingFilter: false,
+        flex:0.6
       },
       {
         headerName: 'Nearby Count & Map View',
@@ -244,6 +252,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         sortable: true,
         filter: true,
         floatingFilter: false,
+        flex:0.6,
         cellRenderer: (params) =>
           this.createClickableCell(params, this.showMapView),
       },
@@ -261,9 +270,9 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         editable: true,
         filter: true,
         // flex: 1,
-        autoSizeStrategy: {
-          type: 'fitCellContents',
-        },
+        // autoSizeStrategy: {
+        //   type: 'fitCellContents',
+        // },
       },
       // defaultExcelExportParams: {
       //   exportAsExcelTable: true,
@@ -292,7 +301,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         vehicles: item.vehicle_number || "N/A",
         vehicleStatus: item?.VehicleStatus,
         // closeDate: "", // No close date in provided data
-        distanceRadius: "", // No distance radius in provided data
+        // distanceRadius: "", // No distance radius in provided data
         driverDetails: `${item?.DriverName}/${item?.DriverMobile}`,
         transporter: item.Transporter || "N/A",
         gpsProvider: item.gps_vendor_name || "N/A",
@@ -307,6 +316,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
     }
   }
   loadFilterData(val){
+
     console.log(val,this.headerObject[val]);
     val=this.headerObject[val]
     this.rowData = val.map((item, index) => {
@@ -316,7 +326,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         vehicles: item.vehicle_number || "N/A",
         vehicleStatus: item?.VehicleStatus,
         // closeDate: "", // No close date in provided data
-        distanceRadius: "", // No distance radius in provided data
+        // distanceRadius: "", // No distance radius in provided data
         driverDetails: `${item?.DriverName}/${item?.DriverMobile}`,
         transporter: item.Transporter || "N/A",
         gpsProvider: item.gps_vendor_name || "N/A",
@@ -364,6 +374,8 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
    * Create a clickable cell content
    */
   createClickableCell(params: any, callback: Function): HTMLElement {
+    console.log(params);
+    
     const element = document.createElement('span');
     element.innerText = params.value;
     element.style.cursor = 'pointer';

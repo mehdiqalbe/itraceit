@@ -49,6 +49,7 @@
                 <span>At Destination: {{dashboardHeader?.at_destination}}</span>
               </div>
             </div> -->
+          
             <div class="d-flex gap-3 align-items-center" style="align-self: end;margin-bottom:4px">
               <div style="cursor: pointer;" class="all filter-border" (click)="filterTable('All')">
                   <div class="filter-label">
@@ -58,7 +59,8 @@
                        <p>{{(headerObject?.All | keyvalue)?.length}}</p>
                   </div>
                </div>
-               <div class="Active filter-border" style="border-color: #2cc844;" (click)="filterTable('Active')">
+
+               <div class="Active filter-border" style="border-color: #2cc844;cursor: pointer;" (click)="filterTable('Active')">
                   <div class="filter-label">
                       <p style="color:#2cc844">Active</p>
                   </div>
@@ -66,7 +68,8 @@
                        <p>{{(headerObject?.Active)?.length}}</p>
                   </div>
                </div>
-               <div class="NOD filter-border" style="border-color: #e74938;" (click)="filterTable('Nod')">
+
+               <div style="cursor: pointer;" class="NOD filter-border" style="border-color: #e74938;cursor: pointer;" (click)="filterTable('Nod')">
                   <div class="filter-label">
                       <p style="color:#e74938">NOD</p>
                   </div>
@@ -74,7 +77,8 @@
                        <p>{{(headerObject?.Nod)?.length}}</p>
                   </div>
                </div>
-               <div class="NGPs filter-border" style="border-color: #007AFF;" (click)="filterTable('NGPs')">
+
+               <div style="cursor: pointer;" class="NGPs filter-border" style="border-color: #007AFF;cursor: pointer;" (click)="filterTable('NGps')">
                   <div class="filter-label">
                       <p style="color:#007AFF">NGPs</p>
                   </div>
@@ -82,15 +86,17 @@
                        <p>{{(headerObject?.NGps)?.length}}</p>
                   </div>
                </div>
-               <div class="NON filter-border" style="border-color: #00C7BE;" >
+
+               <div style="cursor: pointer;" class="NON filter-border" style="border-color: #00C7BE;cursor: pointer;" (click)="filterTable('NON')" >
                   <div class="filter-label">
                       <p style="color:#00C7BE">NON</p>
                   </div>
                   <div class="border-value" style="background:#1d4380;">
-                    <p>1</p>
+                    <p>{{(headerObject?.NON)?.length}}</p>
                   </div>
                </div>
-               <div class="Inactive filter-border" style="border-color: #8E8E93;">
+
+               <div class="Inactive filter-border" style="border-color: #8E8E93;cursor: pointer;">
                   <div class="filter-label" (click)="filterTable('InActive')">
                       <p style="color:#8E8E93">Inactive <span style="color: #1d4380;border-left: 2px solid #8E8E939E;padding: 0px 6px;">{{(headerObject?.InActive)?.length}}</span></p>
                   </div>
@@ -103,6 +109,7 @@
                     </div>
                   </div>
                </div>
+
               <!-- <p style="color: 1D4380; font-weight: 600" class="m-0 ">
                 <a
                 ngbTooltip="Graph"
@@ -117,6 +124,7 @@
                 <i style="color:white" class="fa fa-bars"></i>
                 </a>
               </p> -->
+         
             </div>
             
          
@@ -136,7 +144,7 @@
   <div class="container-fluid specificDashboard">
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div style="margin-bottom:16px;" class="headerIcon justify-content-between pe-2 d-flex align-items-center">
+        <div style="margin-bottom:4px;" class="headerIcon justify-content-between pe-2 d-flex align-items-center">
           <div>
             <p style="color: 1D4380; font-weight: 600">
               <a
@@ -195,9 +203,10 @@
                       >FILTER
                     </a>
                   </p> -->
+                 
                   <div class="collapse" id="collapseExample">
                     <div
-                      class="card card-body px-0"
+                      class="card card-body px-0 pb-0"
                       style="border: none; box-shadow: none;margin-top:8px;margin-bottom: 12px;"
                     >
                       <form
@@ -410,6 +419,7 @@
                           </ng-option>
                           </ng-select>
                         </div> -->
+
                         <div class="col-lg-4 ps-0">
                           <span class="filtor_name">Search by</span>
                           <ng-select
@@ -506,7 +516,17 @@
              
             </div>
             <p style="color: #333333;font-family: 'Work Sans';font-size: 14px;font-weight: 500;margin: 6px auto;">
-                Vehicle Near By to BOB Location Under 50Km  Radius</p>
+              Vehicle Near By to BOB Location Under
+              <input
+                type="number"
+                [(ngModel)]="vehicelRadius"
+                style="width: 60px; text-align: center; font-family: 'Work Sans'; font-size: 14px; font-weight: 500; margin: 0 5px;"
+                [min]="1"
+                [max]="1000"
+                placeholder="50"
+              />
+              Km Radius
+            </p>
             <div
               class="ag-theme-alpine"
               style="width: 100%;min-height: unset  !important;"

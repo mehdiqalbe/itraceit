@@ -13,7 +13,7 @@ declare var $: any;
 export class SlotwiseDistanceReportComponent implements OnInit {
   token: any;
   filterObject:any={
-    regions: ['Region1', 'Region2', 'Region3'], // Replace with your regions
+    regions: [], // Replace with your regions
     startTimes: [] as string[],
     slotHours: [] as string[],
     days: [] as number[],
@@ -24,8 +24,12 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     routeCategory:{},
     routeType:{}
   }
+  report:any={label:'standard',type:'default',data:[]}
+  showTable:boolean=false
   exceptionDateRange = { min: '', max: '' };
   exceptionDate=[];
+  selectedVehicles: any[] = []; // Holds selected vehicle IDs
+  vehicleOptions: { id:any; name:any }[] = [];
   constructor(private datepipe: DatePipe,private navServices: NavService,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -34,6 +38,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     this.generateStartTimes()
     this.token=localStorage.getItem("AccessToken");
     // this.end(new Date(),"")
+    this.initApiCalls()
   }
   sidebarToggle() {
     let App = document.querySelector('.app');
@@ -46,6 +51,8 @@ export class SlotwiseDistanceReportComponent implements OnInit {
       App?.classList.add('sidenav-toggled');
     }
   }
+
+
   end(date,days): void {
     const dateObject = new Date(date);
     if (!date || !days) {
@@ -82,27 +89,44 @@ export class SlotwiseDistanceReportComponent implements OnInit {
   
   onFilterDashboard(val){
     console.log(val);
+    
     let formData=new FormData()
     formData.append("AccessToken",this.token)
-    formData.append("RouteType",val?.routeType)
-    formData.append("Region",val?.Region||'')
-    formData.append("Origin",val?.Origin||'')
-    formData.append("Destination",val?.destination||'')
-    formData.append("Route",val?.route||'')
-    formData.append("Delay",val?.etaDelay||'0')
-    formData.append("RouteCategory",val?.routeCategory)
+    formData.append("DateFrom",val?.date)
+    // formData.append("Region",val?.region||'')
+    formData.append("StartTime",val?.startTime||'')
+    formData.append("ReportType",val?.reportType||'')
+    formData.append("ReportFormat",val?.reportFormat||'')
+    formData.append("SlotHr",val?.slotHr||'0')
+    formData.append("ReportFormat",val?.reportFormat)
+    formData.append("Days",val?.day)
+    formData.append("VehicleNos",'TN22BD6397')
+    formData.append("ExceptionDate",val?.exceptionDate||$("#datepicker1").val())
+    if(val?.reportType=='1')
+      this.report.label='standard'
+    else
+      this.report.label='detailed'
+    if(val?.reportFormat=='1')
+      this.report.type='default'
+    else
+    this.report.type='daywise'
+    
+    console.log(this.report);
+    
     console.log(formData);
     
     this.SpinnerService.show('tableSpinner')
-    this.dtdcServices.specificTripDashboard(formData).subscribe((res: any) => {
+    this.dtdcServices.slotwiseDistanceData(formData).subscribe((res: any) => {
       
       // this.tripArray=res?.MainDashboard
       
-      console.log("specificDashboard", res);
+      console.log("slotwiseData", res);
       // console.log(this.SpinnerService);
-      
+      this.report.data=res?.Report
+      console.log(this.report);
+      this.showTable=true
       // this.masterUploadTable()
-
+      this.SpinnerService.hide('tableSpinner')
 
     },(error) => {
       console.error('error getting data', error);
@@ -159,4 +183,41 @@ export class SlotwiseDistanceReportComponent implements OnInit {
   onSubmit(formValue: any) {
     console.log('Filter Form Submitted', formValue);
   }
+  initApiCalls(){
+    let formData=new FormData
+    formData.append('AccessToken',this.token)
+    this.dtdcServices.slotwiseDistanceFilter(formData).subscribe((res: any) => {
+      console.log("slotwise", res);
+      const regionsArray = Object.entries(res?.Filter?.Master?.Region).map(([key, value]) => ({
+        id: key, // Convert key to number
+        name: value,
+      }));
+      this.filterObject.regions=regionsArray
+   console.log(regionsArray);
+   
+      // this.routeId = (res?.data);
+      // console.log("customerList", this.routeId);
+
+    })
+  }
+
+  onSearchVehicle(searchTerm: any): void {
+    console.log(searchTerm?.term);
+    // return
+    
+    if (searchTerm?.term && searchTerm?.term?.trim().length>=3) {
+      let formData=new FormData()
+      formData.append('Vehicle',searchTerm?.term)
+      this.dtdcServices.slotwiseVehicleData(formData).subscribe((res: any) => {
+        console.log("slotwise", res);
+        // this.routeId = (res?.data);
+        // console.log("customerList", this.routeId);
+  
+      })
+      console.log(searchTerm);
+      
+    }
+  }
 }
+
+

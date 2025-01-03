@@ -5,6 +5,10 @@ import { CrudService } from 'src/app/shared/services/crud.service';
 import { NavService } from 'src/app/shared/services/nav.service';
 import { DtdcService } from '../services/dtdc.service';
 import { DatePipe } from '@angular/common';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { saveAs } from 'file-saver';
+
 declare const agGrid: any;
 declare const pdfMake: any;
 declare var $: any
@@ -133,7 +137,10 @@ export class DashboardComponent implements OnInit {
            const routeType2 = data?.RouteType[2];
            this.filterObject.routeType={...routeType1,...routeType2}
             if(data?.DefualtFilter)
-           this.selectedRoutes=[data?.DefualtFilter]
+            {
+              this.selectedRoutes=data?.DefualtFilter.split(",")
+            }
+           
            console.log(this.selectedRoutes);
            
           
@@ -153,7 +160,8 @@ export class DashboardComponent implements OnInit {
            
              this.tripArray=res?.MainDashboard
              this.dashboardHeader=res?.Header
-             console.log("dashboardHeader",this.tripArray);
+             this.tripArray=Object.values(this.tripArray)
+             console.log("dashboardHeader",Object.values(this.tripArray));
              
              this.masterUploadTable()
             // this.loadData()
@@ -411,7 +419,7 @@ export class DashboardComponent implements OnInit {
     }
     clearFilter(table){
       table.search("").draw()
-      table.columns(39).search("").draw();
+      table.columns(40).search("").draw();
       table.columns(3).search("").draw();
       table.columns(4).search("").draw();
       table.columns(5).search("").draw();
@@ -427,7 +435,7 @@ export class DashboardComponent implements OnInit {
        this.clearFilter(table)
 
       if(column=='Trip')
-        table.columns(39).search(value).draw();
+        table.columns(40).search(value).draw();
       else if(column=='GPS')
         table.column(6).search(value).draw();
       else if(column=='Stoppage')
@@ -937,7 +945,7 @@ export class DashboardComponent implements OnInit {
     tripDetail() {
       var tbl = $('#tripDetailTable');
       var table = $('#tripDetailTable').DataTable();
-      console.log("Qalbe",table);
+      console.log("M",table);
       
       table.clear();
       table.destroy();
@@ -1059,7 +1067,7 @@ export class DashboardComponent implements OnInit {
                 columns: ':visible',
                 //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
               },
-              title: 'report',
+              title: 'Trip Detail Report',
             },
             {
               extend: 'copy',
@@ -1075,7 +1083,7 @@ export class DashboardComponent implements OnInit {
               exportOptions: {
                 columns: ':visible',
               },
-              title: 'Dashboard Report',
+              title: 'Trip Details Report',
             },
             {
               extend: 'excel',
@@ -1095,7 +1103,7 @@ export class DashboardComponent implements OnInit {
               exportOptions: {
                 columns: ':visible',
               },
-              title: 'Dashboard Report',
+              title: 'Trip Details Report',
             },
           ],
         });
@@ -1424,7 +1432,7 @@ export class DashboardComponent implements OnInit {
     openMapModal(item,imei) {
     
        // Open modal using jQuery
-      this.SpinnerService.show('mapSpinner')
+      // this.SpinnerService.show('mapSpinner')
       // Call the tracking function
       // this.vehicleTrackF(item,imei);
       this.vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,"")
@@ -1477,8 +1485,8 @@ export class DashboardComponent implements OnInit {
     // }
 
     async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-      this.initMap1()
-      this.SpinnerService.show("tracking");
+      // this.initMap1()
+      // this.SpinnerService.show("tracking");
   
     // Clear markers and polylines if they exist
     if (this.demomarker.length > 0) {
@@ -1497,18 +1505,18 @@ export class DashboardComponent implements OnInit {
       }else{
       // Clear markers and polylines before starting
       $('#mapModal').modal('show');
-      this.clearMarkersAndPolylines();
+      // this.clearMarkersAndPolylines();
   
       // Initialize map
-      try {
-        // await this.initializeMap();
-      } catch (error) {
-        console.error('Error initializing map:', error);
-        this.SpinnerService.hide('spinner-1');
-      }
+      // try {
+      //   // await this.initializeMap();
+      // } catch (error) {
+      //   console.error('Error initializing map:', error);
+      //   this.SpinnerService.hide('spinner-1');
+      // }
   
       // Show tracking spinner
-      this.SpinnerService.show("mapSpinner");
+      // this.SpinnerService.show("mapSpinner");
   
       // Define the array of IMEIs to process
       // const imeis = [imei,imei2,imei3];
@@ -1543,7 +1551,7 @@ export class DashboardComponent implements OnInit {
   
           // Log form data for debugging
           formData.forEach((value, key) => {
-            console.log("formdata...", key, value);
+            // console.log("formdata...", key, value);
           });
   
           // try {
@@ -1580,7 +1588,7 @@ export class DashboardComponent implements OnInit {
           // }
   
           // Hide the tracking spinner after the API call
-          this.SpinnerService.hide("mapSpinner");
+          // this.SpinnerService.hide("mapSpinner");
         }
       }
   }  }
@@ -1689,7 +1697,7 @@ export class DashboardComponent implements OnInit {
       //  if(this.customer_info!==null){
       this.customer_info.forEach((customer, index) => {
         // Log SequenceNo to check its value
-        console.log("Customer SequenceNo:", customer?.location_label,index);
+        // console.log("Customer SequenceNo:", customer?.location_label,index);
         if (customer?.location_geocoord&&customer?.location_label!=="M0") {
                               const [lat, lng] =customer?.location_geocoord.split(',').map(Number);
                               const coord = { lat, lng };
@@ -1991,7 +1999,7 @@ export class DashboardComponent implements OnInit {
       return marker
   }
   // Function to create and add a customer DOM marker with a sequence number
-addCustomerDomMarker(coord: { lat: number, lng: number }, sequenceNo) {
+  addCustomerDomMarker(coord: { lat: number, lng: number }, sequenceNo) {
   console.log(sequenceNo);
   
   const html = document.createElement('div');
@@ -2036,7 +2044,7 @@ addCustomerDomMarker(coord: { lat: number, lng: number }, sequenceNo) {
       });
       this.ui.addBubble(infoBubble);
   });
-}
+  }
   createBubble(data,add,vnumber) {
   
   return  '<table style="line-height: 16px; border:none !important">' +
@@ -2142,4 +2150,61 @@ if(flag_exist_lock==1 && flag_lock_status_show==0)
     console.log('Filters refreshed');
     this.initApiCalls()
   }
+
+  downloadExcel() {
+    // Create a worksheet from the tracking data
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.trackingData);
+
+    // Create a workbook and add the worksheet
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Tracking Data': worksheet },
+      SheetNames: ['Tracking Data']
+    };
+
+    // Write the workbook to a file
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Save the file using file-saver
+    const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(data, 'TrackingData.xlsx');
+  }
+  getExcelContent(val){
+    const formData = new FormData();
+    const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+    formData.append('AccessToken', this.token);
+    formData.append('startdate', val?.RunDate);
+    formData.append('enddate', currentDateTime);
+    formData.append('time_interval', '120');
+    formData.append('imei', val?.ImeiNo1||val?.ImeiNo2||val?.ImeiNo3);
+    formData.append('group_id', this.group_id);
+    formData.append('AccountId', this.account_id);
+    console.log("excel",formData,val);
+    this.service.vehicleTrackongS(formData).subscribe((res: any) => {
+      console.log("Response:", res);
+     
+      
+      if (res.Status === 'success' && Array.isArray(res.data) && res.data.length > 0) {
+   
+        this.trackingData=res?.data
+         this.downloadExcel()
+           
+        // Initialize the map with the coordinates
+    
+      } else {
+        console.log('No valid locations found in the response.');
+        alert("No tracking data")
+      }
+    }, error => {
+     
+      console.error('Error fetching vehicle tracking data:', error);
+    });
+  }
+
+
+  transShipment(item){
+    console.log(item,"trans-shipment");
+    $('#transShipModal').modal('hide');
+  }
+ 
 }

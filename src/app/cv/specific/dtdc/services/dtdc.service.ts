@@ -63,5 +63,25 @@ export class DtdcService {
    
     return this.http.post(apiurl,data);
   }
+
+//  ------------------------------------------------------------Slotwise Distance Report-------------------------------
+// https://apinode2.secutrak.in:3001/dev-app-itraceit/slotwiseReportFilter
+slotwiseDistanceFilter(data){
+  
+  let apiurl=this.baseURL+"slotwiseReportFilter";
  
+  return this.http.post(apiurl,data);
+}
+
+slotwiseDistanceData(data){
+  
+  let apiurl=this.baseURL+"slotwiseGeneralReport";
+ 
+  return this.http.post(apiurl,data);
+}
+slotwiseVehicleData(data){
+  let apiurl=this.baseURL+"getslotwiseVehicle";
+ 
+  return this.http.post(apiurl,data);
+}
 }
