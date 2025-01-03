@@ -6,6 +6,8 @@ import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.compo
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
 import { MapComponent } from './map/map.component';
 import { VehicleNearbyComponent } from '../../common-module/vehicle-nearby/vehicle-nearby.component';
+import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.component';
+
 const routes: Routes = [{
   path: '',
   children: [
@@ -17,6 +19,8 @@ const routes: Routes = [{
     { path: 'Summary-Dashboard', component:SummaryDashboardComponent },
     {path:'vehicle-nearby',component:VehicleNearbyComponent},
     { path: 'map', component:MapComponent },
+    { path: 'TriggerSummary', component:TriggerSummaryComponent },
+    
     
     { path: 'Report', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },
     { path: 'Manage', loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule) },

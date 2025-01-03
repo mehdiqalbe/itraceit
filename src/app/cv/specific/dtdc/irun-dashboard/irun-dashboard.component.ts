@@ -1742,8 +1742,14 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
    // console.log("table length2",datatable.length)
  }
  /////////////////////////////////////////////////////////////////////////////////////full dashboard data////////
+
+ refresh(){
+  this.SpinnerService.show();
+ }
  dashboardData1()
   {
+    // alert(0)
+    // this.SpinnerService.show();
    if (this.spin_flag == true) 
    {
      this.SpinnerService.show();
@@ -1782,7 +1788,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
        this.SpinnerService.show();
 
      }
-
+    //  this.spin_flag = true
      // console.log("dashboard full Api", data)
      dash = data
      if(dash.Dashboard ==null){

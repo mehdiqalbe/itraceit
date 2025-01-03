@@ -81,6 +81,7 @@ export class VehicleReportComponent implements OnInit {
   search_grid: boolean=false;
   demoPolyline: any=[];
   lastOpenedInfoWindow: any;
+  dataList_transporter: any=[];
   constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
 
   ngOnInit(): void {
@@ -94,7 +95,7 @@ export class VehicleReportComponent implements OnInit {
     this.start();
     // this.masterUploadTable();
     // this.Grid_table();
-    this.dtdcTripReportFilter()
+    this.vehicleReportFilter()
     this.initMap1();
   }
   initMap1() 
@@ -688,47 +689,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     this.columnDefs = [
 
       { headerName: "Sl.", field: "sl", sortable: true, filter: true, floatingFilter: this.floating_filter, 
-        
-        cellRenderer: params => {
-  
-        // Create the container div
-        const container = document.createElement("div");
-        container.style.display = "flex";
-        container.style.alignItems = "center";
-        container.style.justifyContent = "center";
-      
-        // Create the span for the serial number
-        const serialSpan = document.createElement("span");
-        serialSpan.textContent = params.value;
-      
-        // Create the button
-        const button = document.createElement("button");
-        button.style.border = "none";
-        button.style.background = "none";
-        button.style.marginLeft = "5px";
-        button.style.cursor = "pointer";
-        if(params.data.Full.Detail.length!==0){
-        button.innerHTML = `<strong style="color: blue;"><i class=" fa fa-plus" style="font-size:15px; color:black" ></strong>`;
-      
-        // Attach event listener to the button
-  
-        button.addEventListener("click", () => {
-          console.log("Row Data:", params.data);
-          // alert(`You clicked on row with data: ${JSON.stringify(params.data)}`);
-          this.Detail(params.data.Full)
-          // Call your functions here, e.g.:
-          // this.vehicle_newFunction(params.data.full_data);
-          // this.show_track(params.data.full_data);
-        });
-        }
-        // Append span and button to the container
-        container.appendChild(serialSpan);
-        container.appendChild(button);
-      
-        return container;
-          
-    },
-    minWidth: 100, maxWidth: 100, },
+       minWidth: 100, maxWidth: 100, },
       { headerName: "Vehicle", field: "Vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter },
       { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
       { headerName: "Make & Model", field: "Make", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
@@ -823,25 +784,25 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   //  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving
   this.rowData = this.new_array.map((person, index) => ({
 
-    sl: index + 1,
-    Vehicle: "Toyota Corolla",
-    region: "North",
-    Make: "Toyota - 2022",
-    "Vehicle Body Type": "Sedan",
-    Capacity: "5",
-    SpeedLimit: "120 km/h",
-    ContractType: "Lease",
-    ReportingTime: "08:00 AM",
-    LeavingTime: "05:00 PM",
-    TransporterCode: "TR12345",
-    PrimaryDeviceType: "GPS",
-    PrimaryMaunufacture: "Garmin",
-    SecondaryDeviceType: "Camera",
-    SecondaryDeviceNumber: "12345",
-    SecondaryDeviceMaunufacture: "Canon",
+    sl: index+1,
+    Vehicle:person.vehicle_number,
+    region:person,
+    Make:person.vehicle_make,
+    VehicleBodyType:person.body_type_id,
+    Capacity:person.vehicle_capicity,
+    SpeedLimit:person.speed,
+    ContractType:person.contract_type,
+    ReportingTime: person.reporting_time,
+    LeavingTime: person.leaving_time,
+    TransporterCode: person.transporter_code,
+    PrimaryDeviceType:person.device_type,
+    PrimaryMaunufacture:person.device_manufacturer,
+    SecondaryDeviceType:person.device_type2,
+    SecondaryDeviceNumber:'person',
+    SecondaryDeviceMaunufacture:person.device_manufacturer2,
     TernaryDeviceNo: "67890",
-    TernaryDeviceMaunufacture: "Sony",
-    VehicleDocument: "Valid",
+    TernaryDeviceMaunufacture: person.device_manufacturer3,
+    VehicleDocument: "",
   }));
   
   // this.rowData = this.new_array.map((person, index) => ({
@@ -931,17 +892,35 @@ this.gridOptions = {
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
-  onSearch(term: any) {
-    console.log(term)
+ onSearch(term: any) {
+  console.log(term)
+  if(term.term.length>=3){
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('searchQuery',term.term);
+  // formdataCustomer.append('route_id', route_id);
+
+  this.dtdcService.searchVehicle(formdataCustomer).subscribe((res: any) => {
+    console.log(res)
+    this.dataList = res.Data;
+  })
+}
+  // this.searchInput.next(term); // Emit the input value
+}
+  transporter_onSearch(term: any) {
+    console.log(term.term.length)
+    if(term.term.length>=3){
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
     formdataCustomer.append('searchQuery',term.term);
     // formdataCustomer.append('route_id', route_id);
   
-    this.CrudService.getVehicle(formdataCustomer).subscribe((res: any) => {
+    this.dtdcService.searchTransporter(formdataCustomer).subscribe((res: any) => {
       console.log(res)
-      this.dataList = res.Data;
+      this.dataList_transporter = res.Data;
+      console.log(this.dataList_transporter)
     })
+  }
     // this.searchInput.next(term); // Emit the input value
   }
  onGridReady(params: any) {
@@ -966,14 +945,14 @@ exportAsExcel_pop() {
     this.gridApi_popup.exportDataAsCsv({ fileName: 'table-data.csv' });
   }
 }
-dtdcTripReportFilter(){
+vehicleReportFilter(){
   var formdata=new FormData()
   formdata.append('AccessToken',this.token)
   
-  this.dtdcService.dtdcTripReportFilter(formdata).subscribe((data:any) => {
+  this.dtdcService.vehicleReportFilter(formdata).subscribe((data:any) => {
     console.log(data)
     if(data.Status=="success"){
-      this.Master_filter=data.Filter.Master;
+      this.Master_filter=data.Data;
       console.log(data.Filter)
     }else{
       // alert("Data not found ")
@@ -982,11 +961,11 @@ dtdcTripReportFilter(){
     // console.log(data)
   })
 }
-triggerHstSubmit(eve){
+Submit(eve){
   this.search_grid=true;
   this.submit=true;
 // alert(0)
-  // console.log(eve.form.status,eve)  triggerHistoryForm
+  console.log(eve.form.status,eve)  
   if(eve.form.status=='VALID'){
     this.SpinnerService.show()
   var formdata=new FormData()
@@ -999,33 +978,34 @@ triggerHstSubmit(eve){
  var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
   formdata.append('DateFrom',starteDate)
   formdata.append('DateTo', endDate)
-  formdata.append('ReportType',eve.value.ReportType);
+  // formdata.append('ReportType',eve.value.ReportType);
 
   
-  if(eve.value.TripId){
-    formdata.append('TripId',eve.value.TripId)
-  }else{
+  if(eve.value.Tranporter){
+    formdata.append('transporter_id',eve.value.Tranporter)
+  }
     // RouteType,RouteCategory,Origin,Destination,Route,Region,TripStatus,VehicleNo,SupervisorException
-    if(eve.value.Feeder){formdata.append('RouteType',eve.value.Feeder)}
-   if(eve.value.TripType){ formdata.append('RouteCategory',eve.value.TripType)}
-   if(eve.value.Origin){ formdata.append('Origin',eve.value.Origin)}
-   if(eve.value.Destination){ formdata.append('Destination',eve.value.Destination)}
-   if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
-   if(eve.value.Region){ formdata.append('Region',eve.value.Region)}
-   if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
-   if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number)}
+    if(eve.value.Working_hrs){formdata.append('contractual_hrs',eve.value.Working_hrs)}
+
+   if(eve.value.vehicle_number){ formdata.append('vehicle_id',eve.value.vehicle_number)}
+   if(eve.value. gps_vendor){ formdata.append('GpsVendor',eve.value. gps_vendor)}
+   if(eve.value.DeviceType){ formdata.append('device_type',eve.value.DeviceType)}
+  //  if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
+  //  if(eve.value.Region){ formdata.append('region',eve.value.Region)}
+  //  if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
+  //  if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number)}
   //  if(eve.VehicleNo){ formdata.append('vehicle',eve.vehicle_number);}
    
     // formdata.append('ETADelay',eve.Delay)
-  }
+  // }
   // formdata.forEach((value, key) => {
   //   console.log("formdata",key, value);
   // });
-  this.dtdcService.dtdcTripReport(formdata).subscribe((data:any) => {
+  this.dtdcService.vehicleReport(formdata).subscribe((data:any) => {
     this.submit=false;
-    // console.log(data)
+    console.log(data)
     if(data.Status=="success"){
-      this.new_array=data.Report;
+      this.new_array=data.Data;
       console.log(this.new_array)
       this.Grid_table();
       this.SpinnerService.hide();

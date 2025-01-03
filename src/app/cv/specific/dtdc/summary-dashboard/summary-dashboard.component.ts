@@ -648,15 +648,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   // { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true },
 ];
 
-// onGridReady: params => {
-  // Dynamically hide the "Full" column
-
-// }
-// routeSequence
-// tripId
-// trackHistory
-// alerts
-//  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving   Destination
 this.rowData_popup = this.rowData_popup.map((person, index) => ({
   Sl: index + 1,
   Region: person.Region,
@@ -665,53 +656,6 @@ this.rowData_popup = this.rowData_popup.map((person, index) => ({
   TripCount: person.TripCnt,
 
  }));
-// this.rowData = this.new_array.map((person, index) => ({
-//   si: index + 1,
-//   agency: person.agency_name_hn,
-//   region: person.region_name,
-//   district: person.district_name,
-//   // Purchase_Center: person.source_display,
-//   // mill: person?.destination_display,
-//   // vehicles: person.name,
-//   // status: person.trip_status,
-//   // driver_mobile: person.driver_mobile,
-//   // driver_name: person.driver_name,
-//   // Consignment_no: person.shipment_no,
-//   // Consignment_Score: person.rating1,
-//   // Consignment_Time: person.run_date,
-//   // Consignment_Time1: person.close_date,
-  
-//   // duration: person.time,
-//   // KML_Distance: person.polyline_route_dis,
-//   // Missed_KML_Distance: person.missed_route_dis,
-//   // Route_Deviation_Score: person.route_deviation_score,
-//   // Route_Stoppage_Count: person.enroute_count,
-//   // Route_Stoppage_Score: person.enroute_stoppage_score,
-//   // // EPOD_Done: person.epod,
-//   // // EPOD_Score: person.epod_score
-//   // // ,
-//   // Geofence_Done: person.geofence_done,
-//   // Geofence_Score: person.geofence_score,
-//   // // Trip_Closer_Type: person,
-//   // Route_Deviation: person.route_deviation_score,
-//   // Count_Force_Close: person.forceful_closure_count,
-//   // Count_Auth: person.un_auth_loc_count,
-//   // Count_Red_Flag: person.red_flag_count,
-//   // Consignmen_Score: person.rating1,
-//   // Transporter_Score: person.rating3,
-//   // Distance_Travelled: person.distance_km,
-//   // Transporter_Name: person.transporter_name,
-//   // bags: person.quantity,
-//   // quantity: person.load,
-//   // full_data: person,
-//   // Sorce: person.source_flag,
-//   // destinaton: person.destination_flag,
-//   // trip_status: person.trip_status
-
-// }));
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 this.gridOptions_popup = {
   rowHeight: 30,
   headerHeight: 40,
@@ -843,29 +787,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].completeTrips;
-            //   var Region=params.data.Region;
-            //   // console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].completeTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-        
-
 
             span.addEventListener('click', () => {
               var Region=params.data.Region;
@@ -898,27 +819,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].totalTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].totalTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -975,9 +875,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
               }else{
                 alert("Data not found")
               }
-              // this.vehicle_newFunction(params.data.full_data)
-              // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
             });
         
             return span;
@@ -1019,9 +916,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
               }else{
                 alert("Data not found")
               }
-              // this.vehicle_newFunction(params.data.full_data)
-              // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
             });
         
             return span;
@@ -1070,7 +964,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         
             return span;
           }
-          // headerClass: 'custom-child-header'
         },
         {
 
@@ -1105,11 +998,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
               }else{
                 alert("Data not found")
               }
-
-              
-              // this.vehicle_newFunction(params.data.full_data)
-              // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
             });
         
             return span;
@@ -1155,10 +1043,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             });
             return span;
           },
-
-
-
- // Use the custom header component
         },
         {
           headerName: "Route NA",
@@ -1212,26 +1096,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1271,26 +1135,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].otdTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].otdTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1356,26 +1200,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].atdnTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].atdnTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1409,27 +1233,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1460,27 +1263,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1513,27 +1295,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1565,27 +1326,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1616,27 +1356,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].otaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].otaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1669,27 +1388,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].ata_delayedTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].ata_delayedTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -1705,14 +1403,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             return span;
           }
         },
-        // {
-        //   headerName: "ATA NA",
-        //   field: "ATANA",
-        //   sortable: true,
-        //   filter: true,
-        //   floatingFilter: this.floating_filter,
-        //   // headerClass: 'custom-child-header'
-        // },
         {
           headerName: "AINA",
           field: "AINA",
@@ -1729,27 +1419,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].ainaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].ainaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
             span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
@@ -3568,12 +3237,11 @@ option = {
         formatter: "{a} <br/>{b}: {c} ({d}%)"
     },
     legend: {
-        orient: 'vertical',
-        left:370 ,
-        top:120,
-        // bottom:'1',
-        // fontsize:10,
-        fontSize: '10',
+      orient: 'vertical', // Sets the orientation to horizontal
+      left: 'center',   
+      width: '100%',        // Ensure enough space for all items in one line
+      // data: ['Series1', 'Series2', 'Series3'], // Legend items
+      itemGap: 5,        
         data:  columnData_Region
     },
     series: [

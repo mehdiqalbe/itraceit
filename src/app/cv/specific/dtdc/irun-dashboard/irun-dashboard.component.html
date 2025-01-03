@@ -117,7 +117,7 @@
                     id="darkicon">{{totalThreat}}</span></button>
           
                 <button type="button" class="text-dark" tooltipClass="customIRunning-tooltip-class" ngbTooltip="Refresh Page" container="body"
-                  (click)="triggerFullData();dashboardData1();threatDataF();qrtList();"><i class="fa fa-refresh"
+                  (click)="refresh();dashboardData1();threatDataF();qrtList();triggerFullData();"><i class="fa fa-refresh"
                     style="font-size: 20px;color: green" id="blink"></i>
                 </button>
           
@@ -143,7 +143,7 @@
           
             </button>
             <button type="button" class="text-dark" tooltipClass="customTotal-tooltip-class" ngbTooltip="Trigger Summary" container="body">
-              <a target="blank" routerLink="/Map/summaryTrigger"> <i class="fa fa-file" style="font-size: 20px; color:grey"
+              <a target="blank" routerLink="/cv/specific/dtdc/TriggerSummary"> <i class="fa fa-file" style="font-size: 20px; color:grey"
                   id="blink"></i></a>
             </button>
             </div>
