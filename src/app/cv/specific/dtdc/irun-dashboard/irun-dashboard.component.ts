@@ -570,10 +570,6 @@ sidebarToggle() {
  ///////////////////////////datatable table//////////////////////////////////
  masterUploadTable()
   {
-
-
-
-
    var tbl = $('#masterUpload')
    var table = $('#masterUpload').DataTable();
    table.clear()

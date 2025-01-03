@@ -5,6 +5,8 @@ import { CrudService } from 'src/app/shared/services/crud.service';
 import { NavService } from 'src/app/shared/services/nav.service';
 import { DtdcService } from '../services/dtdc.service';
 import { DatePipe } from '@angular/common';
+declare const agGrid: any;
+declare const pdfMake: any;
 declare var $: any
 declare var H:any;
 @Component({
@@ -14,6 +16,12 @@ declare var H:any;
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
+
+  columnDefs: any[] = [];
+  rowData: any[] = [];
+  gridOptions: any = {};
+  gridApi: any;
+  columnApi: any;
   Object=Object;
   map: any;
   token: any
@@ -62,7 +70,6 @@ export class DashboardComponent implements OnInit {
   map_flag: any;
   contentsInfo: string | Node | undefined;
   lastOpenedInfoWindow: any;
-  values_Array: any=[];
 
   constructor(private datepipe: DatePipe,private navServices: NavService,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
 
@@ -73,7 +80,14 @@ export class DashboardComponent implements OnInit {
     // });
     this.initMap1()
     this.initApiCalls()
+    // this.initializeColumnDefs()
   }
+  // ngAfterViewInit(): void {
+  //   const gridElement = document.querySelector('#myGrid') as HTMLElement;
+  //   if (gridElement) {
+  //     new agGrid.Grid(gridElement, this.gridOptions);
+  //   }
+  // }
     ///////////////////////////////////////////////////////////search function////////////////////////////////
     sidebarToggle() {
       let App = document.querySelector('.app');
@@ -118,6 +132,7 @@ export class DashboardComponent implements OnInit {
           const routeType1 = data?.RouteType[1];
            const routeType2 = data?.RouteType[2];
            this.filterObject.routeType={...routeType1,...routeType2}
+            if(data?.DefualtFilter)
            this.selectedRoutes=[data?.DefualtFilter]
            console.log(this.selectedRoutes);
            
@@ -137,11 +152,11 @@ export class DashboardComponent implements OnInit {
             {
            
              this.tripArray=res?.MainDashboard
-              this.values_Array = Object.values(res?.MainDashboard);
              this.dashboardHeader=res?.Header
              console.log("dashboardHeader",this.tripArray);
              
              this.masterUploadTable()
+            // this.loadData()
              this.SpinnerService.hide('tableSpinner')
              this.initChart()
              }
@@ -303,7 +318,7 @@ export class DashboardComponent implements OnInit {
   
   
       this.chartObject.forEach(({id,name,data,colors}) => {
-        console.log(id,name,data,colors);
+        // console.log(id,name,data,colors);
         
         this.chartFunction(id,name,data,colors)
       });
@@ -472,7 +487,7 @@ export class DashboardComponent implements OnInit {
           this.SpinnerService.hide('alertSpinner')
           this.tripSingle.details=res?.TripDetails
           console.log("details",this.tripSingle);
-          this.tripHeader()
+          // this.tripHeader()
           this.tripDetail()
             
           // this.tripHeader()
@@ -743,179 +758,182 @@ export class DashboardComponent implements OnInit {
       //   this.SpinnerService.hide();
       // }, 3000);
     }
-    tripHeader() {
-      var tbl = $('#tripHeaderTable');
-      var table = $('#tripHeaderTable').DataTable()
-      console.log("Qalbe",table);
+
+
+
+    // tripHeader() {
+    //   var tbl = $('#tripHeaderTable');
+    //   var table = $('#tripHeaderTable').DataTable()
+    //   console.log("Qalbe",table);
       
-      // table.clear();
-      // table.destroy();
-      // table.draw()
-      // $('#masterUpload').DataTable().clear;
-      // if(datatable.length!=)
+    //   // table.clear();
+    //   // table.destroy();
+    //   // table.draw()
+    //   // $('#masterUpload').DataTable().clear;
+    //   // if(datatable.length!=)
   
-      //  $('#masterUpload tbody').empty();
+    //   //  $('#masterUpload tbody').empty();
   
-      $(document).ready(function () {
-        $('#tripHeaderTable').DataTable({
-          language: {
-            search: '',
-            searchPlaceholder: 'Search',
-          },
-          pageLength: 10,
-          fixedHeader: true,
-          // scrollX: true,
+    //   $(document).ready(function () {
+    //     $('#tripHeaderTable').DataTable({
+    //       language: {
+    //         search: '',
+    //         searchPlaceholder: 'Search',
+    //       },
+    //       pageLength: 10,
+    //       fixedHeader: true,
+    //       // scrollX: true,
           
-          ordering: true,
-          scrollY: '450px',
-          scrollCollapse: true,
-          paging: false,
-          scrollX: true,
-          destroy: true,
-          responsive: true,
-          // dom: '<f>t',
-          //  dom: 'Bfrtip',
+    //       ordering: true,
+    //       scrollY: '450px',
+    //       scrollCollapse: true,
+    //       paging: false,
+    //       scrollX: true,
+    //       destroy: true,
+    //       responsive: true,
+    //       // dom: '<f>t',
+    //       //  dom: 'Bfrtip',
   
-          //   fixedColumns:   {
-          //     leftColumns: 11,
-          //     select: true,
+    //       //   fixedColumns:   {
+    //       //     leftColumns: 11,
+    //       //     select: true,
   
-          //     // rightColumns: 5
-          // },
+    //       //     // rightColumns: 5
+    //       // },
   
-          order: [],
-          dom: '<"html5buttons"B>lTfgitp',
-          columnDefs: [{ targets: 'no-sort', orderable: false }],
+    //       order: [],
+    //       dom: '<"html5buttons"B>lTfgitp',
+    //       columnDefs: [{ targets: 'no-sort', orderable: false }],
   
-          buttons: [
-            {
-              extend: 'csv',
-              footer: true,
-              autoClose: 'true',
-              titleAttr: 'Download csv file',
+    //       buttons: [
+    //         {
+    //           extend: 'csv',
+    //           footer: true,
+    //           autoClose: 'true',
+    //           titleAttr: 'Download csv file',
   
-              className: 'datatablecsv-btn fa fa-file-text-o ',
-              text: '',
-              tag: 'span',
-              charset: 'utf-8',
-              extension: '.csv',
+    //           className: 'datatablecsv-btn fa fa-file-text-o ',
+    //           text: '',
+    //           tag: 'span',
+    //           charset: 'utf-8',
+    //           extension: '.csv',
   
-              // fieldSeparator: ';',
-              // fieldBoundary: '',
-              filename: 'export',
-              bom: true,
-              columns: ':visible',
+    //           // fieldSeparator: ';',
+    //           // fieldBoundary: '',
+    //           filename: 'export',
+    //           bom: true,
+    //           columns: ':visible',
   
-              exportOptions: {
-                columns: ':visible',
-              },
-              title: 'report',
-            },
-            {
-              extend: 'pdf',
-              footer: true,
-              orientation: 'landscape',
-              pageSize: 'LEGAL',
+    //           exportOptions: {
+    //             columns: ':visible',
+    //           },
+    //           title: 'report',
+    //         },
+    //         {
+    //           extend: 'pdf',
+    //           footer: true,
+    //           orientation: 'landscape',
+    //           pageSize: 'LEGAL',
   
-              autoClose: 'true',
+    //           autoClose: 'true',
   
-              titleAttr: 'Download Pdf file',
-              tag: 'span',
-              charset: 'utf-8',
-              // extension: '.pdf',
-              columns: ':visible',
-              // fieldSeparator: ';',
-              // fieldBoundary: '',
-              // filename: 'export',
-              bom: true,
+    //           titleAttr: 'Download Pdf file',
+    //           tag: 'span',
+    //           charset: 'utf-8',
+    //           // extension: '.pdf',
+    //           columns: ':visible',
+    //           // fieldSeparator: ';',
+    //           // fieldBoundary: '',
+    //           // filename: 'export',
+    //           bom: true,
   
-              className: 'datatablepdf-btn fa fa-file-pdf-o ',
-              text: '',
-              customize: function (doc) {
-                //   pdfMake.fonts = {
-                //     Roboto: {
-                //         normal: 'Roboto-Regular.ttf',
-                //         bold: 'Roboto-Medium.ttf',
-                //         italics: 'Roboto-Italic.ttf',
-                //         bolditalics: 'Roboto-MediumItalic.ttf'
-                //     },
-                //     nikosh: {
-                //         normal: "NikoshBAN.ttf",
-                //         bold: "NikoshBAN.ttf",
-                //         italics: "NikoshBAN.ttf",
-                //         bolditalics: "NikoshBAN.ttf"
-                //     }
-                // };
-                var colCount = new Array();
-                $(tbl)
-                  .find('tbody tr:first-child td')
-                  .each(() => {
-                    if ($(this).attr('colspan')) {
-                      for (var i = 1; i <= $(this).attr('colspan'); i++) {
-                        colCount.push('*');
-                      }
-                    } else {
-                      colCount.push('*');
-                    }
-                  });
-                // doc.defaultStyle.font = "arial";
-                doc.content[1].table.widths = colCount;
-                // doc.defaultStyle.fontSize = 'Arial';
-                // processDoc(doc);
+    //           className: 'datatablepdf-btn fa fa-file-pdf-o ',
+    //           text: '',
+    //           customize: function (doc) {
+    //             //   pdfMake.fonts = {
+    //             //     Roboto: {
+    //             //         normal: 'Roboto-Regular.ttf',
+    //             //         bold: 'Roboto-Medium.ttf',
+    //             //         italics: 'Roboto-Italic.ttf',
+    //             //         bolditalics: 'Roboto-MediumItalic.ttf'
+    //             //     },
+    //             //     nikosh: {
+    //             //         normal: "NikoshBAN.ttf",
+    //             //         bold: "NikoshBAN.ttf",
+    //             //         italics: "NikoshBAN.ttf",
+    //             //         bolditalics: "NikoshBAN.ttf"
+    //             //     }
+    //             // };
+    //             var colCount = new Array();
+    //             $(tbl)
+    //               .find('tbody tr:first-child td')
+    //               .each(() => {
+    //                 if ($(this).attr('colspan')) {
+    //                   for (var i = 1; i <= $(this).attr('colspan'); i++) {
+    //                     colCount.push('*');
+    //                   }
+    //                 } else {
+    //                   colCount.push('*');
+    //                 }
+    //               });
+    //             // doc.defaultStyle.font = "arial";
+    //             doc.content[1].table.widths = colCount;
+    //             // doc.defaultStyle.fontSize = 'Arial';
+    //             // processDoc(doc);
   
-                // doc.defaultStyle= {alef:'alef' } ;
-              },
+    //             // doc.defaultStyle= {alef:'alef' } ;
+    //           },
   
-              exportOptions: {
-                columns: ':visible',
-                //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
-              },
-              title: 'report',
-            },
-            {
-              extend: 'copy',
-              footer: true,
-              titleAttr: ' Copy  file',
+    //           exportOptions: {
+    //             columns: ':visible',
+    //             //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
+    //           },
+    //           title: 'report',
+    //         },
+    //         {
+    //           extend: 'copy',
+    //           footer: true,
+    //           titleAttr: ' Copy  file',
   
-              tag: 'span',
+    //           tag: 'span',
   
-              className: 'datatablecopy-btn fa fa-copy ',
-              text: '',
-              orientation: 'landscape',
-              pageSize: 'LEGAL',
-              exportOptions: {
-                columns: ':visible',
-              },
-              title: 'Dashboard Report',
-            },
-            {
-              extend: 'excel',
-              footer: true,
-              autoClose: 'true',
-              //text: '',
-              //className: 'fa fa-file-pdf-o',
-              //color:'#ff0000',
+    //           className: 'datatablecopy-btn fa fa-copy ',
+    //           text: '',
+    //           orientation: 'landscape',
+    //           pageSize: 'LEGAL',
+    //           exportOptions: {
+    //             columns: ':visible',
+    //           },
+    //           title: 'Dashboard Report',
+    //         },
+    //         {
+    //           extend: 'excel',
+    //           footer: true,
+    //           autoClose: 'true',
+    //           //text: '',
+    //           //className: 'fa fa-file-pdf-o',
+    //           //color:'#ff0000',
   
-              buttons: ['excel'],
-              titleAttr: ' Download excel file',
+    //           buttons: ['excel'],
+    //           titleAttr: ' Download excel file',
   
-              tag: 'span',
+    //           tag: 'span',
   
-              className: 'datatableexcel-btn fa fa-file-excel-o',
-              text: '',
-              exportOptions: {
-                columns: ':visible',
-              },
-              title: 'Dashboard Report',
-            },
-          ],
-        });
-      });
+    //           className: 'datatableexcel-btn fa fa-file-excel-o',
+    //           text: '',
+    //           exportOptions: {
+    //             columns: ':visible',
+    //           },
+    //           title: 'Dashboard Report',
+    //         },
+    //       ],
+    //     });
+    //   });
   
-      // setTimeout(() => {
-      //   this.SpinnerService.hide();
-      // }, 3000);
-    }
+    //   // setTimeout(() => {
+    //   //   this.SpinnerService.hide();
+    //   // }, 3000);
+    // }
     tripDetail() {
       var tbl = $('#tripDetailTable');
       var table = $('#tripDetailTable').DataTable();
@@ -1215,7 +1233,7 @@ export class DashboardComponent implements OnInit {
       let innerDiv = chartDom.querySelector('div');
       innerDiv.style.zIndex = '1';
   
-      console.log(innerDiv);
+      // console.log(innerDiv);
       echart.on('click',  (params) => {
         if (params.componentType === 'series') {
             // Access the clicked data
@@ -1406,7 +1424,7 @@ export class DashboardComponent implements OnInit {
     openMapModal(item,imei) {
     
        // Open modal using jQuery
-      // this.SpinnerService.show('mapSpinner')
+      this.SpinnerService.show('mapSpinner')
       // Call the tracking function
       // this.vehicleTrackF(item,imei);
       this.vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,"")
@@ -1459,10 +1477,8 @@ export class DashboardComponent implements OnInit {
     // }
 
     async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-      // if(!this.map1){
-        // this.initMap1()
-      // }
-      // this.SpinnerService.show("tracking");
+      this.initMap1()
+      this.SpinnerService.show("tracking");
   
     // Clear markers and polylines if they exist
     if (this.demomarker.length > 0) {
@@ -1477,6 +1493,7 @@ export class DashboardComponent implements OnInit {
       // console.log(imei, imei2, imei3);
       if (imei === '' && imei2 === '' && imei3 === '') {
         alert("IMEI not assign");
+        return
       }else{
       // Clear markers and polylines before starting
       $('#mapModal').modal('show');
@@ -1672,13 +1689,13 @@ export class DashboardComponent implements OnInit {
       //  if(this.customer_info!==null){
       this.customer_info.forEach((customer, index) => {
         // Log SequenceNo to check its value
-        console.log("Customer SequenceNo:", customer?.location_label);
-        if (customer?.location_geocoord) {
+        console.log("Customer SequenceNo:", customer?.location_label,index);
+        if (customer?.location_geocoord&&customer?.location_label!=="M0") {
                               const [lat, lng] =customer?.location_geocoord.split(',').map(Number);
                               const coord = { lat, lng };
         const sequenceNo = customer.location_label ? customer.location_label.toString() : ''; // Ensure this is a string
         // const sequenceNo = customer.SequenceNo  // Ensure this is a string
-  
+
         let mark = new google.maps.Marker({
           map: this.map1,
           position: new google.maps.LatLng(coord.lat, coord.lng),
@@ -1812,6 +1829,7 @@ export class DashboardComponent implements OnInit {
 
   }
   handleCustomerMarkerClick(event, index) {
+      
     const customer = this.customer_info[index];
     console.log(this.customer_info);
     
@@ -1843,13 +1861,10 @@ export class DashboardComponent implements OnInit {
   initMap1() 
   {
  
-    // if(!this.map1){
-   //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+
     const center = { lat: 23.2599, lng: 77.4126 };
  
-   //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
-   // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
- // 
+
  
     this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
       zoom: 4,
@@ -1862,11 +1877,11 @@ export class DashboardComponent implements OnInit {
     );
  
   
-//  }
+ 
     
       
   }
-
+  
   //   initializeMap(item, coordinates: { lat: number, lng: number }[]) {
   //     if (!this.map) {
   //         // Initialize HERE map platform and default layers
@@ -2094,7 +2109,7 @@ addCustomerDomMarker(coord: { lat: number, lng: number }, sequenceNo) {
   }
   
   elockFunctionDisplay(FixedLockOpen,PortableLockOpen):any{
-    //  console.log("elock",val);
+    //  console.log("elock",FixedLockOpen);
     let flag_lock_status_show=0;
      let  flag_exist_lock=0;
 if(FixedLockOpen!="" && FixedLockOpen!="NA")
@@ -2120,5 +2135,11 @@ if(flag_exist_lock==1 && flag_lock_status_show==0)
   return "Close"
 }
   }
-
+   
+  onRefreshFilter(filterForm: any) {
+    filterForm.reset(); // Reset the form to its default state
+    this.selectedRoutes = []; // Clear selected values for multiselects
+    console.log('Filters refreshed');
+    this.initApiCalls()
+  }
 }

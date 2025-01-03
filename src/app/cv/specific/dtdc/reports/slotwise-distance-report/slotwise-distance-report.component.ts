@@ -25,6 +25,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     routeType:{}
   }
   exceptionDateRange = { min: '', max: '' };
+  exceptionDate=[];
   constructor(private datepipe: DatePipe,private navServices: NavService,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -32,7 +33,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     this.generateSlotHours()
     this.generateStartTimes()
     this.token=localStorage.getItem("AccessToken");
-    this.end()
+    // this.end(new Date(),"")
   }
   sidebarToggle() {
     let App = document.querySelector('.app');
@@ -45,19 +46,40 @@ export class SlotwiseDistanceReportComponent implements OnInit {
       App?.classList.add('sidenav-toggled');
     }
   }
-end(){
-  $(document).ready(() => {
-    $("#datepicker1").datepicker({
-      format: "yyyy-mm-dd", // Date format
-      multidate: true,      // Enable multiple date selection
-      todayBtn: "linked",   // Show the "Today" button
-      autoclose: true,      // Close after selection
-      clearBtn: true,
-      minDate: '12/24/2024',
-      maxDate: '+14D',        // Add a clear button
-    });
-  });
-}
+  end(date,days): void {
+    const dateObject = new Date(date);
+    if (!date || !days) {
+      alert("Please select a start date first.");
+      return;
+    }
+    if (isNaN(dateObject.getTime())) {
+      console.error("Invalid date provided.");
+      return;
+    }
+  
+    const startDate = dateObject;
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + days-1);
+  console.log(this.exceptionDate);
+  
+    // Prevent reinitializing if already configured
+    if (!$("#datepicker1").data('datepicker')) {
+      $("#datepicker1").datepicker({
+        format: "yyyy-mm-dd",
+        multidate: true,
+        todayBtn: "linked",
+        autoclose: false,
+        clearBtn: true,
+      });
+    }
+  
+    // Update datepicker range
+    $("#datepicker1").datepicker('setStartDate', startDate);
+    console.log($("#datepicker1").datepicker('setStartDate', startDate)?.value);
+    
+    $("#datepicker1").datepicker('setEndDate', endDate);
+  }
+  
   onFilterDashboard(val){
     console.log(val);
     let formData=new FormData()
@@ -89,21 +111,22 @@ end(){
     
   }
 
-  updateExceptionDateRange(selectedDate: any, selectedDays: any): void {
-    selectedDate=(selectedDate?.target?.value);
-    // selectedDays=(selectedDays?.target?.value)
-    console.log(selectedDate,selectedDays);
-    
-    if (selectedDate && selectedDays) {
-      const startDate = new Date(selectedDate);
-      const endDate = new Date(selectedDate);
-      endDate.setDate(startDate.getDate() + selectedDays - 1); // Add selected days to start date
-
-      this.exceptionDateRange.min = startDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-      this.exceptionDateRange.max = endDate.toISOString().split('T')[0];   // Format as YYYY-MM-DD
-    } else {
-      this.exceptionDateRange = { min: '', max: '' }; // Reset if inputs are missing
+  updateExceptionDateRange(selectedDate: any, selectedDays: any, filter: any): void {
+    console.log(filter?.value);
+  
+    if (true) {
+      // Clear the exception date field
+      console.log("hii");
+      
+      $("#datepicker1").val(""); // Clear the value of the input field
+      if ($("#datepicker1").data('datepicker')) {
+        $("#datepicker1").datepicker('clearDates'); // Reset the datepicker if initialized
+      }
+      // return;
     }
+  
+    console.log("Selected Date:", $("#datepicker1").val());
+    // this.end(selectedDate, selectedDays);
   }
   generateStartTimes() {
     const hours = 24;

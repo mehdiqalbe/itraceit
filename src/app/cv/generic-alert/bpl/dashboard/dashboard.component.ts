@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
 
   token: any
   GroupTypeId: any;
+  map1: any;
   group_id: any;
   account_id: any
   Object = Object;
@@ -162,6 +163,7 @@ export class DashboardComponent implements OnInit {
     this.initApiCalls()
     this.expenseList()
     this.onFilterDriver('')
+    
   }
 
   sidebarToggle() {
@@ -1086,6 +1088,7 @@ showInfoBubble(marker, data: any): void {
     
   
   }
+
   linkPopup(val:any){
     this.SpinnerService.show('linkSpinner')
     console.log("hii");
@@ -1125,6 +1128,7 @@ showInfoBubble(marker, data: any): void {
     })
    
   }
+
   closeLinkModal(){
     console.log("hii"); 
     this.linkObject.text="Copy to clipboard"
@@ -3225,7 +3229,32 @@ showInfoBubble(marker, data: any): void {
     // });
   }
 
-
+  initMap1() 
+  {
+ 
+ 
+   //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+    const center = { lat: 23.2599, lng: 77.4126 };
+ 
+   //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+   // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+ // 
+ 
+    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+      zoom: 4,
+       center: center,
+ 
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scaleControl: true,
+ 
+    }
+    );
+ 
+  
+ 
+    
+      
+  }
 
 
 }
