@@ -21,6 +21,7 @@ import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.compo
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
 // import { DtdcFeature1Component } from './components/dtdc-feature1/dtdc-feature1.component';
 import { MapComponent } from './map/map.component';
+import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { MapComponent } from './map/map.component';
     DelayDashboardComponent,
     SummaryDashboardComponent,
     // DtdcFeature1Component,
-    MapComponent
+    MapComponent,
+    TriggerSummaryComponent
   ],
   imports: [
     CommonModule,

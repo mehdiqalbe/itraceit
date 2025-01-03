@@ -1,28 +1,46 @@
 <div class="row">
     <div class="col-lg-12">
     
-      <div class="card" style="height: 60px;">
+      <div class="card" style="height: 80px;    margin-bottom: 0px;">
         <div class="card-body innerdiv">
           <!-- HEADER -->
-          <div class="header hor-header">
+          <div class="hor-header">
             <div class="">
               <div>
                 <div>
+  
+  
                   <div>
+                    <!-- Network Delay Dashboardn justify-content-between -->
                     <div aria-label="Basic example" id="header-button">
-                        <div class="d-flex justify-content-between">
-                          <div class="" style="color: #1c84c6;font-weight: 600;font-size: large;    width: auto;">
+                        <div class="d-flex ">
+                          <div class="col-lg-1" style="color: #1c84c6;font-weight: 600;font-size: large; width: auto;">
                             <div class=" align-items-left ">
                                 <div style="width:fit-content" class=" my-2 d-flex">
                                   <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()" type="button"></button>
                                 </div>
                                 </div>
                           </div>
-                        
-                          <div style="margin-top:13px" class="d-flex">
+                          <div class="col-lg-4" style="color: #1c84c6;font-weight: 600;font-size: large;">
+                            <div class=" align-items-left  ">
+                                <div style="width:fit-content" class=" d-flex">
+                                   <!-- Delay Dashboard -->
+                                   <div _ngcontent-tke-c124="" class="order-header col-lg-12 py-2"><h3 _ngcontent-tke-c124="" class="mb-1" style="color: #1D4380; font-family: Work Sans; font-size: 27px!important; font-weight: 600;"> Vehicle Report</h3>
+                                    <h5 _ngcontent-tke-c124="" style="color: #808080; font-family: Work Sans; font-size: 15px!important; font-weight: 500;">Home /  Vehicle Report</h5></div>
+                                  
+                                </div>
+                                </div>
+                          </div>
+                          <div class="col-lg-3"></div>
+                          <div class="col-lg-3 " style="margin-top:13px" >
                             <div class="" style="display: inline-block;">
   
+                              <!-- <img style="width:370px" src="assets/IRUN_CV_IMG/BlueDartBrandingLOGO.svg" class="header-brand-img desktop-logo"
+                                alt="logo" id="change-image"> -->
+  
                             </div>
+                          </div>
+                          <div class="col-lg-2 " style="margin-top:13px;    text-align: center;" >
                             <div  style="display: inline-block;">
                                 <a class="header-brand1">
                                   <img style="width:100px" src="assets/images/itraceit_logo1.png" class="header-brand-img desktop-logo"
@@ -31,11 +49,12 @@
                                 </a>
                               </div>
                           </div>
+                         
                         </div>
                     </div>
   
   
-                  </div><!-- NOTIFICATIONS -->
+                  </div>
   
                 </div>
   
@@ -43,10 +62,7 @@
             </div>
           </div>
           <!-- End HEADER -->
-  
         </div>
-  
-  
       </div>
     </div>
   </div>
@@ -69,113 +85,92 @@
   
       <div class="col-lg-12">
             <div  id="collapseExample" class="collapse show">
-          <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm)">
-            <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
+              <form #triggerHistoryForm="ngForm" (ngSubmit)="Submit(triggerHistoryForm)">
                 <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                    <div class="col-lg-2 col-md-4 col-sm-6">
                         <label for="from_time" class="form-label">From Date</label>
                         <input type="text" data-date-format="YYYY-MM-DD" id="datepicker" (click)="start()"
                             class="form-control" [ngModel]="datetimepicker1" required name="from_time" />
                     </div>
             
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                    <div class="col-lg-2 col-md-4 col-sm-6">
                         <label for="to_time" class="form-label">To Date</label>
                         <input type="text" step="1" class="form-control" id="datepicker1" (click)="end()" [ngModel]="datetimepicker"
-                            required name="to_time"  />
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Region" class="form-label">Feeder Type</label>
-                        <ng-select placeholder="Select" ngModel  name="Feeder" 
-                          #regionSelect="ngModel">
-                            <ng-option value="" selected>Select</ng-option>
-                            
-                            <ng-option *ngFor="let item of Master_filter?.RouteType['34'] | keyvalue " [value]="item.key">
-                              {{item.value}}
-                            </ng-option>
-                          </ng-select>
+                            required name="to_time" />
                     </div>
             
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="District" class="form-label">Trip Type</label>
-                        <ng-select placeholder="Select" ngModel name="TripType">
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                            <!-- <ng-option *ngFor="let item of trigger_District | keyvalue" [value]="item">{{item.value}}</ng-option> -->
-                        </ng-select>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Region" class="form-label">Trip Status</label>
-                        <ng-select placeholder="Select" ngModel name="TripStatus">
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of   Master_filter?.TripStatus  | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
+                    <div class="col-lg-2 col-md-4 col-sm-6">
                         <label for="Region" class="form-label">Region</label>
-                        <ng-select placeholder="Select" ngModel name="Region">
+                        <ng-select placeholder="Select" ngModel name="Region" #regionSelect="ngModel">
                             <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.Region | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                    </div>
-                </div>
-               
-                <div class="row">
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Origin" class="form-label">Origin</label>
-                        <ng-select placeholder="Select" ngModel name="Origin">
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Destination" class="form-label">Destination</label>
-                        <ng-select placeholder="Select" ngModel name="Destination" >
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        </ng-select>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Vehicle" class="form-label">Vehicle</label>
-                        <!-- <input type="text" name="Vehicle" class="form-control" ngModel /> -->
-                        <ng-select  (search)="onSearch($event)" ngModel name="vehicle_number">
-                     <ng-option *ngFor="let m of dataList" [value]="m.Id">{{m.vehicle_number}}</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.Zone | keyvalue " [value]="item.key">
+                                {{item.value}}
+                            </ng-option>
                         </ng-select>
                     </div>
             
-                    <div class="col-lg-2 col-md-4 col-sm-6 ">
-                        <label for="Route" class="form-label">Route</label>
-                        <ng-select placeholder="Select" ngModel name="Route">
-                            <ng-option value="" selected>Select</ng-option>
-                            <ng-option *ngFor="let item of Master_filter?.Route | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <label for="Vehicle" class="form-label">Tranporter</label>
+                        <ng-select (search)="transporter_onSearch($event)" ngModel name="Tranporter">
+                            <ng-option *ngFor="let item of dataList_transporter | keyvalue " [value]="item.key">
+                                {{item.value}}
+                            </ng-option>
                         </ng-select>
                     </div>
-  
-                <div class="col-lg-2 col-md-4 col-sm-6 ">
-                  <label for="Report" class="form-label">Report Type</label>
-                  <ng-select placeholder="Select" ngModel name="ReportType" required 
-                  [(ngModel)]="selectedReportType"
-                  [ngClass]="{'input-error':submit && triggerHistoryForm.form.controls.ReportType.status=='INVALID'}">
-                      <ng-option [value]="1" >Standard</ng-option>
-                      <ng-option [value]="2" >Detailed</ng-option>
-                      <!-- <ng-option *ngFor="let item of Master_filter.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option> -->
-                  </ng-select>
-              </div>
-  
-  
-              <div class="col-lg-2 col-md-4 col-sm-6 ">
-                <label for="triggervehicle" class="form-label">Trip Id</label>
-                <input type="text" class="form-control" ngModel name="TripId">
-            </div>
-  
-            <!-- <div class="col-lg-2 col-md-4 col-sm-6 ">
-              <label for="triggervehicle" class="form-label">Extra Information</label>
-              <input type="checkbox" class="ms-5" ngModel name="ExtraInformation" (change)="extra_info($event)" [checked]="extra">
-          </div> -->
-                    <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-end">
-                        <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="width: 100px !important;">Submit</button>
+            
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <label for="Region" class="form-label">Contractual</label>
+                        <ng-select placeholder="Select" ngModel name="Working_hrs">
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.Working_hrs | keyvalue " [value]="item.key">
+                                {{item.value}}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+            
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <label for="Vehicle" class="form-label">Vehicle</label>
+                        <ng-select (search)="onSearch($event)" ngModel name="vehicle_number">
+                            <ng-option *ngFor="let item of dataList| keyvalue " [value]="item.key">
+                              {{item.value}}
+                          </ng-option>
+                        </ng-select>
+                    </div>
+            
+                    
+                </div>
+            
+                <div class="row">
+                  <div class="col-lg-2 col-md-4 col-sm-6">
+                    <label for="Region" class="form-label">GPS Vendor</label>
+                    <ng-select placeholder="Select" ngModel name="GpsVendor">
+                        <ng-option value="" selected>Select</ng-option>
+                        <ng-option *ngFor="let item of Master_filter?.GpsVendor | keyvalue" [value]="item.key">
+                            {{item.value}}
+                        </ng-option>
+                    </ng-select>
+                </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <label for="Origin" class="form-label">Device Type</label>
+                        <ng-select placeholder="Select" ngModel name="DeviceType">
+                            <ng-option value="" selected>Select</ng-option>
+                            <ng-option *ngFor="let item of Master_filter?.DeviceType | keyvalue" [value]="item.key">
+                                {{item.value}}
+                            </ng-option>
+                        </ng-select>
+                    </div>
+            
+            
+                    <div class="col-lg-2 col-md-4 col-sm-6 d-flex ">
+                      <button class="btn btn-outline-primary btn-sm w-100 " type="submit" style="width: 100px !important;    width: 100px !important;
+                     
+                      height: fit-content;
+                      margin-top: 38px;">Submit</button>
+                   
                     </div>
                 </div>
             </form>
+            
   
         </div>
       </div>
@@ -183,7 +178,7 @@
   </div>
   
   
-  <div class="info" style="    padding: 5px;" >
+  <div class="info" style=" padding: 5px;" >
   <!-- <div id="myGrid"></div> -->
   <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
     <p style="color: black">Please Wait.. </p>
