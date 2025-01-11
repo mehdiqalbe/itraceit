@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class CommonModuleService {
 
   constructor(private http: HttpClient) { }
-  baseURL:any="https://apinode2.secutrak.in:3001/dev-app-itraceit/";
+  baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
   nearbyFilter(val:any){
     return this.http.post(this.baseURL+'nearByVehiclesFilter',val)
   }

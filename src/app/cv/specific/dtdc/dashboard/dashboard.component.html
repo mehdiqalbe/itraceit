@@ -23,7 +23,9 @@
             <div class="ps-2">
               <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
                 Schedule Trip Dashboard</h3>
-              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Schedule Trip Dashboard</h5>
+              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / <span style="cursor: pointer;" (click)="refreshPage()">Schedule Trip Dashboard  <i class="fa fa-refresh ms-2"
+                style="font-size: 12px;color: green" id="blink"></i></span>
+               </h5>
             </div>
      
 
@@ -922,7 +924,7 @@
                   <i style="color: #1a741a;font-size: 16px;" class="fas fa-download"></i>
                 </button>
               </td>
-              <td>
+              <td class="">
                 <i
                   *ngIf="item?.ImeiNo1"
                   (click)="openMapModal(item,item?.ImeiNo1)"  
@@ -936,7 +938,7 @@
                   *ngIf="item?.ImeiNo2"
                   ngbTooltip="Device 2"
                   (click)="openMapModal(item,item?.ImeiNo2)"  
-                  class="fa fa-map-marker"
+                  class="fa fa-map-marker ms-1"
                   [ngStyle]="{ color: 'blue', cursor: 'pointer', fontSize: '1.5em' }"
                   aria-hidden="true"
                 ></i>
@@ -944,7 +946,7 @@
                   *ngIf="item?.ImeiNo3"
                   (click)="openMapModal(item,item?.ImeiNo3)"  
                   ngbTooltip="Device 3"
-                  class="fa fa-map-marker"
+                  class="fa fa-map-marker ms-1"
                   [ngStyle]="{ color: 'green', cursor: 'pointer', fontSize: '1.5em' }"
                   aria-hidden="true"
                 ></i>

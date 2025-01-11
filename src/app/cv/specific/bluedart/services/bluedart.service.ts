@@ -8,7 +8,7 @@ export class BluedartService {
 
   constructor( private http: HttpClient) { }
 
-  baseURL:any="https://apinode2.secutrak.in:3001/dev-app-itraceit/";
+  baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
   // https://apinode2.secutrak.in/dev-app-itraceit/
   specificTripDashboard(val:any){
     return this.http.post(this.baseURL+'scheduleDashboard',val);
@@ -30,4 +30,25 @@ export class BluedartService {
     return this.http.post(this.baseURL+'bdDelayDashboard',val)
   }
   
+
+  //  ------------------------------------------------------------Slotwise Distance Report-------------------------------
+// https://apinode2.secutrak.in:3001/dev-app-itraceit/slotwiseReportFilter
+slotwiseDistanceFilter(data){
+  
+  let apiurl=this.baseURL+"slotwiseReportFilter";
+ 
+  return this.http.post(apiurl,data);
+}
+
+slotwiseDistanceData(data){
+  
+  let apiurl=this.baseURL+"slotwiseGeneralReport";
+ 
+  return this.http.post(apiurl,data);
+}
+slotwiseVehicleData(data){
+  let apiurl=this.baseURL+"getslotwiseVehicle";
+ 
+  return this.http.post(apiurl,data);
+}
 }

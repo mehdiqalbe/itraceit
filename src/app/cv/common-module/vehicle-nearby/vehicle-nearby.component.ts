@@ -27,6 +27,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
   trackingData: any;
   token: any;
   GroupTypeId: any;
+  tripStatus:any;
   group_id: any;
   account_id: any;
   filterObject: any = {
@@ -44,7 +45,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
   }
   vehicleData:any;
   selectedVehcileLtLng: any;
-  selectedSearchEvent: any;
+  selectedSearchEvent: any='Location';
   locationData: any;
   columnApi: any;
   constructor(
@@ -199,13 +200,15 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         flex:0.6
       },
 
-      // {
-      //   headerName: 'Close Date',
-      //   field: 'closeDate',
-      //   sortable: true,
-      //   filter: true,
-      //   floatingFilter: false,
-      // },
+      {
+        headerName: 'Idle', // Hidden column
+        field: 'idle',
+        sortable: true,
+        filter: true,
+        floatingFilter: false,
+        flex: 0.6,
+        hide: true // This property hides the column
+      },
       // {
       //   headerName: 'Distance Radius',
       //   field: 'distanceRadius',
@@ -300,6 +303,7 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
         si: index + 1,
         vehicles: item.vehicle_number || "N/A",
         vehicleStatus: item?.VehicleStatus,
+        idle:item?.Idle,
         // closeDate: "", // No close date in provided data
         // distanceRadius: "", // No distance radius in provided data
         driverDetails: `${item?.DriverName}/${item?.DriverMobile}`,
@@ -471,6 +475,10 @@ export class VehicleNearbyComponent implements OnInit, AfterViewInit {
   }
 
   onFilterDashboard(val) {
+    
+    if(this.gridApi)
+    this.gridApi.setFilterModel(null);
+
     console.log(val);
     let formData = new FormData();
     formData.append("AccessToken",this.token)
@@ -537,7 +545,22 @@ this.headerObject.All=this.vehicleData?.data
 this.headerObject.Active=groupedVehicles?.Active||[]
 this.headerObject.InActive=groupedVehicles?.InActive||[]
 this.headerObject.Nod=groupedVehicles?.NoData||[]
-this.headerObject.NGps=groupedVehicles?.NoGPS||[]
+this.headerObject.NGPs=groupedVehicles?.NoGPS||[]
+
+const secutrakVehicles:any = [];
+const thirdPartyVehicles:any = [];
+
+this.headerObject?.InActive?.forEach((vehicle: any) => {
+  if (vehicle?.gps_vendor_name === 'Secutrak') {
+    secutrakVehicles.push(vehicle);
+  } else {
+    thirdPartyVehicles.push(vehicle);
+  }
+});
+
+// Add new categories to headerObject
+this.headerObject.Secutrak = secutrakVehicles;
+this.headerObject.ThirdParty = thirdPartyVehicles;
 console.log(groupedVehicles,this.headerObject,vehicleStatusSet);
 
  }
@@ -1117,6 +1140,62 @@ addCircleToMap(center: { lat: number, lng: number }, radius: number): void {
   ));
 }
 
+onRouteCategoryChange(val){
+
+}
+
+onTransporterSelected(selectedTransporter: string): void {
+  console.log(selectedTransporter?.split("(")[0]);
+  selectedTransporter=selectedTransporter?.split("(")[0]
+  if (selectedTransporter === 'All') {
+    // If 'All' is selected, reset the grid filter
+    this.gridApi.setFilterModel(null);
+  } else {
+    // Apply the transporter filter to the grid
+    this.gridApi.setFilterModel({
+      transporter: {
+        type: 'equals',
+        filter: selectedTransporter
+      }
+    });
+  }
+}
+
+onTripStatusChange(status: string): void {
+  console.log(this.tripStatus);
+  
+}
+onFilterSelected(status,col){
+ console.log(status);
+//  status=selectedTransporter?.split("(")[0]
+ if (status === 'All') {
+   // If 'All' is selected, reset the grid filter
+   this.gridApi.setFilterModel(null);
+ } else {
+   // Apply the transporter filter to the grid
+   if(col=='transporter')
+   {
+    this.gridApi.setFilterModel({
+      transporter: {
+        type: 'equals',
+        filter: status
+      }
+    });
+   }
+   else if(col=='idle')
+   {
+    {
+      this.gridApi.setFilterModel({
+        idle: {
+          type: 'equals',
+          filter: status
+        }
+      });
+   }
+  
+ }
+}
+}
 }
 
 

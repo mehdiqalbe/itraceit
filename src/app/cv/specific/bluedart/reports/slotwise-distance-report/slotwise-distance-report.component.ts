@@ -4,7 +4,7 @@ import { NavService } from 'src/app/shared/services/nav.service';
 // import { DtdcService } from '../../services/dtdc.service';
 import { CrudService } from 'src/app/shared/services/crud.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DtdcService } from '../../services/dtdc.service';
+import { BluedartService } from '../../services/bluedart.service';
 declare var $: any;
 @Component({
   selector: 'app-slotwise-distance-report',
@@ -40,7 +40,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
   defaultReport:any=[]
   dayWise:any=[]
   standardReport: any=[];
-  constructor(private datepipe: DatePipe,private navServices: NavService,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
+  constructor(private datepipe: DatePipe,private navServices: NavService,private bluedartServices:BluedartService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.generateDays()
@@ -127,7 +127,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     console.log(formData);
     
     this.SpinnerService.show('tableSpinner')
-    this.dtdcServices.slotwiseDistanceData(formData).subscribe((res: any) => {
+    this.bluedartServices.slotwiseDistanceData(formData).subscribe((res: any) => {
       
       // this.tripArray=res?.MainDashboard
       
@@ -212,7 +212,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
   initApiCalls(){
     let formData=new FormData
     formData.append('AccessToken',this.token)
-    this.dtdcServices.slotwiseDistanceFilter(formData).subscribe((res: any) => {
+    this.bluedartServices.slotwiseDistanceFilter(formData).subscribe((res: any) => {
       console.log("slotwise", res);
       const regionsArray = Object.entries(res?.Filter?.Master?.Region).map(([key, value]) => ({
         id: key, // Convert key to number
@@ -235,7 +235,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
       let formData=new FormData()
       formData.append('AccessToken',this.token)
       formData.append('searchQuery',searchTerm?.term)
-      this.dtdcServices.slotwiseVehicleData(formData).subscribe((res: any) => {
+      this.bluedartServices.slotwiseVehicleData(formData).subscribe((res: any) => {
         console.log("slotwise", res);
         this.vehicleOptions=res?.Data
         // this.routeId = (res?.data);

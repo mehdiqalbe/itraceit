@@ -78,12 +78,12 @@
                   </div>
                </div>
 
-               <div style="cursor: pointer;" class="NGPs filter-border" style="border-color: #007AFF;cursor: pointer;" (click)="filterTable('NGps')">
+               <div style="cursor: pointer;" class="NGPs filter-border" style="border-color: #007AFF;cursor: pointer;" (click)="filterTable('NGPs')">
                   <div class="filter-label">
                       <p style="color:#007AFF">NGPs</p>
                   </div>
                   <div class="border-value" style="background:#1d4380;">
-                       <p>{{(headerObject?.NGps)?.length}}</p>
+                       <p>{{(headerObject?.NGPs)?.length}}</p>
                   </div>
                </div>
 
@@ -101,11 +101,11 @@
                       <p style="color:#8E8E93">Inactive <span style="color: #1d4380;border-left: 2px solid #8E8E939E;padding: 0px 6px;">{{(headerObject?.InActive)?.length}}</span></p>
                   </div>
                   <div class="d-flex gap-2">
-                      <div class="border-value" style="background:#FF9500;">
-                          <p>8698</p>
+                      <div (click)="filterTable('ThirdParty')" class="border-value" style="background:#FF9500;">
+                          <p >{{(headerObject?.ThirdParty)?.length}}</p>
                      </div>
-                     <div class="border-value" style="background:#007AFF;">
-                         <p>290</p>
+                     <div (click)="filterTable('Secutrak')" class="border-value" style="background:#007AFF;">
+                         <p >{{(headerObject?.Secutrak)?.length}}</p>
                     </div>
                   </div>
                </div>
@@ -218,13 +218,15 @@
                             <div class="col-lg-2">
                               <span class="filtor_name">Trip Status</span>
                               <ng-select
-                              [ngModel]
+                              [(ngModel)]="tripStatus"
                               name="tripStatus"
                               id="tripStatus"
                               placeholder="Select Trip Status"
                               class=""
                               style="font-size: 14px; font-weight: 400"
-                              [closeOnSelect]="true" >
+                              [closeOnSelect]="true" 
+                              (change)="onTripStatusChange($event)"
+                              >
 
                               <ng-option *ngFor="let item of filterObject?.trip_status | keyvalue"
                                 [value]="item.key" >
@@ -233,8 +235,30 @@
 
                             </ng-select>
                             </div>
-                            <div class="col-lg-2">
-                              <span class="filtor_name">Trip Type</span>
+                            <div class="col-lg-2" *ngIf="tripStatus!=2">
+                              <span class="filtor_name">Route Category</span>
+                              <ng-select
+                              (change)="onRouteCategoryChange($event)"
+                                [ngModel]
+                                name="routeCategory"
+                                id="routeCategory"
+                                placeholder="Select Route"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                                
+                              >
+                              <ng-option value="" selected>All</ng-option>
+                                <ng-option
+                                  *ngFor="let item of filterObject?.routeCategory | keyvalue"
+                                  [value]="item?.key"
+                                >
+                                  {{ item?.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div>
+                            <div class="col-lg-2" *ngIf="tripStatus!=2">
+                              <span class="filtor_name">Feeder Type</span>
                               <ng-select
                                 [ngModel]
                                 [virtualScroll]="true"
@@ -254,27 +278,7 @@
                               </ng-option>
                               </ng-select>
                             </div>
-                            <div class="col-lg-2">
-                              <span class="filtor_name">Transporter</span>
-                              <ng-select
-                                [ngModel]
-                                [virtualScroll]="true"
-                                name="transporter"
-                                id="transporter"
-                                placeholder="Select Transporter"
-                                class=""
-                                style="font-size: 14px; font-weight: 400"
-                                [closeOnSelect]="true"
-                              >
-                              <ng-option value="All">All</ng-option>
-                                <ng-option
-                                  *ngFor="let item of filterObject?.Transporters | keyvalue"
-                                  [value]="item.key"
-                                >
-                                {{ item.value }}</ng-option
-                                >
-                              </ng-select>
-                            </div>
+                         
                             <!-- <div class="col-lg-2">
                               <span class="filtor_name">Route</span>
                               <ng-select
@@ -423,7 +427,7 @@
                         <div class="col-lg-4 ps-0">
                           <span class="filtor_name">Search by</span>
                           <ng-select
-                            [ngModel]
+                            [ngModel]="'Location'"
                             name="tripStatus"
                             id="tripStatus"
                             placeholder="Select Trip Status"
@@ -506,6 +510,45 @@
                  </div>
 
                  <div class="d-flex align-items-center">
+                  <div class="me-2" style="min-width: 167px;" *ngIf="tripStatus==2">
+                    <ng-select
+                      [ngModel]
+                      [virtualScroll]="true"
+                      name="idle"
+                      id="idle"
+                      placeholder="Select idle"
+                      class=""
+                      style="font-size: 14px; font-weight: 400"
+                      [closeOnSelect]="true"
+                      (change)="onFilterSelected($event,'idle')"
+                    >
+                    <ng-option value="All">All</ng-option>
+                    <ng-option [value]="'<24idle'">&lt;24 hrs</ng-option>
+                    <ng-option [value]="'>idle'">&gt;24 hrs</ng-option>
+                      >
+                    </ng-select>
+                  </div>
+                  <div class="me-2" style="min-width: 167px;">
+                    <ng-select
+                      [ngModel]
+                      [virtualScroll]="true"
+                      name="transporter"
+                      id="transporter"
+                      placeholder="Select Transporter"
+                      class=""
+                      style="font-size: 14px; font-weight: 400"
+                      [closeOnSelect]="true"
+                      (change)="onFilterSelected($event,'transporter')"
+                    >
+                    <ng-option value="All">All</ng-option>
+                      <ng-option
+                        *ngFor="let item of filterObject?.Transporters | keyvalue"
+                        [value]="item?.value"
+                      >
+                      {{ item.value }}</ng-option
+                      >
+                    </ng-select>
+                  </div>
                     <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Filter..." (input)="onFilterTextBoxChanged()" />
                     <div>
                         <button (click)="onBtExport()" style="font-weight: bold"><i class="fa-solid fa-file-excel" style="font-size: 18px;color: #1D6F42"></i>
@@ -516,7 +559,7 @@
              
             </div>
             <p style="color: #333333;font-family: 'Work Sans';font-size: 14px;font-weight: 500;margin: 6px auto;">
-              Vehicle Near By to BOB Location Under
+              Vehicle Near By Under
               <input
                 type="number"
                 [(ngModel)]="vehicelRadius"

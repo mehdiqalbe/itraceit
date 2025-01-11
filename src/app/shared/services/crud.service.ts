@@ -761,7 +761,7 @@ export class CrudService {
                   this.apiurl="https://api.secutrak.in/dev-app-itraceit/";
           }
    }
-   baseURL:any="https://apinode2.secutrak.in:3001/dev-app-itraceit/";
+   baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
    // https://apinode2.secutrak.in/dev-app-itraceit
    url:any='https://testapi.secutrak.in/dev-app-cv-ilgic/'
    Durl:any='https://api-py.secutrak.in/api/'

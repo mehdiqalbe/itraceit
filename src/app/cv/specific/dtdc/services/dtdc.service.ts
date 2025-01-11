@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class DtdcService {
 
   constructor( private http: HttpClient) { }
-  baseURL:any="https://apinode2.secutrak.in:3001/dev-app-itraceit/";
+  baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
   specificTripDashboard(val:any){
     // https://apicvmob.secutrak.in/dev-app-dtdc
     return this.http.post(this.baseURL+'scheduleDashboardDtdc',val);
@@ -56,26 +56,26 @@ export class DtdcService {
    
     return this.http.post(apiurl,data);
   }
-    // --------Vehicle Report----------------------------------------------------------------------
-    vehicleReportFilter(val:any){
-      return this.http.post(this.baseURL+'vehicleReportFilter',val)
-    }
-    searchTransporter(val:any){
-      return this.http.post(this.baseURL+'searchTransporter',val)
-    }
-    searchVehicle(val:any){
-      return this.http.post(this.baseURL+'searchVehicle',val)
-    }
-    vehicleReport(val:any){
-      return this.http.post(this.baseURL+'vehicleReport',val)
-    }
-    delayDashboardDtdcFilter(val:any){
-      return this.http.post(this.baseURL+'delayDashboardDtdcFilter',val)
-    }
-    // bdDelayDashboardFilter
-    delayDashboardDisclaimer(val:any){
-      return this.http.post(this.baseURL+'delayDashboardDisclaimer',val)
-    }
+  // --------Vehicle Report----------------------------------------------------------------------
+  vehicleReportFilter(val:any){
+    return this.http.post(this.baseURL+'vehicleReportFilter',val)
+  }
+  searchTransporter(val:any){
+    return this.http.post(this.baseURL+'searchTransporter',val)
+  }
+  searchVehicle(val:any){
+    return this.http.post(this.baseURL+'searchVehicle',val)
+  }
+  vehicleReport(val:any){
+    return this.http.post(this.baseURL+'vehicleReport',val)
+  }
+  delayDashboardDtdcFilter(val:any){
+    return this.http.post(this.baseURL+'delayDashboardDtdcFilter',val)
+  }
+  // bdDelayDashboardFilter
+  delayDashboardDisclaimer(val:any){
+    return this.http.post(this.baseURL+'delayDashboardDisclaimer',val)
+  }
     
 
 //  ------------------------------------------------------------Slotwise Distance Report-------------------------------

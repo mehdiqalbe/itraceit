@@ -769,7 +769,7 @@ export class DashboardComponent implements OnInit {
     masterUploadTable() {
       var tbl = $('#masterUpload');
       var table = $('#masterUpload').DataTable();
-      console.log("Qalbe",table);
+      console.log("",table);
       
       // table.clear();
       table.destroy();

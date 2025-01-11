@@ -1485,7 +1485,7 @@ export class DashboardComponent implements OnInit {
     // }
 
     async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-      // this.initMap1()
+      this.initMap1()
       // this.SpinnerService.show("tracking");
   
     // Clear markers and polylines if they exist
@@ -2207,4 +2207,7 @@ if(flag_exist_lock==1 && flag_lock_status_show==0)
     $('#transShipModal').modal('hide');
   }
  
+  refreshPage(){
+    this.initApiCalls()
+  }
 }
