@@ -115,12 +115,9 @@
 <div class="container-flex" style="    padding-top: 5px !important; padding: 17px;">
 
   <div class="row">
-
     <div class="col-lg-12">
-      <!-- <div class="col-lg-12"> -->
       <div id="collapseExample" class="collapse show">
         <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm)">
-          <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
           <div class="row">
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="from_time" class="form-label">From Date</label>
@@ -163,16 +160,11 @@
               <ng-select placeholder="Select" ngModel name="RouteCategory" [multiple]="true"
                 (change)="RouteCategory($event)">
                 <ng-option value="" selected>Select</ng-option>
-                <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue"
-                  [value]="item.key">{{item.value}}</ng-option>
+                <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option>
               </ng-select>
             </div>
           </div>
-
           <div class="row">
-
-
-
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="Route" class="form-label">Route Type</label>
               <ng-select placeholder="Select" ngModel name="Route">
@@ -180,10 +172,6 @@
                 <ng-option *ngFor="let item of Route_type | keyvalue" [value]="item.value">{{item.value}}</ng-option>
               </ng-select>
             </div>
-
-
-
-
             <div class="col-lg-1 col-md-4 col-sm-6  d-flex align-items-end">
               <button class="btn btn-outline-primary btn-sm w-100" type="submit">View</button>
             </div>
@@ -338,28 +326,28 @@
     <tbody>
       <tr *ngFor="let row of new_array.Summary">
         <td>{{ row.Region}}</td>
-        <td><a (click)="summary_detail(row.Region,'TotalTrip')" class="blue-text">{{ row.TotalTrip }}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'RunningTrip')" class="blue-text">{{row.RunningTrip}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'CompletedTrip')" class="blue-text">{{row.CompletedTrip}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'DnaTrip')" class="blue-text">{{row.DnaTrip}}</a></td>
-        <td><a (click)="summary_detail_2(row.Region,'vehicleCount')" class="blue-text">{{row.VehicleCount}}</a></td>
-        <td><a (click)="summary_detail_2(row.Region,'active')" class="blue-text">{{row.GPSActive}}</a></td>
-        <td><a (click)="summary_detail_2(row.Region,'inactive')" class="blue-text">{{row.GPSInactive}}</a></td>
-        <td><a (click)="summary_detail_2(row.Region,'nogps')" class="blue-text">{{row.GPSNA}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'WrongVehicle')" class="blue-text">{{row.WrongVehicle}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'WrongRoute')" class="blue-text">{{row.WrongRoute}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'WrongFleet')" class="blue-text">{{row.WrongFleet}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'OTD')" class="blue-text">{{row.OTD}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'DelayedDeparture')" class="blue-text">{{row.DelayedDeparture}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'ATDN')" class="blue-text">{{row.ATDN}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'DINA')" class="blue-text">{{row.DINA}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'RunningOnTime')" class="blue-text">{{row.RunningOnTime}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'RuningLate')" class="blue-text">{{row.RunningLate}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'RunningDna')" class="blue-text">{{row.RunningDna}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'OTA')" class="blue-text">{{row.OTA}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'ATADelayed')" class="blue-text">{{row.ATADelayed}}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'ATAN')" class="blue-text">{{row.ATAN }}</a></td>
-        <td><a (click)="summary_detail_1(row.Region,'AINA')" class="blue-text">{{row.AINA}}</a></td>
+        <td><a (click)="summary_detail(row.Region,'TotalTrip','Total Trips')" class="blue-text">{{ row.TotalTrip }}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'RunningTrip','Schedule Trips Status')" class="blue-text">{{row.RunningTrip}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'CompletedTrip','Completed Trips Status')" class="blue-text">{{row.CompletedTrip}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'DnaTrip','DNA Trips Status')" class="blue-text">{{row.DnaTrip}}</a></td>
+        <td><a (click)="summary_detail_2(row.Region,'vehicleCount','Vehicle Count GPS Status')" class="blue-text">{{row.VehicleCount}}</a></td>
+        <td><a (click)="summary_detail_2(row.Region,'active','GPS Active GPS Status')" class="blue-text">{{row.GPSActive}}</a></td>
+        <td><a (click)="summary_detail_2(row.Region,'inactive','GPS Inactive GPS Status')" class="blue-text">{{row.GPSInactive}}</a></td>
+        <td><a (click)="summary_detail_2(row.Region,'nogps','GPS NA GPS Status')" class="blue-text">{{row.GPSNA}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'WrongVehicle','Vehicle NA Trip Creation Exception')" class="blue-text">{{row.WrongVehicle}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'WrongRoute','Route NA Trip Creation Exception')" class="blue-text">{{row.WrongRoute}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'WrongFleet','Fleet NA Trip Creation Exception')" class="blue-text">{{row.WrongFleet}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'OTD','OTD OTD/OTA Status')" class="blue-text">{{row.OTD}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'DelayedDeparture','Delayed Departure OTD/OTA Status')" class="blue-text">{{row.DelayedDeparture}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'ATDN','ATD NA OTD/OTA Status')" class="blue-text">{{row.ATDN}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'DINA','DINA OTD/OTA Status')" class="blue-text">{{row.DINA}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'RunningOnTime','Runing on Time OTD/OTA Status')" class="blue-text">{{row.RunningOnTime}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'RuningLate','Runing Late OTD/OTA Status')" class="blue-text">{{row.RunningLate}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'RunningDna','Runing DNA OTD/OTA Status')" class="blue-text">{{row.RunningDna}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'OTA','OTA OTD/OTA Status')" class="blue-text">{{row.OTA}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'ATADelayed','ATA Delayed OTD/OTA Status')" class="blue-text">{{row.ATADelayed}}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'ATAN','ATA NA OTD/OTA Status')" class="blue-text">{{row.ATAN }}</a></td>
+        <td><a (click)="summary_detail_1(row.Region,'AINA','AINA OTD/OTA Status')" class="blue-text">{{row.AINA}}</a></td>
       </tr>
 
     </tbody>
@@ -544,70 +532,6 @@
             <button (click)="exportToCSV_popup1()"><i class="fa fa-file-text-o"  style="font-size: 18px;color: blue !important;" title=" Download CSV file"></i></button>
            </div>
           <div id="myGrid-popup1" style="height: 400px; width: 100%;" class="ag-theme-alpine grid_table"></div>
-          <!-- <table class="display nowrap  table" cellspacing="0"
-              id="triggerHistoryTable">
-              <thead>
-                <tr role="row">
-                  <th class="table-primary" tabindex="0">Sl.</th>
-                  <th class="table-primary" tabindex="0">RouteType</th>
-                  <th class="table-primary" tabindex="0">Region</th>
-                  <th class="table-primary" tabindex="0">Origin</th>
-                  <th class="table-primary" tabindex="0">Destination</th>
-                  <th class="table-primary" tabindex="0">Route</th>
-                  <th class="table-primary" tabindex="0">RouteSequence</th>
-                  <th class="table-primary" tabindex="0">Fleet</th>
-                  <th class="table-primary" tabindex="0">TripId</th>
-                  <th class="table-primary" tabindex="0">RunCode</th>
-                  <th class="table-primary">RunDate</th>
-                  <th class="table-primary">Vehicle</th>
-                  <th class="table-primary">TrackHistory</th>
-                  <th class="table-primary" tabindex="0">State</th>
-                  <th class="table-primary" tabindex="0">Branch</th>
-                  <th class="table-primary" tabindex="0">Area</th>
-                  <th class="table-primary" tabindex="0">DriverName</th>
-                  <th class="table-primary" tabindex="0">DriverNumber</th>
-                  <th class="table-primary" tabindex="0">Transporter</th>
-                  <th class="table-primary" tabindex="0">STD</th>
-                  <th class="table-primary">ATD</th>
-                  <th class="table-primary" tabindex="0">DelayDeparture</th>
-                  <th class="table-primary" tabindex="0">STA</th>
-                  <th class="table-primary">ATA</th>
-                  <th class="table-primary" tabindex="0">TT-Mapped</th>
-                  <th class="table-primary" tabindex="0">TT-Taken</th>
-                  <th class="table-primary" tabindex="0">DelayArrival</th>
-                  <th class="table-primary" tabindex="0">DelayTT</th>
-                  <th class="table-primary" tabindex="0">ScheduleHalt</th>
-                  <th class="table-primary" tabindex="0">ActualHalt</th>
-                  <th class="table-primary" tabindex="0">ATT</th>
-                  <th class="table-primary" tabindex="0">Alerts</th>
-                  <th class="table-primary" tabindex="0">ReverseDriving</th>
-                  <th class="table-primary" tabindex="0">FixedGPS(Km)</th>
-                  <th class="table-primary" tabindex="0">FixedE-Lock(Km)</th>
-                  <th class="table-primary" tabindex="0">PortableE-Lock(Km)</th>
-                  <th class="table-primary">GPS Exception-1</th>
-                  <th class="table-primary">GPS Exception-2</th>
-                  <th class="table-primary">GPS Exception-3</th>
-                  <th class="table-primary">SupervisorException</th>
-                  <th class="table-primary" tabindex="0">Status</th>
-                  <th class="table-primary">SystemRemarks</th>
-                  <th class="table-primary" tabindex="0">CloseBy</th>
-                  <th class="table-primary" tabindex="0">CloseDate</th>
-                  <th class="table-primary" tabindex="0">CreateBy</th>
-                  <th class="table-primary" tabindex="0">TotalBag</th>
-                  <th class="table-primary" tabindex="0">Remarks</th>
-                  <th class="table-primary" tabindex="0">GPSVendor</th>
-                  <th class="table-primary" tabindex="0">Fixed E-lock Vendor</th>
-                  <th class="table-primary" tabindex="0">Portable E-lock Vendor</th>
-                  <th class="table-primary" tabindex="0">CloseDeviceBy</th>
-                  <th class="table-primary" tabindex="0">Portable Lock Device</th>
-              </tr>
-              
-  
-              </thead>
-              <tbody >
-             
-                </tbody>
-            </table> -->
         </div>
 
       </div>

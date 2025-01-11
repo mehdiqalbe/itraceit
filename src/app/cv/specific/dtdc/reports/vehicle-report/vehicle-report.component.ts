@@ -82,6 +82,32 @@ export class VehicleReportComponent implements OnInit {
   demoPolyline: any=[];
   lastOpenedInfoWindow: any;
   dataList_transporter: any=[];
+  name_vehicle:any=[
+    {
+      "name": "Registration Certificate",
+      "img": "assets/imagesnew/Icon/RC.png"
+    },
+    {
+      "name": "Pollution Certificate",
+      "img": "assets/imagesnew/Icon/PollutionCertificate.png"
+    },
+    {
+      "name": "Vehicle Insurance",
+      "img": "assets/imagesnew/Icon/Insurance.png"
+    },
+    {
+      "name": "National Goods Permit",
+      "img": "assets/imagesnew/Icon/NationalGoodsPermit.png"
+    },
+    // {
+    //   "name": "All India Permit",
+    //   "img": "assets/imagesnew/Icon/AllIndiaPermit.png"
+    // },
+    {
+      "name": "Fitness Certificate",
+      "img": "assets/imagesnew/Icon/Fitness.png"
+    }
+  ];
   constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
 
   ngOnInit(): void {
@@ -690,90 +716,130 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
 
       { headerName: "Sl.", field: "sl", sortable: true, filter: true, floatingFilter: this.floating_filter, 
        minWidth: 100, maxWidth: 100, },
-      { headerName: "Vehicle", field: "Vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter },
+      { headerName: "Vehicle", field: "Vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  },
       { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
-      { headerName: "Make & Model", field: "Make", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
-      { headerName: "Vehicle Body Type", field: "Vehicle Body Type", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100,},
-      { headerName: "Capacity", field: "Capacity", sortable: true, filter: true, floatingFilter: this.floating_filter ,Width: 200},
-      { headerName: "Speed Limit", field: "SpeedLimit", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200,},
-      { headerName: "Contract Type", field: "ContractType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
-      { headerName: "Reporting Time", field: "ReportingTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
-      { headerName: "Leaving Time", field: "LeavingTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
-      { headerName: "Transporter Code", field: "TransporterCode", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100,},
-      { headerName: "Primary Device Type", field: "PrimaryDeviceType", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
-      { headerName: "Primary Maunufacture", field: "PrimaryMaunufacture", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200, cellRenderer: params => {
-        // Create the container div
-        const container = document.createElement("div");
-        container.style.display = "flex";
-        container.style.alignItems = "center";
-        container.style.justifyContent = "center";
+      { headerName: "Make & Model", field: "Make", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150,},
+      { headerName: "Vehicle Body Type", field: "Vehicle Body Type", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 160,  maxWidth: 200,},
+      { headerName: "Capacity", field: "Capacity", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+      { headerName: "Speed Limit", field: "SpeedLimit", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
+      { headerName: "Contract Type", field: "ContractType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150, },
+      { headerName: "Reporting Time", field: "ReportingTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150, },
+      { headerName: "Leaving Time", field: "LeavingTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100, },
+      { headerName: "Transporter Code", field: "TransporterCode", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+      { headerName: "Primary Device Type", field: "PrimaryDeviceType", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200, },
+      { headerName: "Primary Maunufacture", field: "PrimaryMaunufacture", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200,
+      //    cellRenderer: params => {
+      //   // Create the container div
+      //   const container = document.createElement("div");
+      //   container.style.display = "flex";
+      //   container.style.alignItems = "center";
+      //   container.style.justifyContent = "center";
       
-        // Create the span for the serial number
-        const serialSpan = document.createElement("span");
-        serialSpan.textContent = params.value;
+      //   // Create the span for the serial number
+      //   const serialSpan = document.createElement("span");
+      //   serialSpan.textContent = params.value;
       
-        // Create the button
+      //   // Create the button
         
-        const button = document.createElement("button");
-        button.innerHTML = "";
-        button.style.border = "none";
-        button.style.background = "none";
-        button.style.marginLeft = "5px";
-        button.style.cursor = "pointer";
+      //   const button = document.createElement("button");
+      //   button.innerHTML = "";
+      //   button.style.border = "none";
+      //   button.style.background = "none";
+      //   button.style.marginLeft = "5px";
+      //   button.style.cursor = "pointer";
   
-        // Clear previous content
+      //   // Clear previous content
   
-        if (params.data.Full?.TrackHistory1 !== 'NA') {
-          button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-          button.addEventListener("click", () => {
-            console.log("Row Data:", params.data.Full);
-            // this.Detail(params.data.Full)
-            this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
-          });
-        } else {
-          button.innerHTML += `<span style="color: black;">Na</span>|`;
-        }
+      //   if (params.data.Full?.TrackHistory1 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+      //     button.addEventListener("click", () => {
+      //       console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
         
-        if (params.data.Full?.TrackHistory2 !== 'NA') {
-          button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+      //   if (params.data.Full?.TrackHistory2 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
           
-          button.addEventListener("click", () => {
-            console.log("Row Data:", params.data.Full);
-            // this.Detail(params.data.Full)
-            this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
-          });
-        } else {
-          button.innerHTML += `<span style="color: black;">Na</span>|`;
-        }
+      //     button.addEventListener("click", () => {
+      //       console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
         
-        if (params.data.Full?.TrackHistory3 !== 'NA') {
-          button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+      //   if (params.data.Full?.TrackHistory3 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
          
-          button.addEventListener("click", () => {
-            // console.log("Row Data:", params.data.Full);
-            // this.Detail(params.data.Full)
-            this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
-          });
-        } else {
-          button.innerHTML += `<span style="color: black;">Na</span>|`;
-        }
+      //     button.addEventListener("click", () => {
+      //       // console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
         
-        // Attach event listener to the button
+      //   // Attach event listener to the button
        
       
-        // Append span and button to the container
-        container.appendChild(serialSpan);
-        container.appendChild(button);
+      //   // Append span and button to the container
+      //   container.appendChild(serialSpan);
+      //   container.appendChild(button);
       
-        return container;
-      },
+      //   return container;
+      // },
        },
-       { headerName: "Secondary Device Type", field: "SecondaryDeviceType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
-       { headerName: "Secondary Device No", field: "SecondaryDeviceNumber", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
-       { headerName: "Secondary Device Maunufacture", field: "SecondaryDeviceMaunufacture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
+       { headerName: "Secondary Device Type", field: "SecondaryDeviceType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 200, maxWidth: 200 },
+       { headerName: "Secondary Device No", field: "SecondaryDeviceNumber", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 200, maxWidth: 200},
+       { headerName: "Secondary Device Maunufacture", field: "SecondaryDeviceMaunufacture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 220,  minWidth: 220, maxWidth: 220 },
        { headerName: "Ternary Device No", field: "TernaryDeviceNo", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200},
-       { headerName: "Ternary Device Maunufacture", field: "TernaryDeviceMaunufacture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
-       { headerName: "Vehicle Document", field:  "VehicleDocument", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
+       { headerName: "Ternary Device Maunufacture", field: "TernaryDeviceMaunufacture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 220,  minWidth: 220, maxWidth: 220 },
+       { headerName: "Vehicle Document", field:  "VehicleDocument", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200,
+        cellRenderer: params => {
+          // Create the container div
+          const container = document.createElement("div");
+          container.style.display = "flex";
+          container.style.alignItems = "center";
+          container.style.justifyContent = "center";
+      
+          // Create the span for the value
+          const serialSpan = document.createElement("span");
+          serialSpan.textContent = params.value;
+          // Append the value span to the container
+          container.appendChild(serialSpan);
+          var data:any=[];
+          data=params.data.full;
+          if (Array.isArray(data)) {
+         
+          data.forEach((vehicle, index) => {
+              // Create a button for each vehicle
+              const button = document.createElement("button");
+              button.style.border = "none";
+              button.style.background = "none";
+              button.style.marginLeft = "5px";
+              button.style.cursor = "pointer";
+              // Add an image to the button
+              button.innerHTML = `
+                <strong style="color: blue;"> <img src="${this.getImageByName(vehicle?.name)}"  style="height:20px ;width:35px"> </strong>`;
+              // Attach event listener to each button
+              button.addEventListener("click", () => {
+                // console.log("Row Data:", vehicle, index);
+                // alert(vehicle?.name);
+              });
+              // Append the button to the container
+              container.appendChild(button);
+            });
+          }
+      
+          return container;
+        }
+       },
       ];
   
 
@@ -786,7 +852,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
 
     sl: index+1,
     Vehicle:person.vehicle_number,
-    region:person,
+    region:person.region_name,
     Make:person.vehicle_make,
     VehicleBodyType:person.body_type_id,
     Capacity:person.vehicle_capicity,
@@ -798,11 +864,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     PrimaryDeviceType:person.device_type,
     PrimaryMaunufacture:person.device_manufacturer,
     SecondaryDeviceType:person.device_type2,
-    SecondaryDeviceNumber:'person',
+    SecondaryDeviceNumber:person.device_id2,
     SecondaryDeviceMaunufacture:person.device_manufacturer2,
-    TernaryDeviceNo: "67890",
+    TernaryDeviceNo: person.device_id3,
     TernaryDeviceMaunufacture: person.device_manufacturer3,
     VehicleDocument: "",
+    full:person
   }));
   
   // this.rowData = this.new_array.map((person, index) => ({
@@ -892,6 +959,10 @@ this.gridOptions = {
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
+ getImageByName(name: string): string | undefined {
+  const item = this.name_vehicle.find(vehicle => vehicle.name === name);
+  return item ? item.img : undefined; // Return the img or undefined if not found
+}
  onSearch(term: any) {
   console.log(term)
   if(term.term.length>=3){

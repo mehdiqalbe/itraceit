@@ -123,25 +123,7 @@
             </p>
           </div>
           <div class="d-flex align-items-center">
-            <!-- <div class="d-flex gap-5 pe-5">
-              <div ngbTooltip="All" class="position-relative" >
-
-               <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:40px;"></button> 
-              </div>
-              <div ngbTooltip="Free Vehicle" class="position-relative" >
-                <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span>
-               <button (click)="filterTable('free_vehicle')" type="button"><img src="assets/tripIcon/truckBlue.svg" alt="" style="width:40px;"></button> 
-              </div>
-              <div ngbTooltip="At Source" class="position-relative">
-                <span style="right:-15px;top:-15px;background: #E77817;" class="position-absolute countPill">{{dashboardHeader?.AtSource}}</span>
-                <button (click)="filterTable('at_source')" type="button"> <img src="assets/tripIcon/truckGps.svg" alt="" style="width:40px"></button>
-              </div>
-              <div ngbTooltip="At Destination" class="position-relative">
-                <span style="right:-15px;top:-15px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
-                <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:40px"></button>  
-              </div>
-            </div> -->
-            <p style="color: 1D4380; font-weight: 600" class="m-0 ">
+           <p style="color: 1D4380; font-weight: 600" class="m-0 ">
               <a
               ngbTooltip="Graph"
                 data-bs-toggle="collapse"
@@ -169,28 +151,7 @@
                  <!-- Filter----------------------------------------------- -->
                 <div class="fiter">
              
-                  <!-- <p style="color: 1D4380; font-weight: 600">
-                    <a
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseExample"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
-                      style="font-size: 16px"
-                    >
-                      <i
-                        class="fa fa-filter"
-                        aria-hidden="true"
-                        style="
-                          font-size: 20px;
-                          color: #1d4380;
-                          margin-top: 8px;
-                        "
-                      ></i
-                      >FILTER
-                    </a>
-                  </p> -->
-                  <div class="collapse" id="collapseExample">
+                 <div class="collapse" id="collapseExample">
                     <div
                       class="card card-body px-0 pb-0 mb-0"
                       style="border: none; box-shadow: none"
@@ -817,7 +778,7 @@
       </div>
       <div class="info col-lg-12 overflow-scroll">
         <table class="table"  cellspacing="0" id="masterUpload">
-          <thead>
+        <thead>
             <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
               <th style="border-top-left-radius: 4px;" class="table-primar"></th>
               <th  class="table-primar">Sl.</th>
@@ -830,6 +791,7 @@
               <th  class="table-primar d-none">Delay Filter</th>
               <th  class="table-primar d-none">ETA Filter</th>
               <th  class="table-primar d-none">StoppageAlert Filter</th>
+              <th class="table-primar">Action</th>
               <th class="table-primar">E-Lock Status</th>
               <th class="table-primar">Route Type</th>
               <th class="table-primar">Region</th>
@@ -878,45 +840,57 @@
   
             </tr>
           </thead>
+
           <tbody >
             <tr style="text-align: center; white-space: nowrap;" 
             [ngStyle]="{
-              backgroundColor: elockFunctionDisplay(tripArray[key]?.FixedLockOpen, tripArray[key]?.PortableLockOpen) === 'Open' ? '#f67f7f75' : 'transparent'
+              backgroundColor: elockFunctionDisplay(item?.FixedLockOpen, item?.PortableLockOpen) === 'Open' ? '#f67f7f75' : 'transparent'
             }"
-            *ngFor="let key of Object.keys(tripArray);let ind=index">
+            *ngFor="let item of tripArray;let ind=index">
 
-              <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(tripArray[key]?.MTripId,tripArray[key])"><i class="fa fa-plus"></i></button></td>
+              <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(item?.MTripId,item)"><i class="fa fa-plus"></i></button></td>
               <td>{{ind+1}}</td>
 
               <td >
                 
-                <button *ngIf="tripArray[key]?.TripStatus === 'Schedule'" type="button" (click)="linkPopup(tripArray[key])">
+                <button *ngIf="item?.TripStatus === 'Schedule'" type="button" (click)="linkPopup(item)">
                   <img  style="cursor:pointer;" src="assets/tripIcon/add_link.svg" alt=""></button>
-                <img  *ngIf="tripArray[key]?.TripStatus !== 'Schedule'"  src="assets/tripIcon/disable_link.svg" alt="">
+                <img  *ngIf="item?.TripStatus !== 'Schedule'"  src="assets/tripIcon/disable_link.svg" alt="">
               </td>
             
-              <td class="d-none">{{tripArray[key]?.FreeVehicles}}</td>
-              <td class="d-none">{{tripArray[key]?.AtSource}}</td>
-              <td class="d-none">{{tripArray[key]?.AtDestination}}</td>
-              <td class="d-none">{{tripArray[key]?.GPSFilter}}</td>
-              <td class="d-none">{{tripArray[key]?.StoppageFilter}}</td>
-              <td class="d-none">{{tripArray[key]?.DelayFilter}}</td>
-              <td class="d-none">{{tripArray[key]?.ETAFilter}}</td> 
-              <td class="d-none">{{tripArray[key]?.AlertFilter}}</td> 
-              <td>{{elockFunctionDisplay(tripArray[key]?.FixedLockOpen,tripArray[key]?.PortableLockOpen)}}</td>
-              <td>{{tripArray[key]?.ShipmentMethod}}</td>
-              <td>{{tripArray[key]?.Region}}</td>
-              <td>{{tripArray[key]?.Origin}}</td>
-              <td>{{tripArray[key]?.Destination}}</td>
-              <td>{{tripArray[key]?.Route}}</td>
-              <td>{{tripArray[key]?.FleetNo}}</td>
-              <td>{{tripArray[key]?.RunDate}}</td>
-              <td>{{tripArray[key]?.ShipmentNo}}</td>
-              <td> <a  (click)="openMapModal(tripArray[key],'')" style="color:rgb(66, 66, 138);cursor:pointer">{{tripArray[key]?.VehicleNo}}</a></td>
+              <td class="d-none">{{item?.FreeVehicles}}</td>
+              <td class="d-none">{{item?.AtSource}}</td>
+              <td class="d-none">{{item?.AtDestination}}</td>
+              <td class="d-none">{{item?.GPSFilter}}</td>
+              <td class="d-none">{{item?.StoppageFilter}}</td>
+              <td class="d-none">{{item?.DelayFilter}}</td>
+              <td class="d-none">{{item?.ETAFilter}}</td> 
+              <td class="d-none">{{item?.AlertFilter}}</td> 
+              <td> 
+                <!-- (click)="transShipment(item?.MTripId)" -->
+                 <button style="width: 26px;" data-bs-target="#transShipModal" data-bs-toggle="modal" ngbTooltip="Trans-Shipment" placement="bottom" container="body" >
+                <img style="width: 15.43px;margin-top: 1.1px;vertical-align: top;" src="assets/images/transShipment.png" alt="">
+             </button></td>
+            
+              <td>{{elockFunctionDisplay(item?.FixedLockOpen,item?.PortableLockOpen)}}</td>
+              <td>{{item?.ShipmentMethod}}</td>
+              <td>{{item?.Region}}</td>
+              <td>{{item?.Origin}}</td>
+              <td>{{item?.Destination}}</td>
+              <td>{{item?.Route}}</td>
+              <td>{{item?.FleetNo}}</td>
+              <td>{{item?.RunDate}}</td>
+              <td>{{item?.ShipmentNo}}</td>
+              <td> <a  (click)="vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,'')" style="color:rgb(66, 66, 138);cursor:pointer">{{item?.VehicleNo}}</a>
+                <button>
+                  <!--  (click)="getExcelContent(item)"  -->
+                  <i style="color: #1a741a;font-size: 16px;" class="fas fa-download"></i>
+                </button>
+              </td>
               <td>
                 <i
-                  *ngIf="tripArray[key]?.ImeiNo1"
-                  (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo1)"  
+                  *ngIf="item?.ImeiNo1"
+                  (click)="vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,'')"  
                   ngbTooltip="Device 1"
                   container="body"
                   class="fa fa-map-marker"
@@ -924,59 +898,61 @@
                   aria-hidden="true"
                 ></i>
                 <i
-                  *ngIf="tripArray[key]?.ImeiNo2"
+                  *ngIf="item?.ImeiNo2"
                   ngbTooltip="Device 2"
-                  (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo2)"  
+                  (click)="vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,'')"  
                   class="fa fa-map-marker"
                   [ngStyle]="{ color: 'blue', cursor: 'pointer', fontSize: '1.5em' }"
                   aria-hidden="true"
                 ></i>
                 <i
-                  *ngIf="tripArray[key]?.ImeiNo3"
-                  (click)="openMapModal(tripArray[key],tripArray[key]?.ImeiNo3)"  
+                  *ngIf="item?.ImeiNo3"
+                  (click)="vehicleTrackF_new(item?.ImeiNo1,item?.ImeiNo2,item?.ImeiNo3,item?.RunDate,item?.VehicleNo,item,item?.MTripId,'')"  
                   ngbTooltip="Device 3"
                   class="fa fa-map-marker"
                   [ngStyle]="{ color: 'green', cursor: 'pointer', fontSize: '1.5em' }"
                   aria-hidden="true"
                 ></i>
               </td>    
-              <td>{{tripArray[key]?.VehicleStatus}}</td>
-              <td>{{tripArray[key]?.VehicleLastTime}}</td>
-              <td >{{tripArray[key]?.LastLocation}}</td>
-              <td>{{ tripArray[key]?.RouteDeviation === 'NA' || tripArray[key]?.RouteDeviation === '' ? '' : tripArray[key]?.RouteDeviation }}</td>
+              <td>{{item?.VehicleStatus}}</td>
+              <td>{{item?.VehicleLastTime}}</td>
+              <td >{{item?.LastLocation}}</td>
+              <td>{{ item?.RouteDeviation === 'NA' || item?.RouteDeviation === '' ? '' : item?.RouteDeviation }}</td>
 
-              <td>{{tripArray[key]?.STD}}</td>
-              <td>{{tripArray[key]?.STA}}</td>
-              <td>{{tripArray[key]?.ATD}}</td>
-              <td>{{tripArray[key]?.ATA}}</td>
+              <td>{{item?.STD}}</td>
+              <td>{{item?.STA}}</td>
+              <td>{{item?.ATD}}</td>
+              <td>{{item?.ATA}}</td>
             
               
-              <td >{{tripArray[key]?.ETA}}</td>
-              <td>{{tripArray[key]?.RemainingDistance}}</td>
-              <td>{{tripArray[key]?.DistanceCover}}</td>
-              <td>{{tripArray[key]?.DelayedArrived}}</td>
+              <td >{{item?.ETA}}</td>
+              <td>{{item?.RemainingDistance}}</td>
+              <td>{{item?.DistanceCover}}</td>
+              <td>{{item?.DelayedArrived}}</td>
               
                  
-              <td>{{tripArray[key]?.Halt}}</td>
-              <td>{{tripArray[key]?.DriverName}}/{{tripArray[key]?.DriverNumber}}</td>
-              <td>{{tripArray[key]?.DriverNumber}}</td>
-              <td>{{tripArray[key]?.Transporter}}</td>
+              <td>{{item?.Halt}}</td>
+              <td>{{item?.DriverName}}/{{item?.DriverNumber}}</td>
+              <td>{{item?.DriverNumber}}</td>
+              <td>{{item?.Transporter}}</td>
               <td>
                 {{
-                  (tripArray[key]?.GPSVendor1 ? tripArray[key]?.GPSVendor1 : '') +
-                  (tripArray[key]?.GPSVendor2 ? '/' + tripArray[key]?.GPSVendor2 : '') +
-                  (tripArray[key]?.GPSVendor3 ? '/' + tripArray[key]?.GPSVendor3 : '')
+                  (item?.GPSVendor1 ? item?.GPSVendor1 : '') +
+                  (item?.GPSVendor2 ? '/' + item?.GPSVendor2 : '') +
+                  (item?.GPSVendor3 ? '/' + item?.GPSVendor3 : '')
                 }}
               </td>
-              <td>{{tripArray[key]?.TripStatus}}</td>
-              <td>{{tripArray[key]?.CloseBy}}</td>
-              <td>{{tripArray[key]?.CloseDate}}</td>
+              <td>{{item?.TripStatus}}</td>
+              <td>{{item?.CloseBy}}</td>
+              <td>{{item?.CloseDate}}</td>
             
-              <td>{{tripArray[key]?.RunCode}}</td>
+              <td>{{item?.RunCode}}</td>
        
             
             </tr>
           </tbody>
+		  
+	
   
         </table>
       </div>
@@ -1042,23 +1018,7 @@
   
 
  
-    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
-         <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
-          <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
-              uploading... </p></ngx-spinner>
-          <div class="modal-header" style="background:#0e213ff2">
-            <!-- <h5 class="modal-title" id="mapModalLabel" style="color:white;">Map</h5> -->
-            <!-- <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
-              <i style="font-size: 24px;color:white" class="fa fa-times"></i>
-            </button> -->
-          </div>
-          <div class="modal-body" >
-            <div id="map1" style="width: 100%; height: 100%;" ></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
   
       
@@ -1151,3 +1111,39 @@
   
 
   
+
+
+  <div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog " style=" max-width: 1500px;">
+    <div class="modal-content" style="height: 700px;">
+
+      <div class="modal-header">
+        <!-- <h6 class="modal-title" id="exampleModalLabel">{{map_flag}}</h6> -->
+        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- (click)="closeMap()" -->
+      </div>
+      <div class="modal-body">
+   
+        <div id="map1">
+
+
+        </div>
+      </div>
+      <div class="modal-footer" style="height: 25px;">
+
+        <!-- <button type="button" *ngIf="seconddaryTrack[0][8]!==''"> <i class="fe fe-truck"   tooltipClass="customInactive-tooltip-class" 
+              style="font-size: 20px;display: none;" id="blink" ></i></button> -->
+        <!-- 
+           <button type="button" *ngIf="seconddaryTrack[0][7]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][1]"
+              style="font-size: 20px;" id="blink" [style.color]="colorTrack[0]?.first" (click)="vehicleTrack1F()"></i></button>
+           <button type="button" *ngIf="seconddaryTrack[0][1]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][7]"
+              style="font-size: 20px;" id="blink" [style.color]="colorTrack[1]?.second" (click)="vehicleTrack2F()"></i></button> -->
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

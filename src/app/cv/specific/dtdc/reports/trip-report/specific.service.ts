@@ -151,6 +151,7 @@ export class SpecificService implements OnDestroy {
                 { path: '/cv/specific/dtdc/Irun-Dashboard', title: 'Irun Dashboard', type: 'link', active:false },
                 { path: '/cv/specific/dtdc/Delay-Dashboard', title: 'Delay Dashboard', type: 'link', active:false },
                 { path: '/cv/specific/dtdc/Summary-Dashboard', title: 'Summary Dashboard', type: 'link', active:false },
+                { path: '/cv/specific/dtdc/vehicle-nearby', title: 'Vehicle Nearby', type: 'link', active:false },
                 { path: '/ILgic/wallet', title: 'Document Wallet', type: 'link', active:false },
   
   
@@ -180,10 +181,13 @@ export class SpecificService implements OnDestroy {
             {
                 path: '/cv/specific/dtdc/Report/VehicleReport', title:'Vehicle Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
             },
-            { path: '/cv/specific/dtdc/Report/VehicleUtilization', title:'Vehicle Utilization', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
-            {
-             path: '/cv/specific/dtdc/Report/DataPushReport', title:'Data Push-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
-         },
+            // {
+            //     path: '/cv/specific/dtdc/Report/VehicleReport', title:'Vehicle Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+            // },
+        //     { path: 'https://itraceit.in/vehicle-report/?exttkn='+localStorage.getItem('AccessToken')!, title:'vehicle report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
+        //     {
+        //      path: 'https://itraceit.in/travel-report/?exttkn='+localStorage.getItem('AccessToken')!, title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+        //  },
         //     {
         //      path: 'https://secutrak.in/reports/distance_report_beta2/?exttkn='+localStorage.getItem('AccessToken')!, title:'Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
         //  },
@@ -197,19 +201,19 @@ export class SpecificService implements OnDestroy {
         ]
     
     },
-    {
+//     {
            
-        title:'Manage', status:0,deactive_img:'fa fa-cog', active_img:'fa fa-cog', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,Account_id:'',
-        children: [
-         {
-            path: '/cv/specific/dtdc/Manage/Vehicle', title:'Vehicle', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
-        },
+//         title:'Manage', status:0,deactive_img:'fa fa-cog', active_img:'fa fa-cog', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,Account_id:'',
+//         children: [
+//          {
+//             path: '/cv/specific/dtdc/Manage/Vehicle', title:'Vehicle', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+//         },
         
         
     
-    ]
+//     ]
 
-},
+// },
     {
         path: 'https://beta.secutrak.in/secutrak/auth/login?exttkn='+localStorage.getItem('AccessToken')!, title: 'Home',deactive_img:'fa fa-home', active_img:'fa fa-home', status:1, type: 'link', icon: 'nav1', badgeType: 'danger', badgeValue: '3', active: false,Account_id:''
     },

@@ -198,13 +198,14 @@
                   [ngClass]="{'input-error':submit && triggerHistoryForm.form.controls.ReportType.status=='INVALID'}">
                       <ng-option [value]="1" >Standard</ng-option>
                       <ng-option [value]="2" >Detailed</ng-option>
+                      <ng-option [value]="3" >Detail Download CSV</ng-option>
                       <!-- <ng-option *ngFor="let item of Master_filter.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option> -->
                   </ng-select>
               </div>
   
   
               <div class="col-lg-2 col-md-4 col-sm-6 ">
-                <label for="triggervehicle" class="form-label">Trip Id</label>
+                <label for="triggervehicle" class="form-label"> Trip Id</label>
                 <input type="text" class="form-control" ngModel name="TripId">
             </div>
   
@@ -234,7 +235,7 @@
     
     <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Search..." (input)="onFilterTextBoxChanged()" class="form-control mb-2" />
     
-        <button (click)="onBtExport()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42" title=" Download excel file"></i>
+        <button (click)="exportToCSV()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42" title=" Download excel file"></i>
         </button>
         <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;" title=" Download PDF file"></i></button>
                   <!-- <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->

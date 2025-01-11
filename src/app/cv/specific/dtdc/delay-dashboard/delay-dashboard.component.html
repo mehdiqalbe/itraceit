@@ -2,7 +2,7 @@
     <div class="col-lg-12">
     
       <!-- Header Start -->
- <div class="card" >
+ <div class="card" style="    margin-bottom: 10px;">
     <div class="card-body innerdiv p-0">
       <!-- headerstart here -->
       <div class="hor-header">
@@ -71,10 +71,6 @@
             <div class="collapse" id="collapseExample">
               <div style="display:inline-table;" class="ms-9">
                 <label>Route</label>
-                <!-- <ng-select class=""  name="trigger_type" placeholder="Select" id="ShipmentNo"   [multiple]="true"[closeOnSelect]="true" >
-              
-                 <ng-option *ngFor="let item of alertData " [value]="item">{{item}}</ng-option>
-              </ng-select> -->
               <ng-select class="io-set"  name="trigger_type" placeholder="Select"  [multiple]="false"[closeOnSelect]="true" 
                 [items]="alertData"  bindLabel="feeder_type"  [(ngModel)]="selectedRoute" (change)="changeRoutetype($event)"
                 >
@@ -149,25 +145,31 @@
                 <th class="sorting table-primary" aria-label="STA: activate to sort column ascending">STA</th>
                 <th class="sorting table-primary" aria-label="Delaying STA: activate to sort column ascending">Delaying STA</th>
                 <th class="sorting table-primary" aria-label="Delay Hours: activate to sort column ascending">Delay Hours</th>
-                <!-- <th class="sorting table-primary" aria-label="DelayHalt: activate to sort column ascending">Delay Halt</th> -->
-                <!-- <th class="sorting table-primary" aria-label="DelayReason: activate to sort column ascending">Delay Reason</th> -->
+                <th class="sorting table-primary" aria-label="DelayHalt: activate to sort column ascending">Delay Halt</th>
+                <th class="sorting table-primary" aria-label="DelayReason: activate to sort column ascending">Delay Reason</th>
                 <th class="sorting table-primary" aria-label="CurrentLocation: activate to sort column ascending">Current Location</th>
                 <th class="sorting table-primary" aria-label="Vehicle Status: activate to sort column ascending">Vehicle Status</th>
-                <!-- <th class="sorting table-primary" aria-label="RouteType: activate to sort column ascending">RouteType</th> -->
-                <!-- <th class="sorting table-primary" aria-label="Region: activate to sort column ascending">Region</th> -->
+                <th class="sorting table-primary" aria-label="RouteType: activate to sort column ascending">RouteType</th>
+                <th class="sorting table-primary" aria-label="Region: activate to sort column ascending">Region</th>
                 <th class="sorting table-primary" aria-label="Route: activate to sort column ascending">Route</th>
-                <!-- <th class="sorting table-primary" aria-label="Fleet: activate to sort column ascending">Fleet</th> -->
+                <th class="sorting table-primary" aria-label="Fleet: activate to sort column ascending">Fleet</th>
                 <th class="sorting table-primary" aria-label="Run Date: activate to sort column ascending">Run Date</th>
                 <th class="sorting table-primary" aria-label="DriverName: activate to sort column ascending"><div style="width:100px;"> Driver Name</div></th>
                 <th class="sorting table-primary" aria-label="DriverNumber: activate to sort column ascending">Driver Number</th>
                 <th class="sorting table-primary" aria-label="Transporter: activate to sort column ascending">Transporter</th>
                 <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Trip Id</th>
-                <!-- <th class="sorting table-primary" aria-label="Run Code: activate to sort column ascending">Run Code</th> -->
+
+                <!-- <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Delay Halt</th>
+                <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Delay Reason</th>
+                <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Current Location</th>
+                <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Route Type</th> -->
+                <!-- delay_halt delay_reason last_address_current shipment_method-->
+                <th class="sorting table-primary" aria-label="Run Code: activate to sort column ascending">Run Code</th>
                 <th class="no-sort table-primary sorting_disabled"> <!-- Fixed GPS -->Device-1</th>
                 <th class="no-sort table-primary sorting_disabled"> <!-- Fixed Lock -->Device-2</th>
                 <th class="no-sort table-primary sorting_disabled"> <!-- Portable Lock -->Device-3</th>
                 <th class="no-sort table-primary sorting_disabled">Track(All)</th>
-                <!-- <th class="no-sort table-primary sorting_disabled">Trip Action</th> -->
+                <th class="no-sort table-primary sorting_disabled">Trip Action</th>
             </tr>
             
           </thead>
@@ -180,21 +182,25 @@
               <td>{{item.schedule_arrival}}</td>
               <td>{{item.delaying_sta}}</td>
               <td>{{item.delay_hr}}</td>
-              <!-- <td>{{item.vehicle_no}}</td> -->
-              <!-- <td>{{item.delay_reason}}</td> -->
+              <td>{{item.delay_halt}}</td>
+              <td>{{item.delay_reason}}</td>
               <td>{{item.last_address_current}}</td>
+              
+              <!-- <td>{{item.vehicle_no}}</td>
+              <td>{{item.delay_reason}}</td>
+              <td>{{item.last_address_current}}</td> -->
               <td> <span class="vehicle_status_current">  {{item.vehicle_status_current}}</span></td>
-              <!-- <td>{{item?.route_type}}</td> -->
-              <!-- <td>{{item?.Region}}</td> -->
+              <td>{{item?.shipment_method}}</td>
+              <td>{{item?.region_code}}</td>
               <td>{{item?.route_name}}</td>
-              <!-- <td>{{item?.Fleet}}</td> -->
+              <td>{{item?.fleet_no}}</td>
               <td>{{item?.run_date}}</td>
               <td>{{item?.driver_name}}</td>
               <td>{{item?.driver_mobile}}</td>
               <td>{{item?.transporter_name}}</td>
               <td>{{item?.shipment_no}}</td>
               <!-- <td>{{item?.vehicle_no}}</td> -->
-              <!-- <td>{{item?.vehicle_no}}</td> -->
+              <td>{{item?.run_code}}</td>
               <td>
                 <ng-container *ngIf="item?.imei_no !=='NA' && item?.imei_no !==''">
                 <a (click)="vehicleTrackF_new( item?.imei_no,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
@@ -243,7 +249,7 @@
 
                 </ng-container> -->
               </td>
-           <!-- <td></td> -->
+           <td><a (click)="close_trip(item?.id)"><i class="fa fa-window-close map-table-marker" aria-hidden="true"></i></a></td>
             </tr>
           </tbody>
         </table>
@@ -256,39 +262,52 @@
 data-bs-backdrop="static" data-bs-keyboard="false">
 <div class="modal-dialog " style=" max-width: 1500px;">
   <div class="modal-content" style="height: 700px;">
-
     <div class="modal-header">
-      <!-- <h6 class="modal-title" id="exampleModalLabel">{{map_flag}}</h6> -->
       <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
         ></button>
-        <!-- (click)="closeMap()" -->
     </div>
     <div class="modal-body">
-      <!-- <ngx-spinner name="tracking" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="false"
-        type="ball-spin-clockwise">
-        <p style="color: black">Please Wait.. </p>
-      </ngx-spinner> -->
       <div id="map2">
-
-
       </div>
     </div>
     <div class="modal-footer" style="height: 25px;">
-
-      <!-- <button type="button" *ngIf="seconddaryTrack[0][8]!==''"> <i class="fe fe-truck"   tooltipClass="customInactive-tooltip-class" 
-        style="font-size: 20px;display: none;" id="blink" ></i></button> -->
-      <!-- 
-     <button type="button" *ngIf="seconddaryTrack[0][7]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][1]"
-        style="font-size: 20px;" id="blink" [style.color]="colorTrack[0]?.first" (click)="vehicleTrack1F()"></i></button>
-     <button type="button" *ngIf="seconddaryTrack[0][1]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][7]"
-        style="font-size: 20px;" id="blink" [style.color]="colorTrack[1]?.second" (click)="vehicleTrack2F()"></i></button> -->
-
-
-
-
     </div>
   </div>
 </div>
 </div>
 
-
+<div class="modal fade" id="closeTrip" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog " style=" max-width: 669px;">
+  <div class="modal-content" style="height: 200px;">
+    <div class="modal-header">
+      <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
+        ></button>
+    </div>
+    <div class="modal-body">
+      <!-- <div id="map2"> -->
+        <div class="col-lg-12">
+          <!-- <div class="collapse" id="collapseExample"> -->
+            <div style="display:inline-table;" class="ms-4">
+              <label>ATA</label>
+              <input type="text" data-date-format="YYYY-MM-DD" id="datepicker" (click)="start()"
+              class="form-control" [ngModel]="datetimepicker1" required name="ATA"  />
+            </div>
+            <div style="display:inline-table; " class="ms-2">
+              <label>Remark</label>
+              <input type="text" class="form-control" name="Remark" [(ngModel)]="Remark" />
+            </div>
+            <div style="display:inline-table; " class="ms-2">
+              <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="    width: 100px !important;
+              position: absolute;" (click)="submitclose()" >Submit</button>
+                 
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+    <div class="modal-footer" style="height: 25px;">
+    </div>
+  </div>
+</div>
+</div>

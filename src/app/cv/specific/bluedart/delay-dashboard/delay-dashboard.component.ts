@@ -319,8 +319,6 @@ export class DelayDashboardComponent implements OnInit {
       trackAll:'',
       Full:person
     }));
-    
-  
   this.gridOptions = {
       rowHeight: 30,
       headerHeight: 40,
@@ -340,26 +338,6 @@ export class DelayDashboardComponent implements OnInit {
       },
      
     };
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
-  // this.gridOptions = {
-  //     rowHeight: 30,
-  //     headerHeight: 40,
-      
-  //     columnDefs: this.columnDefs,
-  //     rowData: this.rowData,
-  //     pagination: true,
-  //     paginationPageSize: 50,
-  //     paginationPageSizeSelector: [10, 50, 100,500,1000],
-     
-  //     animateRows: true,
-  // onGridReady: (params) => {
-  //   this.onGridReady(params);
-  //   this.adjustGridHeight(); // Adjust the grid height after initialization
-  // },
-      
-    
-  //   };
     const gridDiv = document.querySelector('#myGrid');
     new agGrid.Grid(gridDiv, this.gridOptions);
    }

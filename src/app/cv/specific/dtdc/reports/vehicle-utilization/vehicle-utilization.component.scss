@@ -33,14 +33,13 @@
 
     #map
     {
-        height: 100%;
-        width: 100%;
+        height: 500px;
+        width: 800px;
     }
-    
-    #map2
+    #map1
     {
         height: 500px;
-        width: 100%;
+        width: 800px;
     }
 
     .box2 {
@@ -289,22 +288,22 @@
     width: 400px;
 }
 
-.box {
-    height: 802px;
-    // height: 900px;
-    max-width: 0px;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    transition: ease-in-out 400ms max-height;
-    position: fixed;
-    // z-index: 400;
+// .box {
+//     height: 802px;
+//     // height: 900px;
+//     max-width: 0px;
+//     overflow-y: hidden;
+//     overflow-x: hidden;
+//     transition: ease-in-out 400ms max-height;
+//     position: fixed;
+//     // z-index: 400;
 
-    // top: 80px;
-    top:55px;
-    // right: 300px;
-    //background-color: white;
-    // margin-left: 30px;
-}
+//     // top: 80px;
+//     top:55px;
+//     // right: 300px;
+//     //background-color: white;
+//     // margin-left: 30px;
+// }
 
 .box.opened {
     // max-width: 584px;
@@ -3099,8 +3098,7 @@ color: white;}
     // border-top: none !important;
     // border-left: none !important;
     // border-right: none !important;
-    // border: 1px solid #0e6bc9 !important;
-    height: 30px;
+    border: 1px solid #0e6bc9 !important;
 }
 .heading_table{
     background: steelblue;
@@ -3547,11 +3545,11 @@ align-items: center;
         content: "\f055"!important;
     }
     ngb-accordion{
-        .card{
-            box-shadow: none;
-            margin-bottom: 0;
-            border-radius: 0.25rem;
-        }
+        // .card{
+        //     box-shadow: none;
+        //     margin-bottom: 0;
+        //     border-radius: 0.25rem;
+        // }
         .card-header {
             padding: 0;
             border-radius: 0;
@@ -3562,12 +3560,12 @@ align-items: center;
         .card-header button.btn-link{
             color: #76839a;
         }
-        // .card-body {
-        //     border: 1px solid #eff0f6;
-        //     line-height: 25px;
-        //     font-size: 14px;
-        //     padding: 0px;
-        // }
+        .card-body {
+            border: 1px solid #eff0f6;
+            line-height: 25px;
+            font-size: 14px;
+            padding: 0px;
+        }
         .btn-link{
             font-weight: 500;
         }
@@ -3612,17 +3610,18 @@ align-items: center;
     }
 }
 // .card{
-//      height: 0px; 
+//     //  height: 0px; 
 //     object-fit: cover;
 //     /* width: 485px; */
 //     position: absolute;
 //     margin-left: 0px;
-//     right: 0px;
-//     left: 0px;}
-//     .btn-link.collapsed .fa-minus-circle:before {
-//         /* content: "" !important; */
-//         content: "\f107" !important;
-//     }
+//     // right: 0px;
+//     // left: 0px;
+// }
+    .btn-link.collapsed .fa-minus-circle:before {
+        /* content: "" !important; */
+        content: "\f107" !important;
+    }
   .table_header{
     background: #1d3637;
     font-size: 11px;
@@ -3725,6 +3724,13 @@ align-items: center;
 }
 
 ::ng-deep {
+    table.dataTable {
+        width: 100%;
+         margin-top:-5px !important;
+        clear: both;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
     .dark-mode {
         app-headers {
             .header-brand-img {
@@ -3773,7 +3779,7 @@ align-items: center;
 }
 
 // .card {
-//     position: relative;
+//     // position: relative;
 //     margin-bottom: 0 !important;
 //     width: 100%;
 //     height:60px;
@@ -3917,8 +3923,7 @@ align-items: center;
 }
 .header-brand1{
 position: relative;
-    // marginl: 100% !important;
-    // left: 84%;
+    
 }
 .ms-auto{
     margin-left: 0px !important;
@@ -4683,10 +4688,10 @@ section[_ngcontent-tbm-c137] {
     // background:#9a5379;/////purple original
     text-transform:uppercase;
     box-shadow: 8px 12px 25px 2px rgba(0, 0, 0, 0.4);
-    transition: all 0.4s ease 0s;
+    -o-transition: all 0.4s ease 0s;
     -webkit-transition: all 0.4s ease 0s;
     -moz-transition: all 0.4s ease 0s;
-    -o-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
 }
 .tab .nav-tabs li:first-child a{
     border-top-left-radius:8px;
@@ -4816,27 +4821,10 @@ section[_ngcontent-tbm-c137] {
   overflow:auto;  
 }
 .table th, .text-wrap table th {
-    // color: #2e3138;
-    color: white;
+    color: #2e3138;
     text-transform: capitalize!important;
     font-size: 0.875rem;
-    text-align: center;
-    font-weight: 500;
-    color: white;
-    text-transform: capitalize !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    word-wrap: break-word !important;
-    padding: 9px !important;
-    white-space: pre-wrap !important;
-    overflow-wrap: break-word !important;
-    text-align: center !important;
-    vertical-align: top !important;
- }
+    font-weight: 500; }
 
     // .swal-modal { width: 600px!important;height: 50px!important; }
  #newAlert
@@ -4915,230 +4903,52 @@ section[_ngcontent-tbm-c137] {
               opacity: 0;
             }
           }
-
-          
-         .viewall{
-            background: white;
-            width: 100%;
-            height: 36px;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 0px 5px;
-            margin-top: 0vh;
-            box-shadow: black !important;
-            border-radius: 19px;
-         }
-         .viewall-icon{
-            width: auto;
-            height: auto;
-            background: white;
-         }
-        //  .img-view{
-            // width: 27px;
-        //  }
-        .status-card {
-            width: 100%;
-        }
-        // .card-title:only-child {
-        //     margin-bottom: 0;
-        // }
-        .chart-container {
-            // margin-top: -30px;
-            // margin-bottom: -30px;
-
-            margin-top: -58px;
-            margin-bottom: -54px;
-        }
-        // .newLegend[_ngcontent-mhw-c127] {
-        //     display: flex;
-        //     flex-direction: column;
-        //     font-size: 10px;
-        // }
-        .custom {
-            text-align-last: right;
-        }
-        #numberH {
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .status-legend{
-            display: flex;
-            flex-wrap: wrap;
-            grid-gap: 10px;
-            gap: 10px;
-        }
-        .card-title {
-            color: #053c6d;
-            font-family: Arial;
-            font-weight: bold;
-            z-index: 9999;
-    position: relative;
+  
+          .expand-icon-cell {
+            cursor: pointer;
         }
 
-        .status-legend[_ngcontent-dki-c122] {
-            display: flex;
-            flex-wrap: wrap;
-            grid-gap: 10px;
-            gap: 10px;
-            font-size: 11px;
-            z-index: 99999;
-            position: relative;
-        }
-        .score-show{  width: 18px;
-            font-size: 10px;
+        .expand-icon {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
             text-align: center;
-            border-radius: 50%;
-            // background: yellow;
-            height: 16px;
-            color: white;
-            margin-left: 10px; /* Adjust spacing between text and div */}
-            .a-score{
-                display: flex; align-items: center; justify-content: space-between;
-                font-weight: 500;
-               color: #12125eed;
-            }
-            .io-set{
-                // border: 1px solid #8080808c;
-                // border-radius: 3px;
-                border: 1px solid #0e6bc9 !important;
-                border-radius: 4px;
-            }
-            ng-select{
-                // border: 1px solid blue;
-                height: 34.1px !important;
-            }
-            .ng-select .ng-select-container {
-                min-height: 33px !important;
-            }
-            .ng-select.ng-select-single .ng-select-container {
-                height: 33px !important;
-            }
-            // grid table css-------------------------------------------------------------------------------------------
-            
-	
-	   .ag-theme-alpine .ag-cell {
-        border-right: 1px solid #ccc!important; /* Add vertical line between cells */
-      }
-      .ag-menu-option-icon {
-        margin-right: 5px !important;
-      }
+            line-height: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .details-table {
+            display: none;
+            margin-top: 10px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .details-table th, .details-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .details-row {
+            background-color: #f9f9f9;
+        }
+
+     
+        .expand-icon {
+            cursor: pointer;
+            margin-right: 5px;
+          }
       
-	     .ag-header, .ag-advanced-filter-header {
-        // background-color: #e3dbdb;
-        background-color:#e5e6f5 !important;;
-        border-bottom: var(--ag-borders-critical) var(--ag-border-color);
-    }
-   
-    .card {
-        position: relative;
-        margin-bottom: 0.5rem;
-        width: 100%;
-    }
-    .input-error {
-        border: red 1px solid !important;
-        border-radius: 5px;
-    }
-    /* Parent Header Style */
-/* Ensure custom styles override Ag-Grid's default styles */
-.ag-header-cell-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Custom Style for Parent Header */
-  .custom-parent-header {
-    background-color: #5da3ed !important; /* Blue background */
-    color: white !important;             /* White text */
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  /* Custom Style for Child Headers */
-  .custom-child-header {
-    background-color: #f8f9fa !important; /* Light gray background */
-    color: #343a40 !important;           /* Dark gray text */
-    font-weight: normal;
-    text-align: center;
-  }
-//   #myGrid {
-//     width: 100%;
-//     height: auto;
-//     max-height: 400px;
-//     min-height: 150px; /* Ensure a minimum height */
-//     overflow: hidden; /* Prevent scrollbars from cutting off content */
-//   }
-.wrap-cell {
-    white-space: normal; /* Allow text to wrap */
-    word-wrap: break-word; /* Break long words if needed */
-    line-height: 1.2em; /* Adjust line spacing for better readability */
-  }
-  ::ng-deep {
-    .ag-header-cell:not(.ag-header-cell-auto-height) .ag-header-cell-comp-wrapper {
-    height: 100%;
-    font-weight: 600;
-   
-    display: flex;
-    height: 100%;
-    font-weight: 600;
-    width: 100% !important;
-    display: flex;
-    align-items: center;
-    white-space: normal;
-    text-align: center;
-    word-break: break-word;
-    align-items: center;
-}
-.blue-text {
-    color: blue !important;
-    cursor: pointer;
-  }
-.ag-header-cell {
-    padding: 5px !important;
-}
-.ag-header.ag-header-allow-overflow .ag-header-row {
-    overflow: visible;
-    // height: 39px !important;
-}
-#simple_datatable thead th {
-    color: white;
-    text-transform: capitalize !important;
-    font-size: 0.875rem;
-    text-align: center;
-    font-weight: 500;
-    word-wrap: break-word;
-    padding: 2px;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    text-align: center;
-    vertical-align: top;
+          .fa-minus:before {
+            content: '\f056'; /* FontAwesome minus icon */
+          }
+      
+          .fa-plus:before {
+            content: '\f067'; /* FontAwesome plus icon */
+          }
 
 
-    // ----------------
-    color: white;
-    text-transform: capitalize !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    font-size: 0.875rem !important;
-    text-align: center !important;
-    font-weight: 500 !important;
-    word-wrap: break-word !important;
-    padding: 9px !important;
-    white-space: pre-wrap !important;
-    overflow-wrap: break-word !important;
-    text-align: center !important;
-    vertical-align: top !important;
-
-}
-
-#simple_datatable {
-    width: 100% !important;
-    text-align: center;
-}
-.fa{
-    cursor: pointer;
-}
-  }
-  #map1{
-    height: 596px;
-    width: 100%;
-  }
+         
