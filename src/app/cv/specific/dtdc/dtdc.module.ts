@@ -22,6 +22,8 @@ import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard
 // import { DtdcFeature1Component } from './components/dtdc-feature1/dtdc-feature1.component';
 import { MapComponent } from './map/map.component';
 import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.component';
+// import { DtdcFeature1Component } from './components/dtdc-feature1/dtdc-feature1.component';
+// import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.compo
     SummaryDashboardComponent,
     // DtdcFeature1Component,
     MapComponent,
-    TriggerSummaryComponent
+    TriggerSummaryComponent,
+    // DtdcFeature1Component,
+    // VehicleReportComponent
   ],
   imports: [
     CommonModule,

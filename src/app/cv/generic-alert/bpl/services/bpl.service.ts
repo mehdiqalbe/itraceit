@@ -8,16 +8,17 @@ export class BplService {
 
   constructor(private http: HttpClient) { }
   BASE_URL = "https://api.secutrak.in/dev-app-bpl";
+  url="https://apinode2.secutrak.in/dev-app-itraceit/";
   genericTripReportFilter(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReportFilter',val)
+    return this.http.post(this.url+'genericTripReportFilter',val)
   }
     
   genericTripReport(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/genericTripReport',val)
+    return this.http.post(this.url+'genericTripReport',val)
   }
 
   getGenericVehicle(val:any){
-    return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/getGenericVehicle',val)
+    return this.http.post(this.url+'getGenericVehicle',val)
   }
   // BASE_URL = "https://api.secutrak.in/dev-app-bpl";
   createAlertS(data)
@@ -71,36 +72,29 @@ assignQrtSubmitS(data)
 assignQrtS(data)
   {
     let apiurl="https://api.secutrak.in/dev-app-itraceit/getQrtUserAT";
-    //let apiurl="https://jsonplaceholder.typicode.com/users";
-   //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl,data);
   }
   graceSubmitS(data) {
     const apiurl = `${this.BASE_URL}/actionGracePeriodFlashAT`;
     return this.http.post(apiurl, data);
   }
-  
   threatFullDataS(data) {
     const apiurl = `${this.BASE_URL}/liveThreatListFlashAT`;
     return this.http.post(apiurl, data);
   }
-  
   threatActionSubS(data) {
     const apiurl = `${this.BASE_URL}/actionThreatFlashAT`;
     return this.http.post(apiurl, data);
   }
-  
   escalationInfoS(data) {
     const apiurl = `${this.BASE_URL}/getEscalateInfoAT`;
     return this.http.post(apiurl, data);
   }
-  
   escalatSubmitS(data) {
     const apiurl = `${this.BASE_URL}/actionEscalateFlashAT`;
     return this.http.post(apiurl, data);
   }
-  
-  closeS(data) {
+  closeS(data) { 
     const apiurl = `${this.BASE_URL}/actionTriggerFlashAT`;
     return this.http.post(apiurl, data);
   }
@@ -165,16 +159,6 @@ assignQrtS(data)
     return this.http.post(apiurl, data);
   }
   
-
-
-
-
-
-
-
-
-
-
   trackapiS(data)
   {
     let apiurl=" https://api.secutrak.in/dev-app-secutrak/vehicleTrackingV3";

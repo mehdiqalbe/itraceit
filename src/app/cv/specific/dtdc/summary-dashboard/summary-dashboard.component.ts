@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
 declare var H: any;
 declare var $: any;
 declare const agGrid: any;
+declare var LZString:any;
 // import * as echarts from 'echarts';
 interface HTMLCanvasElement {
   willReadFrequently?: boolean;
@@ -203,9 +204,7 @@ export class SummaryDashboardComponent implements OnInit {
   }
  masterUploadTable() {
   var tbl = $('#simple_datatable')
-  // var table = $('#simple_datatable').DataTable();
-  // table.clear();
-  // table.destroy();
+  
   $(document).ready(function () {
     $('#simple_datatable').DataTable({
       "language": {
@@ -353,47 +352,102 @@ export class SummaryDashboardComponent implements OnInit {
 //       }
 //   });
 // }
-summary_detail(eve,tripsKey){
+summary_detail(eve,tripsKey,h_name){
   const temp_data = this.new_array.Data[0].trips;
-    const completedTrips = temp_data[eve]
+    const completedTrips = temp_data[eve];
     this.rowData_popup=completedTrips;
-    console.log(completedTrips)
     if(this.rowData_popup){
-      this.Detail();
+    
+         var structuredata:any= {
+            token: this.token,
+            rowData_popup: this.rowData_popup,
+            group_id: this.group_id,
+            flag:0,
+            name:h_name,
+          };
+       
+      const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+      sessionStorage.setItem('structuredata', compressedData);
+
+      // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+      window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+      // https://cv2.secutrak.in/cv/specific/dtdc/map
     }else{
-      alert("Data not found")
+      alert("Data not found");
     }
 }
-summary_detail_1(eve,tripsKey){
+summary_detail_1(eve,tripsKey,h_name){
   const temp_data = this.new_array.Data[0].trips;
     const completedTrips = temp_data[eve].filter(item => item[tripsKey]=== 1);
     this.rowData_popup=completedTrips;
-    console.log(completedTrips)
+    // console.log(completedTrips)
     if(this.rowData_popup){
-      this.Detail();
-    }else{
-      alert("Data not found")
-    }
+    
+      var structuredata:any= {
+         token: this.token,
+         rowData_popup: this.rowData_popup,
+         group_id: this.group_id,
+         flag:0,
+         name:h_name,
+       };
+    
+   const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+   sessionStorage.setItem('structuredata', compressedData);
+
+   // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+   window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // https://cv2.secutrak.in/cv/specific/dtdc/map
+ }else{
+   alert("Data not found");
+ }
 }
-summary_detail_2(eve,tripsKey){
+summary_detail_2(eve,tripsKey,h_name){
   const temp_data = this.new_array.Data[0][tripsKey];
     const completedTrips = temp_data[eve];
     this.rowData_popup=completedTrips;
     if(this.rowData_popup){
-      this.Detail1();
-    }else{
-      alert("Data not found")
-    }
+    
+      var structuredata:any= {
+         token: this.token,
+         rowData_popup: this.rowData_popup,
+         group_id: this.group_id,
+         flag:0,
+         name:h_name,
+       };
+    
+   const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+   sessionStorage.setItem('structuredata', compressedData);
+
+   // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+   window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // https://cv2.secutrak.in/cv/specific/dtdc/map
+ }else{
+   alert("Data not found");
+ }
 }
-summary_detail_3(eve,tripsKey){
+summary_detail_3(eve,tripsKey,h_name){
   const temp_data = this.new_array.Data[0][tripsKey];
     const completedTrips = temp_data[eve];
     this.rowData_popup=completedTrips;
     if(this.rowData_popup){
-      this.Detail1();
-    }else{
-      alert("Data not found")
-    }
+    
+      var structuredata:any= {
+         token: this.token,
+         rowData_popup: this.rowData_popup,
+         group_id: this.group_id,
+         flag:0,
+         name:h_name,
+       };
+    
+   const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+   sessionStorage.setItem('structuredata', compressedData);
+
+   // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+   window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // https://cv2.secutrak.in/cv/specific/dtdc/map
+ }else{
+   alert("Data not found");
+ }
 }
  Detail(){
   $('#Datail').modal('show');
@@ -618,35 +672,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true ,width:150},
   { field: 'LastStatus', headerName: 'Last Status', sortable: true, filter: true ,},
   { field: 'TripCount', headerName: 'Trip Count', sortable: true, filter: true, },
-  // { field: 'Destination', headerName: 'Destination', sortable: true, filter: true },
-  // { field: 'Route', headerName: 'Route', sortable: true, filter: true },
-  // { field: 'Fleet', headerName: 'Fleet', sortable: true, filter: true },
-  // { field: 'TripID', headerName: 'Trip ID', sortable: true, filter: true },
-  // { field: 'RunCode', headerName: 'Run Code', sortable: true, filter: true },
-  // { field: 'RunDate', headerName: 'Run Date', sortable: true, filter: true },
-  // { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true },
-  // { field: 'Track', headerName: 'Track', sortable: true, filter: true },
-  // { field: 'GPSVendor', headerName: 'GPS Vendor', sortable: true, filter: true },
-  // { field: 'FixedElockVendor', headerName: 'Fixed E-lock Vendor', sortable: true, filter: true },
-  // { field: 'PortableElockVendor', headerName: 'Portable E-lock Vendor', sortable: true, filter: true },
-  // { field: 'DriverName', headerName: 'Driver Name', sortable: true, filter: true },
-  // { field: 'DriverNumber', headerName: 'Driver Number', sortable: true, filter: true },
-  // { field: 'Transporter', headerName: 'Transporter', sortable: true, filter: true },
-  // { field: 'STD', headerName: 'STD', sortable: true, filter: true },
-  // { field: 'ATD', headerName: 'ATD', sortable: true, filter: true },
-  // { field: 'DelayDeparture', headerName: 'Delay Departure', sortable: true, filter: true },
-  // { field: 'STA', headerName: 'STA', sortable: true, filter: true },
-  // { field: 'ATA', headerName: 'ATA', sortable: true, filter: true },
-  // { field: 'ttMapped', headerName: 'TT-Mapped', sortable: true, filter: true },
-  // { field: 'TT-Taken', headerName: 'TT-Taken', sortable: true, filter: true },
-  // { field: 'delayArrival', headerName: 'Delay Arrival', sortable: true, filter: true },
-  // { field: 'DelayTT', headerName: 'Delay TT', sortable: true, filter: true },
-  // { field: 'Distance', headerName: 'Distance (Km)', sortable: true, filter: true },
-  // { field: 'GPSException', headerName: 'GPS Exception', sortable: true, filter: true },
-  // { field: 'Status', headerName: 'Status', sortable: true, filter: true },
-  // { field: 'CloseBy', headerName: 'Close By', sortable: true, filter: true },
-  // { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true },
-];
+ ];
 
 this.rowData_popup = this.rowData_popup.map((person, index) => ({
   Sl: index + 1,
@@ -1768,25 +1794,7 @@ onGridReady(params: any) {
  
   this.gridApi = params.api;
 }
-  // onSearch(term: any) {
-  //   console.log(term)
-  //   const formdataCustomer = new FormData();
-  //   formdataCustomer.append('AccessToken', this.token);
-  //   formdataCustomer.append('searchQuery',term.term);
-  //   // formdataCustomer.append('route_id', route_id);
-  
-  //   this.CrudService.getBdVehicle(formdataCustomer).subscribe((res: any) => {
-  //     console.log(res)
-  //     this.dataList = res.Data;
-  //   })
-  //   // this.searchInput.next(term); // Emit the input value
-  // }
-//  onGridReady(params: any) {
-//   this.gridApi = params.api;
  
-//   // this.gridOptions.api = params.api;
-//   console.log('Grid API:', this.gridApi); // Check if API is assigned correctly
-// }
 exportAsExcel() {
   if (this.gridApi) {
     this.gridApi.exportDataAsCsv({ fileName: 'table-data.csv' });
@@ -1803,77 +1811,60 @@ exportAsExcel_pop() {
 }
 dtdcTripReportFilter(){
   var formdata=new FormData()
-  formdata.append('AccessToken',this.token)
-  
+  formdata.append('AccessToken',this.token);
   this.dtdcService.dtdcSummaryFilter(formdata).subscribe((data:any) => {
-    // console.log(data)
+    console.log(data)
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
-      // console.log(data.Filter)
     }else{
-      // alert("Data not found ")
       alert(data?.Message);
     }
-    // console.log(data)
   })
 }
 triggerHstSubmit(eve){
   this.submit=true;
-
-  // console.log(eve.value.TripId)
   if(eve.form.status=='VALID'){
     this.SpinnerService.show()
   var formdata=new FormData()
-  // console.log($("#datepicker").val())
   formdata.append('AccessToken',this.token)
-  // formdata.append('DateFrom', $("#datepicker").val())
-  // formdata.append('DateTo', $("#datepicker1").val())
   var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
   var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
    formdata.append('DateFrom',starteDate)
-   formdata.append('DateTo', endDate)
-  // formdata.append('ReportType',eve.value.ReportType);
-
-  
+   formdata.append('DateTo', endDate);
   if(eve.value.TripId){formdata.append('TripId',eve.value.TripId)
   }else{
-    // RouteType,RouteCategory,Origin,Destination,Route,Region,TripStatus,VehicleNo,SupervisorException
     if(eve.value.Route){formdata.append('RouteType',eve.value.Route)}
    if(eve.value.RouteCategory){ formdata.append('RouteCategory',eve.value.RouteCategory)}
    if(eve.value.Origin){ formdata.append('Origin',eve.value.Origin)}
    if(eve.value.Destination){ formdata.append('Destination',eve.value.Destination)}
    if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
    if(eve.value.Region){
-    // console.log("lll",eve.value.Region)
     formdata.append('Region',eve.value.Region)}
    if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
    if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number)}
-  //  if(eve.VehicleNo){ formdata.append('vehicle',eve.vehicle_number);}
-   
-    // formdata.append('ETADelay',eve.Delay)
   }
-  formdata.forEach((value, key) => {
-    console.log("formdata",key, value);
-  });
+ 
   this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
+    console.log("Summary",data)
     this.submit=false;
-    // console.log(data)
     if(data.Status=="success"){
+      this.new_array=[]
       this.new_array=data.Report;
-      // console.log(this.new_array)
+      console.log(this.new_array)
       if(this.new_array.Summary){
-      this.Grid_table();
+      // this.Grid_table();
+      var table = $('#simple_datatable').DataTable();
+  table.clear();
+  table.destroy();
+      this.masterUploadTable();
     }else{
       if (this.gridApi) {
-        this.gridApi.destroy();
+        // this.gridApi.destroy();
       }
         alert("Data not found ")
       }
       this.SpinnerService.hide();
     }else{
-      if (this.gridApi) {
-        this.gridApi.destroy();
-      }
       alert(data?.Message)
     }
     // console.log(data)
@@ -1924,6 +1915,7 @@ First_call(){
       this.SpinnerService.hide();
     }else{
       alert(data?.Message);
+      this.SpinnerService.hide();
     }
     // console.log(data)
   })
@@ -1973,7 +1965,7 @@ onFilterTextBoxChanged_pop() {
     "quickFilterText",
     (document.getElementById("filter-text-box-pop") as HTMLInputElement).value,
   )
-}
+} 
 exportToPDF(): void {
   // Step 1: Extract parent and child headers dynamically
   const parentHeaders: any[] = [];
@@ -3313,13 +3305,6 @@ option && echart.setOption(option);
 async vehicleTrackF_new_1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
 
  
-
-
-
-  // $('#v_track_Modal').modal('show');
-  // this.SpinnerService.show("tracking");
-  // this.initMap1()
-// Clear markers and polylines if they exist
 if (this.demomarker.length > 0) {
   this.demomarker.forEach(marker => marker.setMap(null));
   this.demomarker = [];  // Clear the array after removing markers
@@ -3343,12 +3328,6 @@ if (this.demoPolyline.length > 0) {
     console.error('Error initializing map:', error);
     this.SpinnerService.hide('spinner-1');
   }
-
-  // Show tracking spinner
-  // this.SpinnerService.show("tracking");
-
-  // Define the array of IMEIs to process
-  // const imeis = [imei,imei2,imei3];
   const imeis = [imei, imei2, imei3];
   // console.log(imeis);
 
@@ -3371,21 +3350,21 @@ if (this.demoPolyline.length > 0) {
       this.map_flag = 'Please wait';
       const formData = new FormData();
       const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-      this.router.navigate(['/cv/specific/dtdc/map'], {
-        // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
-        state: {
-          structuredata: {
-            token:this.token,
-            run_date:run_date,
-            currentDateTime:currentDateTime,
-            imei:imei,
-            group_id:this.group_id,
-            account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
+      // this.router.navigate(['/cv/specific/dtdc/map'], {
+      //   // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
+      //   state: {
+      //     structuredata: {
+      //       token:this.token,
+      //       run_date:run_date,
+      //       currentDateTime:currentDateTime,
+      //       imei:imei,
+      //       group_id:this.group_id,
+      //       account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
 
-          },
-          array: 'worldgyan'
-        }
-      })
+      //     },
+      //     array: 'worldgyan'
+      //   }
+      // })
 
 
 
@@ -3426,27 +3405,24 @@ if (this.demoPolyline.length > 0) {
   }
 } 
  }
-
-
-
  async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
   // $('#Datail').modal('hide');
   const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-  // this.router.navigate(['/cv/specific/dtdc/map'], {
-  //   // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
-  //   state: {
-  //     structuredata: {
-  //       token:this.token,
-  //       run_date:run_date,
-  //       currentDateTime:currentDateTime,
-  //       imei:imei,
-  //       group_id:this.group_id,
-  //       account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
+  this.router.navigate(['/cv/specific/dtdc/map'], {
+    // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
+    state: {
+      structuredata: {
+        token:this.token,
+        run_date:run_date,
+        currentDateTime:currentDateTime,
+        imei:imei,
+        group_id:this.group_id,
+        account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
 
-  //     },
-  //     array: 'worldgyan'
-  //   }
-  // })
+      },
+      array: 'worldgyan'
+    }
+  })
   const stateData = {
     structuredata: {
       token: this.token,
@@ -3473,9 +3449,6 @@ if (this.demoPolyline.length > 0) {
   window.open(url, '_blank');
   
  }
-
-
-
 fetchCustomerInfo(Id: string) {
   this.customer_info = []
   const markers: google.maps.Marker[] = [];

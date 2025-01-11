@@ -17,6 +17,8 @@ import {TripReportComponent } from './trip-report/trip-report.component';
 import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
 import { DelayReportComponent } from './delay-report/delay-report.component';
 import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
+import { VehicleUtilizationComponent } from './vehicle-utilization/vehicle-utilization.component';
+import { DataPushReportComponent } from './data-push-report/data-push-report.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { VehicleReportComponent } from './vehicle-report/vehicle-report.componen
     TripReportComponent,
     SlotwiseDistanceReportComponent,
     DelayReportComponent,
-    VehicleReportComponent
+    VehicleReportComponent,
+    VehicleUtilizationComponent,
+    DataPushReportComponent
   ],
   imports: [
     CommonModule,

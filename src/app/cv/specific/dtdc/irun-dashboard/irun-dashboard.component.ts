@@ -9661,17 +9661,6 @@ closeMap()
 
      ////////////////////////////////////////////////////////////////////////////////////////////////////
      for (let z = 0; z < item.length; z++) {
-
-       // this.latlngbounds.extend(new google.maps.LatLng(parseFloat(item[z].lat), parseFloat(item[z].lng)));
-     
-       ///////////////////////////////////////////////////////////marker label //////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-       ///////////////////////////////////////////////show alert ///////////////////////////////////////////////////////////      
-
        var markerLabel =
        {
          mark: new google.maps.Marker({
@@ -9680,22 +9669,10 @@ closeMap()
            position: new google.maps.LatLng(
              item[z].lat, item[z].lng),
            title: item[z].lat + "," + item[z].lng + "," + item[z].alert_type,
-           // Icon:"assets/images/users/alertFlag.png",
-           // label: {
-           //   text:  (item[z].alert_type).slice(0,4),
-           //   color: 'black',
-           //   fontSize: "10px",
-           //   fontWeight: "bold",
-           //   fontFamily: "Helvetica",
-           // },
            icon: {
              url: "assets/images/users/icons-flag-big.png",
              labelOrigin: new google.maps.Point(20, 15),
-
            },
-
-
-
            label: {
              text: (item[z].alert_type).slice(0, 4),
              color: 'white',
@@ -9705,28 +9682,9 @@ closeMap()
              textalign: 'center',
              Position: 'relative',
              // bottom: 1,
-
-
-
            },
-
-
-
-
-
-
          })
-
-
-
-
-
        }
-
-
-
-
-
      }
      console.log("alert type", item)
      // setTimeout(() => {
