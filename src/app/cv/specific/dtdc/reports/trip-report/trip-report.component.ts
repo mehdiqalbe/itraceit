@@ -47,9 +47,10 @@ export class TripReportComponent implements OnInit {
   rowData:any=[] 
   gridOptions:any=[] 
   gridApi:any;
-  new_array: any=[
-    // {agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'}
-  ];
+  new_array: any=[]
+  //   // {agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'}
+  // ];
+
   selectedReportType: number = 1;
   token:any;
   Master_filter: any;
@@ -328,7 +329,7 @@ export class TripReportComponent implements OnInit {
    // console.log("table length2",datatable.length)
  }
  Detail(eve){
-
+// console.log("eve",eve)
  
   $('#Datail').modal('show');
  this.detail_data=eve;
@@ -523,7 +524,7 @@ export class TripReportComponent implements OnInit {
 // trackHistory
 // alerts
 //  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving
-this.rowData_popup = this.new_array.map((person, index) => ({
+this.rowData_popup = eve.Detail.map((person, index) => ({
   sl: index + 1,
   // routeType: person.route_type,
   region: person.Region,
@@ -843,12 +844,14 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
        { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
        { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
        { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+       { headerName: "Close By Device", field: "CloseByDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
        { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
        { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
        // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
+       { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
    
        { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
        { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
@@ -914,7 +917,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         
   },
    },
-    // { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
+    { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
     { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
     { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
@@ -1025,13 +1028,14 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "CloseBy", field: "closeBy", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
     { headerName: "CloseDate", field: "closeDate", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "CreateBy", field: "createBy", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "Close By Device", field: "CloseByDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
     { headerName: "TotalBag", field: "totalBag", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "Remarks", field: "remarks", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "GPSVendor", field: "gpsVendor", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
-
+    { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
     { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
@@ -1063,7 +1067,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   this.rowData = this.new_array.map((person, index) => ({
 
     sl: index + 1,
-    // routeType: person.route_type,
+    routeType: person.ShipmentMethod,
     region: person.Region,
     origin: person.Source ?? "",
     destination: person.Destination ?? "",
@@ -1097,7 +1101,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     scheduleHalt: person.ScheduleHalt,
     actualHalt: person.ActualHalt,
     att: person.ATT, // Actual Travel Time
-
+    CloseByDevice:person.CloseByDevice,
 
     fixedGpsKm:person.DistanceKm1,
     fixedELockKm: person.DistanceKm2,
@@ -1116,6 +1120,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     gpsVendor: person.GPSVendorType1,
     fixedELockVendor: person.GPSVendorType2,
     portableELockVendor: person.GPSVendorType3,
+    portableELockDevice:person.PortableLockVendor,
     Full: person,
     BranchLocation: person.BranchLocation || "N/A",
   BranchHandoverTime: person.BranchHandoverTime || "N/A",
@@ -1136,49 +1141,100 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     // closeDeviceBy:' person.close_device_by',BayNoIn
     // portableLockDevice: 'person.portable_lock_device'
   }));
-  
- 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-this.gridOptions = {
-    rowHeight: 30,
-    headerHeight: 40,
+// this.gridOptions = {
+//     rowHeight: 30,
+//     headerHeight: 40,
     
-    columnDefs: this.columnDefs,
-    rowData: this.rowData,
-    pagination: true,
-    paginationPageSize: 50,
-    paginationPageSizeSelector: [10, 50, 100,500,1000],
-    defaultColDef: {
-      sortable: true,
-      filter: true,
-      resizable: true,
-      tooltipComponentParams: {
-        color: "#ececec" // Optional parameter for custom styling
-      }
-    },
-    animateRows: true,
-    onGridReady: (params) => this.onGridReady(params),
+//     columnDefs: this.columnDefs,
+//     rowData: this.rowData,
+//     pagination: true,
+//     paginationPageSize: 50,
+//     paginationPageSizeSelector: [10, 50, 100,500,1000],
+//     defaultColDef: {
+//       sortable: true,
+//       filter: true,
+//       resizable: true,
+//       tooltipComponentParams: {
+//         color: "#ececec" // Optional parameter for custom styling
+//       }
+//     },
+//     animateRows: true,
+//     onGridReady: (params) => this.onGridReady(params),
    
-    // onGridReady: (params: any) => {
-    //   this.gridOptions.api = params.api; // Store API reference for later use
-    // },
+//     // onGridReady: (params: any) => {
+//     //   this.gridOptions.api = params.api; // Store API reference for later use
+//     // },
    
 
-  //   onGridReady: (params) => {
-  //     this.gridApi = params.api; // Store the API for later use
-  //     console.log('Grid API methods:', Object.getOwnPropertyNames(this.gridApi)); // Log the available API methods
-  // },
-    // onGridReady: this.onGridReady.bind(this),  // Call `onGridReady` when the grid is ready
-    // onCellClicked: (event) => {
-    //   if (event.colDef.field === 'user_name') {
-    //     // this.onUserClick(event.value); // Call your method
-    //   }
-    // },
+//   //   onGridReady: (params) => {
+//   //     this.gridApi = params.api; // Store the API for later use
+//   //     console.log('Grid API methods:', Object.getOwnPropertyNames(this.gridApi)); // Log the available API methods
+//   // },
+//     // onGridReady: this.onGridReady.bind(this),  // Call `onGridReady` when the grid is ready
+//     // onCellClicked: (event) => {
+//     //   if (event.colDef.field === 'user_name') {
+//     //     // this.onUserClick(event.value); // Call your method
+//     //   }
+//     // },
   
-  };
-  const gridDiv = document.querySelector('#myGrid');
-  new agGrid.Grid(gridDiv, this.gridOptions);
+//   };
+//   const gridDiv = document.querySelector('#myGrid');
+//   new agGrid.Grid(gridDiv, this.gridOptions);
+if (this.gridOptions.length == 0) {
+      this.gridOptions = {
+        rowHeight: 30,
+        // headerHeight: 40,
+
+        // enableHtmlForHeaderNames: true,
+        columnDefs: this.columnDefs,
+        rowData: this.rowData,
+        pagination: true,
+        paginationPageSize: 50,
+        paginationPageSizeSelector: [10, 50, 100, 500, 1000],
+        enableCellTextSelection: true,
+        // enableRangeSelection: true,
+        clipboard: { suppressLastEmptyLine: true },
+        // getContextMenuItems: this.getCustomContextMenu.bind(this), 
+        animateRows: true,
+        enableHtml: true, // Allows HTML in header names
+        // defaultColDef: { resizable: true },
+        tooltipShowDelay: 500, // Delay before tooltip shows (in ms)
+        tooltipHideDelay: 2000, // Delay before tooltip hides (in ms)
+        defaultColDef: {
+          // flex: 1,
+          headerClass: 'wrap-header-text',
+          // cellClass: 'center-align',
+          sortable: true,
+          filter: true,
+          resizable: true,
+          tooltipComponentParams: {
+            color: "#ececec" // Optional parameter for custom styling
+          }
+        },
+        onGridReady: (params) => {
+          this.gridOptions.api = params.api; // Correctly set the API
+          console.log('AG-Grid API:', this.gridOptions.api);
+        },
+        // onGridReady: (params) => {
+        //   // Explicitly set API references
+        //   this.gridApi = params.api;
+        //   this.gridColumnApi = params.columnApi;
+        //   console.log('AG-Grid API:', this.gridApi);
+        //   console.log('AG-Grid Column API:', this.gridColumnApi);
+        // },
+        // onGridReady: (params) => this.onGridReady(params),
+        ///////////////////////////////////////
+
+      }
+      const gridDiv = document.querySelector('#myGrid');
+      new agGrid.Grid(gridDiv, this.gridOptions);
+    }
+    else {
+      this.gridOptions.api.setColumnDefs(this.columnDefs);
+      this.gridOptions.api.setRowData(this.rowData);
+    }
  }
  Grid_table1(){
   this.columnDefs = [
@@ -1306,7 +1362,70 @@ this.gridOptions = {
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
 
+//  exportToExcel() {
+//   // Prepare main data
+//   const mainData = this.new_array.map((item, index) => ({
+//     RowNo: index + 1, // Add row number for reference
+//     ...item,
+//     Detail: undefined, // Exclude Detail temporarily
+//   }));
 
+//   // Prepare detail data
+//   const detailData = this.new_array.flatMap((item, index) =>
+//     item.Detail.map((detail) => ({
+//       ParentRowNo: index + 1, // Reference to the parent row
+//       ...detail,
+//     }))
+//   );
+//      console.log(detailData,mainData)
+//   // Create a new workbook
+//   const workbook = XLSX.utils.book_new();
+
+//   // Add the main data sheet
+//   const mainSheet = XLSX.utils.json_to_sheet(mainData);
+//   XLSX.utils.book_append_sheet(workbook, mainSheet, 'Main Data');
+
+//   // Add the detail data sheet
+//   const detailSheet = XLSX.utils.json_to_sheet(detailData);
+//   XLSX.utils.book_append_sheet(workbook, detailSheet, 'Detail Data');
+
+//   // Save the workbook
+//   XLSX.writeFile(workbook, 'ExportedDataWithDetails.xlsx');
+// }
+
+formatAlternatingParentChildData(data) {
+  const formattedData:any = [];
+
+  data.forEach((parent) => {
+    // Add parent row
+    formattedData.push({
+      ...parent,
+      Detail: undefined, // Remove Detail to prevent duplication
+      Type: 'Parent', // Indicate this is a parent row
+    });
+
+    // Add each child row
+    parent.Detail.forEach((child) => {
+      formattedData.push({
+        ...child,
+        Type: 'Child', // Indicate this is a child row
+      });
+    });
+  });
+
+  return formattedData;
+}
+exportToExcel(){
+  const transformedData = this.formatAlternatingParentChildData(this.new_array);
+
+// Convert to Excel
+const workbook = XLSX.utils.book_new();
+const sheet = XLSX.utils.json_to_sheet(transformedData);
+XLSX.utils.book_append_sheet(workbook, sheet, 'ParentChildData');
+XLSX.writeFile(workbook, 'TripReport.xlsx');
+}
+// const transformedData = formatAlternatingParentChildData(data);
+// console.log(transformedData);
 
   onSearch(term: any) {
     console.log(term)
@@ -1386,7 +1505,11 @@ triggerHstSubmit(eve){
  var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
   formdata.append('DateFrom',starteDate)
   formdata.append('DateTo', endDate)
+  if(eve.value.ReportType=='3'){
+  formdata.append('ReportType','2');}else{
+    
   formdata.append('ReportType',eve.value.ReportType);
+  }
 
   
   if(eve.value.TripId){
@@ -1412,10 +1535,18 @@ triggerHstSubmit(eve){
     this.submit=false;
     // console.log(data)
     if(data.Status=="success"){
+      if(eve.value.ReportType=='3'){
+        
+       this.search_grid=false;
+      this.new_array=data.Report;
+      console.log( this.new_array)
+        this.exportToExcel();
+        this.SpinnerService.hide();
+      }else{
       this.new_array=data.Report;
       console.log(this.new_array)
       this.Grid_table();
-      this.SpinnerService.hide();
+      this.SpinnerService.hide();}
     }else{
       // alert("Data not found ")
       alert(data?.Message);
@@ -2191,16 +2322,17 @@ initializeMap(): Promise<void> {
   });
 }
 onBtExport() {
+ 
   // this.gridApi!.exportDataAsExcel();
   // this. gridApi!.exportDataAsCsv();
-  if (this.gridApi) {
-    this.gridApi.exportDataAsCsv({
-      fileName: 'table-data.csv',
-      columnKeys: this.columnDefs
-        .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
-        .map(colDef => colDef.field),
-    });
-  }
+  // if (this.gridApi) {
+  //   this.gridApi.exportDataAsCsv({
+  //     fileName: 'table-data.csv',
+  //     columnKeys: this.columnDefs
+  //       .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
+  //       .map(colDef => colDef.field),
+  //   });
+  // }
   }
   
 exportToPDF(): void {

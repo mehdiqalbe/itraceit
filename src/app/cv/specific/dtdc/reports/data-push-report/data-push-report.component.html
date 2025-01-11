@@ -1,0 +1,176 @@
+<div class="row">
+    <div class="col-lg-12">
+    
+      <div class="card" style="height: 80px;    margin-bottom: 0px;">
+        <div class="card-body innerdiv">
+          <!-- HEADER -->
+          <div class="hor-header">
+            <div class="">
+              <div>
+                <div>
+  
+  
+                  <div>
+                    <!-- Network Delay Dashboardn justify-content-between -->
+                    <div aria-label="Basic example" id="header-button">
+                        <div class="d-flex ">
+                          <div class="col-lg-1" style="color: #1c84c6;font-weight: 600;font-size: large; width: auto;">
+                            <div class=" align-items-left ">
+                                <div style="width:fit-content" class=" my-2 d-flex">
+                                  <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()" type="button"></button>
+                                </div>
+                                </div>
+                          </div>
+                          <div class="col-lg-4" style="color: #1c84c6;font-weight: 600;font-size: large;">
+                            <div class=" align-items-left  ">
+                                <div style="width:fit-content" class=" d-flex">
+                                   <!-- Delay Dashboard -->
+                                   <div _ngcontent-tke-c124="" class="order-header col-lg-12 py-2"><h3 _ngcontent-tke-c124="" class="mb-1" style="color: #1D4380; font-family: Work Sans; font-size: 27px!important; font-weight: 600;"> Delay Report</h3>
+                                    <h5 _ngcontent-tke-c124="" style="color: #808080; font-family: Work Sans; font-size: 15px!important; font-weight: 500;">Home /  Delay Report</h5></div>
+                                  
+                                </div>
+                                </div>
+                          </div>
+                          <div class="col-lg-3"></div>
+                          <div class="col-lg-3 " style="margin-top:13px" >
+                            <div class="" style="display: inline-block;">
+  
+                              <!-- <img style="width:370px" src="assets/IRUN_CV_IMG/BlueDartBrandingLOGO.svg" class="header-brand-img desktop-logo"
+                                alt="logo" id="change-image"> -->
+  
+                            </div>
+                          </div>
+                          <div class="col-lg-2 " style="margin-top:13px;    text-align: center;" >
+                            <div  style="display: inline-block;">
+                                <a class="header-brand1">
+                                  <img style="width:100px" src="assets/images/itraceit_logo1.png" class="header-brand-img desktop-logo"
+                                    alt="logo" id="change-image">
+      
+                                </a>
+                              </div>
+                          </div>
+                         
+                        </div>
+                    </div>
+  
+  
+                  </div>
+  
+                </div>
+  
+              </div>
+            </div>
+          </div>
+          <!-- End HEADER -->
+        </div>
+      </div>
+
+      
+      <div class="container-flex" style=" padding: 9px;    border-bottom: 1px solid #80808042;">
+
+        <div class="row">
+  
+          <!-- <div class="col-lg-12"> -->
+          <div class="col-lg-1">
+            <div class="row" style="display: inline-block;">
+                <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="true"
+                aria-controls="collapseExample" style="font-size: 13px; font-weight: 500;">
+                <i class="fa fa-filter" aria-hidden="true" style="font-size: 20px; color: gray; margin-top: 8px;"></i> FILTER
+             </a>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div  id="collapseExample" class="collapse show row">
+              <!-- <div style="display:inline-table;"> -->
+                <div class="col-lg-2 col-md-4 col-sm-6 ">
+                    <label for="from_time" class="form-label">Trip Id</label>
+                    <input type="text" id="tripId" name="tripid" class="form-control"  />
+                </div>
+        
+                <!-- <div class="col-lg-2 col-md-4 col-sm-6 ">
+                    <label for="to_time" class="form-label">To Date</label>
+                    <input type="text" step="1" class="form-control" id="datepicker1" (click)="end()" [ngModel]="datetimepicker"
+                        required name="to_time"  />
+                </div> -->
+              <!-- </div> -->
+              <!-- <div style="display:inline-table;"><button class="btn-outline-primary" (click)="SumbitFilter()">Submit</button> </div> -->
+              <div class="col-lg-2 col-md-4 col-sm-6 ">
+             <button _ngcontent-iwn-c232="" class="btn btn-success ms-5" style="
+              padding: 4px;
+              font-size: 13px;
+              width: 77px;    margin-top: 40px;" (click)="SumbitFilter()">Submit</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div  style="overflow: auto; margin: 25px 5px;">
+        <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+        </ngx-spinner>
+        <ng-container *ngIf="search_grid">
+        <div class="d-flex align-items-center" style="margin-left: 84%;">
+    
+          <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Filter..." (input)="onFilterTextBoxChanged()" class="form-control mb-2" />
+          
+              <button (click)="onBtExport()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42"></i>
+              </button>
+              
+              <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;" title=" Download PDF file"></i></button>
+                        <!-- <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
+              
+                        <button (click)="exportToCSV()"><i class="fa fa-file-text-o" style="font-size: 18px;color: blue !important;" title=" Download CSV file"></i></button>
+             
+              <!-- <button (click)="exportPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
+        
+        </div>
+        </ng-container>
+        <div id="myGrid" style=" width: 100%;" class="ag-theme-alpine grid_table "></div>
+       
+      </div>
+
+
+
+    </div>
+</div>
+<!-- MAP MODAL -->
+<div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+data-bs-backdrop="static" data-bs-keyboard="false">
+<div class="modal-dialog " style=" max-width: 1500px;">
+  <div class="modal-content" style="height: 700px;">
+
+    <div class="modal-header">
+      <!-- <h6 class="modal-title" id="exampleModalLabel">{{map_flag}}</h6> -->
+      <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
+        ></button>
+        <!-- (click)="closeMap()" -->
+    </div>
+    <div class="modal-body">
+      <!-- <ngx-spinner name="tracking" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="false"
+        type="ball-spin-clockwise">
+        <p style="color: black">Please Wait.. </p>
+      </ngx-spinner> -->
+      <div id="map1">
+
+
+      </div>
+    </div>
+    <div class="modal-footer" style="height: 25px;">
+
+      <!-- <button type="button" *ngIf="seconddaryTrack[0][8]!==''"> <i class="fe fe-truck"   tooltipClass="customInactive-tooltip-class" 
+        style="font-size: 20px;display: none;" id="blink" ></i></button> -->
+      <!-- 
+     <button type="button" *ngIf="seconddaryTrack[0][7]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][1]"
+        style="font-size: 20px;" id="blink" [style.color]="colorTrack[0]?.first" (click)="vehicleTrack1F()"></i></button>
+     <button type="button" *ngIf="seconddaryTrack[0][1]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][7]"
+        style="font-size: 20px;" id="blink" [style.color]="colorTrack[1]?.second" (click)="vehicleTrack2F()"></i></button> -->
+
+
+
+
+    </div>
+  </div>
+</div>
+</div>

@@ -141,6 +141,10 @@ export class DashboardComponent implements OnInit {
               this.selectedRoutes=data?.DefualtFilter.split(",")
             }
            
+            {
+              this.selectedRoutes=data?.DefualtFilter.split(",")
+            }
+           
            console.log(this.selectedRoutes);
            
           
@@ -160,6 +164,8 @@ export class DashboardComponent implements OnInit {
            
              this.tripArray=res?.MainDashboard
              this.dashboardHeader=res?.Header
+             this.tripArray=Object.values(this.tripArray)
+             console.log("dashboardHeader",Object.values(this.tripArray));
              this.tripArray=Object.values(this.tripArray)
              console.log("dashboardHeader",Object.values(this.tripArray));
              
@@ -1493,7 +1499,6 @@ export class DashboardComponent implements OnInit {
       this.demomarker.forEach(marker => marker.setMap(null));
       this.demomarker = [];  // Clear the array after removing markers
     }
-    
     if (this.demoPolyline.length > 0) {
       this.demoPolyline.forEach(polyline => polyline.setMap(null));
       this.demoPolyline = [];  // Clear the array after removing polylines
@@ -1867,28 +1872,16 @@ export class DashboardComponent implements OnInit {
   </table>`;
   }
   initMap1() 
-  {
- 
-
-    const center = { lat: 23.2599, lng: 77.4126 };
- 
-
- 
-    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
-      zoom: 4,
-       center: center,
- 
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      scaleControl: true,
- 
-    }
-    );
- 
-  
- 
-    
-      
-  }
+ {
+   const center = { lat: 23.2599, lng: 77.4126 };
+   this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+     zoom: 4,
+      center: center,
+     mapTypeId: google.maps.MapTypeId.ROADMAP,
+     scaleControl: true,
+   }
+   );   
+ }
   
   //   initializeMap(item, coordinates: { lat: number, lng: number }[]) {
   //     if (!this.map) {

@@ -178,7 +178,9 @@ export class SpecificService implements OnDestroy {
             {
                 path: '/cv/specific/dtdc/Report/DelayReport', title:'Delay Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
             },
-<<<<<<< HEAD
+            {
+                path: '/cv/specific/dtdc/Report/VehicleReport', title:'Vehicle Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+            },
             // {
             //     path: '/cv/specific/dtdc/Report/VehicleReport', title:'Vehicle Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
             // },
@@ -186,15 +188,6 @@ export class SpecificService implements OnDestroy {
         //     {
         //      path: 'https://itraceit.in/travel-report/?exttkn='+localStorage.getItem('AccessToken')!, title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
         //  },
-=======
-            {
-                path: '/cv/specific/dtdc/Report/VehicleReport', title:'Vehicle Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
-            },
-            { path: '/cv/specific/dtdc/Report/VehicleUtilization', title:'Vehicle Utilization', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
-            {
-             path: '/cv/specific/dtdc/Report/DataPushReport', title:'Data Push-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
-         },
->>>>>>> 3ccc91f36910996e5dba34833c16ec64707505ad
         //     {
         //      path: 'https://secutrak.in/reports/distance_report_beta2/?exttkn='+localStorage.getItem('AccessToken')!, title:'Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
         //  },

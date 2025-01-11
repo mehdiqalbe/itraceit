@@ -45,6 +45,10 @@ export class DelayDashboardComponent implements OnInit {
   routeTypes_filter: any=[];
   eve: any;
   commaSeparatedRoutes: any;
+  datetimepicker1: any;
+  Remark:any;
+  tem_data: any;
+  TripId: any;
   constructor(private CrudService:CrudService , private navServices: NavService, private dtdcservice: DtdcService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
@@ -54,8 +58,11 @@ export class DelayDashboardComponent implements OnInit {
     App?.classList.add('sidenav-toggled');
 
     this.token = localStorage.getItem('AccessToken')!
-    this.account_id = localStorage.getItem('AccountId')!
+    this.account_id = localStorage.getItem('AccountId')!;
+    
+    this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.initMap2();
+    this.start();
     // console.log("account_id", this.account_id)
     this.group_id = localStorage.getItem('GroupId')!
     this.delayDashboardDtdcFilter();
@@ -99,14 +106,15 @@ export class DelayDashboardComponent implements OnInit {
     formdataCustomer.append('RouteType', this.commaSeparatedRoutes);
     
     this.dtdcservice.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
-      // console.log('delayDashboardGenericr', res);
+      console.log('delayDashboardGenericr', res);
       if(res.status=="success"){
       this.Delay_data = Object.values(res.data);
-      console.log(this.Delay_data);
+      // console.log(this.Delay_data);
       this.DelayTable();
       this.SpinnerService.hide()
       }else{
         alert(res.Message);
+        this.SpinnerService.hide()
       }
     })
   }
@@ -138,10 +146,10 @@ export class DelayDashboardComponent implements OnInit {
         $('#DelayTable').DataTable({
 
 
-          pageLength: 20,
+          pageLength: 10,
           fixedHeader: true,
           // scrollX: true,
-          scrollY: '450px',
+          scrollY: '353px',
           // scrollCollapse: true,
           paging: true,
           scrollX: true,
@@ -185,7 +193,7 @@ export class DelayDashboardComponent implements OnInit {
 
 
                 },
-                title: 'KPI Report'
+                title: 'Delay Report'
               },
 
               {
@@ -204,7 +212,7 @@ export class DelayDashboardComponent implements OnInit {
                   columns: ':visible'
 
                 },
-                title: 'KPI Report'
+                title: 'Delay Report'
               },
               {
                 extend: 'excel',
@@ -226,7 +234,7 @@ export class DelayDashboardComponent implements OnInit {
                   columns: ':visible'
 
                 },
-                title: 'KPI Report'
+                title: 'Delay Report'
               }],
           "language": {
             search: '',
@@ -1171,7 +1179,7 @@ export class DelayDashboardComponent implements OnInit {
       this.alertData = res.data.filter1;
       this.selectedRoute=res.data.defaultFilter2
       this.selectedRouteType=res.data.defaultFilter1
-      console.log( this.selectedRoute)
+      // console.log( this.selectedRoute)
       this.filterdata=res.data.filter2;
       this.delayDashboardGeneric()
       // this.routeTypes = Object.keys(this.alertData).map((key) => ({
@@ -1181,6 +1189,7 @@ export class DelayDashboardComponent implements OnInit {
       // this.SumbitFilter();
     }else{
       alert(res.Message);
+      this.SpinnerService.hide()
     }
       // this.DelayTable();
     })
@@ -1196,8 +1205,6 @@ export class DelayDashboardComponent implements OnInit {
 
   }
   delayDashboardDisclaimer(){
-    // alert(0)
-    // this.SpinnerService.show()
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
 
@@ -1210,21 +1217,52 @@ export class DelayDashboardComponent implements OnInit {
       Object.entries(res.data).forEach(([key, value]) => {
          
           const cell = document.createElement('td');
-          cell.innerHTML = `${key}: <span id="lbl_${key.replace(/ /g, '_')}" class="badge" style="background: white; color: red; font-weight: bold; font-size: 9px;margin-right: 49px;margin-left: 2px;">${value}</span>`;
+          cell.innerHTML = `${key} <span id="lbl_${key.replace(/ /g, '_')}" class="badge" style="background: white; color: red; font-weight: bold; font-size: 9px;margin-right: 9px;margin-left: 2px;">${value}</span>`;
           row.appendChild(cell);
           marqueeContent.appendChild(row);
       });
-      // this.routeTypes = Object.keys(this.alertData).map((key) => ({
-      //   id: key,
-      //   route_type: this.alertData[key],
-      // }));
-      // this.SumbitFilter();
+     
     }else{
       alert(res.Message);
+      this.SpinnerService.hide()
     }
       // this.DelayTable();
     })
  
+}
+start() {
+  $(document).ready(() => {
+    $("#datepicker").datepicker({
+      format: "yyyy-mm-dd", // Ensure this matches your desired format
+      todayBtn: "linked",
+      keyboardNavigation: false,
+      forceParse: false,
+      autoclose: true
+  });
+  })
+  
+}
+close_trip(TripId:any){
+  this.TripId=TripId;
+  console.log( this.TripId)
+  $('#closeTrip').modal('show');
+}
+submitclose(){
+  
+ var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
+  console.log(this.Remark);
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('TripId', this.TripId); 
+  formdataCustomer.append('ActionType', '0');
+  formdataCustomer.append('Date', starteDate);
+  
+
+  this.dtdcservice.tripActionDtdc(formdataCustomer).subscribe((res: any) => {
+
+    console.log(res);
+  })
+
 }
 }
 

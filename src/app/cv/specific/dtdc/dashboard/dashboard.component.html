@@ -125,25 +125,7 @@
             </p>
           </div>
           <div class="d-flex align-items-center">
-            <!-- <div class="d-flex gap-5 pe-5">
-              <div ngbTooltip="All" class="position-relative" >
-
-               <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:40px;"></button> 
-              </div>
-              <div ngbTooltip="Free Vehicle" class="position-relative" >
-                <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span>
-               <button (click)="filterTable('free_vehicle')" type="button"><img src="assets/tripIcon/truckBlue.svg" alt="" style="width:40px;"></button> 
-              </div>
-              <div ngbTooltip="At Source" class="position-relative">
-                <span style="right:-15px;top:-15px;background: #E77817;" class="position-absolute countPill">{{dashboardHeader?.AtSource}}</span>
-                <button (click)="filterTable('at_source')" type="button"> <img src="assets/tripIcon/truckGps.svg" alt="" style="width:40px"></button>
-              </div>
-              <div ngbTooltip="At Destination" class="position-relative">
-                <span style="right:-15px;top:-15px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
-                <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:40px"></button>  
-              </div>
-            </div> -->
-            <p style="color: 1D4380; font-weight: 600" class="m-0 ">
+           <p style="color: 1D4380; font-weight: 600" class="m-0 ">
               <a
               ngbTooltip="Graph"
                 data-bs-toggle="collapse"
@@ -171,28 +153,7 @@
                  <!-- Filter----------------------------------------------- -->
                 <div class="fiter">
              
-                  <!-- <p style="color: 1D4380; font-weight: 600">
-                    <a
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseExample"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
-                      style="font-size: 16px"
-                    >
-                      <i
-                        class="fa fa-filter"
-                        aria-hidden="true"
-                        style="
-                          font-size: 20px;
-                          color: #1d4380;
-                          margin-top: 8px;
-                        "
-                      ></i
-                      >FILTER
-                    </a>
-                  </p> -->
-                  <div class="collapse" id="collapseExample">
+                 <div class="collapse" id="collapseExample">
                     <div
                       class="card card-body px-0 pb-0 mb-0"
                       style="border: none; box-shadow: none"
@@ -819,7 +780,7 @@
       </div>
       <div class="info col-lg-12 overflow-scroll">
         <table class="table"  cellspacing="0" id="masterUpload">
-          <thead>
+        <thead>
             <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
               <th style="border-top-left-radius: 4px;" class="table-primar"></th>
               <th  class="table-primar">Sl.</th>
@@ -832,6 +793,7 @@
               <th  class="table-primar d-none">Delay Filter</th>
               <th  class="table-primar d-none">ETA Filter</th>
               <th  class="table-primar d-none">StoppageAlert Filter</th>
+              <th class="table-primar">Action</th>
               <th class="table-primar">Action</th>
               <th class="table-primar">E-Lock Status</th>
               <th class="table-primar">Route Type</th>
@@ -881,20 +843,26 @@
   
             </tr>
           </thead>
+
           <tbody >
             <tr style="text-align: center; white-space: nowrap;" 
             [ngStyle]="{
               backgroundColor: elockFunctionDisplay(item?.FixedLockOpen, item?.PortableLockOpen) === 'Open' ? '#f67f7f75' : 'transparent'
+              backgroundColor: elockFunctionDisplay(item?.FixedLockOpen, item?.PortableLockOpen) === 'Open' ? '#f67f7f75' : 'transparent'
             }"
             *ngFor="let item of tripArray;let ind=index">
+            *ngFor="let item of tripArray;let ind=index">
 
+              <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(item?.MTripId,item)"><i class="fa fa-plus"></i></button></td>
               <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(item?.MTripId,item)"><i class="fa fa-plus"></i></button></td>
               <td>{{ind+1}}</td>
 
               <td >
                 
                 <button *ngIf="item?.TripStatus === 'Schedule'" type="button" (click)="linkPopup(item)">
+                <button *ngIf="item?.TripStatus === 'Schedule'" type="button" (click)="linkPopup(item)">
                   <img  style="cursor:pointer;" src="assets/tripIcon/add_link.svg" alt=""></button>
+                <img  *ngIf="item?.TripStatus !== 'Schedule'"  src="assets/tripIcon/disable_link.svg" alt="">
                 <img  *ngIf="item?.TripStatus !== 'Schedule'"  src="assets/tripIcon/disable_link.svg" alt="">
               </td>
             
@@ -936,6 +904,7 @@
                 ></i>
                 <i
                   *ngIf="item?.ImeiNo2"
+                  *ngIf="item?.ImeiNo2"
                   ngbTooltip="Device 2"
                   (click)="openMapModal(item,item?.ImeiNo2)"  
                   class="fa fa-map-marker ms-1"
@@ -955,7 +924,15 @@
               <td>{{item?.VehicleLastTime}}</td>
               <td >{{item?.LastLocation}}</td>
               <td>{{ item?.RouteDeviation === 'NA' || item?.RouteDeviation === '' ? '' : item?.RouteDeviation }}</td>
+              <td>{{item?.VehicleStatus}}</td>
+              <td>{{item?.VehicleLastTime}}</td>
+              <td >{{item?.LastLocation}}</td>
+              <td>{{ item?.RouteDeviation === 'NA' || item?.RouteDeviation === '' ? '' : item?.RouteDeviation }}</td>
 
+              <td>{{item?.STD}}</td>
+              <td>{{item?.STA}}</td>
+              <td>{{item?.ATD}}</td>
+              <td>{{item?.ATA}}</td>
               <td>{{item?.STD}}</td>
               <td>{{item?.STA}}</td>
               <td>{{item?.ATD}}</td>
@@ -966,8 +943,16 @@
               <td>{{item?.RemainingDistance}}</td>
               <td>{{item?.DistanceCover}}</td>
               <td>{{item?.DelayedArrived}}</td>
+              <td >{{item?.ETA}}</td>
+              <td>{{item?.RemainingDistance}}</td>
+              <td>{{item?.DistanceCover}}</td>
+              <td>{{item?.DelayedArrived}}</td>
               
                  
+              <td>{{item?.Halt}}</td>
+              <td>{{item?.DriverName}}/{{item?.DriverNumber}}</td>
+              <td>{{item?.DriverNumber}}</td>
+              <td>{{item?.Transporter}}</td>
               <td>{{item?.Halt}}</td>
               <td>{{item?.DriverName}}/{{item?.DriverNumber}}</td>
               <td>{{item?.DriverNumber}}</td>
@@ -977,17 +962,26 @@
                   (item?.GPSVendor1 ? item?.GPSVendor1 : '') +
                   (item?.GPSVendor2 ? '/' + item?.GPSVendor2 : '') +
                   (item?.GPSVendor3 ? '/' + item?.GPSVendor3 : '')
+                  (item?.GPSVendor1 ? item?.GPSVendor1 : '') +
+                  (item?.GPSVendor2 ? '/' + item?.GPSVendor2 : '') +
+                  (item?.GPSVendor3 ? '/' + item?.GPSVendor3 : '')
                 }}
               </td>
               <td>{{item?.TripStatus}}</td>
               <td>{{item?.CloseBy}}</td>
               <td>{{item?.CloseDate}}</td>
+              <td>{{item?.TripStatus}}</td>
+              <td>{{item?.CloseBy}}</td>
+              <td>{{item?.CloseDate}}</td>
             
+              <td>{{item?.RunCode}}</td>
               <td>{{item?.RunCode}}</td>
        
             
             </tr>
           </tbody>
+		  
+	
   
         </table>
       </div>

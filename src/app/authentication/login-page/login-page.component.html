@@ -3,16 +3,46 @@
 
 
 <ng-container *ngIf="show_html">
-    <div class="login">
-        <div class="page">
-            <div class="">
+    <!-- <div class="login">
+        <div class="page"> -->
+            <div class="row">
                 <!-- CONTAINER OPEN -->
+                <div class="col-lg-8">
+                    <div class="image-grid">
+                      <div class="image-item" style="grid-row: span 2; grid-column: span 2;">
+                        <img src="assets/images/login-1.jpg" alt="Image 1">
+                      </div>
+                      <div class="image-item" style="grid-row: span 1; grid-column: span 1;">
+                        <img src="assets/images/login-2.jpg" alt="Image 2">
+                      </div>
+                      <div class="image-item" style="grid-row: span 6; grid-column: span 1;">
+                        <img src="assets/images/login-3.jpg" alt="Image 3">
+                      </div>
+                      <div class="image-item" style="grid-row: span 2; grid-column: span 2;">
+                        <img src="assets/images/login-4.jpg" alt="Image 4">
+                      </div>
+                      <div class="image-item" style="grid-row: span 1; grid-column: span 1;">
+                        <img src="assets/images/login-5.jpg" alt="Image 5">
+                      </div>
+                      <div class="image-item" style="grid-row: span 2; grid-column: span 1;">
+                        <img src="assets/images/login-6.jpg" alt="Image 6">
+                      </div>
+                      <div class="image-item" style="grid-row: span 1; grid-column: span 2;">
+                        <img src="assets/images/login-7.jpg" alt="Image 7">
+                      </div>
+                      <!-- <div class="image-item" style="grid-row: span 2; grid-column: span 1;">
+                        <img src="assets/images/login-8.jpg" alt="Image 8">
+                      </div> -->
+                    </div>
+                  </div>
+                  
+                 <div class="col-lg-4">
                 <div class="col col-login mx-auto">
                     <div class="text-center" >
                         <img src="../../assets/images/brand/logo.png" class="header-brand-img" alt="">
                     </div>
                 </div>
-                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills container-login100">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills ">
                     <!-- <li ngbNavItem="Firebase" class="d-none">
                             <a ngbNavLink>
                                 <img src="../../../assets/images/firebase.svg" alt="" class="nav-icon">
@@ -70,16 +100,17 @@
                             </ng-template>
                         </li> -->
                     <li ngbNavItem="Angular" class="tab-pane fade active show">
-                        <!-- <a ngbNavLink>
-                                <img src="../../../favicon.ico" alt="" class="nav-icon">
-                            </a> -->
+                       
                         <ng-template ngbNavContent>
                             <form [formGroup]="loginForm" class="login100-form validate-form" (ngSubmit)="Submit()">
-                                <span class="login100-form-title">
-                                    Login
+                                <a ngbNavLink style="text-align: center;">
+                                    <img  src="assets/images/itraceit_logo1.png"alt="" class="nav-icon" style="width: 111px;height: 88px;">
+                                </a>
+                                <span class="login100-form-title mt-3">
+                                 CV  Login
                                 </span>
     
-                                <div class="wrap-input100 validate-input">
+                                <div class="wrap-input100 validate-input mt-3">
                                     <input type="text" class="form-control input100" placeholder="Group Id" autocomplete
                                         formControlName="groupid">
                                     <span class="focus-input100"></span>
@@ -149,14 +180,15 @@
                         </ng-template>
                     </li>
                 </ul>
-                <div class="container-login100">
-                    <div class="wrap-login100 p-6">
-                        <div [ngbNavOutlet]="nav" class="ml-4"></div>
+                <div class="container-login100" style="height: 490px;">
+                    <div class="wrap-login100 p-7" style="    height: 659px;">
+                        <div [ngbNavOutlet]="nav" class="ml-4" ></div>
                     </div>
                 </div>
+                 </div>
             </div>
-        </div>
-    </div>
+        <!-- </div>
+    </div> -->
     </ng-container>
     <!-- <ng-container *ngIf="show_html==false"> -->
     <!-- <app-leaflet></app-leaflet> -->
