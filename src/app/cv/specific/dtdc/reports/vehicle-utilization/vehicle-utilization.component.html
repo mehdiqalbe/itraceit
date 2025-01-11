@@ -143,31 +143,21 @@
 
                         <div class="row" style="padding:  5px 10px 15px 10px">
                             <div class="col-md-2 col-lg-2">
-
                                 <ng-select name="Area" placeholder="Area" ngModel 
                                     style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value">
                                     <ng-option value="" selected>All Area</ng-option>
-                                    <ng-option *ngFor="let item of fullArray.independent_area 
-    
-                                |keyvalue" [value]="item">{{item.value}}</ng-option>
-
-
+                                    <ng-option *ngFor="let item of fullArray.independent_area  |keyvalue" [value]="item">{{item.value}}</ng-option>
                                 </ng-select>
-
                             </div>
-                            <div class="col-md-2 col-lg-2">
 
+                            <div class="col-md-2 col-lg-2">
                                 <ng-select name="Route_type" placeholder="Route Type" ngModel [multiple]="true"
                                     style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value">
                                     <ng-option value="" selected>Route Type</ng-option>
-                                    <ng-option *ngFor="let item of fullArray.RouteType
-    
-                                |keyvalue" [value]="item">{{item.value}}</ng-option>
-
-
-                                </ng-select>
-
+                                    <ng-option *ngFor="let item of fullArray.RouteType |keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                                     </ng-select>
                             </div>
+
                             <div class="col-md-2 col-lg-2">
 
                                 <ng-select name="GPS" placeholder="GPS Active" ngModel style="font-weight: bolder;"

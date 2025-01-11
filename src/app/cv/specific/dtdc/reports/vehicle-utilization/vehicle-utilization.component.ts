@@ -414,26 +414,26 @@ export class VehicleUtilizationComponent implements OnInit {
 
 
   Table1Submit(value: any) {
-    var x = ''
-    // var x:any=[];
-    // x= value.vehicle.split('')
+    var x = '';
     console.log("value", value)
-    // for(var i=0;i<value.vehicle,length;i++){
-
-    // }
+    // datepicker1
+   var datepicker= $("#datepicker1").val();
+   console.log(datepicker)
     if (value.vehicle != null) {
       x = value.vehicle.toString();
-      console.log("x", x)
     }
     this.start = value.from_time;
     this.end = value.to_time;
-    this.table1res = []
-    this.table1Totalres = []
+    this.table1res = [];
+    this.table1Totalres = [];
     this.SpinnerService.show();
-    // console.log("form value",value);
     var from = this.datepipe.transform((value.from_time), 'yyyy-MM-dd');
     var to = this.datepipe.transform((value.to_time), 'yyyy-MM-dd');
-    // console.log("form value t",from,to);
+    console.log("form value t",value?.Route_type);
+    let result :any;
+    if(value?.Route_type){
+     result = value?.Route_type.map(item => `'${item}'`).join(',');
+       console.log(result);}
     var formdata: any = new FormData();
     formdata.append('AccessToken', this.token);
     formdata.append('start_date', from);
@@ -443,30 +443,33 @@ export class VehicleUtilizationComponent implements OnInit {
     //   formdata.append('sfc_loc', '0');
     // }else{        }
       formdata.append('sfc_location', value.sfc_loc !=null ? value.sfc_loc:"" );////value?.sfc_loc || ""
-// }
-
-    formdata.append('region', value.Region.key != undefined ? value.Region.key : "")
+    formdata.append('region', value.Region.key != undefined ? value.Region.key : "");
     // if(value.CONTRACT_HRS !=undefined){
-    formdata.append('contract_hrs', this.con_Hrs != undefined ? this.con_Hrs : "") // formdata.append('contract_hrs',this.con_Hrs !=undefined ? this.con_Hrs:"")
+    formdata.append('contract_hrs', this.con_Hrs != undefined ? this.con_Hrs : ""); // formdata.append('contract_hrs',this.con_Hrs !=undefined ? this.con_Hrs:"")
     // }
-    formdata.append('route_type', value?.Route_type?.key !== undefined ? value.Route_type.key : "")
-    formdata.append('gps', value.GPS)
-    formdata.append('origin', value.Origin.key !== undefined ? value.Origin.key : "")
-    formdata.append('state', value.State.key !== undefined ? value.State.key : "")
-    formdata.append('area', value.Area.key !== undefined ? value.Area.key : "")
-    formdata.append('contract_hrs_type', value.CONTRACT)
-    formdata.append('report_type', value.report)
+    formdata.append('route_type', result !== undefined ? result : "");
+    formdata.append('gps', value.GPS);
+    formdata.append('origin', value.Origin.key !== undefined ? value.Origin.key : "");
+    formdata.append('state', value.State.key !== undefined ? value.State.key : "");
+    formdata.append('area', value.Area.key !== undefined ? value.Area.key : "");
+    formdata.append('contract_hrs_type', value.CONTRACT);
+    formdata.append('report_type', value.report);
+    formdata.append('ExclusionDate', datepicker !== undefined ? datepicker : "");
     if (value.vehicle != undefined) {
       formdata.append('vehicle', x)
     }
+    formdata.forEach((value, key) => {
+      console.log("formdata...", key, value);
+    });
+   
     // if(value.report=="5"){
     this.itraceIt.table1S_1(formdata).subscribe((res: any) => {
-      console.log("res", res)
+      // console.log("res", res)
       this.table1res = (res.data);
 
       this.table1Totalres = (res.G_total);
       // for (const [key, value] of Object.entries(this.table1res)){
-      console.log(" table1Totalres", formdata)
+      // console.log(" table1Totalres", formdata)
       // }
 
       // this.fullArray = res
