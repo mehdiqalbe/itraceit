@@ -355,7 +355,7 @@ th {
 
 .side-menu__label {
 
-    white-space: nowrap;
+    // white-space: nowrap;
     flex: 1 1 auto;
     margin-left: 15px;
 }
@@ -1041,3 +1041,71 @@ ng-select{
 .ng-select-container{
     border: 1.5px solid #5e9fc8 !important;
   }
+
+//   .ag-header, .ag-advanced-filter-header {
+//     // background-color: #e3dbdb;
+//     background-color:#1D4380  !important;;
+//     color: white !important;
+//     // background-color:#e5e6f5 !important;;
+//     border-bottom: var(--ag-borders-critical) var(--ag-border-color);
+// }
+#myGrid .ag-header {
+    background: #cfe2ff !important;
+  }
+  .ag-theme-alpine .ag-header{
+    background: #cfe2ff !important;
+  }
+#qmMulticontainer .ng-select{
+    height: inherit!important;
+  max-height: 106px!important;
+
+  .ng-select-container{
+    height: inherit;
+    overflow-y: scroll!important;
+    max-height: inherit!important;
+    .ng-value-container{
+        max-height: 110px;
+    }
+  }
+  }
+  .ag-header-viewport{
+    background: #cfe2ff !important;
+  }
+  .ag-ltr .ag-header-cell-resize {
+    right: -3px;
+    background: #00000033 !important;
+    width: 4px;
+}
+.ag-ltr .ag-header-viewport .ag-header-cell-resize::after {
+    left: calc(50% - var(--ag-header-column-resize-handle-width));
+    background: #00000033 !important;
+}
+.ag-ltr .ag-cell {
+    border-right-width: 1px;
+    border: 1px solid #80808036 !important;
+}
+.ag-row {
+    height: var(--ag-row-height);
+    background-color: var(--ag-background-color);
+    color: var(--ag-data-color);
+    border-bottom: none !important;
+}
+// .ag-header-cell-text {
+//     overflow: hidden;
+//     color: white !important;
+//     text-overflow: ellipsis;
+//     word-break: break-word;
+// }
+// .ag-icon { color: white !important;}
+
+
+div.dataTables_scrollBody table {
+    border-top: none;
+    margin-top: -5px !important;
+    margin-bottom: 0 !important;
+}
+.side-menu__label {
+    white-space: break-spaces;
+    flex: 1 1 auto;
+    margin-left: 15px;
+}

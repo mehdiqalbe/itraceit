@@ -1,0 +1,1329 @@
+<!-- HEADER START-------- -->
+<div class="card">
+
+	<div class="card-body innerdiv">
+		<div class="row">
+			<div class="col-md-6 col-lg-4">
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+							<div class="d-flex  ms-auto header-right-icons header-search-icon">
+                                <div style="width:fit-content" class=" my-2 d-flex">
+                                    <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()" type="button"></button>
+                                </div>
+								<div ngbDropdown class="d-md-flex notifications_ref-filter ">
+									<div class=" " (click)="opengsp(GSPREPORT)" style="position: absolute;top: 9px;cursor: pointer;">
+
+										<img src="https://cdn-icons-png.flaticon.com/512/107/107799.png" height="33px" style="height:33px">
+									</div>
+
+
+								</div>
+							</div>
+							<!-- &nbsp;&nbsp;&nbsp; -->
+
+							<div class="d-flex  ms-auto header-right-icons header-search-icon">
+
+								<ng-container *ngIf="GroupType !=='31'">
+								<div ngbDropdown class="d-md-flex notifications">
+									<button type="button" (click)=" header_filter(1)" class="btn btn-outline-success"
+										style="background: #4ecc48;padding: 5px;font-size: 15px; color: white;">{{Running_vehicle.length}}</button>
+									<p class="content-1">Running</p>
+
+
+								</div>
+								<div ngbDropdown class="d-md-flex notifications">
+									<button type="button" (click)=" header_filter(2)"
+										class=" gree btn btn-outline-danger"
+										style="background: #ff00003d;padding: 5px;font-size: 15px;color: white;">{{Stopped_vehicle.length}}</button>
+									<span class="content-2">Stopped</span>
+
+								</div>
+								<div ngbDropdown class="d-md-flex notifications">
+									<button type="button" (click)=" header_filter(5)"
+										class=" gree btn btn-outline-primary"
+										style="background: #76a1da7a;">{{NoGPS_length.length}}</button>
+									<span class="content-2">NoGPS</span>
+
+								</div>
+								<div ngbDropdown class="d-md-flex notifications">
+									<button type="button" (click)=" header_filter(3)"
+										class=" gree btn btn-outline-danger"
+										style="background: #fdc104;padding: 5px;font-size: 15px;color: white;">{{NoData_length.length}}</button>
+									<span class="content-2">NoData</span>
+
+								</div>
+								<div ngbDropdown class="d-md-flex notifications">
+									<!-- <span class="active3 container-fluid" (click)=" getid(3)">
+									<span class="active1_text container-fluid" (click)="callmaps()" >{{inactive}}</span>
+								</span> -->
+									<button type="button" (click)=" header_filter(4)" class="btn btn-outline-secondary"
+										style="background:#E9E9E9;padding: 5px;font-size: 15px;color: white;">{{inactive.length}}</button>
+									<span class="content-3">Inactive</span>
+								</div>
+								<div ngbDropdown class="d-md-flex notifications">
+									<button type="button" (click)=" header_filter(6)"
+										class=" gree btn btn-outline-danger"
+										style="background: #d214149c;">{{Breakdown_length.length}}</button>
+									<span class="content-2" style="width: 49px; margin-left: -2px;">Breakdown</span>
+
+								</div>
+								</ng-container>
+								<ng-container *ngIf="GroupType =='31'">
+									<div ngbDropdown class="d-md-flex notifications_ref " style="width: 42px !important;">
+										<div (click)="reload()" class=" "
+											style="position: absolute;top: 10px; cursor: pointer;">
+											<i class="fe fe-refresh-cw" style="font-size: 25px;font-weight: lighter; "></i>
+										</div>
+									</div>
+									 <div class="d-flex  ms-auto header-right-icons header-search-icon">
+                    
+                                    <!-- <div ngbDropdown class="d-md-flex notifications_ref ">
+                                      <div  class=" "
+                                        style="position: absolute;top: 10px; cursor: pointer;">
+                                        <i class="fe fe-refresh-cw" style="font-size: 25px;font-weight: lighter; "></i>
+                                      </div>
+                                    </div> -->
+                                    <!-- <div ngbDropdown class=" row d-md-flex notifications">
+                                    
+                                    <div class="col-lg-12">
+                                      <button type="button"  class="btn btn-outline-secondary button-fixwidth"
+                                        style="background:#E9E9E9">52</button>
+                                      </div>
+                                        <div class="col-lg-12">
+                                    <span class="">Vehicle at Source</span>
+                                  </div>
+                                    </div> -->
+									<div _ngcontent-ayn-c233="" ngbdropdown="" class="row d-md-flex " style="
+									text-align: center; margin-top: 1px;"><div _ngcontent-ayn-c233="" class="col-lg-12">
+										<!-- btn-outline-success"
+									style="background: #86D0A1;" -->
+									  <button _ngcontent-ayn-c233="" type="button"  (click)=" header_filter(0)" class="btn btn-outline-info button-fixwidth" ngbTooltip="Running" style="background: #45aaf238;">{{Alldata.length}}</button>
+									  <div  class="button-bottom" ><span _ngcontent-ref-c233="" class="badge rounded-pill badge-notification" style="background-color: transparent;color: skyblue;font-size: 11px;">All</span></div>
+									</div>
+									 
+									</div>
+                                    <div _ngcontent-ayn-c233="" ngbdropdown="" class="row d-md-flex " style="
+                                        text-align: center; margin-top: 1px;"><div _ngcontent-ayn-c233="" class="col-lg-12">
+											<!-- btn-outline-success"
+										style="background: #86D0A1;" -->
+                                          <button _ngcontent-ayn-c233="" type="button" class="btn btn-outline-success button-fixwidth"(click)="header_filter(1)" ngbTooltip="Vehicle at Source" style="background: #86D0A1;">{{Running_data.length}}</button>
+                                          <div  class="button-bottom" ><span _ngcontent-ref-c233="" class="badge rounded-pill badge-notification" style="background-color: transparent;color: green;font-size: 11px;">Running</span></div>
+                                        </div>
+                                         
+                                        </div>
+										 <div _ngcontent-ayn-c233="" ngbdropdown="" class="row d-md-flex " style="
+                                        text-align: center; margin-top: 1px;"><div _ngcontent-ayn-c233="" class="col-lg-12">
+                                          <button _ngcontent-ayn-c233="" type="button" class="btn btn-outline-danger button-fixwidth" (click)="header_filter(2)"ngbTooltip="Vehicle at Source" style="background: #F8DBDB">{{Stopped_data.length}}</button>
+                                          <div class="button-bottom"><span _ngcontent-ref-c233="" class="badge rounded-pill badge-notification" style="background-color: transparent;color: red;font-size: 11px;">Stopped</span></div>
+                                        </div>
+                                         
+                                        </div>
+										 <div _ngcontent-ayn-c233="" ngbdropdown="" class="row d-md-flex " style="
+                                        text-align: center; margin-top: 1px;"><div _ngcontent-ayn-c233="" class="col-lg-12">
+                                          <button _ngcontent-ayn-c233="" type="button" class="btn btn-outline-secondary button-fixwidth" (click)="header_filter(3)"ngbTooltip="Vehicle at Source" style="background: var(--bs-gray-500);">{{NoGPS_length.length}}</button>
+                                          <div class="button-bottom"><span _ngcontent-ref-c233="" class="badge rounded-pill badge-notification" style="background-color: transparent;color: gray;font-size: 11px;">Non Traceable</span></div>
+                                        </div>
+                                         
+                                        </div>
+										 <div _ngcontent-ayn-c233="" ngbdropdown="" class="row d-md-flex " style="
+                                        text-align: center; margin-top: 1px;"><div _ngcontent-ayn-c233="" class="col-lg-12">
+                                          <button _ngcontent-ayn-c233="" type="button" class="btn btn-outline-warning button-fixwidth"(click)="header_filter(4)" ngbTooltip="Vehicle at Source" style="background: #ffc10752;">{{inactive.length}}</button>
+                                          <div class="button-bottom"><span _ngcontent-ref-c233="" class="badge rounded-pill badge-notification" style="background-color: transparent;color: orange;font-size: 11px;">Not on Duty</span></div>
+                                        </div>
+                                         
+                                        </div>
+										<!-- <div _ngcontent-ayn-c233="" ngbdropdown="" class="row d-md-flex " style="
+                                        text-align: center; margin-top: 1px;"><div _ngcontent-ayn-c233="" class="col-lg-12">
+                                          <button _ngcontent-ayn-c233="" type="button" class="btn btn-outline-warning button-fixwidth" ngbTooltip="Vehicle at Source" style="border: 1px solid brown; background: #d4840d52;">0</button>
+                                          <div class="button-bottom"><span _ngcontent-ref-c233="" class="badge rounded-pill badge-notification" style="background-color: transparent;color: brown;font-size: 13px;">Breakdown</span></div>
+                                        </div> -->
+                                         
+                                        <!-- </div> -->
+                                   
+									 </div>
+									
+									</ng-container>
+							</div>
+
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-md-2 col-lg-3">
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+							<div class="d-flex  ms-auto header-right-icons header-search-icon">
+								<!-- <button type="button" class="btn btn-sucess" ><a routerLink="/maps/dashboard">route</a></button> -->
+								<div ngbDropdown class="d-md-flex notifications_ref ">
+									<!-- (click)="opengsp(GSPREPORT)" -->
+									<a class="fa fa-home" style="font-size: 25px;color: #337ab7;cursor: pointer;"
+											(click)="go_back()"	title="Home" >
+											<!-- routerLink="/maps" -->
+												<span class="live-text">Home</span>
+										</a>
+									
+									
+								</div>
+							</div> 
+							<!-- /&nbsp;&nbsp;&nbsp; -->
+    
+							<!-- <div class="d-flex  ms-auto header-right-icons header-search-icon">
+								<div ngbDropdown class="d-md-flex notifications_ref ">
+									<div class="" style="position: absolute;">
+										<a class="fa fa-bolt" style="font-size: 25px;color: #337ab7; cursor: pointer;    left: 100px;"
+											title="Live" >
+											
+											<span class="live-text">Live</span>
+										</a>
+									</div>
+								</div>
+
+							</div> -->
+							
+							
+								<div class="d-flex  ms-auto header-right-icons header-search-icon">
+							<div ngbDropdown class="d-md-flex notifications-cluster">
+								<p class="cell-id-cluster"><input type="radio" name="val"(change)="clusterchecked(0)" checked>&nbsp;Without cluster
+									&nbsp;&nbsp;&nbsp;	<input type="radio"name="val"(change)="clusterchecked(1)" class="pointer">&nbsp;With cluster</p>
+							</div>
+								</div> 
+						
+							
+								
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-1 col-lg-2 justify-content-end">
+
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+							<div class=""><ng-container *ngIf=" show_refersh">
+								<div ngbDropdown class=" " style="position: absolute; top: 13px;">
+								<h4>Refersh Time : {{Refersh_time}}</h4>
+								</div>
+							</ng-container>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			 <div class="col-md-3 col-lg-2 justify-content-end">
+				<div class="header hor-header">
+					<div class="">
+						<div class="d-flex innerdiv">
+
+							<div class="d-flex  ms-auto header-right-icons header-search-icon">
+								<div ngbDropdown class="d-md-flex notifications_ref "> <a class="header-brand1">
+										<img src="assets/images/brand/logo-3.png" class="header-brand-img desktop-logo"
+											alt="logo" id="change-image" >
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+
+		</div>
+	</div>
+</div>
+<!-- HEADER END------- -->
+<div class="row">
+    <div class="col-md-12">
+        <div id="maps"></div>
+		<!-- <div class="input_latlng"> <input type="text" (input)="onsearch_latlng()" name="latlng-search"
+			placeholder="Search box"></div> -->
+
+			<!-- delete  -->
+			<!-- <div class="input_latlng1">
+				<ngx-spinner name="spinner-station" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+									[fullScreen]="false" type="ball-spin-clockwise">
+									<p style="color: white">Please Wait.. </p>
+								</ngx-spinner>
+				<table>
+					<tr>
+						<td>
+							
+							<select id="data_interval" (change)="StationMaster($event)" style="width: 176px;">
+								<option>Select Station Type</option>
+								<option *ngFor="let station of Station_Type_list;index as i" [value]="station.id">{{station.text}}</option>
+								
+							</select>
+							<div *ngIf="RunRoute">
+								
+								<div class="Runroute">
+									
+									<input #search id="search" type="text" class="form-control input-search_plant"
+									name="searchBar" placeholder="Search" aria-label="Search"
+									[(ngModel)]="searchedKeyword1" value="searchedKeyword1"
+									aria-describedby="basic-addon1"  />	<button type="button" (click)="checkAll()" class="btn btn-primary btn-v">Reset</button>
+									
+									<table class="mt-3">
+										
+										<tr *ngFor="let v of run_Routes_list |filter:searchedKeyword1 ;index as i">
+											<td style="width: 5px;"></td>
+											<td><input type="checkbox" name="mm{{i}}" (change)="test_check($event,v.RouteCode)"></td>
+											<td>{{v.RouteCode}}</td>
+										</tr>
+									</table>
+								
+								</div>
+								
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<div><input type="text" (change)="station_value($event)" placeholder="Station" style="border: 1px solid;"></div>
+					</tr>
+				</table>
+				
+				
+			</div> -->
+
+
+		<div class="rectangle-864" (click)="show = !show">
+			<img class=" box-arrow img-responsive mb-50" src="assets/images/users/arrow.png">
+		</div>
+		<div class="box" [class.opened]="show" [class.closed]="!show">
+			<div class="content_live">
+				<div class="panel panel-primary">
+					<ngx-spinner name="spinner-1" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+						[fullScreen]="false" type="ball-spin-clockwise">
+						<p style="color: white">Please Wait.. </p>
+					</ngx-spinner>
+					<div class="tab-menu-heading"
+					style="padding: 0; padding-left: 0px;  padding-right:0px ;border: none; width: 100%;">
+				
+					<nav class="tabs-menu " style="width: 90%;">
+						<div class="nav nav-tabs panel-tabs-live" id="nav-tab" role="tablist">
+							
+							<button class="nav-link active item_box" id="nav-home-tab" data-bs-toggle="tab"
+								data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+								aria-selected="true" (click)="load_data()" style="width: 70px !important;">
+								<!-- <i class='fa fa-truck class-icon' title="Vehicle List"></i> -->
+								All Vehicle
+
+							</button>
+				
+							<button class="nav-link item_box" id="nav-profile-tab" data-bs-toggle="tab"
+								data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+								aria-selected="false" (click)="load_data()" style="width: 60px;">
+								<!-- <img class="img-responsive Track1" src="assets/images/Tabs_button_icon/Group.svg"
+									title="Geofence List" > -->
+									Live
+							</button>
+							
+						</div>
+						<div class="rectangle-863-live justify-content-center" (click)="toggles()">
+							<img class="img-responsive mb-50" src="assets/images/users/Polygon.png"
+								style=" margin-top: 14px;">
+						</div>
+					</nav>
+				
+					<div class="tab-content  bg-light" id="nav-tabContent" style="width: 300px;">
+						<div class="tab-pane fade active show" id="nav-home" role="tabpanel"
+							aria-labelledby="nav-home-tab" style="width: 300px;"  >
+							<div class="search-data-live">
+								<!-- <span *ngIf="search_value==1"> -->
+								<input #search id="search" type="text" class="form-control input-search"
+									name="searchBar" placeholder="Search" aria-label="Search"
+									[(ngModel)]="searchedKeyword" value="searchedKeyword"
+									aria-describedby="basic-addon1" (input)="onsearch()" style="height: 26px;"/>
+								<span><img class="img-responsive search-icon-live"
+										src="assets/images/users/Vector (11).png"></span>
+							</div>
+							   
+							<div class="table-responsive" style="width: 300px;height: 350px; overflow-y: scroll">
+								<ng-container  *ngIf="GroupType !=='31'">
+								<input type="checkbox" style="position: absolute;margin-left: 6px;"(click)="onSelectAll();">
+								</ng-container>
+								<table class=" table-striped mt-3" >
+				
+									<tbody>
+										<tr
+											*ngFor="let arr of data1 | slice:pageStart:pageEnd | filter:searchedKeyword; let i=index">
+				
+											<td><ng-container  *ngIf="GroupType !=='31'">
+													<input type="checkbox" [checked]="arr.Checked"
+														class="input_temp"
+														(change)="selectcheck(i,$event,arr?.VehicleNo)">
+												</ng-container>
+														<ng-container  *ngIf="GroupType =='31'">
+															<input type="radio" [checked]="arr.Checked"
+														class="input_temp" name="aa"
+														(change)="selectcheck(i,$event,arr?.VehicleNo)">
+														</ng-container>
+													<!-- (change)="selectcheck(head?.VehicleId,idx,$event,head?.VehicleNo)" -->
+												
+												
+											</td>
+											<td>
+												<div class="image-box">
+													<span *ngIf="arr.RunningStatus=='Running'">
+															<i class=" fa fa-truck " style=" color: #2d8d4e;font-size: 21px;"></i>
+														</span>
+														<span *ngIf="arr.RunningStatus=='InActive'">
+															<i class=" fa fa-truck " style="  color: #9090a7;font-size: 21px;"></i>
+														</span>
+														<span *ngIf="arr.RunningStatus=='NoGPS'">
+															<i class=" fa fa-truck " style="color: #3434d0;font-size: 21px;"></i>
+														</span>
+														<span *ngIf="arr.RunningStatus=='Stopped'">
+															<i class=" fa fa-truck " style=" color: #f35050;font-size: 21px;"></i>
+														</span>
+														<span *ngIf="arr.RunningStatus=='Breakdown'||arr.RunningStatus=='Accidental'||arr.RunningStatus=='Not In-Use'">
+															<i class=" fa fa-truck " style=" color: brown;font-size: 21px;"></i>
+														</span>
+														<span *ngIf="arr.RunningStatus=='NoData'">
+															<i class=" fa fa-truck " style=" color: orange;font-size: 21px;"></i>
+														</span>
+														
+														<!-- assets/images/users/truck2.png -->
+														<!-- <span *ngIf="arr.VehicleImage !=='N/A'">
+															<img src="{{arr.VehicleImage}}" alt="" class="img-icon"
+																style="width: 30px">
+														</span> -->
+
+													</div>
+											</td>
+				
+											<td >
+												<span *ngIf="arr.RunningStatus=='Running'">
+													<div class=" ">
+				
+														<div title="{{arr.VehicleNo}}"
+															class="active_data_temp  valign-text middle readexpro-medium-baby-powder 12px"
+															(click)="show_infowindow_live(arr.VehicleNo)">
+															<!-- (click)="show_infowindow(arr.VehicleNo)" -->
+															{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3||RoutePlant_filter_value==2">--{{arr.PlantCode}}</ng-container>
+															<ng-container *ngIf="RoutePlant_filter_value==2" >--{{arr.RouteCode}}</ng-container>
+														</div>
+													</div>
+												</span>
+												<span *ngIf="arr.RunningStatus=='Breakdown'||arr.RunningStatus=='Accidental'||arr.RunningStatus=='Not In-Use'">
+													<div class=" ">
+				
+														<div title="{{arr.VehicleNo}}"
+															class="Breakdown_data_temp  valign-text middle readexpro-medium-baby-powder 12px"
+															(click)="show_infowindow_live(arr.VehicleNo)">
+															{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3||RoutePlant_filter_value==2">--{{arr.PlantCode}}</ng-container>
+															<ng-container *ngIf="RoutePlant_filter_value==2" >--{{arr.RouteCode}}</ng-container>
+														</div>
+													</div>
+												</span>
+												<span *ngIf="arr.RunningStatus=='InActive'">
+													<div class="">
+														<div title="{{arr.VehicleNo}}"
+															class="inactive1_temp  valign-text middle readexpro-medium-baby-powder 12px"
+															(click)="show_infowindow_live(arr.VehicleNo)">
+															{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3||RoutePlant_filter_value==2">--{{arr.PlantCode}}</ng-container>
+															<ng-container *ngIf="RoutePlant_filter_value==2" >--{{arr.RouteCode}}</ng-container>
+														</div>
+													</div>
+												</span>
+												<span *ngIf="arr.RunningStatus=='NoGPS'">
+													<div class="">
+														<div title="{{arr.VehicleNo}}"
+															class="inactive2_temp  valign-text middle readexpro-medium-baby-powder 12px"
+															(click)="show_infowindow_live(arr.VehicleNo)">
+															{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3||RoutePlant_filter_value==2">--{{arr.PlantCode}}</ng-container>
+															<ng-container *ngIf="RoutePlant_filter_value==2" >--{{arr.RouteCode}}</ng-container>
+															
+														</div>
+													</div>
+												</span>
+												<span>
+													<div class=" " *ngIf="arr.RunningStatus=='Stopped'">
+														<div title="{{arr.VehicleNo}}"
+															class="inactive3_temp  valign-text middle readexpro-medium-baby-powder 12px"
+															(click)="show_infowindow_live(arr.VehicleNo)">
+															{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3||RoutePlant_filter_value==2">--{{arr.PlantCode}}</ng-container>
+															<ng-container *ngIf="RoutePlant_filter_value==2" >--{{arr.RouteCode}}</ng-container>
+														</div>
+													</div>
+												</span>
+												<div class=" " *ngIf="arr.RunningStatus=='NoData'">
+													<div title="{{arr.VehicleNo}}"
+														class="inactive3_temp  valign-text middle readexpro-medium-baby-powder 12px"
+														(click)="show_infowindow_live(arr.VehicleNo)" style=" color: orange;">
+														{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3||RoutePlant_filter_value==2">--{{arr.PlantCode}}</ng-container>
+														<ng-container *ngIf="RoutePlant_filter_value==2" >--{{arr.RouteCode}}</ng-container>
+													</div>
+												</div>
+											</td>
+											<td>
+
+												<div class="overlap-group--1_temp" title="{{Math.round(arr.Battery)}}%({{arr.BatteryVoltage}}v)">
+													<ng-container *ngIf="arr.VehicleStatus=='InActive'">
+														<span *ngIf="(arr.Battery >= 0 && arr.Battery <= 24 )">
+			
+															<i class="fa fa-battery-1"
+																style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+														</span>
+														<span *ngIf="(arr.Battery >= 25 && arr.Battery <= 50)">
+			
+															<i class="fa fa-battery-2"
+																style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+														</span>
+														<span *ngIf="(arr.Battery >= 51 && arr.Battery <= 74)">
+			
+															<i class="fa fa-battery-3"
+																style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+														</span>
+														<span *ngIf="(arr.Battery >= 75 && arr.Battery <= 100)">
+			
+															<i class="fa fa-battery-4"
+																style=" height: 11px;margin-top: 3px; color: gray; font-size: 17px;"></i>
+														</span>
+													</ng-container>
+													<ng-container *ngIf="arr.VehicleStatus!=='InActive'">
+														<span *ngIf="(arr.Battery >= 0 && arr.Battery <= 24 )">
+			
+															<i class="fa fa-battery-1"
+																style="height: 11px;margin-top: 3px; color: red;font-size: 17px"></i>
+														</span>
+														<span *ngIf="(arr.Battery >= 25 && arr.Battery <= 50)">
+			
+															<i class="fa fa-battery-2"
+																style="height: 11px;margin-top: 3px; color: rgb(230, 173, 19);font-size: 17px"></i>
+														</span>
+														<span *ngIf="(arr.Battery >= 51 && arr.Battery <= 74)">
+			
+															<i class="fa fa-battery-3"
+																style="height: 11px;margin-top: 3px; color: rgb(147, 194, 38);font-size: 17px"></i>
+														</span>
+														<span *ngIf="(arr.Battery >= 75 && arr.Battery <= 100)">
+			
+															<i class="fa fa-battery-4"
+																style=" height: 11px;margin-top: 3px; color: rgb(12, 167, 45); font-size: 17px;"></i>
+														</span>
+													</ng-container>
+													
+												</div>
+											</td>
+											<td class="border-bottom-0">
+												<div class="overlap-group_temp" placement="top" title="Temperature" style="    margin-left: 5px;
+												margin-right: 5px; width: 46px;">
+													<span *ngIf="arr.Temperature !== undefined">
+														<span *ngIf="arr.Temperature !=='N/A'" style="color: #133cf3;">
+															<b>{{arr.Temperature}}°C</b>
+															<!-- <i class="fa fa-temperature-half"
+																style="font-size: 20px;"
+																title="{{arr.Temperature}}°C"></i> -->
+															<!-- <div class="number1 valign-text-middle robotosemi-bold-nevada 10px">
+																
+																	{{arr.Temperature}}
+																	
+																</div> -->
+														</span>
+														<span *ngIf="arr.Temperature =='N/A'">
+															<p>-</p>
+															<!-- <img class="vector-1"
+																	src="assets/images/New icons for clearity/AC on.svg"
+																	style="height: 19px;" /> -->
+															<!-- <div class="number1 valign-text-middle robotosemi-bold-nevada 10px">
+																	{{arr.Temperature}}°C
+																</div> -->
+														</span>
+													</span>
+													<span *ngIf="arr.Temperature == undefined">
+														<!-- <span *ngIf="arr.Temperature =='N/A'"> -->
+														<!-- <p>-</p> -->
+														<!-- <b>33°C</b> -->
+														<!-- </span> -->
+													</span>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="modal-footer footer_alllive" style="margin: 0px;padding-top: 0px;">
+								<div class="row" >
+								<div class="col-lg-1 col-md-1">
+									<input type="radio" name="map_text" (change)="maptext(0)" checked>
+								</div>
+								<div class="col-lg-5 col-md-5" style="font-weight: 500;">
+									map mode
+								</div>
+								<div class="col-lg-1 col-md-1">
+									<input type="radio" name="map_text"(change)="maptext(1)">
+								</div>
+								<div class="col-lg-5 col-md-5" style="font-weight: 500;">
+									Text mode
+								</div>
+								</div>
+								<div class="row mt-0" style="margin-top: -30px;" >
+									<div class="col-lg-2 col-md-2">
+										<i class="fa fa-refresh" style="font-size:18px"></i>
+									</div>
+									<div class="col-lg-6 col-md-6">
+										<select id="data_interval" (change)="sec_live($event)" style="width: 100%;">
+											<option value="0">Auto</option>
+											<option value="10"selected>10 sec</option>
+											<option value="20">20 sec</option>
+											<option value="30">30 sec</option>
+											<option value="60">1 min</option>
+											<option value="120">2 min</option>
+											<option value="240">4 min</option>
+											<option value="300">5 min</option>
+											<option value="600">10 min</option>
+											</select>
+									</div>
+									<div class="col-lg-4 col-md-4" style="text-align: center;">
+										<ng-container *ngIf="map_text==0">
+											<button type="button" style="background: white;height: 20px;
+											border: 1px solid;"><a (click)="GO_Livetracking()">Go</a></button>
+										</ng-container>
+										<ng-container *ngIf="map_text==1">
+											<button type="button" style="background: white;height: 20px;
+											border: 1px solid;"><a (click)="GO_Livetracking()">Go</a></button>
+										</ng-container>
+										
+									</div>
+									</div>
+							   <span><p style="    font-weight: bold;font-size: x-small;">
+								(Note: Below 2 min interval is valid for single vehicle only)
+							   </p></span>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="nav-profile" role="tabpanel"
+								aria-labelledby="nav-profile-tab" style="width: 300px;">
+								<div class="search-data-live">
+									<!-- <span *ngIf="search_value==1"> -->
+									<input #search id="search" type="text" class="form-control input-search"
+										name="searchBar" placeholder="Search" aria-label="Search"
+										[(ngModel)]="searchedKeyword" value="searchedKeyword"
+										aria-describedby="basic-addon1" (input)="onsearch()" style="height: 26px;"/>
+									<span><img class="img-responsive search-icon-live"
+											src="assets/images/users/Vector (11).png"></span>
+								</div>
+									<div class="table-responsive mt-3" style="width: 300px;height: 350px; overflow-y: scroll">
+										<table class=" table-striped">
+						
+											<tbody>
+												<tr *ngFor="let arr of livedata_table | slice:pageStart:pageEnd | filter:searchedKeyword; let i=index">
+												   <td>
+													<div class="image-box">
+														<span  *ngIf="arr.runningStatus=='Running'">
+																<i class=" fa fa-truck " style=" color: #2d8d4e; font-size: 21px;"></i>
+															</span>
+															<span *ngIf="arr.runningStatus=='InActive'">
+																<i class=" fa fa-truck " style="  color: #9090a7;font-size: 21px;"></i>
+															</span>
+															<span  *ngIf="arr.runningStatus=='NoGPS'">
+																<i class=" fa fa-truck " style="color: #3434d0;font-size: 21px;"></i>
+															</span>
+															<span *ngIf="arr.runningStatus=='Stopped'">
+																<i class=" fa fa-truck " style=" color: #f35050;font-size: 21px;"></i>
+															</span>
+															<span *ngIf="arr.runningStatus=='NoData'">
+																<i class=" fa fa-truck " style=" color: orange;font-size: 21px;"></i>
+															</span>
+															<span *ngIf="arr.runningStatus=='Breakdown'||arr.runningStatus=='Accidental'||arr.runningStatus=='Not In-Use'">
+																<i class=" fa fa-truck " style=" color: brown;font-size: 21px;"></i>
+															</span>
+															
+															
+															<!-- assets/images/users/truck2.png -->
+															<!-- <span *ngIf="arr.VehicleImage !=='N/A'">
+																<img src="{{arr.VehicleImage}}" alt="" class="img-icon"
+																	style="width: 30px">
+															</span> -->
+	
+														</div>
+													</td>
+						
+													<td >
+														<span *ngIf="arr.runningStatus=='Running'">
+															<div class=" ">
+						
+																<div title="{{arr.VehicleNo}}"
+																	class="active_data_temp_live  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	<!-- (click)="show_infowindow(arr.VehicleNo)" -->
+																	{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3">--{{plantroute_code[i]?.PlantCode}}</ng-container>
+																	<ng-container *ngIf="RoutePlant_filter_value==2" >--{{plantroute_code[i]?.RouteCode}}</ng-container>
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.runningStatus=='Breakdown'||arr.runningStatus=='Accidental'||arr.runningStatus=='Not In-Use'">
+															<div class=" ">
+						
+																<div title="{{arr.VehicleNo}}"
+																	class="Breakdown_data_temp_live  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	<!-- (click)="show_infowindow(arr.VehicleNo)" -->
+																	{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3">--{{plantroute_code[i]?.PlantCode}}</ng-container>
+																	<ng-container *ngIf="RoutePlant_filter_value==2" >--{{plantroute_code[i]?.RouteCode}}</ng-container>
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.runningStatus=='InActive'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive1_temp_live  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3">--{{plantroute_code[i]?.PlantCode}}</ng-container>
+																	<ng-container *ngIf="RoutePlant_filter_value==2" >--{{plantroute_code[i]?.RouteCode}}</ng-container>
+																</div>
+															</div>
+														</span>  
+														<span *ngIf="arr.runningStatus=='NoGPS'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive2_temp_live  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3">--{{plantroute_code[i]?.PlantCode}}</ng-container>
+																	<ng-container *ngIf="RoutePlant_filter_value==2" >--{{plantroute_code[i]?.RouteCode}}</ng-container>
+																</div>
+															</div>
+														</span>
+														<span class=" " *ngIf="arr.runningStatus=='Stopped'">
+															<div  class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive3_temp_live  valign-text middle readexpro-medium-baby-powder 12px "style="color:{{livedata_table[i]?.StatusColor}}"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	{{arr.VehicleNo}}<ng-container *ngIf="RoutePlant_filter_value==3">--{{plantroute_code[i]?.PlantCode}}</ng-container>
+																	<ng-container *ngIf="RoutePlant_filter_value==2" >--{{plantroute_code[i]?.RouteCode}}</ng-container>
+																</div>
+															</div>
+														</span>
+														<span class=" " *ngIf="arr.runningStatus=='NoData'">
+															<div  class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive3_temp_live  valign-text middle readexpro-medium-baby-powder 12px "style="color:orange"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	{{arr.VehicleNo}}
+																</div>
+															</div>
+														</span>
+													</td>
+													<td>
+
+														<div class="overlap-group--1_temp" title="{{Math.round(arr.Battery)}}%({{arr.BatteryVoltage}}v)">
+															<ng-container *ngIf="arr.VehicleStatus=='InActive'">
+																<span *ngIf="(arr.Battery >= 0 && arr.Battery <= 24 )">
+	
+																	<i class="fa fa-battery-1"
+																		style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 25 && arr.Battery <= 50)">
+		
+																	<i class="fa fa-battery-2"
+																		style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 51 && arr.Battery <= 74)">
+		
+																	<i class="fa fa-battery-3"
+																		style="height: 11px;margin-top: 3px; color: gray;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 75 && arr.Battery <= 100)">
+		
+																	<i class="fa fa-battery-4"
+																		style=" height: 11px;margin-top: 3px; color: gray; font-size: 17px;"></i>
+																</span>
+															</ng-container>
+															<ng-container *ngIf="arr.VehicleStatus!=='InActive'">
+																<span *ngIf="(arr.Battery >= 0 && arr.Battery <= 24 )">
+	
+																	<i class="fa fa-battery-1"
+																		style="height: 11px;margin-top: 3px; color: red;font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 25 && arr.Battery <= 50)">
+		
+																	<i class="fa fa-battery-2"
+																		style="height: 11px;margin-top: 3px; color: rgb(230, 173, 19);font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 51 && arr.Battery <= 74)">
+		
+																	<i class="fa fa-battery-3"
+																		style="height: 11px;margin-top: 3px; color: rgb(147, 194, 38);font-size: 17px"></i>
+																</span>
+																<span *ngIf="(arr.Battery >= 75 && arr.Battery <= 100)">
+		
+																	<i class="fa fa-battery-4"
+																		style=" height: 11px;margin-top: 3px; color: rgb(12, 167, 45); font-size: 17px;"></i>
+																</span>
+															</ng-container>
+															
+														</div>
+													</td>
+													<td class="border-bottom-0">
+														<div class="overlap-group_temp" placement="top" title="Temperature" style="    margin-left: 5px;
+														margin-right: 5px;">
+															<span *ngIf="arr.Temperature !== undefined">
+																<span *ngIf="arr.Temperature !=='N/A'" style="color: #133cf3;">
+																	<b>{{arr.Temperature}}°C</b>
+																	<!-- <i class="fa fa-temperature-half"
+																		style="font-size: 20px;"
+																		title="{{arr.Temperature}}°C"></i> -->
+																	<!-- <div class="number1 valign-text-middle robotosemi-bold-nevada 10px">
+																		
+																			{{arr.Temperature}}
+																			
+																		</div> -->
+																</span>
+																<span *ngIf="arr.Temperature =='N/A'">
+																	<p>-</p>
+																	<!-- <img class="vector-1"
+																			src="assets/images/New icons for clearity/AC on.svg"
+																			style="height: 19px;" /> -->
+																	<!-- <div class="number1 valign-text-middle robotosemi-bold-nevada 10px">
+																			{{arr.Temperature}}°C
+																		</div> -->
+																</span>
+															</span>
+															<span *ngIf="arr.Temperature == undefined">
+																<!-- <span *ngIf="arr.Temperature =='N/A'"> -->
+																<!-- <p>-</p> -->
+																<!-- <b>33°C</b> -->
+																<!-- </span> -->
+															</span>
+														</div>
+													</td>
+													<td >
+														<span *ngIf="arr.runningStatus=='Running'">
+															<div class=" ">
+						
+																<div title="{{arr.VehicleNo}}"
+																	class="active_data_stop  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	<!-- (click)="show_infowindow(arr.VehicleNo)" -->
+																	[{{arr.runningStatus}}]
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.runningStatus=='InActive'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive1_stop  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	[{{arr.runningStatus}}]
+																</div>
+															</div>
+														</span>
+														<span *ngIf="arr.runningStatus=='NoGPS'">
+															<div class="">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive2_stop  valign-text middle readexpro-medium-baby-powder 12px"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	[{{arr.runningStatus}}]
+																	
+																</div>
+															</div>
+														</span>
+														<span>
+															<div class=" " *ngIf="arr.runningStatus=='Stopped'">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive3_stop  valign-text middle readexpro-medium-baby-powder 12px"style="color:{{arr.runningStatusColor}}"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	[{{arr.runningStatus}}]
+																	</div>
+															</div>
+														</span>
+														<span>
+															<div class=" " *ngIf="arr.runningStatus=='NoData'">
+																<div title="{{arr.VehicleNo}}"
+																	class="inactive3_stop  valign-text middle readexpro-medium-baby-powder 12px"style="color:orange"
+																	(click)="show_infowindow_live(arr.VehicleNo)">
+																	[{{arr.runningStatus}}]
+																	</div>
+															</div>
+														</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+							
+							
+								
+								<div class="modal-footer footer_live" style="margin: 0px;padding-top: 0px;">
+								<div class="">
+									<input type="checkbox" style="margin-right: 4px;" [checked]="add_arrow" (change)="Arrow_add()" ><label class="label-live">Add arrow</label>
+									<input type="checkbox" class="addtail"(change)="Add_tail()" style="margin-left: 16px;"><label class="label-live">Add Tail</label>
+								</div>
+									
+								</div>
+							</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- modal start  -->
+<!-- modal Text format start  -->
+<ngx-spinner name="spinner-8" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+[fullScreen]="false" type="ball-spin-clockwise">
+<p style="color: white">Please Wait.. </p>
+</ngx-spinner>
+<ng-template #modallive8 let-modal>
+	<!-- <form [formGroup]="Landmark" (ngSubmit)="Submit_landmark()"> -->
+		<div class="modal-header">
+			<div ngbDropdown class=" " style="position: absolute; top: 13px;    left: 46%;">
+				<h5>Refersh Time : {{Refersh_time}}</h5>
+				</div>
+			<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			<ngx-spinner name="spinner-2" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small"
+			[fullScreen]="false" type="ball-spin-clockwise">
+			<p style="color: white">Please Wait.. </p>
+		</ngx-spinner>
+		<div class="" style="max-height: 470px;overflow: auto;">
+			<table class=" table-striped" id="showReportTable1"  >
+				<!-- table-responsive -->
+				<thead class="table_header">
+					<tr class="table_header">
+						
+						<th class=" border-bottom-0"style="text-align: center;">SNo.</th>
+						<th class=" border-bottom-0"style="text-align: center;">VehicleName</th>
+						<th class=" border-bottom-0"style="text-align: center;">IMEI</th>
+						<th class=" border-bottom-0"style="text-align: center;">Speed</th>
+						<th class=" border-bottom-0"style="text-align: center; width:200px">DateTime</th>
+						<th class=" border-bottom-0"style="text-align: center; width: 200px;">Halt Duration</th>
+						<th class=" border-bottom-0"style="text-align: center; width:200px">Last HaltTime</th>
+						<th class=" border-bottom-0"style="text-align: center;">IOStatus</th>
+						<th class=" border-bottom-0"style="text-align: center; width:300px">Location</th>
+						<th class=" border-bottom-0"style="text-align: center;">Fault</th>
+						<th class=" border-bottom-0"style="text-align: center;">MovementStatus</th>
+						
+
+					</tr>
+				</thead>
+				<tbody style="overflow: auto;" >
+					<tr *ngFor="let head1 of data_table_fas ; let i = index">
+						<td class="border-bottom-0"style="text-align: center;">
+							{{i+1}}
+						</td>
+						<td class="border-bottom-0"style="text-align: center;">
+							<!-- {{head1.VehicleName}} -->
+							<ng-container *ngIf="head1.MovementStatus=='Stopped'"><span class="stopped">{{head1.VehicleName}}</span></ng-container>	
+						<ng-container *ngIf="head1.MovementStatus=='Running'"><span class="Running">{{head1.VehicleName}}</span></ng-container>	
+						<ng-container *ngIf="head1.MovementStatus=='InActive'"><span style="font-weight: bold;color: gray;">{{head1.VehicleName}}</span></ng-container>	
+						<ng-container *ngIf="head1.MovementStatus=='NoData'"><span style="font-weight: bold;color: red;">{{head1.VehicleName}}</span></ng-container>	
+						<ng-container *ngIf="head1.MovementStatus=='NoGPS'"><span style="font-weight: bold;color: blue;">{{head1.VehicleName}}</span></ng-container>	
+					</td>
+						<td class="border-bottom-0"style="text-align: center;">
+							{{head1.IMEI}}
+						</td>
+						<td class="border-bottom-0"style="text-align: center;">
+							{{head1.Speed}}
+						</td>
+						<td class="border-bottom-0"style="text-align: center;">
+							{{head1.DateTime}}
+						</td>
+						<td class="border-bottom-0"style="text-align: center;">
+							<!-- {{head1.LastHaltTime}} -->
+							<ng-container *ngIf="head1.MovementStatus=='Stopped'">{{head1.HaltDuration}}</ng-container>
+							<ng-container *ngIf="head1.MovementStatus !=='Stopped'">-</ng-container>
+						</td>
+						<td class="border-bottom-0"style="text-align: center;">
+							<ng-container *ngIf="head1.MovementStatus=='Stopped'">{{head1.LastHaltTime}}</ng-container>
+							<ng-container *ngIf="head1.MovementStatus !=='Stopped'">-</ng-container>
+							<!-- <ng-container *ngIf="head1.runningStatus!=='Stopped'">-</ng-container> -->
+						</td>
+						<td class="border-bottom-0" style="text-align: center;">
+							<div style="width: 129px;">
+							<ng-container *ngIf="head1.IOStatus.MainHoleDoor!=='N/A'&&head1.IOStatus.MainHoleDoor!==undefined"><b>MainHole Door</b>-<span style="color: #133cf3;">{{head1.IOStatus.MainHoleDoor}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.DeliveryDoor!=='N/A'&&head1.IOStatus.DeliveryDoor!==undefined"><b>Delivery Door</b>-<span style="color: #133cf3;">{{head1.IOStatus.DeliveryDoor}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.ManholeDoor2!=='N/A'&&head1.IOStatus.ManholeDoor2!==undefined"><b>Manhole Door2</b>-<span style="color: #133cf3;">{{head1.IOStatus.ManholeDoor2}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.Temperature!=='N/A'&&head1.IOStatus.Temperature!==undefined"><b>Temperature</b>-<span style="color: #133cf3;">{{head1.IOStatus.Temperature}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.Engine!=='N/A'&&head1.IOStatus.Engine!==undefined"><b>Engine</b>-<span style="color: #133cf3;">{{head1.IOStatus.Engine}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.EngineLock!=='N/A'&&head1.IOStatus.EngineLock!==undefined"><b>EngineLock</b>-<span style="color: #133cf3;">{{head1.IOStatus.EngineLock}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.AC!=='N/A'&&head1.IOStatus.AC!==undefined"><b>AC</b>-<span style="color: #133cf3;">{{head1.IOStatus.AC}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.FuelLead!=='N/A'&&head1.IOStatus.FuelLead!==undefined"><b>FuelLead</b>-<span style="color: #133cf3;">{{head1.IOStatus.FuelLead}}</span><br></ng-container>
+							<ng-container *ngIf="head1.IOStatus.SOS!=='N/A'&&head1.IOStatus.SOS!==undefined"><b>SOS</b>-<span style="color: #133cf3;">{{head1.IOStatus.SOS}}</span><br></ng-container>
+							</div>
+							<!-- {{head1.IOStatus.FuelLead}}{{head1.IOStatus.SOS}} -->
+							<ng-container *ngIf="head1.IOStatus.Raw_power!=='N/A'&&head1.IOStatus.Raw_power!==undefined">
+							Raw_power-<span style="color: #133cf3;">{{head1.IOStatus.Raw_power}}</span>
+							
+							</ng-container>
+						</td>
+						<td class="border-bottom-0" style="width: 300px;text-align: center;" title="{{head1.Location}}">
+							{{head1.Location.substring(0 ,50)}}
+						</td>
+						<td class="border-bottom-0" style="    text-align: center;font-weight: 600;">
+							{{head1.Fault}}
+						</td>
+						<td class="border-bottom-0" style="text-align: center;">
+						<ng-container *ngIf="head1.MovementStatus=='Stopped'"><span class="stopped">{{head1.MovementStatus}}</span></ng-container>	
+						<ng-container *ngIf="head1.MovementStatus=='Running'"><span class="Running">{{head1.MovementStatus}}</span></ng-container>	
+						<ng-container *ngIf="head1.MovementStatus=='InActive'"><span style="font-weight: bold;color: gray;">{{head1.MovementStatus}}</span></ng-container>	
+						<ng-container *ngIf="head1.MovementStatus=='NoData'"><span style="font-weight: bold;color: red;">{{head1.MovementStatus}}</span></ng-container>
+						<ng-container *ngIf="head1.MovementStatus=='NoGPS'"><span style="font-weight: bold;color: blue;">{{head1.MovementStatus}}</span></ng-container>
+					</td>    
+					
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div><!-- MODAL-BODY -->
+		<div class="modal-footer " style="background-color: white;">
+			<p><span style="color: red;"> Fault lagend:</span> <b>1</b>-low battery, <b>2</b>-No GPS,<b>3</b>-No DATA</p>
+		</div>
+	<!-- </form> -->
+</ng-template>
+<!-- modal Text format end  -->
+<!-- modal end  -->
+<!-- setting -->
+<div *ngIf="setting==true" class="changes">
+	<div class="row ">
+		<div class="col-lg-12">
+			<ul style="margin-bottom:0px !important;padding-left: 0px !important;">
+
+				<li style="    border-bottom: 1px solid #CED2D7; cursor: pointer;">
+					<a (click)="smallsizeOpen11(smallsizemodal11)">
+						<!-- change-p -->
+						<div class="password container-fluid" style="padding: 6px;">
+							<span class="">Change Password</span>
+
+						</div>
+					</a>
+				</li>
+				<li style="border-bottom: 1px solid #CED2D7; cursor: pointer;">
+					<a (click)=" logout()">
+						<!-- change-p -->
+						<div class="password container-fluid" style="padding: 6px; text-align: center;">
+							<span>Logout</span>
+
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- change pass -->
+<ng-template #smallsizemodal11 let-modal>
+	<form [formGroup]="chagePassword" (ngSubmit)="changepassword()">
+		<div class="modal-header justify-content-center" style="background-color: white;">
+			<h3 class="tx-14  tx-bold">Change Password</h3>
+		
+				<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+					<span aria-hidden="true">&times;</span>
+				</button>
+		
+		</div>
+		<div class="modal-body" style="background-color: #dedefd36 !important;">
+			
+			<table class="table justify-content-center">
+
+				<tbody>
+
+					<tr>
+						<td style=" font-weight: 500;">
+							<div>Current Password</div>
+						</td>
+						<td> <input type="text" formControlName="CurrentPassword"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"
+								[ngClass]="{'input-error':submite && chagePassword.controls.CurrentPassword.status=='INVALID'}">
+						</td>
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">New Password</td>
+						<td>
+							<input type="text" formControlName="NewPassword"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"
+								[ngClass]="{'input-error':submite && chagePassword.controls.NewPassword.status=='INVALID'}">
+						</td>
+					</tr>
+					<tr>
+						<td style=" font-weight: 500;">Repeat New</td>
+						<td>
+							<input type="text" formControlName="RepeatNew"
+								style="width: 97%;border: 1px solid #80808033;height: 2em;"
+								[ngClass]="{'input-error':submite && chagePassword.controls.RepeatNew.status=='INVALID'}">
+						</td>
+					</tr>
+
+				</tbody>
+
+			</table>
+
+		</div><!-- MODAL-BODY -->
+		<div class="modal-footer " style="background-color: white;">
+			<button type="button" class="btn btn-outline-primary " data-bs-dismiss="modal" aria-label="Close"
+				(click)="modal.dismiss('Cross click')">close</button>
+			<button type="submit" class="btn btn-outline-secondary">Save</button>
+			<!-- style="background-color:#52c222; color: white;" style="background-color:   #133cf3; color: white;"-->
+		</div>
+
+	</form>
+
+</ng-template>
+<!-- enf pass -->
+<!-- end -->
+
+
+<!-- modal11 -->
+<ng-template #modal10 let-modal class="summarymodal">
+
+	<div class="">
+		<div class="">
+
+
+			<div class="modal-header justify-content-center" style="background-color: white;height: 45px;">
+				<h4 class="tx-14  tx-bold">Change Vehicle Status</h4>
+				<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+		<div class="modal-body" style="padding: 20px 30px 30px 30px;">
+			<form [formGroup]="change_status" (ngSubmit)="changestatus_submit()">
+				<!--   -->
+				<!-- <input type="hidden"  name="data" value="" id="ExpenseLastActiveDriverId"/> -->
+
+				<div class="form-group required">
+					<label for="ExpenseExpenseTypeId">Status Type</label>
+
+					<ng-select formControlName="StatusTypeId" placeholder="Select"
+						[ngClass]="{'input-error':submit_status && change_status.controls.StatusTypeId.status=='INVALID'}">
+						<ng-option *ngFor="let arr of vehicleStatus_Types " value="{{arr.Id}}">{{arr.Name}}</ng-option>
+					</ng-select>
+
+				</div>
+				<div class="form-group">
+					<label for="ExpenseExpenseDate">Start Date</label>
+					<input name="data" class="form-control date" formControlName="startdate" (click)="StstusstartDate()"
+						placeholder="YYYY-MM-DD" type="text" id="statuschange"
+						[ngClass]="{'input-error':submit_status && change_status.controls.startdate.status=='INVALID'}"
+						style="height: 30px;" />
+				</div>
+
+				<div class="form-group">
+					<label for="ExpenseRemark">Remark</label>
+					<textarea name="data" class="form-control" formControlName="Remark" placeholder="Enter remark"
+						rows="1" cols="30" id="ExpenseRemark" style="    height: 30px !important;"></textarea>
+				</div>
+				<!-- </form>                        -->
+				<div class="modal-footer">
+					<button class="btn btn-success" type="submit" value="Add">Save</button>
+
+					<button name="data" class="btn btn-dark modal-reset" type="reset" id="ExpenseReset">reset</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</ng-template>
+
+
+<ng-template #modal11 let-modal class="summarymodal">
+
+	<div class="">
+		<div class="">
+
+
+			<div class="modal-header justify-content-center" style="background-color: white;height: 45px;">
+				<h4 class="tx-14  tx-bold">Close {{Status_save_value.status}}</h4>
+				<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+		<div class="modal-body" >
+			<form [formGroup]="close_Status" (ngSubmit)="breakdownClose()">
+				<!--   -->
+				<!-- <input type="hidden"  name="data" value="" id="ExpenseLastActiveDriverId"/> -->
+
+				
+				<div class="form-group">
+					<label for="ExpenseExpenseDate">Start Date</label>
+					<input name="data" class="form-control date" formControlName="startdate" (click)="StstusstartDate()"
+						placeholder="YYYY-MM-DD" type="text" id="statuschange"
+						[ngClass]="{'input-error':submit_status && change_status.controls.startdate.status=='INVALID'}"
+						style="height: 30px;" />
+				</div>
+
+				<!-- </form>                        -->
+				<div class="modal-footer" style="padding: 0px !important;border: none !important;">
+					<button class="btn btn-success" type="submit" value="Add">Save</button>
+
+					<button name="data" class="btn btn-dark modal-reset" type="reset" id="ExpenseReset">reset</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</ng-template>
+<!-- right side menu -->
+<div class=" group container-fluid right_side-icon">
+	<div style="border-bottom: 1px solid gray;">
+		<a>
+			<div class="right_side-icon " id="a9">
+				<a click="dropdown" (click)="Show_searchbox=!Show_searchbox">
+					
+					<i class="fa fa-ellipsis-h" style="font-size: 19px;padding: 8px;padding-left: 2px;"></i>
+				</a>
+			</div>
+		</a>
+	</div>
+</div>
+
+<ng-container *ngIf="Show_searchbox">
+	<div class="input_latlng1">
+		
+		<table>
+			<!-- <tr>
+				<td>
+					<input type="text" (change)="onsearch_latlng()" name="latlng-search" placeholder="Search LatLng"
+			style="width: 149px;">
+			
+				</td>
+			</tr> -->
+			<!-- <tr>
+				<td>
+					<input class="controls" type="text" placeholder="Search Landmark" (change)="place_search($event)"
+			style="    width: 149px; " />
+				</td>
+			</tr> -->
+			<tr>
+				<td>
+	
+					<select id="data_interval" (change)="StationMaster($event)"
+						style="width: 149px; border: none !important;">
+						<option>Select Station Type</option>
+						<option *ngFor="let station of Station_Type_list;index as i" [value]="station.id">{{station.text}}
+						</option>
+						<!-- <option value="5">5 sec</option> -->
+					</select>
+					<div *ngIf="RunRoute">
+	
+						<div class="Runroute">
+	
+							<input #search id="search" type="text" class="form-control input-search_plant" name="searchBar"
+								placeholder="Search" aria-label="Search" [(ngModel)]="searchedKeyword1"
+								value="searchedKeyword1" aria-describedby="basic-addon1" /> <button type="button"
+								(click)="checkAll()" class="btn btn-primary btn-v">Reset</button>
+	
+							<table class="mt-3">
+	
+								<tr *ngFor="let v of run_Routes_list |filter:searchedKeyword1 ;index as i">
+									<td style="width: 5px;"></td>
+									<td><input type="checkbox" name="mm{{i}}" (change)="test_check($event,v.RouteCode)">
+									</td>
+									<td>{{v.RouteCode}}</td>
+								</tr>
+							</table>
+	
+						</div>
+	
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<div>
+					<ngx-spinner name="spinner-station" bdColor="rgba(51, 51, 51, 0.8)" size="default" size="small" [fullScreen]="false"
+			type="ball-spin-clockwise">
+			<p style="color: white">Please Wait.. </p>
+		</ngx-spinner>
+					<input id="diff" type="text" (click)="station_value($event)" placeholder="Station"
+						style="width: 149px;"></div>
+			</tr>
+		</table>
+	
+	
+	</div>
+	</ng-container>
+
+<!-- right side menu  End-->
+
+
+<div class="model-content">
+
+	<ng-template #GSPREPORT let-modal class="summarymodal">
+		<div class="model-content">
+			<div class="modal-header">
+				<h6 class="modal-title" id="modal-basic-title"> Filter
+				</h6>
+				<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row filter-funnel">
+					<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="">
+							<div class="card-body" style="padding: 0px">
+
+								<ngb-accordion [closeOthers]="true">
+									<ngb-panel *ngFor="let keys of Filter_list_keys ; let i = index" id="static-{{i}}"
+										title="">
+										<ng-template ngbPanelTitle>
+											<div (click)="Tabs(keys)" style="font-size: 15px;">
+												<i class="fa fa-minus-circle plusicon"></i>
+												{{keys}}
+											</div> 
+										</ng-template>
+										<ng-template ngbPanelContent>
+											<div class="card-body"
+												style="  padding: 0px;  height: 155px;overflow: auto; ">
+												<ngx-spinner name="spinner-4" bdColor="rgba(51, 51, 51, 0.8)"
+													size="small" [fullScreen]="false" type="ball-spin-clockwise">
+													<p style="color: white">Please Wait .. </p>
+												</ngx-spinner>
+												<div class="row details  "
+													*ngFor="let head of Filter_list1 ;let k = index">
+													<div class="col-lg-4 col-md-4 list-group-input">
+
+														<input type="checkbox" id="head{{k}}" [checked]="head.checked"
+															(change)="changesStatus(k,$event)" class="form-check-input"
+															[value]="head">
+														<!--  -->
+													</div>
+													<div class=" col-lg-6 col-md-6 list-group ">
+
+
+														<label class="form-check-label label-text1" for="check1"
+															id="box">
+
+															<span
+																*ngIf="key_tabs=='VehicleModel'">{{head.model_number}}{{Filter_list['VehicleModel'].length}}</span>
+															<span
+																*ngIf="key_tabs !=='VehicleModel'">{{head.name}}
+																<ng-container *ngIf="key_tabs!=='Loaded/Unloaded'">({{head.code}})</ng-container></span>
+														</label>
+
+													</div>
+												</div>
+											</div>
+										</ng-template>
+									</ngb-panel>
+
+								</ngb-accordion>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger " data-bs-dismiss="modal" aria-label="Close"
+					(click)=" List_vehicle()">Reset Filter</button>
+				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close"
+					(click)="filters();modal.dismiss('Cross click')">Apply Filter
+				</button>
+			</div>
+		</div>
+	</ng-template>
+</div>

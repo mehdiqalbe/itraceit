@@ -14,10 +14,18 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {TripReportComponent } from './trip-report/trip-report.component';
+import { DataPushReportComponent } from './data-push-report/data-push-report.component';
+import { DelayReportComponent } from './delay-report/delay-report.component';
+import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
+import { VehicleUtilizationComponent } from './vehicle-utilization/vehicle-utilization.component';
 
 @NgModule({
   declarations: [
-    TripReportComponent
+    TripReportComponent,
+    DataPushReportComponent,
+    DelayReportComponent,
+    VehicleReportComponent,
+    VehicleUtilizationComponent
   ],
   imports: [
     CommonModule,

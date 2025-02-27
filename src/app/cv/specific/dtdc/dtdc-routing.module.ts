@@ -10,7 +10,7 @@ const routes: Routes = [{
   path: '',
   children: [
 
-    { path: '', redirectTo: 'Trip-Dashboard', pathMatch: 'full' }, // Default route
+    { path: '', redirectTo: (JSON.parse(localStorage.getItem('AccessMenu')||'')).ActivePage[0].name, pathMatch: 'full' }, // Default route
     { path: 'Trip-Dashboard', component: DashboardComponent },
     { path: 'Irun-Dashboard', component:IrunDashboardComponent },
     { path: 'Delay-Dashboard', component:DelayDashboardComponent },

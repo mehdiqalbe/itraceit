@@ -1,313 +1,458 @@
 <div class="row">
-    <div class="col-lg-12">
-    
-      <!-- Header Start -->
- <div class="card" style="    margin-bottom: 10px;">
-    <div class="card-body innerdiv p-0">
-      <!-- headerstart here -->
-      <div class="hor-header">
-        <div style="overflow: hidden;">
-          <div class="row align-items-left ">
-            <div style="width:fit-content" class=" my-2 d-flex">
-              <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
-            </div>
-           
-            <div
-            class="col-lg-11"
-            style="
-              font-weight: 600;
-              font-size: small;
-              text-align: left;
+  <div class="col-lg-12">
+  
+    <!-- Header Start -->
+    <div class="card" style="background:transparent;border:none;margin-bottom: 4px;">
+      <div class="card-body innerdiv p-0">
+        <!-- headerstart here -->
+        <div class="hor-header">
+          <div style="overflow: hidden;">
+            <div class="d-flex align-items-left ">
+              <div style="width:fit-content" class=" my-2 d-flex">
+                <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
+              </div>
              
-            "
-          >
-          <div  class="order-header col-lg-11 py-2" >
-            <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
-              Delay Dashboard</h3>
-            <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Delay Dashboard</h5>
-  
-            
+              <div
+              class="w-100"
+              style="
+                font-weight: 600;
+                font-size: small;
+                text-align: left;
+               
+              "
+            >
+            <div  class="order-header d-flex py-2 justify-content-between align-items-center" >
+              <div class="ps-2">
+                <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+                  Delay Dashboard</h3>
+                <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Delay Dashboard </h5>
+              </div>
+             
+    
+              <div class="d-flex align-items-center">
+                <img style="height: 100%;height: 76px;position: absolute;z-index: 44;right: 12px;" src="assets/img/logo.png" class="header-logo"  alt="">
+              </div>
+    
+              <div class="d-flex gap-4 pe-5">
          
-          </div>
-          
-          </div>
-            <div class="col-lg-2 text-center ">
-  
+              </div>
+              <!-- <div class="d-flex justify-content-between  align-items-baseline mt-2">
+                <div class="d-flex flex-column align-items-baseline">
+                  <span>Running:{{dashboardHeader?.running}}</span>
+                  <span>Lock NA: {{dashboardHeader?.lock_na}}</span>
+                </div>
+                <div class="d-flex flex-column align-items-baseline">
+                  <span>Free Vehicles ( >2Hrs.): {{dashboardHeader?.free_vehicle}}</span> 
+                  <span>DFG: {{dashboardHeader?.dfg}}</span> 
+                  
+                </div>
+                <div class="d-flex flex-column align-items-baseline">
+                  <span>NoData: {{dashboardHeader?.no_data}}</span> 
+                  <span>Delayed Arrived: {{dashboardHeader?.delayed_arrived}}</span>
+                </div>
+                <div class="d-flex flex-column align-items-baseline">
+                  <span>Non-Integrated: {{dashboardHeader?.non_integrated}}</span>
+                  <span>At Source: {{dashboardHeader?.at_source}}</span> 
+                </div>
+                <div class="d-flex flex-column align-items-baseline">
+                  <span>Lock Status (/): {{dashboardHeader?.lock_close}}/{{dashboardHeader?.lock_open}}</span>
+                  <span>At Destination: {{dashboardHeader?.at_destination}}</span>
+                </div>
+              </div> -->
+              
+           
             </div>
-  
-            <div class="col-lg-1"></div>
-            <div class="col-lg-1">
-              <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
+            
             </div>
-            <div class="col-lg-1 text-center">
-              <!-- <a class="header-brand1">
-                <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
-                  style="height:auto;max-height:48px; width: 80%;">
-              </a> -->
+              <!-- <div class="col-lg-2 text-center ">
+    
+              </div> -->
+    
+              <!-- <div class="col-lg-1"></div> -->
+              <!-- <div class="col-lg-1">
+                <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a> 
+              </div> -->
+              <!-- <div class="col-lg-1 text-center">
+                <a class="header-brand1">
+                  <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
+                    style="height:auto;max-height:48px; width: 80%;">
+                </a>
+              </div> -->
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- HEADER END -->
+    
+    
+<!-- HEADER END -->
 
-      
-      <div class="container-flex " style=" padding: 9px;    border-bottom: 1px solid #80808042;">
+    
+    <div class="container-flex " style=" padding: 9px;    border-bottom: 1px solid #80808042;">
+      <div>
+        <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
+          <a
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+            style="font-size: 16px"
+          >
+            <i
+              class="fa fa-filter"
+              aria-hidden="true"
+              style="
+                font-size: 20px;
+                color: #1d4380;
+                margin-top: 8px;
+              "
+            ></i
+            >FILTER
+          </a>
+        </p>
+      </div>
+      <div class="collapse" id="collapseExample">
+        <div
+          class="card card-body px-0 pb-0 mb-0"
+          style="border: none; box-shadow: none"
+        >
+          <form
+            #filterFormD="ngForm"
+            (ngSubmit)="onFilterDashboard(filterFormD.value)"
+          >
+            <div id="qmMulticontainer" class="col-lg-12" style="margin-top: -20px">
+              <div class="row">
+                <div class="col-lg-2 mt-2">
+                  <span class="filtor_name">Route Category</span>
+                  <ng-select
+                  (change)="onRouteCategoryChange($event)"
+                    [(ngModel)]="routeCategory"
+                    name="routeCategory"
+                    id="routeCategory"
+                    placeholder="Select Route"
+                    class=""
+                    style="font-size: 14px; font-weight: 400"
+                    [closeOnSelect]="true"
+                    [multiple]="true"
+                  >
+                  <ng-option value="" selected>All</ng-option>
+                    <ng-option
+                      *ngFor="let item of filterObject?.routeCategory | keyvalue"
+                      [value]="item?.key"
+                    >
+                      {{ item?.value }}</ng-option
+                    >
+                  </ng-select>
+                </div>
 
-        <div class="row">
-  
-          <!-- <div class="col-lg-12"> -->
-          <div class="col-lg-1">
-            <div class="row" style="display: inline-block;">
-              <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
-                aria-controls="collapseExample" style="font-size: 13px;font-weight: 500;">
-                <i class="fa fa-filter" aria-hidden="true"
-                  style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
-              </a>
+
+                  <div class="col-lg-2 mt-2">
+                    <span class="filtor_name">Route Type</span>
+                    <ng-select
+                    [(ngModel)]="selectedRoutes"
+                    name="routeType"
+                    id="routeType"
+                    placeholder="Select Route Type"
+                    notFoundText="Select route category"
+                    style="font-size: 14px; font-weight: 400"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                  >
+                    <ng-option *ngFor="let item of filterObject?.routeType | keyvalue" [value]="item.key">
+                      {{ item.value }}
+                    </ng-option>
+                  </ng-select>
+                  
+                  </div>
+             
+           
+                <!-- </div> -->
+                <div class="col-lg-1 mt-2">
+                  <button
+                    type="submit"
+                    class=""
+                    style="margin-top: 24px;
+                    background-color: #1D4380;
+                    color: white;
+                    font-family: Work Sans;
+                    font-size: 15px;
+                    padding: 4.6px 22px;
+                    border-radius: 5px;"
+                  >
+                    Submit
+                  </button>
+                </div>
+            
+              </div>
+              &nbsp;
             </div>
-          </div>
-          <div class="col-lg-12">
-            <div class="collapse" id="collapseExample">
-              <div style="display:inline-table;" class="ms-9">
-                <label>Route</label>
-              <ng-select class="io-set"  name="trigger_type" placeholder="Select"  [multiple]="false"[closeOnSelect]="true" 
-                [items]="alertData"  bindLabel="feeder_type"  [(ngModel)]="selectedRoute" (change)="changeRoutetype($event)"
-                >
-                 <!-- <ng-option *ngFor="let item of alertData  | keyvalue" [value]="item.value">{{item.value}}</ng-option> -->
-
-              </ng-select>
-              </div>
-              <div style="display:inline-table; " class="ms-2">
-                <label>Route Type</label>
-                <ng-select class="io-set"  name="trigger_type" placeholder="Select"  [multiple]="true"[closeOnSelect]="true" 
-                [items]="routeTypes_filter"  bindLabel="route_type"  [(ngModel)]="selectedRouteType"
-                >
-                 <!-- <ng-option *ngFor="let item of alertData  | keyvalue" [value]="item.value">{{item.value}}</ng-option> -->
-
-              </ng-select>
-              </div>
-              <div style="display:inline-table; " class="ms-2">
-                <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="    width: 100px !important;
-                position: absolute;"(click)="delayDashboardGeneric()" >Submit</button>
-                   
-              </div>
-            </div>
-          </div>
-
+          </form>
         </div>
       </div>
+    </div>
+    
+    <!-- <div class="col-sm-16" style="padding-left:50px;background-color:palegoldenrod">
       
-      <!-- <div class="col-sm-16" style="padding-left:50px;background-color:palegoldenrod">
-        
-        <marquee>
-            <table class="headerlabel" style="width:100%;font-weight: bold;font-size:small;color:black">
-            <tbody><tr><th colspan="4"><hr style="margin-top: 0px;margin-bottom: 0px"></th></tr>
-            <tr>
-                <td>Total Delay Trip:<span id="lbl_running" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">258</span></td>
-                <td>Air Network Delayed:<span id="lbl_air" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">109</span></td>
-                <td>SFC Network Delayed:<span id="lbl_sfc" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">132</span></td>
-                <td>SPD Network Delayed:<span id="lbl_spd" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">17</span></td>
-            </tr>
-        </tbody></table>
-        </marquee>
-    </div> -->
-
-      <div  style="overflow: auto; margin: 25px 5px;">
-        <marquee style="background-color: #1D4380;">
-          <table class="headerlabel">
-              <tbody id="marquee-content">
-                  <!-- Dynamic rows will be added here -->
-              </tbody>
-          </table>
-      </marquee>
-        <!-- <marquee style="background-color: #1D4380;">
-          <table class="headerlabel" style="width:100%;font-weight: bold;font-size:small;color:white">
+      <marquee>
+          <table class="headerlabel" style="width:100%;font-weight: bold;font-size:small;color:black">
           <tbody><tr><th colspan="4"><hr style="margin-top: 0px;margin-bottom: 0px"></th></tr>
           <tr>
-              <td>Total Delay Trip:<span id="lbl_running" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">274</span></td>
-              <td>Air Network Delayed:<span id="lbl_air" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">105</span></td>
-              <td>SFC Network Delayed:<span id="lbl_sfc" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">152</span></td>
+              <td>Total Delay Trip:<span id="lbl_running" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">258</span></td>
+              <td>Air Network Delayed:<span id="lbl_air" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">109</span></td>
+              <td>SFC Network Delayed:<span id="lbl_sfc" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">132</span></td>
               <td>SPD Network Delayed:<span id="lbl_spd" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">17</span></td>
           </tr>
       </tbody></table>
-      </marquee> -->
-        <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
-        </ngx-spinner>
-        <table class="display nowrap  table"cellspacing="0" id="DelayTable" style="text-align: center;">
-          <thead>
-            <tr>
-                
-              <th class="sorting table-primary"  >Sl No.</th>              
-              <th class="sorting table-primary"  aria-label="Vehicle No: activate to sort column ascending">Vehicle No</th>
-                <th class="sorting table-primary" aria-label="Origin: activate to sort column ascending">Origin</th>
-                <th class="sorting table-primary" aria-label="Destination: activate to sort column ascending">Destination</th>
-                <th class="sorting table-primary" aria-label="STA: activate to sort column ascending">STA</th>
-                <th class="sorting table-primary" aria-label="Delaying STA: activate to sort column ascending">Delaying STA</th>
-                <th class="sorting table-primary" aria-label="Delay Hours: activate to sort column ascending">Delay Hours</th>
-                <th class="sorting table-primary" aria-label="DelayHalt: activate to sort column ascending">Delay Halt</th>
-                <th class="sorting table-primary" aria-label="DelayReason: activate to sort column ascending">Delay Reason</th>
-                <th class="sorting table-primary" aria-label="CurrentLocation: activate to sort column ascending">Current Location</th>
-                <th class="sorting table-primary" aria-label="Vehicle Status: activate to sort column ascending">Vehicle Status</th>
-                <th class="sorting table-primary" aria-label="RouteType: activate to sort column ascending">RouteType</th>
-                <th class="sorting table-primary" aria-label="Region: activate to sort column ascending">Region</th>
-                <th class="sorting table-primary" aria-label="Route: activate to sort column ascending">Route</th>
-                <th class="sorting table-primary" aria-label="Fleet: activate to sort column ascending">Fleet</th>
-                <th class="sorting table-primary" aria-label="Run Date: activate to sort column ascending">Run Date</th>
-                <th class="sorting table-primary" aria-label="DriverName: activate to sort column ascending"><div style="width:100px;"> Driver Name</div></th>
-                <th class="sorting table-primary" aria-label="DriverNumber: activate to sort column ascending">Driver Number</th>
-                <th class="sorting table-primary" aria-label="Transporter: activate to sort column ascending">Transporter</th>
-                <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Trip Id</th>
+      </marquee>
+  </div> -->
 
-                <!-- <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Delay Halt</th>
-                <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Delay Reason</th>
-                <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Current Location</th>
-                <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Route Type</th> -->
-                <!-- delay_halt delay_reason last_address_current shipment_method-->
-                <th class="sorting table-primary" aria-label="Run Code: activate to sort column ascending">Run Code</th>
-                <th class="no-sort table-primary sorting_disabled"> <!-- Fixed GPS -->Device-1</th>
-                <th class="no-sort table-primary sorting_disabled"> <!-- Fixed Lock -->Device-2</th>
-                <th class="no-sort table-primary sorting_disabled"> <!-- Portable Lock -->Device-3</th>
-                <th class="no-sort table-primary sorting_disabled">Track(All)</th>
-                <th class="no-sort table-primary sorting_disabled">Trip Action</th>
-            </tr>
-            
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of Delay_data ;let ind=index " style="text-align: center;">
-              <td>{{ind+1}}</td>
-              <td class="map-table-marker"><a (click)="vehicleTrackF_new( item?.imei_current,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)" >{{item.vehicle_no}}</a></td>
-              <td>{{item.source_code}}</td>
-              <td>{{item.destination_code}}</td>
-              <td>{{item.schedule_arrival}}</td>
-              <td>{{item.delaying_sta}}</td>
-              <td>{{item.delay_hr}}</td>
-              <td>{{item.delay_halt}}</td>
-              <td>{{item.delay_reason}}</td>
-              <td>{{item.last_address_current}}</td>
+    <div  style="overflow: auto; margin: 25px 5px;">
+      <marquee style="background-color: #1D4380;">
+        <table class="headerlabel">
+            <tbody id="marquee-content">
+                <!-- Dynamic rows will be added here -->
+            </tbody>
+        </table>
+    </marquee>
+     
+      <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+      </ngx-spinner>
+      <table class="display nowrap  table"cellspacing="0" id="DelayTable" style="text-align: center;">
+        <thead>
+          <tr>
               
-              <!-- <td>{{item.vehicle_no}}</td>
-              <td>{{item.delay_reason}}</td>
-              <td>{{item.last_address_current}}</td> -->
-              <td> <span class="vehicle_status_current">  {{item.vehicle_status_current}}</span></td>
-              <td>{{item?.shipment_method}}</td>
-              <td>{{item?.region_code}}</td>
-              <td>{{item?.route_name}}</td>
-              <td>{{item?.fleet_no}}</td>
-              <td>{{item?.run_date}}</td>
-              <td>{{item?.driver_name}}</td>
-              <td>{{item?.driver_mobile}}</td>
-              <td>{{item?.transporter_name}}</td>
-              <td>{{item?.shipment_no}}</td>
-              <!-- <td>{{item?.vehicle_no}}</td> -->
-              <td>{{item?.run_code}}</td>
-              <td>
-                <ng-container *ngIf="item?.imei_no !=='NA' && item?.imei_no !==''">
-                <a (click)="vehicleTrackF_new( item?.imei_no,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
+            <th class="sorting table-primary"  >Sl No.</th>              
+            <th class="sorting table-primary"  aria-label="Vehicle No: activate to sort column ascending">Vehicle No</th>
+              <th class="sorting table-primary" aria-label="Origin: activate to sort column ascending">Origin</th>
+              <th class="sorting table-primary" aria-label="Destination: activate to sort column ascending">Destination</th>
+              <th class="sorting table-primary" aria-label="STA: activate to sort column ascending">STA</th>
+              <th class="sorting table-primary" aria-label="Delaying STA: activate to sort column ascending">Delaying STA</th>
+              <th class="sorting table-primary" aria-label="Delay Hours: activate to sort column ascending">Delay Hours</th>
+              <th class="sorting table-primary" aria-label="DelayHalt: activate to sort column ascending">Delay Halt</th>
+              <th class="sorting table-primary" aria-label="DelayReason: activate to sort column ascending">Delay Reason</th>
+              <th class="sorting table-primary" aria-label="CurrentLocation: activate to sort column ascending">Current Location</th>
+              <th class="sorting table-primary" aria-label="Vehicle Status: activate to sort column ascending">Vehicle Status</th>
+              <th class="sorting table-primary" aria-label="RouteType: activate to sort column ascending">RouteType</th>
+              <th class="sorting table-primary" aria-label="Region: activate to sort column ascending">Region</th>
+              <th class="sorting table-primary" aria-label="Route: activate to sort column ascending">Route</th>
+              <th class="sorting table-primary" aria-label="Fleet: activate to sort column ascending">Fleet</th>
+              <th class="sorting table-primary" aria-label="Run Date: activate to sort column ascending">Run Date</th>
+              <th class="sorting table-primary" aria-label="DriverName: activate to sort column ascending"><div style="width:100px;"> Driver Name</div></th>
+              <th class="sorting table-primary" aria-label="DriverNumber: activate to sort column ascending">Driver Number</th>
+              <th class="sorting table-primary" aria-label="Transporter: activate to sort column ascending">Transporter</th>
+              <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Trip Id</th>
+
+              <!-- <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Delay Halt</th>
+              <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Delay Reason</th>
+              <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Current Location</th>
+              <th class="sorting table-primary" aria-label="Trip Id: activate to sort column ascending">Route Type</th> -->
+              <!-- delay_halt delay_reason last_address_current shipment_method-->
+              <th class="sorting table-primary" aria-label="Run Code: activate to sort column ascending">Run Code</th>
+              <th class="no-sort table-primary sorting_disabled"> <!-- Fixed GPS -->Device-1</th>
+              <th class="no-sort table-primary sorting_disabled"> <!-- Fixed Lock -->Device-2</th>
+              <th class="no-sort table-primary sorting_disabled"> <!-- Portable Lock -->Device-3</th>
+              <th class="no-sort table-primary sorting_disabled">Track(All)</th>
+              <th class="no-sort table-primary sorting_disabled">Trip Action</th>
+          </tr>
+          
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of Delay_data ;let ind=index " style="text-align: center;">
+            <td>{{ind+1}}</td>
+            <td class="map-table-marker"><a (click)="vehicleTrackF_new( item?.imei_current,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)" >{{item.vehicle_no}}</a></td>
+            <td>{{item.source_code}}</td>
+            <td>{{item.destination_code}}</td>
+            <td>{{item.schedule_arrival}}</td>
+            <td>{{item.delaying_sta}}</td>
+            <td>{{item.delay_hr}}</td>
+            <td>{{item.delay_halt}}</td>
+            <td>{{item.delay_reason}}</td>
+            <td>{{item.last_address_current}}</td>
+            
+            <!-- <td>{{item.vehicle_no}}</td>
+            <td>{{item.delay_reason}}</td>
+            <td>{{item.last_address_current}}</td> -->
+            <td> <span class="vehicle_status_current">  {{item.vehicle_status_current}}</span></td>
+            <td>{{item?.shipment_method}}</td>
+            <td>{{item?.region_code}}</td>
+            <td>{{item?.route_name}}</td>
+            <td>{{item?.fleet_no}}</td>
+            <td>{{item?.run_date}}</td>
+            <td>{{item?.driver_name}}</td>
+            <td>{{item?.driver_mobile}}</td>
+            <td>{{item?.transporter_name}}</td>
+            <td>{{item?.shipment_no}}</td>
+            <!-- <td>{{item?.vehicle_no}}</td> -->
+            <td>{{item?.run_code}}</td>
+            <td>
+              <ng-container *ngIf="item?.imei_no !=='NA' && item?.imei_no !==''">
+              <a (click)="vehicleTrackF_new( item?.imei_no,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
+                <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
+                <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
+              </a>
+              </ng-container>
+              <ng-container *ngIf="item?.imei_no =='NA' || item?.imei_no ==''">
+              NA
+               </ng-container>  
+              
+              <!-- {{item?.fixed_lock}} -->
+            </td>
+            <td>
+              <ng-container *ngIf="item?.imei_no2 !=='NA' && item?.imei_no2 !==''">
+                <a (click)="vehicleTrackF_new( '',item?.imei_no2,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
                   <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
                   <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                 </a>
                 </ng-container>
-                <ng-container *ngIf="item?.imei_no =='NA' || item?.imei_no ==''">
-                NA
+                <ng-container *ngIf="item?.imei_no2 =='NA' || item?.imei_no2 ==''">
+                   NA
                  </ng-container>  
-                
-                <!-- {{item?.fixed_lock}} -->
-              </td>
-              <td>
-                <ng-container *ngIf="item?.imei_no2 !=='NA' && item?.imei_no2 !==''">
-                  <a (click)="vehicleTrackF_new( '',item?.imei_no2,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
-                    <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
-                    <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
-                  </a>
-                  </ng-container>
-                  <ng-container *ngIf="item?.imei_no2 =='NA' || item?.imei_no2 ==''">
-                     NA
-                   </ng-container>  
-                <!-- {{item?.portable_lock}} -->
-              </td>
-              <td>
-                <ng-container *ngIf="item?.imei_no3 !=='NA' && item?.imei_no3 !==''">
-                  <a (click)="vehicleTrackF_new( '',item?.imei_no3,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
-                    <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
-                    <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
-                  </a>
-                  </ng-container>
-                  <ng-container *ngIf="item?.imei_no3 =='NA' || item?.imei_no3 ==''">
-                     NA
-                   </ng-container>  
-                <!-- {{item?.portable_lock}} -->
-              </td>
-              <!-- <td>{{item?.portable_lock}}</td> -->
-              <td>
-                <ng-container *ngIf="item?.imei_no !=='NA' ||item?.imei_no2 !=='NA' ||item?.imei_no3 !=='NA' || item?.imei_no !==''||item?.imei_no2 !==''||item?.imei_no3 !==''">
-                <a (click)="vehicleTrackF_new( item?.imei_no,item?.imei_no2,item?.imei_no3,item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
-                  <i class="fa fa-circle map-table-marker" aria-hidden="true" ></i>
+              <!-- {{item?.portable_lock}} -->
+            </td>
+            <td>
+              <ng-container *ngIf="item?.imei_no3 !=='NA' && item?.imei_no3 !==''">
+                <a (click)="vehicleTrackF_new( '',item?.imei_no3,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
+                  <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
+                  <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                 </a>
                 </ng-container>
-                <!-- <ng-container *ngIf="">
+                <ng-container *ngIf="item?.imei_no3 =='NA' || item?.imei_no3 ==''">
+                   NA
+                 </ng-container>  
+              <!-- {{item?.portable_lock}} -->
+            </td>
+            <!-- <td>{{item?.portable_lock}}</td> -->
+            <td>
+              <ng-container *ngIf="item?.imei_no !=='NA' ||item?.imei_no2 !=='NA' ||item?.imei_no3 !=='NA' || item?.imei_no !==''||item?.imei_no2 !==''||item?.imei_no3 !==''">
+              <a (click)="vehicleTrackF_new( item?.imei_no,item?.imei_no2,item?.imei_no3,item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
+                <i class="fa fa-circle map-table-marker" aria-hidden="true" ></i>
+              </a>
+              </ng-container>
+              <!-- <ng-container *ngIf="">
 
-                </ng-container> -->
-              </td>
-           <td><a (click)="close_trip(item?.id)"><i class="fa fa-window-close map-table-marker" aria-hidden="true"></i></a></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </ng-container> -->
+            </td>
+         <td><a (click)="close_trip(item?.id,item)"><i class="fa fa-window-close map-table-marker" aria-hidden="true"></i></a></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 <!-- <div style=""><div id="pieChartContainer1" style="height:300px;width:500px; padding:0px  !important;margin:0px  !important;background:none !important"></div></div> -->
 <!-- MAP MODAL -->
-<div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-data-bs-backdrop="static" data-bs-keyboard="false">
-<div class="modal-dialog " style=" max-width: 1500px;">
-  <div class="modal-content" style="height: 700px;">
-    <div class="modal-header">
-      <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
-        ></button>
-    </div>
-    <div class="modal-body">
-      <div id="map2">
-      </div>
-    </div>
-    <div class="modal-footer" style="height: 25px;">
+<div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" style="width:1000px; max-width:1300px;position: relative;">
+    <div class="modal-content" style="height: 600px;">
+  <div class="modal-header">
+    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
+      ></button>
+  </div>
+  <div class="modal-body">
+    <div id="map2">
     </div>
   </div>
+  <div class="modal-drag-bottom py-1" style="background:white; cursor: move; height: 10px;"></div>
+  <div class="modal-footer">
+    <!-- stored_imei -->
+     <ng-container *ngFor="let item of stored_imei ;let ind=index">
+      <ng-container *ngIf="item!==''" >
+    <button  type="button" (click)="vehicleTrackF_new(item, '', '', stored_data[0], stored_data[1], '', '', stored_data[2]) ">
+      <i class="fa fa-map-marker" tooltipClass="customInactive-tooltip-class" [ngbTooltip]="item" 
+        style="font-size: 20px;color: #1D6F42; " id="blink"
+      ></i><span>{{ind+1}}</span></button>
+     </ng-container>
+    </ng-container>
+  </div>
+</div>
 </div>
 </div>
 
-<div class="modal fade" id="closeTrip" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-data-bs-backdrop="static" data-bs-keyboard="false">
-<div class="modal-dialog " style=" max-width: 669px;">
-  <div class="modal-content" style="height: 200px;">
-    <div class="modal-header">
-      <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
-        ></button>
-    </div>
-    <div class="modal-body">
-      <!-- <div id="map2"> -->
-        <div class="col-lg-12">
-          <!-- <div class="collapse" id="collapseExample"> -->
-            <div style="display:inline-table;" class="ms-4">
-              <label>ATA</label>
-              <input type="text" data-date-format="YYYY-MM-DD" id="datepicker" (click)="start()"
-              class="form-control" [ngModel]="datetimepicker1" required name="ATA"  />
-            </div>
-            <div style="display:inline-table; " class="ms-2">
-              <label>Remark</label>
-              <input type="text" class="form-control" name="Remark" [(ngModel)]="Remark" />
-            </div>
-            <div style="display:inline-table; " class="ms-2">
-              <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="    width: 100px !important;
-              position: absolute;" (click)="submitclose()" >Submit</button>
-                 
-            <!-- </div> -->
+
+<div class="modal fade" id="closetripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+
+<div class="modal-dialog" style="margin-left: 458px;width:580px;max-width: 600px;">
+<div class="modal-content" style="height: fit-content;border: 3px solid #1c84c6">
+
+  <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+
+      <h5 class="modal-title" id="exampleModalLabel"
+          style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Close Trip
+      </h5>
+      <button type="button" class="btn-close btn-sm" (click)="closeT.reset()" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <form #closeT="ngForm" (ngSubmit)="closeTripF(closeT.value)">
+      <!-- ;closeT.reset() -->
+      <div class="col-lg-12" style="margin-top: 6px">
+        <div class="col-lg-10 mb-2 d-flex flex-column">
+          <div class="d-flex align-items-center"><p class="m-0" style="font-size: 16px;font-weight: 600;color: #1D4380;">Trip ID :</p> <span style="font-weight: 600;">{{transhipDetails?.shipment_no}} </span></div>
+          <div class="d-flex align-items-center"><p class="m-0" style="font-size: 16px;font-weight: 600;color: #1D4380;" >Run Date : </p> <span style="font-weight: 600;">{{transhipDetails?.run_date}} </span></div>
+          <div class="d-flex align-items-center"><p class="m-0" style="font-size: 16px;font-weight: 600;color: #1D4380;">Route : </p><span style="font-weight: 600;">{{transhipDetails?.route_name}}</span></div>
+        </div>
+        <div class="d-flex flex-wrap">
+          <!-- Vehicle -->
+          <div class="col-lg-6">
+            <span class="filtor_name">Select Location</span>
+            <ng-select
+             [ngModel]
+             name="Location"
+             id="tripLocation"
+             placeholder="Select Location"
+             class=""
+             style="font-size: 14px; font-weight: 400"
+             [closeOnSelect]="true"
+           >
+             <ng-container *ngFor="let loc of tripLocation">
+               <ng-option *ngIf="loc?.sequence_no !== '1'" [value]="loc">
+                 {{ loc?.location_code }}
+               </ng-option>
+             </ng-container>
+           </ng-select>
+
+          </div>
+          <div class="col-lg-6">
+            <span class="filtor_name">Arrival Time</span>
+            <!-- <input  style="font-size: 12px;border-radius: 4px;height: fit-content;" type="datetime-local" step="1" class="form-control cutombox"
+            ngModel="datetimepicker1" required name="time" /> -->
+            <input type="text"  id="datepickerclose" (click)="Arrival_time()" placeholder="yyyy-mm-dd HH:mm:ss"
+            class="form-control" [ngModel]="datetimepicker_A" required name="time"  />
+          </div>      
+          <div class="col-lg-12 mt-3">
+            <span class="filtor_name"> Remark</span>
+            <input
+              type="text"
+              [ngModel]
+              name="Remark"
+              id="Remark"
+              placeholder="Enter Remark"
+              class="form-control"
+              style="font-size: 14px; font-weight: 400"
+            />
+          </div>
+         
+        </div>
+        &nbsp;
+      </div>
+   
+      <!-- Submit Button -->
+      <div style="white-space: nowrap;" class="col-lg-12 mt-2">
+        <div class="row mt-2">
+          <div style="text-align: center;" class="d-flex m-auto">
+            <button class="btn w-fit m-auto" type="submit" style=" color: white;background: #1D4380;">
+              Close Trip
+            </button>
           </div>
         </div>
       </div>
-    <!-- </div> -->
-    <div class="modal-footer" style="height: 25px;">
-    </div>
+    </form>
+   
   </div>
+
 </div>
+
+</div>
+
 </div>

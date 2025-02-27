@@ -87,7 +87,7 @@ export class AuthService {
     return this.http.post('http://uat.api.secutrak.in/dev-app-itraceit/loginGroupZip', data);
   }
   loginServiceHandlernew(data) {
-    
+    // 
     return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/loginV2', data);
     // return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/loginV2', data);
 

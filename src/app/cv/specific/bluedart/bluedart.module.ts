@@ -29,13 +29,17 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.component';
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
+import { SummaryReportComponent } from './summary-report/summary-report.component';
+import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     IrunDashboardComponent,
     DelayDashboardComponent,
-    SummaryDashboardComponent
+    SummaryDashboardComponent,
+    SummaryReportComponent,
+    TriggerSummaryComponent
   ],
   imports: [
     CommonModule,

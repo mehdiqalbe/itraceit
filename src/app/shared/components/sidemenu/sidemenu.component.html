@@ -10,9 +10,10 @@
             <img src="assets/images/brand/logo-3.png" class="header-brand-img light-logo1" alt="logo" id="change-image">
         </a>
 
+
         <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
     </div> -->
-    
+   
     <!-- (mouseover)="hoverEffect($event)"
             (mouseout)="hoverEffect($event)" -->
         <perfect-scrollbar >
@@ -55,18 +56,18 @@
                               <ul class="dropdown-menu scrollable" aria-labelledby="dropdownMenuButton" id="myDropdownregion" style=" position: absolute; left: -171px !important;">
                                 <!--  -->
                                            <li><a  (click)="logout()" >
-                                        <i class="fa fa-power-off"style="font-size: 17px;color: black;cursor: pointer;"> 
+                                        <i class="fa fa-power-off"style="font-size: 17px;color: black;cursor: pointer;">
                                             <span style="    font-size: 16px; font-family: math;position: relative;    top: -2px;left: 14px;"> Logout</span> </i> </a></li>
-                                      
+                                     
                                        
                                    
-                
+               
                                 <!-- <li><a class="dropdown-item" href="#">Guldhar</a></li> -->
                               </ul>
                             </div>
                           </div>
                     </span>
-                    
+                   
                     <!-- <span class="text-muted text-xs block">
                         District Manager                                <b class="caret"></b>
                     </span> -->
@@ -105,14 +106,16 @@
                 <! -- Sub -->
                 <a href="javascript:void(0)" class="side-menu__item" [ngClass]="{active: menuItem.active}"
                     *ngIf="menuItem.type === 'sub'" (click)="toggleNavActive(menuItem);sidebarToggle_open() ">
-                    
+                   
                     <!-- <i class="side-menu__icon " ></i> -->
                     <i class="side-menu__icon {{menuItem.deactive_img}}" title="{{menuItem.title}}" ></i>
                     <!-- <img class="img-responsive side-menu__icon mb-50" src="assets/images/users/{{menuItem.img}}.svg" > -->
                     <!-- <img class="img-responsive mb-50" src="assets/images/users/{{menuItem.img}}.png" style=" margin-top: 14px;"> -->
                     <span class="title side-menu__label">{{menuItem.title}}</span>
 
+
                     <i class="angle fa fa-angle-{{menuItem.active ? 'left' : 'down'}}" *ngIf="menuItem.children" style="padding-right: 10px;"></i>
+
 
                 </a>
                 <!-- link -->
@@ -130,6 +133,7 @@ class="side-menu__item"
 <span class=" title side-menu__label" >{{menuItem.title}}</span>
 </a>
 
+
 <!-- For External Links -->
 <a *ngIf="menuItem.type === 'link' && isExternalUrl(menuItem.path)"
 [href]="menuItem.path"
@@ -141,24 +145,27 @@ class="side-menu__item"
 <i class="side-menu__icon {{menuItem.deactive_img}}"  title="{{menuItem.title}}"style="color: white;"></i>
 <span class=" title side-menu__label" >{{menuItem.title}}</span>
 </a>
-                    
+                   
                     <!-- <span   *ngIf="menuItem.status == 0">
                         <img class="img-responsive images " src="assets/images/users/intractive/{{menuItem.deactive_img}}.svg"  >
                     </span>
                     <span   *ngIf="menuItem.status == 1">
                         <img class="img-responsive images1 " src="assets/images/users/intractive/{{menuItem.active_img}}.svg"  >
                     </span>   -->
-                    
+                   
+
+
 
 
                     <!-- <span class=" title side-menu__label" >{{menuItem.title}}</span> -->
                     <!-- <span class="sub side-menu__label"> <img class="img-responsive" src="assets/images/users/sub.png"/></span> -->
                 <!-- </a> -->
 
+
                 <!-- 2nd level menu -->
                 <ul class="slide-menu" [ngClass]="{active: menuItem.active}" *ngIf="menuItem.children">
                     <ng-container *ngFor="let childrenItem of menuItem.children" >
-                    <li 
+                    <li
                    [ngClass]="{active: childrenItem.active, 'is-expanded': childrenItem.active}" routerLinkActive="active"
                         [routerLinkActiveOptions]="{exact: true}">
                         <!-- Sub -->
@@ -181,7 +188,7 @@ class="side-menu__item"
                         [routerLinkActiveOptions]="{exact: true}" style="padding-left: 27% !important;font-size: 13px;">
                         <span class=" side-menu__label" >{{childrenItem.title}}</span>
                     </a>
-                        
+                       
                         <ul class="sub-slide-menu" *ngIf="childrenItem.children" [ngClass]="{active: childrenItem.active}">
                             <li *ngFor="let childrenSubItem of childrenItem.children"
                                 [ngClass]="{active: childrenSubItem.active}">
@@ -200,8 +207,9 @@ class="side-menu__item"
             </li>
            </ng-container>
         </ul>
-        
+       
        </div>
     </perfect-scrollbar>
     </aside>
 <!-- </div> -->
+

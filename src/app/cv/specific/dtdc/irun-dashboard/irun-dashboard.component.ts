@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import * as echarts from 'echarts';
 import { Chart } from 'chart.js';
+import { Router } from '@angular/router';
 declare var H: any;
 interface HTMLCanvasElement {
   willReadFrequently?: boolean;
@@ -343,7 +344,7 @@ export class IrunDashboardComponent implements  OnInit
   alert_dashboard:any=[];
   defaultLayers:any;
  /////////////////////////////////////////////////////////////////////////////////////end popup model
- constructor(private navServices: NavService,private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+ constructor(private router: Router,private navServices: NavService,private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
  ngOnInit(): void {
@@ -638,7 +639,8 @@ sidebarToggle() {
 
 
              },
-             title: 'dashboard_repor'
+            //  title: 'IRUN Dashboard Report'
+             title: 'IRUN Dashboard Report'
            },
            {
              extend: 'pdf',
@@ -650,7 +652,7 @@ sidebarToggle() {
 
              titleAttr: 'Download Pdf file',
              tag: 'span',
-
+             title: 'IRUN Dashboard Report',
              className: 'datatablepdf-btn fa fa-file-pdf-o ',
              text: '',
              customize: function (doc) {
@@ -672,7 +674,7 @@ sidebarToggle() {
                //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
              },
-             title: 'dashboard_repor'
+            //  title: 'IRUN Dashboard Report'
            },
            {
              extend: 'copy',
@@ -690,7 +692,8 @@ sidebarToggle() {
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+            //  title: 'IRUN Dashboard Report'
+             title: 'IRUN Dashboard Report'
            },
            {
              extend: 'excel',
@@ -712,7 +715,8 @@ sidebarToggle() {
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+            //  title: 'IRUN Dashboard Report'
+             title: 'IRUN Dashboard Report'
            }]
      }
 
@@ -748,6 +752,23 @@ sidebarToggle() {
    // alert("end");
   //this.draw_polyline.setMap();
  }
+ initMap1() 
+ {
+  //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+   const center = { lat: 23.2599, lng: 77.4126 };
+
+  //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+  // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+// 
+
+   this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+     zoom: 4,
+      center: center,
+     mapTypeId: google.maps.MapTypeId.ROADMAP,
+     scaleControl: true,
+   }
+   );   
+ }
  ///////////////////////////////////////////////
 //  initMap1() {
 //   // Initialize the map only if it hasn't been initialized yet
@@ -776,32 +797,7 @@ sidebarToggle() {
 // }
 
  ///////////////////////////////////////////////
- initMap1() 
- {
 
-
-  //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
-   const center = { lat: 23.2599, lng: 77.4126 };
-
-  //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
-  // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
-// 
-
-   this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-     zoom: 4,
-      center: center,
-
-     mapTypeId: google.maps.MapTypeId.ROADMAP,
-     scaleControl: true,
-
-   }
-   );
-
- 
-
-   
-     
- }
  ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1213,170 +1209,170 @@ sidebarToggle() {
 
 
 
-   var tbl = $('#triggerTableFull')
-   $(document).ready(function () {
+  var tbl = $('#triggerTableFull')
+  $(document).ready(function () {
 
 
 
-     $('#triggerTableFull').DataTable({
+    $('#triggerTableFull').DataTable({
 
 
-       pageLength: 10,
-       fixedHeader: true,
-       // scrollX: true,
-       scrollY: '400px',
-       // scrollCollapse: true,
-       paging: true,
-       scrollX: true,
-       destroy: true,
-       responsive: true,
-       retrieve: false,
-       inilitizer: true,
-       autoWidth: true,
-
-
-
-       "order": [],
-
-       dom: '<"html5buttons"B>lTfgitp',
-
-       columnDefs: [
-         { targets: 'no-sort', orderable: false }
-       ],
-       // dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
-       // "<'row'<'col-sm-12'tr>>" +
-       // "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-       buttons:
-         [
-           //   text: 'Close',
-           //   className: 'tableBtnClose',
-           //   action: function ( e, dt, node, config ) {
-           //    buttonFunction()
-           //   }},
-           //   {
-           //     text: 'Grace',
-           //     className: 'tableBtnClose',
-           //     action: function ( e, dt, node, config ) {
-           //       buttonFunction()
-           //     }},
-           //     {
-           //       text: 'QRT',
-           //       className: 'tableBtnClose',
-           //       action: function ( e, dt, node, config ) {
-           //         buttonFunction()
-           //       }},
-           //       {
-           //         text: 'Escalate',
-           //         className: 'tableBtnClose',
-           //         action: function ( e, dt, node, config ) {
-           //           buttonFunction()
-           //         }},
-           {
-             extend: 'csv',
-             footer: true,
-             autoClose: 'true',
-             titleAttr: 'Download csv file',
-
-             className: 'datatablecsv-btn fa fa-file-text-o ',
-             text: '',
-             tag: 'span',
-
-             exportOptions: {
-
-               columns: ':visible',
-
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'pdf',
-             footer: true,
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-
-             autoClose: 'true',
-
-             titleAttr: 'Download Pdf file',
-             tag: 'span',
-
-             className: 'datatablepdf-btn fa fa-file-pdf-o ',
-             text: '',
-             customize: function (doc) {
-               var colCount = new Array();
-               $(tbl).find('tbody tr:first-child td').each(() => {
-                 if ($(this).attr('colspan')) {
-                   for (var i = 1; i <= $(this).attr('colspan'); i++) {
-                     colCount.push('*');
-                   }
-                 } else { colCount.push('*'); }
-               });
-               doc.content[1].table.widths = colCount;
-             },
-
-
-             exportOptions: {
-
-               columns: ':visible',
-               //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'copy',
-             footer: true,
-             titleAttr: ' Copy  file',
-
-             tag: 'span',
-
-             className: 'datatablecopy-btn fa fa-copy ',
-             text: '',
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-             exportOptions: {
-
-               columns: ':visible'
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'excel',
-             footer: true,
-             autoClose: 'true',
-             //text: '',
-             //className: 'fa fa-file-pdf-o',
-             //color:'#ff0000',
-
-             buttons: ['excel'],
-             titleAttr: ' Download excel file',
-
-             tag: 'span',
-
-             className: 'datatableexcel-btn fa fa-file-excel-o',
-             text: '',
-             exportOptions: {
-
-               columns: ':visible'
-
-             },
-             title: 'dashboard_repor'
-           }],
-       "language": {
-         search: '',
-         searchPlaceholder: 'Search'
-       },
-     }
-
-     );
-   });
+      pageLength: 10,
+      fixedHeader: true,
+      // scrollX: true,
+      scrollY: '400px',
+      // scrollCollapse: true,
+      paging: true,
+      scrollX: true,
+      destroy: true,
+      responsive: true,
+      retrieve: false,
+      inilitizer: true,
+      autoWidth: true,
 
 
 
+      "order": [],
 
-   // console.log("table length2",datatable.length)
- }
+      dom: '<"html5buttons"B>lTfgitp',
+
+      columnDefs: [
+        { targets: 'no-sort', orderable: false }
+      ],
+      // dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+      // "<'row'<'col-sm-12'tr>>" +
+      // "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+      buttons:
+        [
+          //   text: 'Close',
+          //   className: 'tableBtnClose',
+          //   action: function ( e, dt, node, config ) {
+          //    buttonFunction()
+          //   }},
+          //   {
+          //     text: 'Grace',
+          //     className: 'tableBtnClose',
+          //     action: function ( e, dt, node, config ) {
+          //       buttonFunction()
+          //     }},
+          //     {
+          //       text: 'QRT',
+          //       className: 'tableBtnClose',
+          //       action: function ( e, dt, node, config ) {
+          //         buttonFunction()
+          //       }},
+          //       {
+          //         text: 'Escalate',
+          //         className: 'tableBtnClose',
+          //         action: function ( e, dt, node, config ) {
+          //           buttonFunction()
+          //         }},
+          {
+            extend: 'csv',
+            footer: true,
+            autoClose: 'true',
+            titleAttr: 'Download csv file',
+
+            className: 'datatablecsv-btn fa fa-file-text-o ',
+            text: '',
+            tag: 'span',
+
+            exportOptions: {
+
+              columns: ':visible',
+
+
+            },
+            title: 'Open Trigger Report'
+          },
+          {
+            extend: 'pdf',
+            footer: true,
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+
+            autoClose: 'true',
+
+            titleAttr: 'Download Pdf file',
+            tag: 'span',
+
+            className: 'datatablepdf-btn fa fa-file-pdf-o ',
+            text: '',
+            customize: function (doc) {
+              var colCount = new Array();
+              $(tbl).find('tbody tr:first-child td').each(() => {
+                if ($(this).attr('colspan')) {
+                  for (var i = 1; i <= $(this).attr('colspan'); i++) {
+                    colCount.push('*');
+                  }
+                } else { colCount.push('*'); }
+              });
+              doc.content[1].table.widths = colCount;
+            },
+
+
+            exportOptions: {
+
+              columns: ':visible',
+              //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
+
+            },
+            title: 'Open Trigger Report'
+          },
+          {
+            extend: 'copy',
+            footer: true,
+            titleAttr: ' Copy  file',
+
+            tag: 'span',
+
+            className: 'datatablecopy-btn fa fa-copy ',
+            text: '',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            exportOptions: {
+
+              columns: ':visible'
+
+            },
+            title: 'Open Trigger Report'
+          },
+          {
+            extend: 'excel',
+            footer: true,
+            autoClose: 'true',
+            //text: '',
+            //className: 'fa fa-file-pdf-o',
+            //color:'#ff0000',
+
+            buttons: ['excel'],
+            titleAttr: ' Download excel file',
+
+            tag: 'span',
+
+            className: 'datatableexcel-btn fa fa-file-excel-o',
+            text: '',
+            exportOptions: {
+
+              columns: ':visible'
+
+            },
+            title: 'Open Trigger Report'
+          }],
+      "language": {
+        search: '',
+        searchPlaceholder: 'Search'
+      },
+    }
+
+    );
+  });
+
+
+
+
+  // console.log("table length2",datatable.length)
+}
  //////////////////////trigger click history function ////////////////////////////////////////////////
  triggerHistoryClickF() {
    this.triggerstring = ''
@@ -1793,7 +1789,9 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
      dash = data
      if(dash.Dashboard ==null){
       this.SpinnerService.hide();
-      alert("Data is not available")
+      alert("Data is not available");
+      this.router.navigate([`/auth/login`]);
+      
     }else{
      this.alert_keys=[];
      this.alert_dashboard=dash.UnattendedTrigger;
@@ -2088,7 +2086,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
    var formdata = new FormData();
    formdata.append('AccessToken', this.token)
    formdata.append('ImeiNo', imei);
-
+   formdata.append('portal', 'itraceit');
    this.latlngbounds = new google.maps.LatLngBounds();
    // console.log("live location", lat, long)
    this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
@@ -2349,6 +2347,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     var formdata = new FormData();
     formdata.append('AccessToken', this.token)
     formdata.append('ImeiNo', imei);
+    formdata.append('portal', 'itraceit');
     if (imei == '') {
       alert("Fixed Imei not found")
     }
@@ -2841,7 +2840,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     var formdata = new FormData();
     formdata.append('AccessToken', this.token)
     formdata.append('ImeiNo', imei);
-
+    formdata.append('portal', 'itraceit');
 
     this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
 
@@ -3133,7 +3132,7 @@ liveLocation(lat, long, driver_mobile, driver_name, halt_time, transporter_name,
   var formdata = new FormData();
   formdata.append('AccessToken', this.token)
   formdata.append('ImeiNo', imei);
-
+  formdata.append('portal', 'itraceit');
   this.latlngbounds = new google.maps.LatLngBounds();
   // console.log("live location", lat, long)
   this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
@@ -3382,7 +3381,7 @@ liveLocation2(lat, long, driver_mobile, driver_name, halt_time, transporter_name
   var locationData
   var formdata = new FormData();
   formdata.append('AccessToken', this.token)
-  formdata.append('ImeiNo', imei);
+  formdata.append('ImeiNo', imei);formdata.append('portal', 'itraceit');
   if(imei == '')
    {
      alert("Fixed Imei not found")
@@ -3655,7 +3654,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
  var formdata = new FormData();
  formdata.append('AccessToken', this.token)
  formdata.append('ImeiNo', imei);
-
+ formdata.append('portal', 'itraceit');
 
  this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
 
@@ -3912,7 +3911,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
    var formdata = new FormData();
    formdata.append('AccessToken', this.token)
    formdata.append('ImeiNo', imei2);
-
+   formdata.append('portal', 'itraceit');
 
    this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
 
@@ -4850,7 +4849,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
      "action_details": {
        "trigger_id": this.graceId,
        "grace_period": value.grace_hour,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": this.graceTble_email,
        "sms_to": this.graceTble_phoneno,
        "remarks": value.graceRemarks,
@@ -4972,7 +4971,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
        "trigger_log_id": this.graceId,
 
        "aalert_type": this.graceAlertType,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": "",
        "sms_to": ""
 
@@ -5073,7 +5072,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
        "trigger_log_id": this.graceId_string,
 
        "alert_type": this.alertype_string,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": "",
        "sms_to": ""
 
@@ -5241,7 +5240,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
        "trigger_log_id": this.graceId_string,
 
        "alert_type": this.alertype_string,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": "",
        "sms_to": ""
 
@@ -5433,7 +5432,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
        "trigger_id": this.graceId,
        "level": value.actionLevel,
        "alert_type": this.graceAlertType,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": this.checkbox_email,
        "sms_to": this.checkbox_phoneno
 
@@ -6122,6 +6121,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
      formData.append('imei', imei);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
+     formData.append('portal', 'itraceit');
      this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, item.run_date, currentDateTime, imei, this.group_id, this.account_id);
@@ -6276,7 +6276,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
              formdataCustomer.append('ImeiNo', imei);
              // formdataCustomer.append('ImeiNo',data.imei);
              formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+             formdataCustomer.append('portal', 'itraceit');
 
              this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
 
@@ -6773,6 +6773,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
      formData.append('imei', imei);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
+     formData.append('portal', 'itraceit');
      this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
        // this.initMap1();
        // console.log("vehicle tracking responce tracking", res);
@@ -6884,7 +6885,7 @@ let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mo
              // formdataCustomer.append('ImeiNo',data.imei);
              formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
 
-
+             formdataCustomer.append('portal', 'itraceit');
              this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
 
                // console.log("responce", res)
@@ -7330,13 +7331,14 @@ vehicleTrackF(run_date, imei, vehicle_no, item, Id, route_id, alertsummary, lati
     formData.append('imei', imei);
     formData.append('group_id', this.group_id);
     formData.append('AccountId', this.account_id);
-
+    formData.append('portal', 'itraceit');
     this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
       console.log("tracking res", res);
       if(res.Status=="failed")
       {
         alert(res?.Message);
         this.SpinnerService.hide("tracking");
+        this.router.navigate([`/auth/login`]);
         
       }
       this.trackingData = res.data;
@@ -7474,11 +7476,12 @@ vehicleTrackF_new(run_date, imei, vehicle_no, item, Id, route_id, alertsummary, 
     formData.append('imei', imei);
     formData.append('group_id', this.group_id);
     formData.append('AccountId', this.account_id);
-
+    formData.append('portal', 'itraceit');
     this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
       console.log("tracking res", res);
       if (res.Status == "failed") {
         alert(res?.Message);
+        this.router.navigate([`/auth/login`]);
         // this.SpinnerService.hide("tracking");
 
       }
@@ -7625,7 +7628,7 @@ handleMarkerClick(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+  formdataCustomer.append('portal', 'itraceit');
   this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
     console.log(res)
     const address = res.Data.Address;
@@ -7643,7 +7646,7 @@ async handleMarkerClick1(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
-
+  formdataCustomer.append('portal', 'itraceit');
   const res:any = await this.itraceIt.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
  console.log("res",res)
   const address = res.Data.Address;
@@ -8592,7 +8595,7 @@ closeLastOpenedInfoWindow() {
     formData.append('time_interval', '60');
     formData.append('imei', imei);
     formData.append('group_id', this.group_id);
-    formData.append('AccountId', this.account_id);
+    formData.append('AccountId', this.account_id); formData.append('portal', 'itraceit');
     this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
       // this.initMap1();
      console.log("vehicle trackong",res);
@@ -8710,7 +8713,7 @@ closeLastOpenedInfoWindow() {
            formdataCustomer.append('ImeiNo', imei);
            // formdataCustomer.append('ImeiNo',data.imei);
            formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+           formdataCustomer.append('portal', 'itraceit');
 
            this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
 
@@ -9199,6 +9202,7 @@ closeMap()
      formData.append('imei', imei2);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
+     formData.append('portal', 'itraceit');
      this.itraceIt.vehicleTrackongS(formData).subscribe(res => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, run_date, currentDateTime, imei2, this.group_id, this.account_id);
@@ -9314,7 +9318,7 @@ closeMap()
              formdataCustomer.append('ImeiNo', imei2);
              // formdataCustomer.append('ImeiNo',data.imei);
              formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+             formdataCustomer.append('portal', 'itraceit');
 
              this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
 
@@ -9746,6 +9750,7 @@ closeMap()
      formData.append('imei', imei2);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
+     formData.append('portal', 'itraceit');
      this.itraceIt.vehicleTrackongS(formData).subscribe(res => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, run_date, currentDateTime, imei2, this.group_id, this.account_id);
@@ -9857,7 +9862,7 @@ closeMap()
            formdataCustomer.append('ImeiNo', imei2);
            // formdataCustomer.append('ImeiNo',data.imei);
            formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+           formdataCustomer.append('portal', 'itraceit');
 
            this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
 
@@ -10328,6 +10333,7 @@ closeMap()
      formData.append('imei', imei2);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
+     formData.append('portal', 'itraceit');
      this.itraceIt.vehicleTrackongS(formData).subscribe(res => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, run_date, currentDateTime, imei2, this.group_id, this.account_id);
@@ -10441,7 +10447,7 @@ closeMap()
            // formdataCustomer.append('ImeiNo',data.imei);
            formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
 
-
+           formdataCustomer.append('portal', 'itraceit');
            this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
 
              console.log("responce", res)
@@ -10938,6 +10944,7 @@ closeMap()
      '<td style="width:1%;color: blue;">:</td>' +
      '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
      '</tr>' +
+     '<tr>' + data.io + '<tr>' +
      '<tr>' +
      '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Location Type</td>' +
      '<td style="width:1%;color: blue;">:</td>' +
@@ -11059,7 +11066,7 @@ closeMap()
 
 
              },
-             title: 'dashboard_repor'
+             title: 'Threats Report'
            },
            {
              extend: 'pdf',
@@ -11093,7 +11100,7 @@ closeMap()
                //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
              },
-             title: 'dashboard_repor'
+             title: 'Threats Report'
            },
            {
              extend: 'copy',
@@ -11111,7 +11118,7 @@ closeMap()
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+             title: 'Threats Report'
            },
            {
              extend: 'excel',
@@ -11133,7 +11140,7 @@ closeMap()
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+             title: 'Threats Report'
            }],
        "language": {
          search: '',
@@ -11320,176 +11327,176 @@ closeMap()
  //////////////////////////////////////////////////////////last alert table function////////////////
  lastAlertTable() {
 
-   var tbl = $('#lastalertTableId')
-   var table = $('#lastalertTableId').DataTable();
-   table.destroy();
-   // table.clear().draw();
+  var tbl = $('#lastalertTableId')
+  var table = $('#lastalertTableId').DataTable();
+  table.destroy();
+  // table.clear().draw();
 
-   setTimeout(() => {
+  setTimeout(() => {
 
-     $(document).ready(function () {
+    $(document).ready(function () {
 
-       // table.columns.adjust()
+      // table.columns.adjust()
 
-       $('#lastalertTableId').DataTable({
-
-
-         pageLength: 10,
-         fixedHeader: true,
-         // scrollX: true,
-         scrollY: '400px',
-         // scrollCollapse: true,
-         paging: true,
-         scrollX: true,
-         destroy: true,
-         responsive: true,
-         retrieve: false,
-         // initialize:true,
-         autoWidth: true,
-         columnAdjust: true,
+      $('#lastalertTableId').DataTable({
 
 
+        pageLength: 10,
+        fixedHeader: true,
+        // scrollX: true,
+        scrollY: '400px',
+        // scrollCollapse: true,
+        paging: true,
+        scrollX: true,
+        destroy: true,
+        responsive: true,
+        retrieve: false,
+        // initialize:true,
+        autoWidth: true,
+        columnAdjust: true,
 
 
-         "order": [],
-
-         dom: '<"html5buttons"B>lTfgitp',
-
-         columnDefs: [
-           { targets: 'no-sort', orderable: false }
-         ],
-         // dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
-         // "<'row'<'col-sm-12'tr>>" +
-         // "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-         buttons:
-           [
-             //   text: 'Close',
-             //   className: 'tableBtnClose',
-             //   action: function ( e, dt, node, config ) {
-             //    buttonFunction()
-             //   }},
-             //   {
-             //     text: 'Grace',
-             //     className: 'tableBtnClose',
-             //     action: function ( e, dt, node, config ) {
-             //       buttonFunction()
-             //     }},
-             //     {
-             //       text: 'QRT',
-             //       className: 'tableBtnClose',
-             //       action: function ( e, dt, node, config ) {
-             //         buttonFunction()
-             //       }},
-             //       {
-             //         text: 'Escalate',
-             //         className: 'tableBtnClose',
-             //         action: function ( e, dt, node, config ) {
-             //           buttonFunction()
-             //         }},
-             {
-               extend: 'csv',
-               footer: true,
-               autoClose: 'true',
-               titleAttr: 'Download csv file',
-
-               className: 'datatablecsv-btn fa fa-file-text-o ',
-               text: '',
-               tag: 'span',
-
-               exportOptions: {
-
-                 columns: ':visible',
 
 
-               },
-               title: 'dashboard_repor'
-             },
-             {
-               extend: 'pdf',
-               footer: true,
-               orientation: 'landscape',
-               pageSize: 'LEGAL',
+        "order": [],
 
-               autoClose: 'true',
+        dom: '<"html5buttons"B>lTfgitp',
 
-               titleAttr: 'Download Pdf file',
-               tag: 'span',
+        columnDefs: [
+          { targets: 'no-sort', orderable: false }
+        ],
+        // dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+        // "<'row'<'col-sm-12'tr>>" +
+        // "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        buttons:
+          [
+            //   text: 'Close',
+            //   className: 'tableBtnClose',
+            //   action: function ( e, dt, node, config ) {
+            //    buttonFunction()
+            //   }},
+            //   {
+            //     text: 'Grace',
+            //     className: 'tableBtnClose',
+            //     action: function ( e, dt, node, config ) {
+            //       buttonFunction()
+            //     }},
+            //     {
+            //       text: 'QRT',
+            //       className: 'tableBtnClose',
+            //       action: function ( e, dt, node, config ) {
+            //         buttonFunction()
+            //       }},
+            //       {
+            //         text: 'Escalate',
+            //         className: 'tableBtnClose',
+            //         action: function ( e, dt, node, config ) {
+            //           buttonFunction()
+            //         }},
+            {
+              extend: 'csv',
+              footer: true,
+              autoClose: 'true',
+              titleAttr: 'Download csv file',
 
-               className: 'datatablepdf-btn fa fa-file-pdf-o ',
-               text: '',
-               customize: function (doc) {
-                 var colCount = new Array();
-                 $(tbl).find('tbody tr:first-child td').each(() => {
-                   if ($(this).attr('colspan')) {
-                     for (var i = 1; i <= $(this).attr('colspan'); i++) {
-                       colCount.push('*');
-                     }
-                   } else { colCount.push('*'); }
-                 });
-                 doc.content[1].table.widths = colCount;
-               },
+              className: 'datatablecsv-btn fa fa-file-text-o ',
+              text: '',
+              tag: 'span',
+
+              exportOptions: {
+
+                columns: ':visible',
 
 
-               exportOptions: {
+              },
+              title: 'Open Trigger Report'
+            },
+            {
+              extend: 'pdf',
+              footer: true,
+              orientation: 'landscape',
+              pageSize: 'LEGAL',
 
-                 columns: ':visible',
-                 //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
+              autoClose: 'true',
 
-               },
-               title: 'dashboard_repor'
-             },
-             {
-               extend: 'copy',
-               footer: true,
-               titleAttr: ' Copy  file',
+              titleAttr: 'Download Pdf file',
+              tag: 'span',
 
-               tag: 'span',
+              className: 'datatablepdf-btn fa fa-file-pdf-o ',
+              text: '',
+              customize: function (doc) {
+                var colCount = new Array();
+                $(tbl).find('tbody tr:first-child td').each(() => {
+                  if ($(this).attr('colspan')) {
+                    for (var i = 1; i <= $(this).attr('colspan'); i++) {
+                      colCount.push('*');
+                    }
+                  } else { colCount.push('*'); }
+                });
+                doc.content[1].table.widths = colCount;
+              },
 
-               className: 'datatablecopy-btn fa fa-copy ',
-               text: '',
-               orientation: 'landscape',
-               pageSize: 'LEGAL',
-               exportOptions: {
 
-                 columns: ':visible'
+              exportOptions: {
 
-               },
-               title: 'dashboard_repor'
-             },
-             {
-               extend: 'excel',
-               footer: true,
-               autoClose: 'true',
-               //text: '',
-               //className: 'fa fa-file-pdf-o',
-               //color:'#ff0000',
+                columns: ':visible',
+                //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
-               buttons: ['excel'],
-               titleAttr: ' Download excel file',
+              },
+              title: 'Open Trigger Report'
+            },
+            {
+              extend: 'copy',
+              footer: true,
+              titleAttr: ' Copy  file',
 
-               tag: 'span',
+              tag: 'span',
 
-               className: 'datatableexcel-btn fa fa-file-excel-o',
-               text: '',
-               exportOptions: {
+              className: 'datatablecopy-btn fa fa-copy ',
+              text: '',
+              orientation: 'landscape',
+              pageSize: 'LEGAL',
+              exportOptions: {
 
-                 columns: ':visible'
+                columns: ':visible'
 
-               },
-               title: 'dashboard_repor'
-             }],
-         "language": {
-           search: '',
-           searchPlaceholder: 'Search'
-         },
-       }
+              },
+              title: 'Open Trigger Report'
+            },
+            {
+              extend: 'excel',
+              footer: true,
+              autoClose: 'true',
+              //text: '',
+              //className: 'fa fa-file-pdf-o',
+              //color:'#ff0000',
 
-       );
-     });
-   }, 200)
+              buttons: ['excel'],
+              titleAttr: ' Download excel file',
 
-   // console.log("table length2",datatable.length)
- }
+              tag: 'span',
+
+              className: 'datatableexcel-btn fa fa-file-excel-o',
+              text: '',
+              exportOptions: {
+
+                columns: ':visible'
+
+              },
+              title: 'Open Trigger Report'
+            }],
+        "language": {
+          search: '',
+          searchPlaceholder: 'Search'
+        },
+      }
+
+      );
+    });
+  }, 200)
+
+  // console.log("table length2",datatable.length)
+}
  ///////////////////////////////////////////////upload file from desktop///////////////////////////////////////////// 
  selectFile(event) {
    this.imageurl = ''
@@ -11568,10 +11575,11 @@ closeMap()
    formdata.append('shipment_no', shipment)
    this.itraceIt.historyDashboardS(formdata).subscribe(res => {
      fulldata = res
-     // console.log("historydata", fulldata)
+     console.log("historydata", fulldata)
      for (let i = 0; i < fulldata.length; i++) {
-       color[i] = fulldata[i].color.split(":")
-       level[i] = fulldata[i].level.split(":")
+         if(fulldata[i]?.color!==null){
+       color[i] = fulldata[i]?.color.split(":")}
+       level[i] = fulldata[i]?.level.split(":")
 
        colordata[i] = {
          'colorS': color[i]
@@ -12286,15 +12294,16 @@ pie_viewall_chart1(id:any,x){
       const clickedData = params.data as { name: string; value: any };
   
       if (clickedData.name === '< 30') {
-            this.filterAlerts(params.seriesName,30,0)
+            this.filterAlerts(params.seriesName,'<30min')
       } else if(clickedData.name === '< 1 Hours') {
-        this.filterAlerts(params.seriesName,60,30)
+        this.filterAlerts(params.seriesName,'<1hr')
       } else if(clickedData.name === '< 2 Hours') {
-        this.filterAlerts(params.seriesName,120,60)
+        this.filterAlerts(params.seriesName,'<2hr')
       } else if(clickedData.name === '< 4 Hours') {
-        this.filterAlerts(params.seriesName,180,120)
+        this.filterAlerts(params.seriesName,'<4hr')
       } else if(clickedData.name === '> 4 Hours') {
-        this.filterAlerts(params.seriesName,240,180)
+        // this.filterAlerts(params.seriesName,Infinity,240)
+        this.filterAlerts(params.seriesName,'>4hr');
       }
     } else {
       console.log('Clicked data does not have a name property:', params.data);
@@ -12304,66 +12313,33 @@ pie_viewall_chart1(id:any,x){
   option && echart.setOption(option);
 }
 
-filterAlerts(alertTypeToFilter,time_duration,lessvalue) {
-  // console.log(alertTypeToFilter,time_duration,lessvalue)
-  this.new_array=[];
+filterAlerts(alertTypeToFilter, time_duration) {
+  console.log(this.main_array)
+  this.new_array = [];
   const currentTime = new Date();
-  // const alertTypeToFilter = "DFG"; // Change this to your desired alert type
-
-  // this.new_array = this.main_array.flatMap(item =>
-  //   item.alerts.filter(alert => {
-  //     const alertStartTime = new Date(alert.start_time);
-  //     const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // difference in minutes
-  //     return alert.alert_type === alertTypeToFilter && timeDifference <= 30 && timeDifference >= 0;
-  //   })
-  // );
-  // this.new_array = this.main_array.map(item => {
-
-  //   const filteredAlerts = item.alerts.filter(alert => {
-  //     const alertStartTime = new Date(alert.start_time);
-  //     const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Difference in minutes
-  //     if(time_duration=='181'){
-  //       return alert.alert_type === alertTypeToFilter && timeDifference > 180 && timeDifference >= 0;
-  //     }else{
-  //     return alert.alert_type === alertTypeToFilter && timeDifference < time_duration && timeDifference >= 0;}
-  //   });
-  //   return { ...item, alerts: filteredAlerts };
-
-
-  // }).filter(item => item.alerts.length > 0); 
-
 
   this.new_array = this.main_array.map(item => {
-    const filteredAlerts = item.alerts.filter(alert => {
-      const alertStartTime = new Date(alert.sts);
-      const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Difference in minutes
-  
-      // Check if alert type is 'DFG', time condition is met, and 'escalate_grace_taken_time' is blank
-      // if (time_duration === '240') {
-      //   return (
-      //     alert.alert_type === alertTypeToFilter &&
-      //     timeDifference > 240 &&
-      //     timeDifference >= 0 &&
-      //     !alert.escalate_grace_taken_time
-      //   );
-      // } else {
-        
-        return (
-          alert.alert_type === alertTypeToFilter && (timeDifference >= lessvalue) &&
-          timeDifference <= time_duration &&
-          timeDifference >= 0 &&
-          !alert.escalate_grace_taken_time
-        );
-      // }
-    });
-  
-    // Return a new object with the filtered alerts
-    return { ...item, alerts: filteredAlerts };
-  }).filter(item => item.alerts.length > 0); // Keep only items with non-empty alerts after filtering
-  
-  console.log(this.new_array)
-    this.masterUploadTable();
+      const filteredAlerts = item.alerts.filter(alert => {
+          const alertStartTime = new Date(alert.sts);
+          const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Convert ms to minutes
 
+          // If checking for ">4hr_UNSH", use the condition accordingly
+        
+              return ( item.UnattenedFlag?.[time_duration+'_'+alertTypeToFilter] === 1   // Check the flag
+                  // !alert.escalate_grace_taken_time
+              );
+          
+
+          // Normal filtering logic for other conditions
+        
+      });
+
+      // Return a new object with filtered alerts
+      return { ...item, alerts: filteredAlerts };
+  }).filter(item => item.alerts.length > 0); // Keep only items with alerts
+
+  console.log(this.new_array);
+  this.masterUploadTable();
 }
 
 getIconUrlByTitle(title) {
@@ -12399,6 +12375,7 @@ liveLocation_new(lat, long, driver_mobile, driver_name, halt_time, transporter_n
  var formdata = new FormData();
  formdata.append('AccessToken', this.token)
  formdata.append('ImeiNo', imei);
+ formdata.append('portal', 'itraceit');
  if(imei == '')
   {
     alert("Fixed Imei not found")
