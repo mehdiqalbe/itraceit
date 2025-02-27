@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class DtdcService {
 
   constructor( private http: HttpClient) { }
-  baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
+  // baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
   baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
   specificTripDashboard(val:any){
     // https://apicvmob.secutrak.in/dev-app-dtdc
@@ -21,6 +21,17 @@ export class DtdcService {
   }
   specificTDLink(val:any){
     return this.http.post(this.baseURL+'scheduleDashboardDtdcTrackingLink',val)
+  }
+  transhipVehicle(val:any){
+    return this.http.post(this.baseURL+'vehicleListTrans',val)
+  }
+  closeTrip(data){
+    let apiurl=this.baseURL+"tripActionDtdc";
+    return this.http.post(apiurl,data);
+  }
+  ahtTimeAdd(data){
+    let apiurl=this.baseURL+"updateAhtDTDC";
+    return this.http.post(apiurl,data);
   }
   networkVehicleDelayReport(val:any){
     return this.http.post(this.baseURL+'networkVehicleDelayReport',val)
@@ -84,6 +95,7 @@ export class DtdcService {
 
 //  ------------------------------------------------------------Slotwise Distance Report-------------------------------
 // https://apinode2.secutrak.in:3001/dev-app-itraceit/slotwiseReportFilter
+
 slotwiseDistanceFilter(data){
   
   let apiurl=this.baseURL+"slotwiseReportFilter";
@@ -97,9 +109,31 @@ slotwiseDistanceData(data){
  
   return this.http.post(apiurl,data);
 }
-slotwiseVehicleData(data){
-  let apiurl=this.baseURL+"getslotwiseVehicle";
+slotwiseAutoDistanceData(data){
+  
+  let apiurl=this.baseURL+"slotwiseAutoReport";
  
   return this.http.post(apiurl,data);
 }
+slotwiseVehicleData(data){
+  let apiurl=this.baseURL+"getslotwiseVehicle";
+  return this.http.post(apiurl,data);
+}
+
+
+tripCustomer(data){
+  // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
+  let apiurl=this.baseURL+"tripCustomer";
+ 
+  return this.http.post(apiurl,data);
+}
+dtdcTripCustomerDetails(data){
+let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripCustomerDetails";
+return this.http.post(apiurl,data);
+// https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripCustomerDetails
+}
+
+
+
+
 }

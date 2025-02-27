@@ -46,6 +46,7 @@ export class LoaderComponent implements OnInit {
     console.log("end-c time3",this.date.toLocaleTimeString());
   }
   ngOnInit(): void {
+    console.log(localStorage.getItem('AccessToken'))
 //  console.log("E2",this.date.toLocaleTimeString());
   } 
   ngOnDestroy() {

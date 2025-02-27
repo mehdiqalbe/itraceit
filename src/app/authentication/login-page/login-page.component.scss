@@ -952,3 +952,51 @@
     border-radius: 5px; /* Match the item border-radius */
   }
   
+  .carousel-image-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .carousel-image-overlay img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  
+  .carousel-image-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2), transparent);
+    z-index: 1;
+  }
+  
+  .carousel-caption {
+    position: absolute;
+    z-index: 2; /* Above the gradient overlay */
+    color: white;
+    text-align: left;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 2;
+  }
+
+  .carousel-caption h1, 
+.carousel-caption li {
+  font-family: "Open Sans", sans-serif; /* Apply Open Sans font family */
+}
+
+.carousel-caption li {
+  border: none; /* Remove borders from li */
+  list-style: none; /* Ensure no bullet points appear */
+}
+
+.carousel-caption h1 {
+  margin-bottom: 15px; /* Add some spacing below h1 for better aesthetics */
+}

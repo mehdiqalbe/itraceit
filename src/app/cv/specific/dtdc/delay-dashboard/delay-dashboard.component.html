@@ -54,47 +54,107 @@
 
       
       <div class="container-flex " style=" padding: 9px;    border-bottom: 1px solid #80808042;">
-
-        <div class="row">
-  
-          <!-- <div class="col-lg-12"> -->
-          <div class="col-lg-1">
-            <div class="row" style="display: inline-block;">
-              <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
-                aria-controls="collapseExample" style="font-size: 13px;font-weight: 500;">
-                <i class="fa fa-filter" aria-hidden="true"
-                  style="font-size: 20px;color: gray ;margin-top: 8px;"></i>FILTER
-              </a>
-            </div>
+        <div>
+          <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
+            <a
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+              style="font-size: 16px"
+            >
+              <i
+                class="fa fa-filter"
+                aria-hidden="true"
+                style="
+                  font-size: 20px;
+                  color: #1d4380;
+                  margin-top: 8px;
+                "
+              ></i
+              >FILTER
+            </a>
+          </p>
+        </div>
+        <div class="collapse" id="collapseExample">
+          <div
+            class="card card-body px-0 pb-0 mb-0"
+            style="border: none; box-shadow: none"
+          >
+            <form
+              #filterFormD="ngForm"
+              (ngSubmit)="onFilterDashboard(filterFormD.value)"
+            >
+              <div id="qmMulticontainer" class="col-lg-12" style="margin-top: -20px">
+                <div class="row">
+                  <div class="col-lg-2 mt-2">
+                    <span class="filtor_name">Route Category</span>
+                    <ng-select
+                    (change)="onRouteCategoryChange($event)"
+                      [(ngModel)]="routeCategory"
+                      name="routeCategory"
+                      id="routeCategory"
+                      placeholder="Select Route"
+                      class=""
+                      style="font-size: 14px; font-weight: 400"
+                      [closeOnSelect]="true"
+                      [multiple]="true"
+                    >
+                    <ng-option value="" selected>All</ng-option>
+                      <ng-option
+                        *ngFor="let item of filterObject?.routeCategory "
+                        [value]="item"
+                      >
+                        {{ item }}</ng-option
+                      >
+                    </ng-select>
+                  </div>
+                    <div class="col-lg-2 mt-2">
+                      <span class="filtor_name">Route Type</span>
+                      <ng-select
+                        [(ngModel)]="selectedRoutes"
+                        name="routeType"
+                        id="routeType"
+                        placeholder="Select Route Type"
+                        class=""
+                        notFoundText="Select route category"
+                        style="font-size: 14px; font-weight: 400"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                      >
+                        <ng-option
+                          *ngFor="let item of filterObject?.routeType | keyvalue"
+                          [value]="item?.key"
+                        >
+                          {{ item?.value }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+               
+             
+                  <!-- </div> -->
+                  <div class="col-lg-1 mt-2">
+                    <button
+                      type="submit"
+                      class=""
+                      style="margin-top: 24px;
+                      background-color: #1D4380;
+                      color: white;
+                      font-family: Work Sans;
+                      font-size: 15px;
+                      padding: 4.6px 22px;
+                      border-radius: 5px;"
+                    >
+                      Submit
+                    </button>
+                  </div>
+              
+                </div>
+                &nbsp;
+              </div>
+            </form>
           </div>
-          <div class="col-lg-12">
-            <div class="collapse" id="collapseExample">
-              <div style="display:inline-table;" class="ms-9">
-                <label>Route</label>
-              <ng-select class="io-set"  name="trigger_type" placeholder="Select"  [multiple]="false"[closeOnSelect]="true" 
-                [items]="alertData"  bindLabel="feeder_type"  [(ngModel)]="selectedRoute" (change)="changeRoutetype($event)"
-                >
-                 <!-- <ng-option *ngFor="let item of alertData  | keyvalue" [value]="item.value">{{item.value}}</ng-option> -->
-
-              </ng-select>
-              </div>
-              <div style="display:inline-table; " class="ms-2">
-                <label>Route Type</label>
-                <ng-select class="io-set"  name="trigger_type" placeholder="Select"  [multiple]="true"[closeOnSelect]="true" 
-                [items]="routeTypes_filter"  bindLabel="route_type"  [(ngModel)]="selectedRouteType"
-                >
-                 <!-- <ng-option *ngFor="let item of alertData  | keyvalue" [value]="item.value">{{item.value}}</ng-option> -->
-
-              </ng-select>
-              </div>
-              <div style="display:inline-table; " class="ms-2">
-                <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="    width: 100px !important;
-                position: absolute;"(click)="delayDashboardGeneric()" >Submit</button>
-                   
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
       
@@ -121,17 +181,7 @@
               </tbody>
           </table>
       </marquee>
-        <!-- <marquee style="background-color: #1D4380;">
-          <table class="headerlabel" style="width:100%;font-weight: bold;font-size:small;color:white">
-          <tbody><tr><th colspan="4"><hr style="margin-top: 0px;margin-bottom: 0px"></th></tr>
-          <tr>
-              <td>Total Delay Trip:<span id="lbl_running" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">274</span></td>
-              <td>Air Network Delayed:<span id="lbl_air" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">105</span></td>
-              <td>SFC Network Delayed:<span id="lbl_sfc" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">152</span></td>
-              <td>SPD Network Delayed:<span id="lbl_spd" class="badge" style="background: white; color: red; font-weight: bold; font-size: small;">17</span></td>
-          </tr>
-      </tbody></table>
-      </marquee> -->
+       
         <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
         </ngx-spinner>
         <table class="display nowrap  table"cellspacing="0" id="DelayTable" style="text-align: center;">
@@ -176,7 +226,7 @@
           <tbody>
             <tr *ngFor="let item of Delay_data ;let ind=index " style="text-align: center;">
               <td>{{ind+1}}</td>
-              <td class="map-table-marker"><a (click)="vehicleTrackF_new( item?.imei_current,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)" >{{item.vehicle_no}}</a></td>
+              <td class="map-table-marker"><a (click)="vehicleTrackF_new( item?.imei_current,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)" >{{item.vehicle_no}}</a></td>
               <td>{{item.source_code}}</td>
               <td>{{item.destination_code}}</td>
               <td>{{item.schedule_arrival}}</td>
@@ -203,7 +253,7 @@
               <td>{{item?.run_code}}</td>
               <td>
                 <ng-container *ngIf="item?.imei_no !=='NA' && item?.imei_no !==''">
-                <a (click)="vehicleTrackF_new( item?.imei_no,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
+                <a (click)="vehicleTrackF_new( item?.imei_no,'','',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
                   <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
                   <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                 </a>
@@ -216,7 +266,7 @@
               </td>
               <td>
                 <ng-container *ngIf="item?.imei_no2 !=='NA' && item?.imei_no2 !==''">
-                  <a (click)="vehicleTrackF_new( '',item?.imei_no2,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
+                  <a (click)="vehicleTrackF_new( '',item?.imei_no2,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
                     <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
                     <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                   </a>
@@ -228,7 +278,7 @@
               </td>
               <td>
                 <ng-container *ngIf="item?.imei_no3 !=='NA' && item?.imei_no3 !==''">
-                  <a (click)="vehicleTrackF_new( '',item?.imei_no3,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
+                  <a (click)="vehicleTrackF_new( '',item?.imei_no3,'',item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
                     <!-- <i class="fa fa-circle" aria-hidden="true" style="color: #1c84c6; cursor: pointer;"></i> -->
                     <i class="fa fa-map-marker map-table-marker" aria-hidden="true" >-1</i>
                   </a>
@@ -241,7 +291,7 @@
               <!-- <td>{{item?.portable_lock}}</td> -->
               <td>
                 <ng-container *ngIf="item?.imei_no !=='NA' ||item?.imei_no2 !=='NA' ||item?.imei_no3 !=='NA' || item?.imei_no !==''||item?.imei_no2 !==''||item?.imei_no3 !==''">
-                <a (click)="vehicleTrackF_new( item?.imei_no,item?.imei_no2,item?.imei_no3,item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.route_id)">
+                <a (click)="vehicleTrackF_new( item?.imei_no,item?.imei_no2,item?.imei_no3,item?.run_date, item?.vehicle_no, item?.item, item?.shipment_no, item?.id)">
                   <i class="fa fa-circle map-table-marker" aria-hidden="true" ></i>
                 </a>
                 </ng-container>
@@ -249,7 +299,7 @@
 
                 </ng-container> -->
               </td>
-           <td><a (click)="close_trip(item?.id)"><i class="fa fa-window-close map-table-marker" aria-hidden="true"></i></a></td>
+           <td><a (click)="close_trip(item?.id,item)"><i class="fa fa-window-close map-table-marker" aria-hidden="true"></i></a></td>
             </tr>
           </tbody>
         </table>
@@ -258,10 +308,9 @@
 </div>
 <!-- <div style=""><div id="pieChartContainer1" style="height:300px;width:500px; padding:0px  !important;margin:0px  !important;background:none !important"></div></div> -->
 <!-- MAP MODAL -->
-<div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-data-bs-backdrop="static" data-bs-keyboard="false">
-<div class="modal-dialog " style=" max-width: 1500px;">
-  <div class="modal-content" style="height: 700px;">
+<div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="width:1000px; max-width:1300px;position: relative;">
+      <div class="modal-content" style="height: 600px;">
     <div class="modal-header">
       <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
         ></button>
@@ -270,44 +319,106 @@ data-bs-backdrop="static" data-bs-keyboard="false">
       <div id="map2">
       </div>
     </div>
-    <div class="modal-footer" style="height: 25px;">
+    <div class="modal-drag-bottom py-1" style="background:white; cursor: move; height: 10px;"></div>
+    <div class="modal-footer">
+      <!-- stored_imei -->
+       <ng-container *ngFor="let item of stored_imei ;let ind=index">
+        <ng-container *ngIf="item!==''" >
+      <button  type="button" (click)="vehicleTrackF_new(item, '', '', stored_data[0], stored_data[1], '', '', stored_data[2]) ">
+        <i class="fa fa-map-marker" tooltipClass="customInactive-tooltip-class" [ngbTooltip]="item" 
+          style="font-size: 20px;color: #1D6F42; " id="blink"
+        ></i><span>{{ind+1}}</span></button>
+       </ng-container>
+      </ng-container>
     </div>
   </div>
 </div>
 </div>
 
-<div class="modal fade" id="closeTrip" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-data-bs-backdrop="static" data-bs-keyboard="false">
-<div class="modal-dialog " style=" max-width: 669px;">
-  <div class="modal-content" style="height: 200px;">
-    <div class="modal-header">
-      <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
-        ></button>
+
+<div class="modal fade" id="closetripModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+
+<div class="modal-dialog" style="margin-left: 458px;width:580px;max-width: 600px;">
+  <div class="modal-content" style="height: fit-content;border: 3px solid #1c84c6">
+
+    <div class="modal-header" style="border-bottom: 2px solid #f1f3f6;height: 12px;">
+
+        <h5 class="modal-title" id="exampleModalLabel"
+            style="font-weight:700; color :#1D4380;font-family: sans-serif;margin-bottom: -12px;">Close Trip
+        </h5>
+        <button type="button" class="btn-close btn-sm" (click)="closeT.reset()" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-      <!-- <div id="map2"> -->
-        <div class="col-lg-12">
-          <!-- <div class="collapse" id="collapseExample"> -->
-            <div style="display:inline-table;" class="ms-4">
-              <label>ATA</label>
-              <input type="text" data-date-format="YYYY-MM-DD" id="datepicker" (click)="start()"
-              class="form-control" [ngModel]="datetimepicker1" required name="ATA"  />
+      <form #closeT="ngForm" (ngSubmit)="closeTripF(closeT.value)">
+        <!-- ;closeT.reset() -->
+        <div class="col-lg-12" style="margin-top: 6px">
+          <div class="col-lg-10 mb-2 d-flex flex-column">
+            <div class="d-flex align-items-center"><p class="m-0" style="font-size: 16px;font-weight: 600;color: #1D4380;">Trip ID :</p> <span style="font-weight: 600;">{{transhipDetails?.shipment_no}} </span></div>
+            <div class="d-flex align-items-center"><p class="m-0" style="font-size: 16px;font-weight: 600;color: #1D4380;" >Run Date : </p> <span style="font-weight: 600;">{{transhipDetails?.run_date}} </span></div>
+            <div class="d-flex align-items-center"><p class="m-0" style="font-size: 16px;font-weight: 600;color: #1D4380;">Route : </p><span style="font-weight: 600;">{{transhipDetails?.route_name}}</span></div>
+          </div>
+          <div class="d-flex flex-wrap">
+            <!-- Vehicle -->
+            <div class="col-lg-6">
+              <span class="filtor_name">Select Location</span>
+              <ng-select
+               [ngModel]
+               name="Location"
+               id="tripLocation"
+               placeholder="Select Location"
+               class=""
+               style="font-size: 14px; font-weight: 400"
+               [closeOnSelect]="true"
+             >
+               <ng-container *ngFor="let loc of tripLocation">
+                 <ng-option *ngIf="loc?.sequence_no !== '1'" [value]="loc">
+                   {{ loc?.location_code }}
+                 </ng-option>
+               </ng-container>
+             </ng-select>
+
             </div>
-            <div style="display:inline-table; " class="ms-2">
-              <label>Remark</label>
-              <input type="text" class="form-control" name="Remark" [(ngModel)]="Remark" />
+            <div class="col-lg-6">
+              <span class="filtor_name">Arrival Time</span>
+              <!-- <input  style="font-size: 12px;border-radius: 4px;height: fit-content;" type="datetime-local" step="1" class="form-control cutombox"
+              ngModel="datetimepicker1" required name="time" /> -->
+              <input type="text"  id="datepickerclose" (click)="Arrival_time()" placeholder="yyyy-mm-dd HH:mm:ss"
+              class="form-control" [ngModel]="datetimepicker_A" required name="time"  />
+            </div>      
+            <div class="col-lg-12 mt-3">
+              <span class="filtor_name"> Remark</span>
+              <input
+                type="text"
+                [ngModel]
+                name="Remark"
+                id="Remark"
+                placeholder="Enter Remark"
+                class="form-control"
+                style="font-size: 14px; font-weight: 400"
+              />
             </div>
-            <div style="display:inline-table; " class="ms-2">
-              <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="    width: 100px !important;
-              position: absolute;" (click)="submitclose()" >Submit</button>
-                 
-            <!-- </div> -->
+           
+          </div>
+          &nbsp;
+        </div>
+     
+        <!-- Submit Button -->
+        <div style="white-space: nowrap;" class="col-lg-12 mt-2">
+          <div class="row mt-2">
+            <div style="text-align: center;" class="d-flex m-auto">
+              <button class="btn w-fit m-auto" type="submit" style=" color: white;background: #1D4380;">
+                Close Trip
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    <!-- </div> -->
-    <div class="modal-footer" style="height: 25px;">
+      </form>
+     
     </div>
-  </div>
+
 </div>
+ 
+</div>
+
 </div>

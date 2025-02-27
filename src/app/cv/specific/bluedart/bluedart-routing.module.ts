@@ -5,6 +5,7 @@ import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.componen
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
 import { VehicleNearbyComponent } from '../../common-module/vehicle-nearby/vehicle-nearby.component';
+import { AuthGuard } from 'src/app/shared/services/auth.guard';
 
 const routes: Routes = [{
   path: '',

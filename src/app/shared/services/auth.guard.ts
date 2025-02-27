@@ -11,10 +11,23 @@ export class AuthGuard implements CanActivate {
   canActivate(
     ) {
       if(this.auth.IsLoggedIn()){
-        return true;
+        const formData = new FormData();
+        formData.append('AccessToken',String(localStorage.getItem('AccessToken')));
+        this.auth.Access(formData).subscribe((resp: any) => {
+          console.log(resp)
+          if (resp.Status== "failed") {
+           this.router.navigate([`/auth/login`]);
+           return false
+          }else{
+          return true;
+          }
+          }) 
       }
-      this.router.navigate([ '/auth/login'])
-    return false;
+      else{
+        this.router.navigate([ '/auth/login'])
+        return false;
+      }
+    return true
   }
   
 }

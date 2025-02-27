@@ -111,6 +111,16 @@ export class SummaryDashboardComponent implements OnInit {
   demoPolyline: any=[];
   lastOpenedInfoWindow: any;
   header_text: any;
+  Destination: any=[];
+  Region: any=[];
+  Customer: any=[];
+  searchTerm: any;
+  searchTerm1: any;
+  filteredDestination: any=[];
+  filteredDestination1: any=[];
+  selectedDestination: string | null = null;
+  
+  selectedDestination1: string | null = null;
   constructor(private router: Router,private navServices: NavService,private dtdcService:DtdcService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
@@ -137,6 +147,26 @@ export class SummaryDashboardComponent implements OnInit {
     // this.triggerHstSubmit1('')
     this.First_call();
     
+  }
+  onSearch(searchTerm: any) {
+    // Filter and update results based on the search term
+    searchTerm=searchTerm?.term
+    this.filteredDestination = this.Destination.filter(dest =>
+      dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 50); // Limit to a subset
+  }
+  onSearch1(searchTerm1: any) {
+    // Filter and update results based on the search term
+    searchTerm1=searchTerm1?.term
+    console.log(searchTerm1);
+    
+    this.filteredDestination1 = this.Customer.filter(dest =>
+      dest?.value?.toLowerCase().includes(searchTerm1.toLowerCase())
+    ).slice(0, 50); // Limit to a subset
+  }
+  private getLargeDataset() {
+    // Simulate a large dataset
+    return Array.from({ length: 10000 }, (_, i) => ({ value: `Option ${i + 1}` }));
   }
   initMap1() 
  {
@@ -368,9 +398,13 @@ summary_detail(eve,tripsKey,h_name){
        
       const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
       sessionStorage.setItem('structuredata', compressedData);
-
       // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
-      window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+      const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
+      const dynamicUrl = `${baseUrl}/map`;
+
+      // Open the dynamic URL
+      window.open(dynamicUrl, '_blank');
+      // window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
       // https://cv2.secutrak.in/cv/specific/dtdc/map
     }else{
       alert("Data not found");
@@ -393,9 +427,13 @@ summary_detail_1(eve,tripsKey,h_name){
     
    const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
    sessionStorage.setItem('structuredata', compressedData);
+   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
+   const dynamicUrl = `${baseUrl}/map`;
 
-   // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
-   window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // Open the dynamic URL
+   window.open(dynamicUrl, '_blank');
+  //  window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+  //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
    // https://cv2.secutrak.in/cv/specific/dtdc/map
  }else{
    alert("Data not found");
@@ -411,15 +449,19 @@ summary_detail_2(eve,tripsKey,h_name){
          token: this.token,
          rowData_popup: this.rowData_popup,
          group_id: this.group_id,
-         flag:0,
+         flag:1,
          name:h_name,
        };
     
    const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
    sessionStorage.setItem('structuredata', compressedData);
+   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
+   const dynamicUrl = `${baseUrl}/map`;
 
-   // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
-   window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // Open the dynamic URL
+   window.open(dynamicUrl, '_blank');
+  //  window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+  //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
    // https://cv2.secutrak.in/cv/specific/dtdc/map
  }else{
    alert("Data not found");
@@ -441,9 +483,13 @@ summary_detail_3(eve,tripsKey,h_name){
     
    const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
    sessionStorage.setItem('structuredata', compressedData);
+   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
+   const dynamicUrl = `${baseUrl}/map`;
 
-   // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
-   window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // Open the dynamic URL
+   window.open(dynamicUrl, '_blank');
+  //  window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+  //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
    // https://cv2.secutrak.in/cv/specific/dtdc/map
  }else{
    alert("Data not found");
@@ -1816,6 +1862,23 @@ dtdcTripReportFilter(){
     console.log(data)
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
+      this.Region=this.Master_filter?.Region
+      this.Customer=this.Master_filter?.Customer
+      this.Destination=this.Master_filter?.Customer
+     
+      const Destination = this.Master_filter?.Customer || {};
+      this.Destination = Object.entries(Destination).map(([key, value]) => ({ key, value }));
+      
+      this.filteredDestination = this.Destination.slice(0, 50); // Initial subset
+     
+      const Destination1 = this.Master_filter?.Customer || {};
+      this.Customer = Object.entries(Destination1).map(([key, value]) => ({ key, value }));
+      
+      this.filteredDestination1 = this.Customer.slice(0, 50); // Initial subset
+    //  console.log(this.Customer,'customer',this.filteredDestination1);
+     
+
+
     }else{
       alert(data?.Message);
     }
@@ -1838,12 +1901,15 @@ triggerHstSubmit(eve){
    if(eve.value.Origin){ formdata.append('Origin',eve.value.Origin)}
    if(eve.value.Destination){ formdata.append('Destination',eve.value.Destination)}
    if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
+   console.log(eve.value.Region)
    if(eve.value.Region){
     formdata.append('Region',eve.value.Region)}
    if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
    if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number)}
   }
- 
+  formdata.forEach((value, key) => {
+    console.log("formdata",key, value);
+  });
   this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
     console.log("Summary",data)
     this.submit=false;
@@ -3660,5 +3726,3 @@ showWindow(data, vnumber, add) {
 
 }
 }
-
-

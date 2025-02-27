@@ -1038,9 +1038,57 @@ ng-select{
     border-right-width: 1px solid !important;
     border: 1px solid #80808012 !important;
 }
-.ng-select-container{
-    border: 1.5px solid #5e9fc8 !important;
-  }
-  #myGrid .ag-header {
+
+
+// ----------------------------------------------------------------------------------------------------------------------
+
+// .ag-theme-alpine .multi-line-header .ag-header-cell-label {
+//     white-space: normal !important;
+//     text-align: center !important;
+//     // line-height: 1.2 !important;
+//   }
+//   .multi-line-header .ag-header-cell-label {
+//     white-space: normal;
+//     text-align: center;
+//   }
+//   .ag-tooltip {
+//     background-color: white;
+//     border: 1px solid #ccc;
+//     padding: 5px;
+//     font-size: 12px;
+//     color: black;
+//   }
+//   .wrap-header-text .ag-header-cell-label {
+//     white-space: normal; /* Allow text to wrap */
+//     text-align: center; /* Optional: Center-align the text */
+//     line-height: 1.1; /* Adjust line height for better readability */
+//     text-align: center; /* Optional: Center-align the text */
+//     // height: 200px !important; /* Allow rows to adjust height based on content */
+
+//   } 
+//   .ag-header-row {
+//     height: auto !important; /* Allow rows to adjust height based on content */
+//   }
+// //   .ag-header-cell {
+// //     max-height: none; /* Remove any height restrictions */
+// //     overflow: visible; /* Ensure content is not cut off */
+// //   }
+#myGrid .ag-header {
     background: #cfe2ff !important;
+  }
+  .ag-theme-alpine .ag-header{
+    background: #cfe2ff !important;
+  }
+#qmMulticontainer .ng-select{
+    height: inherit!important;
+  max-height: 106px!important;
+
+  .ng-select-container{
+    height: inherit;
+    overflow-y: scroll!important;
+    max-height: inherit!important;
+    .ng-value-container{
+        max-height: 110px;
+    }
+  }
   }

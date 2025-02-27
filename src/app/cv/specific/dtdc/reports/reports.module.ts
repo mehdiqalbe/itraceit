@@ -19,6 +19,7 @@ import { DelayReportComponent } from './delay-report/delay-report.component';
 import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
 import { VehicleUtilizationComponent } from './vehicle-utilization/vehicle-utilization.component';
 import { DataPushReportComponent } from './data-push-report/data-push-report.component';
+import { WorkingHourDistanceReportComponent } from './working-hour-distance-report/working-hour-distance-report.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { DataPushReportComponent } from './data-push-report/data-push-report.com
     DelayReportComponent,
     VehicleReportComponent,
     VehicleUtilizationComponent,
-    DataPushReportComponent
+    DataPushReportComponent,
+    WorkingHourDistanceReportComponent
   ],
   imports: [
     CommonModule,

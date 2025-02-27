@@ -798,7 +798,7 @@ export class CrudService {
   }
   vehicleTrackongS(val: any) {
     // let apiurl=;
-    return this.http.post("https://api.secutrak.in/dev-app-secutrak/vehicleTrackingV2New", val);
+    return this.http.post("https://api-bde.secutrak.in/dev-app-itraceit/vehicleTrackingV2New", val);
   }
   // tripCustomerS(data)
   // {
@@ -1201,6 +1201,7 @@ export class CrudService {
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
+
   // assignQrtSubmitS(data)
   // {
   //   let apiurl="https://api.secutrak.in/dev-app-itraceit/assignQrtAT";
@@ -1325,12 +1326,14 @@ export class CrudService {
   //  //let apiurl= 'http://localhost:3000/workZone'
   //   return this.http.post(apiurl,data);
   // }
+
   liveLocation2S(data) {
     let apiurl = "https://api.secutrak.in/dev-app-secutrak/liveDataV2";
     //let apiurl="https://jsonplaceholder.typicode.com/users";
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
+
   // closeTriggerValidS(data)
   // {
   //   let apiurl="https://api.secutrak.in/dev-app-itraceit/validateAlertLink";
@@ -1367,12 +1370,14 @@ export class CrudService {
   //  //let apiurl= 'http://localhost:3000/workZone'
   //   return this.http.post(apiurl,data);
   // }
+
   delayDashboardGeneric(data) {
     let apiurl = this.baseURL + "delayDashboardGeneric";
     //let apiurl="https://jsonplaceholder.typicode.com/users";
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
+
   dtdc_delayDashboard(data) {
     // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
     let apiurl = this.baseURL + "delayDashboardDtdc";
@@ -1523,7 +1528,7 @@ export class CrudService {
     // let apiurl="https://api.secutrak.in/dev-app-itraceit/triggerDashboardFlashAT";
     if (this.group_id == '5691') {
       // https://api.secutrak.in/dev-app-dtdc
-      apiurl = "https://api.secutrak.in/dev-app-dtdc/liveThreatListFlashAT";
+      apiurl = "https://api-secutrak.secutrak.in/dev-app-dtdc/liveThreatListFlashAT";
     } else {
       apiurl = "https://api.secutrak.in/dev-app-itraceit/liveThreatListFlashAT";
     }
@@ -1863,7 +1868,7 @@ export class CrudService {
     return this.http.post(apiurl, data);
   }
   addressS(data) {
-    let apiurl = " https://api.secutrak.in/dev-app-secutrak/vehicleLastLocationV2";
+    let apiurl = "https://api-bde.secutrak.in/dev-app-itraceit/vehicleLastLocationV2";
     //let apiurl="https://jsonplaceholder.typicode.com/users";
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);

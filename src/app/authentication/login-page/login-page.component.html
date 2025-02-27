@@ -5,189 +5,810 @@
 <ng-container *ngIf="show_html">
     <!-- <div class="login">
         <div class="page"> -->
-            <div class="row">
-                <!-- CONTAINER OPEN -->
-                <div class="col-lg-8">
-                    <div class="image-grid">
-                      <div class="image-item" style="grid-row: span 2; grid-column: span 2;">
-                        <img src="assets/images/login-1.jpg" alt="Image 1">
+            
+         <header id="header" class="header p-0">
+             <nav class="navbar navbar-expand-lg p-0">
+                <div class="main-menu-header">
+                   <a class="navbar-brand" href="#"><img src="assets/img/logo.png" class="header-logo" height="100" alt=""></a>
+                         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                             <span class="navbar-toggler-icon"></span>
+                         </button>
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div class="row align-items-center">
+                                <div class="col-md-10" id="mainMenu">
+                                <div class="row">
+                                    <div class="col-md-12 menu1">
+                                    <ul class="navbar-nav justify-content-end mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                        <a class="nav-link active text-uppercase" aria-current="page" href="#">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">About us</a>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Services
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#"></a></li>
+                                        </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                        <a href="#" class="nav-link text-uppercase">Contact</a>
+                                        </li>
+                                    </ul>
+                                    </div>
+                                    <div class="col-md-12 menu2">
+                                    <ul class="navbar-nav justify-content-end mb-2 mb-lg-0 secondMenus">
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Vehicle</a></li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Container</a></li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Rake/wagon</a></li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Temperature Sensitive Cargo</a></li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Fuel Monitoring</a></li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Dry Bulk Cargo</a></li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Courier Parcel</a></li>
+                                        <li class="nav-item">
+                                        <a class="nav-link text-uppercase" href="#">Inspect My Route</a></li>
+                                    </ul>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-md-2" id="main-menu-2">
+                                <div class="loginSignupBtn text-end">
+                                    <button class="btn text-uppercase rounded-pill" data-bs-toggle="modal" data-bs-target="#loginModal">Login/Signup</button>
+                                </div>
+                                </div>
+                            </div>
+          
+          
+        </div>
+      </div>
+             </nav>
+
+         </header>
+
+           <!-- Hero Section -->
+    <section id="hero" class="mainHeroSec pt-0">
+    
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-md-12">
+              <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <div class="carousel-image-overlay">
+                          <img src="assets/img/hero-carousel-1.jpg" class="d-block w-100" alt="...">
+                          <div class="carousel-caption d-md-block">
+                            <h1 class="text-white fw-bold">Vehicle Tracking</h1>
+                            <ul class="list-unstyled text-white">
+                              <li>Sim Based</li>
+                              <li>Portable Device</li>
+                              <li>AIS 140 compliant device</li>
+                              <li>App Based Tracking</li>
+                              <li>In house fleet movement tracking</li>
+                              <li>Anti theft Monitoring</li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                      <div class="image-item" style="grid-row: span 1; grid-column: span 1;">
-                        <img src="assets/images/login-2.jpg" alt="Image 2">
-                      </div>
-                      <div class="image-item" style="grid-row: span 6; grid-column: span 1;">
-                        <img src="assets/images/login-3.jpg" alt="Image 3">
-                      </div>
-                      <div class="image-item" style="grid-row: span 2; grid-column: span 2;">
-                        <img src="assets/images/login-4.jpg" alt="Image 4">
-                      </div>
-                      <div class="image-item" style="grid-row: span 1; grid-column: span 1;">
-                        <img src="assets/images/login-5.jpg" alt="Image 5">
-                      </div>
-                      <div class="image-item" style="grid-row: span 2; grid-column: span 1;">
-                        <img src="assets/images/login-6.jpg" alt="Image 6">
-                      </div>
-                      <div class="image-item" style="grid-row: span 1; grid-column: span 2;">
-                        <img src="assets/images/login-7.jpg" alt="Image 7">
-                      </div>
-                      <!-- <div class="image-item" style="grid-row: span 2; grid-column: span 1;">
-                        <img src="assets/images/login-8.jpg" alt="Image 8">
-                      </div> -->
+                  <div class="carousel-item" data-bs-interval="2000">
+                    <div class="carousel-image-overlay position-relative">
+                    <img src="assets/img/hero-carousel-2.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-md-block">
+                      <h1 class="text-white fw-bold">Container Tracking</h1>
+                      <ul class="list-unstyled text-white">
+                        <li>Door Opening Alerts</li>
+                        <li>Container Live Monitoring</li>
+                        <li>Container Door Opening Alerts</li>
+                      </ul>
+                    </div>
                     </div>
                   </div>
-                  
-                 <div class="col-lg-4">
-                <div class="col col-login mx-auto">
-                    <div class="text-center" >
-                        <img src="../../assets/images/brand/logo.png" class="header-brand-img" alt="">
+                  <div class="carousel-item">
+                    <div class="carousel-image-overlay position-relative">
+                      <img src="assets/img/hero-carousel-3.jpg" class="d-block w-100" alt="...">
+                      <div class="carousel-caption d-md-block">
+                        <h1 class="text-white fw-bold">Rake/Wagon Tracking</h1>
+                        <ul class="list-unstyled text-white">
+                          <li>Solar Power Tracking</li>
+                          <li>FNR Monitoring</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="carousel-image-overlay position-relative">
+                        <img src="assets/img/hero-carousel-4.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-md-block">
+                          <h1 class="text-white fw-bold">Temperature Sensitive Cargo</h1>
+                          <ul class="list-unstyled text-white">
+                            <li>Continuous Temperature Monitoring</li>
+                          </ul>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="carousel-image-overlay position-relative">
+                    <img src="assets/img/hero-carousel-5.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-md-block">
+                      <h1 class="text-white fw-bold">Fuel Monitoring</h1>
+                      <ul class="list-unstyled text-white">
+                        <li>Vehicle Anti Fuel Theft</li>
+                      </ul>
                     </div>
                 </div>
-                <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills ">
-                    <!-- <li ngbNavItem="Firebase" class="d-none">
-                            <a ngbNavLink>
-                                <img src="../../../assets/images/firebase.svg" alt="" class="nav-icon">
-                            </a>
-                            <ng-template ngbNavContent>
-                                <form (ngSubmit)="login()" class="login100-form validate-form">
-                                    
-                                    <span class="login100-form-title">
-                                        Firebase Login
-                                    </span>
-                            
-                                    
-                                    <div class="wrap-input100 validate-input">
-                                        <input type="email" name="email" class="form-control input100" [(ngModel)]="email" placeholder="Enter email Id" required>
-                                        <span class="focus-input100"></span>
-                                        <span class="symbol-input100">
-                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                    <div class="wrap-input100 validate-input">
-                                        <input type="password" name="password" class="form-control input100" [(ngModel)]="password" placeholder="Enter Password" re
-                                        quired>
-                                        <span class="focus-input100"></span>
-                                        <span class="symbol-input100">
-                                            <i class="zmdi zmdi-lock" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="text-end pt-1">
-                                        <p class="mb-0"><a routerLink="/custom-pages/forget-password" class="text-primary ms-1">Forgot Password?</a></p>
-                                    </div>
-                                    <div class="container-login100-form-btn">
-                                        <button type="submit" class="login100-form-btn btn-primary"> Login</button>
-                                    </div>
-                                    <div class="form-group">
-                                    <p *ngIf="errorMessage.length > 0" class="text-danger">
-                                        {{errorMessage}}</p>
-                                    
-                                    <p *ngIf="_error.message.length > 0" class="text-danger">
-                                        {{_error.message}} </p>
-                                    </div>
-                                    <div class="text-center pt-3">
-                                        <p class="text-dark mb-0">Not a member?<a routerLink="/auth/register" class="text-primary ms-1">Sign UP now</a></p>
-                                    </div>
-                                    <div class=" flex-c-m text-center mt-3">
-                                        <p>Or</p>
-                                        <div class="social-icons">
-                                            <ul>
-                                                <li><a class="btn  btn-social btn-block"><i class="fa fa-google-plus text-google-plus"></i> Sign up with Google</a></li>
-                                                <li><a class="btn  btn-social btn-block mt-2"><i class="fa fa-facebook text-facebook"></i> Sign in with Facebook</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </form>
-                            </ng-template>
-                        </li> -->
-                    <li ngbNavItem="Angular" class="tab-pane fade active show">
-                       
-                        <ng-template ngbNavContent>
-                            <form [formGroup]="loginForm" class="login100-form validate-form" (ngSubmit)="Submit()">
-                                <a ngbNavLink style="text-align: center;">
-                                    <img  src="assets/images/itraceit_logo1.png"alt="" class="nav-icon" style="width: 111px;height: 88px;">
-                                </a>
-                                <span class="login100-form-title mt-3">
-                                 CV  Login
-                                </span>
-    
-                                <div class="wrap-input100 validate-input mt-3">
-                                    <input type="text" class="form-control input100" placeholder="Group Id" autocomplete
-                                        formControlName="groupid">
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
-                                        <i class="zmdi zmdi-email" aria-hidden="true" style="color: #1D4380;"></i>
-                                    </span>
-                                </div>
-                                <div class="wrap-input100 validate-input">
-                                    <input type="text" class="form-control input100" placeholder="User Id" autocomplete
-                                        formControlName="userid"[ngClass]="{'input-error':sub_lg && loginForm.controls['userid'].value==''}">
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
-                                        <i class="zmdi zmdi-email" aria-hidden="true" style="color: #1D4380;"></i>
-                                    </span>
-                                </div>
-                                <span *ngIf="sub_lg && loginForm.controls['userid'].value==''" class="red-color">*Required</span>
-                                <div class="wrap-input100 validate-input">
-                                    <input 
-                                        [type]="showPassword ? 'text' : 'password'" 
-                                        class="form-control input100" 
-                                        placeholder="Password" 
-                                        autocomplete 
-                                        formControlName="password"
-                                        [ngClass]="{'input-error': sub_lg && loginForm.controls['password'].value === ''}">
-                                    
-                                    <span class="focus-input100"></span>
-                                    <span class="symbol-input100">
-                                        <i class="zmdi zmdi-lock" aria-hidden="true" style="color: #1D4380;"></i>
-                                    </span>
-                                    
-                                    <!-- Eye icon to toggle password visibility -->
-                                    <span class="position-absolute toggle-password" style="right: 10px; top: 50%; transform: translateY(-50%);" (click)="showPassword = !showPassword">
-                                        <i class="zmdi" [ngClass]="showPassword ? 'zmdi-eye-off' : 'zmdi-eye'" style="cursor: pointer;color: #1D4380;"></i>
-                                    </span>
-                                </div>
-                                
-                                <span *ngIf="sub_lg && loginForm.controls['password'].value==''" class="red-color">*Required</span>
-                                {{error}}
-    
-                                <div class="text-end pt-1">
-                                    <!-- <p class="mb-0"><a routerLink="/auth/Forget"
-                                            class="text-primary ms-1">Forgot Password?</a></p> -->
-                                </div>
-                                <div class="container-login100-form-btn">
-                                    <!-- [disabled]="!loginForm.valid" -->
-                                    <button  type="submit" style="background-color: #1D4380;color: white;"
-                                        class="login100-form-btn btn"> Login</button>
-                                </div>
-                                <div class="text-center pt-3">
-                                    <!-- <p class="text-dark mb-0">Not a member?<a routerLink="/auth/register"
-                                            class="text-primary ms-1">Sign UP now</a></p> -->
-                                </div>
-                                <div class=" flex-c-m text-center mt-3">
-                                    <!-- <p>Or</p>
-                                    <div class="social-icons">
-                                        <ul>
-                                            <li><a class="btn  btn-social btn-block"><i
-                                                        class="fa fa-google-plus text-google-plus"></i> Sign up with
-                                                    Google</a></li>
-                                            <li><a class="btn  btn-social btn-block mt-2"><i
-                                                        class="fa fa-facebook text-facebook"></i> Sign in with Facebook</a>
-                                            </li>
-                                        </ul>
-                                    </div> -->
-                                </div>
-                            </form>
-                        </ng-template>
-                    </li>
-                </ul>
-                <div class="container-login100" style="height: 490px;">
-                    <div class="wrap-login100 p-7" style="    height: 659px;">
-                        <div [ngbNavOutlet]="nav" class="ml-4" ></div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="carousel-image-overlay position-relative">
+                    <img src="assets/img/hero-carousel-6.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-md-block">
+                      <h1 class="text-white fw-bold">Dry Bulk Cargo</h1>
+                      <ul class="list-unstyled text-white">
+                        <li>Monitoring unexplained shortage in a domestic movement</li>
+                      </ul>
                     </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="carousel-image-overlay position-relative">
+                    <img src="assets/img/hero-carousel-7.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-md-block">
+                      <h1 class="text-white fw-bold">Courier Parcel Tracking</h1>
+                      <ul class="list-unstyled text-white">
+                        <li>Monitoring Theft in Couriers transits</li>
+                      </ul>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="carousel-image-overlay position-relative">
+                    <img src="assets/img/hero-carousel-8.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-md-block">
+                      <h1 class="text-white fw-bold">Reverse Logistics</h1>
+                      <ul class="list-unstyled text-white">
+                        <li>Return of portable device from vehicles/containers</li>
+                      </ul>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="carousel-image-overlay position-relative">
+                    <img src="assets/img/hero-carousel-9.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-md-block">
+                      <h1 class="text-white fw-bold">Customised Services</h1>
+                      <ul class="list-unstyled text-white">
+                        <li>Minimize your losses</li>
+                        <li>Provide effeciency in your transportation</li>
+                        <li>Purely cutomised value additions</li>
+                      </ul>
+                    </div>
+                    </div>
+                  </div>
+
                 </div>
-                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
             </div>
+          </div>
+        </div>
+  
+      </section><!-- /Hero Section -->
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <div class="row">
+            <div class="col-md-11 mx-auto">
+              <h2 class="text-decoration-underline mb-4">Who We Are</h2>
+              <p class="text-start">We provide complete solution from identifying appropriate GPS devices (portable / fixed) provider specific to your cargo along with web portal & mobile application for customers to monitor vehicle movement. We also do 24X7 tracking of vehicle, real time monitoring and escalation of alerts , coordinating with local police in case of hijack, transporters & drivers performance analysis, generating various kinds of reports like trip summary report ,halt report , harsh braking & over speeding report etc.</p>
+            </div>
+          </div>
+          
+        </div><!-- End Section Title -->
+  
+        <div class="container">
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Vehicle Tracking</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/vehicle_track.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="vehicleTracking">
+                    <div class="accordion" id="trackaccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="trackheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackcollapseOne" aria-expanded="true" aria-controls="trackcollapseOne">
+                            Sim Based
+                          </button>
+                        </h2>
+                        <div id="trackcollapseOne" class="accordion-collapse collapse" aria-labelledby="trackheadingOne" data-bs-parent="#trackaccordion">
+                          <div class="accordion-body">
+                            Market hired vehicle tracking, now instantly from dispatch location until destination on driver's sim with 24x7 inhouse tracking team
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="trackheadingTwo">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackcollapseTwo" aria-expanded="false" aria-controls="trackcollapseTwo">
+                            Portable Device
+                          </button>
+                        </h2>
+                        <div id="trackcollapseTwo" class="accordion-collapse collapse" aria-labelledby="trackheadingTwo" data-bs-parent="#trackaccordion">
+                          <div class="accordion-body">
+                            Market hired or own fleet- trip based service
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="trackheadingThree">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackcollapseThree" aria-expanded="false" aria-controls="trackcollapseThree">
+                            AIS 140 compliant device
+                          </button>
+                        </h2>
+                        <div id="trackcollapseThree" class="accordion-collapse collapse" aria-labelledby="trackheadingThree" data-bs-parent="#trackaccordion">
+                          <div class="accordion-body">
+                            Updated GPS device as per govt norms fo market hired or own fleet- trip based service
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="trackheadingFour">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackcollapseFour" aria-expanded="false" aria-controls="trackcollapseFour">
+                            App based Tracking
+                          </button>
+                        </h2>
+                        <div id="trackcollapseFour" class="accordion-collapse collapse" aria-labelledby="trackheadingFour" data-bs-parent="#trackaccordion">
+                          <div class="accordion-body">
+                            Smart app pased logistics tracking for boasting effecieny and commercial TAT
+                          </div>
+                        </div>
+                      </div>
+      
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFive">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackcollapseFive" aria-expanded="false" aria-controls="trackcollapseFive">
+                            In house fleet movement tracking
+                          </button>
+                        </h2>
+                        <div id="trackcollapseFive" class="accordion-collapse collapse" aria-labelledby="trackheadingFive" data-bs-parent="#trackaccordion">
+                          <div class="accordion-body">
+                            RFID/GPS based monitoring system
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="trackheadingSix">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackcollapseSix" aria-expanded="false" aria-controls="trackcollapseSix">
+                            Anti theft Monitoring
+                          </button>
+                        </h2>
+                        <div id="trackcollapseSix" class="accordion-collapse collapse" aria-labelledby="trackheadingSix" data-bs-parent="#trackaccordion">
+                          <div class="accordion-body">
+                            Alerts on tampering/deviation for theft prone cargo with on ground support
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Container Tracking</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/courier_track.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="containerTracking">
+                    <div class="accordion" id="containerAccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="contheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contcollapseOne" aria-expanded="true" aria-controls="contcollapseOne">
+                            Door Opening Alerts
+                          </button>
+                        </h2>
+                        <div id="contcollapseOne" class="accordion-collapse collapse" aria-labelledby="contheadingOne" data-bs-parent="#containerAccordion">
+                          <div class="accordion-body">
+                            Know when & where the vehicle door is open
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="contheadingTwo">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contcollapseTwo" aria-expanded="false" aria-controls="contcollapseTwo">
+                            Container Live Monitoring
+                          </button>
+                        </h2>
+                        <div id="contcollapseTwo" class="accordion-collapse collapse" aria-labelledby="contheadingTwo" data-bs-parent="#containerAccordion">
+                          <div class="accordion-body">
+                            Real time updates of containers
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="contheadingThree">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contcollapseThree" aria-expanded="false" aria-controls="contcollapseThree">
+                            Container Door Opening Alerts
+                          </button>
+                        </h2>
+                        <div id="contcollapseThree" class="accordion-collapse collapse" aria-labelledby="contheadingThree" data-bs-parent="#containerAccordion">
+                          <div class="accordion-body">
+                            Know when & where the container door is open
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Rake/Wagon Tracking</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/rake_track.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="rakewagonTrack">
+                    <div class="accordion" id="rakeWagonaccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="rakeheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rakecollapseOne" aria-expanded="true" aria-controls="rakecollapseOne">
+                            Solar Power Tracking
+                          </button>
+                        </h2>
+                        <div id="rakecollapseOne" class="accordion-collapse collapse" aria-labelledby="rakeheadingOne" data-bs-parent="#rakeWagonaccordion">
+                          <div class="accordion-body">
+                            Rake tracking on solar power
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="rakeheadingTwo">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#rakecollapseTwo" aria-expanded="false" aria-controls="rakecollapseTwo">
+                            FNR Monitoring
+                          </button>
+                        </h2>
+                        <div id="rakecollapseTwo" class="accordion-collapse collapse" aria-labelledby="rakeheadingTwo" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            Track your rake with rain forecast alerts at destuffing locations
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Temperature Sensitive Cargo</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/temperature_cargo.jpg" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="tempSensiCargo">
+                    <div class="accordion" id="temSensCargoaccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="temSensheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#temSensCargocollapseOne" aria-expanded="true" aria-controls="temSensCargocollapseOne">
+                            Continuous Temperature Monitoring
+                          </button>
+                        </h2>
+                        <div id="temSensCargocollapseOne" class="accordion-collapse collapse" aria-labelledby="temSensheadingOne" data-bs-parent="#temSensCargoaccordion">
+                          <div class="accordion-body">
+                            Monitoring of Temperature sensitive cargo in transit
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Fuel Monitoring</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/fuel_monitoring.jpg" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="fuelMonitoring">
+                    <div class="accordion" id="fuelMonaccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="fuelMontheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fuelMontcollapseOne" aria-expanded="true" aria-controls="fuelMontcollapseOne">
+                            Vehicle Anti Fuel Theft
+                          </button>
+                        </h2>
+                        <div id="fuelMontcollapseOne" class="accordion-collapse collapse" aria-labelledby="fuelMontheadingOne" data-bs-parent="#fuelMonaccordion">
+                          <div class="accordion-body">
+                            Monitor your fleet for commercial gains
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Dry Bulk Cargo</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/dry_bulk.jpg" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="dryBulkCargo">
+                    <div class="accordion" id="dryBulkaccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="dryBulkheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dryBulkcollapseOne" aria-expanded="true" aria-controls="dryBulkcollapseOne">
+                            Monitoring unexplained shortage in a domestic movement
+                          </button>
+                        </h2>
+                        <div id="dryBulkcollapseOne" class="accordion-collapse collapse" aria-labelledby="dryBulkheadingOne" data-bs-parent="#dryBulkaccordion">
+                          <div class="accordion-body">
+                            Record keeping of bulk cargo movement INLAND transit
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Courier Parcel Tracking</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/parcel_track.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="courierParcel">
+                    <div class="accordion" id="courierAccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="courierheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#couriercollapseOne" aria-expanded="true" aria-controls="couriercollapseOne">
+                            Monitoring Theft in Couriers transits
+                          </button>
+                        </h2>
+                        <div id="couriercollapseOne" class="accordion-collapse collapse" aria-labelledby="courierheadingOne" data-bs-parent="#courierAccordion">
+                          <div class="accordion-body">
+                            Monitoring to curb skilful pilferage
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Reverse Logistics</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/reverse_logistic.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="reverseLogistic">
+                    <div class="accordion" id="reverseAccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="reverseheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reversecollapseOne" aria-expanded="true" aria-controls="reversecollapseOne">
+                            Return of portable device from vehicles/containers
+                          </button>
+                        </h2>
+                        <div id="reversecollapseOne" class="accordion-collapse collapse" aria-labelledby="reverseheadingOne" data-bs-parent="#reverseAccordion">
+                          <div class="accordion-body">
+                            Arrange reversal of portable devices/ dunnage/ securing apparatus etc
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Inspect My Route</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/inspect_route.jpg" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="vehicleTracking">
+                    <div class="accordion" id="inspectAccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="inspectheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#inspectcollapseOne" aria-expanded="true" aria-controls="inspectcollapseOne">
+                            Assess the risk of the route for a particular vehicle
+                          </button>
+                        </h2>
+                        <div id="inspectcollapseOne" class="accordion-collapse collapse" aria-labelledby="inspectheadingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="inspectheadingTwo">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#inspectcollapseTwo" aria-expanded="true" aria-controls="inspectcollapseTwo">
+                            LIVE forecast of rain, estimated travel time score of the risk
+                          </button>
+                        </h2>
+                        <div id="inspectcollapseTwo" class="accordion-collapse collapse" aria-labelledby="inspectheadingTwo" data-bs-parent="#inspectAccordion">
+                          <div class="accordion-body">
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="inspectheadingThree">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#inspectcollapseThree" aria-expanded="true" aria-controls="inspectcollapseThree">
+                            Help to choose best route for consigment
+                          </button>
+                        </h2>
+                        <div id="inspectcollapseThree" class="accordion-collapse collapse" aria-labelledby="inspectheadingThree" data-bs-parent="#inspectAccordion">
+                          <div class="accordion-body">
+                            
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row gy-4 mb-4">
+            <div class="col-md-11 mx-auto">
+              <h3 class="fw-bold text-captilize underline mb-4">Customised Services</h3>
+              <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+                  <img src="assets/img/custom_services.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+              
+                  <div class="customServices">
+                    <div class="accordion" id="accordionExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="custheadingOne">
+                          <button class="accordion-button shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#custcollapseOne" aria-expanded="true" aria-controls="custcollapseOne">
+                            List down your main areas and we will design the solution to 
+                          </button>
+                        </h2>
+                        <div id="custcollapseOne" class="accordion-collapse collapse" aria-labelledby="custheadingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <p>a) Minimize your losses</p>
+                            <p>b) Provide effeciency in your transportation.</p>
+                            <p>c) Purely cutomised value additions</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+  
+      </section>
+      <div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog shadow-lg">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <div class="popLogo">
+          <img src="assets/img/logo.png" height="60" alt="" />
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header bg-transparent border-bottom-0">
+            <h4 class="modal-title text-dark text-center fw-bold">SignIn</h4>
+          </div>
+          <div class="card-body">
+            <form
+              [formGroup]="loginForm"
+              class="validate-form row g-3 align-items-center justify-content-between"
+              (ngSubmit)="Submit()"
+            >
+              <!-- <div class="text-center">
+                <a >
+                  <img
+                    src="assets/images/itraceit_logo1.png"
+                    alt=""
+                    class="nav-icon"
+                    style="width: 111px; height: 88px"
+                  />
+                </a>
+                <span class="login100-form-title mt-3">CV Login</span>
+              </div> -->
+              <div class="col-md-12 mt-0">
+                <label for="groupId" class="form-label">Group Id</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="groupId"
+                  placeholder="Group Id (Optional)"
+                  formControlName="groupid"
+                />
+            </div>
+
+              <div class=" validate-input mt-3">
+                <label for="userid" class="form-label">User Id</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userid"
+                  placeholder="Enter Username/Email-Id"
+                  formControlName="userid"
+                  [ngClass]="{
+                    'input-error':
+                      sub_lg && loginForm.controls['userid'].value === ''
+                  }"
+                />
+                <span class="focus-input100"></span>
+                <span class="red-color" *ngIf="sub_lg && loginForm.controls['userid'].value === ''">
+                  *Required
+                </span>
+              </div>
+
+              <div class="validate-input mt-3 position-relative">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  class="form-control"
+                  id="password"
+                  placeholder="Enter Password"
+                  formControlName="password"
+                  [ngClass]="{
+                    'input-error':
+                      sub_lg && loginForm.controls['password'].value === ''
+                  }"
+                />
+                <span class="focus-input100"></span>
+                <span
+                  class="position-absolute toggle-password"
+                  style="
+                    right: 20px;
+                    top: 73%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                  "
+                  (click)="showPassword = !showPassword"
+                >
+                  <i
+                    class="zmdi"
+                    [ngClass]="showPassword ? 'zmdi-eye-off' : 'zmdi-eye'"
+                  ></i>
+                </span>
+                <span class="red-color" *ngIf="sub_lg && loginForm.controls['password'].value === ''">
+                  *Required
+                </span>
+              </div>
+
+              <div class="text-end pt-1">
+                <a href="#" class="text-decoration-none">Forgot Password?</a>
+              </div>
+
+              <div class="container-login100-form-btn text-center mt-3">
+                <button
+    
+                  type="submit"
+                  class="btn btn-primary login100-form-btn"
+                  [disabled]="!loginForm.valid"
+                >
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- /About Section -->
+      <footer id="footer" class="footer footerBg py-2">
+
+        <div class="container text-center mt-4">
+          <p class="text-white">© <span>Copyright</span> <strong class="px-1 sitename">2018 Itraceit.</strong> <span>All Rights Reserved</span> <span><a href="https://itraceit.in/users/privacy" class="text-white">Privacy Policy</a></span></p>
+        </div>
+    
+      </footer>
+
+     
         <!-- </div>
+
     </div> -->
     </ng-container>
     <!-- <ng-container *ngIf="show_html==false"> -->

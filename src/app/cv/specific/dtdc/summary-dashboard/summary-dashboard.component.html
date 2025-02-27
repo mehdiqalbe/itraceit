@@ -135,25 +135,47 @@
               <label for="Region" class="form-label">Region</label>
               <ng-select placeholder="Select" ngModel name="Region">
                 <ng-option value="" selected>Select</ng-option>
-                <ng-option *ngFor="let item of Master_filter?.Region | keyvalue"
+                <ng-option *ngFor="let item of Region | keyvalue"
                   [value]="item.value">{{item.value}}</ng-option>
               </ng-select>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="Origin" class="form-label">Origin</label>
-              <ng-select placeholder="Select" ngModel name="Origin">
+              <!-- <ng-select placeholder="Select" ngModel name="Origin">
                 <ng-option value="" selected>Select</ng-option>
-                <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue"
+                <ng-option *ngFor="let item of Customer | keyvalue"
                   [value]="item.key">{{item.value}}</ng-option>
-              </ng-select>
+              </ng-select> -->
+              <ng-select 
+              placeholder="Select Origin" 
+              [items]="filteredDestination1" 
+              bindLabel="value" 
+              bindValue="key" 
+              [typeahead]="searchTerm1" 
+              (search)="onSearch1($event)"
+              
+              [(ngModel)]="selectedDestination1" 
+              name="Origin">
+            </ng-select>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="Destination" class="form-label">Destination</label>
-              <ng-select placeholder="Select" ngModel name="Destination">
+              <!-- <ng-select placeholder="Select" ngModel name="Destination">
                 <ng-option value="" selected>Select</ng-option>
-                <ng-option *ngFor="let item of Master_filter?.Customer | keyvalue"
+                <ng-option *ngFor="let item of Destination | keyvalue"
                   [value]="item.value">{{item.value}}</ng-option>
-              </ng-select>
+              </ng-select> -->
+              <ng-select 
+              placeholder="Select Destination" 
+              [items]="filteredDestination" 
+              bindLabel="value" 
+              bindValue="key" 
+              [(ngModel)]="selectedDestination" 
+              [typeahead]="searchTerm" 
+              (search)="onSearch($event)"
+              name="Destination">
+            </ng-select>
+            
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="Route" class="form-label">Route Category</label>

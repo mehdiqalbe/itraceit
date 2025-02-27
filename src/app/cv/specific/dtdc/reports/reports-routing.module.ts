@@ -7,6 +7,7 @@ import { VehicleAddEditComponent } from '../manage/vehicle-add-edit/vehicle-add-
 import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
 import { VehicleUtilizationComponent } from './vehicle-utilization/vehicle-utilization.component';
 import { DataPushReportComponent } from './data-push-report/data-push-report.component';
+import { WorkingHourDistanceReportComponent } from './working-hour-distance-report/working-hour-distance-report.component';
 const routes: Routes = 
   [{
     path: '',
@@ -15,6 +16,7 @@ const routes: Routes =
       { path: '', redirectTo: 'TripReport', pathMatch: 'full' }, // Default route
       { path: 'TripReport', component:TripReportComponent},
       { path: 'SlotwiseReport', component:SlotwiseDistanceReportComponent},
+      { path: 'whSlotwiseReport', component:WorkingHourDistanceReportComponent},
       { path: 'DelayReport', component:DelayReportComponent},
       { path: 'VehicleReport', component:VehicleReportComponent},
       { path: 'VehicleUtilization', component:VehicleUtilizationComponent},

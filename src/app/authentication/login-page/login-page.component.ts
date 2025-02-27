@@ -5,7 +5,7 @@ import { from } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/shared/services/auth.service';
-
+declare var $: any;
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -21,6 +21,7 @@ export class LoginPageComponent implements OnInit {
   show_html:boolean=true;
   transporterAccessData:any=[]
   path: any;
+  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
   constructor(private authservice: AuthService, private router: Router, private formBuilder : FormBuilder, private route:ActivatedRoute) {
     
    
@@ -82,7 +83,8 @@ export class LoginPageComponent implements OnInit {
   console.log("Qalbe");
   
   var k= token?.split('?exttkn=')[1]?.split('&forGroup=')[0];
-  this.path= this.router.url?.split('$')[1]||'';
+  // this.path= this.router.url?.split('$')[1]||'';
+  this.path=decodeURIComponent( this.router.url?.split('$')[1]||'');
   console.log("pathk",k)
    if(k!==undefined){
     var acc=k;
@@ -158,7 +160,8 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('UserType',  resp.Data.AccountType);
           localStorage.setItem('specific_permission',resp.specific_permission);
           localStorage.setItem('Class',resp.Data.Class);
-              // console.log(this.path)
+              console.log(this.path)
+              
           this.router.navigate([`/cv/${resp.Data.Class}/${this.path}`]);
      
         }
@@ -213,9 +216,11 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('ThumbImage',resp.ThumbImage);
           localStorage.setItem('specific_permission',resp.specific_permission);
           localStorage.setItem('Class',resp.Data.Class);
+          localStorage.setItem('Menu',JSON.stringify(resp?.AccessMenu));
           // Check if specific_permission have values ---
-
+          $('#loginModal').modal('hide');
           this.router.navigate([`/cv/${resp.Data.Class}`]);
+          
       //     if(resp.specific_permission){
       //       // Check if specific_trip have values 1 ---
       //       if(resp.specific_permission.specific_trip==1){

@@ -533,10 +533,10 @@ this.rowData_popup = this.rowData_popup.map((person, index) => ({
   FixedElockVendor:person.DistanceKm2,
   PortableElockVendor: person.DistanceKm3,
   //   portableELockVendor: person.DistanceKm3,
-  DriverName: person.Driver,
+  DriverName: person.DriverName,
   // area: person.Area,
   // driverName: person.Driver,
-  DriverNumber:person.DriverMobile,
+  DriverNumber:person.DriverNumber,
   // driverNumber: person.DriverMobile,
   Transporter: person.Transporter,
   STD: person.STD, // Standard Time of Departure

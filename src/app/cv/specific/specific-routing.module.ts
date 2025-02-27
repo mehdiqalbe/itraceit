@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/shared/services/auth.guard';
 
 const routes: Routes = [
   { path: 'bluedart', loadChildren: () => import('./bluedart/bluedart.module').then(m => m.BluedartModule) },

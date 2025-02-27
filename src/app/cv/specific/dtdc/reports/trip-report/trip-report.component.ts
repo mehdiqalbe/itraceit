@@ -23,6 +23,8 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DtdcService } from '../../services/dtdc.service';
 declare var H: any;
+
+import { saveAs } from 'file-saver';
 declare var $: any;
 declare const agGrid: any;
 interface HTMLCanvasElement {
@@ -82,47 +84,51 @@ export class TripReportComponent implements OnInit {
   search_grid: boolean=false;
   demoPolyline: any=[];
   lastOpenedInfoWindow: any;
+  feeder_type: any;
+  columnApi: any;
+  Destination: any=[];
+  Region: any=[];
+  Customer: any=[];
+  searchTerm: any;
+  searchTerm1: any;
+  filteredDestination: any=[];
+  filteredDestination1: any=[];
+  selectedDestination: string | null = null;
+  selectedDestination1: string | null = null;
   constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
 
   ngOnInit(): void {
     let App = document.querySelector('.app');
     App?.classList.add('sidenav-toggled');
     this.token=localStorage.getItem('AccessToken')!;
-    this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
+    this.group_id=localStorage.getItem('GroupId')!;
+     const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+  
+    this.datetimepicker1 = this.datepipe.transform(yesterday, 'yyyy-MM-dd');
    
     this.datetimepicker =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.end();
     this.start();
     // this.masterUploadTable();
-    // this.Grid_table();
+    this.Grid_table();
     this.dtdcTripReportFilter()
     this.initMap1();
   }
+
   initMap1() 
   {
- 
- 
-   //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
-    const center = { lat: 23.2599, lng: 77.4126 };
- 
-   //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
-   // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
- // 
- 
-    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
-      zoom: 4,
+      const center = { lat: 23.2599, lng: 77.4126 };
+       this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+      zoom: 10,
        center: center,
  
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
  
     }
-    );
- 
-  
- 
-    
-      
+    );   
   }
   sidebarToggle() {
     let App = document.querySelector('.app');
@@ -165,10 +171,6 @@ export class TripReportComponent implements OnInit {
 
   masterUploadTable()
   {
-
-
-
-
    var tbl = $('#masterUpload')
    var table = $('#masterUpload').DataTable();
    table.clear()
@@ -182,12 +184,7 @@ export class TripReportComponent implements OnInit {
 
 
    $(document).ready(function () {
-
-
-
      $('#masterUpload').DataTable({
-
-
        "language": {
          search: '',
          searchPlaceholder: 'Search'
@@ -410,7 +407,6 @@ export class TripReportComponent implements OnInit {
     button.style.cursor = "pointer";
 
     // Clear previous content
-
     if (params.data.Full?.TrackHistory1 !== 'NA') {
       button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
       button.addEventListener("click", () => {
@@ -545,8 +541,8 @@ this.rowData_popup = eve.Detail.map((person, index) => ({
   area: person.Area,
   driverName: person.Driver ?? "",
   driverNumber: person.DriverMobile ?? "",
-  driverName_s: person.Driver_S ?? "",
-  driverNumber_s: person.DriverMobile_S ?? "",
+  // driverName_s: person.Driver_S ?? "",
+  // driverNumber_s: person.DriverMobile_S ?? "",
   transporter: person.Transporter ?? "",
   std: person.STD ?? "", // Standard Time of Departure
   atd: person.ATD ?? "", // Actual Time of Departure
@@ -569,7 +565,7 @@ this.rowData_popup = eve.Detail.map((person, index) => ({
   gpsException2: person.GPSException2,
   gpsException3: person.GPSException3,
   supervisorException: person.SupervisorException,
-  status: person.status,
+  status: person.TripStatus,
   systemRemarks: person.Remarks,
   closeBy: person.CloseBy,
   closeDate: person.CloseDate,
@@ -683,9 +679,45 @@ const gridDiv = document.querySelector('#myGrid-popup');
 new agGrid.Grid(gridDiv, this.gridOptions_popup);
 // this.gridOptions_popup.columnApi.setColumnVisible("Full", false);
  }
- Grid_table(){
+ private parseDate(dateString) {
+  let parsedDate:any;
+  console.log(dateString)
+  if(dateString !==''&& dateString !=='-'){
+  // Split the `dd-MM-yyyy HH:mm:ss` format into components
+  const [yearTime, month, day] = dateString.split('-');
+  const [day1, time] = day.split(' ');
+   parsedDate = new Date(`${month}/${day1}/${yearTime} ${time}`);
+ }
+  return parsedDate
+}
 
+
+
+formatDate(dateTimeString) {
+  if(dateTimeString !==''&& dateTimeString !=='-'&&dateTimeString !==undefined){
+  const date = new Date(dateTimeString);
+
+  // Validate if the input is a valid date
+  if (isNaN(date.getTime())) {
+    return ''; // Return an appropriate error or message if the input is not valid
+  }
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+}else{
+  return '';
+}
+}
+
+ Grid_table(){
   if (this.gridApi) {
+    console.log("aman");
     this.gridApi.destroy();
   }
   if(this.extra){
@@ -697,6 +729,9 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   
         // Create the container div
         const container = document.createElement("div");
+        
+        container.style.marginLeft = "-26px";
+       
         container.style.display = "flex";
         container.style.alignItems = "center";
         container.style.justifyContent = "center";
@@ -711,6 +746,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         button.style.background = "none";
         button.style.marginLeft = "5px";
         button.style.cursor = "pointer";
+        button.style.width = "25px";
         if(params.data.Full.Detail.length!==0){
         button.innerHTML = `<strong style="color: blue;"><i class=" fa fa-plus" style="font-size:15px; color:black" ></strong>`;
       
@@ -726,14 +762,15 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         });
         }
         // Append span and button to the container
-        container.appendChild(serialSpan);
         container.appendChild(button);
+        container.appendChild(serialSpan);
+        
       
         return container;
           
     },
     minWidth: 100, maxWidth: 100, },
-      // { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
+      { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150 },
       { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
       { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
       { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100,},
@@ -742,75 +779,211 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
       { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
       { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200, },
-      { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
-      { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+      { headerName: "Run Date & Time", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 180,  minWidth: 180, maxWidth: 180,},
+      // { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
       { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
-      { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200, cellRenderer: params => {
+      { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 170,  minWidth: 170, maxWidth: 170,
+      //    cellRenderer: params => {
+      //   // Create the container div
+      //   const container = document.createElement("div");
+      //   container.style.display = "flex";
+      //   container.style.alignItems = "center";
+      //   container.style.justifyContent = "center";
+      
+      //   // Create the span for the serial number
+      //   const serialSpan = document.createElement("span");
+      //   serialSpan.textContent = params.value;
+      
+      //   // Create the button
+        
+      //   const button = document.createElement("button");
+      //   button.innerHTML = "";
+      //   button.style.border = "none";
+      //   button.style.background = "none";
+      //   button.style.marginLeft = "5px";
+      //   button.style.cursor = "pointer";
+  
+      //   // Clear previous content
+  
+      //   if (params.data.Full?.TrackHistory1 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+      //     button.addEventListener("click", () => {
+      //       console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
+        
+      //   if (params.data.Full?.TrackHistory2 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+          
+      //     button.addEventListener("click", () => {
+      //       console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
+        
+      //   if (params.data.Full?.TrackHistory3 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+         
+      //     button.addEventListener("click", () => {
+      //       // console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
+      //   if (params.data.Full?.TrackHistory3 !== 'NA'||params.data.Full?.TrackHistory2 !== 'NA'||params.data.Full?.TrackHistory1 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-download" style="font-size:17px ; color:#6ABD46"></i></strong>|`;
+         
+      //     button.addEventListener("click", () => {
+      //       // alert(1)
+      //       this.getExcelContent(params.data.Full)
+      //       // console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       // this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
+      //     });
+      //   }
+      //   // Attach event listener to the button
+       
+      
+      //   // Append span and button to the container
+      //   container.appendChild(serialSpan);
+      //   container.appendChild(button);
+      
+      //   return container;
+      // },
+      cellRenderer: params => {
+        
         // Create the container div
         const container = document.createElement("div");
         container.style.display = "flex";
         container.style.alignItems = "center";
         container.style.justifyContent = "center";
       
-        // Create the span for the serial number
         const serialSpan = document.createElement("span");
         serialSpan.textContent = params.value;
       
-        // Create the button
-        
         const button = document.createElement("button");
-        button.innerHTML = "";
         button.style.border = "none";
         button.style.background = "none";
         button.style.marginLeft = "5px";
         button.style.cursor = "pointer";
-  
-        // Clear previous content
-  
-        if (params.data.Full?.TrackHistory1 !== 'NA') {
-          button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-          button.addEventListener("click", () => {
-            console.log("Row Data:", params.data.Full);
-            // this.Detail(params.data.Full)
-            this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
-          });
-        } else {
-          button.innerHTML += `<span style="color: black;">Na</span>|`;
-        }
-        
-        if (params.data.Full?.TrackHistory2 !== 'NA') {
-          button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-          
-          button.addEventListener("click", () => {
-            console.log("Row Data:", params.data.Full);
-            // this.Detail(params.data.Full)
-            this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
-          });
-        } else {
-          button.innerHTML += `<span style="color: black;">Na</span>|`;
-        }
-        
-        if (params.data.Full?.TrackHistory3 !== 'NA') {
-          button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-         
-          button.addEventListener("click", () => {
-            // console.log("Row Data:", params.data.Full);
-            // this.Detail(params.data.Full)
-            this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
-          });
-        } else {
-          button.innerHTML += `<span style="color: black;">Na</span>|`;
-        }
-        
-        // Attach event listener to the button
-       
       
-        // Append span and button to the container
+        const div = document.createElement("div");
+        div.style.border = "none";
+        div.style.background = "none";
+        div.style.marginLeft = "5px";
+        div.style.cursor = "pointer";
+      
+        // Clear previous content
+        if (params.data.Full?.TrackHistory1 !== 'NA') {
+          button.innerHTML += `
+            <strong style="color: blue; margin-right: 0px;">
+              <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+            </strong>
+            <span style="margin-left: 5px;">|</span>
+          `;
+          button.addEventListener("click", () => {
+            this.vehicleTrackF_new(
+              params.data.Full?.CloseDate,
+              '',
+              params.data.Full?.TrackHistory1.Imei,
+              params.data.Full?.TrackHistory1.RnDt,
+              params.data.Full?.TrackHistory1.Vno,
+              params.data.Full?.TrackHistory1,
+              params.data.Full?.TrackHistory1.ShpNo,
+              params.data.Full?.TrackHistory1.Id
+            );
+          });
+        } else {
+          button.innerHTML += `
+            <span style="color: black; margin-right: 0px;">Na</span>
+            <span style="margin-left: 5px;">|</span>
+          `;
+        }
+      
+        if (params.data.Full?.TrackHistory2 !== 'NA') {
+          button.innerHTML += `
+            <strong style="color: blue; margin-right: 0px;">
+              <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+            </strong>
+            <span style="margin-left: 5px;">|</span>
+          `;
+          button.addEventListener("click", () => {
+            this.vehicleTrackF_new(
+              params.data.Full?.CloseDate,
+              '',
+              params.data.Full?.TrackHistory2.Imei,
+              params.data.Full?.TrackHistory2.RnDt,
+              params.data.Full?.TrackHistory2.Vno,
+              params.data.Full?.TrackHistory2,
+              params.data.Full?.TrackHistory2.ShpNo,
+              params.data.Full?.TrackHistory2.Id
+            );
+          });
+        } else {
+          button.innerHTML += `
+            <span style="color: black; margin-right: 0px;">Na</span>
+            <span style="margin-left: 5px;">|</span>
+          `;
+        }
+      
+        if (params.data.Full?.TrackHistory3 !== 'NA') {
+          button.innerHTML += `
+            <strong style="color: blue; margin-right: 0px;">
+              <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+            </strong>
+          `;
+          button.addEventListener("click", () => {
+            this.vehicleTrackF_new(
+              params.data.Full?.CloseDate,
+              '',
+              params.data.Full?.TrackHistory3.Imei,
+              params.data.Full?.TrackHistory3.RnDt,
+              params.data.Full?.TrackHistory3.Vno,
+              params.data.Full?.TrackHistory3,
+              params.data.Full?.TrackHistory3.ShpNo,
+              params.data.Full?.TrackHistory3.Id
+            );
+          });
+        } else {
+          button.innerHTML += `
+            <span style="color: black; margin-right:0px;">Na</span>
+            <span style="margin-left: 5px;">|</span>
+          `;
+        }
+      
+        // Attach event listener to the download icon
+        if (
+          params.data.Full?.TrackHistory3 !== 'NA' ||
+          params.data.Full?.TrackHistory2 !== 'NA' ||
+          params.data.Full?.TrackHistory1 !== 'NA'
+        ) {
+          div.innerHTML += `
+            <strong style="color: blue;">
+              <i class="fa fa-download" style="font-size:17px; color:#6ABD46; margin-left: 0px;"></i>
+            </strong>
+          `;
+          div.addEventListener("click", () => {
+            this.getExcelContent(params.data.Full);
+          });
+        }
+      
+        // Append elements to the container
         container.appendChild(serialSpan);
         container.appendChild(button);
+        container.appendChild(div);
       
         return container;
       },
+      
        },
        { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
        { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
@@ -851,7 +1024,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
        { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
        { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
        // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
-       { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+      //  { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
    
        { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
        { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
@@ -859,15 +1032,18 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
        { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
        { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-       { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-       { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 300},
-       { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
-       { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-       { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
-       { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
-       { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
-       { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
-       { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+       { headerName: "Bay IN", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Bay OUT", field: "BayOUT", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Shipment Count IN", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+       { headerName: "Shipment Count OUT", field: "ShipmentCountOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+       { headerName: "Weight IN", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "Weight OUT", field: "WeightOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+        //  { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+      //  { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+      //  { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+      //  { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+      //  { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+      //  { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
       
       // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
       // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
@@ -884,7 +1060,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       container.style.display = "flex";
       container.style.alignItems = "center";
       container.style.justifyContent = "center";
-    
+      container.style.marginLeft = "-26px";
       // Create the span for the serial number
       const serialSpan = document.createElement("span");
       serialSpan.textContent = params.value;
@@ -895,6 +1071,8 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       button.style.background = "none";
       button.style.marginLeft = "5px";
       button.style.cursor = "pointer";
+      button.style.width = "25px";
+      // width: 25px;
       if(params.data.Full.Detail.length!==0){
       button.innerHTML = `<strong style="color: blue;"><i class=" fa fa-plus" style="font-size:15px; color:black" ></strong>`;
     
@@ -910,14 +1088,15 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       });
       }
       // Append span and button to the container
-      container.appendChild(serialSpan);
       container.appendChild(button);
+      container.appendChild(serialSpan);
+     
     
       return container;
         
   },
    },
-    { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter },
+    { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150 },
     { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
     { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
@@ -926,75 +1105,211 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "TripId", field: "tripId", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150},
-    { headerName: "RunDate", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
-    { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+    { headerName: "Run Date & Time", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 180,  minWidth: 180, maxWidth: 180},
+    // { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
     { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
-    { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200, cellRenderer: params => {
+    { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 170,  minWidth: 170, maxWidth: 170,
+    //    cellRenderer: params => {
+    //   // Create the container div
+    //   const container = document.createElement("div");
+    //   container.style.display = "flex";
+    //   container.style.alignItems = "center";
+    //   container.style.justifyContent = "center";
+    //   const serialSpan = document.createElement("span");
+    //   serialSpan.textContent = params.value;
+    //   const button = document.createElement("button");
+    //   button.innerHTML = "";
+    //   button.style.border = "none";
+    //   button.style.background = "none";
+    //   button.style.marginLeft = "5px";
+    //   button.style.cursor = "pointer";
+    //   const div = document.createElement("div");
+    //   div.innerHTML = "";
+    //   div.style.border = "none";
+    //   div.style.background = "none";
+    //   div.style.marginLeft = "5px";
+    //   div.style.cursor = "pointer";
+    //   // Clear previous content
+
+    //   if (params.data.Full?.TrackHistory1 !== 'NA') {
+    //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+    //     button.addEventListener("click", () => {
+    //       console.log("Row Data:", params.data.Full);
+    //       // this.Detail(params.data.Full)
+    //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
+    //     });
+    //   } else {
+    //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+    //   }
+      
+    //   if (params.data.Full?.TrackHistory2 !== 'NA') {
+    //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+        
+    //     button.addEventListener("click", () => {
+    //       console.log("Row Data:", params.data.Full);
+    //       // this.Detail(params.data.Full)
+    //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
+    //     });
+    //   } else {
+    //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+    //   }
+      
+    //   if (params.data.Full?.TrackHistory3 !== 'NA') {
+    //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>`;
+       
+    //     button.addEventListener("click", () => {
+    //       // console.log("Row Data:", params.data.Full);
+    //       // this.Detail(params.data.Full)
+    //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
+    //     });
+    //   } else {
+    //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+    //   }
+      
+    //   // Attach event listener to the button
+    //   if (params.data.Full?.TrackHistory3 !== 'NA'||params.data.Full?.TrackHistory2 !== 'NA'||params.data.Full?.TrackHistory1 !== 'NA') {
+    //     div.innerHTML += `<strong style="color: blue;"><i class="fa fa-download" style="font-size:17px ; color:#6ABD46"></i></strong>`;
+       
+    //     div.addEventListener("click", () => {
+         
+    //       this.getExcelContent(params.data.Full)
+    //       // console.log("Row Data:", params.data.Full);
+    //       // this.Detail(params.data.Full)
+    //       // this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
+    //     });
+    //   }
+    
+    //   // Append span and button to the container
+    //   container.appendChild(serialSpan);
+    //   container.appendChild(button);
+    //   container.appendChild(div);
+    
+    //   return container;
+    // },
+    cellRenderer: params => { console.log("Row Data:", params.data.Full);
       // Create the container div
       const container = document.createElement("div");
       container.style.display = "flex";
       container.style.alignItems = "center";
       container.style.justifyContent = "center";
     
-      // Create the span for the serial number
       const serialSpan = document.createElement("span");
       serialSpan.textContent = params.value;
     
-      // Create the button
-      
       const button = document.createElement("button");
-      button.innerHTML = "";
       button.style.border = "none";
       button.style.background = "none";
       button.style.marginLeft = "5px";
       button.style.cursor = "pointer";
-
-      // Clear previous content
-
-      if (params.data.Full?.TrackHistory1 !== 'NA') {
-        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-        button.addEventListener("click", () => {
-          console.log("Row Data:", params.data.Full);
-          // this.Detail(params.data.Full)
-          this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
-        });
-      } else {
-        button.innerHTML += `<span style="color: black;">Na</span>|`;
-      }
-      
-      if (params.data.Full?.TrackHistory2 !== 'NA') {
-        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-        
-        button.addEventListener("click", () => {
-          console.log("Row Data:", params.data.Full);
-          // this.Detail(params.data.Full)
-          this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
-        });
-      } else {
-        button.innerHTML += `<span style="color: black;">Na</span>|`;
-      }
-      
-      if (params.data.Full?.TrackHistory3 !== 'NA') {
-        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-       
-        button.addEventListener("click", () => {
-          // console.log("Row Data:", params.data.Full);
-          // this.Detail(params.data.Full)
-          this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
-        });
-      } else {
-        button.innerHTML += `<span style="color: black;">Na</span>|`;
-      }
-      
-      // Attach event listener to the button
-     
     
-      // Append span and button to the container
+      const div = document.createElement("div");
+      div.style.border = "none";
+      div.style.background = "none";
+      div.style.marginLeft = "5px";
+      div.style.cursor = "pointer";
+    
+      // Clear previous content
+      if (params.data.Full?.TrackHistory1 !== 'NA') {
+        button.innerHTML += `
+          <strong style="color: blue; margin-right: 0px;">
+            <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+          </strong>
+          <span style="margin-left: 5px;">|</span>
+        `;
+        button.addEventListener("click", () => {
+          this.vehicleTrackF_new(
+            params.data.Full?.CloseDate,
+            '',
+            params.data.Full?.TrackHistory1.Imei,
+            params.data.Full?.TrackHistory1.RnDt,
+            params.data.Full?.TrackHistory1.Vno,
+            params.data.Full?.TrackHistory1,
+            params.data.Full?.TrackHistory1.ShpNo,
+            params.data.Full?.TrackHistory1.Id
+          );
+        });
+      } else {
+        button.innerHTML += `
+          <span style="color: black; margin-right: 0px;">Na</span>
+          <span style="margin-left: 5px;">|</span>
+        `;
+      }
+    
+      if (params.data.Full?.TrackHistory2 !== 'NA') {
+        button.innerHTML += `
+          <strong style="color: blue; margin-right: 0px;">
+            <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+          </strong>
+          <span style="margin-left: 5px;">|</span>
+        `;
+        button.addEventListener("click", () => {
+          this.vehicleTrackF_new(
+            params.data.Full?.CloseDate,
+            '',
+            params.data.Full?.TrackHistory2.Imei,
+            params.data.Full?.TrackHistory2.RnDt,
+            params.data.Full?.TrackHistory2.Vno,
+            params.data.Full?.TrackHistory2,
+            params.data.Full?.TrackHistory2.ShpNo,
+            params.data.Full?.TrackHistory2.Id
+          );
+        });
+      } else {
+        button.innerHTML += `
+          <span style="color: black; margin-right: 0px;">Na</span>
+          <span style="margin-left: 5px;">|</span>
+        `;
+      }
+    
+      if (params.data.Full?.TrackHistory3 !== 'NA') {
+        button.innerHTML += `
+          <strong style="color: blue; margin-right: 0px;">
+            <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+          </strong>
+        `;
+        button.addEventListener("click", () => {
+          this.vehicleTrackF_new(
+            params.data.Full?.CloseDate,
+            '',
+            params.data.Full?.TrackHistory3.Imei,
+            params.data.Full?.TrackHistory3.RnDt,
+            params.data.Full?.TrackHistory3.Vno,
+            params.data.Full?.TrackHistory3,
+            params.data.Full?.TrackHistory3.ShpNo,
+            params.data.Full?.TrackHistory3.Id
+          );
+        });
+      } else {
+        button.innerHTML += `
+          <span style="color: black; margin-right: 0px;">Na</span>
+          <span style="margin-left: 5px;">|</span>
+        `;
+      }
+    
+      // Attach event listener to the download icon
+      if (
+        params.data.Full?.TrackHistory3 !== 'NA' ||
+        params.data.Full?.TrackHistory2 !== 'NA' ||
+        params.data.Full?.TrackHistory1 !== 'NA'
+      ) {
+        div.innerHTML += `
+          <strong style="color: blue;">
+            <i class="fa fa-download" style="font-size:17px; color:#6ABD46; margin-left: 0px;"></i>
+          </strong>
+        `;
+        div.addEventListener("click", () => {
+          this.getExcelContent(params.data.Full);
+        });
+      }
+    
+      // Append elements to the container
       container.appendChild(serialSpan);
       container.appendChild(button);
+      container.appendChild(div);
     
       return container;
     },
+    
      },
     { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
     { headerName: "Branch", field: "branch", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
@@ -1035,16 +1350,20 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     { headerName: "Fixed E-lock Vendor", field: "fixedELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
-    { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+    // { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
     { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-    { headerName: "Bay IN/OUT", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-    { headerName: "Shipment Count IN/OUT", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
-    { headerName: "Weight IN/OUT", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "Bay IN", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Bay OUT", field: "BayOUT", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Shipment Count IN", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+    { headerName: "Shipment Count OUT", field: "ShipmentCountOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+    { headerName: "Weight IN", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "Weight OUT", field: "WeightOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    
     // if(){
     // { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
@@ -1053,19 +1372,18 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter },
     // }
-    { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-    { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
-    { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
-    { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
-    { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
-    { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    // { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    // { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    // { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+    // { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+    // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
    
     // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
   ];}
-
   this.rowData = this.new_array.map((person, index) => ({
-
+    // runDate:person.RunDate,
     sl: index + 1,
     routeType: person.ShipmentMethod,
     region: person.Region,
@@ -1076,21 +1394,22 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     fleet: person.FleetNo ?? "",
     tripId: person.ShipmentNo,
     runCode: person.RunCode,
-    runDate: new Date(person.RunDate).toLocaleDateString('en-CA') ?? "",
-    runtime: person.RunDate ? new Date(person.RunDate).toLocaleTimeString('en-GB') : "",
+    // runDate: new Date(person.RunDate).toLocaleDateString('en-CA') ?? "",
+    // runDate: person.RunDate,
+    runDate:this.formatDate(person.RunDate),
+    // runtime: person.RunDate ? new Date(person.RunDate).toLocaleTimeString('en-GB') : "",
     vehicle: person.VehicleNo ?? "",
     trackHistory: "",
     state: person.State,
-
     branch: person.BranchName,
     area: person.Area,
     driverName: person.Driver ?? "",
     driverNumber: person.DriverMobile ?? "",
-    driverName_s: person.Driver_S ?? "",
-    driverNumber_s: person.DriverMobile_S ?? "",
+    // driverName_s: person.Driver_S ?? "",
+    // driverNumber_s: person.DriverMobile_S ?? "",
     transporter: person.Transporter ?? "",
-    std: person.STD ?? "", // Standard Time of Departure
-    atd: person.ATD ?? "", // Actual Time of Departure
+    std: this.formatDate(person.STD) ?? "", // Standard Time of Departure
+    atd: this.formatDate(person.ATD) ?? "", // Actual Time of Departure
     delayDeparture: person.DelayDeparture ?? "",
     sta: person.STA ?? "", // Standard Time of Arrival
     ata: person.ATA ?? "", // Actual Time of Arrival
@@ -1110,7 +1429,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     gpsException2: person.GPSException2,
     gpsException3: person.GPSException3,
     supervisorException: person.SupervisorException,
-    status: person.status,
+    status: person.TripStatus,
     systemRemarks: person.Remarks,
     closeBy: person.CloseBy,
     closeDate: person.CloseDate,
@@ -1120,24 +1439,27 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
     gpsVendor: person.GPSVendorType1,
     fixedELockVendor: person.GPSVendorType2,
     portableELockVendor: person.GPSVendorType3,
-    portableELockDevice:person.PortableLockVendor,
+    // portableELockDevice:person.PortableLockVendor,
     Full: person,
-    BranchLocation: person.BranchLocation || "N/A",
-  BranchHandoverTime: person.BranchHandoverTime || "N/A",
-  GateInTime: person.GateInTime || "N/A",
-  GateOutTime: person.GateOutTime || "N/A",
-  GPSATA: person.GpsAta || "N/A",
-  GPSATD: person.GpsAtd || "N/A",
-  Bay: person.BayNoIn+'/'+person.BayNoOut || "N/A",
-  ShipmentCount: person.ShipmentCountIn+'/'+person.ShipmentCountOut || 0,
-  Weight: person.WeightIn+'/'+person.WeightOut || 0,
+    BranchLocation: person.BranchLocation || "",
+  BranchHandoverTime: this.formatDate(person.BranchHandoverTime) || "",
+  GateInTime: this.formatDate(person.GateInTime) || "",
+  GateOutTime: this.formatDate(person.GateOutTime) || "",
+  GPSATA:this.formatDate( person.GpsAta) || "",
+  GPSATD:this.formatDate( person.GpsAtd )|| "",
+  Bay: person.BayNoIn || "",
+  BayOUT:person.BayNoOut,
+  ShipmentCount: person.ShipmentCountIn || 0,
+  ShipmentCountOUT: person.ShipmentCountOut || '',
+  Weight: person.WeightIn || 0,
+  WeightOUT: person.WeightOut || '',
 
-  ServerGPSReceivedIn:  this.extra ? person.ServerGPSReceivedIn : null,
-  ServerGPSProcessedIn:  this.extra ? person.ServerGPSProcessedIn : null,
-  ServerGPSReceivedOut:  this.extra ? person.ServerGPSReceivedOut : null,
-  ServerGPSProcessedOut:  this.extra ? person.ServerGPSProcessedOut : null,
-  PushTimeIn:  this.extra ? person.PushTimeIn : null,
-  PushTimeOut:  this.extra ? person.PushTimeOut : null,
+  // ServerGPSReceivedIn:  this.extra ? person.ServerGPSReceivedIn : null,OUT
+  // ServerGPSProcessedIn:  this.extra ? person.ServerGPSProcessedIn : null,
+  // ServerGPSReceivedOut:  this.extra ? person.ServerGPSReceivedOut : null,
+  // ServerGPSProcessedOut:  this.extra ? person.ServerGPSProcessedOut : null,
+  // PushTimeIn:  this.extra ? person.PushTimeIn : null,
+  // PushTimeOut:  this.extra ? person.PushTimeOut : null,
     // closeDeviceBy:' person.close_device_by',BayNoIn
     // portableLockDevice: 'person.portable_lock_device'
   }));
@@ -1182,14 +1504,15 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
 //   };
 //   const gridDiv = document.querySelector('#myGrid');
 //   new agGrid.Grid(gridDiv, this.gridOptions);
-if (this.gridOptions.length == 0) {
+// alert(2)
+// if (this.gridOptions.length == 0) {
       this.gridOptions = {
         rowHeight: 30,
         // headerHeight: 40,
 
         // enableHtmlForHeaderNames: true,
         columnDefs: this.columnDefs,
-        rowData: this.rowData,
+        // rowData: this.rowData,
         pagination: true,
         paginationPageSize: 50,
         paginationPageSizeSelector: [10, 50, 100, 500, 1000],
@@ -1214,8 +1537,13 @@ if (this.gridOptions.length == 0) {
           }
         },
         onGridReady: (params) => {
-          this.gridOptions.api = params.api; // Correctly set the API
-          console.log('AG-Grid API:', this.gridOptions.api);
+          // this.gridOptions.api = params.api; // Correctly set the API
+          this.gridApi = params.api;
+          this.columnApi = params.columnApi;
+          // console.log('AG-Grid API:', this.gridOptions.api);
+          if (this.gridApi) {
+            this.gridApi.setGridOption('rowData', this.rowData)
+          }
         },
         // onGridReady: (params) => {
         //   // Explicitly set API references
@@ -1228,13 +1556,14 @@ if (this.gridOptions.length == 0) {
         ///////////////////////////////////////
 
       }
-      const gridDiv = document.querySelector('#myGrid');
+      const gridDiv = document?.querySelector('#myGrid');
+      if(gridDiv)
       new agGrid.Grid(gridDiv, this.gridOptions);
-    }
-    else {
-      this.gridOptions.api.setColumnDefs(this.columnDefs);
-      this.gridOptions.api.setRowData(this.rowData);
-    }
+    // }
+    // else {
+    //   this.gridApi.setColumnDefs(this.columnDefs);
+    //   this.gridApi.setRowData(this.rowData);
+    // }
  }
  Grid_table1(){
   this.columnDefs = [
@@ -1361,6 +1690,92 @@ if (this.gridOptions.length == 0) {
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
+ getExcelContent(val){
+  console.log(val);
+  
+  const formData = new FormData();
+  const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+  formData.append('AccessToken', this.token);
+  formData.append('startdate', val?.RunDate);
+  formData.append('enddate', currentDateTime);
+  formData.append('time_interval', '120');
+  formData.append('imei', val?.ImeiNo1||val?.ImeiNo2||val?.ImeiNo3);
+  formData.append('group_id', this.group_id);
+  formData.append('AccountId', this.account_id);
+
+  this.CrudService.vehicleTrackongS(formData).subscribe((res: any) => {
+  
+   
+    
+    if (res.Status === 'success' && Array.isArray(res.data) && res.data.length > 0) {
+ 
+      this.trackingData=res?.data
+       console.log(this.trackingData,"excel");
+       const customFields = [
+         { key: 'server_time', header: 'STS' },
+        { key: 'device_time', header: 'Date Time' },
+        { key: 'lat', header: 'Latitude' },
+        { key: 'long', header: 'Longitude' },
+        { key: 'speed', header: 'Speed' }, // Add Speed field
+        { key: 'location', header: 'Location' }, // Derived field
+      ];
+      const endDate: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      const headerInfo = `DataLog For Vehicle: ${val?.VehicleNo} (${val?.VehicleNo}) Between Date: ${val?.RunDate} And ${endDate} On Route ${val?.Route}`;
+       this.downloadExcel(customFields,headerInfo)
+         
+      // Initialize the map with the coordinates
+  
+    } else {
+      console.log('No valid locations found in the response.');
+      alert("No tracking data")
+    }
+  }, error => {
+   
+    console.error('Error fetching vehicle tracking data:', error);
+  });
+}
+
+
+downloadExcel(customFields: any[], headerInfo: string) {
+  // Map trackingData to include only the required fields
+  const filteredData = this.trackingData.map((item) => {
+    const newItem: any = {};
+    customFields.forEach((field) => {
+      newItem[field.header] = item[field.key];
+    });
+    return newItem;
+  });
+
+  // Create a worksheet and add the headerInfo as the first row
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
+  XLSX.utils.sheet_add_aoa(worksheet, [[headerInfo]], { origin: 'A1' });
+  XLSX.utils.sheet_add_json(worksheet, filteredData, { origin: 'A2', skipHeader: false });
+
+  // Merge cells to make the header span the full row
+  const numColumns = customFields.length; // Number of columns
+  worksheet['!merges'] = [
+    { s: { r: 0, c: 0 }, e: { r: 0, c: numColumns - 1 } }, // Merge A1 to last column
+  ];
+
+  // Create a workbook and add the worksheet
+  const workbook: XLSX.WorkBook = {
+    Sheets: { 'Tracking Data': worksheet },
+    SheetNames: ['Tracking Data'],
+  };
+
+  // Write the workbook to a file
+  const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+  // Save the file using file-saver
+  const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  saveAs(data, 'TrackingData.xlsx');
+}
+
+
+
+// import * as XLSX from 'xlsx';
+// import * as FileSaver from 'file-saver';
 
 //  exportToExcel() {
 //   // Prepare main data
@@ -1415,18 +1830,405 @@ formatAlternatingParentChildData(data) {
 
   return formattedData;
 }
-exportToExcel(){
+exportToExcel1_1() {
+  // const transformedData = this.new_array; // Using your data array directly
+
+  const transformedData = this.formatAlternatingParentChildData(this.new_array); 
+  // Custom headers
+  const headers = [
+    "RouteType", 
+    "Region", 
+    "Origin", 
+    "Destination", 
+    "Route", 
+    "RouteSequence", 
+    "Fleet", 
+    "TripId",
+    "RunCode", 
+    "Run Date Time", 
+    // "Run Time", 
+    "Vehicle", 
+    "State", 
+    "Branch", 
+    "Area", 
+    "DriverName", 
+    "DriverNumber", 
+    // "DriverName(S)", 
+    // "DriverNumber(S)", 
+    "Transporter", 
+    "STD", 
+    "ATD", 
+    "DelayDeparture", 
+    "STA", 
+    "ATA", 
+    "TT-Mapped", 
+    "TT-Taken", 
+    "DelayArrival", 
+    "DelayTT", 
+    "ScheduleHalt", 
+    "ActualHalt", 
+    "ATT", 
+    "FixedGPS(Km)", 
+    "FixedE-Lock(Km)", 
+    "PortableE-Lock(Km)", 
+    "GPS Exception-1", 
+    "GPS Exception-2", 
+    "GPS Exception-3", 
+    "SupervisorException", 
+    "Status", 
+    "SystemRemarks", 
+    "CloseBy", 
+    "CloseDate", 
+    "Close By Device", 
+    "TotalBag", 
+    "Remarks", 
+    "GPSVendor", 
+    "Fixed E-lock Vendor", 
+    "Portable E-lock Vendor",
+    "Branch Location",
+     "Branch Handover Time", 
+    "Gate In Time",
+     "Gate Out Time", 
+    "GPS ATA",
+     "GPS ATD",
+     "Bay IN", 
+     "Bay OUT", 
+    "Shipment Count IN",
+    "Shipment Count OUT", 
+    "Weight IN",
+    "Weight OUT",
+  ];
+  const keys = [
+    "ShipmentMethod",   // routeType
+    "Region",           // region
+    "Source",           // origin
+    "Destination",      // destination
+    "RouteCode",        // route
+    "RouteName",        // routeSequence
+    "FleetNo",          // fleet
+    "ShipmentNo",       // tripId
+    "RunCode",          // runCode
+    "RunDate",          // runDate
+    // "RunDate",          // runtime (formatted from RunDate)
+    "VehicleNo",        // vehicle
+    "State",            // state
+    "BranchName",       // branch
+    "Area",             // area
+    "Driver",           // driverName
+    "DriverMobile",     // driverNumber
+    // "Driver_S",         // driverName_s
+    // "DriverMobile_S",   // driverNumber_s
+    "Transporter",      // transporter
+    "STD",              // std
+    "ATD",              // atd
+    "DelayDeparture",   // delayDeparture
+    "STA",              // sta
+    "ATA",              // ata
+    "TTMapped",         // ttMapped
+    "TTTaken",          // ttTaken
+    "DelayArrival",     // delayArrival
+    "DelayTT",          // delayTt
+    "ScheduleHalt",     // scheduleHalt
+    "ActualHalt",       // actualHalt
+    "ATT",              // att
+    "DistanceKm1",      // fixedGpsKm
+    "DistanceKm2",      // fixedELockKm
+    "DistanceKm3",      // portableELockKm
+    "GPSException1",    // gpsException1
+    "GPSException2",    // gpsException2
+    "GPSException3",    // gpsException3
+    "SupervisorException", // supervisorException
+    "TripStatus",       // status
+    "Remarks",          // systemRemarks
+    "CloseBy",          // closeBy
+    "CloseDate",        // closeDate
+    "CloseByDevice",        // createBy
+    "Bag",              // totalBag
+    "Remarks",          // remarks
+    "GPSVendorType1",   // gpsVendor
+    "GPSVendorType2",   // fixedELockVendor
+    // "GPSVendorType3",   // portableELockVendor
+    "PortableLockVendor", // portableELockDevice
+    "BranchLocation",   // BranchLocation
+    "BranchHandoverTime", // BranchHandoverTime
+    "GateInTime",       // GateInTime
+    "GateOutTime",      // GateOutTime
+    "GpsAta",           // GPSATA
+    "GpsAtd",           // GPSATD
+    "BayNoIn",          // Bay (combined with BayNoOut)
+    "BayNoOut",         // Bay (combined with BayNoIn)
+    "ShipmentCountIn",  // ShipmentCount (combined with ShipmentCountOut)
+    "ShipmentCountOut", // ShipmentCount (combined with ShipmentCountIn)
+    "WeightIn",         // Weight (combined with WeightOut)
+    "WeightOut",        // Weight (combined with WeightIn)
+    ];
+
+const dataWithHeaders = [
+  headers,
+  ...transformedData.map(row =>
+    headers.map((header, index) => {
+      const key = keys[index]; // Get the corresponding key for the header
+      return this.transformField(header, row[key]); // Pass the header and corresponding row[key] to transformField
+    })
+  ),
+];
+  // Convert to Exce
+  // const workbook = XLSX.utils.book_new();
+  // const sheet = XLSX.utils.aoa_to_sheet(dataWithHeaders);
+  // XLSX.utils.book_append_sheet(workbook, sheet, 'ParentChildData');
+  // XLSX.writeFile(workbook, 'TripReport.xlsx');
+}
+
+exportToExcel(): void {
+  const headers = [
+    "RouteType", 
+    "Region", 
+    "Origin", 
+    "Destination", 
+    "Route", 
+    "RouteSequence", 
+    "Fleet", 
+    "TripId",
+    "RunCode", 
+    "Run Date & Time", 
+    // "Run Time", 
+    "Vehicle", 
+    "State", 
+    "Branch", 
+    "Area", 
+    "DriverName", 
+    "DriverNumber", 
+    // "DriverName(S)", 
+    // "DriverNumber(S)", 
+    "Transporter", 
+    "STD", 
+    "ATD", 
+    "DelayDeparture", 
+    "STA", 
+    "ATA", 
+    "TT-Mapped", 
+    "TT-Taken", 
+    "DelayArrival", 
+    "DelayTT", 
+    "ScheduleHalt", 
+    "ActualHalt", 
+    "ATT", 
+    "FixedGPS(Km)", 
+    "FixedE-Lock(Km)", 
+    "PortableE-Lock(Km)", 
+    "GPS Exception-1", 
+    "GPS Exception-2", 
+    "GPS Exception-3", 
+    "SupervisorException", 
+    "Status", 
+    "SystemRemarks", 
+    "CloseBy", 
+    "CloseDate", 
+    "Close By Device", 
+    "TotalBag", 
+    "Remarks", 
+    "GPSVendor", 
+    "Fixed E-lock Vendor", 
+    "Portable E-lock Vendor",
+    "Branch Location",
+    "Branch Handover Time", 
+    "Gate In Time",
+    "Gate Out Time", 
+    "GPS ATA",
+    "GPS ATD",
+    "Bay IN", 
+    "Bay OUT", 
+    "Shipment Count IN",
+    "Shipment Count OUT", 
+    "Weight IN",
+    "Weight OUT",
+  ];
+
+  const keys = [
+    "ShipmentMethod", 
+    "Region", 
+    "Source", 
+    "Destination", 
+    "RouteCode", 
+    "RouteName", 
+    "FleetNo", 
+    "ShipmentNo",
+    "RunCode", 
+    "RunDate", 
+    // "RunDate", 
+    "VehicleNo", 
+    "State", 
+    "BranchName", 
+    "Area", 
+    "Driver", 
+    "DriverMobile", 
+    // "Driver_S", 
+    // "DriverMobile_S", 
+    "Transporter", 
+    "STD", 
+    "ATD", 
+    "DelayDeparture", 
+    "STA", 
+    "ATA", 
+    "TTMapped", 
+    "TTTaken", 
+    "DelayArrival", 
+    "DelayTT", 
+    "ScheduleHalt", 
+    "ActualHalt", 
+    "ATT", 
+    "DistanceKm1", 
+    "DistanceKm2", 
+    "DistanceKm3", 
+    "GPSException1", 
+    "GPSException2", 
+    "GPSException3", 
+    "SupervisorException", 
+    "TripStatus", 
+    "Remarks", 
+    "CloseBy", 
+    "CloseDate", 
+    "CloseByDevice", 
+    "Bag", 
+    "Remarks", 
+    "GPSVendorType1", 
+    "GPSVendorType2", 
+    "PortableLockVendor",
+    "BranchLocation", 
+    "BranchHandoverTime", 
+    "GateInTime", 
+    "GateOutTime", 
+    "GpsAta", 
+    "GpsAtd", 
+    "BayNoIn", 
+    "BayNoOut", 
+    "ShipmentCountIn", 
+    "ShipmentCountOut", 
+    "WeightIn", 
+    "WeightOut",
+  ];
+
   const transformedData = this.formatAlternatingParentChildData(this.new_array);
 
-// Convert to Excel
-const workbook = XLSX.utils.book_new();
-const sheet = XLSX.utils.json_to_sheet(transformedData);
-XLSX.utils.book_append_sheet(workbook, sheet, 'ParentChildData');
-XLSX.writeFile(workbook, 'TripReport.xlsx');
+  // Construct data with headers
+  const dataWithHeaders = [
+    headers,
+    ...transformedData.map(row =>
+      headers.map((header, index) => {
+        const key = keys[index]; // Match the key to the header
+        let value = row[key] || ""; // Use the row's value or an empty string if undefined
+  
+        // Check if the header is "Run Time" or "RunDate" to split date and time
+        if (header === "Run Time" && row["RunDate"]) {
+          // Extract time from RunDate
+          const runDate = new Date(row["RunDate"]);
+          value = runDate.toTimeString().split(" ")[0]; // Get the time in HH:MM:SS format
+
+
+        } else if (header === "Run Date & Time" && row["RunDate"]) {
+          const runDate = new Date(row["RunDate"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+        else if (header === "STD" && row["STD"]) {
+          const runDate = new Date(row["STD"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+        else if (header === "ATD" && row["ATD"]) {
+          const runDate = new Date(row["ATD"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+        else if (header === "CloseDate" && row["CloseDate"]) {
+          const runDate = new Date(row["CloseDate"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+        else if (header === "Branch Handover Time" && row["BranchHandoverTime"]) {
+          const runDate = new Date(row["BranchHandoverTime"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+
+        else if (header === "Gate In Time" && row["GateInTime"]) {
+          const runDate = new Date(row["GateInTime"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+
+        else if (header === "Gate Out Time" && row["GateOutTime"]) {
+          const runDate = new Date(row["GateOutTime"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+
+        else if (header === "GPS ATA" && row["GpsAta"]) {
+          const runDate = new Date(row["GpsAta"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }else if (header === "GPS ATD" && row["GpsAtd"]) {
+          const runDate = new Date(row["GpsAtd"]);  
+          value =this.formatDate(runDate); // Get the date in YYYY-MM-DD format
+        }
+        // Enclose value in double quotes if it contains a comma or double quote
+        const safeValue = value.toString().includes(",") || value.toString().includes('"')
+          ? `"${value.toString().replace(/"/g, '""')}"`
+          : value;
+  
+        return safeValue;
+      })
+    )
+  ];
+  
+
+  // Convert to CSV string
+  const csvContent = dataWithHeaders.map(row => row.join(',')).join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'TripReport.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
+
+transformField(header, value) {
+  // console.log(header,value)
+  if (header === "RunDate" && value) {
+    const [date, time] = value.split(" "); // Split date and time
+    return this.datepipe.transform(date, 'yyyy-MM-dd') ; // Return only the date
+  }
+  if (header === "Run Time" && value) {
+    const [, time] = value.split(" "); // Split date and time
+    return  time || ""; // Return only the time or an empty string if time is missing
+  }
+  return value || ""; // Return the value as is for other fields
+}
+
+
+
+
+// exportToExcel(){
+//   const transformedData = this.formatAlternatingParentChildData(this.new_array);
+
+// // Convert to Excel
+// const workbook = XLSX.utils.book_new();
+// const sheet = XLSX.utils.json_to_sheet(transformedData);
+// XLSX.utils.book_append_sheet(workbook, sheet, 'ParentChildData');
+// XLSX.writeFile(workbook, 'TripReport.xlsx');
+// }
 // const transformedData = formatAlternatingParentChildData(data);
 // console.log(transformedData);
-
+onSearch_origin(searchTerm: any) {
+  // Filter and update results based on the search term
+  searchTerm=searchTerm?.term
+  this.filteredDestination = this.Customer.filter(dest =>
+    dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).slice(0, 50); // Limit to a subset
+}
+onSearch_Destination(searchTerm: any) {
+  // Filter and update results based on the search term
+  searchTerm=searchTerm?.term
+  this.filteredDestination1 = this.Destination.filter(dest =>
+    dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).slice(0, 50); // Limit to a subset
+}
   onSearch(term: any) {
     console.log(term)
     if(term.term.length>=3){
@@ -1448,14 +2250,32 @@ XLSX.writeFile(workbook, 'TripReport.xlsx');
   // this.gridOptions.api = params.api;
   console.log('Grid API:', this.gridApi); // Check if API is assigned correctly
 }
-exportAsExcel() {
+// exportAsExcel() {
 
+//   if (this.gridApi) {
+//     this.gridApi.exportDataAsCsv({
+//       fileName: 'table-data.csv',
+//       columnKeys: this.columnDefs
+//         .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
+//         .map(colDef => colDef.field),
+//     });
+//   }
+// }
+exportAsExcel() {
   if (this.gridApi) {
     this.gridApi.exportDataAsCsv({
       fileName: 'table-data.csv',
       columnKeys: this.columnDefs
         .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
         .map(colDef => colDef.field),
+      processCellCallback: (params) => {
+        const value = params.value;
+        if (typeof value === 'string' && value.includes(',')) {
+          // If the value contains a comma, wrap it in double quotes
+          return `"${value.replace(/"/g, '""')}"`; // Escape any existing double quotes
+        }
+        return value; // Return the value as-is if no commas
+      },
     });
   }
 }
@@ -1477,10 +2297,24 @@ dtdcTripReportFilter(){
   formdata.append('AccessToken',this.token)
   
   this.dtdcService.dtdcTripReportFilter(formdata).subscribe((data:any) => {
-    console.log(data)
+ 
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
-      console.log(data.Filter)
+
+      this.Customer=this.Master_filter?.Customer
+      this.Destination=this.Master_filter?.Customer
+     
+      const Destination = this.Master_filter?.Customer || {};
+      this.Destination = Object.entries(Destination).map(([key, value]) => ({ key, value }));
+      
+      this.filteredDestination = this.Destination.slice(0, 50); // Initial subset
+     
+      const Destination1 = this.Master_filter?.Customer || {};
+      this.Customer = Object.entries(Destination1).map(([key, value]) => ({ key, value }));
+      
+      this.filteredDestination1 = this.Customer.slice(0, 50); // Initial subset
+     
+      // console.log(data.Filter)
     }else{
       // alert("Data not found ")
       alert(data?.Message);
@@ -1488,25 +2322,24 @@ dtdcTripReportFilter(){
     // console.log(data)
   })
 }
+
 triggerHstSubmit(eve){
   this.search_grid=true;
   this.submit=true;
-// alert(0)
-  // console.log(eve.form.status,eve)  triggerHistoryForm
   if(eve.form.status=='VALID'){
     this.SpinnerService.show()
   var formdata=new FormData()
-  // console.log($("#datepicker").val())
   formdata.append('AccessToken',this.token)
-  // formdata.append('DateFrom', $("#datepicker").val())
-  // formdata.append('DateTo', $("#datepicker1").val())
-  // var k=$("#datepicker").val();
  var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
  var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
   formdata.append('DateFrom',starteDate)
   formdata.append('DateTo', endDate)
   if(eve.value.ReportType=='3'){
-  formdata.append('ReportType','2');}else{
+  formdata.append('ReportType','2');
+}else if(eve.value.ReportType=='4'){
+  
+  formdata.append('ReportType','1');
+}else{
     
   formdata.append('ReportType',eve.value.ReportType);
   }
@@ -1515,36 +2348,35 @@ triggerHstSubmit(eve){
   if(eve.value.TripId){
     formdata.append('TripId',eve.value.TripId)
   }else{
+    console.log(eve.value.vehicle_number.$ngOptionLabel);
     // RouteType,RouteCategory,Origin,Destination,Route,Region,TripStatus,VehicleNo,SupervisorException
     if(eve.value.Feeder){formdata.append('RouteType',eve.value.Feeder)}
-   if(eve.value.TripType){ formdata.append('RouteCategory',eve.value.TripType)}
+  //  if(eve.value.TripType){ formdata.append('RouteCategory',eve.value.TripType)}
    if(eve.value.Origin){ formdata.append('Origin',eve.value.Origin)}
    if(eve.value.Destination){ formdata.append('Destination',eve.value.Destination)}
    if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
    if(eve.value.Region){ formdata.append('Region',eve.value.Region)}
    if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
-   if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number)}
+   if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number.$ngOptionLabel)}
   //  if(eve.VehicleNo){ formdata.append('vehicle',eve.vehicle_number);}
    
     // formdata.append('ETADelay',eve.Delay)
   }
-  // formdata.forEach((value, key) => {
-  //   console.log("formdata",key, value);
-  // });
+  formdata.forEach((value, key) => {
+  });
   this.dtdcService.dtdcTripReport(formdata).subscribe((data:any) => {
     this.submit=false;
     // console.log(data)
     if(data.Status=="success"){
-      if(eve.value.ReportType=='3'){
+      if(eve.value.ReportType=='3'||eve.value.ReportType=='4'){
         
        this.search_grid=false;
       this.new_array=data.Report;
-      console.log( this.new_array)
+      // console.log( this.new_array)
         this.exportToExcel();
         this.SpinnerService.hide();
       }else{
       this.new_array=data.Report;
-      console.log(this.new_array)
       this.Grid_table();
       this.SpinnerService.hide();}
     }else{
@@ -2064,7 +2896,6 @@ fetchCustomerInfo_new(Full: any) {
   const markers: google.maps.Marker[] = [];
   if (this.demomarker.length > 0) {
     this.demomarker.forEach(marker => {
-      console.log("Removing marker from map", marker);
       marker.setMap(null);
     });
     this.demomarker = [];  // Clear the array after removing markers
@@ -2413,7 +3244,7 @@ exportToPDF(): void {
   // Step 4: Generate and download the PDF
   pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
 }
-exportToCSV(): void {
+exportToCSV_delete(): void {
   const rows: string[] = [];
   const parentHeaders: string[] = [];
   const childHeaders: string[] = [];
@@ -2435,10 +3266,8 @@ exportToCSV(): void {
   });
 
   // Create parent header row
-  rows.push(parentHeaders.join(','));
-
-  // Create child header row
-  rows.push(childHeaders.join(','));
+  // rows.push(parentHeaders.map(value => `"${value}"`).join(',')); // Wrap headers in quotes
+  rows.push(childHeaders.map(value => `"${value}"`).join(',')); // Wrap headers in quotes
 
   // Extract row data
   const rowData: any[] = [];
@@ -2453,9 +3282,17 @@ exportToCSV(): void {
         colDef.children?.some((child: any) => child.headerName === header && child.field !== 'trackHistory') ||
         (colDef.headerName === header && colDef.field !== 'trackHistory')
       )?.field;
-      return field ? row[field] || '' : '';
+
+      let value = field ? row[field] || '' : '';
+      
+      // Handle commas and quotes in the value
+      if (typeof value === 'string') {
+        value = value.replace(/"/g, '""'); // Escape double quotes
+        value = `"${value}"`; // Wrap in double quotes
+      }
+      return value;
     });
-    rows.push(rowValues.join(','));
+    rows.push(rowValues.join(',')); // Combine row values into a single row
   });
 
   // Convert rows to CSV string
@@ -2466,14 +3303,356 @@ exportToCSV(): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', 'GridData.csv');
+  link.setAttribute('download', 'Trip Report.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+exportToCSV(): void {
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+  const rows: any[] = []; // Rows to be added in CSV
+  const fieldsArray = [
+    "", "ShipmentMethod", "Region", "Source", "Destination", "RouteCode",
+    "RouteName", "FleetNo", "ShipmentNo", "RunCode", "RunDate",
+    "RunTime", "VehicleNo", "TrackHistory", "State", "BranchName",
+    "Area", "Driver", "DriverMobile", "Transporter", "STD",
+    "ATD", "DelayDeparture", "STA", "ATA", "TTMapped",
+    "TTTaken", "DelayArrival", "DelayTT", "ScheduleHalt", "ActualHalt",
+    "ATT", "CloseByDevice", "DistanceKm1", "DistanceKm2", "DistanceKm3",
+    "GPSException1", "GPSException2", "GPSException3", "SupervisorException",
+    "TripStatus", "Remarks", "CloseBy", "CloseDate", "CreateBy",
+    "Bag", "GPSVendorType1", "GPSVendorType2", "GPSVendorType3",
+    "BranchLocation", "BranchHandoverTime", "GateInTime", "GateOutTime",
+    "GpsAta", "GpsAtd", "BayNoIn", "BayNoOut", "ShipmentCountIn",
+    "ShipmentCountOut", "WeightIn", "WeightOut"
+  ];
+
+  // Extract parent and child headers, excluding 'trackHistory'
+  this.columnDefs.forEach((colDef: any) => {
+    if (colDef.children) {
+      const filteredChildren = colDef.children.filter((child: any) => child.field !== 'trackHistory');
+      if (filteredChildren.length > 0) {
+        parentHeaders.push(colDef.headerName);
+        childHeaders.push(...filteredChildren.map((child: any) => child.headerName));
+      }
+    } else if (colDef.field !== 'trackHistory') {
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Push child headers as the first row
+  rows.push(childHeaders);
+
+  // Extract row data from the grid
+  const rowData: any[] = [];
+  this.gridOptions.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields, including child rows from Full.Detail
+  rowData.forEach((row: any) => {
+    // Process parent row
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header && child.field !== 'trackHistory') ||
+        (colDef.headerName === header && colDef.field !== 'trackHistory')
+      )?.field;
+
+      return field ? row[field] || '' : ''; // Extract value for parent row
+    });
+    rows.push(rowValues); // Add the parent row to rows
+
+    // Process child rows from Full.Detail if they exist
+    if (row.Full?.Detail?.length) {
+      row.Full.Detail.forEach((detail: any) => {
+        const childRowValues = fieldsArray.map((field: string) => {
+          console.log(field, detail[field]);
+          return detail[field] || ''; // Extract value for each field in fieldsArray
+        });
+        rows.push(childRowValues); // Add child row to rows
+      });
+    }
+  });
+
+  // Convert rows to CSV format
+  const csvContent = rows.map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+
+  // Create a Blob for CSV and trigger download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'Trip Report.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+exportToCSV_new(): void {
+  const rowData = this.new_array.map((person, index) => ({
+    sl: index + 1,
+    routeType: person.ShipmentMethod,
+    region: person.Region,
+    origin: person.Source ?? "",
+    destination: person.Destination ?? "",
+    route: person.RouteCode ?? "",
+    routeSequence: person.RouteName ?? "",
+    fleet: person.FleetNo ?? "",
+    tripId: person.ShipmentNo,
+    runCode: person.RunCode,
+    runDate: this.formatDate(person.RunDate) ?? "",
+    vehicle: person.VehicleNo ?? "",
+    state: person.State,
+    branch: person.BranchName,
+    area: person.Area,
+    driverName: person.Driver ?? "",
+    driverNumber: person.DriverMobile ?? "",
+    transporter: person.Transporter ?? "",
+    std: person.STD ?? "", // Standard Time of Departure
+    atd: person.ATD ?? "", // Actual Time of Departure
+    delayDeparture: person.DelayDeparture ?? "",
+    sta: person.STA ?? "", // Standard Time of Arrival
+    ata: person.ATA ?? "", // Actual Time of Arrival
+    ttMapped: person.TTMapped ?? "",
+    ttTaken: person.TTTaken ?? "",
+    delayArrival: person.DelayArrival ?? "",
+    delayTt: person.DelayTT,
+    scheduleHalt: person.ScheduleHalt,
+    actualHalt: person.ActualHalt,
+    att: person.ATT, // Actual Travel Time
+    CloseByDevice: person.CloseByDevice,
+    fixedGpsKm: person.DistanceKm1,
+    fixedELockKm: person.DistanceKm2,
+    portableELockKm: person.DistanceKm3,
+    gpsException1: person.GPSException1,
+    gpsException2: person.GPSException2,
+    gpsException3: person.GPSException3,
+    supervisorException: person.SupervisorException,
+    status: person.TripStatus,
+    systemRemarks: person.Remarks,
+    closeBy: person.CloseBy,
+    closeDate: person.CloseDate,
+    createBy: person.CreateBy,
+    totalBag: person.Bag,
+    remarks: person.remarks,
+    gpsVendor: person.GPSVendorType1,
+    fixedELockVendor: person.GPSVendorType2,
+    portableELockVendor: person.GPSVendorType3,
+    BranchLocation: person.BranchLocation || "",
+    BranchHandoverTime: person.BranchHandoverTime || "",
+    GateInTime: person.GateInTime || "",
+    GateOutTime: person.GateOutTime || "",
+    GPSATA: person.GpsAta || "",
+    GPSATD: person.GpsAtd || "",
+    Bay: person.BayNoIn || "",
+    BayOUT: person.BayNoOut,
+    ShipmentCount: person.ShipmentCountIn || 0,
+    ShipmentCountOUT: person.ShipmentCountOut || "",
+    Weight: person.WeightIn || 0,
+    WeightOUT: person.WeightOut || "",
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(rowData);
+
+  // Convert worksheet to CSV
+  const csvData = XLSX.utils.sheet_to_csv(ws);
+
+  // Create a blob and download the file
+  const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'ExportedData.csv');
+  link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 }
 
+// import * as XLSX from 'xlsx'; // Only required if using npm-installed library
+ // rowData.forEach((row: any) => {
+  //   const rowValues = childHeaders.map((header: string) => {
+  //     const field = this.columnDefs.find((colDef: any) =>
+  //       // console.log()
+  //       colDef.children?.some((child: any) => child.headerName === header && child.field !== 'trackHistory') ||
+  //       (colDef.headerName === header && colDef.field !== 'trackHistory')
+  //     )?.field;
+  //     return field ? row[field] || '' : '';
+  //   });
+  //   rows.push(rowValues); // Add the processed row to rows
+  // });
+
+  // Create a workbook and worksheet
+ 
+  exportToExcel_datetime(): void {
+    const rowData = this.new_array.map((person, index) => ({
+
+      Sl: index + 1,
+      RouteType: person.ShipmentMethod,
+      Region: person.Region,
+      Origin: person.Source ?? "",
+      Destination: person.Destination ?? "",
+      Route: person.RouteCode ?? "",
+      RouteSequence: person.RouteName ?? "",
+      Fleet: person.FleetNo ?? "",
+      TripId: person.ShipmentNo,
+      RunCode: person.RunCode,
+      // runDate: new Date(person.RunDate).toLocaleDateString('en-CA') ?? "",
+      RunDate: this.parseDate(person.RunDate) ?? "",
+      // runtime: person.RunDate ? new Date(person.RunDate).toLocaleTimeString('en-GB') : "",
+      Vehicle: person.VehicleNo ?? "",
+      // trackHistory: "",
+      State: person.State,
+      Branch: person.BranchName,
+      Area: person.Area,
+      DriverName: person.Driver ?? "",
+      DriverNumber: person.DriverMobile ?? "",
+      // driverName_s: person.Driver_S ?? "",
+      // driverNumber_s: person.DriverMobile_S ?? "",
+      Transporter: person.Transporter ?? "",
+      Std:this.parseDate( person.STD )?? "", // Standard Time of Departure
+      Atd: this.parseDate(person.ATD) ?? "", // Actual Time of Departure
+      DelayDeparture: person.DelayDeparture ?? "",
+      Sta: person.STA ?? "", // Standard Time of Arrival
+      Ata: person.ATA ?? "", // Actual Time of Arrival
+      TTMapped: person.TTMapped ?? "",
+      TTTaken: person.TTTaken ?? "",
+      DelayArrival: person.DelayArrival ?? "",
+      DelayTt: person.DelayTT,
+      ScheduleHalt: person.ScheduleHalt,
+      ActualHalt: person.ActualHalt,
+      Att: person.ATT, // Actual Travel Time
+      CloseByDevice:person.CloseByDevice,
+  
+      FixedGpsKm:person.DistanceKm1,
+      FixedELockKm: person.DistanceKm2,
+      PortableELockKm:person.DistanceKm3,
+      GpsException1: person.GPSException1,
+      GpsException2: person.GPSException2,
+      GpsException3: person.GPSException3,
+      SupervisorException: person.SupervisorException,
+      Status: person.TripStatus,
+      SystemRemarks: person.Remarks,
+      CloseBy: person.CloseBy,
+      CloseDate: person.CloseDate,
+      CreateBy: person.CreateBy,
+      TotalBag: person.Bag,
+      Remarks: person.remarks,
+      GpsVendor: person.GPSVendorType1,
+      FixedELockVendor: person.GPSVendorType2,
+      PortableELockVendor: person.GPSVendorType3,
+      // portableELockDevice:person.PortableLockVendor,
+      Full: person,
+      BranchLocation: person.BranchLocation || "",
+    BranchHandoverTime: this.parseDate(person.BranchHandoverTime) || "",
+    GateInTime: this.parseDate(person.GateInTime) || "",
+    GateOutTime:this.parseDate( person.GateOutTime) || "",
+    GPSATA:this.parseDate( person.GpsAta )|| "",
+    GPSATD:this.parseDate( person.GpsAtd )|| "",
+    Bay: person.BayNoIn || "",
+    BayOUT:person.BayNoOut,
+    ShipmentCount: person.ShipmentCountIn || 0,
+    ShipmentCountOUT: person.ShipmentCountOut || '',
+    Weight: person.WeightIn || 0,
+    WeightOUT: person.WeightOut || '',
+  
+    // ServerGPSReceivedIn:  this.extra ? person.ServerGPSReceivedIn : null,OUT
+    // ServerGPSProcessedIn:  this.extra ? person.ServerGPSProcessedIn : null,
+    // ServerGPSReceivedOut:  this.extra ? person.ServerGPSReceivedOut : null,
+    // ServerGPSProcessedOut:  this.extra ? person.ServerGPSProcessedOut : null,
+    // PushTimeIn:  this.extra ? person.PushTimeIn : null,
+    // PushTimeOut:  this.extra ? person.PushTimeOut : null,
+      // closeDeviceBy:' person.close_device_by',BayNoIn
+      // portableLockDevice: 'person.portable_lock_device'
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(rowData, {
+      cellDates: true,  
+      dateNF: 'dd/mm/yyyy hh:mm:ss', // Set the desired date format
+      // dateNF: 'yyyy/mm/dd hh:mm:ss', 
+    });
+  
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Trip Report');
+    XLSX.writeFile(wb, 'Trip Report.xlsx');
 
 
+
+  }
+  exportToExcel1(): void {
+    const parentHeaders: string[] = [];
+    const childHeaders: any[] = [];
+    const rows: any[] = []; // Rows to be added in Excel
+    const fieldsArray = [
+      "","ShipmentMethod", "Region", "Source", "Destination", "RouteCode", 
+      "RouteName", "FleetNo", "ShipmentNo", "RunCode", "RunDate", 
+      "RunTime", "VehicleNo", "TrackHistory", "State", "BranchName", 
+      "Area", "Driver", "DriverMobile", "Transporter", "STD", 
+      "ATD", "DelayDeparture", "STA", "ATA", "TTMapped", 
+      "TTTaken", "DelayArrival", "DelayTT", "ScheduleHalt", "ActualHalt", 
+      "ATT", "CloseByDevice", "DistanceKm1", "DistanceKm2", "DistanceKm3", 
+      "GPSException1", "GPSException2", "GPSException3", "SupervisorException", 
+      "TripStatus", "Remarks", "CloseBy", "CloseDate", "CreateBy", 
+      "Bag", "GPSVendorType1", "GPSVendorType2", "GPSVendorType3", 
+      "BranchLocation", "BranchHandoverTime", "GateInTime", "GateOutTime", 
+      "GpsAta", "GpsAtd", "BayNoIn", "BayNoOut", "ShipmentCountIn", 
+      "ShipmentCountOut", "WeightIn", "WeightOut"
+    ];
+    
+    // Extract parent and child headers, excluding 'trackHistory'
+    this.columnDefs.forEach((colDef: any) => {
+      if (colDef.children) {
+        // Parent header for grouped columns
+        const filteredChildren = colDef.children.filter((child: any) => child.field !== 'trackHistory');
+        if (filteredChildren.length > 0) {
+          parentHeaders.push(colDef.headerName);
+          childHeaders.push(...filteredChildren.map((child: any) => child.headerName));
+        }
+      } else if (colDef.field !== 'trackHistory') {
+        // For non-grouped columns
+        childHeaders.push(colDef.headerName);
+      }
+    });
+   
+    
+    // Push child headers as the first row
+    rows.push(childHeaders);
+  
+    // Extract row data from the grid
+    const rowData: any[] = [];
+    this.gridOptions.api.forEachNode((node: any) => {
+      rowData.push(node.data);
+    });
+  
+    // Map row data to match the column fields, including child rows from Full.Detail
+    rowData.forEach((row: any) => {
+      // Process parent row
+      const rowValues = childHeaders.map((header: string) => {
+        const field = this.columnDefs.find((colDef: any) =>
+          colDef.children?.some((child: any) => child.headerName === header && child.field !== 'trackHistory') ||
+          (colDef.headerName === header && colDef.field !== 'trackHistory')
+        )?.field;
+  
+        return field ? row[field] || '' : ''; // Extract value for parent row
+      });
+      rows.push(rowValues); // Add the parent row to rows
+  
+      // Process child rows from Full.Detail if they exist
+      if (row.Full?.Detail?.length) {
+        row.Full.Detail.forEach((detail: any) => {
+          const childRowValues = fieldsArray.map((field: string) => {
+            console.log(field, detail[field]);
+            return detail[field] || ''; // Extract value for each field in fieldsArray
+          });
+          rows.push(childRowValues); // Add child row to rows
+        });
+      }
+    });
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(rows); // Convert array of arrays to sheet
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Trip Report');
+    XLSX.writeFile(workbook, 'Trip Report.xlsx');
+  }
 onBtExport_pop() {
   // this.gridApi!.exportDataAsExcel();
   // this. gridApi_popup!.exportDataAsCsv();
@@ -2618,15 +3797,17 @@ exportToCSV_popup(): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', 'GridData.csv');
+  link.setAttribute('download', 'Trip Report.csv');
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------
-async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+async vehicleTrackF_new(close_date, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+
   $('#v_track_Modal').modal('show');
+ 
   this.initMap1()
   this.SpinnerService.show("tracking");
 // Clear markers and polylines if they exist
@@ -2640,7 +3821,7 @@ if (this.demoPolyline.length > 0) {
   this.demoPolyline = [];  // Clear the array after removing polylines
 }
   // console.log(imei, imei2, imei3);
-  if (imei === '' && imei2 === '' && imei3 === '') {
+  if ( imei2 === '' && imei3 === '') {
     alert("IMEI not assign");
   }else{
   // Clear markers and polylines before starting
@@ -2659,7 +3840,7 @@ if (this.demoPolyline.length > 0) {
 
   // Define the array of IMEIs to process
   // const imeis = [imei,imei2,imei3];
-  const imeis = [imei, imei2, imei3];
+  const imeis = [imei2, imei3];
   // console.log(imeis);
 
   // Loop through each IMEI using a for...of loop to support async/await
@@ -2678,7 +3859,12 @@ if (this.demoPolyline.length > 0) {
     } else {
       this.map_flag = 'Please wait';
       const formData = new FormData();
-      const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      let currentDateTime: any;
+      if(close_date==''){
+        currentDateTime = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      }else{
+        currentDateTime= close_date;
+      }
 
       formData.append('AccessToken', this.token);
       formData.append('startdate', run_date);
@@ -2690,7 +3876,7 @@ if (this.demoPolyline.length > 0) {
 
       // Log form data for debugging
       formData.forEach((value, key) => {
-        // console.log("formdata...", key, value);
+        console.log("formdata...", key, value);
       });
 
       // try {
@@ -2741,6 +3927,7 @@ fetchCustomerInfo(Id: string) {
   //   this.demomarker = [];  // Clear the array after removing markers
   //   console.log("Marker array cleared");
   // }
+  console.log("vvvvvv",this.token, this.group_id,Id)
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
   formdataCustomer.append('forGroup', this.group_id);
@@ -2949,4 +4136,11 @@ showWindow(data, vnumber, add) {
 
 
 }
+change_feeder(eve){
+  console.log(eve)
+ this.feeder_type= this. Master_filter?.RouteType[eve];
 }
+}
+
+
+

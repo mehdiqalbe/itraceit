@@ -41,7 +41,8 @@ export class SpecificService implements OnDestroy {
       private router: Router
   ) {
     //   client=
-
+      console.log("specificServices",JSON.parse(localStorage.getItem("Menu")||''));
+      
       this.setScreenWidth(window.innerWidth);
       fromEvent(window, 'resize').pipe(
           debounceTime(1000),
@@ -108,6 +109,7 @@ export class SpecificService implements OnDestroy {
             children: [
                
              { path: '/cv/specific/bluedart/Report/TripReport', title:'Trip Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:'' },
+             { path: '/cv/specific/bluedart/Report/SlotwiseReport', title:'Slotwise Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:'' },
             //  { path: 'https://itraceit.in/vehicle-report/?exttkn='+localStorage.getItem('AccessToken')!, title:'vehicle report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
             //     {
             //      path: 'https://itraceit.in/travel-report/?exttkn='+localStorage.getItem('AccessToken')!, title:'travel-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
@@ -185,6 +187,10 @@ export class SpecificService implements OnDestroy {
             {
              path: '/cv/specific/dtdc/Report/DataPushReport', title:'Data Push-report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
          },
+         { path: '/cv/specific/dtdc/Report/SlotwiseReport', title:'Slotwise Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
+        //  { path: '/cv/specific/dtdc/Report/whSlotwiseReport', title:'Working Hours Slotwise Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''},
+
+         
 
         //     {
         //      path: 'https://secutrak.in/reports/distance_report_beta2/?exttkn='+localStorage.getItem('AccessToken')!, title:'Distance Report', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''

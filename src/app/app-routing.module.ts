@@ -30,9 +30,11 @@ const routes: Routes = [
   { path: '**', redirectTo: '' },
  { path: '', loadChildren: 'reports/reports.module#ReportsModule' },
  
- { path: 'cv', loadChildren: () => import('./cv/cv.module').then(m => m.CVModule) },
-  { path: '', redirectTo: 'cv', pathMatch: 'full' },
-  { path: '**', redirectTo: 'cv' }
+//  { path: 'cv', loadChildren: () => import('./cv/cv.module').then(m => m.CVModule) },
+{ path: 'cv', loadChildren: () => import('./cv/cv.module').then(m => m.CVModule), canActivate: [AuthGuard] },
+
+  // { path: '', redirectTo: 'cv', pathMatch: 'full', canActivate: [AuthGuard] },
+  // { path: '**', redirectTo: 'cv', canActivate: [AuthGuard] }
 ];
 
 @NgModule({

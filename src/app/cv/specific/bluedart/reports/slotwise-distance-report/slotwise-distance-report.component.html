@@ -1,714 +1,918 @@
 
  <!-- Header Start -->
  <div class="card" style="background:transparent;border:none;margin-bottom: 4px;">
-    <div class="card-body innerdiv p-0">
-      <!-- headerstart here -->
-      <div class="hor-header">
-        <div style="overflow: hidden;">
-          <div class="d-flex align-items-left ">
-            <div style="width:fit-content" class=" my-2 d-flex">
-              <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
-            </div>
-           
-            <div
-            class="w-100"
-            style="
-              font-weight: 600;
-              font-size: small;
-              text-align: left;
-             
-            "
-          >
-          <div  class="order-header d-flex py-2 justify-content-between align-items-center" >
-            <div class="ps-2">
-              <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
-                Slotwise Distance Report</h3>
-              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Slotwise Distance Report</h5>
-            </div>
-     
-
-            <div class="d-flex gap-4 pe-5">
-       
-            </div>
-            <!-- <div class="d-flex justify-content-between  align-items-baseline mt-2">
-              <div class="d-flex flex-column align-items-baseline">
-                <span>Running:{{dashboardHeader?.running}}</span>
-                <span>Lock NA: {{dashboardHeader?.lock_na}}</span>
-              </div>
-              <div class="d-flex flex-column align-items-baseline">
-                <span>Free Vehicles ( >2Hrs.): {{dashboardHeader?.free_vehicle}}</span> 
-                <span>DFG: {{dashboardHeader?.dfg}}</span> 
-                
-              </div>
-              <div class="d-flex flex-column align-items-baseline">
-                <span>NoData: {{dashboardHeader?.no_data}}</span> 
-                <span>Delayed Arrived: {{dashboardHeader?.delayed_arrived}}</span>
-              </div>
-              <div class="d-flex flex-column align-items-baseline">
-                <span>Non-Integrated: {{dashboardHeader?.non_integrated}}</span>
-                <span>At Source: {{dashboardHeader?.at_source}}</span> 
-              </div>
-              <div class="d-flex flex-column align-items-baseline">
-                <span>Lock Status (/): {{dashboardHeader?.lock_close}}/{{dashboardHeader?.lock_open}}</span>
-                <span>At Destination: {{dashboardHeader?.at_destination}}</span>
-              </div>
-            </div> -->
-            
+  <div class="card-body innerdiv p-0">
+    <!-- headerstart here -->
+    <div class="hor-header">
+      <div style="overflow: hidden;">
+        <div class="d-flex align-items-left ">
+          <div style="width:fit-content" class=" my-2 d-flex">
+            <button class="app-sidebar__toggle ms-1 " type="button" (click)="sidebarToggle()"></button>
+          </div>
          
+          <div
+          class="w-100"
+          style="
+            font-weight: 600;
+            font-size: small;
+            text-align: left;
+           
+          "
+        >
+        <div  class="order-header d-flex py-2 justify-content-between align-items-center" >
+          <div class="ps-2">
+            <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+              Slotwise Distance Report</h3>
+            <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Slotwise Distance Report</h5>
           </div>
-          
-          </div>
-            <!-- <div class="col-lg-2 text-center ">
-  
-            </div> -->
-  
-            <!-- <div class="col-lg-1"></div> -->
-            <!-- <div class="col-lg-1">
-              <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a> 
-            </div> -->
-            <!-- <div class="col-lg-1 text-center">
-              <a class="header-brand1">
-                <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
-                  style="height:auto;max-height:48px; width: 80%;">
-              </a>
-            </div> -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- HEADER END -->
-  <div class="container-fluid specificDashboard">
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div style="border-bottom:1.5px solid #9ba9b591;margin-bottom:12px;" class="headerIcon justify-content-between pe-4 d-flex align-items-center">
-          <div>
-            <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
-              <a
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExample"
-                role="button"
-                aria-expanded="true"
-                aria-controls="collapseExample"
-                style="font-size: 16px"
-              >
-                <i
-                  class="fa fa-filter"
-                  aria-hidden="false"
-                  style="
-                    font-size: 20px;
-                    color: #1d4380;
-                    margin-top: 8px;
-                  "
-                ></i
-                >FILTER
-              </a>
-            </p>
-          </div>
-          <div class="d-none align-items-center">
-            <!-- <div class="d-flex gap-5 pe-5">
-              <div ngbTooltip="All" class="position-relative" >
+         
 
-               <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:40px;"></button> 
-              </div>
-              <div ngbTooltip="Free Vehicle" class="position-relative" >
-                <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span>
-               <button (click)="filterTable('free_vehicle')" type="button"><img src="assets/tripIcon/truckBlue.svg" alt="" style="width:40px;"></button> 
-              </div>
-              <div ngbTooltip="At Source" class="position-relative">
-                <span style="right:-15px;top:-15px;background: #E77817;" class="position-absolute countPill">{{dashboardHeader?.AtSource}}</span>
-                <button (click)="filterTable('at_source')" type="button"> <img src="assets/tripIcon/truckGps.svg" alt="" style="width:40px"></button>
-              </div>
-              <div ngbTooltip="At Destination" class="position-relative">
-                <span style="right:-15px;top:-15px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
-                <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:40px"></button>  
-              </div>
-            </div> -->
-            <p style="color: 1D4380; font-weight: 600" class="m-0 ">
-              <a
-              ngbTooltip="Graph"
-                data-bs-toggle="collapse"
-                data-bs-target="#chartCollapse"
-                role="button"
-                aria-expanded="false"
-                aria-controls="chartCollapse"
-                class="px-1"
-                style="font-size: 16px;"
-              >
-              <i style="color: #1c427f;" class="fas fa-chart-pie"></i>
-              </a>
-            </p>
+          <div class="d-flex align-items-center">
+            <img style="height: 100%;height: 76px;position: absolute;z-index: 44;right: 12px;" src="assets/img/logo.png" class="header-logo"  alt="">
           </div>
+
+          <div class="d-flex gap-4 pe-5">
+     
+          </div>
+          <!-- <div class="d-flex justify-content-between  align-items-baseline mt-2">
+            <div class="d-flex flex-column align-items-baseline">
+              <span>Running:{{dashboardHeader?.running}}</span>
+              <span>Lock NA: {{dashboardHeader?.lock_na}}</span>
+            </div>
+            <div class="d-flex flex-column align-items-baseline">
+              <span>Free Vehicles ( >2Hrs.): {{dashboardHeader?.free_vehicle}}</span> 
+              <span>DFG: {{dashboardHeader?.dfg}}</span> 
+              
+            </div>
+            <div class="d-flex flex-column align-items-baseline">
+              <span>NoData: {{dashboardHeader?.no_data}}</span> 
+              <span>Delayed Arrived: {{dashboardHeader?.delayed_arrived}}</span>
+            </div>
+            <div class="d-flex flex-column align-items-baseline">
+              <span>Non-Integrated: {{dashboardHeader?.non_integrated}}</span>
+              <span>At Source: {{dashboardHeader?.at_source}}</span> 
+            </div>
+            <div class="d-flex flex-column align-items-baseline">
+              <span>Lock Status (/): {{dashboardHeader?.lock_close}}/{{dashboardHeader?.lock_open}}</span>
+              <span>At Destination: {{dashboardHeader?.at_destination}}</span>
+            </div>
+          </div> -->
+          
+       
+        </div>
         
         </div>
-        <div class="container-flex" >
-          <ngx-spinner name="tableSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
-            <p style="color: black">Please Wait.. </p>
-          </ngx-spinner>
-          <div class="col-lg-12">
-            <div class="row">
-           
-              <div class="col-lg-12 px-0">
-                 <!-- Filter----------------------------------------------- -->
-                <div class="fiter">
-             
-                  <!-- <p style="color: 1D4380; font-weight: 600">
-                    <a
-                      data-bs-toggle="collapse"
-                      data-bs-target="#collapseExample"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
-                      style="font-size: 16px"
-                    >
-                      <i
-                        class="fa fa-filter"
-                        aria-hidden="true"
-                        style="
-                          font-size: 20px;
-                          color: #1d4380;
-                          margin-top: 8px;
-                        "
-                      ></i
-                      >FILTER
-                    </a>
-                  </p> -->
-                  <div class="collapse show" id="collapseExample">
-                    <div
-                      class="card card-body px-0 pb-0 mb-0"
-                      style="border: none; box-shadow: none"
-                    >
-                    <form #filterFormReport="ngForm" (ngSubmit)="onFilterDashboard(filterFormReport.value)">
-                         <div class="col-lg-12" style="margin-top: -20px">
-                          <div class="row mb-4">
-      <!-- Region -->
-      <div class="col-lg-2">
-        <span class="filtor_name">Region</span>
-        <ng-select
-        [(ngModel)]="region"
-          name="region"
-          id="region"
-          placeholder="Select Region"
-          style="font-size: 14px; font-weight: 400"
-          [closeOnSelect]="true"
-        >
-        <ng-option [value]="''">All</ng-option>
-          <ng-option
-            *ngFor="let item of filterObject?.regions"
-            [value]="item?.id"
-          >
-            {{ item?.name }}
-          </ng-option>
-        </ng-select>
-      </div>
+          <!-- <div class="col-lg-2 text-center ">
 
-      <!-- Date -->
-      <div class="col-lg-2">
-        <span class="filtor_name">Date</span>
-        <input
-          type="date"
-          class="form-control"
-          [ngModel]="todayDate"          
-          name="date"
-          id="date"
-          style="font-size: 14px; font-weight: 400"
-          (change)="updateExceptionDateRange($event, filterFormReport.value.day,filterFormReport)"
-        />
-      </div>
+          </div> -->
 
-      <!-- Start Time -->
-      <div class="col-lg-2">
-        <span class="filtor_name">Start Time</span>
-        <ng-select
-          [ngModel]
-          name="startTime"
-          id="startTime"
-          placeholder="Select Start Time"
-          style="font-size: 14px; font-weight: 400"
-          [closeOnSelect]="true"
-          [ngModel]="'00:00'"
-        >
-          <ng-option *ngFor="let time of filterObject?.startTimes" [value]="time">
-            {{ time }}
-          </ng-option>
-        </ng-select>
+          <!-- <div class="col-lg-1"></div> -->
+          <!-- <div class="col-lg-1">
+            <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a> 
+          </div> -->
+          <!-- <div class="col-lg-1 text-center">
+            <a class="header-brand1">
+              <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
+                style="height:auto;max-height:48px; width: 80%;">
+            </a>
+          </div> -->
+        </div>
       </div>
-
-      <!-- Slot Hr -->
-      <div class="col-lg-1">
-        <span class="filtor_name">Slot Hr</span>
-        <ng-select
-          [ngModel]
-          name="slotHr"
-          id="slotHr"
-          placeholder="Select Slot Hr"
-          style="font-size: 14px; font-weight: 400"
-          [closeOnSelect]="true"
-          [ngModel]="'3'"
-        >
-          <ng-option *ngFor="let slot of filterObject?.slotHours" [value]="slot">
-            {{ slot }}
-          </ng-option>
-        </ng-select>
-      </div>
-
-      <!-- Day -->
-      <div class="col-lg-1">
-        <span class="filtor_name">Day</span>
-        <ng-select
-          [ngModel]="'4'"
-          name="day"
-          id="day"
-          placeholder="Select Day"
-          style="font-size: 14px; font-weight: 400"
-          (change)="updateExceptionDateRange(filterFormReport.value.date, $event,filterFormReport)"
-          [closeOnSelect]="true">
-          <ng-option *ngFor="let day of filterObject?.days" [value]="day">
-            {{ day }}
-          </ng-option>
-        </ng-select>
-      </div>
- <!-- Exception Date -->
- <div class="col-lg-2">
-    <span class="filtor_name">Exception Date</span>
-    <!-- <input
-      type="date"
-      class="form-control"
-      [ngModel]
-      name="exceptionDate"
-      id="exceptionDate"
-      style="font-size: 14px; font-weight: 400"
-      [attr.min]="exceptionDateRange.min"
-      [attr.max]="exceptionDateRange.max"
-    /> -->
-    <input
-    type="input"
-    class="form-control"
-    [ngModel]
-    placeholder="YYYY-MM-DD"
-    name="exceptionDate"
-    id="datepicker1"
-    style="font-size: 14px; font-weight: 400"
-  (click)="end(filterFormReport.value.date,filterFormReport.value.day)"
-  />
-  </div>
-    <!-- Report Type -->
-    <div class="col-lg-2">
-      <span class="filtor_name">Report Type</span>
-      <ng-select
-        [ngModel]
-        name="reportType"
-        id="reportType"
-        placeholder="Select Report Type"
-        style="font-size: 14px; font-weight: 400"
-        [closeOnSelect]="true"
-        [ngModel]="1"
-      >
-        <ng-option [value]="1">Standard</ng-option>
-        <ng-option [value]="2">Detailed</ng-option>
-      </ng-select>
     </div>
-     <!-- Report Type -->
-     <!-- <div class="col-lg-2">
-      <span class="filtor_name">Report Format</span>
+  </div>
+</div>
+<!-- HEADER END -->
+<div style="min-height: 80vh;" class="container-fluid specificDashboard">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div style="border-bottom:1.5px solid #9ba9b591;margin-bottom:12px;" class="headerIcon justify-content-between pe-4 d-flex align-items-center">
+        <div>
+          <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
+            <a
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample"
+              role="button"
+              aria-expanded="true"
+              aria-controls="collapseExample"
+              style="font-size: 16px"
+            >
+              <i
+                class="fa fa-filter"
+                aria-hidden="false"
+                style="
+                  font-size: 20px;
+                  color: #1d4380;
+                  margin-top: 8px;
+                "
+              ></i
+              >FILTER
+            </a>
+          </p>
+        </div>
+        <div class="d-none align-items-center">
+          <!-- <div class="d-flex gap-5 pe-5">
+            <div ngbTooltip="All" class="position-relative" >
+
+             <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:40px;"></button> 
+            </div>
+            <div ngbTooltip="Free Vehicle" class="position-relative" >
+              <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span>
+             <button (click)="filterTable('free_vehicle')" type="button"><img src="assets/tripIcon/truckBlue.svg" alt="" style="width:40px;"></button> 
+            </div>
+            <div ngbTooltip="At Source" class="position-relative">
+              <span style="right:-15px;top:-15px;background: #E77817;" class="position-absolute countPill">{{dashboardHeader?.AtSource}}</span>
+              <button (click)="filterTable('at_source')" type="button"> <img src="assets/tripIcon/truckGps.svg" alt="" style="width:40px"></button>
+            </div>
+            <div ngbTooltip="At Destination" class="position-relative">
+              <span style="right:-15px;top:-15px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
+              <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:40px"></button>  
+            </div>
+          </div> -->
+          <p style="color: 1D4380; font-weight: 600" class="m-0 ">
+            <a
+            ngbTooltip="Graph"
+              data-bs-toggle="collapse"
+              data-bs-target="#chartCollapse"
+              role="button"
+              aria-expanded="false"
+              aria-controls="chartCollapse"
+              class="px-1"
+              style="font-size: 16px;"
+            >
+            <i style="color: #1c427f;" class="fas fa-chart-pie"></i>
+            </a>
+          </p>
+        </div>
+      
+      </div>
+      <div class="container-flex" >
+        <ngx-spinner name="tableSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+          <p style="color: black">Please Wait.. </p>
+        </ngx-spinner>
+        <div class="col-lg-12">
+          <div class="row">
+         
+            <div class="col-lg-12 px-0">
+               <!-- Filter----------------------------------------------- -->
+              <div class="fiter">
+           
+                <!-- <p style="color: 1D4380; font-weight: 600">
+                  <a
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                    style="font-size: 16px"
+                  >
+                    <i
+                      class="fa fa-filter"
+                      aria-hidden="true"
+                      style="
+                        font-size: 20px;
+                        color: #1d4380;
+                        margin-top: 8px;
+                      "
+                    ></i
+                    >FILTER
+                  </a>
+                </p> -->
+                <div class="collapse show" id="collapseExample">
+                  <div
+                    class="card card-body px-0 pb-0 mb-0"
+                    style="border: none; box-shadow: none"
+                  >
+                  <form #filterFormReport="ngForm" (ngSubmit)="onFilterDashboard(filterFormReport.value)">
+                       <div id="qmMulticontainer" class="col-lg-12" style="margin-top: -20px">
+                        <div class="row mb-4">
+    <!-- Region -->
+    <div class="col-lg-2" >
+      <span class="filtor_name">Region</span>
       <ng-select
-        [ngModel]
-        name="reportFormat"
-        id="reportFormat"
-        placeholder="Select Report Format"
+      [(ngModel)]="region"
+        name="region"
+        id="region"
+        placeholder="Select Region"
         style="font-size: 14px; font-weight: 400"
         [closeOnSelect]="true"
-        [ngModel]="1"
-      >
-        <ng-option [value]="1">Default</ng-option>
-        <ng-option [value]="2">Day Wise</ng-option>
-      </ng-select>
-    </div> -->
-     <!-- Vehicle -->
-     <div class="col-lg-2" *ngIf="region === ''">
-      <span class="filtor_name">Vehicle</span>
-      <ng-select
-        [(ngModel)]="selectedVehicles"
-        name="vehicle"
-        id="vehicle"
-        placeholder="Select Vehicle"
-        style="font-size: 14px; font-weight: 400"
         [multiple]="true"
-        [closeOnSelect]="false"
-        [searchable]="true"
-        (search)="onSearchVehicle($event)"
+        (change)="onRegionChange($event)"
       >
-        <ng-option *ngFor="let vehicle of vehicleOptions" [value]="vehicle.vehicle_number">
-          {{ vehicle.vehicle_number }}
+      <ng-option [value]="''">All</ng-option>
+        <ng-option
+          *ngFor="let item of filterObject?.regions"
+          [value]="item?.id"
+        >
+          {{ item?.name }}
         </ng-option>
       </ng-select>
     </div>
+    <!-- Date -->
+    <div class="col-lg-2">
     
-    
-      <!-- Submit Button -->
-      <div class="col-lg-2 mt-2">
-        <button
-          type="submit"
-          class=""
-          style="
-            margin-top: 12px;
-            background-color: #1d4380;
-            color: white;
-            font-family: Work Sans;
-            font-size: 15px;
-            padding: 6px 22px;
-            border-radius: 5px;
-          "
-        >
-          Submit
-        </button>
-      </div>
-                         </div>
+      <span class="filtor_name me-1">Date</span>
+      <input
+        type="date"
+        class="form-control"
+        [ngModel]="todayDate"          
+        name="date"
+        id="date"
+        style="font-size: 14px; font-weight: 400"
+        (change)="updateExceptionDateRange($event, filterFormReport.value.day,filterFormReport)"
+      />
+    </div>
+
+    <!-- Start Time -->
+    <div class="col-lg-2" *ngIf="!hideFields">
+      <span class="filtor_name">Start Time</span>
+      <ng-select
+        [ngModel]
+        name="startTime"
+        id="startTime"
+        placeholder="Select Start Time"
+        style="font-size: 14px; font-weight: 400"
+        [closeOnSelect]="true"
+        [ngModel]="'00:00'"
+      >
+        <ng-option *ngFor="let time of filterObject?.startTimes" [value]="time">
+          {{ time }}
+        </ng-option>
+      </ng-select>
+    </div>
+
+    <!-- Slot Hr -->
+    <div class="col-lg-1" *ngIf="!hideFields">
+      <span class="filtor_name">Slot Hr</span>
+      <ng-select
+        [ngModel]
+        name="slotHr"
+        id="slotHr"
+        placeholder="Select Slot Hr"
+        style="font-size: 14px; font-weight: 400"
+        [closeOnSelect]="true"
+        [ngModel]="'3'"
+      >
+        <ng-option *ngFor="let slot of filterObject?.slotHours" [value]="slot">
+          {{ slot }}
+        </ng-option>
+      </ng-select>
+    </div>
+
+    <!-- Day -->
+    <div class="col-lg-1">
+      <span class="filtor_name">Day</span>
+      <ng-select
+        [ngModel]="'4'"
+        name="day"
+        id="day"
+        placeholder="Select Day"
+        style="font-size: 14px; font-weight: 400"
+        (change)="updateExceptionDateRange(filterFormReport.value.date, $event,filterFormReport)"
+        [closeOnSelect]="true">
+        <ng-option *ngFor="let day of filterObject?.days" [value]="day">
+          {{ day }}
+        </ng-option>
+      </ng-select>
+    </div>
+<!-- Exception Date -->
+<div class="col-lg-2">
+  <span class="filtor_name">Exception Date</span>
+  <!-- <input
+    type="date"
+    class="form-control"
+    [ngModel]
+    name="exceptionDate"
+    id="exceptionDate"
+    style="font-size: 14px; font-weight: 400"
+    [attr.min]="exceptionDateRange.min"
+    [attr.max]="exceptionDateRange.max"
+  /> -->
+  <input
+  type="input"
+  class="form-control"
+  [ngModel]
+  placeholder="YYYY-MM-DD"
+  name="exceptionDate"
+  id="datepicker1"
+  style="font-size: 14px; font-weight: 400"
+(click)="end(filterFormReport.value.date,filterFormReport.value.day)"
+/>
+</div>
+  <!-- Report Type -->
+  <div class="col-lg-2" *ngIf="!hideFields">
+    <span class="filtor_name">Report Type</span>
+    <ng-select
+      [(ngModel)]="reportType"
+      name="reportType"
+      id="reportType"
+      placeholder="Select Report Type"
+      style="font-size: 14px; font-weight: 400"
+      [closeOnSelect]="true"
+      [ngModel]="1"
+    >
+      <ng-option [value]="1">Standard</ng-option>
+      <ng-option [value]="2">Detailed</ng-option>
+    </ng-select>
   </div>
-                    </form>
-                    </div>
-                  </div>
-                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
-                </div>
-                 <!-- Charts----------------------------------------------- -->
-                 <div class="fiter">
-                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
-                </div>
-              </div>
-        
-            </div>
+  <div class="col-lg-2 d-none">
+    <span class="filtor_name">GPS Vendor</span>
+    <ng-select
+    [ngModel]
+      name="vendor"
+      id="vendor"
+      placeholder="Select GPS Vendor"
+      style="font-size: 14px; font-weight: 400"
+      [closeOnSelect]="true"
   
-            <!-- </div> -->
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-12 position-relative" *ngIf="report?.label === 'standard' && showTable">
-       
-  
-        <div class="info col-lg-12 overflow-scroll">
-          <div class="col-lg-2 position-absolute" style="right: 320px;z-index: 5;"> 
-            <!-- <span class="filtor_name">Report Format</span> -->
-            <ng-select
-              [(ngModel)]="selectedReportFormat "
-              name="reportFormat"
-              id="reportFormat"
-              placeholder="Select Report Format"
-              style="font-size: 14px; font-weight: 400;border-color: black!important;"
-              [closeOnSelect]="true"
-              [ngModel]="1"
-              (change)="onReportFormatChange($event)"
-            >
-              <ng-option [value]="1">Default</ng-option>
-              <ng-option [value]="2">Day Wise</ng-option>
-            </ng-select>
-          </div>
-          <table class="table"  cellspacing="0" id="masterUpload">
-            <thead>
-              <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
-                <th style="border-top-left-radius: 4px;" class="table-primar"></th>
-                <!-- <th  class="table-primar">Sl.</th> -->
-                <th class="table-primar">Vehicle No.</th>
-                <th class="table-primar">Start Date Time</th>
-                <th class="table-primar">Slot Hours</th>
-                <th class="table-primar">End Date Time</th>
-                <th class="table-primar">Distance Travelled(km)</th>
-                <th class="table-primar">Travel Duration</th>
-                <th class="table-primar">Filled Distance(km)</th>
-                <th class="table-primar">Total Distance(km)</th>
-                <th class="table-primar">Avg.Speed</th>
-                <th class="table-primar" >Max.Speed</th>
-                <th class="table-primar">Data Gap Standing(HH:MM:SS)</th>
-                <th class="table-primar">Data Gap Network(HH:MM:SS)</th>
-                <th class="table-primar">Total Data Gap (HH:MM:SS)</th>
-                <th class="table-primar" >Tampering</th>
-              </tr>
-            </thead>
-            <tbody >
-              <tr style="text-align: center; white-space: nowrap;" *ngFor="let item of standardReport;let ind=index">
-                <td>
-                  <button 
-                    class="popupbtn" 
-                    style="color:#47434378" 
-                    type="button" 
-                    *ngIf="item?.ClickImei && item?.ClickImei !== '-'"
-                    (click)="openTravelledDistance(item?.ClickImei)"  >
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </td>
-                
-                <td>{{item?.VehicleNo}}</td>
-
-                <td >
-                 {{item?.StartDateTime}}
-                </td>
-                <td>{{item?.SlotHours}}</td>
-                <td>{{item?.EndDateTime}}</td>
-                <td>{{item?.DistanceTravelled}}</td>
-                <td>{{item?.TravelDuration}}</td>
-                <td>{{item?.FillledDistance}}</td>
-                <td>{{item?.TotalDistance}}</td>
-                <td>{{item?.AvgSpeed}}</td>
-                <td>{{item?.MaxSpeed}}</td>  
-                <td>
-                  {{ item?.DataGapStanding }}
-                  <button
-                    *ngIf="item?.DataGapStanding !== '00:00:00'"
-                    (click)="openDataGapModal(item,'DataGapStanding')"
-                    class=""
-                    title="View Details"
-                  >
-                    <i class="fa fa-eye"></i>
-                  </button>
-                </td>
-                
-                <td>
-                  {{ item?.DataGapNetworking }}
-                  <button
-                    *ngIf="item?.DataGapNetworking !== '00:00:00'"
-                    (click)="openTravelledDistance(item?.ClickImei)"
-                    class=""
-                    title="View Details"
-                  >
-                    <i class="fa fa-eye"></i>
-                  </button>
-                </td>
-                
-                <td>
-                  {{ item?.TotalDataGap }}
-                  <button
-                    *ngIf="item?.TotalDataGap !== '00:00:00'"
-                    (click)="openTravelledDistance(item?.ClickImei)"
-                    class=""
-                    title="View Details"
-                  >
-                    <i class="fa fa-eye"></i>
-                  </button>
-                </td>
-                
-                <td>{{ item?.Tampering}}</td>
-              </tr>
-            </tbody>
-    
-          </table>
-        </div>
-      </div>
-
-      <div class="col-lg-12" *ngIf="report?.label === 'detailed' && showTable">
-
-        <div class="info col-lg-12 overflow-scroll">
-          <div class="col-lg-2 position-absolute" style="right: 320px;z-index: 5;"> 
-            <!-- <span class="filtor_name">Report Format</span> -->
-            <ng-select
-              [(ngModel)]="selectedReportFormat "
-              name="reportFormat"
-              id="reportFormat"
-              placeholder="Select Report Format"
-              style="font-size: 14px; font-weight: 400;border-color: black!important;"
-              [closeOnSelect]="true"
-              [ngModel]="1"
-              (change)="onReportFormatChange($event)"
-            >
-              <ng-option [value]="1">Default</ng-option>
-              <ng-option [value]="2">Day Wise</ng-option>
-            </ng-select>
-          </div>
-          <table class="table"  cellspacing="0" id="masterUploadDetailed" style="width: 100%;">
-            <thead>
-              <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
-                <!-- <th style="border-top-left-radius: 4px;" class="table-primar"></th> -->
-                <th  class="table-primar">Sl.</th>
-                <th class="table-primar">Vehicle No.</th>
-                <th class="table-primar">IMEI</th>
-                <th class="table-primar">StartTime</th>
-                <th class="table-primar">EndTime</th>
-                <th class="table-primar">Distance(Km)</th>
-              </tr>
-            </thead>
-            <tbody >
-              <tr style="text-align: center; white-space: nowrap;" *ngFor="let item of reportDetailed;let ind=index">
-                <!-- <td> <button class="popupbtn" style="color:#47434378" type="button" ><i class="fa fa-plus"></i></button></td> -->
-                <td>{{ind+1}}</td>
-                <td>{{item?.VehicleNo}}</td>
-                <td>{{item?.Device}}</td>
-                <td >
-                 {{item?.StartTime}}
-                </td>
-                <td>{{item?.EndTime}}</td>
-                <td>{{item?.Distance}}</td>
-                <!-- <td>{{item?.DistanceTravelled}}</td> -->
-                
-              </tr>
-            </tbody>
-    
-          </table>
-        </div>
-      </div>
-      </div>
-    </div>
-  
-  
-
-    <!-- /////////////////////////////////////////Link Popup/////////////////////////////////////////////////// -->
-    <div class="modal fade " id="linkModal" tabindex="-1" aria-labelledby="linkModal" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style=" max-width:600px;">
-     
-          <!--   -->
-          <div class="modal-content" style="width: 1200px !important;">
-            <ngx-spinner name="linkSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-scale-ripple" [fullScreen] = "false"><p style="color: white" > Loading... </p>
-            </ngx-spinner>
-          <div class="modal-header">
-            <h4 style="color: #1D4380;font-weight: 500;" class="modal-title" id="uploadDocumentModalLabel">Tracking Link</h4>
-            <!-- <button (click)="closeLinkModal()" style="width: 4px;height: 4px;" type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button> -->
-          </div>
-    
-          <div class="modal-body" style="width:600px">
-            <!-- <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div> -->
-            <div class="shareLink pt-4" style="padding: 54px 0px;">
-              <div class="permalink" style="margin: auto;width:83%">
-                <!-- <input class="textLink" id="linkTextQ" type="text" name="shortlink" value={{linkValue}}  readonly=""> -->
-                <!-- <button type="button"  placement="bottom" class="copyLink" id="copy" [ngbTooltip]="linkObject?.text"  autoClose="false"  (click)="copyToClipboard()">
-                  <i *ngIf="linkObject?.copyVariable" class="fa fa-copy"></i>
-                  <i *ngIf="!linkObject?.copyVariable" class="fa fa-check-circle" style="color: #00bd00;"></i>
-                </button> -->
-              </div>
-            </div>
-          </div>
-    
-          <!-- <div class="modal-footer justify-content-center col-lg-6 mx-auto"> -->
-              <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
-            <!-- <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button> -->
-          <!-- </div> -->
-    
-        </div>
-      </div>
-    </div>
-    <!-- ///////////////////////////////////////////////////////////////////map pop///////////////////////// -->
-
-    <!-- <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
-          <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
-              uploading... </p></ngx-spinner>
-         <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
-          <div class="modal-header">
-            <h5 class="modal-title" id="mapModalLabel">HERE WeGo Map</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" style="width:90%px;height: 98%;">
-            <div #mapContainer style="width: 98%; height: 95%;" class="mx-auto"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-   -->
-    <!-- //////////////////////////////////////////////////////////trigger table click pop up dashboard/////////////////////////// -->  
-  
-
+    >
  
-    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
-         <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
-          <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
-              uploading... </p></ngx-spinner>
-          <div class="modal-header" style="background:#0e213ff2">
-            <h5 class="modal-title" id="mapModalLabel" style="color:white;">Map</h5>
-            <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
-              <i style="font-size: 24px;color:white" class="fa fa-times"></i>
-            </button>
-          </div>
-          <div class="modal-body p-0 pt-1" style="width:100%;height: 100%;">
-            <div id="map1" style="width: 100%; height: 100%;" class="mx-auto"></div>
-          </div>
-        </div>
-      </div>
+      <ng-option
+        *ngFor="let item of filterObject?.gpsVendor | keyvalue" 
+        [value]="item?.key"
+      >
+        {{ item?.value }}
+      </ng-option>
+    </ng-select>
+  </div>
+   <!-- Report Type -->
+   <!-- <div class="col-lg-2">
+    <span class="filtor_name">Report Format</span>
+    <ng-select
+      [ngModel]
+      name="reportFormat"
+      id="reportFormat"
+      placeholder="Select Report Format"
+      style="font-size: 14px; font-weight: 400"
+      [closeOnSelect]="true"
+      [ngModel]="1"
+    >
+      <ng-option [value]="1">Default</ng-option>
+      <ng-option [value]="2">Day Wise</ng-option>
+    </ng-select>
+  </div> -->
+   <!-- Vehicle -->
+   <div class="col-lg-2" *ngIf="region?.includes('')">
+    <span class="filtor_name">Vehicle</span>
+    <ng-select
+      [(ngModel)]="selectedVehicles"
+      name="vehicle"
+      id="vehicle"
+      placeholder="Select Vehicle"
+      style="font-size: 14px; font-weight: 400"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [searchable]="true"
+      (search)="onSearchVehicle($event)"
+    >
+      <ng-option *ngFor="let vehicle of vehicleOptions" [value]="vehicle.vehicle_number">
+        {{ vehicle.vehicle_number }}
+      </ng-option>
+    </ng-select>
+  </div>
+  <div class="col-lg-2" >
+    <span class="filtor_name">Location</span>
+    <ng-select
+    [(ngModel)]="location"
+    name="location"
+    id="location"
+    placeholder="Search Location"
+    [maxSelectedItems]="10"
+    style="font-size: 14px; font-weight: 400"
+    [closeOnSelect]="true"
+    [multiple]="true"
+    
+    (click)="validateLocation()"
+    (change)="onLocationChange($event)"
+    [closeOnSelect]="true"
+    [searchable]="true"
+    [typeToSearchText]="'search location'"
+   
+    (search)="onSearchLocation($event)"
+    
+  >
+  <ng-option [value]="''">All</ng-option>
+  <ng-option
+  *ngFor="let item of searchLocation"
+  [value]="item?.key"
+>
+  {{ item?.value }}
+  </ng-option>
+</ng-select>
+  </div>
+  <div class="" style="width: fit-content;align-self: flex-start;margin-top: 14px;">
+    
+    <input
+    type="checkbox"
+    id="toggleFields"
+    (change)="onCheckboxToggle($event)"
+    style="margin-right: 5px;"
+  />
+  <span class="filtor_name me-1">auto</span>
+   <p class="m-0">(Based on Agreement)</p>
+  </div>
+  <div *ngIf="hideFields" class="" style="width: fit-content;align-self: flex-end;">
+    
+    <input
+    name="overlap"
+    id="overlap"
+    type="checkbox"
+    id="toggleFields"
+    [ngModel]
+    style="margin-right: 5px;"
+  />
+  <span class="filtor_name me-1">Overlap Data</span>
+   <p style="visibility: hidden;" class="m-0">df</p>
+  </div>
+    <!-- Submit Button -->
+    <div class="col-lg-2 mt-2">
+      <button
+        type="submit"
+        class=""
+        style="
+          margin-top: 12px;
+          background-color: #1d4380;
+          color: white;
+          font-family: Work Sans;
+          font-size: 15px;
+          padding: 6px 22px;
+          border-radius: 5px;
+        "
+      >
+        Submit
+      </button>
     </div>
-
-
+                       </div>
+</div>
+                  </form>
+                  </div>
+                </div>
+                <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+              </div>
+               <!-- Charts----------------------------------------------- -->
+               <div class="fiter">
+                <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+              </div>
+            </div>
       
-  <!-- /////////////////////////////////alert model/////////////////////////////////////////////////////////////////////////////// -->
+          </div>
+
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 position-relative" *ngIf="report?.label === 'standard' && showTable">
+     
+
+      <div class="info col-lg-12 overflow-scroll">
+        <div class="col-lg-2 position-absolute" style="right: 320px;z-index: 5;" *ngIf="reportType!=2"> 
+          <!-- <span class="filtor_name">Report Format</span> -->
+          <ng-select
+            [(ngModel)]="selectedReportFormat "
+            name="reportFormat"
+            id="reportFormat"
+            placeholder="Select Report Format"
+            style="font-size: 14px; font-weight: 400;border-color: black!important;"
+            [closeOnSelect]="true"
+            [ngModel]="1"
+            (change)="onReportFormatChange($event)"
+          >
+            <ng-option [value]="1">Default</ng-option>
+            <ng-option [value]="2">Day Wise</ng-option>
+          </ng-select>
+        </div>
+        <table class="table"  cellspacing="0" id="masterUpload">
+          <thead>
+            <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
+              <th style="border-top-left-radius: 4px;" class="table-primar"></th>
+              <!-- <th  class="table-primar">Sl.</th> -->
+              <th class="table-primar">Vehicle No.</th>
+              <th class="table-primar">Start Date Time</th>
+              <th class="table-primar">Slot Hours</th>
+              <th class="table-primar">End Date Time</th>
+              <th class="table-primar">Distance Travelled(km)</th>
+              <th class="table-primar">Travel Duration</th>
+              <!-- <th class="table-primar">Filled Distance(km)</th>
+              <th class="table-primar">Total Distance(km)</th> -->
+              <th class="table-primar">Avg.Speed</th>
+              <th class="table-primar" >Max.Speed</th>
+              <th class="table-primar">Data Gap Standing(HH:MM:SS)</th>
+              <th class="table-primar ">Data Gap Network(HH:MM:SS)</th>
+              <th class="table-primar">Total Data Gap (HH:MM:SS)</th>
+              <th class="table-primar ">Transporter</th>
+              <th class="table-primar d-none">Installation Date</th>
+              <th class="table-primar d-none">GPS Vendor</th>
+              <th class="table-primar ">Vehicle Location</th>
+              <th class="table-primar ">Reporting Time</th>
+              <th class="table-primar ">Exit Time</th>
+              <th class="table-primar">Vehicle Region</th>
+              <th class="table-primar d-none">Trip Count</th>
+              <th class="table-primar d-none">Trip Distance</th>
+              <th class="table-primar d-none">Shipment Count</th>
+              <th class="table-primar d-none">Shipment Weight</th>
+              <th class="table-primar d-none">Total Vehicle Capacity</th>
+              <th class="table-primar" >Tampering</th>
+              <th  class="table-primar"  >Agreement Type</th>
+
+            </tr>
+          </thead>
+          <tbody >
+            <tr style="text-align: center; white-space: nowrap;" *ngFor="let item of standardReport;let ind=index">
+              <td>
+                <button 
+                  class="popupbtn" 
+                  style="color:#47434378" 
+                  type="button" 
+                  *ngIf="item?.ClickImei && item?.ClickImei !== '-'"
+                  (click)="openTravelledDistance(item?.ClickImei,item)"  >
+                  <i class="fa fa-plus"></i>
+                </button>
+              </td>
+              
+              <td>{{item?.VehicleNo}}</td>
+
+              <!-- <td >
+               {{ datepipe.transform(item?.StartDateTime, 'dd-MM-yyyy HH:mm:ss')}}
+              </td> -->
+              <td>{{item?.StartDateTime}}</td>
+              <td>{{item?.SlotHours}}</td>
+              <td>{{ item?.EndDateTime}}</td>
+              <td>{{item?.DistanceTravelled}}</td>
+              <td>{{item?.TravelDuration}}</td>
+              <!-- <td>{{item?.FillledDistance}}</td>
+              <td>{{item?.TotalDistance}}</td> -->
+              <td>{{item?.AvgSpeed}}</td>
+              <td>{{item?.MaxSpeed}}</td>  
+              <td class="">
+                {{ item?.DataGapStanding }}
+                <button
+                  *ngIf="item?.DataGapStanding !== '00:00:00'"
+                  (click)="openDataGapModal(item,'DataGapStanding')"
+                  class=""
+                  title="View Details"
+                >
+                  <i class="fa fa-eye"></i>
+                </button>
+              </td>
+              
+              <td >
+                {{ item?.DataGapNetworking }}
+                <button
+                  *ngIf="item?.DataGapNetworking !== '00:00:00'"
+                  (click)="openDataGapModal(item,'DataGapNetworking')"
+                  class=""
+                  title="View Details"
+                >
+                  <i class="fa fa-eye"></i>
+                </button>
+              </td>
+              
+              <td class="">
+                {{ item?.TotalDataGap }}
+                <button
+                  *ngIf="item?.TotalDataGap !== '00:00:00'"
+                  (click)="openTravelledDistance(item?.ClickImei,item)"
+                  class=""
+                  title="View Details"
+                >
+                  <i class="fa fa-eye"></i>
+                </button>
+              </td>
+              <td class="">{{ item?.Transporter}}</td>
+              <td class="d-none">{{ item?.IntegrationDate}}</td>
+              <td class="d-none">{{ item?.Vendor}}</td>
+              <td class="">{{ item?.VehicleLocation}}</td>
+              <td class="">{{ item?.ReportingTime}}</td>
+              <td class="">{{ item?.ExitTime}}</td>
+              <td>{{ item?.Region}}</td>
+              <td class="d-none">{{ item?.TripCount}}</td>
+              <td class="d-none">{{ item?.TripDistance}}</td>
+              <td class="d-none">{{ item?.ShipmentCount}}</td>
+              <td class="d-none">{{ item?.SumofWeight}}</td>
+              <td class="d-none">{{ item?.TotalVehicleCapacity}}</td>
+              <td>{{ item?.Tampering}}</td>
+              <td>
+                {{ item?.Agreement === 'Yes' ? 'Contract' : (item?.Agreement === 'No' || item?.Agreement === '-' ? 'Market' : '') }}
+              </td>
+
+            </tr>
+          </tbody>
   
-  <div class="modal fade" id="travelledDistancePopup">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
-      <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
+        </table>
+      </div>
+    </div>
+
+    <div class="col-lg-12" *ngIf="report?.label === 'detailed' && showTable">
+
+      <div class="info col-lg-12 overflow-scroll">
+        <div class="col-lg-2 position-absolute" style="right: 320px;z-index: 5;"> 
+          <!-- <span class="filtor_name">Report Format</span> -->
+          <ng-select
+            [(ngModel)]="selectedReportFormat "
+            name="reportFormat"
+            id="reportFormat"
+            placeholder="Select Report Format"
+            style="font-size: 14px; font-weight: 400;border-color: black!important;"
+            [closeOnSelect]="true"
+            [ngModel]="1"
+            (change)="onReportFormatChange($event)"
+          >
+            <ng-option [value]="1">Default</ng-option>
+            <ng-option [value]="2">Day Wise</ng-option>
+          </ng-select>
+        </div>
+        <table class="table"  cellspacing="0" id="masterUploadDetailed" style="width: 100%;">
+          <thead>
+            <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
+              <!-- <th style="border-top-left-radius: 4px;" class="table-primar"></th> -->
+              <th  class="table-primar">Sl.</th>
+              <th class="table-primar">Vehicle No.</th>
+              <th class="table-primar">IMEI</th>
+              <th class="table-primar">StartTime</th>
+              <th class="table-primar">EndTime</th>
+              <th class="table-primar">Distance(Km)</th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr style="text-align: center; white-space: nowrap;" *ngFor="let item of reportDetailed;let ind=index">
+              <!-- <td> <button class="popupbtn" style="color:#47434378" type="button" ><i class="fa fa-plus"></i></button></td> -->
+              <td>{{ind+1}}</td>
+              <td>{{item?.VehicleNo}}</td>
+              <td>{{item?.Device}}</td>
+              <td >
+               {{item?.StartTime}}
+              </td>
+              <td>{{item?.EndTime}}</td>
+              <td>{{item?.Distance}}</td>
+              <!-- <td>{{item?.DistanceTravelled}}</td> -->
+              
+            </tr>
+          </tbody>
+  
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+
+
+
+  <!-- /////////////////////////////////////////Link Popup/////////////////////////////////////////////////// -->
+  <div class="modal fade " id="linkModal" tabindex="-1" aria-labelledby="linkModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style=" max-width:600px;">
+   
+        <!--   -->
+        <div class="modal-content" style="width: 1200px !important;">
+          <ngx-spinner name="linkSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-scale-ripple" [fullScreen] = "false"><p style="color: white" > Loading... </p>
+          </ngx-spinner>
         <div class="modal-header">
+          <h4 style="color: #1D4380;font-weight: 500;" class="modal-title" id="uploadDocumentModalLabel">Tracking Link</h4>
+          <!-- <button (click)="closeLinkModal()" style="width: 4px;height: 4px;" type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+  
+        <div class="modal-body" style="width:600px">
+          <!-- <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div> -->
+          <div class="shareLink pt-4" style="padding: 54px 0px;">
+            <div class="permalink" style="margin: auto;width:83%">
+              <!-- <input class="textLink" id="linkTextQ" type="text" name="shortlink" value={{linkValue}}  readonly=""> -->
+              <!-- <button type="button"  placement="bottom" class="copyLink" id="copy" [ngbTooltip]="linkObject?.text"  autoClose="false"  (click)="copyToClipboard()">
+                <i *ngIf="linkObject?.copyVariable" class="fa fa-copy"></i>
+                <i *ngIf="!linkObject?.copyVariable" class="fa fa-check-circle" style="color: #00bd00;"></i>
+              </button> -->
+            </div>
+          </div>
+        </div>
+  
+        <!-- <div class="modal-footer justify-content-center col-lg-6 mx-auto"> -->
+            <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
+          <!-- <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button> -->
+        <!-- </div> -->
+  
+      </div>
+    </div>
+  </div>
+  <!-- ///////////////////////////////////////////////////////////////////map pop///////////////////////// -->
+
+  <!-- <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
+        <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+            uploading... </p></ngx-spinner>
+       <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mapModalLabel">HERE WeGo Map</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-  
-        <div class="modal-body" style="width: 100%; height: fit-content;">
-          <!-- Trip Header Table -->
-          <table class="display nowrap table" cellspacing="0" id="tripHeaderTable" width="100%">
-            <thead>
-              <tr style="text-align: center;">
-                <th style="border-top-left-radius: 4px;" class="table-primar">Vehicle No.</th>
-                <th class="table-primar">IMEI</th>
-                <th class="table-primar">StartTime</th>
-                <th class="table-primar">EndTime</th>
-                <th style="border-top-right-radius: 4px;" class="table-primar">Distance (km)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Loop through travelledReportData -->
-              <tr style="text-align: center;" *ngFor="let item of travelledReportData">
-                <td>{{ item.VehicleNo }}</td>
-                <td>{{ item.IMEI }}</td>
-                <td>{{ item.StartTime }}</td>
-                <td>{{ item.EndTime }}</td>
-                <td>{{ item.Distance }}</td>
-              </tr>
-            </tbody>
-          </table>
-  
-        </div>
-  
-        <div class="modal-footer justify-content-center col-lg-6 mx-auto">
-          <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+        <div class="modal-body" style="width:90%px;height: 98%;">
+          <div #mapContainer style="width: 98%; height: 95%;" class="mx-auto"></div>
         </div>
       </div>
     </div>
   </div>
-  
-  
-  
-  <div class="modal fade" id="DataGapup">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
-      <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
-        <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ -->
+  <!-- //////////////////////////////////////////////////////////trigger table click pop up dashboard/////////////////////////// -->  
+
+
+
+  <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
+       <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
+        <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+            uploading... </p></ngx-spinner>
+        <div class="modal-header" style="background:#0e213ff2">
+          <h5 class="modal-title" id="mapModalLabel" style="color:white;">Map</h5>
+          <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+            <i style="font-size: 24px;color:white" class="fa fa-times"></i>
+          </button>
         </div>
-  
-        <div class="modal-body" style="width: 100%; height: fit-content;">
-          <!-- Trip Header Table -->
-          <table class="display nowrap table" cellspacing="0" id="dataGapTable" width="100%">
-            <thead>
-              <tr style="text-align: center;">
-                <th style="border-top-left-radius: 4px;" class="table-primar">Device / IMEI.</th>
-                <th class="table-primar">Start DateTime</th>
-                <th class="table-primar">End DateTime</th>
-                <th class="table-primar">Date gap-Sta(HH:MM:SS)</th>
-                <th class="table-primar">Date gap-Sta(HH:MM:SS)</th>
-                <th style="border-top-right-radius: 4px;" class="table-primar">Tampering</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Loop through travelledReportData -->
-              <tr style="text-align: center;" *ngFor="let item of dataGap">
-                <td>{{ item?.Device }}</td>
-                <td>{{ item?.StartDateTime }}</td>
-                <td>{{ item.EndDateTime }}</td>
-                <td>{{ item.DatagapStanding }}</td>
-                <td>{{ item.ServerTimeStart }}</td>
-                <!-- <td>{{ item.ServerTimeEnd }}</td> -->
-                <td>{{ item.Tampering }}</td>
-              </tr>
-            </tbody>
-          </table>
-  
-        </div>
-  
-        <div class="modal-footer justify-content-center col-lg-6 mx-auto">
-          <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+        <div class="modal-body p-0 pt-1" style="width:100%;height: 100%;">
+          <div id="map1" style="width: 100%; height: 100%;" class="mx-auto"></div>
         </div>
       </div>
     </div>
   </div>
 
-  
+
+    
+<!-- /////////////////////////////////alert model/////////////////////////////////////////////////////////////////////////////// -->
+
+<div class="modal fade" id="travelledDistancePopup">
+  <ngx-spinner name="travelledDistance" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+    <p style="color: black">Please Wait.. </p>
+  </ngx-spinner>
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
+    <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="width: 100%; height: fit-content;">
+        <!-- Trip Header Table -->
+        <table  class="display nowrap table" cellspacing="0" id="tripHeaderTable" width="100%">
+          <thead>
+            <tr style="text-align: center;">
+              <th style="border-top-left-radius: 4px;" class="table-primar">Vehicle No.</th>
+              <th class="table-primar">IMEI</th>
+              <th class="table-primar">StartTime</th>
+              <th class="table-primar">EndTime</th>
+              <th style="border-top-right-radius: 4px;" class="table-primar">Distance (km)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Loop through travelledReportData -->
+            <tr style="text-align: center;" *ngFor="let item of travelledReportData">
+              <td>{{ item.VehicleNo }}</td>
+              <td>{{ item.IMEI }}</td>
+              <td>{{ item.StartTime }}</td>
+              <td>{{ item.EndTime }}</td>
+              <td>{{ item.Distance }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+
+      <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+        <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="DataGapup">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
+    <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body" style="width: 100%; height: fit-content;">
+        <!-- Trip Header Table -->
+        <table class="display nowrap table" cellspacing="0" id="dataGapTable" width="100%">
+          <thead>
+            <tr style="text-align: center;">
+              <th style="border-top-left-radius: 4px;" class="table-primar">Device / IMEI.</th>
+              <th class="table-primar">Start DateTime</th>
+              <th class="table-primar">End DateTime</th>
+              <th class="table-primar">Date gap-Sta(HH:MM:SS)</th>
+              <th class="table-primar">Server time start</th>
+              <th class="table-primar">Server time end</th>
+              <th style="border-top-right-radius: 4px;" class="table-primar">Tampering</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Loop through travelledReportData -->
+            <tr style="text-align: center;" *ngFor="let item of dataGap">
+              <td>{{ item?.Device }}</td>
+              <td>{{ item?.StartDateTime }}</td>
+              <td>{{ item.EndDateTime }}</td>
+              <td>{{ item.DatagapNetwork }}</td>
+              <td>{{ item.ServerTimeStart }}</td>
+              <td>{{ item.ServerTimeEnd }}</td>
+              <td>{{ item.Tampering }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+        <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="dayWiseDistancePopup">
+  <ngx-spinner name="daywisePopup" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+    <p style="color: black">Please Wait.. </p>
+  </ngx-spinner>
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
+    <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="width: 100%; height: fit-content;">
+        <table  class="display nowrap table" cellspacing="0" id="tripHeaderTableDaywise" width="100%">
+          <thead>
+            <tr style="text-align: center;">
+              <th style="border-top-left-radius: 4px;" class="table-primar">Vehicle No.</th>
+              <th class="table-primar">IMEI</th>
+              <th class="table-primar">StartTime</th>
+              <th class="table-primar">EndTime</th>
+              <th style="border-top-right-radius: 4px;" class="table-primar">Distance (km)</th>
+              <th class="table-primar d-none" >DataGap S</th>
+              <th class="table-primar" style="border-top-right-radius: 4px;">DataGap N</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Loop through travelledReportData -->
+            <tr style="text-align: center;" *ngFor="let item of daywiseData">
+              <td>{{ item['Vehicle No'] }}</td>
+              <td>{{ item.Device }}</td>
+              <td>{{ item.StartDateTime }}</td>
+              <td>{{ item.EndDateTime }}</td>
+              <td>{{ item.Distance }}</td>
+              <td class="d-none">{{ item.DataGapStanding }}</td>
+              <td>{{ item.DataGapNetworking }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+        <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="DataGapup">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
+    <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body" style="width: 100%; height: fit-content;">
+        <!-- Trip Header Table -->
+        <table class="display nowrap table" cellspacing="0" id="dataGapTable" width="100%">
+          <thead>
+            <tr style="text-align: center;">
+              <th style="border-top-left-radius: 4px;" class="table-primar">Device / IMEI.</th>
+              <th class="table-primar">Start DateTime</th>
+              <th class="table-primar">End DateTime</th>
+              <th class="table-primar">Date gap-Sta(HH:MM:SS)</th>
+              <th class="table-primar">Date gap-Sta(HH:MM:SS)</th>
+              <th style="border-top-right-radius: 4px;" class="table-primar">Tampering</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Loop through travelledReportData -->
+            <tr style="text-align: center;" *ngFor="let item of dataGap">
+              <td>{{ item?.Device }}</td>
+              <td>{{ item?.StartDateTime }}</td>
+              <td>{{ item.EndDateTime }}</td>
+              <td>{{ item.DatagapStanding }}</td>
+              <td>{{ item.ServerTimeStart }}</td>
+              <!-- <td>{{ item.ServerTimeEnd }}</td> -->
+              <td>{{ item.Tampering }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+        <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

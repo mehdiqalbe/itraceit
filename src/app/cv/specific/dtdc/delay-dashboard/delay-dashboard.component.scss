@@ -17,7 +17,7 @@
 }
 #map2
     {
-        height: 600px;
+        height: 500px;
         width: 100%;
     }
     #map1
@@ -47,3 +47,11 @@
         font-size: small;
         color: white;
     }
+    .filtor_name{
+        font-family: "Work Sans", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      // line-height: 21.11px;
+      color: #1D4380;
+      text-align: left;
+      }
