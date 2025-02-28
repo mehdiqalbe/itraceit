@@ -22,6 +22,7 @@ import { NavService } from 'src/app/shared/services/nav.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DtdcService } from '../../services/dtdc.service';
+import { Router } from '@angular/router';
 declare var H: any;
 declare var $: any;
 declare const agGrid: any;
@@ -108,7 +109,7 @@ export class VehicleReportComponent implements OnInit {
       "img": "assets/imagesnew/Icon/Fitness.png"
     }
   ];
-  constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
+  constructor(private router: Router,private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
 
   ngOnInit(): void {
     let App = document.querySelector('.app');
@@ -1089,6 +1090,7 @@ Submit(eve){
 
 }
 }
+
 onFilterTextBoxChanged() {
   // console.log("hii");
   
@@ -2206,6 +2208,7 @@ if (this.demoPolyline.length > 0) {
         this.SpinnerService.hide("tracking");
         if (res.Status === "failed") {
           alert(res?.Message);
+          this.router.navigate([`/auth/login`]);
         }
 
         this.trackingData = res.data;
@@ -2377,7 +2380,7 @@ handleMarkerClick(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+  formdataCustomer.append('portal', 'itraceit');
   this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
     console.log(res)
     const address = res.Data.Address;

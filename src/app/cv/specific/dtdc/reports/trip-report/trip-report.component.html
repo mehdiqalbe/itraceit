@@ -95,7 +95,7 @@
           <div  id="collapseExample" class="collapse show">
         <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm)">
           <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm..value.ReportType)"> -->
-              <div class="row">
+              <div class="row" id="qmMulticontainer">
                   <div class="col-lg-2 col-md-4 col-sm-6 ">
                       <label for="from_time" class="form-label">From Date</label>
                       <input type="text" data-date-format="YYYY-MM-DD" id="datepicker" (click)="start()"
@@ -104,29 +104,71 @@
           
                   <div class="col-lg-2 col-md-4 col-sm-6 ">
                       <label for="to_time" class="form-label">To Date</label>
-                      <input type="text" step="1" class="form-control" id="datepicker1" (click)="end()" [ngModel]="datetimepicker"
+                      <input type="text" step="1" class="form-control" data-date-format="YYYY-MM-DD" id="datepicker1" (click)="end()" [ngModel]="datetimepicker"
                           required name="to_time"  />
                   </div>
                   <div class="col-lg-2 col-md-4 col-sm-6 ">
-                    <label for="District" class="form-label">Trip Type</label>
-                    <ng-select placeholder="Select" ngModel name="TripType" (change)="change_feeder($event)">
+                    <label for="Region" class="form-label">Route Category </label>
+                    <ng-select
+                    (change)="onRouteCategoryChange($event)"
+                      [(ngModel)]="routeCategory"
+                      name="TripType"
+                      id="routeCategory"
+                      placeholder="Select Route"
+                      class=""
+                      style="font-size: 14px; font-weight: 400"
+                      [closeOnSelect]="true"
+                      [multiple]="true"
+                    >
+                    <ng-option value="" selected>All</ng-option>
+                      <ng-option
+                        *ngFor="let item of filterObject?.routeCategory | keyvalue "
+                        [value]="item.key"
+                      >
+                        {{ item?.value }}</ng-option
+                      >
+                    </ng-select>
+                    <!-- <ng-select placeholder="Select" ngModel  name="Feeder" 
+                      #regionSelect="ngModel">
+                        <ng-option value="" selected>Select</ng-option>
+                        
+                        <ng-option *ngFor="let item of feeder_type | keyvalue " [value]="item.key">
+                          {{item.value}}
+                        </ng-option>
+                      </ng-select> -->
+               
+                    
+               
+                    </div>
+                  <div class="col-lg-2 col-md-4 col-sm-6 ">
+                    <label for="District" class="form-label">Route Type</label>
+                    <!-- <ng-select placeholder="Select" ngModel name="TripType" (change)="change_feeder($event)">
                         <ng-option value="" selected>Select</ng-option>
                         <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        <!-- <ng-option *ngFor="let item of trigger_District | keyvalue" [value]="item">{{item.value}}</ng-option> -->
-                    </ng-select>
+                        <ng-option *ngFor="let item of trigger_District | keyvalue" [value]="item">{{item.value}}</ng-option>
+                    </ng-select> -->
+                   
+
+
+                    <ng-select
+                    [(ngModel)]="selectedRoutes"
+                    name="Feeder"
+                    id="routeType"
+                    placeholder="Select Route Type"
+                    class=""
+                    notFoundText="Select route category"
+                    style="font-size: 14px; font-weight: 400"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                  >
+                    <ng-option
+                      *ngFor="let item of filterObject?.routeType | keyvalue"
+                      [value]="item?.key"
+                    >
+                      {{ item?.value }}
+                    </ng-option>
+                  </ng-select>
                 </div>
-                  <div class="col-lg-2 col-md-4 col-sm-6 ">
-                      <label for="Region" class="form-label">Feeder Type</label>
-                      <ng-select placeholder="Select" ngModel  name="Feeder" 
-                        #regionSelect="ngModel">
-                          <ng-option value="" selected>Select</ng-option>
-                          
-                          <ng-option *ngFor="let item of feeder_type | keyvalue " [value]="item.key">
-                            {{item.value}}
-                          </ng-option>
-                        </ng-select>
-                  </div>
-          
                 
                   <div class="col-lg-2 col-md-4 col-sm-6 ">
                       <label for="Region" class="form-label">Trip Status</label>
@@ -135,13 +177,16 @@
                           <ng-option *ngFor="let item of   Master_filter?.TripStatus  | keyvalue" [value]="item.key">{{item.value}}</ng-option>
                       </ng-select>
                   </div>
-                  <div class="col-lg-2 col-md-4 col-sm-6 ">
+                  <div class="col-lg-2 col-md-4 col-sm-6 "  id="qmMulticontainer" >
                       <label for="Region" class="form-label">Region</label>
-                      <ng-select placeholder="Select" ngModel name="Region">
-                          <ng-option value="" selected>Select</ng-option>
-                          <ng-option *ngFor="let item of Master_filter?.Region | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+                      <ng-select placeholder="Select" ngModel name="Region"   [multiple]="true"
+                      [maxSelectedItems]="3"  (click)="validateRegion()"
+                      (change)="onRegionChange($event)">
+                          <!-- <ng-option value="" selected>Select</ng-option> -->
+                          <ng-option *ngFor="let item of Master_filter?.Region | keyvalue" [value]="item.value">{{item.value}}</ng-option>
                       </ng-select>
                   </div>
+                 
               </div>
              
               <div class="row">
@@ -236,8 +281,15 @@
             <label for="triggervehicle" class="form-label">Extra Information</label>
             <input type="checkbox" class="ms-5" ngModel name="ExtraInformation" (change)="extra_info($event)" [checked]="extra">
         </div> -->
-                  <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-end">
-                      <button class="btn btn-outline-primary btn-sm w-100 mt-3" type="submit" style="width: 100px !important;">Submit</button>
+        <div class="col-lg-2 col-md-4 col-sm-6 ">
+          <label for="Region" class="form-label">GPS Vendor</label>
+          <ng-select placeholder="Select" ngModel name="Vendor">
+              <ng-option value="" selected>Select</ng-option>
+              <ng-option *ngFor="let item of Master_filter?.Vendor | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+          </ng-select>
+      </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 ">
+                      <button class="btn btn-outline-primary btn-sm w-100 " type="submit" style="width: 100px !important;margin-top: 37px;">Submit</button>
                   </div>
               </div>
           </form>
@@ -261,30 +313,18 @@
       <button (click)="exportToExcel_datetime()" style="font-weight: bold"><i class="fa fa-file-excel-o" style="font-size: 18px;color: #1D6F42" title=" Download excel file"></i>
       </button>
       <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;" title=" Download PDF file"></i></button>
-                <!-- <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
-      
-                <button (click)="exportToCSV()"><i class="fa fa-file-text-o" style="font-size: 18px;color: blue !important;" title=" Download CSV file"></i></button>
-                
-      <!-- <button (click)="exportToPDF()"><i class="fa fa-file-pdf-o" style="font-size: 18px;color: #F40F02;"></i></button> -->
-
+              <button (click)="exportToCSV()"><i class="fa fa-file-text-o" style="font-size: 18px;color: blue !important;" title=" Download CSV file"></i></button>
 </div>
 <div id="myGrid" style="height: 317px; width: 100%;" class="ag-theme-alpine grid_table"></div>
 </ng-container>
-
 </div>
 
 <div class="modal fade" id="Datail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" style=" max-width: 1500px;margin-left: 140px;">
     <div class="modal-content" style="height: 634px; width: 835px;">
-
       <div class="modal-header" style="height: 45px;">
-        
           <label for="" style="margin-left: 480px;font-weight: 500;font-size: 16px;">Detail</label>
-      
         <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm.value)"> -->
-         
-         
-          
         <!-- </form> -->
         <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -320,9 +360,8 @@
   </div>
 </div>
 
-<div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog " style=" max-width: 1500px;">
+<div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="width:900px; max-width:1300px;position: relative;">
       <div class="modal-content" style="height: 700px;">
   
         <div class="modal-header">
@@ -341,8 +380,8 @@
   
           </div>
         </div>
-        <div class="modal-footer" style="height: 25px;">
-        </div>
+       
+    <div class="modal-drag-bottom py-1" style="background:white; cursor: move; height: 10px;"></div>
       </div>
     </div>
   </div>

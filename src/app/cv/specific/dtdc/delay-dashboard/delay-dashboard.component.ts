@@ -66,6 +66,7 @@ export class DelayDashboardComponent implements OnInit {
   }
   routeCategory:any
   selectedRoutes:any=[]
+  selectedRouteCategory: any=[];
   constructor(private CrudService:CrudService , private navServices: NavService, private dtdcservice: DtdcService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe,private router: Router,) { }
 
 
@@ -114,15 +115,14 @@ export class DelayDashboardComponent implements OnInit {
   }
   delayDashboardGeneric() {
     
-    this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
+    // this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
     // console.log("delayDashboardGeneric",this.commaSeparatedRoutes)
     this.SpinnerService.show()
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
-    formdataCustomer.append('RouteType', this.commaSeparatedRoutes);
+    formdataCustomer.append('RouteType', this.selectedRoutes);
     
     this.dtdcservice.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
-      // console.log('delayDashboardGenericr', res);
       if(res.status=="success"){
       this.Delay_data = Object.values(res.data);
       console.log(this.Delay_data);
@@ -1350,41 +1350,61 @@ makeModalDraggable() {
     this.dtdcservice.delayDashboardDtdcFilter(formdataCustomer).subscribe((res: any) => {
       
       if(res.Status=="success"){
-      // console.log(res)
-      const data=res?.data
+      console.log(res)
+      const data=res?.data;
                    // Function to update RouteType values
-        const updatedRouteType = Object.keys(data?.filter2).reduce((acc, category) => {
-          acc[category] = Object.keys(data?.filter2[category]).reduce((innerAcc, key) => {
-            innerAcc[key] = `${data?.filter2[category][key]} (${category})`; // Updating only value
-            return innerAcc;
-          }, {});
-          return acc;
-        }, {});
-   
-       console.log(updatedRouteType,"updated Route");
-       this.filterObject={
-        // region:data?.Region||{},
-        // origin:origin||[],
-        // destination:data?.Customer||{},
-        // transporter:transporter||{},
-        // route:route||[],
-        // etaDelay:data?.ETADelay||{},
-        routeCategory:data?.filter1||{},
-        rawRouteType:updatedRouteType||[],
-        routeType:{}
-      }
-    
-    console.log(this.filterObject.rawRouteType);
-    
-      if(data?.defaultFilter1)
-        {
-          this.selectedRoutes=data?.defaultFilter1[0]?.route_type?.split(",")
-          console.log(this.selectedRoutes);
-          
-        }
+                   const updatedRouteType = Object.entries(data?.filter2 as Record<string, Record<string, string>>).reduce((acc, [key, value]) => {
+                    const category = data?.filter1[key]; // Get category name from RouteCategory
+                  
+                    const updatedInnerObject: Record<string, string> = {};
+                    
+                    Object.entries(value).forEach(([typeKey, typeValue]) => {
+                      updatedInnerObject[typeKey] = `${typeValue} (${category})`;
+                    });
+                  
+                    acc[key] = updatedInnerObject;
+                    return acc;
+                  }, {} as Record<string, Record<string, string>>);
+                  
+                  // console.log(updatedRouteType,"updated Inner ");
+                 
 
+
+
+
+
+                  this.filterObject={
+ 
+                    etaDelay:data?.ETADelay||{},
+                    routeCategory:data?.filter1||{},
+                    rawRouteType:updatedRouteType||{},
+                    routeType:{}
+                  }
+                  // this.selectedRoutes=['BA Delivery'];
+                  // this.routeCategory = [''];
+                  this.filterObject.routeType = {
+                    "": "All", // Add "All" field
+                    ...Object.assign({}, ...Object.values(this.filterObject.rawRouteType)),
+                  };
+                  // console.log(this.filterObject.routeType, "route category111");
+
+        // console.log("routeCategory",this.filterObject.routeCategory);
+    
+      if(data?.defaultFilter1!=="undefined")
+        {
+          this.selectedRoutes=data?.defaultFilter1?.split(",");
+          console.log("routeCategory", this.selectedRoutes)
+        }else{
+          this.selectedRoutes=[''];
+        }
+        if(data?.defaultFilter1)
+          {
+            // this.selectedRouteCategory=data?.defaultFilter1[0]?.route_category?.split(",");
+            console.log( this.selectedRouteCategory)
+            
+          }
       this.alertData = res.data.filter1;
-      this.selectedRoute=res.data.defaultFilter2
+      // this.selectedRouteCategory=res.data.defaultFilter2
       this.selectedRouteType=res.data.defaultFilter1
       // console.log( this.selectedRoute)
       this.filterdata=res.data.filter2;
@@ -1533,13 +1553,22 @@ submitclose(){
   }
   
   onFilterDashboard(val){
-    this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
+    console.log("event",val)
+    // this.commaSeparatedRoutes = this.selectedRouteType.map(item => item.route_type).join(', ');
+    // const commaSeparated = val?.routeType.join(", ");
+    // const commaSeparated_category = val?.routeCategory.join(", ");
+    // const ids = val?.routeCategory.join(", ");
+      // console.log(ids);
     // console.log("delayDashboardGeneric",this.commaSeparatedRoutes)
     this.SpinnerService.show()
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
     formdataCustomer.append('RouteType', val?.routeType);
-    
+    formdataCustomer.append('RouteCategory', val?.routeCategory);
+    // console.log(formdataCustomer);
+    formdataCustomer.forEach((value, key) => {
+      console.log("formdata",key, value);
+    });
     this.dtdcservice.dtdc_delayDashboard(formdataCustomer).subscribe((res: any) => {
       // console.log('delayDashboardGenericr', res);
       if(res.status=="success"){
@@ -1555,6 +1584,30 @@ submitclose(){
     })
     
   }
+  onRouteCategoryChange1(val) {
+    this.selectedRoutes = [];
+    
+    if (val.includes('')) {
+      this.routeCategory = [''];
+      this.filterObject.routeType = {
+        "": "All", // Add "All" field
+        ...Object.assign({}, ...Object.values(this.filterObject.rawRouteType)),
+      };
+      console.log(this.filterObject.routeType, "route category111");
+    } else {
+      // Merge route types of all selected categories
+      const mergedRouteTypes = this.selectedRouteCategory.reduce((acc, categoryId) => {
+        console.log(acc,categoryId)
+        return { ...acc, ...this.filterObject.rawRouteType[categoryId] };
+      }, {});
+  
+      this.filterObject.routeType = {
+        "": "All", // Add "All" field
+        ...mergedRouteTypes,
+      };
+      console.log(this.filterObject.routeType, "route category22");
+    }
+  }
   onRouteCategoryChange(val) {
     // Clear selected route types
     this.selectedRoutes = [];
@@ -1567,7 +1620,7 @@ submitclose(){
         ...Object.assign({}, ...Object.values(this.filterObject.rawRouteType)),
       };
     } else {
-      // console.log(this.filterObject.routeType, "route category");
+      console.log(this.routeCategory, "route category");
   
       // Merge route types of all selected categories
       const mergedRouteTypes = this.routeCategory.reduce((acc, categoryId) => {
@@ -1578,9 +1631,9 @@ submitclose(){
         "": "All", // Add "All" field
         ...mergedRouteTypes,
       };
-      console.log(this.filterObject.routeType, "route category");
     }
   }
+
 
 }
 

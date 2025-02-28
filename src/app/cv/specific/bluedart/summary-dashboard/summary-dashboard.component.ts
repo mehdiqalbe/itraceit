@@ -21,9 +21,12 @@ import * as echarts from 'echarts';
 import { NavService } from 'src/app/shared/services/nav.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { BluedartService } from '../services/bluedart.service';
+import { Router } from '@angular/router';
 declare var H: any;
 declare var $: any;
 declare const agGrid: any;
+declare var LZString:any;
 // import * as echarts from 'echarts';
 interface HTMLCanvasElement {
   willReadFrequently?: boolean;
@@ -79,54 +82,114 @@ export class SummaryDashboardComponent implements OnInit {
   dataList: any[] = []; // List of data to display
   extra:boolean=false;
   submit: boolean=false;
-   colors = [
-    'red', 
-    'green', 
-    'blue', 
-    'yellow', 
-    'orange', 
-    'purple', 
-    'pink', 
-    'brown', 
-    'gray', 
-    'teal', 
-    'cyan', 
-    'lime', 
-    'indigo', 
-    'violet', 
-    'lightblue', 
-    'lightgreen', 
-    'lightcoral', 
-    'lightpink', 
-    'gold', 
-    'silver', 
-    'crimson', 
-    'coral', 
-    'salmon', 
-    'turquoise', 
-    'chocolate', 
-    'olive'
+  colors = [
+    '#FF5733',  // Red-Orange
+  // '#33FF57',  // Green
+  '#3357FF',  // Blue
+  '#FF33A1',  // Pink
+  '#FFAA33',  // Orange
+  '#33F5FF',  // Light Blue
+  '#F5FF33',  // Yellow
+  '#9B59B6',  // Purple
+  '#F39C12',  // Amber
+  '#2ECC71',  // Emerald Green
+  '#E74C3C',  // Red
+  '#3498DB',  // Light Blue
+  '#F1C40F',  // Yellow
+  '#1ABC9C',  // Turquoise
   ];
-  Footer_data: any=[];
+  
   footerData: any=[];
   Filter_flag: boolean=false;
+  Route_type: any;
+  // width: any;
+  // min_width: any;
+  // maxWidth: any;
+  width: any=70;// Default width
+  min_width: any=70 ;// Minimum width
+  maxWidth:any=70; // Maximum width
+  demoPolyline: any=[];
+  lastOpenedInfoWindow: any;
+  header_text: any;
+  Destination: any=[];
+  Region: any=[];
+  Customer: any=[];
+  searchTerm: any;
+  searchTerm1: any;
+  filteredDestination: any=[];
+  filteredDestination1: any=[];
+  selectedDestination: string | null = null;
   
-  constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  selectedDestination1: string | null = null;
+  selectedRouteType: any;
+  routeTypes_filter: any=[];
+  eve: any;
+  selectedRouteType1: any=[];
+  region: any=[];
+  region_route: any=[];
+  // Route_url:any="https://cv2.secutrak.in/cv/specific/bluedart/SummaryReport";
+  Route_url:any="http://localhost:4200/cv/specific/bluedart/SummaryReport";
+  constructor(private router: Router,private navServices: NavService,private BluedartService:BluedartService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
+    let App = document.querySelector('.app');
+    App?.classList.add('sidenav-toggled');
     this.token=localStorage.getItem('AccessToken')!;
-    this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
+    this.group_id=localStorage.getItem('GroupId')!;
+    this.account_id=localStorage.getItem('AccountId')!;
+    // this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
+    const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  this.datetimepicker1 = this.datepipe.transform(yesterday, 'yyyy-MM-dd');
     this.datetimepicker =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.end();
     this.start();
-    // this.masterUploadTable();
+    this.initMap1();
+
     // this.Grid_table();
     this.dtdcTripReportFilter();
     // this.Grid_table();
     // this.triggerHstSubmit1('')
-    this.First_call();
+    // this.First_call();
     
   }
+  onSearch(searchTerm: any) {
+    // Filter and update results based on the search term
+    searchTerm=searchTerm?.term
+    this.filteredDestination = this.Destination.filter(dest =>
+      dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 50); // Limit to a subset
+  }
+  onSearch1(searchTerm: any) {
+    // Filter and update results based on the search term
+    searchTerm=searchTerm?.term
+    this.filteredDestination1 = this.Customer.filter(dest =>
+      dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 50); // Limit to a subset
+  }
+  private getLargeDataset() {
+    // Simulate a large dataset
+    return Array.from({ length: 10000 }, (_, i) => ({ value: `Option ${i + 1}` }));
+  }
+  initMap1() 
+ {
+  //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+   const center = { lat: 23.2599, lng: 77.4126 };
+  //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+  // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+   this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+     zoom: 4,
+      center: center,
+
+     mapTypeId: google.maps.MapTypeId.ROADMAP,
+     scaleControl: true,
+
+   }
+   );  
+     
+ }
   sidebarToggle() {
     let App = document.querySelector('.app');
     // App?.classList.add('sidenav-toggled');
@@ -141,7 +204,8 @@ export class SummaryDashboardComponent implements OnInit {
   start() {
     $(document).ready(() => {
       $("#datepicker").datepicker({
-        format: "yyyy-mm-dd", // Ensure this matches your desired format
+        // format: "yyyy-mm-dd", // Ensure this matches your desired format
+        format: "yyyy-mm-dd",
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -165,225 +229,360 @@ export class SummaryDashboardComponent implements OnInit {
   
     
   }
-
-  masterUploadTable()
-  {
-
-
-
-
-   var tbl = $('#masterUpload')
-   var table = $('#masterUpload').DataTable();
-   table.clear()
-   table.destroy();
-   // table.draw()
-   // $('#masterUpload').DataTable().clear;
-   // if(datatable.length!=)
-   // console.log("table length",datatable.length)
-   //  $('#masterUpload tbody').empty();
-
-
-
-   $(document).ready(function () {
-
-
-
-     $('#masterUpload').DataTable({
-
-
-       "language": {
-         search: '',
-         searchPlaceholder: 'Search'
-       },
-       pageLength: 10,
-       fixedHeader: true,
-       // scrollX: true,
-       scrollY: '450px',
-       scrollCollapse: true,
-       paging: true,
-       scrollX: true,
-       destroy: true,
-       responsive: true,
-
-
-       //   fixedColumns:   {
-       //     leftColumns: 11,
-       //     select: true,
-
-       //     // rightColumns: 5
-       // },
-
-
-       "order": [],
-       dom: '<"html5buttons"B>lTfgitp',
-       columnDefs: [
-         { targets: 'no-sort', orderable: false }
-       ],
-
-       buttons:
-         [
-
-
-           {
-             extend: 'csv',
-             footer: true,
-             autoClose: 'true',
-             titleAttr: 'Download csv file',
-
-             className: 'datatablecsv-btn fa fa-file-text-o ',
-             text: '',
-             tag: 'span',
-
-             exportOptions: {
-
-               columns: ':visible',
-
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'pdf',
-             footer: true,
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-
-             autoClose: 'true',
-
-             titleAttr: 'Download Pdf file',
-             tag: 'span',
-
-             className: 'datatablepdf-btn fa fa-file-pdf-o ',
-             text: '',
-             customize: function (doc) {
-               var colCount = new Array();
-               $(tbl).find('tbody tr:first-child td').each(() => {
-                 if ($(this).attr('colspan')) {
-                   for (var i = 1; i <= $(this).attr('colspan'); i++) {
-                     colCount.push('*');
-                   }
-                 } else { colCount.push('*'); }
-               });
-               doc.content[1].table.widths = colCount;
-             },
-
-
-             exportOptions: {
-
-               columns: ':visible',
-               //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'copy',
-             footer: true,
-             titleAttr: ' Copy  file',
-
-             tag: 'span',
-
-             className: 'datatablecopy-btn fa fa-copy ',
-             text: '',
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-             exportOptions: {
-
-               columns: ':visible'
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'excel',
-             footer: true,
-             autoClose: 'true',
-             //text: '',
-             //className: 'fa fa-file-pdf-o',
-             //color:'#ff0000',
-
-             buttons: ['excel'],
-             titleAttr: ' Download excel file',
-
-             tag: 'span',
-
-             className: 'datatableexcel-btn fa fa-file-excel-o',
-             text: '',
-             exportOptions: {
-
-               columns: ':visible'
-
-             },
-             title: 'dashboard_repor'
-           }]
-     }
-
-     );
-   });
-
-
-   setTimeout(() => {
-     this.SpinnerService.hide();
-     // console.log("Timeout")
-     this.SpinnerService.hide("LastAlert")
-
-   }, 3000);
-
-   // console.log("table length2",datatable.length)
- }
- Detail(){
-
+ masterUploadTable() {
+  var tbl = $('#simple_datatable')
+  
+  $(document).ready(function () {
+    $('#simple_datatable').DataTable({
+      "language": {
+        search: '',
+        searchPlaceholder: 'Search'
+      },
+      pageLength: 10,
+      fixedHeader: {
+        header: true, // Enables fixed header
+        footer: false // Set to true if you want the footer to be fixed as well
+      },
+      paging: true,
+      destroy: true,
+      responsive: false,
+    
+      "order": [],
+      dom: '<"html5buttons"B>lTfgitp',
+      columnDefs: [
+        { targets: 'no-sort', orderable: false }
+      ],
  
+      buttons:
+        [
+ 
+ 
+          {
+            extend: 'csv',
+            footer: true,
+            autoClose: 'true',
+            titleAttr: 'Download csv file',
+ 
+            className: 'datatablecsv-btn fa fa-file-text-o ',
+            text: '',
+            tag: 'span',
+ 
+            exportOptions: {
+ 
+              columns: ':visible',
+ 
+ 
+            },
+            title: 'Summary-Dashboard Report'
+          },
+          {
+            extend: 'pdf',
+            footer: true,
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+ 
+            autoClose: 'true',
+ 
+            titleAttr: 'Download Pdf file',
+            tag: 'span',
+ 
+            className: 'datatablepdf-btn fa fa-file-pdf-o ',
+            text: '',
+            customize: function (doc) {
+              var colCount = new Array();
+              $(tbl).find('tbody tr:first-child td').each(() => {
+                if ($(this).attr('colspan')) {
+                  for (var i = 1; i <= $(this).attr('colspan'); i++) {
+                    colCount.push('*');
+                  }
+                } else { colCount.push('*'); }
+              });
+              doc.content[1].table.widths = colCount;
+            },
+ 
+ 
+            exportOptions: {
+ 
+              columns: ':visible',
+              //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
+ 
+            },
+            title: 'Summary-Dashboard Report'
+          },
+          {
+            extend: 'copy',
+            footer: true,
+            titleAttr: ' Copy  file',
+ 
+            tag: 'span',
+ 
+            className: 'datatablecopy-btn fa fa-copy ',
+            text: '',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            exportOptions: {
+ 
+              columns: ':visible'
+ 
+            },
+            title: 'Summary-Dashboard Report'
+          },
+          {
+            extend: 'excel',
+            footer: true,
+            autoClose: 'true',
+            //text: '',
+            //className: 'fa fa-file-pdf-o',
+            //color:'#ff0000',
+ 
+            buttons: ['excel'],
+            titleAttr: ' Download excel file',
+ 
+            tag: 'span',
+ 
+            className: 'datatableexcel-btn fa fa-file-excel-o',
+            text: '',
+            exportOptions: {
+ 
+              columns: ':visible'
+ 
+            },
+            title: 'Summary-Dashboard Report'
+          }]
+    });
+  });
+}
+// masterUploadTable(){
+//   $('#simple_datatable').DataTable({
+//       responsive: true, // Enables responsive table
+//       autoWidth: false, // Prevents DataTables from setting widths
+//       paging: true, // Enables pagination
+//       searching: true, // Enables search box
+//       ordering: true, // Enables sorting
+//       lengthMenu: [[500, 1000, -1], [500, "1,000", "All"]], // Number of rows per page
+//       pageLength: 500, // Default rows per page
+//       dom: 'Bfrtip', // Placement of buttons and table controls
+//       buttons: [
+//           'copy', 'csv', 'excel', 'pdf'
+//       ], // Export buttons
+//       initComplete: function () { 
+//           // Adjust column widths to match existing styles
+//           this.api().columns.adjust();
+//       },
+//       language: {
+//           search: "Filter records:", // Custom placeholder for search
+//           lengthMenu: "Display _MENU_ records per page",
+//           zeroRecords: "No matching records found",
+//           info: "Showing _START_ to _END_ of _TOTAL_ entries",
+//           infoEmpty: "Showing 0 to 0 of 0 entries",
+//           infoFiltered: "(filtered from _MAX_ total entries)"
+//       }
+//   });
+// }
+summary_detail(eve,tripsKey,h_name){
+  const temp_data = this.new_array.Data[0].trips;
+    const completedTrips = temp_data[eve];
+    this.rowData_popup=completedTrips;
+    if(this.rowData_popup){
+    
+         var structuredata:any= {
+            token: this.token,
+            rowData_popup: this.rowData_popup,
+            group_id: this.group_id,
+            flag:0,
+            name:h_name,
+          };
+       
+      const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+      sessionStorage.setItem('structuredata', compressedData);
+      window.open(this.Route_url, '_blank');
+      // window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+      // https://cv2.secutrak.in/cv/specific/dtdc/map
+    }else{
+      alert("Data not found");
+    }
+}
+summary_detail_1(eve,tripsKey,h_name){
+  const temp_data = this.new_array.Data[0].trips;
+    const completedTrips = temp_data[eve].filter(item => item[tripsKey]=== 1);
+    this.rowData_popup=completedTrips;
+    // console.log(completedTrips)
+    if(this.rowData_popup){
+    
+      var structuredata:any= {
+         token: this.token,
+         rowData_popup: this.rowData_popup,
+         group_id: this.group_id,
+         flag:0,
+         name:h_name,
+       };
+    
+   const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+   sessionStorage.setItem('structuredata', compressedData);
+
+   window.open(this.Route_url, '_blank');
+  //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // https://cv2.secutrak.in/cv/specific/dtdc/map
+ }else{
+   alert("Data not found");
+ }
+}
+summary_detail_2(eve,tripsKey,h_name){
+  const temp_data = this.new_array.Data[0][tripsKey];
+    const completedTrips = temp_data[eve];
+    this.rowData_popup=completedTrips;
+    if(this.rowData_popup){
+    
+      var structuredata:any= {
+         token: this.token,
+         rowData_popup: this.rowData_popup,
+         group_id: this.group_id,
+         flag:1,
+         name:h_name,
+       };
+    
+   const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+   sessionStorage.setItem('structuredata', compressedData);
+   
+   window.open(this.Route_url, '_blank');
+  //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   // https://cv2.secutrak.in/cv/specific/dtdc/map
+ }else{
+   alert("Data not found");
+ }
+}
+summary_detail_3(eve,tripsKey,h_name){
+  const temp_data = this.new_array.Data[0][tripsKey];
+    const completedTrips = temp_data[eve];
+    this.rowData_popup=completedTrips;
+    if(this.rowData_popup){
+    
+      var structuredata:any= {
+         token: this.token,
+         rowData_popup: this.rowData_popup,
+         group_id: this.group_id,
+         flag:0,
+         name:h_name,
+       };
+    
+   const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
+   sessionStorage.setItem('structuredata', compressedData);
+
+  //  window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+   window.open(this.Route_url, '_blank');
+   // https://cv2.secutrak.in/cv/specific/dtdc/map
+ }else{
+   alert("Data not found");
+ }
+}
+ Detail(){
   $('#Datail').modal('show');
-//  this.detail_data=eve;
  if (this.gridApi_popup) {
   this.gridApi_popup.destroy();
-  // this.gridApi_popup='';
 }
  this.columnDefs_popup = [
-  { field: 'Sl', headerName: 'Sl', sortable: true, filter: true },
-  { field: 'RouteType', headerName: 'Route Type', sortable: true, filter: true },
-  { field: 'Region', headerName: 'Region', sortable: true, filter: true },
-  { field: 'Origin', headerName: 'Origin', sortable: true, filter: true },
-  { field: 'Destination', headerName: 'Destination', sortable: true, filter: true },
-  { field: 'Route', headerName: 'Route', sortable: true, filter: true },
-  { field: 'Fleet', headerName: 'Fleet', sortable: true, filter: true },
-  { field: 'TripID', headerName: 'Trip ID', sortable: true, filter: true },
-  { field: 'RunCode', headerName: 'Run Code', sortable: true, filter: true },
-  { field: 'RunDate', headerName: 'Run Date', sortable: true, filter: true },
-  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true },
-  { field: 'Track', headerName: 'Track', sortable: true, filter: true },
-  { field: 'GPSVendor', headerName: 'GPS Vendor', sortable: true, filter: true },
-  { field: 'FixedElockVendor', headerName: 'Fixed E-lock Vendor', sortable: true, filter: true },
-  { field: 'PortableElockVendor', headerName: 'Portable E-lock Vendor', sortable: true, filter: true },
-  { field: 'DriverName', headerName: 'Driver Name', sortable: true, filter: true },
-  { field: 'DriverNumber', headerName: 'Driver Number', sortable: true, filter: true },
-  { field: 'Transporter', headerName: 'Transporter', sortable: true, filter: true },
-  { field: 'STD', headerName: 'STD', sortable: true, filter: true },
-  { field: 'ATD', headerName: 'ATD', sortable: true, filter: true },
-  { field: 'DelayDeparture', headerName: 'Delay Departure', sortable: true, filter: true },
-  { field: 'STA', headerName: 'STA', sortable: true, filter: true },
-  { field: 'ATA', headerName: 'ATA', sortable: true, filter: true },
-  { field: 'ttMapped', headerName: 'TT-Mapped', sortable: true, filter: true },
-  { field: 'TT-Taken', headerName: 'TT-Taken', sortable: true, filter: true },
-  { field: 'delayArrival', headerName: 'Delay Arrival', sortable: true, filter: true },
-  { field: 'DelayTT', headerName: 'Delay TT', sortable: true, filter: true },
-  { field: 'Distance', headerName: 'Distance (Km)', sortable: true, filter: true },
-  { field: 'GPSException', headerName: 'GPS Exception', sortable: true, filter: true },
-  { field: 'Status', headerName: 'Status', sortable: true, filter: true },
-  { field: 'CloseBy', headerName: 'Close By', sortable: true, filter: true },
-  { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true },
+  { field: 'Sl', headerName: 'Sl', sortable: true, filter: true, width: 50,  minWidth: 50, maxWidth: 50, },
+  { field: 'RouteType', headerName: 'Route Type', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'Region', headerName: 'Region', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Origin', headerName: 'Origin', sortable: true, filter: true, width: 100,  minWidth: 100, maxWidth: 100, },
+  { field: 'Destination', headerName: 'Destination', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Route', headerName: 'Route', sortable: true, filter: true, width: 100,  minWidth: 100, maxWidth: 100, },
+  { field: 'Fleet', headerName: 'Fleet', sortable: true, filter: true, width: 100,  minWidth: 100, maxWidth: 100, },
+  { field: 'TripID', headerName: 'Trip ID', sortable: true, filter: true , width: 100,  minWidth: 100, maxWidth: 100,},
+  { field: 'RunCode', headerName: 'Run Code', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'RunDate', headerName: 'Run Date', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true , width: 100,  minWidth: 100, maxWidth: 100,},
+  { field: 'Track', headerName: 'Track', sortable: true, filter: true,
+    cellRenderer: params => {
+      // Create the container div
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.justifyContent = "center";
+    
+      // Create the span for the serial number
+      const serialSpan = document.createElement("span");
+      serialSpan.textContent = params.value;
+    
+      // Create the button
+      
+      const button = document.createElement("button");
+      button.innerHTML = "";
+      button.style.border = "none";
+      button.style.background = "none";
+      button.style.marginLeft = "5px";
+      button.style.cursor = "pointer";
+      // console.log(params.data.Full.TrackHistory1)
+      // Clear previous content
+  
+      if (params.data.Full?.Imei !== '') {
+        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+        button.addEventListener("click", () => {
+          console.log("Row Data:", params.data.Full);
+          // this.Detail(params.data.Full)
+          this.vehicleTrackF_new('', '',params.data.Full?.Imei, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
+        });
+      } else {
+        button.innerHTML += `<span style="color: black;">-</span>|`;
+      }
+      
+      if (params.data.Full?.Imei2 !== '') {
+        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+        
+        button.addEventListener("click", () => {
+          // console.log("Row Data:", params.data.Full);
+          // this.Detail(params.data.Full)
+          this.vehicleTrackF_new('', '',params.data.Full?.Imei2, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
+        });
+      } else {
+        button.innerHTML += `<span style="color: black;">-</span>|`;
+      }
+      
+      if (params.data.Full?.Imei3 !== '') {
+        button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+       
+        button.addEventListener("click", () => {
+          // console.log("Row Data:", params.data.Full);
+          // this.Detail(params.data.Full)
+          this.vehicleTrackF_new('', '',params.data.Full?.Imei3, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
+        });
+      } else {
+        button.innerHTML += `<span style="color: black;">-</span>|`;
+      }
+      
+      // Attach event listener to the button
+     
+    
+      // Append span and button to the container
+      container.appendChild(serialSpan);
+      container.appendChild(button);
+    
+      return container;
+    },
+
+   },
+  { field: 'GPSVendor', headerName: 'GPS Vendor', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'FixedElockVendor', headerName: 'Fixed E-lock Vendor', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'PortableElockVendor', headerName: 'Portable E-lock Vendor', sortable: true, filter: true , width: 250,  minWidth: 250, maxWidth: 250,},
+  { field: 'DriverName', headerName: 'Driver Name', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'DriverNumber', headerName: 'Driver Number', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'Transporter', headerName: 'Transporter', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'STD', headerName: 'STD', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'ATD', headerName: 'ATD', sortable: true, filter: true, width: 200,  minWidth: 200, maxWidth: 200, },
+  { field: 'DelayDeparture', headerName: 'Delay Departure', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'STA', headerName: 'STA', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'ATA', headerName: 'ATA', sortable: true, filter: true , width: 200,  minWidth: 200, maxWidth: 200,},
+  { field: 'ttMapped', headerName: 'TT-Mapped', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'TT-Taken', headerName: 'TT-Taken', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'delayArrival', headerName: 'Delay Arrival', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'DelayTT', headerName: 'Delay TT', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Distance', headerName: 'Distance (Km)', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'GPSException', headerName: 'GPS Exception', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'Status', headerName: 'Status', sortable: true, filter: true , width: 100,  minWidth: 100, maxWidth: 100,},
+  { field: 'CloseBy', headerName: 'Close By', sortable: true, filter: true, width: 150,  minWidth: 150, maxWidth: 150, },
+  { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true , width: 150,  minWidth: 150, maxWidth: 150,},
+  { field: 'Full', headerName: 'Full', sortable: true, filter: true, hide:true, width: 100,  minWidth: 100, maxWidth: 100, },
 ];
-
-// onGridReady: params => {
-  // Dynamically hide the "Full" column
-
-// }
-// routeSequence
-// tripId
-// trackHistory
-// alerts
-//  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving   Destination
 this.rowData_popup = this.rowData_popup.map((person, index) => ({
   Sl: index + 1,
   RouteType: person.RouteType,
@@ -428,6 +627,7 @@ CreateBy: person.CreateBy,
   // gpsException3: person.GPSException3,
   // supervisorException: person.SupervisorException,
   Status: person.status,
+  Full:person
   // systemRemarks: person.Remarks,
   // closeBy: person.CloseBy,
   // closeDate: person.CloseDate,
@@ -456,54 +656,6 @@ CreateBy: person.CreateBy,
   // PushTimeIn:  this.extra ? person.PushTimeIn : null,
   // PushTimeOut:  this.extra ? person.PushTimeOut : null,
 }));
-
-// this.rowData = this.new_array.map((person, index) => ({
-//   si: index + 1,
-//   agency: person.agency_name_hn,
-//   region: person.region_name,
-//   district: person.district_name,
-//   // Purchase_Center: person.source_display,
-//   // mill: person?.destination_display,
-//   // vehicles: person.name,
-//   // status: person.trip_status,
-//   // driver_mobile: person.driver_mobile,
-//   // driver_name: person.driver_name,
-//   // Consignment_no: person.shipment_no,
-//   // Consignment_Score: person.rating1,
-//   // Consignment_Time: person.run_date,
-//   // Consignment_Time1: person.close_date,
-  
-//   // duration: person.time,
-//   // KML_Distance: person.polyline_route_dis,
-//   // Missed_KML_Distance: person.missed_route_dis,
-//   // Route_Deviation_Score: person.route_deviation_score,
-//   // Route_Stoppage_Count: person.enroute_count,
-//   // Route_Stoppage_Score: person.enroute_stoppage_score,
-//   // // EPOD_Done: person.epod,
-//   // // EPOD_Score: person.epod_score
-//   // // ,
-//   // Geofence_Done: person.geofence_done,
-//   // Geofence_Score: person.geofence_score,
-//   // // Trip_Closer_Type: person,
-//   // Route_Deviation: person.route_deviation_score,
-//   // Count_Force_Close: person.forceful_closure_count,
-//   // Count_Auth: person.un_auth_loc_count,
-//   // Count_Red_Flag: person.red_flag_count,
-//   // Consignmen_Score: person.rating1,
-//   // Transporter_Score: person.rating3,
-//   // Distance_Travelled: person.distance_km,
-//   // Transporter_Name: person.transporter_name,
-//   // bags: person.quantity,
-//   // quantity: person.load,
-//   // full_data: person,
-//   // Sorce: person.source_flag,
-//   // destinaton: person.destination_flag,
-//   // trip_status: person.trip_status
-
-// }));
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 this.gridOptions_popup = {
   rowHeight: 30,
   headerHeight: 40,
@@ -513,37 +665,27 @@ this.gridOptions_popup = {
   pagination: true,
   paginationPageSize: 50,
   paginationPageSizeSelector: [10, 50, 100,500,1000],
- 
+  defaultColDef: {
+    sortable: true,
+    filter: true,
+    resizable: true,
+    tooltipComponentParams: {
+      color: "#ececec" // Optional parameter for custom styling
+    }
+  },
   animateRows: true,
   onGridReady: (params) => this.onGridReady_pop(params),
  
-  // onGridReady: (params: any) => {
-  //   this.gridOptions.api = params.api; // Store API reference for later use
-  // },
- 
-
-//   onGridReady: (params) => {
-//     this.gridApi = params.api; // Store the API for later use
-//     console.log('Grid API methods:', Object.getOwnPropertyNames(this.gridApi)); // Log the available API methods
-// },
-  // onGridReady: this.onGridReady.bind(this),  // Call `onGridReady` when the grid is ready
-  // onCellClicked: (event) => {
-  //   if (event.colDef.field === 'user_name') {
-  //     // this.onUserClick(event.value); // Call your method
-  //   }
-  // },
 
 };
-
 const gridDiv = document.querySelector('#myGrid-popup');
 new agGrid.Grid(gridDiv, this.gridOptions_popup);
-// this.gridOptions_popup.columnApi.setColumnVisible("Full", false);
  }
 
  Detail1(){
 
  
-  $('#Datail').modal('show');
+  $('#Datail1').modal('show');
 //  this.detail_data=eve;
  if (this.gridApi_popup) {
   this.gridApi_popup.destroy();
@@ -552,49 +694,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
  this.columnDefs_popup = [
   { field: 'Sl', headerName: 'Sl', sortable: true, filter: true },
   // { field: 'RouteType', headerName: 'Route Type', sortable: true, filter: true },
-  { field: 'Region', headerName: 'Region', sortable: true, filter: true },
-  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true },
-  { field: 'LastStatus', headerName: 'Last Status', sortable: true, filter: true },
-  { field: 'TripCount', headerName: 'Trip Count', sortable: true, filter: true },
-  // { field: 'Destination', headerName: 'Destination', sortable: true, filter: true },
-  // { field: 'Route', headerName: 'Route', sortable: true, filter: true },
-  // { field: 'Fleet', headerName: 'Fleet', sortable: true, filter: true },
-  // { field: 'TripID', headerName: 'Trip ID', sortable: true, filter: true },
-  // { field: 'RunCode', headerName: 'Run Code', sortable: true, filter: true },
-  // { field: 'RunDate', headerName: 'Run Date', sortable: true, filter: true },
-  // { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true },
-  // { field: 'Track', headerName: 'Track', sortable: true, filter: true },
-  // { field: 'GPSVendor', headerName: 'GPS Vendor', sortable: true, filter: true },
-  // { field: 'FixedElockVendor', headerName: 'Fixed E-lock Vendor', sortable: true, filter: true },
-  // { field: 'PortableElockVendor', headerName: 'Portable E-lock Vendor', sortable: true, filter: true },
-  // { field: 'DriverName', headerName: 'Driver Name', sortable: true, filter: true },
-  // { field: 'DriverNumber', headerName: 'Driver Number', sortable: true, filter: true },
-  // { field: 'Transporter', headerName: 'Transporter', sortable: true, filter: true },
-  // { field: 'STD', headerName: 'STD', sortable: true, filter: true },
-  // { field: 'ATD', headerName: 'ATD', sortable: true, filter: true },
-  // { field: 'DelayDeparture', headerName: 'Delay Departure', sortable: true, filter: true },
-  // { field: 'STA', headerName: 'STA', sortable: true, filter: true },
-  // { field: 'ATA', headerName: 'ATA', sortable: true, filter: true },
-  // { field: 'ttMapped', headerName: 'TT-Mapped', sortable: true, filter: true },
-  // { field: 'TT-Taken', headerName: 'TT-Taken', sortable: true, filter: true },
-  // { field: 'delayArrival', headerName: 'Delay Arrival', sortable: true, filter: true },
-  // { field: 'DelayTT', headerName: 'Delay TT', sortable: true, filter: true },
-  // { field: 'Distance', headerName: 'Distance (Km)', sortable: true, filter: true },
-  // { field: 'GPSException', headerName: 'GPS Exception', sortable: true, filter: true },
-  // { field: 'Status', headerName: 'Status', sortable: true, filter: true },
-  // { field: 'CloseBy', headerName: 'Close By', sortable: true, filter: true },
-  // { field: 'CreateBy', headerName: 'Create By', sortable: true, filter: true },
-];
+  { field: 'Region', headerName: 'Region', sortable: true, filter: true, },
+  { field: 'Vehicle', headerName: 'Vehicle', sortable: true, filter: true ,width:150},
+  { field: 'LastStatus', headerName: 'Last Status', sortable: true, filter: true ,},
+  { field: 'TripCount', headerName: 'Trip Count', sortable: true, filter: true, },
+ ];
 
-// onGridReady: params => {
-  // Dynamically hide the "Full" column
-
-// }
-// routeSequence
-// tripId
-// trackHistory
-// alerts
-//  totalBag portableELockKm fixedELockKm fixedGpsKm reverseDriving   Destination
 this.rowData_popup = this.rowData_popup.map((person, index) => ({
   Sl: index + 1,
   Region: person.Region,
@@ -603,71 +708,19 @@ this.rowData_popup = this.rowData_popup.map((person, index) => ({
   TripCount: person.TripCnt,
 
  }));
-
-// this.rowData = this.new_array.map((person, index) => ({
-//   si: index + 1,
-//   agency: person.agency_name_hn,
-//   region: person.region_name,
-//   district: person.district_name,
-//   // Purchase_Center: person.source_display,
-//   // mill: person?.destination_display,
-//   // vehicles: person.name,
-//   // status: person.trip_status,
-//   // driver_mobile: person.driver_mobile,
-//   // driver_name: person.driver_name,
-//   // Consignment_no: person.shipment_no,
-//   // Consignment_Score: person.rating1,
-//   // Consignment_Time: person.run_date,
-//   // Consignment_Time1: person.close_date,
-  
-//   // duration: person.time,
-//   // KML_Distance: person.polyline_route_dis,
-//   // Missed_KML_Distance: person.missed_route_dis,
-//   // Route_Deviation_Score: person.route_deviation_score,
-//   // Route_Stoppage_Count: person.enroute_count,
-//   // Route_Stoppage_Score: person.enroute_stoppage_score,
-//   // // EPOD_Done: person.epod,
-//   // // EPOD_Score: person.epod_score
-//   // // ,
-//   // Geofence_Done: person.geofence_done,
-//   // Geofence_Score: person.geofence_score,
-//   // // Trip_Closer_Type: person,
-//   // Route_Deviation: person.route_deviation_score,
-//   // Count_Force_Close: person.forceful_closure_count,
-//   // Count_Auth: person.un_auth_loc_count,
-//   // Count_Red_Flag: person.red_flag_count,
-//   // Consignmen_Score: person.rating1,
-//   // Transporter_Score: person.rating3,
-//   // Distance_Travelled: person.distance_km,
-//   // Transporter_Name: person.transporter_name,
-//   // bags: person.quantity,
-//   // quantity: person.load,
-//   // full_data: person,
-//   // Sorce: person.source_flag,
-//   // destinaton: person.destination_flag,
-//   // trip_status: person.trip_status
-
-// }));
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 this.gridOptions_popup = {
   rowHeight: 30,
   headerHeight: 40,
-  
   columnDefs: this.columnDefs_popup,
   rowData: this.rowData_popup,
   pagination: true,
   paginationPageSize: 50,
   paginationPageSizeSelector: [10, 50, 100,500,1000],
- 
   animateRows: true,
   onGridReady: (params) => this.onGridReady_pop(params),
- 
- 
 };
 
-const gridDiv = document.querySelector('#myGrid-popup');
+const gridDiv = document.querySelector('#myGrid-popup1');
 new agGrid.Grid(gridDiv, this.gridOptions_popup);
 // this.gridOptions_popup.columnApi.setColumnVisible("Full", false);
  }
@@ -683,8 +736,13 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       sortable: true, 
       filter: true, 
       floatingFilter: this.floating_filter,
+      headerClass: 'icon-header',
       // headerClass: 'custom-parent-header',
-      headerClass: 'clickable-header', // Custom class for child headers
+      // headerClass: 'clickable-header', 
+      width: this.width, // Default width
+      minWidth: this.min_width, // Minimum width
+      maxWidth: this.maxWidth, // Maximum width
+      // Custom class for child headers
     },
     
     {
@@ -692,73 +750,41 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       headerClass: 'custom-parent-header', // Custom class for parent header
       children: [
         {
-          headerName: 'Total Vehicle no',  // Text of the header
-          field: 'TotalVehicleno',
+          // cellStyle: {  }, // Set blue text color
+          headerName: 'Total',  // Text of the header
+          field: 'Total',
           sortable: true,
           aggFunc: 'sum' ,
           filter: this.Filter_flag,
           // headerClass: 'multi-line-header',
-          floatingFilter: this.floating_filter,
-          with:25,
           headerClass: 'icon-header',
-          // cellRenderer: (params) => {
-          //   // Create a clickable div or span element
-          //   const span = document.createElement('span');
-          //   span.innerText = params.value;
-          //   span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-          //   // Add click event listener
-          //   // span.addEventListener('click', () => {
-          //   //   var Region=params.data.Region;
-          //   //   console.log(this.new_array.Data,0)
-          //   //  var temp_data= this.new_array.Data[0].trips;
-          //   //  console.log("temp_data",temp_data)
-          //   //   const completedTrips = temp_data[Region].filter(item => item.TotalTrip=== 1);
-          //   //   this.rowData_popup=completedTrips;
-          //   //   if(this.rowData_popup){
-          //   //     this.Detail();
-          //   //   }else{
-          //   //     alert("Data not found")
-          //   //   }
-          //   // });
-          //   span.addEventListener('click', () => {
-          //     var Region=params.data.Region;
-          //    var temp_data= this.new_array.Data[0].trips;
-          //    console.log(temp_data)
-          //     const completedTrips = temp_data[Region].filter(item => item.TotalTrip=== 1);
-          //     this.rowData_popup=completedTrips;
-          //     console.log(completedTrips)
-          //     if(this.rowData_popup){
-          //       this.Detail();
-          //     }else{
-          //       alert("Data not found")
-          //     }
-          //   });
-          //   return span;
-          // }
+          floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          autoHeight: true ,// Automatically adjust row height for wrapped content
           cellRenderer: (params) => {
-            // Create a clickable div or span element for cell content
+            // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-      
-            // Add click event listener for custom logic
-            span.addEventListener('click', (event) => {
-              // Prevent the event from bubbling up to the header and triggering sorting
-              event.stopPropagation();
-              event.stopPropagation();
-              // Handle the custom click logic here
-              var Region = params.data.Region;
-              var temp_data = this.new_array.Data[0].trips;
-              const completedTrips = temp_data[Region].filter(item => item.TotalTrip === 1);
-              this.rowData_popup = completedTrips;
-              if (this.rowData_popup) {
+        
+            // Add click event listener
+            span.addEventListener('click', () => {
+              var Region=params.data.Region;
+             var temp_data= this.new_array.Data[0].trips;
+             console.log("temp_data",temp_data)
+              const completedTrips = temp_data[Region]
+              // .filter(item => item.TotalTrip=== 1);
+              this.rowData_popup=completedTrips;
+              if(this.rowData_popup){
                 this.Detail();
-              } else {
-                alert("Data not found");
+              }else{
+                alert("Data not found")
               }
             });
-      
+        
             return span;
           }
  // Use the custom header component
@@ -767,24 +793,26 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "Schedule",
           field: "Schedule",
           sortable: true,
-          filter: this.Filter_flag,
-          
-          // aggFunc: 'sum' ,
+          filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          autoHeight: true ,// Automatically adjust row height for wrapped content
+          cellClass: 'wrap-cell', // Apply the CSS class for wrapping
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RunningOnTime=== 1);
               this.rowData_popup=completedTrips;
-              console.log(completedTrips)
               if(this.rowData_popup){
                 this.Detail();
               }else{
@@ -802,37 +830,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].completeTrips;
-            //   var Region=params.data.Region;
-            //   // console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].completeTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-        
 
-
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.CompletedTrip=== 1);
@@ -853,35 +861,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
+          width: 100, // Default width
+          minWidth: 100, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: 100, // Maximum width
           headerClass: 'icon-header',
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].totalTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].totalTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.DnaTrip=== 1);
@@ -909,8 +899,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: 'VehicleCount',
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -918,8 +912,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               // alert(`You clicked on ${params.value}`);
               // console.log("params",params.data);
               this.new_array.Data[0].wrong_vehicle_data;
@@ -934,9 +927,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
               }else{
                 alert("Data not found")
               }
-              // this.vehicle_newFunction(params.data.full_data)
-              // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
             });
         
             return span;
@@ -944,21 +934,26 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
  // Use the custom header component
         },
         {
+
           headerName: "GPS Active",
           field: "GPSActive",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
+            
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               // alert(`You clicked on ${params.value}`);
               console.log("params",params.data);
               this.new_array.Data[0].active;
@@ -973,9 +968,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
               }else{
                 alert("Data not found")
               }
-              // this.vehicle_newFunction(params.data.full_data)
-              // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
             });
         
             return span;
@@ -983,12 +975,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           // headerClass: 'custom-child-header'
         },
         {
+
           headerName: "GPS Inactive",
           field: "GPSInactive",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -996,8 +993,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               // alert(`You clicked on ${params.value}`);
               console.log("params",params.data);
               this.new_array.Data[0].inactive;
@@ -1020,15 +1016,19 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         
             return span;
           }
-          // headerClass: 'custom-child-header'
         },
         {
+
           headerName: "GPS NA",
           field: "GPSNA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
@@ -1036,8 +1036,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
             // Add click event listener
-            span.addEventListener('click',(event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               // alert(`You clicked on ${params.value}`);
               console.log("params",params.data);
               this.new_array.Data[0].nogps;
@@ -1051,11 +1050,6 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
               }else{
                 alert("Data not found")
               }
-
-              
-              // this.vehicle_newFunction(params.data.full_data)
-              // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
             });
         
             return span;
@@ -1074,38 +1068,21 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: 'Vehicle NA',  // Text of the header
           field: 'VehicleNA',
           sortable: true,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
-          // headerClass: 'clickable-header', // Ensure the class is applied to this header
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
+          // headerClass: 'clickable-header', // Ensure the class is applied to this header
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].wrong_vehicle_data;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].wrong_vehicle_data;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail(); 
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.WrongVehicle=== 1);
@@ -1118,47 +1095,27 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             });
             return span;
           },
-
-
-
- // Use the custom header component
         },
         {
           headerName: "Route NA",
           field: "RouteNA",
           sortable: true,aggFunc: 'sum' ,
-          filter: this.Filter_flag,
-            // headerClass: 'clickable-header', // Ensure the class is applied to this header
-          floatingFilter: this.floating_filter,
+          filter: this.Filter_flag,  
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           headerClass: 'icon-header',
+          // headerClass: 'clickable-header', // Ensure the class is applied to this header
+          floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click',(event) => {
-              event.stopPropagation();
+           
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.WrongRoute=== 1);
@@ -1179,36 +1136,19 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           sortable: true,aggFunc: 'sum' ,
           filter: this.Filter_flag,
             // headerClass: 'clickable-header', // Ensure the class is applied to this header
+            headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
-          headerClass: 'icon-header',
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].wrong_route_data;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.WrongFleet=== 1);
@@ -1237,34 +1177,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].otdTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].otdTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.OTD=== 1);
@@ -1283,18 +1206,21 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "Delayed Departure",
           field: "DelayedDeparture",
           sortable: true,
-          headerClass: 'icon-header',
           filter: this.Filter_flag,aggFunc: 'sum' ,
+          headerClass: 'icon-header',
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           floatingFilter: this.floating_filter,
           // headerClass: 'custom-child-header'
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.DelayedDeparture=== 1);
@@ -1313,8 +1239,12 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "ATDNA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' atdnTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
@@ -1322,28 +1252,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
         
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].atdnTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].atdnTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.ATAN=== 1);
@@ -1366,35 +1275,17 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           filter: this.Filter_flag,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header'
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.DINA=== 1);
@@ -1413,36 +1304,18 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "RuningonTime",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].dinaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RunningOnTime=== 1);
@@ -1461,38 +1334,20 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "Runing Late",
           field: "RuningLate",
           sortable: true,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          headerClass: 'icon-header',
           floatingFilter: this.floating_filter,
+          headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header'
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RuningLate=== 1);
@@ -1511,37 +1366,19 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "RuningDNA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          floatingFilter: this.floating_filter,
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' runningDnaTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].runningDnaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.RunningDna=== 1);
@@ -1560,36 +1397,18 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           field: "OTA",
           sortable: true,
           filter: this.Filter_flag,aggFunc: 'sum' ,
-          floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          floatingFilter: this.floating_filter,
+          cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].otaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].otaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click', (event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.OTA=== 1);
@@ -1608,39 +1427,20 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
           headerName: "ATA Delayed",
           field: "ATADelayed",
           sortable: true,
-          filter: this.Filter_flag,
-          // aggFunc: 'sum' ,
-          floatingFilter: this.floating_filter,
+          filter: this.Filter_flag,aggFunc: 'sum' ,
           headerClass: 'icon-header',
+          floatingFilter: this.floating_filter,
+                    cellStyle: { whiteSpace: 'normal', lineHeight: '1.2em',color: 'blue' }, // Enable wrapping
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' ata_delayedTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].ata_delayedTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].ata_delayedTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click',(event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.ATADelayed=== 1);
@@ -1655,51 +1455,23 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
             return span;
           }
         },
-        // {
-        //   headerName: "ATA NA",
-        //   field: "ATANA",
-        //   sortable: true,
-        //   filter: true,
-        //   floatingFilter: this.floating_filter,
-        //   // headerClass: 'custom-child-header'
-        // },
         {
           headerName: "AINA",
           field: "AINA",
           sortable: true,
-          filter: this.Filter_flag,
-          // aggFunc: 'sum' ,
+          filter: false,aggFunc: 'sum' ,
           floatingFilter: this.floating_filter,
           headerClass: 'icon-header',
+          width: this.width, // Default width
+          minWidth: this.min_width, // Minimum width
+          maxWidth: this.maxWidth, // Maximum width
           // headerClass: 'custom-child-header' ainaTrips
           cellRenderer: (params) => {
             // Create a clickable div or span element
             const span = document.createElement('span');
             span.innerText = params.value;
             span.style.cursor = 'pointer'; // Change the cursor to indicate clickability
-        
-            // Add click event listener
-            // span.addEventListener('click', () => {
-            //   // alert(`You clicked on ${params.value}`);
-            //   console.log("params",params.data);
-            //   this.new_array.Data[params.data.sl-1].ainaTrips;
-            //   var Region=params.data.Region;
-            //   console.log(Region)
-            //   var rowData_popup= this.new_array.Data[params.data.sl-1].ainaTrips;
-            //   this.rowData_popup=rowData_popup[Region]
-            //   console.log(this.rowData_popup)
-            //   // this.Detail()
-            //   if(this.rowData_popup){
-            //     this.Detail();
-            //   }else{
-            //     alert("Data not found")
-            //   }
-            //   // this.vehicle_newFunction(params.data.full_data)
-            //   // this.show_customer(params.data.full_data.id, params.data.full_data.rating1)
-             
-            // });
-            span.addEventListener('click',(event) => {
-              event.stopPropagation();
+            span.addEventListener('click', () => {
               var Region=params.data.Region;
              var temp_data= this.new_array.Data[0].trips;
               const completedTrips = temp_data[Region].filter(item => item.AINA=== 1);
@@ -1720,7 +1492,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
       this.rowData = this.new_array.Summary.map((person, index) => ({
         sl: index + 1, // Optional: Add row index
         Region: person.Region, // For parent-level columns
-        TotalVehicleno: person.TotalTrip,   // For child columns under "Trip Status"
+        Total: person.TotalTrip,   // For child columns under "Trip Status"
         Schedule: person.RunningTrip,
         Complete: person.CompletedTrip,
         DNA: person.DnaTrip,
@@ -1738,17 +1510,16 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         DINA: person.DINA,
         RuningonTime: person.RunningOnTime,
         RuningLate: person.RunningLate,
-        RuningDNA: person.RunningDna,
+        RuningDNA: person.RuningDNA,
         OTA: person.OTA,
         ATADelayed: person.ATADelayed,
         ATANA: person.ATANA,
         AINA: person.AINA,
       }));
-
       this.footerData = this.new_array.Total.map((person, index) => ({
         sl: index + 1, // Optional: Add row index
-        Region: person.Region, // For parent-level columns
-        TotalVehicleno: person.TotalTrip,   // For child columns under "Trip Status"
+        Region: 'Total', // For parent-level columns
+        Total: person.TotalTrip,   // For child columns under "Trip Status"
         Schedule: person.RunningTrip,
         Complete: person.CompletedTrip,
         DNA: person.DnaTrip,
@@ -1772,60 +1543,151 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
         ATANA: person.ATANA,
         AINA: person.AINA,
       }));
-  
-  this.gridOptions = {
-  domLayout: 'autoHeight',
-  rowHeight: 30,
-  headerHeight: 40,
-  columnDefs: this.columnDefs,
-  rowData: this.rowData,
-  pagination: true,
-  paginationPageSize: 50,
-  paginationPageSizeSelector: [10, 50, 100, 500, 1000],
-  pinnedBottomRowData: this.footerData, // Add footer data
-  // animateRows: true,
-  onGridReady: (params) =>  {
-    this.onGridReady(params);
-    this.gridOptions.api = params.api;
-    this.gridOptions.columnApi = params.columnApi;
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-    const gridContainer = document.querySelector('.ag-root-wrapper');
-    // const gridContainer   = document.querySelector('.icon-header');
-if (gridContainer) {
-  gridContainer.addEventListener('click', (event:any) => {
-    // ('click', (event) => {
-      event.stopPropagation();
-      event.stopPropagation();
-    const headerElement = event.target.closest('.ag-header-cell');
-    if (headerElement) {
-      const columnField = headerElement.innerText.trim();
-      // console.log(columnField);
-      var k = columnField.replace(/\s+/g, '');
-      //  console.log("k",k)
-      this.getColumnDataByField(k);
-    }
-  });
-}
-
-  },
-};
-
-
+      this.gridOptions = {
+        rowHeight: 50,
+        headerHeight: 80,
+        rowData: this.rowData,
+        resizable: true,
+        defaultColDef: {
+          sortable: true,
+          filter: true,
+          resizable: true,
+          tooltipComponentParams: {
+            color: "#ececec", // Optional parameter for custom styling
+          },
+        },
+        columnDefs: this.columnDefs.map((col, index) => ({
+          ...col,
+          children: col.children?.map((childCol) => ({
+            ...childCol,
+            // Apply blue text color for regular rows only
+            cellStyle: (params) =>
+              params.node.rowPinned ? {} : { color: 'blue' },
+          })),
+        })),
+        pagination: true,
+        paginationPageSize: 50,
+        paginationPageSizeSelector: [10, 50, 100, 500, 1000],
+        pinnedBottomRowData: this.footerData, // Footer data
+        getRowStyle: (params) => {
+          if (params.node.rowPinned) {
+            return { color: 'black', fontWeight: 'bold' }; // Style for footer rows
+          }
+          return null; // No custom styling for regular rows
+        },
+        onGridReady: (params) => {
+          this.onGridReady(params);
+          this.adjustGridHeight();
+          this.gridOptions.api = params.api;
+          this.gridOptions.columnApi = params.columnApi;
+          const gridContainer = document.querySelector('.ag-root-wrapper');
+          if (gridContainer) {
+            gridContainer.addEventListener('click', (event: any) => {
+              const headerElement = event.target.closest('.ag-header-cell');
+              if (headerElement) {
+                const columnField = headerElement.innerText.trim();
+                const fieldName = columnField.replace(/\s+/g, '');
+                this.getColumnDataByField(fieldName);
+              }
+            });
+          }
+        },
+      };
   const gridDiv = document.querySelector('#myGrid');
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
+ exportToCSV(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'Summary.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+//  adjustGridHeight() {
+//   const rowCount = this.rowData?.length || 0; // Get the number of rows
+//   const rowsToShow = Math.min(rowCount, 16); // Show up to 10 rows
+//   const totalHeight = (rowsToShow * this.gridOptions.rowHeight) + this.gridOptions.headerHeight;
+
+//   // Set the height of the grid container dynamically
+//   const gridElement = document.querySelector('.ag-theme-alpine'); // Adjust selector to match your theme
+//   if (gridElement) {
+//     (gridElement as HTMLElement).style.height = `${totalHeight}px`;
+//   }
+// }
+adjustGridHeight(): void {
+  const rowCount = this.gridOptions.api.getDisplayedRowCount(); // Get visible rows
+  const rowHeight = this.gridOptions.rowHeight || 30; // Row height
+  const headerHeight = this.gridOptions.headerHeight || 40; // Header height
+  const footerHeight = this.footerData ? rowHeight : 0; // Footer height
+  const paginationHeight = this.gridOptions.pagination ? 35 : 0; // Pagination height
+
+  // Ensure a minimum height for no rows
+  const gridHeight = rowCount > 0 
+    ? headerHeight + (rowCount * rowHeight) + footerHeight + paginationHeight
+    : headerHeight + footerHeight + paginationHeight + 100; // Fallback height
+
+  const gridContainer:any = document.querySelector('#myGrid');
+  if (gridContainer) {
+    console.log('gridHeight',gridHeight)
+    gridContainer.style.height = `${gridHeight+100}px`;
+  }
+}
 // Function to fetch column data dynamically
 getColumnDataByField(columnField: string) {
   $('#v_track_Modal1').modal('show');
   const allData:any = [];
   const Region_array:any=[];
   const rowCount = this.gridOptions.api.getDisplayedRowCount();
-   console.log(this.gridOptions.api)
   for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
     const rowNode = this.gridOptions.api.getDisplayedRowAtIndex(rowIndex);
-    console.log('rowNode',rowNode)
     const rowData = rowNode.data;
-    // console.log("columnField",columnField)
     if (rowData[columnField] !== undefined) {
       allData.push(rowData[columnField]);
     }
@@ -1833,12 +1695,6 @@ getColumnDataByField(columnField: string) {
       Region_array.push(rowData['Region']);
     }
   }
-
-
-    // console.log(Region_array)
-
-
-  // $('#v_track_Modal').on('shown.bs.modal', () => {
     console.log(`Data for column "${columnField}":`, allData);
     // const array_data:any=[];
     var arr=allData;
@@ -1846,14 +1702,6 @@ getColumnDataByField(columnField: string) {
       value: item,
       name: Region_array[index]
     }));
-    
-    // console.log("array_data", array_data);
-
-
-
-
-
-    // console.log(arr,arr[0])
   let chartDom:any = document.getElementById('pieChartContainer1');
   //  var echart = echarts.init(chartDom);
    var echart = echarts.init(chartDom, {
@@ -1945,31 +1793,7 @@ getColumnDataByField(columnField: string) {
   };
 
   option && echart.setOption(option);
-
-  // option &&  this.echart.setOption(option);
-
-  // });
-
-  // Show the modal (this might not be necessary to be in the Promise)
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
-
 //  onGridReady(params) {
 //   // alert(5)
 //   this.gridOptions.api = params.api;
@@ -1996,34 +1820,12 @@ onGridReady(params: any) {
  
   this.gridApi = params.api;
 }
-
-
-  onSearch(term: any) {
-    console.log(term)
-    const formdataCustomer = new FormData();
-    formdataCustomer.append('AccessToken', this.token);
-    formdataCustomer.append('searchQuery',term.term);
-    // formdataCustomer.append('route_id', route_id);
-  
-    this.CrudService.getBdVehicle(formdataCustomer).subscribe((res: any) => {
-      console.log(res)
-      this.dataList = res.Data;
-    })
-    // this.searchInput.next(term); // Emit the input value
-  }
-//  onGridReady(params: any) {
-//   this.gridApi = params.api;
  
-//   // this.gridOptions.api = params.api;
-//   console.log('Grid API:', this.gridApi); // Check if API is assigned correctly
-// }
 exportAsExcel() {
   if (this.gridApi) {
     this.gridApi.exportDataAsCsv({ fileName: 'table-data.csv' });
   }
 }
-
-
 onGridReady_pop(params: any) {
  
   this.gridApi_popup = params.api;
@@ -2035,174 +1837,197 @@ exportAsExcel_pop() {
 }
 dtdcTripReportFilter(){
   var formdata=new FormData()
-  formdata.append('AccessToken',this.token)
-  
-  this.CrudService.bdSummaryFilter(formdata).subscribe((data:any) => {
-    // console.log(data)
+  formdata.append('AccessToken',this.token);
+  this.BluedartService.bdSummaryFilter(formdata).subscribe((data:any) => {
+    console.log(data)
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
-      // console.log(data.Filter)
+      this.Region=this.Master_filter?.Region
+      this.Customer=this.Master_filter?.Customer;
+      this.Destination=this.Master_filter?.Customer;
+      this.selectedRouteType=this.Master_filter.DefualtFilter;
+      const inputString = this.selectedRouteType;
+      this.selectedRouteType1 = inputString.split(',').map(item => ({route_type: item.trim()}));
+
+// this.routeTypes_filter = Object.keys(this.Route_type).map(key => ({ route_type: key }));
+// console.log(this.selectedRouteType1);
+      const Destination = this.Master_filter?.Customer || {};
+      this.Destination = Object.entries(Destination).map(([key, value]) => ({ key, value }));
+      
+      this.filteredDestination = this.Destination.slice(0, 50); // Initial subset
+     
+      const Destination1 = this.Master_filter?.Customer || {};
+      this.Customer = Object.entries(Destination1).map(([key, value]) => ({ key, value }));
+      
+      this.filteredDestination1 = this.Customer.slice(0, 50); // Initial subset
+    
+     this.First_call();
+
     }else{
-      alert("Data not found ")
+      alert(data?.Message);
+      this.router.navigate([`/auth/login`]);
+      // private router: Router,
     }
-    // console.log(data)
   })
 }
+validateRegion(){
+  if(this.region.length===3){
+    alert('You can only select a maximum of 3 regions or select "All".');
+    return
+  }
+}
+validateRegion_route(){
+  if(this.region_route.length===3){
+    alert('You can only select a maximum of 3 regions or select "All".');
+    return
+  }
+}
+onRegionChange(selectedRegions){
+  
+  
+  if (selectedRegions.includes('')) {
+    // If "All" is selected, clear other selections
+    this.region = [''];
+  } else {
+    // If "All" is deselected, update the selection normally
+    this.region = selectedRegions.filter((value) => value !== '');
+  }
+}
+onRegionChange_route(selectedRegions){
+  
+  
+  if (selectedRegions.includes('')) {
+    // If "All" is selected, clear other selections
+    this.region_route = [''];
+  } else {
+    // If "All" is deselected, update the selection normally
+    this.region_route = selectedRegions.filter((value) => value !== '');
+  }
+}
 triggerHstSubmit(eve){
+  // console.log(eve)
   this.submit=true;
-
-  // console.log(eve.value.TripId)
   if(eve.form.status=='VALID'){
     this.SpinnerService.show()
   var formdata=new FormData()
-  console.log($("#datepicker").val())
   formdata.append('AccessToken',this.token)
-  // formdata.append('DateFrom', $("#datepicker").val())
-  // formdata.append('DateTo', $("#datepicker1").val())
   var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
   var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
-  //  formdata.append('DateFrom','2024-12-05')
-  //  formdata.append('DateTo', '2024-12-05')
-  // var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
-  // var endDate:any=this.datepipe.transform($("#datepicker1").val(), 'yyyy-MM-dd');
    formdata.append('DateFrom',starteDate)
-   formdata.append('DateTo', endDate)
-  // formdata.append('ReportType',eve.value.ReportType);
-
-  
+   formdata.append('DateTo', endDate);
   if(eve.value.TripId){formdata.append('TripId',eve.value.TripId)
   }else{
-    // RouteType,RouteCategory,Origin,Destination,Route,Region,TripStatus,VehicleNo,SupervisorException
-    if(eve.value.Route){formdata.append('RouteType',eve.value.Route)}
+    if(eve.value.Route){
+      const result = eve.value.Route.map(item => item.route_type).join(", ");
+      formdata.append('RouteType',result)}
    if(eve.value.RouteCategory){ formdata.append('RouteCategory',eve.value.RouteCategory)}
    if(eve.value.Origin){ formdata.append('Origin',eve.value.Origin)}
    if(eve.value.Destination){ formdata.append('Destination',eve.value.Destination)}
-   if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
+  //  if(eve.value.Route) {
+  //   const result = eve.value.Route.map(item => item.route_type).join(", ");
+    
+  //   formdata.append('Route',result)}
    if(eve.value.Region){
-    // console.log("lll",eve.value.Region)
-    formdata.append('Region',eve.value.Region)}
+    let text = eve.value.Region;
+    const result = text.map(loc => loc.split("(")[0]).join(",");
+    
+     formdata.append('Region',result);}
    if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
    if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number)}
-  //  if(eve.VehicleNo){ formdata.append('vehicle',eve.vehicle_number);}
-   
-    // formdata.append('ETADelay',eve.Delay)
   }
   // formdata.forEach((value, key) => {
   //   console.log("formdata",key, value);
   // });
-  this.CrudService.bdSummary(formdata).subscribe((data:any) => {
+  this.BluedartService.bdSummary(formdata).subscribe((data:any) => {
+    // console.log("Summary",data)
     this.submit=false;
-    // console.log(data)
     if(data.Status=="success"){
+      this.new_array=[]
       this.new_array=data.Report;
-      this.Footer_data=data.Summary;
-      console.log(this.new_array)
+      // console.log(this.new_array)
       if(this.new_array.Summary){
-      this.Grid_table();}else{
+      // this.Grid_table();
+      var table = $('#simple_datatable').DataTable();
+  table.clear();
+  table.destroy();
+      this.masterUploadTable();
+    }else{
+      if (this.gridApi) {
+        // this.gridApi.destroy();
+      }
         alert("Data not found ")
       }
       this.SpinnerService.hide();
     }else{
-      alert("Data not found ")
+      alert(data?.Message)
     }
     // console.log(data)
   })
 
 }
 }
+RouteCategory(eve:any){
+  console.log(eve)
+  // console.log(this.Master_filter?.RouteType[eve[0]])
+  this.Route_type=this.Master_filter?.RouteType[eve];
+  // console.log(eve)
+}
+changeRoutetype(eve){
+  this.routeTypes_filter=[];
+  // console.log(this.filterdata,eve);
+  this.eve=eve;
+  this.selectedRouteType1 = []; // Reset to empty array to clear selection
+  this.Route_type=this.Master_filter?.RouteType[eve];
+  // console.log(routeTypes_filter)
+  this.routeTypes_filter = Object.keys(this.Route_type).map(key => ({ route_type: key }));
+  // console.log(this.routeTypes_filter)
+
+}
 First_call(){
   this.submit=true;
-
+// console.log("ccccccccccccc",this.selectedRouteType)
     this.SpinnerService.show()
   var formdata=new FormData()
-  console.log($("#datepicker").val())
+  // console.log($("#datepicker").val())
   formdata.append('AccessToken',this.token)
   // formdata.append('DateFrom', $("#datepicker").val())
   // formdata.append('DateTo', $("#datepicker1").val())
-  var starteDate:any=this.datepipe.transform(this.datetimepicker, 'yyyy-MM-dd');
-  var endDate:any=this.datepipe.transform(this.datetimepicker1, 'yyyy-MM-dd');
-   formdata.append('DateFrom','2024-12-19')
+  var starteDate:any=this.datepipe.transform(this.datetimepicker1, 'yyyy-MM-dd');
+  var endDate:any=this.datepipe.transform(this.datetimepicker, 'yyyy-MM-dd');
+   formdata.append('DateFrom',starteDate)
    formdata.append('DateTo', endDate)
   // formdata.append('ReportType',eve.value.ReportType);
-
+ formdata.append('RouteType',this.selectedRouteType)
+  // formdata.forEach((value, key) => {
+  //   console.log("formdata",key, value);
+  // });
+  this.BluedartService.bdSummary(formdata).subscribe((data:any) => {
   
-  
-  formdata.forEach((value, key) => {
-    console.log("formdata",key, value);
-  });
-  this.CrudService.bdSummary(formdata).subscribe((data:any) => {
-
     this.submit=false;
     console.log(data)
     if(data.Status=="success"){
       this.new_array=data.Report;
-      console.log(this.new_array)
+      this.masterUploadTable();
+      // console.log(this.new_array)
       if(this.new_array.Summary){
-      this.Grid_table();}else{
+      // this.Grid_table();
+
+    }else{
+        if (this.gridApi) {
+          this.gridApi.destroy();
+        }
         alert("Data not found ")
       }
       this.SpinnerService.hide();
     }else{
-      alert(data.Message)
+      alert(data?.Message);
+      this.router.navigate([`/auth/login`]);
+      this.SpinnerService.hide();
     }
     // console.log(data)
   })
 
 // }
-}
-exportToCSV(): void {
-  const rows: string[] = [];
-  const parentHeaders: string[] = [];
-  const childHeaders: string[] = [];
-
-  // Extract parent and child headers
-  this.columnDefs.forEach((colDef: any) => {
-    if (colDef.children) {
-      // Parent header for grouped columns
-      parentHeaders.push(colDef.headerName);
-      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
-    } else {
-      // Parent and child headers are the same for non-grouped columns
-      parentHeaders.push(colDef.headerName);
-      childHeaders.push(colDef.headerName);
-    }
-  });
-
-  // Create parent header row
-  rows.push(parentHeaders.join(','));
-
-  // Create child header row
-  rows.push(childHeaders.join(','));
-
-  // Extract row data
-  const rowData: any[] = [];
-  this.gridOptions.api.forEachNode((node: any) => {
-    rowData.push(node.data);
-  });
-
-  // Map row data to match the column fields
-  rowData.forEach((row: any) => {
-    const rowValues = childHeaders.map((header: string) => {
-      const field = this.columnDefs.find((colDef: any) =>
-        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
-      )?.field;
-      return field ? row[field] || '' : '';
-    });
-    rows.push(rowValues.join(','));
-  });
-
-  // Convert rows to CSV string
-  const csvContent = rows.join('\n');
-
-  // Trigger CSV download
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.setAttribute('href', url);
-  link.setAttribute('download', 'GridData.csv');
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
 }
 // triggerHstSubmit1(eve){
 //   this.submit=true;
@@ -2232,8 +2057,6 @@ exportToCSV(): void {
 
 // // }
 // }
-
-
 onFilterTextBoxChanged() {
   // console.log("hii");
   
@@ -2249,58 +2072,85 @@ onFilterTextBoxChanged_pop() {
     "quickFilterText",
     (document.getElementById("filter-text-box-pop") as HTMLInputElement).value,
   )
+} 
+exportToPDF(): void {
+  // Step 1: Extract parent and child headers dynamically
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  this.columnDefs.forEach((colDef) => {
+    if (colDef.children) {
+      parentHeaders.push({ text: colDef.headerName, colSpan: colDef.children.length, alignment: 'center', bold: true });
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push(''); // Fill empty cells for colspan
+      }
+      colDef.children.forEach((child) => {
+        childHeaders.push({ text: child.headerName, alignment: 'center' });
+      });
+    } else {
+      parentHeaders.push({ text: colDef.headerName, alignment: 'center', bold: true });
+      childHeaders.push('');
+    }
+  });
+
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
+
+  // Add row data dynamically
+  this.rowData.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || ''); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || ''); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => (rowIndex === 0 ? '#0074D9' : rowIndex === 1 ? '#DDDDDD' : null), // Parent and child header colors
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
 }
-
-// exportToPDF(): void {
-  
-//   const headers = this.columnDefs.map((col) => col.headerName);
-//   const body = this.rowData.map((row) =>
-//     this.columnDefs.map((col) => row[col.field])
-//   );
-//   body.unshift(headers);
-
-//   const docDefinition = {
-//     content: [
-//       { text: 'Vehicle Nearby Data', style: 'header', alignment: 'center' },
-//       { text: '\n' },
-//       {
-//         table: {
-//           headerRows: 1,
-//           widths: Array(headers.length).fill('auto'),
-//           body: body,
-//         },
-//         layout: {
-//           fillColor: (rowIndex) => (rowIndex === 0 ? '#0074D9' : null),
-//           hLineWidth: () => 0.5,
-//           vLineWidth: () => 0.5,
-//         },
-//       },
-//     ],
-//     pageOrientation: 'landscape',
-//     styles: {
-//       header: {
-//         fontSize: 18,
-//         bold: true,
-//         margin: [0, 0, 0, 10],
-//       },
-//       tableHeader: {
-//         bold: true,
-//         fontSize: 12,
-//         color: 'white',
-//         fillColor: '#0074D9',
-//         alignment: 'center',
-//       },
-//       tableBody: {
-//         fontSize: 10,
-//       },
-//     },
-//     defaultStyle: {
-//       fontSize: 9,
-//     },
-//   };
-
-//   pdfMake.createPdf(docDefinition).download('vehicle-nearby-data.pdf');
-// }
 // exportToPDF() {
 //   const { jsPDF } = window.jspdf;
 //   const doc = new jsPDF();
@@ -2348,8 +2198,6 @@ onFilterTextBoxChanged_pop() {
 
 //   doc.save('table-data.pdf');
 // }
-
-
 onBtExport() {
 // this.gridApi!.exportDataAsExcel();
 this. gridApi!.exportDataAsCsv();
@@ -2358,7 +2206,6 @@ onBtExport_pop() {
   // this.gridApi!.exportDataAsExcel();
   this. gridApi_popup!.exportDataAsCsv();
   }
-
 // ------------------------------------------------MAP---------------------------------------------
 handleAlertMarkers(item) {
   if (this.demomarker.length > 0) {
@@ -2443,9 +2290,8 @@ this.markers.push(marker);
   
   });
 }
-
-async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-  // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
+async vehicleTrackF_new_here(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
   
   // Clear markers and polylines before starting
   this.clearMarkersAndPolylines();
@@ -2484,10 +2330,10 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
       const formData = new FormData();
       
       let currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-      if(item.CloseDt!=='-'){
-        currentDateTime=item.CloseDt;
-      }
-
+      // if(item.CloseBy!=='-'){
+      //   currentDateTime=item.CloseBy;
+      // }
+        console.log(run_date,currentDateTime,imei,this.group_id,this.account_id)
       formData.append('AccessToken', this.token);
       formData.append('startdate', run_date);
       formData.append('enddate', currentDateTime);
@@ -2495,13 +2341,15 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
       formData.append('imei', imei);
       formData.append('group_id', this.group_id);
       formData.append('AccountId', this.account_id);
+      formData.append('portal', 'itraceit');
       try {
         // Wait for the API response
         const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
-        // console.log("tracking res", res);
+        console.log("tracking res", res);
 
         if (res.Status === "failed") {
           alert(res?.Message);
+          this.router.navigate([`/auth/login`]);
         }
 
         this.trackingData = res.data;
@@ -2524,7 +2372,7 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
 
       } catch (error) {
         console.error("Error in API call:", error);
-        alert("An error occurred while fetching tracking data");
+        // alert("An error occurred while fetching tracking data");
       }
       
       // Hide the tracking spinner after the API call
@@ -2532,8 +2380,7 @@ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, rout
     }
   }
 }
-
-getMarkerIcon(index: number): string {
+getMarkerIcon_here(index: number): string {
   if (index === 0) {
     return 'assets/images/users/start_marker.png';
   }
@@ -2547,7 +2394,7 @@ getMarkerIcon(index: number): string {
     return 'assets/images/users/green_Marker1.png';
   }
 }
-addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+addMarkersAndPolyline1_here(imei: string, vehicle_no: string) {
   var lineString = new H.geo.LineString();
 
 let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
@@ -2655,7 +2502,7 @@ handleMarkerClick1(event, trackingData, vehicle_no, imei) {
     // infowindowMarker.open(this.map1);
   });
 }
-async handleMarkerClick(event, trackingData, vehicle_no, imei) {
+async handleMarkerClick_here(event, trackingData, vehicle_no, imei) {
   const markerPosition = event.target.getGeometry();
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
@@ -2669,8 +2516,7 @@ async handleMarkerClick(event, trackingData, vehicle_no, imei) {
   
   return this.showWindow(trackingData, vehicle_no, address); // Return the content
 }
-
-showWindow(data, vnumber, add) {
+showWindow_here(data, vnumber, add) {
   // var add:any
   this.contentsInfo = ''
   console.log('show window of vehicle information', data, add)
@@ -2737,7 +2583,6 @@ return  this.contentsInfo = '<table style="line-height: 16px; border:none !impor
 
 
 }
-
 // Assuming you have imported or included Supercluster in your project
 
 // addMarkersAndPolyline1(imei: string, vehicle_no: string) {
@@ -2836,8 +2681,6 @@ return  this.contentsInfo = '<table style="line-height: 16px; border:none !impor
 //       }
 //   });
 // }
-
-
 createMarker(point, ico, label = '') {
 
   var html = document.createElement('div'),
@@ -2983,7 +2826,6 @@ addPolylineToMap(lineString) {
   this.map1.addObject(polyline);
   this.polylines.push(polyline);
 }
-
 fetchDFGPolyline_new(route_id: string) {
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
@@ -3033,8 +2875,6 @@ clearMarkersAndPolylines() {
     this.polylines = []; // Reset the polylines array
   }
 }
-
-
 handleCustomerMarkerClick(event, index) {
 const customer = this.customer_info[index];
 const customer_Info = this.generateCustomerInfo(customer);
@@ -3045,7 +2885,6 @@ return customer_Info;
 // infowindowMarker_custo.open(this.map1);
 // this.lastOpenedInfoWindow = infowindowMarker_custo;
 }
-
 generateCustomerInfo(customer): string {
 let pod = customer.CustVisited === 1 ? 'Already DONE' : 'Not Done';
 // let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
@@ -3064,10 +2903,6 @@ extra_info(eve){
   console.log(isChecked)
   this.extra=isChecked;
 }
-
-
-
-
 initializeMap(): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     $('#v_track_Modal').on('shown.bs.modal', () => {
@@ -3133,5 +2968,804 @@ initializeMap(): Promise<void> {
     $('#v_track_Modal').modal('show');
   });
 }
+exportToPDF_popup(): void {
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  
+  this.columnDefs_popup.forEach((colDef) => {
+    if (colDef.children) {
+      // Add the parent header with colspan
+      parentHeaders.push({
+        text: colDef.headerName,
+        colSpan: colDef.children.length,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      // Fill empty cells for the colspan
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push('');
+      }
+      // Add child headers
+      colDef.children.forEach((child) => {
+        childHeaders.push({
+          text: child.headerName,
+          alignment: 'center',
+          fillColor: '#DDDDDD',
+          style: 'tableHeader',  // Apply tableHeader style for child headers
+        });
+      });
+    } else {
+      // For standalone columns without children
+      parentHeaders.push({
+        text: colDef.headerName,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      childHeaders.push('');
+    }
+  });
+
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
+
+  // Add row data dynamically
+  this.rowData_popup.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs_popup.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || '-'); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || '-'); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => {
+            if (rowIndex === 0) return '#0074D9'; // Parent header color
+            if (rowIndex === 1) return '#DDDDDD'; // Child header color
+            return null; // No fill color for data rows
+          },
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+        fillColor: '#DDDDDD',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic.pdf');
+}
+
+exportToCSV_popup(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs_popup.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions_popup.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs_popup.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'Summary.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+exportToPDF_popup1(): void {
+  // Step 1: Extract parent and child headers dynamically
+  const parentHeaders: any[] = [];
+  const childHeaders: any[] = [];
+  
+  this.columnDefs_popup.forEach((colDef) => {
+    if (colDef.children) {
+      // Add the parent header with colspan
+      parentHeaders.push({
+        text: colDef.headerName,
+        colSpan: colDef.children.length,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      // Fill empty cells for the colspan
+      for (let i = 1; i < colDef.children.length; i++) {
+        parentHeaders.push('');
+      }
+      // Add child headers
+      colDef.children.forEach((child) => {
+        childHeaders.push({
+          text: child.headerName,
+          alignment: 'center',
+          fillColor: '#DDDDDD',
+        });
+      });
+    } else {
+      // For standalone columns without children
+      parentHeaders.push({
+        text: colDef.headerName,
+        alignment: 'center',
+        bold: true,
+        fillColor: '#0074D9',
+        color: 'white',
+      });
+      childHeaders.push('');
+    }
+  });
+
+  // Step 2: Prepare table body
+  const body: any[] = [];
+  body.push(parentHeaders); // Add parent headers
+  body.push(childHeaders); // Add child headers
+
+  // Add row data dynamically
+  this.rowData_popup.forEach((row) => {
+    const rowData: any[] = [];
+    this.columnDefs_popup.forEach((colDef) => {
+      if (colDef.children) {
+        colDef.children.forEach((child) => {
+          rowData.push(row[child.field] || '-'); // Add row data for child fields
+        });
+      } else {
+        rowData.push(row[colDef.field] || '-'); // Add row data for top-level fields
+      }
+    });
+    body.push(rowData);
+  });
+
+  // Step 3: Define PDF document structure
+  const docDefinition = {
+    content: [
+      { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+      { text: '\n' }, // Add spacing
+      {
+        table: {
+          headerRows: 2,
+          widths: Array(body[0].length).fill('auto'), // Auto column widths
+          body: body,
+        },
+        layout: {
+          fillColor: (rowIndex) => {
+            if (rowIndex === 0) return '#0074D9'; // Parent header color
+            if (rowIndex === 1) return '#DDDDDD'; // Child header color
+            return null; // No fill color for data rows
+          },
+          hLineWidth: () => 0.5,
+          vLineWidth: () => 0.5,
+        },
+      },
+    ],
+    pageOrientation: 'landscape',
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10],
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 12,
+        alignment: 'center',
+      },
+    },
+    defaultStyle: {
+      fontSize: 10,
+    },
+  };
+
+  // Step 4: Generate and download the PDF
+  pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
+}
+exportToCSV_popup1(): void {
+  const rows: string[] = [];
+  const parentHeaders: string[] = [];
+  const childHeaders: string[] = [];
+
+  // Extract parent and child headers
+  this.columnDefs_popup.forEach((colDef: any) => {
+    if (colDef.children) {
+      // Parent header for grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(...colDef.children.map((child: any) => child.headerName));
+    } else {
+      // Parent and child headers are the same for non-grouped columns
+      parentHeaders.push(colDef.headerName);
+      childHeaders.push(colDef.headerName);
+    }
+  });
+
+  // Create parent header row
+  rows.push(parentHeaders.join(','));
+
+  // Create child header row
+  rows.push(childHeaders.join(','));
+
+  // Extract row data
+  const rowData: any[] = [];
+  this.gridOptions_popup.api.forEachNode((node: any) => {
+    rowData.push(node.data);
+  });
+
+  // Map row data to match the column fields
+  rowData.forEach((row: any) => {
+    const rowValues = childHeaders.map((header: string) => {
+      const field = this.columnDefs_popup.find((colDef: any) =>
+        colDef.children?.some((child: any) => child.headerName === header) || colDef.headerName === header
+      )?.field;
+      return field ? row[field] || '' : '';
+    });
+    rows.push(rowValues.join(','));
+  });
+
+  // Convert rows to CSV string
+  const csvContent = rows.join('\n');
+
+  // Trigger CSV download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', 'Summary.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+onBtExport1() {
+  // this.gridApi!.exportDataAsExcel();
+  this. gridApi!.exportDataAsCsv();
+  }
+  onBtExport_pop1() {
+    // this.gridApi!.exportDataAsExcel();
+    this. gridApi_popup!.exportDataAsCsv();
+    }
+// ---------------------------------------------------------------------------------------------------------------
+showcommon_chart(columnIndex,text) {
+  this.header_text=text;
+  var table = $('#simple_datatable').DataTable();
+  var columnData = table.column(columnIndex).data().toArray().map(function (data) {
+      // If the data is a string (e.g., "Region 1"), just return it as-is
+      if (typeof data === "string") {
+          var tempDiv:any = document.createElement("div");
+          tempDiv.innerHTML = data;  // Ensure any HTML tags are stripped
+          return tempDiv.textContent.trim();  // Extract the plain text
+      }
+      return data;  // Return data as-is if it's already in the correct format
+  });
+  // console.log("columnData",columnData);
+  var columnData_Region = table.column(0).data().toArray().map(function (data) {
+    // If the data is a string (e.g., "Region 1"), just return it as-is
+    if (typeof data === "string") {
+        var tempDiv:any = document.createElement("div");
+        tempDiv.innerHTML = data;  // Ensure any HTML tags are stripped
+        return tempDiv.textContent.trim();  // Extract the plain text
+    }
+    return data;  // Return data as-is if it's already in the correct format
+});
+  $('#v_track_Modal1').modal('show');
+  const array_data = columnData.map((item, index) => ({
+    value: item,
+    name: columnData_Region[index]
+  }));
+let chartDom:any = document.getElementById('pieChartContainer1');
+ var echart = echarts.init(chartDom, {
+  renderer: 'canvas',
+  useDirtyRect: false,
+});
+var option;
+option = {
+    title: {
+        // text: 'Donut Chart',
+        // subtext: 'Living Expenses in Shenzhen'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+      orient: 'vertical', // Sets the orientation to horizontal
+      left: 'center',   
+      width: '100%',        // Ensure enough space for all items in one line
+      // data: ['Series1', 'Series2', 'Series3'], // Legend items
+      itemGap: 5,        
+        data:  columnData_Region
+    },
+    series: [
+        {
+            name: '',
+            type: 'pie',
+            radius: ['0%', '70%'],
+            avoidLabelOverlap: false,
+            color:this.colors,
+            label: {
+                show: true,
+                // position: 'center'
+                position: 'inside',
+                fontSize: '15',
+                    // rotate:'145',
+                    color:'white',
+                formatter: '{c}' // display value
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: '15',
+                    color:'white',
+                    // rotate:'145',
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data:array_data,
+             
+            backgroundStyle: {
+              color: '#f0f0f0' // Change this color as needed
+          }
+        },
+        {
+          type: 'pie',
+          radius: ['0%', '40%'],
+          silent: true,
+          color:'white',
+         
+          label: {
+              show: true,
+              position: 'center',
+              color:'#1D4380',
+             
+              // formatter: function(params) {
+              //     var total = 0;
+              //     for (var i = 0; i < option.series[0].data.length; i++) {
+              //         total += option.series[0].data[i].value;
+              //     }
+              //     return  total;
+              // },
+              fontSize: 25,
+              fontWeight: 'bold'
+          },
+          // data: [
+          //     {value: 1, name: 'Total'}
+          // ]
+      }
+
+    ],
+    backgroundColor: '#fff'
+};
+option && echart.setOption(option);
 
 }
+async vehicleTrackF_new_1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+
+ 
+if (this.demomarker.length > 0) {
+  this.demomarker.forEach(marker => marker.setMap(null));
+  this.demomarker = [];  // Clear the array after removing markers
+}
+
+if (this.demoPolyline.length > 0) {
+  this.demoPolyline.forEach(polyline => polyline.setMap(null));
+  this.demoPolyline = [];  // Clear the array after removing polylines
+}
+  // console.log(imei, imei2, imei3);
+  if (imei === '' && imei2 === '' && imei3 === '') {
+    alert("IMEI not assign");
+  }else{
+  // Clear markers and polylines before starting
+  this.clearMarkersAndPolylines();
+
+  // Initialize map
+  try {
+    // await this.initializeMap();
+  } catch (error) {
+    console.error('Error initializing map:', error);
+    this.SpinnerService.hide('spinner-1');
+  }
+  const imeis = [imei, imei2, imei3];
+  // console.log(imeis);
+
+  // Loop through each IMEI using a for...of loop to support async/await
+  for (const imei of imeis) {
+    // console.log(imei);
+
+    // Reset tracking data for each IMEI
+    this.trackingData = [];
+    this.customer_info = [];
+    this.marker = [];
+    this.poly_line = [];
+    this.map_flag = '';
+
+    if (imei === "") {
+      this.map_flag = 'Device unavailable';
+    } else {
+
+
+      this.map_flag = 'Please wait';
+      const formData = new FormData();
+      const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      // this.router.navigate(['/cv/specific/dtdc/map'], {
+      //   // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
+      //   state: {
+      //     structuredata: {
+      //       token:this.token,
+      //       run_date:run_date,
+      //       currentDateTime:currentDateTime,
+      //       imei:imei,
+      //       group_id:this.group_id,
+      //       account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
+
+      //     },
+      //     array: 'worldgyan'
+      //   }
+      // })
+
+
+
+      // formData.append('AccessToken', this.token);
+      // formData.append('startdate', run_date);
+      // formData.append('enddate', currentDateTime);
+      // formData.append('time_interval', '120');
+      // formData.append('imei', imei);
+      // formData.append('group_id', this.group_id);
+      // formData.append('AccountId', this.account_id);
+
+      // // Log form data for debugging
+      // formData.forEach((value, key) => {
+      //   console.log("formdata...", key, value);
+      // });
+
+      // // try {
+      //   // Wait for the API response
+      //   const res: any = await this.CrudService.vehicleTrackongS(formData).toPromise();
+      //   console.log("tracking res", res);
+      //   this.SpinnerService.hide("tracking");
+      //   if (res.Status === "failed") {
+      //     alert(res?.Message);
+      //   }
+      //   this.trackingData = res.data;
+      //   if (res.data === 'Vehicle is inactive.') {
+      //     alert("Track data is not available");
+      //   } else {
+      //     console.log("trackingData", this.trackingData);
+      //     // Add markers and polyline data
+      //     this.addMarkersAndPolyline1(imei, vehicle_no);
+         
+      //     this.fetchCustomerInfo(Id);
+      //   }
+      // // Hide the tracking spinner after the API call
+      // this.SpinnerService.hide("tracking");
+    }
+  }
+} 
+ }
+ async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  // $('#Datail').modal('hide');
+  const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+  this.router.navigate(['/cv/specific/dtdc/map'], {
+    // state:{ structuredata:{1:form_date1,2:form_date2,3:vehicle_no}, array: 'worldgyan'}
+    state: {
+      structuredata: {
+        token:this.token,
+        run_date:run_date,
+        currentDateTime:currentDateTime,
+        imei:imei,
+        group_id:this.group_id,
+        account_id:this.account_id,vehicle_no:vehicle_no, item:item, Id:Id, route_id:route_id
+
+      },
+      array: 'worldgyan'
+    }
+  })
+  const stateData = {
+    structuredata: {
+      token: this.token,
+      run_date: run_date,
+      currentDateTime: currentDateTime,
+      imei: imei,
+      group_id: this.group_id,
+      account_id: this.account_id,
+      vehicle_no: vehicle_no,
+      item: item,
+      Id: Id,
+      route_id: route_id,
+    },
+    array: 'worldgyan',
+  };
+  
+  // Serialize the state data
+  const stateString = encodeURIComponent(JSON.stringify(stateData));
+  
+  // Construct the URL
+  const url = `/cv/specific/dtdc/map?state=${stateString}`;
+  
+  // Open in a new tab
+  window.open(url, '_blank');
+  
+ }
+fetchCustomerInfo(Id: string) {
+  this.customer_info = []
+  const markers: google.maps.Marker[] = [];
+ 
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('forGroup', this.group_id);
+  formdataCustomer.append('id', Id);
+
+  this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
+    // console.log(res)
+    if(res.status=='success'){
+      if(res.customer_info!==null){
+    this.customer_info = res.customer_info;
+    // Log the customer data for debugging
+    // console.log("Customer Info:", this.customer_info);
+    //  if(this.customer_info!==null){
+    this.customer_info.forEach((customer, index) => {
+      // Log SequenceNo to check its value
+      // console.log("Customer SequenceNo:", customer.SequenceNo);
+      const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
+      // const sequenceNo = customer.SequenceNo  // Ensure this is a string
+      let mark = new google.maps.Marker({
+        map: this.map1,
+        position: new google.maps.LatLng(customer.Lat, customer.Lng),
+        title: `${customer.Lat}, ${customer.Lng}`,
+        label: {
+          text: sequenceNo,  // Ensure this is a string
+          color: 'black'
+        }
+      });
+
+      this.demomarker.push(mark);
+      markers.push(mark);
+      google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
+    });
+  }}
+    // this.demomarker=markers;
+  });
+}
+getMarkerIcon(index: number): string {
+  // console.log(index)
+  if (index === 0) {
+    return 'assets/images/users/start_marker.png';
+  }
+  else if (index + 1 === this.trackingData.length) {
+
+    setTimeout(() => {
+      this.SpinnerService.hide("tracking");
+    }, 5000);
+    return 'assets/images/users/stop_marker.png';
+  } else {
+    return 'assets/images/users/green_Marker1.png';
+  }
+}
+addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+
+  // Prepare arrays for markers and polylines
+  const markers: any = [];
+  const polylinePath: google.maps.LatLng[] = [];
+  
+  // Use requestAnimationFrame for batch processing
+  // requestAnimationFrame(() => {
+    for (let i = 0; i < this.trackingData.length; i++) {
+      const icon = this.getMarkerIcon(i);
+      const position = new google.maps.LatLng(this.trackingData[i].lat, this.trackingData[i].long);
+      polylinePath.push(position);
+
+      // Create a marker
+      const mark = new google.maps.Marker({
+        map: this.map1,
+        position: position,
+        title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
+        icon: icon
+      });
+
+      // Store marker for future reference
+      markers.push(mark);
+      this.demomarker.push(mark);
+
+      // Handle marker click events
+      // const markerPosition = mark.getPosition(); 
+      var trackingData:any=this.trackingData[i];
+      mark.addListener('click', (event) => this.handleMarkerClick(event, trackingData, vehicle_no, imei));
+
+      // Create an InfoWindow but don't attach it yet
+      const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    }
+
+    // Add markers to the map in batch
+    // this.demomarker = markers;
+
+    // Create and display polyline
+    const draw_polyline = new google.maps.Polyline({
+      path: polylinePath,
+      geodesic: true,
+      strokeColor: 'green',
+      strokeOpacity: 0.8,
+      strokeWeight: 1.5,
+      map: this.map1,
+      icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW }, offset: '100%', repeat: '2000px' }]
+    });
+
+    this.demoPolyline.push(draw_polyline);
+
+    // Optionally fit bounds to include all markers and polyline
+    if (markers.length > 0) {
+      const bounds = new google.maps.LatLngBounds();
+      markers.forEach(marker => bounds.extend(marker.getPosition()));
+      this.map1.fitBounds(bounds);
+    }
+  // });
+}
+ closeLastOpenedInfoWindow() {
+  if (this.lastOpenedInfoWindow) {
+    this.lastOpenedInfoWindow.close();
+  }
+}
+handleMarkerClick(event, trackingData, vehicle_no, imei) {
+
+  // const markerPosition = event.getPosition();
+  // const k = event.toString();
+  // console.log(event.toString())
+  // this.str= (((k.split('(')).join('')).split(')')).join('').split(' ').join('');
+  // console.log(trackingData)
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('VehicleId', vehicle_no);
+  formdataCustomer.append('ImeiNo', imei);
+  formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+
+  this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
+    console.log(res)
+    const address = res.Data.Address;
+    this.showWindow(trackingData, vehicle_no, address);
+    this.closeLastOpenedInfoWindow();
+    const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    infowindowMarker.setPosition(event.latLng);
+    infowindowMarker.open(this.map1);
+  });
+}
+showWindow(data, vnumber, add) {
+  // var add:any
+  this.contentsInfo = ''
+  // console.log('show window of vehicle information', data, add)
+  /////////////////////////address api////////////////////////////////////////////////////
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+   this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
+    '<tbody style="border:none !important">' +
+
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
+    '<td style="width:1%;color: blue;border:none !important">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
+    '<td style="width:1%;color: blue;border:none !important">:</td>' +
+    '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+    '</tr>' +
+    '<tr style=" border:none !important">' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
+    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+    '</tr>' +
+    '</tbody>' +
+    '</table>'
+
+
+
+
+
+
+}
+}
+
+

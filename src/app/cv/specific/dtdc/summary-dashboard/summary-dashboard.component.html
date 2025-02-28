@@ -133,10 +133,16 @@
 
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="Region" class="form-label">Region</label>
-              <ng-select placeholder="Select" ngModel name="Region">
+              <!-- <ng-select placeholder="Select" ngModel name="Region">
                 <ng-option value="" selected>Select</ng-option>
                 <ng-option *ngFor="let item of Region | keyvalue"
                   [value]="item.value">{{item.value}}</ng-option>
+              </ng-select> -->
+              <ng-select placeholder="Select" ngModel name="Region"   [multiple]="true"
+              [maxSelectedItems]="3"  (click)="validateRegion()"
+              (change)="onRegionChange($event)">
+                  <!-- <ng-option value="" selected>Select</ng-option> -->
+                  <ng-option *ngFor="let item of Region | keyvalue" [value]="item.value">{{item.value}}</ng-option>
               </ng-select>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 ">
@@ -153,14 +159,14 @@
               bindValue="key" 
               [typeahead]="searchTerm1" 
               (search)="onSearch1($event)"
-              
+            
               [(ngModel)]="selectedDestination1" 
               name="Origin">
             </ng-select>
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="Destination" class="form-label">Destination</label>
-              <!-- <ng-select placeholder="Select" ngModel name="Destination">
+              <!-- <ng-select placeholder="Select" ngModel name="Destination">   (clear)="onClear1()"
                 <ng-option value="" selected>Select</ng-option>
                 <ng-option *ngFor="let item of Destination | keyvalue"
                   [value]="item.value">{{item.value}}</ng-option>
@@ -178,24 +184,32 @@
             
             </div>
             <div class="col-lg-2 col-md-4 col-sm-6 ">
+
               <label for="Route" class="form-label">Route Category</label>
-              <ng-select placeholder="Select" ngModel name="RouteCategory" [multiple]="true"
-                (change)="RouteCategory($event)">
+              <ng-select placeholder="Select" ngModel name="RouteCategory"  (change)="changeRoutetype($event)">
                 <ng-option value="" selected>Select</ng-option>
                 <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option>
               </ng-select>
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-2 col-md-4 col-sm-6 ">
+            <div class="col-lg-2 col-md-4 col-sm-6 "  id="qmMulticontainer" >
               <label for="Route" class="form-label">Route Type</label>
-              <ng-select placeholder="Select" ngModel name="Route">
+              <!-- <ng-select placeholder="Select"  name="Route" [multiple]="true"ngModel  [maxSelectedItems]="3"  (click)="validateRegion_route()"
+              (change)="onRegionChange_route($event)" [(ngModel)]="selectedRouteType"> -->
+              <!-- <ng-select placeholder="Select"  name="Route" [multiple]="true"ngModel  [(ngModel)]="selectedRouteType1"    [items]="routeTypes_filter"  bindLabel="route_type">
+               
                 <ng-option value="" selected>Select</ng-option>
-                <ng-option *ngFor="let item of Route_type | keyvalue" [value]="item.value">{{item.value}}</ng-option>
+                <ng-option *ngFor="let item of Route_type | keyvalue" [value]="item.key">{{item.value}}</ng-option>
+              </ng-select> -->
+               <!-- [(ngModel)]="selectedRouteType" -->
+              <ng-select   name="Route" placeholder="Select"  [multiple]="true" [closeOnSelect]="true"  
+                [items]="routeTypes_filter"  bindLabel="route_type"  [(ngModel)]="selectedRouteType1"  >
+               
               </ng-select>
             </div>
             <div class="col-lg-1 col-md-4 col-sm-6  d-flex align-items-end">
-              <button class="btn btn-outline-primary btn-sm w-100" type="submit">View</button>
+              <button class="btn btn-outline-primary btn-sm w-100 mt-4" type="submit">View</button>
             </div>
           </div>
         </form>
@@ -229,7 +243,7 @@
   <table class="display nowrap  table" cellspacing="0" id="simple_datatable" >
     <thead>
       <tr role="row" style="background-color:#5da3ed !important;">
-        <th rowspan="2" style="background-color: rgb(53, 177, 136); color: white; width: 44.4px;"
+        <th rowspan="2" style="background-color: rgb(53, 177, 136); color: white; width: 35.4px;"
           class="sorting_disabled" colspan="1" >Region</th>
         <th colspan="4" style="background-color:#5da3ed;color:white" rowspan="1">Trip Status</th>
         <th colspan="4" style="background-color:#5da3ed;color:white" rowspan="1">GPS Status</th>

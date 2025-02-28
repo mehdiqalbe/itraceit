@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx';
 import { id } from '@swimlane/ngx-datatable';
 declare var $: any
 declare var H: any;
+declare var google:any;
 interface HTMLCanvasElement {
   willReadFrequently?: boolean;
 }
@@ -68,7 +69,6 @@ export class DelayDashboardComponent implements OnInit {
 
     let App = document.querySelector('.app');
     App?.classList.add('sidenav-toggled');
-
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
     // console.log("account_id", this.account_id)
@@ -144,7 +144,7 @@ initMap2()
       
         // Create the span for the serial number
         const serialSpan = document.createElement("span");
-        serialSpan.textContent = params.value;
+        // serialSpan.textContent = params.value;
       
         // Create the button
         
@@ -167,7 +167,10 @@ initMap2()
             button.innerHTML += '<span style="color: red; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
           }
           button.addEventListener("click", () => {
-            this.stored_imei=[];
+            this.stored_imei=[ params?.data.Full.imei_no,
+              params?.data.Full.imei_no2,
+              params?.data.Full.imei_no3,];
+            // this.stored_imei=[];
             // console.log("Row Data:", params.data.Full);
             // this.Detail(params.data.Full)
             this.vehicleTrackF_new( params.data.Full?.imei_current,'','',params.data.Full?.run_date, params.data.Full?.vehicle_no, params.data.Full?.item, params.data.Full?.shipment_no, params.data.Full?._id)
@@ -213,16 +216,16 @@ initMap2()
           anchor.style.cursor = "pointer";
           if (params.data.Full.vehicle_status_current == 'running') {
             // button.innerHTML += '<span style="color: #6ABD46; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#6ABD46;">-1</i>`;
+            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#6ABD46; font-size:20px"></i>`;
 
           }
           else  if (params.data.Full.vehicle_status_current == 'InActive') {
             // button.innerHTML += '<span style="color: gray; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:gray;">-1</i>`;
+            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:gray; font-size:20px"></i>`;
 
           }else  if (params.data.Full.vehicle_status_current == 'Stopped') {
             // button.innerHTML += '<span style="color: red; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:red;">-1</i>`;
+            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:red; font-size:20px"></i>`;
 
           }
           // anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:red;">-1</i>`;
@@ -255,59 +258,114 @@ initMap2()
       }
       
       ,width: 100, },
-    { headerName: "Device-2", field: "device2", sortable: false ,
-      cellRenderer: params => {
-        // Create the container div
-        const container = document.createElement("div");
-        container.style.display = "flex";
-        container.style.alignItems = "center";
-        container.style.justifyContent = "center";
+      {
+        headerName: "Device-2",
+        field: "device2",
+        sortable: false,
+        cellRenderer: params => {
+          // Create the container div
+          const container = document.createElement("div");
+          container.style.display = "flex";
+          container.style.alignItems = "center";
+          container.style.justifyContent = "center";
       
-        // Check the condition for imei_no
-        if (params.data.Full.imei_no2 !== 'NA' && params.data.Full.imei_no2 !== '') {
-          // Create anchor tag for valid imei_no
-          const anchor = document.createElement("a");
-          anchor.style.cursor = "pointer";
-          if (params.data.Full.vehicle_status_current == 'running') {
-            // button.innerHTML += '<span style="color: #6ABD46; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#6ABD46;">-1</i>`;
+          // Check the condition for imei_no
+          if (params.data.Full.imei_no2 !== 'NA' && params.data.Full.imei_no2 !== '') {
+            // Create anchor tag for valid imei_no
+            const anchor = document.createElement("a");
+            anchor.style.cursor = "pointer";
+            anchor.style.marginRight = "5px"; // Space between marker and lock
+      
+            // Set marker icon color based on vehicle_status_current
+            let markerColor = "gray";
+            if (params.data.Full.vehicle_status_current == "running") {
+              markerColor = "#6ABD46";
+            } else if (params.data.Full.vehicle_status_current == "Stopped") {
+              markerColor = "red";
+            }
+            
+            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:${markerColor};font-size:20px"></i>`;
+      
+            // Add click event listener to the anchor tag
+            anchor.addEventListener("click", () => {
+              this.stored_imei = [];
+              this.vehicleTrackF_new(
+                params?.data.Full.imei_no2,
+                '',
+                '',
+                params?.data.Full.run_date,
+                params?.data.Full.vehicle_no,
+                params?.data.Full,
+                params?.data.Full.shipment_no,
+                params?.data.Full._id
+              );
+            });
+            let lockColor = "gray";
+            let lockIcon_fa:any=" fa fa-lock";
+            
+            if (params.data.Full.fixed_lock == "0") {
+              lockIcon_fa ="fa-solid fa-lock-open";
+              lockColor = "#6ABD46";
+            } else if (params.data.Full.fixed_lock == "1") {
+              lockIcon_fa=" fa fa-lock";
+              lockColor = "red";
+            }
+            
+            // Create lock icon
+            const lockIcon = document.createElement("i");
+            lockIcon.className = lockIcon_fa;
+            lockIcon.style.fontSize = "20px";
+            lockIcon.style.color = markerColor;
+            lockIcon.style.cursor = "pointer";
+            lockIcon.style.padding = "4px";
+            lockIcon.title = `${params.data.Full.imei_no2} / Door Close / ${params.data.Full.imei_no2_type}`;
+      // portable lock -3----------------------------------------------------------------
 
+      // let portablelockColor = "gray";
+      // if (params.data.Full.fixed_lock == "0") {
+      //   portablelockColor = "#6ABD46";
+      // } else if (params.data.Full.fixed_lock == "1") {
+      //   portablelockColor = "red";
+      // }else if (params.data.Full.fixed_lock == "2") {
+      //   portablelockColor = "gray";
+      // }
+      
+      // // Create lock icon
+      // const portablelockIcon = document.createElement("i");
+      // portablelockIcon.className = "fa fa-lock";
+      // portablelockIcon.style.fontSize = "20px";
+      // portablelockIcon.style.color = portablelockColor;
+      // portablelockIcon.style.cursor = "pointer";
+      // portablelockIcon.style.padding = "4px";
+      // portablelockIcon.title = `${params.data.Full.imei_no2} / Door Close / ${params.data.Full.imei_type2}`;
+
+            // Append elements to the container
+           
+            if (params.data.Full.fixed_lock !== "3" &&params.data.Full.fixed_lock !== "") {
+              
+              lockIcon.addEventListener("click", () => {
+                this.stored_imei = [];
+                this.vehicleTrackF_new(
+                  params?.data.Full.imei_no2,
+                  '',
+                  '',
+                  params?.data.Full.run_date,
+                  params?.data.Full.vehicle_no,
+                  params?.data.Full,
+                  params?.data.Full.shipment_no,
+                  params?.data.Full._id
+                );
+              });
+              
+              container.appendChild(lockIcon);}else{
+                container.appendChild(anchor);
+              }
+            // if (params.data.Full.fixed_lock !== "3"&&params.data.Full.fixed_lock !== "") {container.appendChild(portablelockIcon)}
           }
-          else  if (params.data.Full.vehicle_status_current == 'InActive') {
-            // button.innerHTML += '<span style="color: gray; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:gray;">-1</i>`;
-
-          }else  if (params.data.Full.vehicle_status_current == 'Stopped') {
-            // button.innerHTML += '<span style="color: red; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:red;">-1</i>`;
-
-          }          
-          // Add click event listener to the anchor tag
-          anchor.addEventListener("click", () => {
-            this.stored_imei=[];
-            this.vehicleTrackF_new(
-              params?.data.Full.imei_no2,
-              '',
-              '',
-              params?.data.Full.run_date,
-              params?.data.Full.vehicle_no,
-              params?.data.Full,
-              params?.data.Full.shipment_no,
-              params?.data.Full._id
-            );
-          });
       
-          // Append anchor to the container
-          container.appendChild(anchor);
-        } else {
-          // Display 'NA' for invalid imei_no
-          const naSpan = document.createElement("span");
-          naSpan.textContent = "NA";
-          container.appendChild(naSpan);
+          return container;
         }
       
-        return container;
-      }
       ,width: 100,},
     { headerName: "Device-3", field: "device3", sortable: false,
       cellRenderer: params => {
@@ -324,16 +382,16 @@ initMap2()
           anchor.style.cursor = "pointer";
           if (params.data.Full.vehicle_status_current == 'running') {
             // button.innerHTML += '<span style="color: #6ABD46; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#6ABD46;">-1</i>`;
+            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#6ABD46;font-size:20px"></i>`;
 
           }
           else  if (params.data.Full.vehicle_status_current == 'InActive') {
             // button.innerHTML += '<span style="color: gray; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:gray;">-1</i>`;
+            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:gray;font-size:20px"></i>`;
 
           }else  if (params.data.Full.vehicle_status_current == 'Stopped') {
             // button.innerHTML += '<span style="color: red; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
-            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:red;">-1</i>`;
+            anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:red;font-size:20px"></i>`;
 
           }          
           // Add click event listener to the anchor tag
@@ -350,9 +408,61 @@ initMap2()
               params?.data.Full._id
             );
           });
-      
+          let portablelockColor = "gray";
+          let lockIcon_fa:any=" fa fa-lock";
+          if (params.data.Full.fixed_lock == "0") {
+            
+          lockIcon_fa ="fa-solid fa-lock-open";
+            portablelockColor = "#6ABD46";
+          } else if (params.data.Full.fixed_lock == "1") {
+            portablelockColor = "red";
+            lockIcon_fa=" fa fa-lock";
+          }else if (params.data.Full.fixed_lock == "2") {
+            portablelockColor = "gray";
+          }
+
+          let markerColor = "gray";
+          if (params.data.Full.vehicle_status_current == "running") {
+            markerColor = "#6ABD46";
+          } else if (params.data.Full.vehicle_status_current == "Stopped") {
+            markerColor = "red";
+          }
+          // Create lock icon
+          const portablelockIcon = document.createElement("i");
+          portablelockIcon.className = lockIcon_fa;
+          portablelockIcon.style.fontSize = "20px";
+          portablelockIcon.style.color = markerColor;
+          portablelockIcon.style.cursor = "pointer";
+          portablelockIcon.style.padding = "4px";
+          portablelockIcon.title = `${params.data.Full.imei_no3} / Door Close / ${params.data.Full.imei_no3_type}`;
+    
+                // Append elements to the container
+                // container.appendChild(anchor);
+                // if (params.data.Full.portable_lock !== "3"&&params.data.Full.portable_lock !== "") { container.appendChild(lockIcon);}
+             
+         
           // Append anchor to the container
-          container.appendChild(anchor);
+         
+          if (params.data.Full.portable_lock !== "3" && params.data.Full.portable_lock !== "") {
+                  
+                  
+            portablelockIcon.addEventListener("click", () => {
+              this.stored_imei=[params?.data.Full.imei_no3,];
+              this.vehicleTrackF_new(
+                params?.data.Full.imei_no3,
+                '',
+                '',
+                params?.data.Full.run_date,
+                params?.data.Full.vehicle_no,
+                params?.data.Full,
+                params?.data.Full.shipment_no,
+                params?.data.Full._id
+              );
+            });
+            
+            container.appendChild(portablelockIcon)}else{
+              container.appendChild(anchor);
+            }
         } else {
           // Display 'NA' for invalid imei_no
           const naSpan = document.createElement("span");
@@ -377,7 +487,7 @@ initMap2()
           // Create anchor tag for valid imei_no
           const anchor = document.createElement("a");
           anchor.style.cursor = "pointer";
-          anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#1D4380;"></i>`;
+          anchor.innerHTML = `<i class="fa fa-map-marker map-table-marker" aria-hidden="true" style="color:#1D4380; font-size:20px"></i>`;
           
           // Add click event listener to the anchor tag
           anchor.addEventListener("click", () => {
@@ -876,99 +986,99 @@ console.log(res)
 
     });
   }
-  // vehicleTrackF_new1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-  //   console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id)
-  //   // this.SpinnerService.show();
-  //   this.clearMarkersAndPolylines();
-  //   this.initializeMap().then(() => {
-  //   }).catch(error => {
-  //     console.error('Error initializing map:', error);
-  //     this.SpinnerService.hide('spinner-1');
-  //   });
+  vehicleTrackF_new1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+    console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id)
+    // this.SpinnerService.show();
+    this.clearMarkersAndPolylines();
+    this.initializeMap().then(() => {
+    }).catch(error => {
+      console.error('Error initializing map:', error);
+      this.SpinnerService.hide('spinner-1');
+    });
 
 
 
-  //   // console.log("demomarker", this.demomarker);
-  //   this.SpinnerService.show("tracking");
-  //   // }
-  //   const imeis = ['HR47F0104'];
-  //   console.log(imeis)
-  //   // Loop through each IMEI
-  //   imeis.forEach((imei) => {
-  //     console.log(imei)
-  //     this.trackingData = [];
-  //     this.customer_info = [];
-  //     this.marker = [];
-  //     this.poly_line = [];
-  //     this.map_flag = '';
+    // console.log("demomarker", this.demomarker);
+    this.SpinnerService.show("tracking");
+    // }
+    const imeis = ['HR47F0104'];
+    console.log(imeis)
+    // Loop through each IMEI
+    imeis.forEach((imei) => {
+      console.log(imei)
+      this.trackingData = [];
+      this.customer_info = [];
+      this.marker = [];
+      this.poly_line = [];
+      this.map_flag = '';
 
-  //     if (imei === "") {
-  //       this.map_flag = 'Device unavailable';
-  //     } else {
+      if (imei === "") {
+        this.map_flag = 'Device unavailable';
+      } else {
 
-  //       this.map_flag = 'Please wait';
-  //       const formData = new FormData();
-  //       const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+        this.map_flag = 'Please wait';
+        const formData = new FormData();
+        const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
 
-  //       formData.append('AccessToken', this.token);
-  //       formData.append('startdate', "2024-10-30 12:19:58");
-  //       formData.append('enddate', currentDateTime);
-  //       formData.append('time_interval', '120');
-  //       formData.append('imei', imei);
-  //       formData.append('group_id', this.group_id);
-  //       formData.append('AccountId', this.account_id);
-  //       formData.append('portal', 'itraceit');
-  //       formData.forEach((value, key) => {
-  //         console.log("formdata...", key, value);
-  //       });
-  //       this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
-  //         console.log("tracking res", res);
-  //         if (res.Status == "failed") {
-  //           alert(res?.Message);
-  //           // this.SpinnerService.hide("tracking");
+        formData.append('AccessToken', this.token);
+        formData.append('startdate', "2024-10-30 12:19:58");
+        formData.append('enddate', currentDateTime);
+        formData.append('time_interval', '120');
+        formData.append('imei', imei);
+        formData.append('group_id', this.group_id);
+        formData.append('AccountId', this.account_id);
+        formData.append('portal', 'itraceit');
+        formData.forEach((value, key) => {
+          console.log("formdata...", key, value);
+        });
+        this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
+          console.log("tracking res", res);
+          if (res.Status == "failed") {
+            alert(res?.Message);
+            // this.SpinnerService.hide("tracking");
 
-  //         }
-  //         this.trackingData = res.data;
+          }
+          this.trackingData = res.data;
 
-  //         // if (this.trackingData.length > 0) {
-  //         //   this.map_flag = '';
-  //         //   this.latlngbounds = new google.maps.LatLngBounds();
-  //         //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
-  //         //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
+          // if (this.trackingData.length > 0) {
+          //   this.map_flag = '';
+          //   this.latlngbounds = new google.maps.LatLngBounds();
+          //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
+          //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
 
-  //         //   // Ensure the map bounds are updated
-  //         //   this.map1.fitBounds(this.latlngbounds);
-  //         // }
-  //         this.SpinnerService.hide("tracking");
-  //         if (res.data === 'Vehicle is inactive.') {
-  //           alert("Track data is not available");
-  //         } else {
-  //           this.addMarkersAndPolyline1(imei, vehicle_no);
-  //           // Fetch DFG polyline data
-  //           // this.fetchDFGPolyline_new(route_id);
+          //   // Ensure the map bounds are updated
+          //   this.map1.fitBounds(this.latlngbounds);
+          // }
+          this.SpinnerService.hide("tracking");
+          if (res.data === 'Vehicle is inactive.') {
+            alert("Track data is not available");
+          } else {
+            this.addMarkersAndPolyline1(imei, vehicle_no);
+            // Fetch DFG polyline data
+            // this.fetchDFGPolyline_new(route_id);
 
-  //           // Fetch customer info
-  //           // this.fetchCustomerInfo_new(Id);
+            // Fetch customer info
+            // this.fetchCustomerInfo_new(Id);
 
-  //           // Handle alert markers
-  //           // this.handleAlertMarkers(item);
-  //         }
+            // Handle alert markers
+            // this.handleAlertMarkers(item);
+          }
 
-  //         // this.SpinnerService.hide("tracking");
-  //       });
+          // this.SpinnerService.hide("tracking");
+        });
 
-  //       // // Fetch DFG polyline data
-  //       // this.fetchDFGPolyline(route_id);
+        // // Fetch DFG polyline data
+        // this.fetchDFGPolyline(route_id);
 
-  //       // // Fetch customer info
-  //       // this.fetchCustomerInfo(Id);
+        // // Fetch customer info
+        // this.fetchCustomerInfo(Id);
 
-  //       // // Handle alert markers
-  //       // this.handleAlertMarkers(item);
-  //     }
-  //   })
+        // // Handle alert markers
+        // this.handleAlertMarkers(item);
+      }
+    })
 
-  // }
+  }
 
   // async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
   //   console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
@@ -2057,7 +2167,8 @@ makeModalDraggable() {
           map: this.map1,
           position: position,
           title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
-          icon: icon
+          icon: icon,
+          io:this.trackingData[i]?.io
         });
   
         // Store marker for future reference
@@ -2178,6 +2289,7 @@ makeModalDraggable() {
       '<td style="border:none !important;width:1%;color: blue;">:</td>' +
       '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
       '</tr>' +
+      '<tr>' + data.io + '<tr>' +
       '<tr style=" border:none !important">' +
       '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
       '<td style="border:none !important;width:1%;color: blue;">:</td>' +

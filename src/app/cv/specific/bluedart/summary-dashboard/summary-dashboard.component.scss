@@ -3103,7 +3103,7 @@ color: white;}
     // border-top: none !important;
     // border-left: none !important;
     // border-right: none !important;
-    border: 1px solid #0e6bc9 !important;
+    // border: 1px solid #0e6bc9 !important;
     height: 30px;
 }
 .heading_table{
@@ -4820,10 +4820,27 @@ section[_ngcontent-tbm-c137] {
   overflow:auto;  
 }
 .table th, .text-wrap table th {
-    color: #2e3138;
+    // color: #2e3138;
+    color: white;
     text-transform: capitalize!important;
     font-size: 0.875rem;
-    font-weight: 500; }
+    text-align: center;
+    font-weight: 500;
+    color: white;
+    text-transform: capitalize !important;
+    font-size: 0.875rem !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    word-wrap: break-word !important;
+    padding: 9px !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: break-word !important;
+    text-align: center !important;
+    vertical-align: top !important;
+ }
 
     // .swal-modal { width: 600px!important;height: 50px!important; }
  #newAlert
@@ -4868,6 +4885,7 @@ section[_ngcontent-tbm-c137] {
         //     width: fit-content;
         //     overflow: auto;
         // }
+        
         .circle {
             border-radius: 50%;
             width: 8px;
@@ -4884,7 +4902,7 @@ section[_ngcontent-tbm-c137] {
             margin-top: -18px!important;
         }
         .header-brand-img {
-            height: 65px !important;
+            height: 75px !important;
         }
         .redinfo{
             background-color: #f7beb0!important;
@@ -5037,7 +5055,7 @@ section[_ngcontent-tbm-c137] {
   
   /* Custom Style for Parent Header */
   .custom-parent-header {
-    background-color: #007bff !important; /* Blue background */
+    background-color: #5da3ed !important; /* Blue background */
     color: white !important;             /* White text */
     font-weight: bold;
     text-align: center;
@@ -5050,16 +5068,87 @@ section[_ngcontent-tbm-c137] {
     font-weight: normal;
     text-align: center;
   }
-  .summary{
-    color: #1D4380;
-    font-family: Work Sans !important;
-    font-size: 27px !important;
-    font-weight: 600;
+//   #myGrid {
+//     width: 100%;
+//     height: auto;
+//     max-height: 400px;
+//     min-height: 150px; /* Ensure a minimum height */
+//     overflow: hidden; /* Prevent scrollbars from cutting off content */
+//   }
+.wrap-cell {
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words if needed */
+    line-height: 1.2em; /* Adjust line spacing for better readability */
   }
-  /* Add icon to the header using CSS */
-.icon-header .ag-header-cell-label::before {
-    content: '\f200' !important; /* Font Awesome icon code for a car */
-    font-family: 'FontAwesome'!important; /* Ensure FontAwesome is loaded */
-    margin-right: 8px !important; /* Space between icon and text */
+  ::ng-deep {
+    .ag-header-cell:not(.ag-header-cell-auto-height) .ag-header-cell-comp-wrapper {
+    height: 100%;
+    font-weight: 600;
+   
+    display: flex;
+    height: 100%;
+    font-weight: 600;
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    white-space: normal;
+    text-align: center;
+    word-break: break-word;
+    align-items: center;
+}
+.blue-text {
+    color: blue !important;
+    cursor: pointer;
+  }
+.ag-header-cell {
+    padding: 5px !important;
+}
+.ag-header.ag-header-allow-overflow .ag-header-row {
+    overflow: visible;
+    // height: 39px !important;
+}
+ng-select .ng-placeholder {
+    display: block;
+    color: gray;
+  }
+#simple_datatable thead th {
+    color: white;
+    text-transform: capitalize !important;
+    font-size: 0.875rem;
+    text-align: center;
+    font-weight: 500;
+    word-wrap: break-word;
+    padding: 2px;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    text-align: center;
+    vertical-align: top;
+
+
+    // ----------------
+    color: white;
+    text-transform: capitalize !important;
+    font-size: 0.875rem !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    word-wrap: break-word !important;
+    padding: 9px !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: break-word !important;
+    text-align: center !important;
+    vertical-align: top !important;
+
+}
+
+#simple_datatable {
+    width: 100% !important;
+    text-align: center;
+}
+.fa{
+    cursor: pointer;
+}
   }
   

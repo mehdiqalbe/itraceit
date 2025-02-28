@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 // import { ItraceItService } from 'src/app/shared/services/itrace-it.service';
 import { CrudService } from 'src/app/shared/services/crud.service';
+// import{BluedartService} from '../services/bluedart.service'
 import { DatePipe, JsonPipe, KeyValue } from '@angular/common';
 import { Chart } from 'chart.js';
 import { NgSelectModule, NgOption } from '@ng-select/ng-select';
@@ -19,6 +20,7 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import * as echarts from 'echarts';
 import { NavService } from 'src/app/shared/services/nav.service';
+import {BluedartService } from '../services/bluedart.service'
 declare var H: any;
 // import { title } from 'process';
 // import { TooltipAndPopoverComponent } from '../../advanced-elements/tooltip-and-popover/tooltip-and-popover.component';
@@ -251,8 +253,8 @@ export class IrunDashboardComponent implements OnInit
       title:'DFG',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -263,8 +265,8 @@ export class IrunDashboardComponent implements OnInit
       title:'UNSCHEDULED_HALT',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -275,8 +277,8 @@ export class IrunDashboardComponent implements OnInit
       title:'SCHEDULED_HALT',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -287,8 +289,8 @@ export class IrunDashboardComponent implements OnInit
       title:'SENSITIVE_HALT',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -299,8 +301,8 @@ export class IrunDashboardComponent implements OnInit
       title:'RR5000',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -311,8 +313,8 @@ export class IrunDashboardComponent implements OnInit
       title:'UNAUTHORIZED_LOCK',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -323,8 +325,8 @@ export class IrunDashboardComponent implements OnInit
       title:'TAMPER_LOCK',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -335,8 +337,8 @@ export class IrunDashboardComponent implements OnInit
       title:'CRITICAL',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -347,8 +349,8 @@ export class IrunDashboardComponent implements OnInit
       title:'SCHEDULED_FUEL_STATION',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
@@ -359,17 +361,18 @@ export class IrunDashboardComponent implements OnInit
       title:'SCHEDULED_DHABA',
       filters: [
         { label: "< 30 Minutes", timeLimit: 30, color: "#E77817", count: 11 },
-        { label: "< 1 Hour", timeLimit: 60, color: "#1D4380", count: 11 },
-        { label: "< 2 Hours", timeLimit: 120, color: "#00C0F3", count: 11 },
+        { label: "< 1 Hour", timeLimit: 60, color: "#00C0F3", count: 11 },
+        { label: "< 2 Hours", timeLimit: 120, color: "#1D4380", count: 11 },
         { label: "< 4 Hours", timeLimit: 180, color: "#F4858E", count: 11 },
         { label: "> 4 Hours", timeLimit: 181, color: "#917BB9", count: 11 }
       ]
     }
   ];
-  
+ 
+  // filterData:any=[]
   alert_dashboard:any=[];
  /////////////////////////////////////////////////////////////////////////////////////end popup model
- constructor(private navServices: NavService,private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+ constructor( private BluedartService:BluedartService, private navServices: NavService,private itraceIt: BluedartService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
  ngOnInit(): void {
@@ -384,9 +387,6 @@ export class IrunDashboardComponent implements OnInit
    this.datetimepicker1 = this.currentDateTime;
  
    this.interval = setInterval(() => {
-
-
-
 
      this.spin_flag = false;
    
@@ -409,8 +409,8 @@ export class IrunDashboardComponent implements OnInit
    this.group_id = localStorage.getItem('GroupId')!
    // console.log("Access token on it", this.token);
    // console.log("group_id on it", this.group_id);
-  //  this.initMap();
-  //  this.initMap1();
+   this.initMap();
+   this.initMap1();
    // this.closePopup(); 
    //  this.FullData();
    //  this.summarData()
@@ -668,7 +668,7 @@ sidebarToggle() {
 
 
              },
-             title: 'dashboard_repor'
+             title: 'IRUN Dashboard Report'
            },
            {
              extend: 'pdf',
@@ -702,7 +702,7 @@ sidebarToggle() {
                //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
              },
-             title: 'dashboard_repor'
+             title: 'IRUN Dashboard Report'
            },
            {
              extend: 'copy',
@@ -720,7 +720,7 @@ sidebarToggle() {
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+             title: 'IRUN Dashboard Report'
            },
            {
              extend: 'excel',
@@ -742,7 +742,7 @@ sidebarToggle() {
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+             title: 'IRUN Dashboard Report'
            }]
      }
 
@@ -761,77 +761,40 @@ sidebarToggle() {
  }
  initMap() {
 
-   var lat_lng = { lat: 22.767427, lng: 88.388344 };
-   this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
-     zoom: 6,
-     center: lat_lng,
+  var lat_lng = { lat: 22.767427, lng: 88.388344 };
+  this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+    zoom: 6,
+    center: lat_lng,
 
-     mapTypeId: google.maps.MapTypeId.ROADMAP,
-     scaleControl: true,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    scaleControl: true,
 
-   }
-   );
+  }
+  );
 
-   
+  
 
-    //this.map.fitBounds(this.latlngbounds)
-   // alert("end");
-  //this.draw_polyline.setMap();
- }
- ///////////////////////////////////////////////
-//  initMap1() {
-//   // Initialize the map only if it hasn't been initialized yet
-//   if (this.map1) return;
+   //this.map.fitBounds(this.latlngbounds)
+  // alert("end");
+ //this.draw_polyline.setMap();
+}
+initMap1() 
+{
+ //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+  const center = { lat: 23.2599, lng: 77.4126 };
 
-//   const center = { lat: 23.2599, lng: 77.4126 };
-
-//   this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
-//     zoom: 4,
-//     center: center,
-//     mapTypeId: google.maps.MapTypeId.ROADMAP,
-//     scaleControl: true,
-//   });
-
-//   // Call function to initialize data after the map is ready
-//   // google.maps.event.addListenerOnce(this.map1, 'tilesloaded', () => {
-//   //   // this.initializeMapData();
-//   // });
-// }
-
-// initializeMapData() {
-//   // Load markers and polylines after map is ready
-//   if (this.trackingData.length > 0) {
-//     this.addMarkersAndPolyline(this.trackingData);
-//   }
-// }
-
- ///////////////////////////////////////////////
- initMap1() 
- {
-
-
-  //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
-   const center = { lat: 23.2599, lng: 77.4126 };
-
-  //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
-  // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+ //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+ // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
 // 
 
-   this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
-     zoom: 4,
-      center: center,
-
-     mapTypeId: google.maps.MapTypeId.ROADMAP,
-     scaleControl: true,
-
-   }
-   );
-
- 
-
-   
-     
- }
+  this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+    zoom: 4,
+     center: center,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    scaleControl: true,
+  }
+  );   
+}
  ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -849,8 +812,6 @@ sidebarToggle() {
    }
 
  }
-
-
 
  demo(event) {
    // console.log("button color", this.color)
@@ -880,22 +841,10 @@ sidebarToggle() {
    })
  }
  /////////////////////////////////trigger function//////////////////////////
- triggerdropdownF() {
-   this.itraceIt.triggerS().subscribe(data => {
-     // console.log("trigger..", data[0].TriggerInfo);
-
-
-   })
- }
+ 
  ///////////////////////////////////////////////////////////////////////////////////////////
  ///////////////////////////////summary functions //////////////////////////////
- summarData() {
-   this.itraceIt.summaryDataS().subscribe(data => {
 
-     this.summaryData = data[0]
-     // console.log("summary", this.summaryData)
-   })
- }
  // dashboardData() {
  //   this.SpinnerService.show();
  //   this.itraceIt.dashBoardDataS().subscribe(data => {
@@ -1291,7 +1240,7 @@ sidebarToggle() {
 
 
              },
-             title: 'dashboard_repor'
+             title: 'Open Trigger Report'
            },
            {
              extend: 'pdf',
@@ -1325,7 +1274,7 @@ sidebarToggle() {
                //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
              },
-             title: 'dashboard_repor'
+             title: 'Open Trigger Report'
            },
            {
              extend: 'copy',
@@ -1343,7 +1292,7 @@ sidebarToggle() {
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+             title: 'Open Trigger Report'
            },
            {
              extend: 'excel',
@@ -1365,7 +1314,7 @@ sidebarToggle() {
                columns: ':visible'
 
              },
-             title: 'dashboard_repor'
+             title: 'Open Trigger Report'
            }],
        "language": {
          search: '',
@@ -1484,6 +1433,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
        jsonData=res.report
        // if(datalength.length<15000)
        // {
+      
          this.triggerFulldataReport.push(res.report)
          this.triggerHistoryTableF()
        // }
@@ -1773,8 +1723,8 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
 
 
-   this.itraceIt.homeDashboardS(formdata).subscribe(data => {
-    console.log("dashboard",data);
+   this.BluedartService.homeDashboardS(formdata).subscribe(data => {
+  
   
     
      // this.defaultDashboard=[]
@@ -2086,10 +2036,10 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
    var formdata = new FormData();
    formdata.append('AccessToken', this.token)
    formdata.append('ImeiNo', imei);
-
+   formdata.append('portal', 'itraceit');
    this.latlngbounds = new google.maps.LatLngBounds();
    // console.log("live location", lat, long)
-   this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
+   this.CrudService.liveLocation2S(formdata).subscribe((data: any) => {
 
      // console.log("imei2", data)
      locationData = data.Data[0];
@@ -2314,812 +2264,1336 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
    
  }
  //////////////////////////////live location of 2 imei///////////////////////////////////////////////////////////////
- liveLocation2(lat, long, driver_mobile, driver_name, halt_time, transporter_name, imei, name, run_date, source_code, destination_code, deviceTime, lastspeed, loc_name, shipment_no, item) {
+//  liveLocation2(lat, long, driver_mobile, driver_name, halt_time, transporter_name, imei, name, run_date, source_code, destination_code, deviceTime, lastspeed, loc_name, shipment_no, item) {
  
-    console.log("imei", imei)
-    this.multilocationArray = [];
-    this.multilocationArray = item
-    console.log("Live", imei);
-    // $('#mapModal').modal('show');
-    this.initializeMap1().then(() => {
-      // var centerPoint = new H.geo.Point(parseFloat(long.replace(/[NW]/, '')), parseFloat(long.replace(/[EW]/, '')));
-      // // if(this.map){
-      // // this.map.setCenter(centerPoint);
-      // this.map.getViewModel().setLookAtData({
-      //   bounds: centerPoint
-      // });
-    // }
+//     console.log("imei", imei)
+//     this.multilocationArray = [];
+//     this.multilocationArray = item
+//     console.log("Live", imei);
+//     // $('#mapModal').modal('show');
+//     this.initializeMap1().then(() => {
+//       // var centerPoint = new H.geo.Point(parseFloat(long.replace(/[NW]/, '')), parseFloat(long.replace(/[EW]/, '')));
+//       // // if(this.map){
+//       // // this.map.setCenter(centerPoint);
+//       // this.map.getViewModel().setLookAtData({
+//       //   bounds: centerPoint
+//       // });
+//     // }
     
-    var node
-    // this.initMap();
-    if (this.markerLocation.length > 0 && this.markerLocation[0]!==undefined) {
-      // this.markerLocation[0].setMap(null)
-      this.markerLocation.forEach(marker => this.map.removeObject(marker));
-      this.markerLocation = []; // Reset the markers array
+//     var node
+//     // this.initMap();
+//     if (this.markerLocation.length > 0 && this.markerLocation[0]!==undefined) {
+//       // this.markerLocation[0].setMap(null)
+//       this.markerLocation.forEach(marker => this.map.removeObject(marker));
+//       this.markerLocation = []; // Reset the markers array
+//     }
+
+//     // this.map.setCenter(new google.maps.LatLng(lat, long));
+//     console.log(lat, long)
+
+//     var Door: string = '';
+//     var latlong: any = [];
+//     var locationData
+//     var formdata = new FormData();
+//     formdata.append('AccessToken', this.token)
+//     formdata.append('ImeiNo', imei);
+//     formdata.append('portal','itraceit');
+//     formdata.forEach((value, key) => {
+//       console.log( key, value);
+//     });
+//     if (imei == '') {
+//       alert("Fixed Imei not found")
+//     }
+//     else {
+//       this.BluedartService.liveLocation2S(formdata).subscribe((data: any) => {
+//         console.log("imei2", data)
+//         locationData = data.Data[0];
+//         if (locationData.LatLong == "," || locationData.LatLong == "") {
+//           alert("Data not found")
+//         }
+//         else {
+
+
+//           latlong = locationData.LatLong.split(',');
+//           // console.log("new location", latlong[0])
+//           if (locationData.IO.Door_Status == 0) {
+//             Door = 'Open';
+//           }
+//           else if (locationData.IO.Door_Status == 1) {
+//             Door = 'Close';
+//           }
+//           //////////////////////////////////////////////////////////////////////////////////
+//           // this.latlngbounds = new google.maps.LatLngBounds();
+//           // // console.log("live location", lat, long)
+//           // this.latlngbounds.extend(new google.maps.LatLng(parseFloat(latlong[0]), parseFloat(latlong[1])));
+//           this.latlngbounds = new H.geo.Rect(90, 180, -90, -180);
+//           var point = new H.geo.Point(parseFloat(lat), parseFloat(long));
+
+//           // Extend the bounding box to include the new point
+//           this.latlngbounds = this.latlngbounds.mergePoint(point);
+//           // node = new google.maps.LatLng(
+//           //   latlong[0], latlong[1])
+
+//           // this.markers =
+//           // {
+//           //   mark: new google.maps.Marker({
+//           //     map: this.map,
+
+//           //     position: new google.maps.LatLng(
+//           //       latlong[0], latlong[1]
+
+
+//           //     ),
+//           //     title: latlong[0] + "," + latlong[1],
+//           //     // label: {
+//           //     //   text: this.Label,
+//           //     //   color: 'black',
+//           //     //   fontSize: "20px",
+//           //     //   fontWeight: "1000px",
+//           //     //   fontFamily: 'Tangerine',
+//           //     //   // "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+
+//           //     // },
+//           //     // scaleControl:true
+
+//           //     icon: "assets/images/users/trucknewchhotaNew.png"
+
+
+
+//           //   })
+
+
+//           // };
+
+//           const locationOfMarker = { lat:latlong[0], lng:latlong[1] };
+       
+//     var html = document.createElement('div'),
+//     divIcon = document.createElement('div'),
+//     divText = document.createElement('div'),
+//     imgIco = document.createElement('img');
+//   imgIco.setAttribute('src', "assets/images/users/trucknewchhotaNew.png");
+//   divText.setAttribute("class", "textData");
+//   // html.setAttribute("class", "parentDiv");
+
+//   divIcon.appendChild(imgIco);
+//   // divText.textContent = label;
+//   //divText.innerHTML = label;
+//   html.appendChild(divIcon);
+//   html.appendChild(divText);
+
+//   var domIcon = new H.map.DomIcon(html);
+//   var marker = new H.map.DomMarker(locationOfMarker, {
+//     icon: domIcon,
+//     anchor: { x: 1, y: 10 }
+//   });
+//    this.map.addObject(marker)
+
+
+//           this.markerLocation.push(marker)
+//           // console.log("mark", this.markerLocation)
+//           // this.map.fitBounds(this.latlngbounds);
+//           // var listener = google.maps.event.addListener(this.map, "idle", () => {
+//           //   if (this.map.getZoom() > 14) this.map.setZoom(14);
+//           //   google.maps.event.removeListener(listener);
+//           // });
+
+
+
+//         //   this.map.getViewModel().setLookAtData({
+//         //     bounds: this.latlngbounds
+//         // }, true); // `true` for animation
+//         let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
+//         const padding = 0.01;
+//         minLat = Math.min(minLat, latlong[0]);
+//         minLng = Math.min(minLng, latlong[1]);
+//         maxLat = Math.max(maxLat, latlong[0]);
+//         maxLng = Math.max(maxLng, latlong[1]);
+// // Create a bounding box with padding
+//           const boundingBox = new H.geo.Rect(
+//             minLat + padding,    // Top latitude (maxLat + padding)
+//            minLng - padding,    // Left longitude (minLng - padding)
+//            minLat - padding,    // Bottom latitude (minLat - padding)
+//            maxLng + padding     // Right longitude (maxLng + padding)
+//          );
+//         this.map.getViewModel().setLookAtData({
+//           bounds: boundingBox
+//         });
+//         // Add a one-time event listener for the "mapviewchangeend" event, similar to Google's "idle"
+//         // this.map.addEventListener('mapviewchangeend', () => {
+//         //     // Check if the zoom level is greater than 14
+//         //     if (this.map.getZoom() >14) {
+//         //         this.map.setZoom(20); // Set zoom level to 14 if it exceeds the limit
+//         //     }
+//         // });
+//         const platform = new H.service.Platform({
+//           apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
+//         });
+//         const defaultLayers = platform.createDefaultLayers();
+//         const ui = H.ui.UI.createDefault(this.map, defaultLayers);
+
+//           //////////////////////////////////////////////////////////////////////////////////
+//           var contentsInfo: string = ''
+//           marker.addEventListener('tap',  async (evt) => {
+//             //  var position= evt.latLng.lat()
+//               // Remove existing bubbles, if any
+//               ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
+              
+//               // Create content for the info window
+//               // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
+//               // const infoContent = await this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei);
+          
+//               // console.log("infoContent",infoContent)
+//               //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
+               
+//               // Create an info bubble at the marker's location
+//               contentsInfo =
+//               '<table class="border border-primary" style="    line-height: 15px; border:none !important">' +
+//               '<tbody style=" border:none !important">' +
+
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important;">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Device type</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + item.imei_type + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
+
+//               ' </tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Source code</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
+//               '</tr>' +
+
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
+//               '</tr>' +
+//               // '</tr>'+
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Destination code</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
+//               '</tr>' +
+//               '<tr  style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
+//               '</tr>' +
+//               '<tr  style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Trip id</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">: </td>' +
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;">: </td>' +
+
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important; border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
+
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important; border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
+
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
+//               '</tr>' +
+//               '<tr style="  border:none !important;border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
+
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
+
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
+//               '</tr>' +
+//               '<tr style="  border:none !important;border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
+
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
+
+//               '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + Door + '</td>' +
+//               '</tr>' +
+//               '<tr style=" border:none !important">' +
+//               '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
+//               '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
+
+//               '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
+//               '</tr>' +
+//               // '</span>'+Temperature_string
+//               //   '<tr>'+
+//               '</tbody>' +
+//               '</table>'
+//             //       '</div>'+ 
+//             //       '<div class="" style="border-top:1px solid #dee2e6;justify-content: flex-end;padding: 2px;    border-bottom-right-radius: calc(0.3rem - 1px);border-bottom-left-radius: calc(0.3rem - 1px);display: flex;">'+
+//             //       '<button type="button" class="btn btn-outline-secondary " id="infowindow_submit'+  +'" name="submit" value ="submit" style="margin-left: 5px;padding:0px !important; margin-top: 5px;">'+
+//             //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Landmark</span>'+'</button>'+
+//             //       '<button type="button" class="btn btn-outline-secondary "   style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_geofence'+  +'" name="submit" value ="submit">'+
+//             //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Geofence</span>'+'</button>'+
+//             //       '<button type="button" class="btn btn-outline-secondary " style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_polyline'+  +'" name="submit" value ="submit">'+
+//             //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Polyline</span>'+'</button>'+
+//             //      
+//             // '</div>'
+//             //  '</div>';
+//               const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+//                 content: contentsInfo
+//               });
+          
+//               // Add the info bubble to the map
+//               ui.addBubble(infoBubble);
+//             });
+//           // google.maps.event.addListener(this.markers.mark, 'click', (event) => {
+
+//             // contentsInfo =
+//             //   '<table class="border border-primary">' +
+//             //   '<tbody>' +
+
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Device type</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + item.imei_type + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
+
+//             //   ' </tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Source code</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
+//             //   '</tr>' +
+
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
+//             //   '</tr>' +
+//             //   // '</tr>'+
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Destination code</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
+//             //   '<td style="width:1%;color: blue;">:</td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr >' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Trip id</td>' +
+//             //   '<td style="width:1%;color: blue;">: </td>' +
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
+//             //   '<td style="width:1%;color: blue;">: </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
+//             //   '<td style="width:1%;color: blue;"> </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
+//             //   '<td style="width:1%;color: blue;"> </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
+//             //   '<td style="width:1%;color: blue;"> </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
+//             //   '<td style="width:1%;color: blue;"> </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
+//             //   '<td style="width:1%;color: blue;"> </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
+//             //   '<td style="width:1%;color: blue;"> </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + Door + '</td>' +
+//             //   '</tr>' +
+//             //   '<tr>' +
+//             //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
+//             //   '<td style="width:1%;color: blue;"> </td>' +
+
+//             //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
+//             //   '</tr>' +
+//             //   // '</span>'+Temperature_string
+//             //   //   '<tr>'+
+//             //   '</tbody>' +
+//             //   '</table>'
+//             // //       '</div>'+ 
+//             // //       '<div class="" style="border-top:1px solid #dee2e6;justify-content: flex-end;padding: 2px;    border-bottom-right-radius: calc(0.3rem - 1px);border-bottom-left-radius: calc(0.3rem - 1px);display: flex;">'+
+//             // //       '<button type="button" class="btn btn-outline-secondary " id="infowindow_submit'+  +'" name="submit" value ="submit" style="margin-left: 5px;padding:0px !important; margin-top: 5px;">'+
+//             // //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Landmark</span>'+'</button>'+
+//             // //       '<button type="button" class="btn btn-outline-secondary "   style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_geofence'+  +'" name="submit" value ="submit">'+
+//             // //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Geofence</span>'+'</button>'+
+//             // //       '<button type="button" class="btn btn-outline-secondary " style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_polyline'+  +'" name="submit" value ="submit">'+
+//             // //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Polyline</span>'+'</button>'+
+//             // //      
+//             // // '</div>'
+//             // //  '</div>';
+
+
+
+//           //   this.closeLastOpenedInfoWindow();
+//           //   infowindowMarker.setContent(contentsInfo);
+
+//           //   infowindowMarker.setPosition(event.latLng);
+//           //   infowindowMarker
+//           //   infowindowMarker.open(this.map, node);
+//           //   //this.lastOpenedInfoWindow=0; 
+//           //   this.lastOpenedInfoWindow = infowindowMarker;
+
+
+
+//           // })
+
+//           // var infowindowMarker = new google.maps.InfoWindow({
+//           //   content: contentsInfo,
+//           //   pixelOffset: new google.maps.Size(0, -20)
+
+//           // });
+//         }
+//       })
+//     }
+//     ////////////////////////////////////////////////////
+//   }).catch(error => {
+//     console.error('Error initializing map:', error);
+//     this.SpinnerService.hide('spinner-1');
+//   });
+
+//   }
+  liveLocation2(lat, long, driver_mobile, driver_name, halt_time, transporter_name, imei, name, run_date, source_code, destination_code, deviceTime, lastspeed, loc_name, shipment_no,item)
+ {
+
+  this.multilocationArray=[];
+  this.multilocationArray=item;
+  $('#mapModal').modal('show');
+  var node
+  this.initMap();
+  if(this.markerLocation[0]!=null)
+  {
+    this.markerLocation[0].setMap(null)
+  }
+    if(this.markerLocation!==0){
+      for(var i=0;i<this.markerLocation.length;i++){
+        this.markerLocation[i].setMap(null)
+      }
     }
+  this.map.setCenter(new google.maps.LatLng(lat, long));
+  var Door: string = '';
+  var latlong: any = [];
+  var locationData
+  var formdata = new FormData();
+  formdata.append('AccessToken', this.token)
+  formdata.append('ImeiNo', imei);
+  formdata.append('portal','itraceit');
+  if(imei == '')
+   {
+     alert("Fixed Imei not found")
+   }
+   else
+   {
+  this.CrudService.liveLocation2S(formdata).subscribe((data: any) => {
 
-    // this.map.setCenter(new google.maps.LatLng(lat, long));
-    console.log(lat, long)
-
-    var Door: string = '';
-    var latlong: any = [];
-    var locationData
-    var formdata = new FormData();
-    formdata.append('AccessToken', this.token)
-    formdata.append('ImeiNo', imei);
-    if (imei == '') {
-      alert("Fixed Imei not found")
+    console.log("imei2", data)
+    locationData = data.Data[0];
+    if (locationData.LatLong == "," || locationData.LatLong == "") {
+      alert("Data not found")
     }
     else {
-
-
-
-
-      this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
-
-        console.log("imei2", data)
-        locationData = data.Data[0];
-        if (locationData.LatLong == "," || locationData.LatLong == "") {
-          alert("Data not found")
-        }
-        else {
-
-
-          latlong = locationData.LatLong.split(',');
-          // console.log("new location", latlong[0])
-          if (locationData.IO.Door_Status == 0) {
-            Door = 'Open';
-          }
-          else if (locationData.IO.Door_Status == 1) {
-            Door = 'Close';
-          }
-          //////////////////////////////////////////////////////////////////////////////////
-          // this.latlngbounds = new google.maps.LatLngBounds();
-          // // console.log("live location", lat, long)
-          // this.latlngbounds.extend(new google.maps.LatLng(parseFloat(latlong[0]), parseFloat(latlong[1])));
-          this.latlngbounds = new H.geo.Rect(90, 180, -90, -180);
-          var point = new H.geo.Point(parseFloat(lat), parseFloat(long));
-
-          // Extend the bounding box to include the new point
-          this.latlngbounds = this.latlngbounds.mergePoint(point);
-          // node = new google.maps.LatLng(
-          //   latlong[0], latlong[1])
-
-          // this.markers =
-          // {
-          //   mark: new google.maps.Marker({
-          //     map: this.map,
-
-          //     position: new google.maps.LatLng(
-          //       latlong[0], latlong[1]
-
-
-          //     ),
-          //     title: latlong[0] + "," + latlong[1],
-          //     // label: {
-          //     //   text: this.Label,
-          //     //   color: 'black',
-          //     //   fontSize: "20px",
-          //     //   fontWeight: "1000px",
-          //     //   fontFamily: 'Tangerine',
-          //     //   // "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
-
-          //     // },
-          //     // scaleControl:true
-
-          //     icon: "assets/images/users/trucknewchhotaNew.png"
-
-
-
-          //   })
-
-
-          // };
-
-          const locationOfMarker = { lat:latlong[0], lng:latlong[1] };
-       
-    var html = document.createElement('div'),
-    divIcon = document.createElement('div'),
-    divText = document.createElement('div'),
-    imgIco = document.createElement('img');
-  imgIco.setAttribute('src', "assets/images/users/trucknewchhotaNew.png");
-  divText.setAttribute("class", "textData");
-  // html.setAttribute("class", "parentDiv");
-
-  divIcon.appendChild(imgIco);
-  // divText.textContent = label;
-  //divText.innerHTML = label;
-  html.appendChild(divIcon);
-  html.appendChild(divText);
-
-  var domIcon = new H.map.DomIcon(html);
-  var marker = new H.map.DomMarker(locationOfMarker, {
-    icon: domIcon,
-    anchor: { x: 1, y: 10 }
-  });
-   this.map.addObject(marker)
-
-
-          this.markerLocation.push(marker)
-          // console.log("mark", this.markerLocation)
-          // this.map.fitBounds(this.latlngbounds);
-          // var listener = google.maps.event.addListener(this.map, "idle", () => {
-          //   if (this.map.getZoom() > 14) this.map.setZoom(14);
-          //   google.maps.event.removeListener(listener);
-          // });
-
-
-
-        //   this.map.getViewModel().setLookAtData({
-        //     bounds: this.latlngbounds
-        // }, true); // `true` for animation
-        let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
-        const padding = 0.01;
-        minLat = Math.min(minLat, latlong[0]);
-        minLng = Math.min(minLng, latlong[1]);
-        maxLat = Math.max(maxLat, latlong[0]);
-        maxLng = Math.max(maxLng, latlong[1]);
-// Create a bounding box with padding
-          const boundingBox = new H.geo.Rect(
-            minLat + padding,    // Top latitude (maxLat + padding)
-           minLng - padding,    // Left longitude (minLng - padding)
-           minLat - padding,    // Bottom latitude (minLat - padding)
-           maxLng + padding     // Right longitude (maxLng + padding)
-         );
-        this.map.getViewModel().setLookAtData({
-          bounds: boundingBox
-        });
-        // Add a one-time event listener for the "mapviewchangeend" event, similar to Google's "idle"
-        // this.map.addEventListener('mapviewchangeend', () => {
-        //     // Check if the zoom level is greater than 14
-        //     if (this.map.getZoom() >14) {
-        //         this.map.setZoom(20); // Set zoom level to 14 if it exceeds the limit
-        //     }
-        // });
-        const platform = new H.service.Platform({
-          apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
-        });
-        const defaultLayers = platform.createDefaultLayers();
-        const ui = H.ui.UI.createDefault(this.map, defaultLayers);
-
-          //////////////////////////////////////////////////////////////////////////////////
-          var contentsInfo: string = ''
-          marker.addEventListener('tap',  async (evt) => {
-            //  var position= evt.latLng.lat()
-              // Remove existing bubbles, if any
-              ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
-              
-              // Create content for the info window
-              // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
-              // const infoContent = await this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei);
-          
-              // console.log("infoContent",infoContent)
-              //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
-               
-              // Create an info bubble at the marker's location
-              contentsInfo =
-              '<table class="border border-primary" style="    line-height: 15px; border:none !important">' +
-              '<tbody style=" border:none !important">' +
-
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important;">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Device type</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + item.imei_type + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
-
-              ' </tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Source code</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
-              '</tr>' +
-
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
-              '</tr>' +
-              // '</tr>'+
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Destination code</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
-              '</tr>' +
-              '<tr  style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">:</td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
-              '</tr>' +
-              '<tr  style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Trip id</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">: </td>' +
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;">: </td>' +
-
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important; border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
-
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important; border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
-
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
-              '</tr>' +
-              '<tr style="  border:none !important;border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
-
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
-
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
-              '</tr>' +
-              '<tr style="  border:none !important;border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
-
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
-
-              '<td style=" border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + Door + '</td>' +
-              '</tr>' +
-              '<tr style=" border:none !important">' +
-              '<td style=" border:none !important;font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
-              '<td style=" border:none !important;width:1%;color: blue;"> </td>' +
-
-              '<td style="  border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
-              '</tr>' +
-              // '</span>'+Temperature_string
-              //   '<tr>'+
-              '</tbody>' +
-              '</table>'
-            //       '</div>'+ 
-            //       '<div class="" style="border-top:1px solid #dee2e6;justify-content: flex-end;padding: 2px;    border-bottom-right-radius: calc(0.3rem - 1px);border-bottom-left-radius: calc(0.3rem - 1px);display: flex;">'+
-            //       '<button type="button" class="btn btn-outline-secondary " id="infowindow_submit'+  +'" name="submit" value ="submit" style="margin-left: 5px;padding:0px !important; margin-top: 5px;">'+
-            //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Landmark</span>'+'</button>'+
-            //       '<button type="button" class="btn btn-outline-secondary "   style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_geofence'+  +'" name="submit" value ="submit">'+
-            //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Geofence</span>'+'</button>'+
-            //       '<button type="button" class="btn btn-outline-secondary " style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_polyline'+  +'" name="submit" value ="submit">'+
-            //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Polyline</span>'+'</button>'+
-            //      
-            // '</div>'
-            //  '</div>';
-              const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-                content: contentsInfo
-              });
-          
-              // Add the info bubble to the map
-              ui.addBubble(infoBubble);
-            });
-          // google.maps.event.addListener(this.markers.mark, 'click', (event) => {
-
-            // contentsInfo =
-            //   '<table class="border border-primary">' +
-            //   '<tbody>' +
-
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Device type</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + item.imei_type + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
-
-            //   ' </tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Source code</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
-            //   '</tr>' +
-
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
-            //   '</tr>' +
-            //   // '</tr>'+
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Destination code</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
-            //   '<td style="width:1%;color: blue;">:</td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
-            //   '</tr>' +
-            //   '<tr >' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Trip id</td>' +
-            //   '<td style="width:1%;color: blue;">: </td>' +
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
-            //   '<td style="width:1%;color: blue;">: </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
-            //   '<td style="width:1%;color: blue;"> </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
-            //   '<td style="width:1%;color: blue;"> </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
-            //   '<td style="width:1%;color: blue;"> </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
-            //   '<td style="width:1%;color: blue;"> </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
-            //   '<td style="width:1%;color: blue;"> </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
-            //   '<td style="width:1%;color: blue;"> </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + Door + '</td>' +
-            //   '</tr>' +
-            //   '<tr>' +
-            //   '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
-            //   '<td style="width:1%;color: blue;"> </td>' +
-
-            //   '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
-            //   '</tr>' +
-            //   // '</span>'+Temperature_string
-            //   //   '<tr>'+
-            //   '</tbody>' +
-            //   '</table>'
-            // //       '</div>'+ 
-            // //       '<div class="" style="border-top:1px solid #dee2e6;justify-content: flex-end;padding: 2px;    border-bottom-right-radius: calc(0.3rem - 1px);border-bottom-left-radius: calc(0.3rem - 1px);display: flex;">'+
-            // //       '<button type="button" class="btn btn-outline-secondary " id="infowindow_submit'+  +'" name="submit" value ="submit" style="margin-left: 5px;padding:0px !important; margin-top: 5px;">'+
-            // //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Landmark</span>'+'</button>'+
-            // //       '<button type="button" class="btn btn-outline-secondary "   style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_geofence'+  +'" name="submit" value ="submit">'+
-            // //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Geofence</span>'+'</button>'+
-            // //       '<button type="button" class="btn btn-outline-secondary " style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_polyline'+  +'" name="submit" value ="submit">'+
-            // //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Polyline</span>'+'</button>'+
-            // //      
-            // // '</div>'
-            // //  '</div>';
-
-
-
-          //   this.closeLastOpenedInfoWindow();
-          //   infowindowMarker.setContent(contentsInfo);
-
-          //   infowindowMarker.setPosition(event.latLng);
-          //   infowindowMarker
-          //   infowindowMarker.open(this.map, node);
-          //   //this.lastOpenedInfoWindow=0; 
-          //   this.lastOpenedInfoWindow = infowindowMarker;
-
-
-
-          // })
-
-          // var infowindowMarker = new google.maps.InfoWindow({
-          //   content: contentsInfo,
-          //   pixelOffset: new google.maps.Size(0, -20)
-
-          // });
-        }
-      })
-    }
-    ////////////////////////////////////////////////////
-  }).catch(error => {
-    console.error('Error initializing map:', error);
-    this.SpinnerService.hide('spinner-1');
-  });
-
-  }
-  liveLocation3(imei, type) {
-    console.log("data", this.markerLocation)
-
-    let lat = this.multilocationArray.lat, long = this.multilocationArray.lng, driver_mobile = this.multilocationArray.driver_mobile, driver_name = this.multilocationArray.driver_name, halt_time = this.multilocationArray.halt_time, transporter_name = this.multilocationArray.transporter_name, name = this.multilocationArray.name, run_date = this.multilocationArray.run_date, source_code = this.multilocationArray.source_code, destination_code = this.multilocationArray.destination_code, deviceTime = this.multilocationArray.deviceTime2, lastspeed = this.multilocationArray.lastspeed, loc_name = this.multilocationArray.loc_name, shipment_no = this.multilocationArray.shipment_no
-    var node
-    let imeiType
-    // this.initMap();
-    if (this.markerLocation.length > 0 && this.markerLocation[0]!==undefined) {
-      // this.markerLocation[0].setMap(null);
-      // this.map.setCenter(new google.maps.LatLng(lat, long));
-      this.markerLocation.forEach(marker =>
-        
-        this.map.removeObject(marker)
-      );
-      this.markerLocation = [];
-    }
-
-    var Door: string = '';
-    var latlong: any = [];
-    var locationData
-    if (type == '1') {
-      imeiType = this.multilocationArray.imei_type
-    }
-    else if (type == '2') {
-      imeiType = this.multilocationArray.imei_type2
-    }
-    else if (type == '3') {
-      imeiType = this.multilocationArray.imei_type3
-    }
-    var formdata = new FormData();
-    formdata.append('AccessToken', this.token)
-    formdata.append('ImeiNo', imei);
-
-
-    this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
-
-      //  console.log("imei2", data)
-      locationData = data.Data[0];
-      if (locationData.LatLong == "," || locationData.LatLong == "") {
-        alert("Data not found")
+      latlong = locationData.LatLong.split(',');
+      // console.log("new location", latlong[0])
+      if (locationData.IO.Door_Status == 0) {
+        Door = 'Open';
       }
+      else if (locationData.IO.Door_Status == 1) {
+        Door = 'Close';
+      }
+      //////////////////////////////////////////////////////////////////////////////////
+      this.latlngbounds = new google.maps.LatLngBounds();
+      // console.log("live location", lat, long)
+      this.latlngbounds.extend(new google.maps.LatLng(parseFloat(latlong[0]), parseFloat(latlong[1])));
+      node = new google.maps.LatLng(
+        latlong[0], latlong[1])
 
-      else {
+      this.markers =
+      {
+        mark: new google.maps.Marker({
+          map: this.map,
 
-
-        latlong = locationData.LatLong.split(',');
-        //  console.log("new location", latlong[0])
-        if (locationData.IO.Door_Status == 0) {
-          Door = 'Open';
-        }
-        else if (locationData.IO.Door_Status == 1) {
-          Door = 'Close';
-        }
-        //////////////////////////////////////////////////////////////////////////////////
-        this.latlngbounds = new google.maps.LatLngBounds();
-        //  console.log("live location", lat, long)
-        this.latlngbounds.extend(new google.maps.LatLng(parseFloat(latlong[0]), parseFloat(latlong[1])));
-        node = new google.maps.LatLng(
-          latlong[0], latlong[1])
-
-        // this.markers =
-        // {
-        //   mark: new google.maps.Marker({
-        //     map: this.map,
-
-        //     position: new google.maps.LatLng(
-        //       latlong[0], latlong[1]
+          position: new google.maps.LatLng(
+            latlong[0], latlong[1]
 
 
-        //     ),
-        //     title: latlong[0] + "," + latlong[1],
-        //     // label: {
-        //     //   text: this.Label,
-        //     //   color: 'black',
-        //     //   fontSize: "20px",
-        //     //   fontWeight: "1000px",
-        //     //   fontFamily: 'Tangerine',
-        //     //   // "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+          ),
+          title: latlong[0] + "," + latlong[1],
+          // label: {
+          //   text: this.Label,
+          //   color: 'black',
+          //   fontSize: "20px",
+          //   fontWeight: "1000px",
+          //   fontFamily: 'Tangerine',
+          //   // "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
 
-        //     // },
-        //     // scaleControl:true
+          // },
+          // scaleControl:true
 
-        //     icon: "assets/images/users/trucknewchhotaNew.png"
+          icon: "assets/images/users/trucknewchhotaNew.png"
 
 
 
-        //   })
+        })
 
 
-        // };
-        const locationOfMarker = { lat:latlong[0], lng:latlong[1] };
-       
-        var html = document.createElement('div'),
-        divIcon = document.createElement('div'),
-        divText = document.createElement('div'),
-        imgIco = document.createElement('img');
-      imgIco.setAttribute('src', "assets/images/users/trucknewchhotaNew.png");
-      divText.setAttribute("class", "textData");
-      // html.setAttribute("class", "parentDiv");
-    
-      divIcon.appendChild(imgIco);
-      // divText.textContent = label;
-      //divText.innerHTML = label;
-      html.appendChild(divIcon);
-      html.appendChild(divText);
-    
-      var domIcon = new H.map.DomIcon(html);
-      var marker = new H.map.DomMarker(locationOfMarker, {
-        icon: domIcon,
-        anchor: { x: 1, y: 10 }
+      };
+      this.markerLocation.push(this.markers.mark)
+      // console.log("mark", this.markerLocation)
+      this.map.fitBounds(this.latlngbounds);
+      var listener = google.maps.event.addListener(this.map, "idle", () => {
+        if (this.map.getZoom() > 14) this.map.setZoom(14);
+        google.maps.event.removeListener(listener);
       });
-       this.map.addObject(marker)
+      //////////////////////////////////////////////////////////////////////////////////
+      var contentsInfo: string = ''
+      google.maps.event.addListener(this.markers.mark, 'click', (event) => {
+
+        // console.log("eventy", event)
+        contentsInfo =
+          // '<div id="content" >' +
+          // '<div id="siteNotice">' + class="no-border-table"
+          '<table class="no-border-table">' +
+          '<tbody>' +
+
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Device type</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + item.imei_type + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
+
+          ' </tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Source code</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
+          '</tr>' +
+
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
+          '</tr>' +
+          // '</tr>'+
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Destination code</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
+          '<td style="width:1%;color: blue;">:</td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
+          '</tr>' +
+          '<tr >' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Trip id</td>' +
+          '<td style="width:1%;color: blue;">: </td>' +
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
+          '<td style="width:1%;color: blue;">: </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
+          '<td style="width:1%;color: blue;"> </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
+          '<td style="width:1%;color: blue;"> </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
+          '<td style="width:1%;color: blue;"> </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
+          '<td style="width:1%;color: blue;"> </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
+          '<td style="width:1%;color: blue;"> </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
+          '<td style="width:1%;color: blue;"> </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + Door + '</td>' +
+          '</tr>' +
+          '<tr>' +
+          '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
+          '<td style="width:1%;color: blue;"> </td>' +
+
+          '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
+          '</tr>' +
+          // '</span>'+Temperature_string
+          //   '<tr>'+
+          '</tbody>' +
+          '</table>'
+        //       '</div>'+ 
+        //       '<div class="" style="border-top:1px solid #dee2e6;justify-content: flex-end;padding: 2px;    border-bottom-right-radius: calc(0.3rem - 1px);border-bottom-left-radius: calc(0.3rem - 1px);display: flex;">'+
+        //       '<button type="button" class="btn btn-outline-secondary " id="infowindow_submit'+  +'" name="submit" value ="submit" style="margin-left: 5px;padding:0px !important; margin-top: 5px;">'+
+        //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Landmark</span>'+'</button>'+
+        //       '<button type="button" class="btn btn-outline-secondary "   style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_geofence'+  +'" name="submit" value ="submit">'+
+        //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Geofence</span>'+'</button>'+
+        //       '<button type="button" class="btn btn-outline-secondary " style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_polyline'+  +'" name="submit" value ="submit">'+
+        //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Polyline</span>'+'</button>'+
+        //      
+        // '</div>'
+        //  '</div>';
+
+
+
+        this.closeLastOpenedInfoWindow();
+        infowindowMarker.setContent(contentsInfo);
+
+        infowindowMarker.setPosition(event.latLng);
+        infowindowMarker
+        infowindowMarker.open(this.map, node);
+        //this.lastOpenedInfoWindow=0; 
+        this.lastOpenedInfoWindow = infowindowMarker;
+
+
+
+      })
+
+      var infowindowMarker = new google.maps.InfoWindow({
+        content: contentsInfo,
+        pixelOffset: new google.maps.Size(0, -20)
+
+      });
+    }
+  })
+ }
+  ////////////////////////////////////////////////////
+
+
+}
+liveLocation3(imei,type)
+{
+let lat=this.multilocationArray.lat, long=this.multilocationArray.lng, driver_mobile=this.multilocationArray.driver_mobile, driver_name=this.multilocationArray.driver_name, halt_time=this.multilocationArray.halt_time, transporter_name=this.multilocationArray.transporter_name, name=this.multilocationArray.name, run_date=this.multilocationArray.run_date, source_code=this.multilocationArray.source_code, destination_code=this.multilocationArray.destination_code, deviceTime=this.multilocationArray.deviceTime2, lastspeed=this.multilocationArray.lastspeed, loc_name=this.multilocationArray.loc_name, shipment_no=this.multilocationArray.shipment_no
+ var node
+ let imeiType
+ // this.initMap();
+ if(this.markerLocation.length > 0)
+   {
+     this.markerLocation[0].setMap(null);
+     this.map.setCenter(new google.maps.LatLng(lat, long));
+   }
+ var Door: string = '';
+ var latlong: any = [];
+ var locationData
+ if(type=='1')
+ {
+   imeiType=this.multilocationArray.imei_type
+ }
+ else if(type=='2')
+ {
+   imeiType=this.multilocationArray.imei_type2
+ }
+ else if(type=='3')
+ {
+   imeiType=this.multilocationArray.imei_type3
+ }
+ var formdata = new FormData();
+ formdata.append('AccessToken', this.token)
+ formdata.append('ImeiNo', imei);
+
+ formdata.append('portal','itraceit');
+
+ this.CrudService.liveLocation2S(formdata).subscribe((data: any) => {
+
+   console.log("imei2", data)
+   locationData = data.Data[0];
+   if (locationData.LatLong == "," || locationData.LatLong == "") {
+     alert("Data not found")
+   }
+
+   else {
+
+
+     latlong = locationData.LatLong.split(',');
+    //  console.log("new location", latlong[0])
+     if (locationData.IO.Door_Status == 0) {
+       Door = 'Open';
+     }
+     else if (locationData.IO.Door_Status == 1) {
+       Door = 'Close';
+     }
+     //////////////////////////////////////////////////////////////////////////////////
+     this.latlngbounds = new google.maps.LatLngBounds();
+    //  console.log("live location", lat, long)
+     this.latlngbounds.extend(new google.maps.LatLng(parseFloat(latlong[0]), parseFloat(latlong[1])));
+     node = new google.maps.LatLng(
+       latlong[0], latlong[1])
+
+     this.markers =
+     {
+       mark: new google.maps.Marker({
+         map: this.map,
+
+         position: new google.maps.LatLng(
+           latlong[0], latlong[1]
+
+
+         ),
+         title: latlong[0] + "," + latlong[1],
+         // label: {
+         //   text: this.Label,
+         //   color: 'black',
+         //   fontSize: "20px",
+         //   fontWeight: "1000px",
+         //   fontFamily: 'Tangerine',
+         //   // "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+
+         // },
+         // scaleControl:true
+
+         icon: "assets/images/users/trucknewchhotaNew.png"
+
+
+
+       })
+
+
+     };
+     this.markerLocation.push(this.markers.mark)
+     this.map.fitBounds(this.latlngbounds);
+     var listener = google.maps.event.addListener(this.map, "idle", () => {
+       if (this.map.getZoom() > 14) this.map.setZoom(14);
+       google.maps.event.removeListener(listener);
+     });
+     //////////////////////////////////////////////////////////////////////////////////
+     var contentsInfo: string = ''
+     google.maps.event.addListener(this.markers.mark, 'click', (event) => {
+
+      //  console.log("eventy", event)
+       contentsInfo =
+         // '<div id="content" >' +
+         // '<div id="siteNotice">' +
+         '<table class="border border-primary">' +
+         '<tbody>' +
+
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Device Type</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imeiType + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
+
+         ' </tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Source Code </td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
+         '</tr>' +
+
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
+         '</tr>' +
+         // '</tr>'+
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Destination Code</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
+         '<td style="width:1%;color: blue;">:</td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
+         '</tr>' +
+         '<tr >' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">trip Id</td>' +
+         '<td style="width:1%;color: blue;">: </td>' +
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
+         '<td style="width:1%;color: blue;">: </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
+         '<td style="width:1%;color: blue;"> </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
+         '<td style="width:1%;color: blue;"> </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
+         '<td style="width:1%;color: blue;"> </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
+         '<td style="width:1%;color: blue;"> </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
+         '<td style="width:1%;color: blue;"> </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
+         '<td style="width:1%;color: blue;"> </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + Door + '</td>' +
+         '</tr>' +
+         '<tr>' +
+         '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
+         '<td style="width:1%;color: blue;"> </td>' +
+
+         '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
+         '</tr>' +
+         // '</span>'+Temperature_string
+         //   '<tr>'+
+         '</tbody>' +
+         '</table>'
+       //       '</div>'+ 
+       //       '<div class="" style="border-top:1px solid #dee2e6;justify-content: flex-end;padding: 2px;    border-bottom-right-radius: calc(0.3rem - 1px);border-bottom-left-radius: calc(0.3rem - 1px);display: flex;">'+
+       //       '<button type="button" class="btn btn-outline-secondary " id="infowindow_submit'+  +'" name="submit" value ="submit" style="margin-left: 5px;padding:0px !important; margin-top: 5px;">'+
+       //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Landmark</span>'+'</button>'+
+       //       '<button type="button" class="btn btn-outline-secondary "   style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_geofence'+  +'" name="submit" value ="submit">'+
+       //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Geofence</span>'+'</button>'+
+       //       '<button type="button" class="btn btn-outline-secondary " style="margin-left: 5px;padding:0px !important; margin-top: 5px;"id="infowindow_polyline'+  +'" name="submit" value ="submit">'+
+       //       '<span style="font-size: 10px;padding: 7px;font-weight: bold;">Add Polyline</span>'+'</button>'+
+       //      
+       // '</div>'
+       //  '</div>';
+
+
+
+       this.closeLastOpenedInfoWindow();
+       infowindowMarker.setContent(contentsInfo);
+
+       infowindowMarker.setPosition(event.latLng);
+       infowindowMarker
+       infowindowMarker.open(this.map, node);
+       //this.lastOpenedInfoWindow=0; 
+       this.lastOpenedInfoWindow = infowindowMarker;
+
+
+
+     })
+
+     var infowindowMarker = new google.maps.InfoWindow({
+       content: contentsInfo,
+       pixelOffset: new google.maps.Size(0, -20)
+
+     });
+   }
+ })
+
+ ////////////////////////////////////////////////////
+
+
+}
+//   liveLocation3(imei, type) {
+//     console.log("data", this.markerLocation)
+
+//     let lat = this.multilocationArray.lat, long = this.multilocationArray.lng, driver_mobile = this.multilocationArray.driver_mobile, driver_name = this.multilocationArray.driver_name, halt_time = this.multilocationArray.halt_time, transporter_name = this.multilocationArray.transporter_name, name = this.multilocationArray.name, run_date = this.multilocationArray.run_date, source_code = this.multilocationArray.source_code, destination_code = this.multilocationArray.destination_code, deviceTime = this.multilocationArray.deviceTime2, lastspeed = this.multilocationArray.lastspeed, loc_name = this.multilocationArray.loc_name, shipment_no = this.multilocationArray.shipment_no
+//     var node
+//     let imeiType
+//     // this.initMap();
+//     if (this.markerLocation.length > 0 && this.markerLocation[0]!==undefined) {
+//       // this.markerLocation[0].setMap(null);
+//       // this.map.setCenter(new google.maps.LatLng(lat, long));
+//       this.markerLocation.forEach(marker =>
+        
+//         this.map.removeObject(marker)
+//       );
+//       this.markerLocation = [];
+//     }
+
+//     var Door: string = '';
+//     var latlong: any = [];
+//     var locationData
+//     if (type == '1') {
+//       imeiType = this.multilocationArray.imei_type
+//     }
+//     else if (type == '2') {
+//       imeiType = this.multilocationArray.imei_type2
+//     }
+//     else if (type == '3') {
+//       imeiType = this.multilocationArray.imei_type3
+//     }
+//     var formdata = new FormData();
+//     formdata.append('AccessToken', this.token)
+//     formdata.append('ImeiNo', imei);
+
+
+//     this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
+
+//       //  console.log("imei2", data)
+//       locationData = data.Data[0];
+//       if (locationData.LatLong == "," || locationData.LatLong == "") {
+//         alert("Data not found")
+//       }
+
+//       else {
+
+
+//         latlong = locationData.LatLong.split(',');
+//         //  console.log("new location", latlong[0])
+//         if (locationData.IO.Door_Status == 0) {
+//           Door = 'Open';
+//         }
+//         else if (locationData.IO.Door_Status == 1) {
+//           Door = 'Close';
+//         }
+//         //////////////////////////////////////////////////////////////////////////////////
+//         this.latlngbounds = new google.maps.LatLngBounds();
+//         //  console.log("live location", lat, long)
+//         this.latlngbounds.extend(new google.maps.LatLng(parseFloat(latlong[0]), parseFloat(latlong[1])));
+//         node = new google.maps.LatLng(
+//           latlong[0], latlong[1])
+
+//         // this.markers =
+//         // {
+//         //   mark: new google.maps.Marker({
+//         //     map: this.map,
+
+//         //     position: new google.maps.LatLng(
+//         //       latlong[0], latlong[1]
+
+
+//         //     ),
+//         //     title: latlong[0] + "," + latlong[1],
+//         //     // label: {
+//         //     //   text: this.Label,
+//         //     //   color: 'black',
+//         //     //   fontSize: "20px",
+//         //     //   fontWeight: "1000px",
+//         //     //   fontFamily: 'Tangerine',
+//         //     //   // "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+
+//         //     // },
+//         //     // scaleControl:true
+
+//         //     icon: "assets/images/users/trucknewchhotaNew.png"
+
+
+
+//         //   })
+
+
+//         // };
+//         const locationOfMarker = { lat:latlong[0], lng:latlong[1] };
+       
+//         var html = document.createElement('div'),
+//         divIcon = document.createElement('div'),
+//         divText = document.createElement('div'),
+//         imgIco = document.createElement('img');
+//       imgIco.setAttribute('src', "assets/images/users/trucknewchhotaNew.png");
+//       divText.setAttribute("class", "textData");
+//       // html.setAttribute("class", "parentDiv");
+    
+//       divIcon.appendChild(imgIco);
+//       // divText.textContent = label;
+//       //divText.innerHTML = label;
+//       html.appendChild(divIcon);
+//       html.appendChild(divText);
+    
+//       var domIcon = new H.map.DomIcon(html);
+//       var marker = new H.map.DomMarker(locationOfMarker, {
+//         icon: domIcon,
+//         anchor: { x: 1, y: 10 }
+//       });
+//        this.map.addObject(marker)
     
     
         
         
         
-        this.markerLocation.push(marker)
-        // this.map.fitBounds(this.latlngbounds);
-        // var listener = google.maps.event.addListener(this.map, "idle", () => {
-        //   if (this.map.getZoom() > 14) this.map.setZoom(14);
-        //   google.maps.event.removeListener(listener);
-        // });
-        let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
-        const padding = 0.01;
-        minLat = Math.min(minLat, latlong[0]);
-        minLng = Math.min(minLng, latlong[1]);
-        maxLat = Math.max(maxLat, latlong[0]);
-        maxLng = Math.max(maxLng, latlong[1]);
-// Create a bounding box with padding
-          const boundingBox = new H.geo.Rect(
-            minLat + padding,    // Top latitude (maxLat + padding)
-           minLng - padding,    // Left longitude (minLng - padding)
-           minLat - padding,    // Bottom latitude (minLat - padding)
-           maxLng + padding     // Right longitude (maxLng + padding)
-         );
-        this.map.getViewModel().setLookAtData({
-          bounds: boundingBox
-        });
-        // Add a one-time event listener for the "mapviewchangeend" event, similar to Google's "idle"
-        // this.map.addEventListener('mapviewchangeend', () => {
-        //     // Check if the zoom level is greater than 14
-        //     if (this.map.getZoom() >14) {
-        //         this.map.setZoom(20); // Set zoom level to 14 if it exceeds the limit
-        //     }
-        // });
-        const platform = new H.service.Platform({
-          apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
-        });
-        const defaultLayers = platform.createDefaultLayers();
-        const ui = H.ui.UI.createDefault(this.map, defaultLayers);
+//         this.markerLocation.push(marker)
+//         // this.map.fitBounds(this.latlngbounds);
+//         // var listener = google.maps.event.addListener(this.map, "idle", () => {
+//         //   if (this.map.getZoom() > 14) this.map.setZoom(14);
+//         //   google.maps.event.removeListener(listener);
+//         // });
+//         let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
+//         const padding = 0.01;
+//         minLat = Math.min(minLat, latlong[0]);
+//         minLng = Math.min(minLng, latlong[1]);
+//         maxLat = Math.max(maxLat, latlong[0]);
+//         maxLng = Math.max(maxLng, latlong[1]);
+// // Create a bounding box with padding
+//           const boundingBox = new H.geo.Rect(
+//             minLat + padding,    // Top latitude (maxLat + padding)
+//            minLng - padding,    // Left longitude (minLng - padding)
+//            minLat - padding,    // Bottom latitude (minLat - padding)
+//            maxLng + padding     // Right longitude (maxLng + padding)
+//          );
+//         this.map.getViewModel().setLookAtData({
+//           bounds: boundingBox
+//         });
+//         // Add a one-time event listener for the "mapviewchangeend" event, similar to Google's "idle"
+//         // this.map.addEventListener('mapviewchangeend', () => {
+//         //     // Check if the zoom level is greater than 14
+//         //     if (this.map.getZoom() >14) {
+//         //         this.map.setZoom(20); // Set zoom level to 14 if it exceeds the limit
+//         //     }
+//         // });
+//         const platform = new H.service.Platform({
+//           apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
+//         });
+//         const defaultLayers = platform.createDefaultLayers();
+//         const ui = H.ui.UI.createDefault(this.map, defaultLayers);
 
-          //////////////////////////////////////////////////////////////////////////////////
-          var contentsInfo: string = ''
+//           //////////////////////////////////////////////////////////////////////////////////
+//           var contentsInfo: string = ''
 
-          marker.addEventListener('tap',  async (evt) => {
-            //  var position= evt.latLng.lat()
-              // Remove existing bubbles, if any
-              ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
+//           marker.addEventListener('tap',  async (evt) => {
+//             //  var position= evt.latLng.lat()
+//               // Remove existing bubbles, if any
+//               ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
               
-              // Create content for the info window
-              // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
-              // const infoContent = await this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei);
+//               // Create content for the info window
+//               // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
+//               // const infoContent = await this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei);
           
-              // console.log("infoContent",infoContent)
-              //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
+//               // console.log("infoContent",infoContent)
+//               //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
                
-              // Create an info bubble at the marker's location
-              contentsInfo =
-            // '<div id="content" >' +
-            // '<div id="siteNotice">' +
-            '<table class="border border-primary" style="line-height:12px;border:none !important">' +
-            '<tbody style="border:none !important">' +
+//               // Create an info bubble at the marker's location
+//               contentsInfo =
+//             // '<div id="content" >' +
+//             // '<div id="siteNotice">' +
+//             '<table class="border border-primary" style="line-height:12px;border:none !important">' +
+//             '<tbody style="border:none !important">' +
 
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Device Type</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imeiType + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + name + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Name</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_name + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Driver Mobile</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + driver_mobile + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Imei No</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imei + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Device Type</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + imeiType + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Speed</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + lastspeed + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + deviceTime + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; width:100px ;font-size: 11px;font-weight: 900;font-family:Roboto;">Address</th>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + loc_name + '</th>' +
 
-            ' </tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Source Code </td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
-            '</tr>' +
+//             ' </tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Source Code </td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + source_code + '</td>' +
+//             '</tr>' +
 
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
-            '</tr>' +
-            // '</tr>'+
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Destination Code</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important; ">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">trip Id</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">: </td>' +
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important; ">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;">: </td>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;"> Dispatch Date</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + run_date + '</td>' +
+//             '</tr>' +
+//             // '</tr>'+
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Destination Code</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + destination_code + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Transporter</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">:</td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + transporter_name + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important; ">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">trip Id</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">: </td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500" >' + shipment_no + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important; ">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Last Halt Time</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;">: </td>' +
 
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important; ">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
-            '<td style="width:1%;color: blue;border:none !important;"> </td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + halt_time + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important; ">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
+//             '<td style="width:1%;color: blue;border:none !important;"> </td>' +
 
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important;">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
-            '<td style="width:1%;color: blue;border:none !important;"> </td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.LatLong + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important;">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Battery</td>' +
+//             '<td style="width:1%;color: blue;border:none !important;"> </td>' +
 
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important; border:none !important">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
-            '<td style="width:1%;color: blue;border:none !important;"> </td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.Battery + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important; border:none !important">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Voltage</td>' +
+//             '<td style="width:1%;color: blue;border:none !important;"> </td>' +
 
-            '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important;">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
-            '<td style="width:1%;color: blue;border:none !important;"> </td>' +
+//             '<td style="  border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.BatteryVoltage + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important;">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeed</td>' +
+//             '<td style="width:1%;color: blue;border:none !important;"> </td>' +
 
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important; ">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
-            '<td style="width:1%;color: blue;border:none !important;"> </td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeed + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important; ">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">DayMaxSpeedTime</td>' +
+//             '<td style="width:1%;color: blue;border:none !important;"> </td>' +
 
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
-            '</tr>' +
-            '<tr style=" border:none !important;">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;"> </td>' +
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DayMaxSpeedTime + '</td>' +
+//             '</tr>' +
+//             '<tr style=" border:none !important;">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">Door Status</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;"> </td>' +
 
-            '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500; border:none !important;">' + Door + '</td>' +
-            '</tr>' +
-            '<tr style="border:none !important;">' +
-            '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
-            '<td style=" border:none !important; width:1%;color: blue;"> </td>' +
+//             '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500; border:none !important;">' + Door + '</td>' +
+//             '</tr>' +
+//             '<tr style="border:none !important;">' +
+//             '<td style=" border:none !important; font-size: 11px;font-weight: 900;font-family:Roboto;">DeviceDateTime</td>' +
+//             '<td style=" border:none !important; width:1%;color: blue;"> </td>' +
 
-            '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
-            '</tr>' +
-            // '</span>'+Temperature_string
-            //   '<tr>'+
-            '</tbody>' +
-            '</table>'
+//             '<td style=" border:none !important;  color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + locationData.DeviceDateTime + '</td>' +
+//             '</tr>' +
+//             // '</span>'+Temperature_string
+//             //   '<tr>'+
+//             '</tbody>' +
+//             '</table>'
          
-              const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-                content: contentsInfo
-              });
+//               const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+//                 content: contentsInfo
+//               });
           
-              // Add the info bubble to the map
-              ui.addBubble(infoBubble);
-            });
+//               // Add the info bubble to the map
+//               ui.addBubble(infoBubble);
+//             });
 
 
        
      
 
-    ////////////////////////////////////////////////////
+//     ////////////////////////////////////////////////////
 
 
-  }
-})
-}
+//   }
+// })
+// }
 
  ///////////////////////////////////for view all deviceslocations new////////////////////////////////
  // liveLocationAllN(lat, long, driver_mobile, driver_name, halt_time, transporter_name, imei, imei2, imei3, name, run_date, source_code, destination_code, deviceTime, lastspeed, loc_name, shipment_no) {
@@ -3144,9 +3618,9 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
    var formdata = new FormData();
    formdata.append('AccessToken', this.token)
    formdata.append('ImeiNo', imei2);
+   formdata.append('portal', 'itraceit');
 
-
-   this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
+   this.CrudService.liveLocation2S(formdata).subscribe((data: any) => {
 
      // console.log("imei2", data)
      locationData = data.Data[0];
@@ -4082,7 +4556,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
      "action_details": {
        "trigger_id": this.graceId,
        "grace_period": value.grace_hour,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": this.graceTble_email,
        "sms_to": this.graceTble_phoneno,
        "remarks": value.graceRemarks,
@@ -4204,7 +4678,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
        "trigger_log_id": this.graceId,
 
        "aalert_type": this.graceAlertType,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": "",
        "sms_to": ""
 
@@ -4305,7 +4779,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
        "trigger_log_id": this.graceId_string,
 
        "alert_type": this.alertype_string,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": "",
        "sms_to": ""
 
@@ -4473,7 +4947,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
        "trigger_log_id": this.graceId_string,
 
        "alert_type": this.alertype_string,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": "",
        "sms_to": ""
 
@@ -4665,7 +5139,7 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
        "trigger_id": this.graceId,
        "level": value.actionLevel,
        "alert_type": this.graceAlertType,
-       "email_to": "abdus.taseen@weather-risk.com",
+       "email_to": "",
        "email_cc": this.checkbox_email,
        "sms_to": this.checkbox_phoneno
 
@@ -5354,7 +5828,8 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
      formData.append('imei', imei);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
-     this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
+     formData.append('portal', 'itraceit');
+     this.CrudService.vehicleTrackongS(formData).subscribe((res: any) => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, item.run_date, currentDateTime, imei, this.group_id, this.account_id);
        //  rest=res
@@ -5508,9 +5983,9 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
              formdataCustomer.append('ImeiNo', imei);
              // formdataCustomer.append('ImeiNo',data.imei);
              formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+             formdataCustomer.append('portal', 'itraceit');
 
-
-             this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+             this.CruCrudService.addressS(formdataCustomer).subscribe((res: any) => {
 
                // console.log("responce", res)
                address = res.Data.Address
@@ -6005,7 +6480,8 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
      formData.append('imei', imei);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
-     this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
+     formData.append('portal', 'itraceit');
+     this.CrudService.vehicleTrackongS(formData).subscribe((res: any) => {
        // this.initMap1();
        // console.log("vehicle tracking responce tracking", res);
        this.trackingData = res.data
@@ -6113,11 +6589,12 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
              formdataCustomer.append('AccessToken', this.token)
              formdataCustomer.append('VehicleId', vehicle_no);
              formdataCustomer.append('ImeiNo', imei);
+             formData.append('portal', 'itraceit');
              // formdataCustomer.append('ImeiNo',data.imei);
              formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
 
-
-             this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+             formdataCustomer.append('portal', 'itraceit');
+             this.CruCrudService.addressS(formdataCustomer).subscribe((res: any) => {
 
                // console.log("responce", res)
                address = res.Data.Address
@@ -6506,298 +6983,149 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
  }
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-vehicleTrackF(run_date, imei, vehicle_no, item, Id, route_id, alertsummary, lati, long) {
-  console.log("demomarker", this.demomarker);
-  this.SpinnerService.show("tracking");
 
-  // Clear markers and polylines if they exist
-  if (this.demomarker.length > 0) {
-    this.demomarker.forEach(marker => marker.setMap(null));
-    this.demomarker = [];  // Clear the array after removing markers
-  }
+
+// vehicleTrackF_new(run_date, imei, vehicle_no, item, Id, route_id, alertsummary, lati, long) {
+//   // this.SpinnerService.show();
+//   this.clearMarkersAndPolylines();
+//   this.initializeMap().then(() => {
+//   }).catch(error => {
+//     console.error('Error initializing map:', error);
+//     this.SpinnerService.hide('spinner-1');
+//   });
+
+
+
+//   console.log("demomarker", this.demomarker);
+//   this.SpinnerService.show("tracking");
+
+//   // Clear markers and polylines if they exist
+//   // if (this.demomarker.length > 0) {
+//   //   this.demomarker.forEach(marker => marker.setMap(null));
+//   //   this.demomarker = [];  // Clear the array after removing markers
+//   // }
+
+//   // if (this.demoPolyline.length > 0) {
+//   //   this.demoPolyline.forEach(polyline => polyline.setMap(null));
+//   //   this.demoPolyline = [];  // Clear the array after removing polylines
+//   // }
+
+
+//   this.trackingData = [];
+//   this.customer_info = [];
+//   this.marker = [];
+//   this.poly_line = [];
+//   this.map_flag = '';
+
+//   if (imei === "") {
+//     this.map_flag = 'Device unavailable';
+//   } else {
+//     this.map_flag = 'Please wait';
+//     const formData = new FormData();
+//     const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+//     formData.append('AccessToken', this.token);
+//     formData.append('startdate', run_date);
+//     formData.append('enddate', currentDateTime);
+//     formData.append('time_interval', '120');
+//     formData.append('imei', imei);
+//     formData.append('group_id', this.group_id);
+//     formData.append('AccountId', this.account_id);
+
+//     this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
+//       console.log("tracking res", res);
+//       if (res.Status == "failed") {
+//         alert(res?.Message);
+//         // this.SpinnerService.hide("tracking");
+
+//       }
+//       this.trackingData = res.data;
+
+//       // if (this.trackingData.length > 0) {
+//       //   this.map_flag = '';
+//       //   this.latlngbounds = new google.maps.LatLngBounds();
+//       //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
+//       //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
+
+//       //   // Ensure the map bounds are updated
+//       //   this.map1.fitBounds(this.latlngbounds);
+//       // }
+//       this.SpinnerService.hide("tracking");
+//       if (res.data === 'Vehicle is inactive.') {
+//         alert("Track data is not available");
+//       } else {
+//         this.addMarkersAndPolyline1(imei, vehicle_no);
+//     // Fetch DFG polyline data
+//     this.fetchDFGPolyline_new(route_id);
+
+//     // Fetch customer info
+//     this.fetchCustomerInfo_new(Id);
+
+//     // Handle alert markers
+//     this.handleAlertMarkers(item);
+//       }
+
+//       // this.SpinnerService.hide("tracking");
+//     });
+
+//     // // Fetch DFG polyline data
+//     // this.fetchDFGPolyline(route_id);
+
+//     // // Fetch customer info
+//     // this.fetchCustomerInfo(Id);
+
+//     // // Handle alert markers
+//     // this.handleAlertMarkers(item);
+//   }
+// }
+// addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+//   var lineString = new H.geo.LineString();
+
+// let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
+// // const ui = H.ui.UI.createDefault(this.map1, new H.map.Platform({apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'}).createDefaultLayers());
+// const platform = new H.service.Platform({
+// apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
+// });
+// const defaultLayers = platform.createDefaultLayers();
+// const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
+// for (let i = 0; i < this.trackingData.length; i++) {
+// const position = this.trackingData[i];
+// lineString.pushPoint({ lat: position.lat, lng: position.long });
+
+// const locationOfMarker = { lat: position.lat, lng: position.long };
+
+// const icon_temp = this.getMarkerIcon(i);
+// const marker = this.createMarker(locationOfMarker, icon_temp, '2');
+
+// // Add the marker to the map
+// this.map1.addObject(marker);
+// this.markers.push(marker);
+
+
+
+
+
+// // Attach click event to each marker
+// marker.addEventListener('tap',  async (evt) => {
+// //  var position= evt.latLng.lat()
+//   // Remove existing bubbles, if any
+//   ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
   
-  if (this.demoPolyline.length > 0) {
-    this.demoPolyline.forEach(polyline => polyline.setMap(null));
-    this.demoPolyline = [];  // Clear the array after removing polylines
-  }
-  // if( this.demomarker.length>0)
-  //   {
-  //     for(let i = 0; i < this.demomarker.length; i++)
-  //     {
-  //       this.demomarker[i].setMap(null);
-  //     }
-  //   }
-  //   if( this.demoPolyline.length>0)
-  //   {
-  //     for(let i = 0; i < this.demoPolyline.length; i++)
-  //     {
-  //       this.demoPolyline[i].setMap(null);
-  //     }
-  //   }
+//   // Create content for the info window
+//   // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
+//   const infoContent = await this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei);
 
-  $('#v_track_Modal').modal('show');
-
-  // Reset tracking data
-  this.trackingData = [];
-  this.customer_info = [];
-  this.marker = [];
-  this.poly_line = [];
-  this.map_flag = '';
-
-  if (imei === "") {
-    this.map_flag = 'Device unavailable';
-  } else {
-    this.map_flag = 'Please wait';
-    const formData = new FormData();
-    const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-
-    formData.append('AccessToken', this.token);
-    formData.append('startdate', run_date);
-    formData.append('enddate', currentDateTime);
-    formData.append('time_interval', '120');
-    formData.append('imei', imei);
-    formData.append('group_id', this.group_id);
-    formData.append('AccountId', this.account_id);
-
-    this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
-      console.log("tracking res", res);
-      if(res.Status=="failed")
-      {
-        alert(res?.Message);
-        this.SpinnerService.hide("tracking");
-        
-      }
-      this.trackingData = res.data;
-
-      if (this.trackingData.length > 0) {
-        this.map_flag = '';
-        this.latlngbounds = new google.maps.LatLngBounds();
-        this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
-        this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
-        
-        // Ensure the map bounds are updated
-        this.map1.fitBounds(this.latlngbounds);
-      }
-
-      if (res.data === 'Vehicle is inactive.') {
-        alert("Track data is not available");
-      } else {
-        this.addMarkersAndPolyline(imei, vehicle_no);
-      }
-
-      this.SpinnerService.hide("tracking");
-    });
-
-    // Fetch DFG polyline data
-    this.fetchDFGPolyline(route_id);
-
-    // Fetch customer info
-    this.fetchCustomerInfo(Id);
-
-    // Handle alert markers
-    this.handleAlertMarkers(item);
-  }
-}
-
-addMarkersAndPolyline(imei: string, vehicle_no: string) {
-  // Prepare arrays for markers and polylines
-  const markers: google.maps.Marker[] = [];
-  const polylinePath: google.maps.LatLng[] = [];
-  
-  // Use requestAnimationFrame for batch processing
-  requestAnimationFrame(() => {
-    for (let i = 0; i < this.trackingData.length; i++) {
-      const icon = this.getMarkerIcon(i);
-      const position = new google.maps.LatLng(this.trackingData[i].lat, this.trackingData[i].long);
-      polylinePath.push(position);
-
-      // Create a marker
-      const mark = new google.maps.Marker({
-        map: this.map1,
-        position: position,
-        title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
-        icon: icon
-      });
-
-      // Store marker for future reference
-      markers.push(mark);
-      this.demomarker.push(mark);
-
-      // Handle marker click events
-      mark.addListener('click', (event) => this.handleMarkerClick(event, this.trackingData[i], vehicle_no, imei));
-
-      // Create an InfoWindow but don't attach it yet
-      const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
-    }
-
-    // Add markers to the map in batch
-    // this.demomarker = markers;
-
-    // Create and display polyline
-    const draw_polyline = new google.maps.Polyline({
-      path: polylinePath,
-      geodesic: true,
-      strokeColor: 'green',
-      strokeOpacity: 0.8,
-      strokeWeight: 1.5,
-      map: this.map1,
-      icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW }, offset: '100%', repeat: '2000px' }]
-    });
-
-    this.demoPolyline.push(draw_polyline);
-
-    // Optionally fit bounds to include all markers and polyline
-    if (markers.length > 0) {
-      const bounds = new google.maps.LatLngBounds();
-      markers.forEach(marker => bounds.extend(marker.getPosition()));
-      this.map1.fitBounds(bounds);
-    }
-  });
-}
-
-vehicleTrackF_new(run_date, imei, vehicle_no, item, Id, route_id, alertsummary, lati, long) {
-  // this.SpinnerService.show();
-  this.clearMarkersAndPolylines();
-  this.initializeMap().then(() => {
-  }).catch(error => {
-    console.error('Error initializing map:', error);
-    this.SpinnerService.hide('spinner-1');
-  });
-
-
-
-  console.log("demomarker", this.demomarker);
-  this.SpinnerService.show("tracking");
-
-  // Clear markers and polylines if they exist
-  // if (this.demomarker.length > 0) {
-  //   this.demomarker.forEach(marker => marker.setMap(null));
-  //   this.demomarker = [];  // Clear the array after removing markers
-  // }
-
-  // if (this.demoPolyline.length > 0) {
-  //   this.demoPolyline.forEach(polyline => polyline.setMap(null));
-  //   this.demoPolyline = [];  // Clear the array after removing polylines
-  // }
-
-
-  this.trackingData = [];
-  this.customer_info = [];
-  this.marker = [];
-  this.poly_line = [];
-  this.map_flag = '';
-
-  if (imei === "") {
-    this.map_flag = 'Device unavailable';
-  } else {
-    this.map_flag = 'Please wait';
-    const formData = new FormData();
-    const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-
-    formData.append('AccessToken', this.token);
-    formData.append('startdate', run_date);
-    formData.append('enddate', currentDateTime);
-    formData.append('time_interval', '120');
-    formData.append('imei', imei);
-    formData.append('group_id', this.group_id);
-    formData.append('AccountId', this.account_id);
-
-    this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
-      console.log("tracking res", res);
-      if (res.Status == "failed") {
-        alert(res?.Message);
-        // this.SpinnerService.hide("tracking");
-
-      }
-      this.trackingData = res.data;
-
-      // if (this.trackingData.length > 0) {
-      //   this.map_flag = '';
-      //   this.latlngbounds = new google.maps.LatLngBounds();
-      //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
-      //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
-
-      //   // Ensure the map bounds are updated
-      //   this.map1.fitBounds(this.latlngbounds);
-      // }
-      this.SpinnerService.hide("tracking");
-      if (res.data === 'Vehicle is inactive.') {
-        alert("Track data is not available");
-      } else {
-        this.addMarkersAndPolyline1(imei, vehicle_no);
-    // Fetch DFG polyline data
-    this.fetchDFGPolyline_new(route_id);
-
-    // Fetch customer info
-    this.fetchCustomerInfo_new(Id);
-
-    // Handle alert markers
-    this.handleAlertMarkers(item);
-      }
-
-      // this.SpinnerService.hide("tracking");
-    });
-
-    // // Fetch DFG polyline data
-    // this.fetchDFGPolyline(route_id);
-
-    // // Fetch customer info
-    // this.fetchCustomerInfo(Id);
-
-    // // Handle alert markers
-    // this.handleAlertMarkers(item);
-  }
-}
-addMarkersAndPolyline1(imei: string, vehicle_no: string) {
-  var lineString = new H.geo.LineString();
-
-let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
-// const ui = H.ui.UI.createDefault(this.map1, new H.map.Platform({apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'}).createDefaultLayers());
-const platform = new H.service.Platform({
-apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
-});
-const defaultLayers = platform.createDefaultLayers();
-const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
-for (let i = 0; i < this.trackingData.length; i++) {
-const position = this.trackingData[i];
-lineString.pushPoint({ lat: position.lat, lng: position.long });
-
-const locationOfMarker = { lat: position.lat, lng: position.long };
-
-const icon_temp = this.getMarkerIcon(i);
-const marker = this.createMarker(locationOfMarker, icon_temp, '2');
-
-// Add the marker to the map
-this.map1.addObject(marker);
-this.markers.push(marker);
-
-
-
-
-
-// Attach click event to each marker
-marker.addEventListener('tap',  async (evt) => {
-//  var position= evt.latLng.lat()
-  // Remove existing bubbles, if any
-  ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
-  
-  // Create content for the info window
-  // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
-  const infoContent = await this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei);
-
-  console.log("infoContent",infoContent)
-  //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
+//   console.log("infoContent",infoContent)
+//   //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
    
-  // Create an info bubble at the marker's location
-  const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-    content: infoContent
-  });
+//   // Create an info bubble at the marker's location
+//   const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+//     content: infoContent
+//   });
 
-  // Add the info bubble to the map
-  ui.addBubble(infoBubble);
-});
-
-
+//   // Add the info bubble to the map
+//   ui.addBubble(infoBubble);
+// });
 
 
 
@@ -6811,73 +7139,60 @@ marker.addEventListener('tap',  async (evt) => {
 
 
 
-// Update min and max lat/lng values to create bounding box
-minLat = Math.min(minLat, position.lat);
-minLng = Math.min(minLng, position.long);
-maxLat = Math.max(maxLat, position.lat);
-maxLng = Math.max(maxLng, position.long);
-}
-
-// Define padding in degrees (adjust as needed)
-const padding = 0.01;
-
-// Create a bounding box with padding
-const boundingBox = new H.geo.Rect(
-maxLat + padding,    // Top latitude (maxLat + padding)
-minLng - padding,    // Left longitude (minLng - padding)
-minLat - padding,    // Bottom latitude (minLat - padding)
-maxLng + padding     // Right longitude (maxLng + padding)
-);
-
-// Set the map view to fit all markers within the padded bounding box
-this.map1.getViewModel().setLookAtData({
-bounds: boundingBox
-});
 
 
+// // Update min and max lat/lng values to create bounding box
+// minLat = Math.min(minLat, position.lat);
+// minLng = Math.min(minLng, position.long);
+// maxLat = Math.max(maxLat, position.lat);
+// maxLng = Math.max(maxLng, position.long);
+// }
+
+// // Define padding in degrees (adjust as needed)
+// const padding = 0.01;
+
+// // Create a bounding box with padding
+// const boundingBox = new H.geo.Rect(
+// maxLat + padding,    // Top latitude (maxLat + padding)
+// minLng - padding,    // Left longitude (minLng - padding)
+// minLat - padding,    // Bottom latitude (minLat - padding)
+// maxLng + padding     // Right longitude (maxLng + padding)
+// );
+
+// // Set the map view to fit all markers within the padded bounding box
+// this.map1.getViewModel().setLookAtData({
+// bounds: boundingBox
+// });
 
 
-  this.addPolylineToMap(lineString)
-}
-handleMarkerClick1(event, trackingData, vehicle_no, imei) {
-  const markerPosition = event.target.getGeometry();
+
+
+//   this.addPolylineToMap(lineString)
+// }
+handleMarkerClick(event, trackingData, vehicle_no, imei) {
+  
+  // const markerPosition = event.getPosition();
+  // const k = event.toString();
+  // console.log(event.toString())
+  // this.str= (((k.split('(')).join('')).split(')')).join('').split(' ').join('');
+  // console.log(this.str)
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
-  formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
-
-  this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
-    if(res.Status=="success")
-      {
-        
+  formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+  formdataCustomer.append('portal', 'itraceit');
+  this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
+    console.log(res)
     const address = res.Data.Address;
     this.showWindow(trackingData, vehicle_no, address);
-      }else{
-        alert(res?.Message);
-        this.SpinnerService.hide("tracking");
-        
-    // this.closeLastOpenedInfoWindow();
-    // const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
-    // infowindowMarker.setPosition(event.latLng);
-    // infowindowMarker.open(this.map1);
-      }
+    this.closeLastOpenedInfoWindow();
+    const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    infowindowMarker.setPosition(event.latLng);
+    infowindowMarker.open(this.map1);
   });
 }
-async handleMarkerClick(event, trackingData, vehicle_no, imei) {
-  const markerPosition = event.target.getGeometry();
-  const formdataCustomer = new FormData();
-  formdataCustomer.append('AccessToken', this.token);
-  formdataCustomer.append('VehicleId', vehicle_no);
-  formdataCustomer.append('ImeiNo', imei);
-  formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
 
-  const res:any = await this.itraceIt.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
- console.log("res",res)
-  const address = res.Data.Address;
-  
-  return this.showWindow(trackingData, vehicle_no, address); // Return the content
-}
 
 showWindow(data, vnumber, add) {
   // var add:any
@@ -6887,55 +7202,56 @@ showWindow(data, vnumber, add) {
 
 
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-return  this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
-    '<tbody style="border:none !important">' +
+  this.contentsInfo = '<table  class="no-border-table">' +
+    '<tbody>' +
 
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
-    '<td style="width:1%;color: blue;border:none !important">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Lat Long</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
-    '<td style="width:1%;color: blue;border:none !important">:</td>' +
-    '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Vehicle No</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Address</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + add + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Imei</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Date Time</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Speed(km/hr)</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Server Time</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Distance</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
     '</tr>' +
-    '<tr style=" border:none !important">' +
-    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
-    '<td style="border:none !important;width:1%;color: blue;">:</td>' +
-    '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+    '<tr>' + data.io + '<tr>' +
+    '<tr>' +
+    '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;">Location Type</td>' +
+    '<td style="width:1%;color: blue;">:</td>' +
+    '<td style=" color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
     '</tr>' +
     '</tbody>' +
     '</table>'
@@ -7254,262 +7570,9 @@ clearMarkersAndPolylines() {
 
 
 
-initializeMap(): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    $('#v_track_Modal').on('shown.bs.modal', () => {
-      if (!this.map1) {
-        try {
-          const platform = new H.service.Platform({
-            apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'
-          });
-
-          const defaultLayers = platform.createDefaultLayers();
-
-          // Initialize the map
-          this.map1 = new H.Map(
-            document.getElementById('map1'),
-            defaultLayers.vector.normal.map,
-            {
-              center: { lat: 20.5937, lng: 78.9629 },
-              zoom: 10,
-              pixelRatio: window.devicePixelRatio || 1
-            }
-          );
-
-          // Set willReadFrequently attribute on the canvas
-          const canvas = document.querySelector('#map1 canvas') as HTMLCanvasElement; // Cast to HTMLCanvasElement
-          if (canvas) {
-            canvas.willReadFrequently = true; // Set the attribute
-          }
-
-          // Add events and UI controls
-          const mapEvents = new H.mapevents.MapEvents(this.map1);
-          new H.mapevents.Behavior(mapEvents);
-          // const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
-          // var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map1));
-
-          // Create the default UI components
-          // let ui:any = H.ui.UI.createDefault(this.map1, defaultLayers);
-          // Force the map to resize properly on window resize
-          const resizeMap = () => {
-            if (this.map1) {
-              this.map1.getViewPort().resize();
-            }
-          };
-
-          // Trigger initial resize to ensure correct rendering
-          resizeMap();
-
-          // Attach resize event listener
-          window.addEventListener('resize', resizeMap);
-
-          // Resolve the Promise when map initialization is complete
-          resolve();
-        } catch (error) {
-          reject(error);
-        }
-      } else {
-        // If the map is already initialized, just resolve
-        resolve();
-      }
-    });
-
-    // Show the modal (this might not be necessary to be in the Promise)
-    $('#v_track_Modal').modal('show');
-  });
-}
-initializeMap1(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      $('#mapModal').on('shown.bs.modal', () => {
-        if (!this.map) {
-          try {
-            const platform = new H.service.Platform({
-              apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'
-            });
-
-            const defaultLayers = platform.createDefaultLayers();
-
-            // Initialize the map
-            this.map = new H.Map(
-              document.getElementById('map'),
-              defaultLayers.vector.normal.map,
-              {
-                center: { lat: 20.5937, lng: 78.9629 },
-                zoom: 10,
-                pixelRatio: window.devicePixelRatio || 1
-              }
-            );
-
-            // Set willReadFrequently attribute on the canvas
-            const canvas = document.querySelector('#map canvas') as HTMLCanvasElement; // Cast to HTMLCanvasElement
-            if (canvas) {
-              canvas.willReadFrequently = true; // Set the attribute
-            }
-
-            // Add events and UI controls
-            const mapEvents = new H.mapevents.MapEvents(this.map);
-            new H.mapevents.Behavior(mapEvents);
-            // const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
-            // var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map1));
-
-            // Create the default UI components
-            // let ui:any = H.ui.UI.createDefault(this.map1, defaultLayers);
-            // Force the map to resize properly on window resize
-            const resizeMap = () => {
-              if (this.map) {
-                this.map.getViewPort().resize();
-              }
-            };
-
-            // Trigger initial resize to ensure correct rendering
-            resizeMap();
-
-            // Attach resize event listener
-            window.addEventListener('resize', resizeMap);
-
-            // Resolve the Promise when map initialization is complete
-            resolve();
-          } catch (error) {
-            reject(error);
-          }
-        } else {
-          // If the map is already initialized, just resolve
-          resolve();
-        }
-      });
-
-      // Show the modal (this might not be necessary to be in the Promise)
-      $('#mapModal').modal('show');
-    });
-  }
 
 
 
-// initializeMap(): Promise<void> {
-//   return new Promise<void>((resolve, reject) => {
-//       $('#v_track_Modal').on('shown.bs.modal', () => {
-//           if (!this.map1) {
-//               try {
-//                   const platform = new H.service.Platform({
-//                       apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'
-//                   });
-
-//                   const defaultLayers = platform.createDefaultLayers();
-
-//                   // Initialize the map
-//                   this.map1 = new H.Map(
-//                       document.getElementById('map1'), // Ensure map1 div exists in the DOM
-//                       defaultLayers.vector.normal.map,
-//                       { 
-//                           center: { lat: 20.5937, lng: 78.9629 }, // India lat/lng as the center
-//                           zoom: 10,
-//                           pixelRatio: window.devicePixelRatio || 1
-//                       }
-//                   );
-
-//                   // Add events and UI controls
-//                   const mapEvents = new H.mapevents.MapEvents(this.map1);
-//                   new H.mapevents.Behavior(mapEvents);
-//                   const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
-
-//                   // Force the map to resize properly on window resize
-//                   const resizeMap = () => {
-//                       if (this.map1) {
-//                           this.map1.getViewPort().resize();
-//                       }
-//                   };
-
-//                   // Trigger initial resize to ensure correct rendering
-//                   resizeMap();
-
-//                   // Attach resize event listener to handle window resizing
-//                   window.addEventListener('resize', resizeMap);
-
-//                   // Resolve the Promise when map initialization is complete
-//                   resolve();
-//               } catch (error) {
-//                   // Reject the Promise in case of errors
-//                   reject(error);
-//               }
-//           } else {
-//               // If the map is already initialized, just resolve
-//               resolve();
-//           }
-//       });
-
-//       // Show the modal (this might not be necessary to be in the Promise)
-//       $('#v_track_Modal').modal('show');
-//   });
-// }
-// vehicleTrackF_new(run_date: string, imei: string, vehicle_no: string, item: string, Id: string, route_id: string, alertsummary: any, lati: number, long: number) {
-// this.initializeMap()
-//   this.clearMarkersAndPolylines(); // Clear previous markers and polylines
-//   this.SpinnerService.show("tracking");
-
-//   if (imei === "") {
-//       alert('Device unavailable');
-//       this.SpinnerService.hide("tracking");
-//       return;
-//   }
-
-//   const formData = new FormData();
-//   const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-
-//   formData.append('AccessToken', this.token);
-//   formData.append('startdate', run_date);
-//   formData.append('enddate', currentDateTime);
-//   formData.append('time_interval', '120');
-//   formData.append('imei', imei);
-//   formData.append('group_id', this.group_id);
-//   formData.append('AccountId', this.account_id);
-
-//   this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
-//       if (res.Status == "failed") {
-//           alert(res?.Message);
-//           this.SpinnerService.hide("tracking");
-//           return;
-//       }
-
-//       this.trackingData = res.data;
-//         // this.poly_line=res.data
-//       if (res.data === 'Vehicle is inactive.') {
-//           alert("Track data is not available");
-//       } else {
-//           this.addMarkersAndPolyline(imei, vehicle_no); // Add markers and polyline
-//       }
-
-//       this.SpinnerService.hide("tracking");
-//   });
-// }
-
-
-// addMarkersAndPolyline1(imei: string, vehicle_no: string) {
-//   const lineString = new H.geo.LineString();
-//   this.markers=[];
-//   // Iterate over tracking data to create markers and polyline points
-//   this.trackingData.forEach((position, i) => {
-//     const icon_temp:any=this.getMarkerIcon(i)
-//       const marker = new H.map.Marker({ lat: position.lat, lng: position.long }, { icon: new H.map.Icon(icon_temp),
-//                   anchor: { x: 16, y: 32 }  }
-//                 );
-//                 this.markers.push(marker);
-//       this.map1?.addObject(marker); // Add marker to the map--------
-
-//       // Add this point to the lineString for the polyline---------
-//       lineString.pushPoint({ lat: position.lat, lng: position.long });
-//   });
-
-//   // Create a polyline from the lineString--------------
-//   const polyline = new H.map.Polyline(lineString, {
-//       style: { strokeColor: 'green', lineWidth: 4 } // Style options for the polyline
-//   });
-
-//   // Add the polyline to the map
-//   this.map1?.addObject(polyline);
-
-//   // Store the polyline reference in an array for future use
-//   this.polylines?.push(polyline);
-// }
 
 
 
@@ -7568,68 +7631,20 @@ fetchDFGPolyline(route_id: string) {
 
 
 
-fetchCustomerInfo(Id: string) {
-  this.customer_info = []
-  // if (this.demomarker.length > 0) {
-  //   this.demomarker.forEach(marker => marker.setMap(null));
-  //   this.demomarker = [];  // Clear the array after removing markers
-  // }
-  const markers: google.maps.Marker[] = [];
-  if (this.demomarker.length > 0) {
-    this.demomarker.forEach(marker => {
-      console.log("Removing marker from map", marker);
-      marker.setMap(null);
-    });
-    this.demomarker = [];  // Clear the array after removing markers
-    console.log("Marker array cleared");
-  }
-  const formdataCustomer = new FormData();
-  formdataCustomer.append('AccessToken', this.token);
-  formdataCustomer.append('forGroup', this.group_id);
-  formdataCustomer.append('id', Id);
 
-  this.itraceIt.tripCustomerS(formdataCustomer).subscribe((res: any) => {
-    this.customer_info = res.customer_info;
 
-    // Log the customer data for debugging
-    console.log("Customer Info:", this.customer_info);
-
-    this.customer_info.forEach((customer, index) => {
-      // Log SequenceNo to check its value
-      console.log("Customer SequenceNo:", customer.SequenceNo);
-
-      const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
-      // const sequenceNo = customer.SequenceNo  // Ensure this is a string
-
-      let mark = new google.maps.Marker({
-        map: this.map1,
-        position: new google.maps.LatLng(customer.Lat, customer.Lng),
-        title: `${customer.Lat}, ${customer.Lng}`,
-        label: {
-          text: sequenceNo,  // Ensure this is a string
-          color: 'black'
-        }
-      });
-
-      this.demomarker.push(mark);
-      markers.push(mark);
-      google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
-    });
-    // this.demomarker=markers;
-  });
-}
 
 
 
 handleCustomerMarkerClick(event, index) {
   const customer = this.customer_info[index];
   const customer_Info = this.generateCustomerInfo(customer);
-return customer_Info;
-  // this.closeLastOpenedInfoWindow();
-  // const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
-  // infowindowMarker_custo.setPosition(event.latLng);
-  // infowindowMarker_custo.open(this.map1);
-  // this.lastOpenedInfoWindow = infowindowMarker_custo;
+// return customer_Info;
+  this.closeLastOpenedInfoWindow();
+  const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
+  infowindowMarker_custo.setPosition(event.latLng);
+  infowindowMarker_custo.open(this.map1);
+  this.lastOpenedInfoWindow = infowindowMarker_custo;
 }
 
 generateCustomerInfo(customer): string {
@@ -7649,78 +7664,78 @@ generateCustomerInfo(customer): string {
 </table>`;
 }
 
-handleAlertMarkers(item) {
-  if (this.demomarker.length > 0) {
-    this.demomarker.forEach(marker => marker.setMap(null));
-    this.demomarker = [];  // Clear the array after removing markers
-  }
-  // console.log("handleAlertMarkers",item)
-  item.forEach(alert => {
-    // Check for alert_name and provide a fallback if it's undefined
-    const alertName = alert.alert_type
-      ? alert.alert_type.toString().substring(0, 5) // Limit to 5 characters
-      : 'Unknown Alert'; // Fallback to 'Unknown Alert'
+// handleAlertMarkers(item) {
+//   if (this.demomarker.length > 0) {
+//     this.demomarker.forEach(marker => marker.setMap(null));
+//     this.demomarker = [];  // Clear the array after removing markers
+//   }
+//   // console.log("handleAlertMarkers",item)
+//   item.forEach(alert => {
+//     // Check for alert_name and provide a fallback if it's undefined
+//     const alertName = alert.alert_type
+//       ? alert.alert_type.toString().substring(0, 5) // Limit to 5 characters
+//       : 'Unknown Alert'; // Fallback to 'Unknown Alert'
 
-    // let markerLabel = new google.maps.Marker({
-    //   map: this.map1,
-    //   position: new google.maps.LatLng(alert.lat, alert.lng),
-    //   title: `${alert.lat},${alert.lng}`,
-    //   icon: {
-    //     url: "assets/images/users/icons-flag-big.png",
-    //     labelOrigin: new google.maps.Point(20, 15),
+//     // let markerLabel = new google.maps.Marker({
+//     //   map: this.map1,
+//     //   position: new google.maps.LatLng(alert.lat, alert.lng),
+//     //   title: `${alert.lat},${alert.lng}`,
+//     //   icon: {
+//     //     url: "assets/images/users/icons-flag-big.png",
+//     //     labelOrigin: new google.maps.Point(20, 15),
 
-    //   },
-    //   label: {
-    //     text: alertName, // Safe to use with a fallback value
-    //     color: 'white',
-    //     fontSize: "12px",
-    //     fontWeight: "bold",
-    //     // fontFamily: 'Tangerine',
-    //     textalign: 'center',
-    //     Position: 'relative',
-    //     // color: "black"
-    //   },
-    // });
+//     //   },
+//     //   label: {
+//     //     text: alertName, // Safe to use with a fallback value
+//     //     color: 'white',
+//     //     fontSize: "12px",
+//     //     fontWeight: "bold",
+//     //     // fontFamily: 'Tangerine',
+//     //     textalign: 'center',
+//     //     Position: 'relative',
+//     //     // color: "black"
+//     //   },
+//     // });
 
-    // this.demomarker.push(markerLabel);
+//     // this.demomarker.push(markerLabel);
   
   
   
-    const locationOfMarker = { lat:alert.lat, lng:alert.lng };
-      var html = document.createElement('div'),
-      divIcon = document.createElement('div'),
-      divText = document.createElement('div'),
-      imgIco = document.createElement('img');
-    imgIco.setAttribute('src', 'assets/images/users/icons-flag-big.png');
-    // Set the size of the image
-     imgIco.style.width = '42px';  // Adjust the width as needed
-     imgIco.style.height = '40px'; // Adjust the height as needed
-    divText.setAttribute("class", "textData");
-    html.setAttribute("class", "parentDiv");
+//     const locationOfMarker = { lat:alert.lat, lng:alert.lng };
+//       var html = document.createElement('div'),
+//       divIcon = document.createElement('div'),
+//       divText = document.createElement('div'),
+//       imgIco = document.createElement('img');
+//     imgIco.setAttribute('src', 'assets/images/users/icons-flag-big.png');
+//     // Set the size of the image
+//      imgIco.style.width = '42px';  // Adjust the width as needed
+//      imgIco.style.height = '40px'; // Adjust the height as needed
+//     divText.setAttribute("class", "textData");
+//     html.setAttribute("class", "parentDiv");
 
-    divIcon.appendChild(imgIco);
-    divText.textContent = alertName;
-    divText.innerHTML = alertName;
-    html.appendChild(divIcon);
-    html.appendChild(divText);
-    divText.style.top = '35%';
-    divText.style.left = '50%';
-    divText.style.fontSize = '12px';
-    divText.style.position = 'absolute';
-    divText.style.transform = 'translate(-50%, -50%)';
-    divText.style.color = 'white'; // Set label color for visibility
-    divText.style.fontWeight = 'bold'; // Make the label text bold if needed
-    // const domIcon = document.createElement('div');
-  //  domIcon.innerHTML = '<i class="fa fa-marker" style="font-size:24px; color:red;"></i>'; 
-    var domIcon = new H.map.DomIcon(html);
-    var marker = new H.map.DomMarker(locationOfMarker, {
-      icon: domIcon,
-      anchor: { x: 1, y: 1 }
-    });
+//     divIcon.appendChild(imgIco);
+//     divText.textContent = alertName;
+//     divText.innerHTML = alertName;
+//     html.appendChild(divIcon);
+//     html.appendChild(divText);
+//     divText.style.top = '35%';
+//     divText.style.left = '50%';
+//     divText.style.fontSize = '12px';
+//     divText.style.position = 'absolute';
+//     divText.style.transform = 'translate(-50%, -50%)';
+//     divText.style.color = 'white'; // Set label color for visibility
+//     divText.style.fontWeight = 'bold'; // Make the label text bold if needed
+//     // const domIcon = document.createElement('div');
+//   //  domIcon.innerHTML = '<i class="fa fa-marker" style="font-size:24px; color:red;"></i>'; 
+//     var domIcon = new H.map.DomIcon(html);
+//     var marker = new H.map.DomMarker(locationOfMarker, {
+//       icon: domIcon,
+//       anchor: { x: 1, y: 1 }
+//     });
 
-this.map1.addObject(marker)
+// this.map1.addObject(marker)
 
-this.markers.push(marker);
+// this.markers.push(marker);
 
   
   
@@ -7730,8 +7745,8 @@ this.markers.push(marker);
   
   
   
-  });
-}
+//   });
+// }
 
 
 
@@ -7816,7 +7831,8 @@ closeLastOpenedInfoWindow() {
     formData.append('imei', imei);
     formData.append('group_id', this.group_id);
     formData.append('AccountId', this.account_id);
-    this.itraceIt.vehicleTrackongS(formData).subscribe((res: any) => {
+    formData.append('portal', 'itraceit');
+    this.CrudService.vehicleTrackongS(formData).subscribe((res: any) => {
       // this.initMap1();
      console.log("vehicle trackong",res);
       this.trackingData = (res.data)
@@ -7933,9 +7949,9 @@ closeLastOpenedInfoWindow() {
            formdataCustomer.append('ImeiNo', imei);
            // formdataCustomer.append('ImeiNo',data.imei);
            formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+           formdataCustomer.append('portal', 'itraceit');
 
-
-           this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+           this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
 
              // console.log("responce", res)
              address = res.Data.Address
@@ -8422,7 +8438,8 @@ closeMap()
      formData.append('imei', imei2);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
-     this.itraceIt.vehicleTrackongS(formData).subscribe(res => {
+     formData.append('portal', 'itraceit');
+     this.CrudService.vehicleTrackongS(formData).subscribe(res => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, run_date, currentDateTime, imei2, this.group_id, this.account_id);
        rest = res
@@ -8530,7 +8547,7 @@ closeMap()
            // this.map1.fitBounds(this.latlngbounds);
 
            google.maps.event.addListener(this.marker.mark, 'click', (event) => {
-             //////////////////////////////////addresss/////////////////////////////
+             /////////////////////////CrudService/addresss/////////////////////////////
              var formdataCustomer = new FormData()
              formdataCustomer.append('AccessToken', this.token)
              formdataCustomer.append('VehicleId', vehicle_no);
@@ -8538,8 +8555,8 @@ closeMap()
              // formdataCustomer.append('ImeiNo',data.imei);
              formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
 
-
-             this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+             formdataCustomer.append('portal', 'itraceit');
+             this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
 
                console.log("responce", res)
                address = res.Data.Address
@@ -9010,8 +9027,9 @@ closeMap()
      formData.append('time_interval', '30');
      formData.append('imei', imei2);
      formData.append('group_id', this.group_id);
+     formData.append('portal', 'itraceit');
      formData.append('AccountId', this.account_id);
-     this.itraceIt.vehicleTrackongS(formData).subscribe(res => {
+     this.CrudService.vehicleTrackongS(formData).subscribe(res => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, run_date, currentDateTime, imei2, this.group_id, this.account_id);
        rest = res
@@ -9115,16 +9133,16 @@ closeMap()
          // this.map1.fitBounds(this.latlngbounds);
 
          google.maps.event.addListener(this.marker.mark, 'click', (event) => {
-           //////////////////////////////////addresss/////////////////////////////
+           /////////////////////////CrudService/addresss/////////////////////////////
            var formdataCustomer = new FormData()
            formdataCustomer.append('AccessToken', this.token)
            formdataCustomer.append('VehicleId', vehicle_no);
            formdataCustomer.append('ImeiNo', imei2);
            // formdataCustomer.append('ImeiNo',data.imei);
            formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
+           formdataCustomer.append('portal', 'itraceit');
 
-
-           this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+           this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
 
              console.log("responce", res)
              address = res.Data.Address
@@ -9593,7 +9611,8 @@ closeMap()
      formData.append('imei', imei2);
      formData.append('group_id', this.group_id);
      formData.append('AccountId', this.account_id);
-     this.itraceIt.vehicleTrackongS(formData).subscribe(res => {
+     formData.append('portal', 'itraceit');
+     this.CrudService.vehicleTrackongS(formData).subscribe(res => {
        // console.log("vehicle tracking responce tracking", res);
        console.log("vehicle tracking responce to check", this.token, run_date, currentDateTime, imei2, this.group_id, this.account_id);
        rest = res
@@ -9706,8 +9725,8 @@ closeMap()
            // formdataCustomer.append('ImeiNo',data.imei);
            formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
 
-
-           this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
+           formdataCustomer.append('portal', 'itraceit');
+           this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
 
              console.log("responce", res)
              address = res.Data.Address
@@ -10245,172 +10264,172 @@ closeMap()
  //////////////////////////////////////////////threat table//////////////////////////////////////////////////
  threatTable() {
 
-   var tbl = $('#threatTable')
-   var table = $('#threatTable').DataTable();
-   table.clear();
-   table.destroy();
+  var tbl = $('#threatTable')
+  var table = $('#threatTable').DataTable();
+  table.clear();
+  table.destroy();
 
 
 
 
 
-   $(document).ready(function () {
+  $(document).ready(function () {
 
 
 
-     $('#threatTable').DataTable({
+    $('#threatTable').DataTable({
 
 
-       pageLength: 10,
-       fixedHeader: true,
-       // scrollX: true,
-       scrollY: '450px',
-       // scrollCollapse: true,
-       paging: true,
-       scrollX: true,
-       destroy: true,
-       responsive: true,
+      pageLength: 10,
+      fixedHeader: true,
+      // scrollX: true,
+      scrollY: '450px',
+      // scrollCollapse: true,
+      paging: true,
+      scrollX: true,
+      destroy: true,
+      responsive: true,
 
 
 
-       "order": [],
+      "order": [],
 
-       dom: '<"html5buttons"B>lTfgitp',
+      dom: '<"html5buttons"B>lTfgitp',
 
-       columnDefs: [
-         { targets: 'no-sort', orderable: false }
-       ],
-       // dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
-       // "<'row'<'col-sm-12'tr>>" +
-       // "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-       buttons:
-         [
-           //   text: 'Close',
-           //   className: 'tableBtnClose',
-           //   action: function ( e, dt, node, config ) {
-           //    buttonFunction()
-           //   }},
-           //   {
-           //     text: 'Grace',
-           //     className: 'tableBtnClose',
-           //     action: function ( e, dt, node, config ) {
-           //       buttonFunction()
-           //     }},
-           //     {
-           //       text: 'QRT',
-           //       className: 'tableBtnClose',
-           //       action: function ( e, dt, node, config ) {
-           //         buttonFunction()
-           //       }},
-           //       {
-           //         text: 'Escalate',
-           //         className: 'tableBtnClose',
-           //         action: function ( e, dt, node, config ) {
-           //           buttonFunction()
-           //         }},
-           {
-             extend: 'csv',
-             footer: true,
-             autoClose: 'true',
-             titleAttr: 'Download csv file',
+      columnDefs: [
+        { targets: 'no-sort', orderable: false }
+      ],
+      // dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>" +
+      // "<'row'<'col-sm-12'tr>>" +
+      // "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+      buttons:
+        [
+          //   text: 'Close',
+          //   className: 'tableBtnClose',
+          //   action: function ( e, dt, node, config ) {
+          //    buttonFunction()
+          //   }},
+          //   {
+          //     text: 'Grace',
+          //     className: 'tableBtnClose',
+          //     action: function ( e, dt, node, config ) {
+          //       buttonFunction()
+          //     }},
+          //     {
+          //       text: 'QRT',
+          //       className: 'tableBtnClose',
+          //       action: function ( e, dt, node, config ) {
+          //         buttonFunction()
+          //       }},
+          //       {
+          //         text: 'Escalate',
+          //         className: 'tableBtnClose',
+          //         action: function ( e, dt, node, config ) {
+          //           buttonFunction()
+          //         }},
+          {
+            extend: 'csv',
+            footer: true,
+            autoClose: 'true',
+            titleAttr: 'Download csv file',
 
-             className: 'datatablecsv-btn fa fa-file-text-o ',
-             text: '',
-             tag: 'span',
+            className: 'datatablecsv-btn fa fa-file-text-o ',
+            text: '',
+            tag: 'span',
 
-             exportOptions: {
+            exportOptions: {
 
-               columns: ':visible',
-
-
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'pdf',
-             footer: true,
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-
-             autoClose: 'true',
-
-             titleAttr: 'Download Pdf file',
-             tag: 'span',
-
-             className: 'datatablepdf-btn fa fa-file-pdf-o ',
-             text: '',
-             customize: function (doc) {
-               var colCount = new Array();
-               $(tbl).find('tbody tr:first-child td').each(() => {
-                 if ($(this).attr('colspan')) {
-                   for (var i = 1; i <= $(this).attr('colspan'); i++) {
-                     colCount.push('*');
-                   }
-                 } else { colCount.push('*'); }
-               });
-               doc.content[1].table.widths = colCount;
-             },
+              columns: ':visible',
 
 
-             exportOptions: {
+            },
+            title: 'Threats Report'
+          },
+          {
+            extend: 'pdf',
+            footer: true,
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
 
-               columns: ':visible',
-               //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
+            autoClose: 'true',
 
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'copy',
-             footer: true,
-             titleAttr: ' Copy  file',
+            titleAttr: 'Download Pdf file',
+            tag: 'span',
 
-             tag: 'span',
+            className: 'datatablepdf-btn fa fa-file-pdf-o ',
+            text: '',
+            customize: function (doc) {
+              var colCount = new Array();
+              $(tbl).find('tbody tr:first-child td').each(() => {
+                if ($(this).attr('colspan')) {
+                  for (var i = 1; i <= $(this).attr('colspan'); i++) {
+                    colCount.push('*');
+                  }
+                } else { colCount.push('*'); }
+              });
+              doc.content[1].table.widths = colCount;
+            },
 
-             className: 'datatablecopy-btn fa fa-copy ',
-             text: '',
-             orientation: 'landscape',
-             pageSize: 'LEGAL',
-             exportOptions: {
 
-               columns: ':visible'
+            exportOptions: {
 
-             },
-             title: 'dashboard_repor'
-           },
-           {
-             extend: 'excel',
-             footer: true,
-             autoClose: 'true',
-             //text: '',
-             //className: 'fa fa-file-pdf-o',
-             //color:'#ff0000',
+              columns: ':visible',
+              //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
-             buttons: ['excel'],
-             titleAttr: ' Download excel file',
+            },
+            title: 'Threats Report'
+          },
+          {
+            extend: 'copy',
+            footer: true,
+            titleAttr: ' Copy  file',
 
-             tag: 'span',
+            tag: 'span',
 
-             className: 'datatableexcel-btn fa fa-file-excel-o',
-             text: '',
-             exportOptions: {
+            className: 'datatablecopy-btn fa fa-copy ',
+            text: '',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            exportOptions: {
 
-               columns: ':visible'
+              columns: ':visible'
 
-             },
-             title: 'dashboard_repor'
-           }],
-       "language": {
-         search: '',
-         searchPlaceholder: 'Search'
-       },
-     }
+            },
+            title: 'Threats Report'
+          },
+          {
+            extend: 'excel',
+            footer: true,
+            autoClose: 'true',
+            //text: '',
+            //className: 'fa fa-file-pdf-o',
+            //color:'#ff0000',
 
-     );
-   });
+            buttons: ['excel'],
+            titleAttr: ' Download excel file',
 
-   // console.log("table length2",datatable.length)
- }
+            tag: 'span',
+
+            className: 'datatableexcel-btn fa fa-file-excel-o',
+            text: '',
+            exportOptions: {
+
+              columns: ':visible'
+
+            },
+            title: 'Threats Report'
+          }],
+      "language": {
+        search: '',
+        searchPlaceholder: 'Search'
+      },
+    }
+
+    );
+  });
+
+  // console.log("table length2",datatable.length)
+}
  ////////////////////////////////////////////////////////////////action on threatr///////////////////////
  // actionThreatList(event)
  // {
@@ -10667,7 +10686,7 @@ closeMap()
 
 
                },
-               title: 'dashboard_repor'
+               title: 'Open Trigger Report'
              },
              {
                extend: 'pdf',
@@ -10701,7 +10720,7 @@ closeMap()
                  //  columns: [0, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 ]
 
                },
-               title: 'dashboard_repor'
+               title: 'Open Trigger Report'
              },
              {
                extend: 'copy',
@@ -10719,7 +10738,7 @@ closeMap()
                  columns: ':visible'
 
                },
-               title: 'dashboard_repor'
+               title: 'Open Trigger Report'
              },
              {
                extend: 'excel',
@@ -10741,7 +10760,7 @@ closeMap()
                  columns: ':visible'
 
                },
-               title: 'dashboard_repor'
+               title: 'Open Trigger Report'
              }],
          "language": {
            search: '',
@@ -11541,15 +11560,16 @@ pie_viewall_chart1(id:any,x){
       const clickedData = params.data as { name: string; value: any };
   
       if (clickedData.name === '< 30') {
-            this.filterAlerts(params.seriesName,30,0)
+            this.filterAlerts(params.seriesName,'<30min')
       } else if(clickedData.name === '< 1 Hours') {
-        this.filterAlerts(params.seriesName,60,30)
+        this.filterAlerts(params.seriesName,'<1hr')
       } else if(clickedData.name === '< 2 Hours') {
-        this.filterAlerts(params.seriesName,120,60)
+        this.filterAlerts(params.seriesName,'<2hr')
       } else if(clickedData.name === '< 4 Hours') {
-        this.filterAlerts(params.seriesName,180,120)
+        this.filterAlerts(params.seriesName,'<4hr')
       } else if(clickedData.name === '> 4 Hours') {
-        this.filterAlerts(params.seriesName,240,180)
+        // this.filterAlerts(params.seriesName,Infinity,240)
+        this.filterAlerts(params.seriesName,'>4hr');
       }
     } else {
       console.log('Clicked data does not have a name property:', params.data);
@@ -11558,29 +11578,58 @@ pie_viewall_chart1(id:any,x){
   option && echart.setOption(option);
 }
 
-filterAlerts(alertTypeToFilter,time_duration,lessvalue) {
-  this.new_array=[];
-  const currentTime = new Date();
-  this.new_array = this.main_array.map(item => {
-    const filteredAlerts = item.alerts.filter(alert => {
-      const alertStartTime = new Date(alert.sts);
-      const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Difference in minutes
-        return (
-          alert.alert_type === alertTypeToFilter && (timeDifference >= lessvalue) &&
-          timeDifference <= time_duration &&
-          timeDifference >= 0 &&
-          !alert.escalate_grace_taken_time
-        );
-      // }
-    });
+// filterAlerts_old(alertTypeToFilter,time_duration) {
+//   console.log( this.main_array)
+//   this.new_array=[];
+//   const currentTime = new Date();
+//   this.new_array = this.main_array.map(item => {
+//     const filteredAlerts = item.alerts.filter(alert => {
+//       const alertStartTime = new Date(alert.sts);
+//       const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Difference in minutes
+//         return (
+//           alert.alert_type === alertTypeToFilter && (timeDifference >= lessvalue) &&
+//           timeDifference <= time_duration &&
+//           timeDifference >= 0 &&
+//           !alert.escalate_grace_taken_time
+//         );
+//       // }
+//     });
   
-    // Return a new object with the filtered alerts
-    return { ...item, alerts: filteredAlerts };
-  }).filter(item => item.alerts.length > 0); // Keep only items with non-empty alerts after filtering
+//     // Return a new object with the filtered alerts
+//     return { ...item, alerts: filteredAlerts };
+//   }).filter(item => item.alerts.length > 0); // Keep only items with non-empty alerts after filtering
   
-  console.log(this.new_array)
-    this.masterUploadTable();
+//   console.log(this.new_array)
+//     this.masterUploadTable();
 
+// }
+filterAlerts(alertTypeToFilter, time_duration) {
+  console.log(this.main_array)
+  this.new_array = [];
+  const currentTime = new Date();
+
+  this.new_array = this.main_array.map(item => {
+      const filteredAlerts = item.alerts.filter(alert => {
+          const alertStartTime = new Date(alert.sts);
+          const timeDifference = (currentTime.getTime() - alertStartTime.getTime()) / (1000 * 60); // Convert ms to minutes
+
+          // If checking for ">4hr_UNSH", use the condition accordingly
+        
+              return ( item.UnattenedFlag?.[time_duration+'_'+alertTypeToFilter] === 1   // Check the flag
+                  // !alert.escalate_grace_taken_time
+              );
+          
+
+          // Normal filtering logic for other conditions
+        
+      });
+
+      // Return a new object with filtered alerts
+      return { ...item, alerts: filteredAlerts };
+  }).filter(item => item.alerts.length > 0); // Keep only items with alerts
+
+  console.log(this.new_array);
+  this.masterUploadTable();
 }
 
 getIconUrlByTitle(title) {
@@ -11616,6 +11665,7 @@ console.log("imei", imei)
  var formdata = new FormData();
  formdata.append('AccessToken', this.token)
  formdata.append('ImeiNo', imei);
+ formdata.append('portal', 'itraceit');
  if(imei == '')
   {
     alert("Fixed Imei not found")
@@ -11626,7 +11676,7 @@ console.log("imei", imei)
   
 
   
- this.itraceIt.liveLocation2S(formdata).subscribe((data: any) => {
+ this.CrudService.liveLocation2S(formdata).subscribe((data: any) => {
 
    console.log("imei2", data)
    locationData = data.Data[0];
@@ -11915,6 +11965,210 @@ console.log("imei", imei)
 //     $('#v_track_Modal').modal('show');
 //   });
 // }
+// ------------------------google map---------------------------------
+vehicleTrackF(run_date, imei, vehicle_no, item, Id, route_id, alertsummary, lati, long) {
+  // if(!this.map1){
+    // this.initMap1()
+    this.initMap();
+    // }
+  console.log("demomarker", this.demomarker);
+  this.SpinnerService.show("tracking");
+
+  // Clear markers and polylines if they exist
+  if (this.demomarker.length > 0) {
+    this.demomarker.forEach(marker => marker.setMap(null));
+    this.demomarker = [];  // Clear the array after removing markers
+  }
+  
+  if (this.demoPolyline.length > 0) {
+    this.demoPolyline.forEach(polyline => polyline.setMap(null));
+    this.demoPolyline = [];  // Clear the array after removing polylines
+  }
+  // if( this.demomarker.length>0)
+  //   {
+  //     for(let i = 0; i < this.demomarker.length; i++)
+  //     {
+  //       this.demomarker[i].setMap(null);
+  //     }
+  //   }
+  //   if( this.demoPolyline.length>0)
+  //   {
+  //     for(let i = 0; i < this.demoPolyline.length; i++)
+  //     {
+  //       this.demoPolyline[i].setMap(null);
+  //     }
+  //   }
+
+  $('#v_track_Modal').modal('show');
+
+  // Reset tracking data
+  this.trackingData = [];
+  this.customer_info = [];
+  this.marker = [];
+  this.poly_line = [];
+  this.map_flag = '';
+
+  if (imei === "") {
+    this.map_flag = 'Device unavailable';
+  } else {
+    this.map_flag = 'Please wait';
+    const formData = new FormData();
+    const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+    formData.append('AccessToken', this.token);
+    formData.append('startdate', run_date);
+    formData.append('enddate', currentDateTime);
+    formData.append('time_interval', '120');
+    formData.append('imei', imei);
+    formData.append('group_id', this.group_id);
+    formData.append('AccountId', this.account_id);
+    formData.append('portal', 'itraceit');
+    this.CrudService.vehicleTrackongS(formData).subscribe((res: any) => {
+      console.log("tracking res", res);
+      if(res.Status=="failed")
+      {
+        alert(res?.Message);
+        this.SpinnerService.hide("tracking");
+        
+      }
+      this.trackingData = res.data;
+
+      if (this.trackingData.length > 0) {
+        this.map_flag = '';
+        this.latlngbounds = new google.maps.LatLngBounds();
+        this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
+        this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
+        
+        // Ensure the map bounds are updated
+        this.map1.fitBounds(this.latlngbounds);
+      }
+
+      if (res.data === 'Vehicle is inactive.') {
+        alert("Track data is not available");
+      } else {
+        this.addMarkersAndPolyline(imei, vehicle_no);
+      }
+
+      this.SpinnerService.hide("tracking");
+    });
+
+    // Fetch DFG polyline data
+    this.fetchDFGPolyline(route_id);
+
+    // Fetch customer info
+    this.fetchCustomerInfo(Id);
+
+    // Handle alert markers
+    // this.handleAlertMarkers(item);
+  }
+}
+fetchCustomerInfo(Id: string) {
+  this.customer_info = []
+  // if (this.demomarker.length > 0) {
+  //   this.demomarker.forEach(marker => marker.setMap(null));
+  //   this.demomarker = [];  // Clear the array after removing markers
+  // }
+  const markers: google.maps.Marker[] = [];
+  if (this.demomarker.length > 0) {
+    this.demomarker.forEach(marker => {
+      console.log("Removing marker from map", marker);
+      marker.setMap(null);
+    });
+    this.demomarker = [];  // Clear the array after removing markers
+    console.log("Marker array cleared");
+  }
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('forGroup', this.group_id);
+  formdataCustomer.append('id', Id);
+
+  this.itraceIt.tripCustomerS(formdataCustomer).subscribe((res: any) => {
+    this.customer_info = res.customer_info;
+
+    // Log the customer data for debugging
+    console.log("Customer Info:", this.customer_info);
+
+    this.customer_info.forEach((customer, index) => {
+      // Log SequenceNo to check its value
+      console.log("Customer SequenceNo:", customer.SequenceNo);
+
+      const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
+      // const sequenceNo = customer.SequenceNo  // Ensure this is a string
+
+      let mark = new google.maps.Marker({
+        map: this.map1,
+        position: new google.maps.LatLng(customer.Lat, customer.Lng),
+        title: `${customer.Lat}, ${customer.Lng}`,
+        label: {
+          text: sequenceNo,  // Ensure this is a string
+          color: 'black'
+        }
+      });
+
+      this.demomarker.push(mark);
+      markers.push(mark);
+      google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
+    });
+    // this.demomarker=markers;
+  });
+}
+
+addMarkersAndPolyline(imei: string, vehicle_no: string) {
+  // Prepare arrays for markers and polylines
+  const markers: google.maps.Marker[] = [];
+  const polylinePath: google.maps.LatLng[] = [];
+  
+  // Use requestAnimationFrame for batch processing
+  requestAnimationFrame(() => {
+    for (let i = 0; i < this.trackingData.length; i++) {
+      const icon = this.getMarkerIcon(i);
+      const position = new google.maps.LatLng(this.trackingData[i].lat, this.trackingData[i].long);
+      polylinePath.push(position);
+
+      // Create a marker
+      const mark = new google.maps.Marker({
+        map: this.map1,
+        position: position,
+        title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
+        icon: icon
+      });
+
+      // Store marker for future reference
+      markers.push(mark);
+      this.demomarker.push(mark);
+
+      // Handle marker click events
+      // const markerPosition = mark.getPosition(); 
+      mark.addListener('click', (event) => this.handleMarkerClick(event, this.trackingData[i], vehicle_no, imei));
+
+      // Create an InfoWindow but don't attach it yet
+      const infowindowMarker = new google.maps.InfoWindow({ content: this.contentsInfo });
+    }
+
+    // Add markers to the map in batch
+    // this.demomarker = markers;
+
+    // Create and display polyline
+    const draw_polyline = new google.maps.Polyline({
+      path: polylinePath,
+      geodesic: true,
+      strokeColor: 'green',
+      strokeOpacity: 0.8,
+      strokeWeight: 1.5,
+      map: this.map1,
+      icons: [{ icon: { path: google.maps.SymbolPath.FORWARD_OPEN_ARROW }, offset: '100%', repeat: '2000px' }]
+    });
+
+    this.demoPolyline.push(draw_polyline);
+
+    // Optionally fit bounds to include all markers and polyline
+    if (markers.length > 0) {
+      const bounds = new google.maps.LatLngBounds();
+      markers.forEach(marker => bounds.extend(marker.getPosition()));
+      this.map1.fitBounds(bounds);
+    }
+  });
+}
 
 }
 

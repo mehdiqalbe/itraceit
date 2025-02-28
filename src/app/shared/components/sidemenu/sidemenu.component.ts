@@ -22,10 +22,12 @@ export class SidemenuComponent implements OnInit {
   username: any='';
   sidenavtoggled1: any;
 
+
   //For Horizontal Menu
   public margin: any = 0;
   public width: any = window.innerWidth;
   profileImage: any='';
+
 
   constructor(
     private router: Router,
@@ -55,9 +57,10 @@ export class SidemenuComponent implements OnInit {
                   this.setNavActive(subSubItems);
                 }
               });
-              
+             
               return;
             });
+
 
             return;
           });
@@ -65,6 +68,7 @@ export class SidemenuComponent implements OnInit {
       });
     });
   }
+
 
   //Active NavBar State
   setNavActive(item:any) {
@@ -74,7 +78,7 @@ export class SidemenuComponent implements OnInit {
         let App = document.querySelector('.sidebar-mini')
         this.navServices.collapseSidebar = !this.navServices.collapseSidebar
         // App?.classList.remove('sidenav-toggled');
-        
+       
       }
       if (menuItem.children && menuItem.children.includes(item)) {
         menuItem.active = true;
@@ -90,6 +94,7 @@ export class SidemenuComponent implements OnInit {
     });
   }
 
+
   // Click Toggle menu
   // toggleNavActive(item:any) {
   //   if (!item.active) {
@@ -103,15 +108,17 @@ export class SidemenuComponent implements OnInit {
   //           b.active = false;
   //         }
   //       });
-        
+       
   //       return;
   //     });
   //   }
   //   item.active = !item.active;
   // }
 
+
   ngOnInit(): void {
     this.username = localStorage.getItem('UserName') || '';
+
 
     // Determine which service to use based on the class
     const userClass = localStorage.getItem('Class')?.split('/')[0];
@@ -127,7 +134,7 @@ export class SidemenuComponent implements OnInit {
     // this.closeSidemini()
     // this.removeSidemini()
   }
-  
+ 
   /**
    * Loads the menu items using the `navServices` for standard users.
    */
@@ -173,6 +180,7 @@ export class SidemenuComponent implements OnInit {
   private recursivelySetActive(item: Menu, currentUrl: string): void {
     item.active = item.path === currentUrl;
 
+
     if (item.children) {
       item.children.forEach(subItem => this.recursivelySetActive(subItem, currentUrl));
     }
@@ -200,6 +208,7 @@ export class SidemenuComponent implements OnInit {
     }
   }
 
+
   sidebarToggle(){
     let App = document.querySelector('.app')
     if ((this.navServices.collapseSidebar = !this.navServices.collapseSidebar)) {
@@ -226,6 +235,7 @@ export class SidemenuComponent implements OnInit {
     // this.sidenavtoggled1 = $event.type == 'mouseout' ? App?.classList.remove('sidenav-toggled') : '';
   }
 
+
   removeSidemini(){
     if(window.innerWidth >= 768){
       let App = document.querySelector('.sidebar-mini')
@@ -234,11 +244,13 @@ export class SidemenuComponent implements OnInit {
     }
   }
 
+
   closeSidemini(){
     if(window.innerWidth >= 768){
       let App = document.querySelector('.sidebar-mini')
       this.navServices.collapseSidebar = this.navServices.collapseSidebar
       App?.classList.add('sidenav-toggled');
+
 
     }
   }
@@ -249,30 +261,35 @@ export class SidemenuComponent implements OnInit {
   }
  
   updateImage(Index:any){
-  
+ 
     this.updateallImage();
 
+
   for( var i=0;i<this.menuItems.length;i++){
-  
+ 
     if(this.menuItems[i] == this.menuItems[Index]){
       this.menuItems[Index].status = 1;
     }
-    
+   
+
 
   }
-    
+   
+
 
   }
+
 
   updateallImage(){
 
+
     for( var i=0;i<this.menuItems.length;i++){
-    
+   
       this.menuItems[i].status = 0;
-  
+ 
     }
-      
-  
+     
+ 
     }
     isExternalUrl(url: string): boolean {
       const pattern = /^https?:\/\//i;
@@ -280,16 +297,18 @@ export class SidemenuComponent implements OnInit {
     }
     logout() {
       console.log("logout");
-      
+     
       const formdata=new FormData
       const token=localStorage.getItem('AccessToken')
 
+
       formdata.append('AccessToken',String(token))
+
 
       this.authservice.Access(formdata).subscribe((resp: any) => {})
       localStorage.removeItem('AccessToken');
       console.log(this.router.url)
-      
+     
       if(localStorage.getItem('URL')=="/auth/login")
       {
         const link=localStorage.getItem('Domain')+"/auth/login"
@@ -297,8 +316,9 @@ export class SidemenuComponent implements OnInit {
         localStorage.clear();
         location.href = link;
 
+
        
-        
+       
       }
       else if(localStorage.getItem('URL')=="/auth/login?exttkn")
       {
@@ -314,8 +334,11 @@ export class SidemenuComponent implements OnInit {
         localStorage.clear();
         location.href = 'https://ilfleetcare.com';
 
+
       }
-      
+     
+
 
     }
 }
+

@@ -23,8 +23,9 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { DtdcService } from '../../services/dtdc.service';
 declare var H: any;
-
+declare var google:any;
 import { saveAs } from 'file-saver';
+import { Router } from '@angular/router';
 declare var $: any;
 declare const agGrid: any;
 interface HTMLCanvasElement {
@@ -95,7 +96,14 @@ export class TripReportComponent implements OnInit {
   filteredDestination1: any=[];
   selectedDestination: string | null = null;
   selectedDestination1: string | null = null;
-  constructor(private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
+  region: any=[];
+  filterObject:any={
+    routeCategory:{},
+    routeType:{}
+  }
+  routeCategory:any
+  selectedRoutes:any=[]
+  constructor(private router: Router,private navServices: NavService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private dtdcService:DtdcService ) { }
 
   ngOnInit(): void {
     let App = document.querySelector('.app');
@@ -112,9 +120,12 @@ export class TripReportComponent implements OnInit {
     this.end();
     this.start();
     // this.masterUploadTable();
-    this.Grid_table();
-    this.dtdcTripReportFilter()
+    // this.Grid_table();
+    this.dtdcTripReportFilter();
     this.initMap1();
+  }
+  ngAfterViewInit(): void {  // Ensure this method is properly implemented
+    this.makeModalDraggable();
   }
 
   initMap1() 
@@ -410,24 +421,24 @@ export class TripReportComponent implements OnInit {
     if (params.data.Full?.TrackHistory1 !== 'NA') {
       button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
       button.addEventListener("click", () => {
-        console.log("Row Data:", params.data.Full);
+        // console.log("Row Data:", params.data.Full);
         // this.Detail(params.data.Full)
         this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
       });
     } else {
-      button.innerHTML += `<span style="color: black;">Na</span>|`;
+      button.innerHTML += `<span style="color: black;">-</span>|`;
     }
     
     if (params.data.Full?.TrackHistory2 !== 'NA') {
       button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
       
       button.addEventListener("click", () => {
-        console.log("Row Data:", params.data.Full);
+        // console.log("Row Data:", params.data.Full);
         // this.Detail(params.data.Full)
         this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
       });
     } else {
-      button.innerHTML += `<span style="color: black;">Na</span>|`;
+      button.innerHTML += `<span style="color: black;">-</span>|`;
     }
     
     if (params.data.Full?.TrackHistory3 !== 'NA') {
@@ -462,7 +473,7 @@ export class TripReportComponent implements OnInit {
   { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
   { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100, },
   { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
-  { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 100,},
+  { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 200,},
   { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter  ,width: 150,},
   { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,},
   { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200, },
@@ -680,16 +691,45 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
 // this.gridOptions_popup.columnApi.setColumnVisible("Full", false);
  }
  private parseDate(dateString) {
+  console.log("dateString",dateString)
   let parsedDate:any;
   console.log(dateString)
   if(dateString !==''&& dateString !=='-'){
   // Split the `dd-MM-yyyy HH:mm:ss` format into components
   const [yearTime, month, day] = dateString.split('-');
   const [day1, time] = day.split(' ');
+  console.log("time",time)
    parsedDate = new Date(`${month}/${day1}/${yearTime} ${time}`);
+  //  parsedDate.setSeconds(parsedDate.getSeconds() - 10);
  }
+ console.log("parsedDate",parsedDate)
   return parsedDate
 }
+// private parseDate(dateString) {
+//   console.log("dateString:", dateString);
+//   let parsedDate: any;
+
+//   if (dateString && dateString !== '-' && dateString.trim() !== '') {
+//     // Split the `dd-MM-yyyy HH:mm:ss` format into components
+//     const [day, month, yearTime] = dateString.split('-');
+//     const [year, time] = yearTime.split(' ');
+
+//     // Construct the date in MM/DD/YYYY HH:mm:ss format for JavaScript
+//     parsedDate = new Date(`${month}/${day}/${year} ${time}`);
+
+//     if (!isNaN(parsedDate.getTime())) {
+//       // Subtract 10 seconds
+//       parsedDate.setSeconds(parsedDate.getSeconds() - 10);
+//     } else {
+//       console.error("Invalid date format:", dateString);
+//       return '';
+//     }
+//   }
+
+//   console.log("Parsed Date:", parsedDate);
+//   return parsedDate;
+// }
+
 
 
 
@@ -717,7 +757,6 @@ formatDate(dateTimeString) {
 
  Grid_table(){
   if (this.gridApi) {
-    console.log("aman");
     this.gridApi.destroy();
   }
   if(this.extra){
@@ -770,10 +809,14 @@ formatDate(dateTimeString) {
           
     },
     minWidth: 100, maxWidth: 100, },
-      { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150 },
+    { headerName: "Route Category", field: "RouteCategory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},  
+   
+      { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 130,  minWidth: 130, maxWidth: 130 },
+     
       { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
       { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100,},
       { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100,  minWidth: 100, maxWidth: 100,},
+      
       { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter ,Width: 200},
       { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200,},
       { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100, },
@@ -994,8 +1037,8 @@ formatDate(dateTimeString) {
        { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
        { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-       { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
-       { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
+       { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
+       { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
        { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
        { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
@@ -1003,6 +1046,16 @@ formatDate(dateTimeString) {
        { headerName: "ScheduleHalt", field: "scheduleHalt", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
        { headerName: "ActualHalt", field: "actualHalt", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
        { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100},
+       
+    { headerName: "AHT", field: "AHT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "Mobile ATA", field: "MobileATA", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+   
+    { headerName: "API ATA", field: "APIATA", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100},
+    { headerName: "Mobile ATD", field: "MobileATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "API ATD", field: "APIATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+   
        // { headerName: "Alerts", field: "alerts", sortable: true, filter: true, floatingFilter: true },
        // { headerName: "ReverseDriving", field: "reverseDriving", sortable: true, filter: true, floatingFilter: true },
        { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
@@ -1096,10 +1149,14 @@ formatDate(dateTimeString) {
         
   },
    },
+   { headerName: "Route Category", field: "RouteCategory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},  
+   
     { headerName: "RouteType", field: "routeType", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150 },
+    
     { headerName: "Region", field: "region", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
     { headerName: "Origin", field: "origin", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100 },
     { headerName: "Destination", field: "destination", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
+    
     { headerName: "Route", field: "route", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
     { headerName: "RouteSequence", field: "routeSequence", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200,  minWidth: 200, maxWidth: 200},
     { headerName: "Fleet", field: "fleet", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100,  minWidth: 100, maxWidth: 100},
@@ -1109,84 +1166,7 @@ formatDate(dateTimeString) {
     // { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
     { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
     { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 170,  minWidth: 170, maxWidth: 170,
-    //    cellRenderer: params => {
-    //   // Create the container div
-    //   const container = document.createElement("div");
-    //   container.style.display = "flex";
-    //   container.style.alignItems = "center";
-    //   container.style.justifyContent = "center";
-    //   const serialSpan = document.createElement("span");
-    //   serialSpan.textContent = params.value;
-    //   const button = document.createElement("button");
-    //   button.innerHTML = "";
-    //   button.style.border = "none";
-    //   button.style.background = "none";
-    //   button.style.marginLeft = "5px";
-    //   button.style.cursor = "pointer";
-    //   const div = document.createElement("div");
-    //   div.innerHTML = "";
-    //   div.style.border = "none";
-    //   div.style.background = "none";
-    //   div.style.marginLeft = "5px";
-    //   div.style.cursor = "pointer";
-    //   // Clear previous content
-
-    //   if (params.data.Full?.TrackHistory1 !== 'NA') {
-    //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-    //     button.addEventListener("click", () => {
-    //       console.log("Row Data:", params.data.Full);
-    //       // this.Detail(params.data.Full)
-    //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
-    //     });
-    //   } else {
-    //     button.innerHTML += `<span style="color: black;">Na</span>|`;
-    //   }
-      
-    //   if (params.data.Full?.TrackHistory2 !== 'NA') {
-    //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
-        
-    //     button.addEventListener("click", () => {
-    //       console.log("Row Data:", params.data.Full);
-    //       // this.Detail(params.data.Full)
-    //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
-    //     });
-    //   } else {
-    //     button.innerHTML += `<span style="color: black;">Na</span>|`;
-    //   }
-      
-    //   if (params.data.Full?.TrackHistory3 !== 'NA') {
-    //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>`;
-       
-    //     button.addEventListener("click", () => {
-    //       // console.log("Row Data:", params.data.Full);
-    //       // this.Detail(params.data.Full)
-    //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
-    //     });
-    //   } else {
-    //     button.innerHTML += `<span style="color: black;">Na</span>|`;
-    //   }
-      
-    //   // Attach event listener to the button
-    //   if (params.data.Full?.TrackHistory3 !== 'NA'||params.data.Full?.TrackHistory2 !== 'NA'||params.data.Full?.TrackHistory1 !== 'NA') {
-    //     div.innerHTML += `<strong style="color: blue;"><i class="fa fa-download" style="font-size:17px ; color:#6ABD46"></i></strong>`;
-       
-    //     div.addEventListener("click", () => {
-         
-    //       this.getExcelContent(params.data.Full)
-    //       // console.log("Row Data:", params.data.Full);
-    //       // this.Detail(params.data.Full)
-    //       // this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
-    //     });
-    //   }
-    
-    //   // Append span and button to the container
-    //   container.appendChild(serialSpan);
-    //   container.appendChild(button);
-    //   container.appendChild(div);
-    
-    //   return container;
-    // },
-    cellRenderer: params => { console.log("Row Data:", params.data.Full);
+   cellRenderer: params => { 
       // Create the container div
       const container = document.createElement("div");
       container.style.display = "flex";
@@ -1320,8 +1300,8 @@ formatDate(dateTimeString) {
     { headerName: "STD", field: "std", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
     { headerName: "ATD", field: "atd", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "DelayDeparture", field: "delayDeparture", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
-    { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
-    { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 100 },
+    { headerName: "STA", field: "sta", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "ATA", field: "ata", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "TT-Mapped", field: "ttMapped", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150 },
     { headerName: "TT-Taken", field: "ttTaken", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
     { headerName: "DelayArrival", field: "delayArrival", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
@@ -1331,6 +1311,16 @@ formatDate(dateTimeString) {
     { headerName: "ATT", field: "att", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100},
     // { headerName: "Alerts", field: "alerts", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "ReverseDriving", field: "reverseDriving", sortable: true, filter: true, floatingFilter: true },
+   
+    { headerName: "AHT", field: "AHT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "Mobile ATA", field: "MobileATA", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+   
+    { headerName: "API ATA", field: "APIATA", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 100},
+    { headerName: "Mobile ATD", field: "MobileATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+    { headerName: "API ATD", field: "APIATD", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150},
+   
     { headerName: "FixedGPS(Km)", field: "fixedGpsKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     { headerName: "FixedE-Lock(Km)", field: "fixedELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     { headerName: "PortableE-Lock(Km)", field: "portableELockKm", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
@@ -1382,6 +1372,7 @@ formatDate(dateTimeString) {
     // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
   ];}
+  console.log(this.new_array)
   this.rowData = this.new_array.map((person, index) => ({
     // runDate:person.RunDate,
     sl: index + 1,
@@ -1390,6 +1381,7 @@ formatDate(dateTimeString) {
     origin: person.Source ?? "",
     destination: person.Destination ?? "",
     route: person.RouteCode ?? "",
+    RouteCategory:person.RouteCategory ?? "",
     routeSequence: person.RouteName ?? "",
     fleet: person.FleetNo ?? "",
     tripId: person.ShipmentNo,
@@ -1421,6 +1413,14 @@ formatDate(dateTimeString) {
     actualHalt: person.ActualHalt,
     att: person.ATT, // Actual Travel Time
     CloseByDevice:person.CloseByDevice,
+
+    AHT:person?.AHT?? "",
+    // GPSATA:person?.GPSATA?? "",
+    MobileATA:person?.MobileATA?? "",
+    APIATA:person?.ApiATA?? "",
+    // GPSATD:person?.GPSATD ?? "",
+    MobileATD:person?.MobileATD ?? "",
+    APIATD:person?.ApiATD ?? "",
 
     fixedGpsKm:person.DistanceKm1,
     fixedELockKm: person.DistanceKm2,
@@ -1691,19 +1691,26 @@ formatDate(dateTimeString) {
   new agGrid.Grid(gridDiv, this.gridOptions);
  }
  getExcelContent(val){
-  console.log(val);
-  
+ this.SpinnerService.show();
+ var currentDateTime: any ;
   const formData = new FormData();
-  const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
-
+//  console.log(val)
+  if(val.CloseDate==''){
+    currentDateTime = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+  }else{
+    currentDateTime= val.CloseDate;
+  }
   formData.append('AccessToken', this.token);
   formData.append('startdate', val?.RunDate);
   formData.append('enddate', currentDateTime);
   formData.append('time_interval', '120');
-  formData.append('imei', val?.ImeiNo1||val?.ImeiNo2||val?.ImeiNo3);
+  formData.append('imei',val?.Imei1||val?.Imei2||val?.Imei3);
   formData.append('group_id', this.group_id);
   formData.append('AccountId', this.account_id);
-
+  formData.append('portal', 'itraceit');
+  formData.forEach((value, key) => {
+    console.log("formdata",key, value);
+  });
   this.CrudService.vehicleTrackongS(formData).subscribe((res: any) => {
   
    
@@ -1718,58 +1725,93 @@ formatDate(dateTimeString) {
         { key: 'lat', header: 'Latitude' },
         { key: 'long', header: 'Longitude' },
         { key: 'speed', header: 'Speed' }, // Add Speed field
+        { key: 'distance', header: 'Distance' },
         { key: 'location', header: 'Location' }, // Derived field
       ];
       const endDate: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
       const headerInfo = `DataLog For Vehicle: ${val?.VehicleNo} (${val?.VehicleNo}) Between Date: ${val?.RunDate} And ${endDate} On Route ${val?.Route}`;
-       this.downloadExcel(customFields,headerInfo)
+       this.downloadExcel(customFields,headerInfo,val)
          
       // Initialize the map with the coordinates
   
     } else {
+      this.SpinnerService.hide();
       console.log('No valid locations found in the response.');
       alert("No tracking data")
     }
   }, error => {
-   
+    this.SpinnerService.hide();
     console.error('Error fetching vehicle tracking data:', error);
   });
 }
 
+async downloadExcel(customFields, headerInfo: string, full_data) {
+  // Define customFields inside the function
+  // customFields = [
+  //   { key: "server_time", header: "STS" },
+  //   { key: "device_time", header: "Date Time" },
+  //   { key: "lat", header: "Latitude" },
+  //   { key: "long", header: "Longitude" },
+  //   { key: "speed", header: "Speed" }, // Add Speed field
+  //   { key: "distance", header: "Distance" },
+  //   { key: "location", header: "Location" }, // Store Address in Location Column
+  // ];
+  const filteredData = await Promise.all(
+    this.trackingData.map(async (item) => {
+      const newItem: any = {};
 
-downloadExcel(customFields: any[], headerInfo: string) {
-  // Map trackingData to include only the required fields
-  const filteredData = this.trackingData.map((item) => {
-    const newItem: any = {};
-    customFields.forEach((field) => {
-      newItem[field.header] = item[field.key];
-    });
-    return newItem;
-  });
+      await Promise.all(
+        customFields.map(async (field) => {
+       
+          if (field.header === "Location") {
+            // console.log("Location")
+            // Fetch address for the given lat-long
+            const formdataCustomer = new FormData();
+            formdataCustomer.append("AccessToken", this.token);
+            formdataCustomer.append("VehicleId", full_data?.VehicleNo);
+            formdataCustomer.append("ImeiNo",full_data?.Imei1||full_data?.Imei2||full_data?.Imei3);
+            formdataCustomer.append("LatLong", `${item["lat"]},${item["long"]}`);
+            formdataCustomer.append('portal', 'itraceit');
+            try {
+              const res: any = await this.CrudService.addressS(formdataCustomer).toPromise();
+              console.log(res);
+              newItem["Location"] = res.Data.Address; // Store address in "Location" column
+            } catch (error) {
+              console.error("Error fetching address:", error);
+              newItem["Location"] = "Address Not Found"; // Handle errors
+            }
+          } else {
+            newItem[field.header] = item[field.key]; // Store other fields normally
+          }
+        })
+      );
+
+      return newItem;
+    })
+  );
 
   // Create a worksheet and add the headerInfo as the first row
   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
-  XLSX.utils.sheet_add_aoa(worksheet, [[headerInfo]], { origin: 'A1' });
-  XLSX.utils.sheet_add_json(worksheet, filteredData, { origin: 'A2', skipHeader: false });
+  XLSX.utils.sheet_add_aoa(worksheet, [[headerInfo]], { origin: "A1" });
+  XLSX.utils.sheet_add_json(worksheet, filteredData, { origin: "A2", skipHeader: false });
 
   // Merge cells to make the header span the full row
-  const numColumns = customFields.length; // Number of columns
-  worksheet['!merges'] = [
-    { s: { r: 0, c: 0 }, e: { r: 0, c: numColumns - 1 } }, // Merge A1 to last column
-  ];
+  const numColumns = customFields.length;
+  worksheet["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: numColumns - 1 } }];
 
   // Create a workbook and add the worksheet
   const workbook: XLSX.WorkBook = {
-    Sheets: { 'Tracking Data': worksheet },
-    SheetNames: ['Tracking Data'],
+    Sheets: { "Tracking Data": worksheet },
+    SheetNames: ["Tracking Data"],
   };
 
   // Write the workbook to a file
-  const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const excelBuffer: any = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
 
   // Save the file using file-saver
-  const data: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-  saveAs(data, 'TrackingData.xlsx');
+  const data: Blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+  saveAs(data, "TrackingData.xlsx");
+  this.SpinnerService.hide();
 }
 
 
@@ -1981,6 +2023,7 @@ const dataWithHeaders = [
 
 exportToExcel(): void {
   const headers = [
+    "Sl",
     "RouteType", 
     "Region", 
     "Origin", 
@@ -2024,6 +2067,7 @@ exportToExcel(): void {
     "SystemRemarks", 
     "CloseBy", 
     "CloseDate", 
+    "Create By",
     "Close By Device", 
     "TotalBag", 
     "Remarks", 
@@ -2045,6 +2089,7 @@ exportToExcel(): void {
   ];
 
   const keys = [
+    "sl",
     "ShipmentMethod", 
     "Region", 
     "Source", 
@@ -2088,6 +2133,7 @@ exportToExcel(): void {
     "Remarks", 
     "CloseBy", 
     "CloseDate", 
+    "CreateBy",
     "CloseByDevice", 
     "Bag", 
     "Remarks", 
@@ -2113,12 +2159,20 @@ exportToExcel(): void {
   // Construct data with headers
   const dataWithHeaders = [
     headers,
-    ...transformedData.map(row =>
+    ...transformedData.map((row, rowIndex) =>
       headers.map((header, index) => {
+       
         const key = keys[index]; // Match the key to the header
         let value = row[key] || ""; // Use the row's value or an empty string if undefined
-  
+           
         // Check if the header is "Run Time" or "RunDate" to split date and time
+        if (header === "Sl") {
+          // Extract time from RunDate
+          const ind = rowIndex + 1;
+          // console.log("runDate",ind)
+          value = ind; // Get the time in HH:MM:SS format
+
+        }
         if (header === "Run Time" && row["RunDate"]) {
           // Extract time from RunDate
           const runDate = new Date(row["RunDate"]);
@@ -2293,12 +2347,14 @@ exportAsExcel_pop() {
   }
 }
 dtdcTripReportFilter(){
+  this.selectedRoutes = [];
   var formdata=new FormData()
   formdata.append('AccessToken',this.token)
   
   this.dtdcService.dtdcTripReportFilter(formdata).subscribe((data:any) => {
  
     if(data.Status=="success"){
+      console.log(data)
       this.Master_filter=data.Filter.Master;
 
       this.Customer=this.Master_filter?.Customer
@@ -2314,16 +2370,92 @@ dtdcTripReportFilter(){
       
       this.filteredDestination1 = this.Customer.slice(0, 50); // Initial subset
      
-      // console.log(data.Filter)
+      const updatedRouteType = Object.entries(this.Master_filter?.RouteType as Record<string, Record<string, string>>).reduce((acc, [key, value],index) => {
+        const category = this.Master_filter?.RouteCategory[key]; // Get category name from RouteCategory
+     
+        const updatedInnerObject: Record<string, string> = {};
+        
+        Object.entries(value).forEach(([typeKey, typeValue]) => {
+          updatedInnerObject[typeKey] = `${typeValue} (${category})`;
+        });
+         
+        acc[key] = updatedInnerObject;
+        console.log(acc[key],updatedInnerObject)
+        return acc;
+      }, {} as Record<string, Record<string, string>>);
+      
+      console.log(updatedRouteType,"updated Inner ");
+     // Merging all nested objects into a single object
+     const mergedObject = Object.assign({}, ...Object.values(updatedRouteType));
+
+        console.log(mergedObject);
+      this.filterObject={
+        routeCategory:this.Master_filter?.RouteCategory||{},
+        rawRouteType:updatedRouteType||{},
+        routeType:mergedObject||{}
+      }
+
     }else{
       // alert("Data not found ")
       alert(data?.Message);
+      this.router.navigate([`/auth/login`]);
     }
     // console.log(data)
   })
 }
+onRouteCategoryChange(val) {
+  // Clear selected route types
+  this.selectedRoutes = [];
 
+  if (val.includes('')) {
+    console.log(val);
+    this.routeCategory = [''];
+    this.filterObject.routeType = {
+      "": "All", // Add "All" field
+      ...Object.assign({}, ...Object.values(this.filterObject.rawRouteType)),
+    };
+  } else {
+    console.log(this.routeCategory, "route category");
+
+    // Merge route types of all selected categories
+    const mergedRouteTypes = this.routeCategory.reduce((acc, categoryId) => {
+      return { ...acc, ...this.filterObject.rawRouteType[categoryId] };
+    }, {});
+
+    this.filterObject.routeType = {
+      "": "All", // Add "All" field
+      ...mergedRouteTypes,
+    };
+  }
+}
+
+
+validateRegion(){
+  if(this.region.length===3){
+    alert('You can only select a maximum of 3 regions or select "All".');
+    return
+  }
+}
+onRegionChange(selectedRegions){
+  // if(this.region.length>3){
+  //   console.log(this.region);
+  //    // Remove the last added selection
+  //    this.region.pop()
+  //    console.log(this.region);
+  //   alert('You can only select a maximum of 3 regions or select "All".');
+  //   return
+  // }
+  
+  if (selectedRegions.includes('')) {
+    // If "All" is selected, clear other selections
+    this.region = [''];
+  } else {
+    // If "All" is deselected, update the selection normally
+    this.region = selectedRegions.filter((value) => value !== '');
+  }
+}
 triggerHstSubmit(eve){
+  // console.log("qmMulticontainer",eve)
   this.search_grid=true;
   this.submit=true;
   if(eve.form.status=='VALID'){
@@ -2337,42 +2469,43 @@ triggerHstSubmit(eve){
   if(eve.value.ReportType=='3'){
   formdata.append('ReportType','2');
 }else if(eve.value.ReportType=='4'){
-  
   formdata.append('ReportType','1');
 }else{
-    
   formdata.append('ReportType',eve.value.ReportType);
   }
-
-  
   if(eve.value.TripId){
     formdata.append('TripId',eve.value.TripId)
   }else{
-    console.log(eve.value.vehicle_number.$ngOptionLabel);
+    // console.log(eve.value.vehicle_number.$ngOptionLabel);
     // RouteType,RouteCategory,Origin,Destination,Route,Region,TripStatus,VehicleNo,SupervisorException
-    if(eve.value.Feeder){formdata.append('RouteType',eve.value.Feeder)}
+    if(eve.value.Feeder){
+      const commaSeparated = eve.value.Feeder.join(", ");
+      formdata.append('RouteType',commaSeparated)}
+
+      if(eve.value.TripType){
+        const commaSeparated = eve.value.TripType.join(", ");
+        formdata.append('RouteCategory',commaSeparated)}
+
   //  if(eve.value.TripType){ formdata.append('RouteCategory',eve.value.TripType)}
    if(eve.value.Origin){ formdata.append('Origin',eve.value.Origin)}
    if(eve.value.Destination){ formdata.append('Destination',eve.value.Destination)}
    if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
-   if(eve.value.Region){ formdata.append('Region',eve.value.Region)}
+   if(eve.value.Vendor) {formdata.append('Vendor',eve.value.Vendor)}
+   if(eve.value.Region){
+    let text = eve.value.Region;
+    const result = text.map(loc => loc.split("(")[0]).join(",");
+    console.log(result)
+     formdata.append('Region',result);
+   }
    if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
    if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number.$ngOptionLabel)}
-  //  if(eve.VehicleNo){ formdata.append('vehicle',eve.vehicle_number);}
-   
-    // formdata.append('ETADelay',eve.Delay)
   }
-  formdata.forEach((value, key) => {
-  });
   this.dtdcService.dtdcTripReport(formdata).subscribe((data:any) => {
     this.submit=false;
-    // console.log(data)
     if(data.Status=="success"){
       if(eve.value.ReportType=='3'||eve.value.ReportType=='4'){
-        
        this.search_grid=false;
       this.new_array=data.Report;
-      // console.log( this.new_array)
         this.exportToExcel();
         this.SpinnerService.hide();
       }else{
@@ -2380,8 +2513,8 @@ triggerHstSubmit(eve){
       this.Grid_table();
       this.SpinnerService.hide();}
     }else{
-      // alert("Data not found ")
       alert(data?.Message);
+      this.router.navigate([`/auth/login`]);
     }
     // console.log(data)
   })
@@ -2468,6 +2601,134 @@ this.markers.push(marker);
   });
 }
 
+
+makeModalDraggable() {
+  const modalDialog = document.querySelector("#v_track_Modal .modal-dialog") as HTMLElement;
+  const dragHandles = [
+    document.querySelector("#v_track_Modal .modal-header"),
+    document.querySelector("#v_track_Modal .modal-drag-bottom")
+  ].filter(Boolean) as HTMLElement[];
+
+  if (!modalDialog || dragHandles.length === 0) return;
+
+  let isDragging = false;
+  let startX = 0, startY = 0;
+  const animationFrame = { id: 0 };
+ 
+  // Initialize position
+  const initializePosition = () => {
+    const rect = modalDialog.getBoundingClientRect();
+    const computedStyle = window.getComputedStyle(modalDialog);
+    const transform = computedStyle.transform;
+   
+    // If transform is not set, center the modal
+    if (transform === 'none') {
+      const x = (window.innerWidth - rect.width) / 2;
+      const y = (window.innerHeight - rect.height) / 2;
+      modalDialog.style.transform = `translate(${x}px, ${y}px)`;
+    }
+  };
+
+  // Call initialization
+  initializePosition();
+
+  const getCurrentPosition = () => {
+    const transform = window.getComputedStyle(modalDialog).transform;
+    if (transform === 'none') return { x: 0, y: 0 };
+   
+    const matrix = transform.match(/^matrix\((.+)\)$/);
+    if (matrix) {
+      const values = matrix[1].split(',').map(Number);
+      return { x: values[4], y: values[5] };
+    }
+    return { x: 0, y: 0 };
+  };
+
+  const setPosition = (x: number, y: number) => {
+    const rect = modalDialog.getBoundingClientRect();
+    const maxX = window.innerWidth - rect.width + rect.width * 0.2;
+    const maxY = window.innerHeight - rect.height + rect.height * 0.2;
+   
+    x = Math.max(-rect.width * 0.8, Math.min(x, maxX));
+    y = Math.max(-rect.height * 0.8, Math.min(y, maxY));
+
+    modalDialog.style.transform = `translate(${x}px, ${y}px)`;
+  };
+
+  const startDrag = (clientX: number, clientY: number) => {
+    isDragging = true;
+    startX = clientX;
+    startY = clientY;
+   
+    modalDialog.style.transition = 'none';
+    modalDialog.style.zIndex = '1050';
+    dragHandles.forEach(h => h.style.cursor = 'grabbing');
+  };
+
+  const moveDrag = (clientX: number, clientY: number) => {
+    if (!isDragging) return;
+   
+    cancelAnimationFrame(animationFrame.id);
+    animationFrame.id = requestAnimationFrame(() => {
+      const currentPos = getCurrentPosition();
+      const deltaX = clientX - startX;
+      const deltaY = clientY - startY;
+      setPosition(currentPos.x + deltaX, currentPos.y + deltaY);
+     
+      // Update start positions for smooth continuous dragging
+      startX = clientX;
+      startY = clientY;
+    });
+  };
+
+  const endDrag = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    cancelAnimationFrame(animationFrame.id);
+    modalDialog.style.transition = 'transform 0.2s ease';
+    dragHandles.forEach(h => h.style.cursor = 'move');
+  };
+
+  // Event handlers
+  const handleMove = (e: MouseEvent | TouchEvent) => {
+    const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
+    const clientY = e instanceof MouseEvent ? e.clientY : e.touches[0].clientY;
+    moveDrag(clientX, clientY);
+  };
+
+  dragHandles.forEach(handle => {
+    handle.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      startDrag(e.clientX, e.clientY);
+    });
+
+    handle.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (e.touches.length === 1) startDrag(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
+    handle.addEventListener('dblclick', () => {
+      modalDialog.style.transition = 'transform 0.3s ease';
+      initializePosition();
+    });
+  });
+
+  const eventCleanups = [
+    { event: 'mousemove', handler: handleMove },
+    { event: 'touchmove', handler: handleMove },
+    { event: 'mouseup', handler: endDrag },
+    { event: 'touchend', handler: endDrag },
+    { event: 'resize', handler: initializePosition }
+  ].map(({ event, handler }) => {
+    window.addEventListener(event, handler as EventListener);
+    return () => window.removeEventListener(event, handler as EventListener);
+  });
+
+  return () => {
+    endDrag();
+    eventCleanups.forEach(cleanup => cleanup());
+  };
+}
 // async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
 //   // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
   
@@ -2886,7 +3147,7 @@ createMarker(point, ico, label = '') {
   return marker;
 }
 fetchCustomerInfo_new(Full: any) {
-  console.log(Full)
+  // console.log(Full)
   this.customer_info = [];
   const platform = new H.service.Platform({
     apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
@@ -2913,7 +3174,7 @@ fetchCustomerInfo_new(Full: any) {
     CustVisited:CustVisited[index]
   }));
   
-  console.log(result);
+  // console.log(result);
   this.customer_info=result;
   // this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
     // console.log("dddddddddddddddddddd",res)
@@ -2975,14 +3236,14 @@ fetchCustomerInfo_new(Full: any) {
     
     // Create content for the info window
     // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
-    const infoContent = await this.handleCustomerMarkerClick(evt, index);
+    // const infoContent = await this.handleCustomerMarkerClick(evt, index);
   
-    console.log("infoContent",infoContent)
+    // console.log("infoContent",infoContent)
     //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
      
     // Create an info bubble at the marker's location
     const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
-      content: infoContent
+      // content: infoContent
     });
   
     // Add the info bubble to the map
@@ -3008,33 +3269,26 @@ fetchDFGPolyline_new(route_id: string) {
   formdataCustomer.append('AccessToken', this.token);
   formdataCustomer.append('forGroup', this.group_id);
   formdataCustomer.append('route_id', route_id);
-
   this.CrudService.vehicle_dfgS(formdataCustomer).subscribe((res: any) => {
     if (res.Polyline) {
       const dfgPolyline: google.maps.LatLng[] = [];
       const str = res.Polyline.replace(/ *\^[^~]*\~ */g, "");
       const arry2 = str.split(/[,( )]+/);
       var lineString = new H.geo.LineString();
-
       for (let i = 1; i < arry2.length - 1; i += 2) {
         const lat = parseFloat(arry2[i]);
         const lng = parseFloat(arry2[i + 1]);
-
         if (!isNaN(lat) && !isNaN(lng)) {
           // const latLng = new google.maps.LatLng(lat, lng);
           // dfgPolyline.push(latLng);
           lineString.pushPoint({ lat:lat, lng: lng });
         }
-      }
-
-      
+      }     
         var polyline =(new H.map.Polyline(
           lineString, { style: { lineWidth: 3, strokeColor: 'green'}}
         ));
         this.map1.addObject(polyline);
         this.polylines.push(polyline);
-      
-
       // this.demoPolyline.push(polyline);
     }
   });
@@ -3045,42 +3299,95 @@ clearMarkersAndPolylines() {
     this.markers.forEach(marker => this.map1.removeObject(marker));
     this.markers = []; // Reset the markers array
   }
-
   // Clear existing polylines
   if (this.polylines?.length > 0) {
     this.polylines?.forEach(polyline => this.map1.removeObject(polyline));
     this.polylines = []; // Reset the polylines array
   }
 }
+fetchCustomerInfo(Id: any) {
+  this.customer_info = []
+  // if (this.demomarker.length > 0) {
+  //   this.demomarker.forEach(marker => marker.setMap(null));
+  //   this.demomarker = [];  // Clear the array after removing markers
+  // }
+  // console.log("Removing",Id)
+  const markers: google.maps.Marker[] = [];
+ 
+  const formdataCustomer = new FormData();
+  formdataCustomer.append('AccessToken', this.token);
+  formdataCustomer.append('MTripId',Id);
+// tripCustomerS
+  this.dtdcService.dtdcTripCustomerDetails(formdataCustomer).subscribe((res: any) => {
+ 
+    if(res.Status=="success"){
+      if(res.customer_info!==null){
+    this.customer_info = res.TripDetails;
+  // console.log(this.customer_info)
+    // Log the customer data for debugging
+    // console.log("Customer Info:", this.customer_info);
+    //  if(this.customer_info!==null){
+    this.customer_info.forEach((customer, index) => {
+      // Log SequenceNo to check its value
+      // console.log("Customer SequenceNo:", customer.SequenceNo);
+//  ? customer.SequenceNo.toString() : '';
+      const sequenceNo = customer.Label; // Ensure this is a string
+      // const sequenceNo = customer.SequenceNo  // Ensure this is a string
+      // console.log(customer.Coordinates,customer)
+      const coordinates:any=customer.Coordinates;
+      const [lat, lng] = coordinates.split(",");
+      // console.log(lat, lng)
+      let mark = new google.maps.Marker({
+        map: this.map1,
+        position: new google.maps.LatLng(lat,lng),
+        title: `${lat}, ${lng}`,
+        Source:customer.Source,
+        label: {
+          text: sequenceNo,  // Ensure this is a string
+          color: 'black',
+          
+        }
+      });
 
+      this.demomarker.push(mark);
+      markers.push(mark);
+      google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
+    });
+  }}
+    // this.demomarker=markers;
+  });
+}
 
 handleCustomerMarkerClick(event, index) {
+
 const customer = this.customer_info[index];
 const customer_Info = this.generateCustomerInfo(customer);
-return customer_Info;
-// this.closeLastOpenedInfoWindow();
-// const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
-// infowindowMarker_custo.setPosition(event.latLng);
-// infowindowMarker_custo.open(this.map1);
-// this.lastOpenedInfoWindow = infowindowMarker_custo;
+// return customer_Info;
+this.closeLastOpenedInfoWindow();
+const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
+infowindowMarker_custo.setPosition(event.latLng);
+infowindowMarker_custo.open(this.map1);
+this.lastOpenedInfoWindow = infowindowMarker_custo;
 }
 
 generateCustomerInfo(customer): string {
-let pod = customer.CustVisited === 1 ? 'Already DONE' : 'Not Done';
+// let pod = customer.CustVisited === 1 ? 'Already DONE' : 'Not Done';
 // let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
 // let arrival_time = customer.GeoArrivalTime ? `${customer.GeoArrivalTime} [GPS]` : customer.ArrivalTime;
 // let departure_time = customer.GeoDepartureTime ? `${customer.GeoDepartureTime} [GPS]` : customer.DepartureTime;
-
+// console.log(customer)
 return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important;width:220px">
 <tbody style="border:none !important">
-  <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Destination/Customer</td><td style="border:none !important">:</td><td style="border:none !important">${customer.CustName}</td></tr>
-  <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">ETA</td><td style="border:none !important">:</td><td style="border:none !important">${pod}</td></tr>
+  <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Destination/Customer</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Source}</td></tr>
+  <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">LatLong</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Coordinates}</td></tr>
+
 </tbody>
 </table>`;
 }
+//   <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Distance Left</td><td style="border:none !important">:</td><td style="border:none !important">-</td></tr>
 extra_info(eve){
   const isChecked = (eve.target as HTMLInputElement).checked;
-  console.log(isChecked)
+  // console.log(isChecked)
   this.extra=isChecked;
 }
 
@@ -3090,6 +3397,7 @@ extra_info(eve){
 initializeMap(): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     $('#v_track_Modal').on('shown.bs.modal', () => {
+
       if (!this.map1) {
         try {
           const platform = new H.service.Platform({
@@ -3319,7 +3627,9 @@ exportToCSV(): void {
     "Area", "Driver", "DriverMobile", "Transporter", "STD",
     "ATD", "DelayDeparture", "STA", "ATA", "TTMapped",
     "TTTaken", "DelayArrival", "DelayTT", "ScheduleHalt", "ActualHalt",
-    "ATT", "CloseByDevice", "DistanceKm1", "DistanceKm2", "DistanceKm3",
+    "ATT", "CloseByDevice","AHT","GPSATA","MobileATA",
+    "ApiATA","GPSATD","MobileATD","ApiATD",
+    "DistanceKm1", "DistanceKm2", "DistanceKm3",
     "GPSException1", "GPSException2", "GPSException3", "SupervisorException",
     "TripStatus", "Remarks", "CloseBy", "CloseDate", "CreateBy",
     "Bag", "GPSVendorType1", "GPSVendorType2", "GPSVendorType3",
@@ -3523,7 +3833,14 @@ exportToCSV_new(): void {
       ActualHalt: person.ActualHalt,
       Att: person.ATT, // Actual Travel Time
       CloseByDevice:person.CloseByDevice,
-  
+      AHT:person?.AHT?? "",
+      // GPSATA:person?.GPSATA?? "",
+      MobileATA:this.parseDate(person?.MobileATA)?? "",
+      APIATA:this.parseDate(person?.ApiATA)?? "",
+      // GPSATD:person?.GPSATD ?? "",
+      MobileATD:this.parseDate(person?.MobileATD )?? "",
+      APIATD:this.parseDate(person?.ApiATD )?? "",
+
       FixedGpsKm:person.DistanceKm1,
       FixedELockKm: person.DistanceKm2,
       PortableELockKm:person.DistanceKm3,
@@ -3565,10 +3882,10 @@ exportToCSV_new(): void {
       // closeDeviceBy:' person.close_device_by',BayNoIn
       // portableLockDevice: 'person.portable_lock_device'
     }));
-
+    console.log(rowData)
     const ws = XLSX.utils.json_to_sheet(rowData, {
       cellDates: true,  
-      dateNF: 'dd/mm/yyyy hh:mm:ss', // Set the desired date format
+      dateNF: 'dd-mm-yyyy hh:mm:ss', // Set the desired date format
       // dateNF: 'yyyy/mm/dd hh:mm:ss', 
     });
   
@@ -3847,7 +4164,7 @@ if (this.demoPolyline.length > 0) {
   for (const imei of imeis) {
     // console.log(imei);
 
-    // Reset tracking data for each IMEI
+    // Reset tracking data for each IMEI   
     this.trackingData = [];
     this.customer_info = [];
     this.marker = [];
@@ -3873,7 +4190,7 @@ if (this.demoPolyline.length > 0) {
       formData.append('imei', imei);
       formData.append('group_id', this.group_id);
       formData.append('AccountId', this.account_id);
-
+      formData.append('portal', 'itraceit');
       // Log form data for debugging
       formData.forEach((value, key) => {
         console.log("formdata...", key, value);
@@ -3886,6 +4203,7 @@ if (this.demoPolyline.length > 0) {
         this.SpinnerService.hide("tracking");
         if (res.Status === "failed") {
           alert(res?.Message);
+          this.router.navigate([`/auth/login`]);
         }
 
         this.trackingData = res.data;
@@ -3897,7 +4215,7 @@ if (this.demoPolyline.length > 0) {
           // Add markers and polyline data
           this.addMarkersAndPolyline1(imei, vehicle_no);
          
-          this.fetchCustomerInfo(Id);
+          this.fetchCustomerInfo(route_id);
         }
 
       // } catch (error) {
@@ -3911,62 +4229,7 @@ if (this.demoPolyline.length > 0) {
   }
 } 
  }
-fetchCustomerInfo(Id: string) {
-  this.customer_info = []
-  // if (this.demomarker.length > 0) {
-  //   this.demomarker.forEach(marker => marker.setMap(null));
-  //   this.demomarker = [];  // Clear the array after removing markers
-  // }
-  // console.log("Removing",Id)
-  const markers: google.maps.Marker[] = [];
-  // if (this.demomarker.length > 0) {
-  //   this.demomarker.forEach(marker => {
-  //     // console.log("Removing marker from map", marker);
-  //     marker.setMap(null);
-  //   });
-  //   this.demomarker = [];  // Clear the array after removing markers
-  //   console.log("Marker array cleared");
-  // }
-  console.log("vvvvvv",this.token, this.group_id,Id)
-  const formdataCustomer = new FormData();
-  formdataCustomer.append('AccessToken', this.token);
-  formdataCustomer.append('forGroup', this.group_id);
-  formdataCustomer.append('id', Id);
 
-  this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
-    console.log(res)
-    if(res.status=='success'){
-      if(res.customer_info!==null){
-    this.customer_info = res.customer_info;
-
-    // Log the customer data for debugging
-    console.log("Customer Info:", this.customer_info);
-    //  if(this.customer_info!==null){
-    this.customer_info.forEach((customer, index) => {
-      // Log SequenceNo to check its value
-      console.log("Customer SequenceNo:", customer.SequenceNo);
-
-      const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
-      // const sequenceNo = customer.SequenceNo  // Ensure this is a string
-
-      let mark = new google.maps.Marker({
-        map: this.map1,
-        position: new google.maps.LatLng(customer.Lat, customer.Lng),
-        title: `${customer.Lat}, ${customer.Lng}`,
-        label: {
-          text: sequenceNo,  // Ensure this is a string
-          color: 'black'
-        }
-      });
-
-      this.demomarker.push(mark);
-      markers.push(mark);
-      google.maps.event.addListener(mark, 'click', (event) => this.handleCustomerMarkerClick(event, index));
-    });
-  }}
-    // this.demomarker=markers;
-  });
-}
 getMarkerIcon(index: number): string {
   // console.log(index)
   if (index === 0) {
@@ -3997,7 +4260,7 @@ addMarkersAndPolyline1(imei: string, vehicle_no: string) {
       polylinePath.push(position);
 
       // Create a marker
-      const mark = new google.maps.Marker({
+      let mark = new google.maps.Marker({
         map: this.map1,
         position: position,
         title: `${this.trackingData[i].lat}, ${this.trackingData[i].long}`,
@@ -4010,7 +4273,8 @@ addMarkersAndPolyline1(imei: string, vehicle_no: string) {
 
       // Handle marker click events
       // const markerPosition = mark.getPosition(); 
-      var trackingData:any=this.trackingData[i];
+      let trackingData:any=this.trackingData[i];
+      // console.log('trackingData',trackingData,i)
       mark.addListener('click', (event) => this.handleMarkerClick(event, trackingData, vehicle_no, imei));
 
       // Create an InfoWindow but don't attach it yet
@@ -4058,9 +4322,9 @@ handleMarkerClick(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+  formdataCustomer.append('portal', 'itraceit');
   this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
-    console.log(res)
+    // console.log(res)
     const address = res.Data.Address;
     this.showWindow(trackingData, vehicle_no, address);
     this.closeLastOpenedInfoWindow();
@@ -4070,6 +4334,7 @@ handleMarkerClick(event, trackingData, vehicle_no, imei) {
   });
 }
 showWindow(data, vnumber, add) {
+  // console.log(data)
   // var add:any
   this.contentsInfo = ''
   // console.log('show window of vehicle information', data, add)
@@ -4122,6 +4387,7 @@ showWindow(data, vnumber, add) {
     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
     '</tr>' +
+    '<tr>' + data.io + '<tr>' +
     '<tr style=" border:none !important">' +
     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
     '<td style="border:none !important;width:1%;color: blue;">:</td>' +

@@ -7,6 +7,7 @@ declare var $: any;
 import { from, of } from 'rxjs';
 import { concatMap, tap } from 'rxjs/operators';
 import { DtdcService } from '../../services/dtdc.service';
+import { Router } from '@angular/router';
 declare var $: any
 declare var H: any;
 interface HTMLCanvasElement {
@@ -60,7 +61,7 @@ export class DelayReportComponent implements OnInit {
   search_grid: boolean=false;
   demoPolyline: any=[];
   lastOpenedInfoWindow: any;
-  constructor(private DtdcService:DtdcService, private navServices: NavService, private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
+  constructor(private router: Router,private DtdcService:DtdcService, private navServices: NavService, private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
 
   ngOnInit(): void {
@@ -563,6 +564,7 @@ adjustGridHeight() {
         formData.append('imei', imei);
         formData.append('group_id', this.group_id);
         formData.append('AccountId', this.account_id);
+        formData.append('portal', 'itraceit');
         formData.forEach((value, key) => {
           console.log("formdata...", key, value);
         });
@@ -570,7 +572,8 @@ adjustGridHeight() {
           console.log("tracking res", res);
           if (res.Status == "failed") {
             alert(res?.Message);
-            // this.SpinnerService.hide("tracking");
+            this.router.navigate([`/auth/login`]);
+            this.SpinnerService.hide("tracking");
 
           }
           this.trackingData = res.data;
@@ -818,7 +821,7 @@ adjustGridHeight() {
     formdataCustomer.append('VehicleId', vehicle_no);
     formdataCustomer.append('ImeiNo', imei);
     formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
-
+    formdataCustomer.append('portal', 'itraceit');
     this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
       const address = res.Data.Address;
       this.showWindow(trackingData, vehicle_no, address);
@@ -1549,7 +1552,7 @@ if (this.demoPolyline.length > 0) {
       formData.append('imei', imei);
       formData.append('group_id', this.group_id);
       formData.append('AccountId', this.account_id);
-
+      formData.append('portal', 'itraceit');
       // Log form data for debugging
       formData.forEach((value, key) => {
         console.log("formdata...", key, value);
@@ -1562,6 +1565,7 @@ if (this.demoPolyline.length > 0) {
         this.SpinnerService.hide("tracking");
         if (res.Status === "failed") {
           alert(res?.Message);
+          this.router.navigate([`/auth/login`]);
         }
 
         this.trackingData = res.data;
@@ -1732,7 +1736,7 @@ handleMarkerClick(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+  formdataCustomer.append('portal', 'itraceit');
   this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
     console.log(res)
     const address = res.Data.Address;
@@ -1796,6 +1800,7 @@ showWindow(data, vnumber, add) {
     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
     '</tr>' +
+    '<tr>' + data.io + '<tr>' +
     '<tr style=" border:none !important">' +
     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
     '<td style="border:none !important;width:1%;color: blue;">:</td>' +

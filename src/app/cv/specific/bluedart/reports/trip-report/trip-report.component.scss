@@ -3,7 +3,25 @@
     .leaflet-pane {
         z-index: 3 !important;
     }
-
+    .gm-ui-hover-effect{
+        background: none;
+        display: block;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        text-transform: none;
+        appearance: none;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        width: 39px !important;
+        height: 31px !important;
+        font-size: 12px;
+    }
+    .gm-ui-hover-effect>span {
+        background-color: #000;
+        height: 20px !important;
+    }
     .main-content-label {
         background-color: rgb(104, 161, 187);
     }
@@ -4884,7 +4902,7 @@ section[_ngcontent-tbm-c137] {
             margin-top: -18px!important;
         }
         .header-brand-img {
-            height: 65px !important;
+            height: 75px !important;
         }
         .redinfo{
             background-color: #f7beb0!important;
@@ -5026,4 +5044,7 @@ section[_ngcontent-tbm-c137] {
     .input-error {
         border: red 1px solid !important;
         border-radius: 5px;
+    }
+    th {
+        text-transform: none !important;
     }

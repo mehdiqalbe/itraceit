@@ -80,7 +80,7 @@
                             <div class="col-md-2 col-lg-2">
                                 <ng-select name="report" placeholder="reportType" ngModel (change)="reportType($event)"
                                     style="font-weight: bolder;" required>
-                                    <ng-option value="" selected>Report Type</ng-option>
+                                    <ng-option value="" disabled selected>Report Type</ng-option>
 
                                     <ng-option value="5">Vehicle wise</ng-option>
                                     <ng-option value="4">Location-wise</ng-option>
@@ -98,17 +98,17 @@
                                 <input type="date" class="form-control"
                                     [disabled]="!Table1Form.controls['report'].value" [ngModel]="datetimepicker"
                                     required name="to_time"  (change)="changeenddate($event)"/>
-                            </div>
+                             </div>
                             <div class="col-md-2 col-lg-2">
                                 <input type="text" class="form-control"
                                      id="datepicker1" [disabled]="!Table1Form.controls['report'].value"
                                  placeholder="Select Exclusion Date"   required name="to_time"(click)="startDate()"   autocomplete="off" />
                             </div>
-                            <div class="col-md-2 col-lg-2">
+                            <div class="col-md-2 col-lg-2"> 
 
-                                <ng-select name="Region" placeholder="Region" ngModel 
-                                    style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value="" selected>All Region</ng-option>
+                                <ng-select name="Region" placeholder="Region" ngModel  [multiple]="true" [maxSelectedItems]="3"  (click)="validateRegion()"
+                                (change)="onRegionChange($event)"  style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value" required>
+                                    <ng-option value="" disabled selected>All Region</ng-option>
                                     <ng-option *ngFor="let item of fullArray.Region
     
                                 |keyvalue" [value]="item">{{item.value}}</ng-option>
@@ -123,7 +123,7 @@
                                 <ng-select name="State" placeholder="State" ngModel
                                 
                                     style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value="" selected>All State</ng-option>
+                                    <ng-option value="" disabled selected>All State</ng-option>
                                     <ng-option *ngFor="let item of fullArray.independent_state
     
                                 |keyvalue" [value]="item">{{item.value}}</ng-option>
@@ -132,18 +132,11 @@
                                 </ng-select>
 
                             </div>
-                            
-
-
-
-                          
-
-
                         </div>
 
                         <div class="row" style="padding:  5px 10px 15px 10px">
                             <div class="col-md-2 col-lg-2">
-                                <ng-select name="Area" placeholder="Area" ngModel 
+                                <ng-select name="Area" placeholder="Area" ngModel [multiple]="true"
                                     style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value">
                                     <ng-option value="" selected>All Area</ng-option>
                                     <ng-option *ngFor="let item of fullArray.independent_area  |keyvalue" [value]="item">{{item.value}}</ng-option>
@@ -152,17 +145,25 @@
 
                             <div class="col-md-2 col-lg-2">
                                 <ng-select name="Route_type" placeholder="Route Type" ngModel [multiple]="true"
-                                    style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value="" selected>Route Type</ng-option>
-                                    <ng-option *ngFor="let item of fullArray.RouteType |keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                                     </ng-select>
+                                style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value">
+                                
+                                <!-- Make 'Route Type' option unselectable -->
+                                <ng-option value="" disabled selected>Route Type</ng-option>
+                            
+                                <!-- Dynamically populate options -->
+                                <ng-option *ngFor="let item of fullArray.RouteType | keyvalue" [value]="item.key">
+                                    {{ item.value }}
+                                </ng-option>
+                            
+                            </ng-select>
+                            
                             </div>
 
                             <div class="col-md-2 col-lg-2">
 
                                 <ng-select name="GPS" placeholder="GPS Active" ngModel style="font-weight: bolder;"
                                     [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value="" selected>GPS Type</ng-option>
+                                    <ng-option value="" disabled selected>GPS Type</ng-option>
                                     <ng-option value="" selected>All</ng-option>
                                     <ng-option value="1" selected> Active</ng-option>
                                     <ng-option value="0" selected>InActive</ng-option>
@@ -179,7 +180,7 @@
 
                                 <ng-select name="Origin" placeholder="Origin" ngModel style="font-weight: bolder;"
                                     [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value="" selected>Origin</ng-option>
+                                    <ng-option value="" disabled selected>Origin</ng-option>
                                     <ng-option *ngFor="let item of fullArray.Origin
     
                                 |keyvalue" [value]="item">{{item.value}}</ng-option>
@@ -194,7 +195,7 @@
                                 <ng-select (change)="vehicles_s($event)" name="CONTRACT" placeholder="CONTRACT[Y/N]"
                                     ngModel style="font-weight: bolder;"
                                     [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value="" selected>CONTRACT[Y/N]</ng-option>
+                                    <ng-option value="" disabled selected>CONTRACT[Y/N]</ng-option>
                                     <ng-option value="1">Yes</ng-option>
                                     <ng-option value="0">No</ng-option>
 
@@ -227,7 +228,7 @@
 
                                 <ng-select (change)="contctH($event)" name="CONTRACT_HRS" placeholder="CONTRACT_HRS"
                                     ngModel style="font-weight: bolder;">
-                                    <ng-option value="" selected>CONTRACT_HRS</ng-option>
+                                    <ng-option value="" disabled selected>CONTRACT_HRS</ng-option>
                                     <ng-option *ngFor="let item of fullArray.ContractHours
     
                                 |keyvalue" [value]="item.value">{{item.value}}</ng-option>
@@ -237,10 +238,10 @@
 
                             </div>
 
-                            <div class="col-md-2 col-lg-2">
+                            <div class="col-md-2 col-lg-2"  *ngIf="contract_hrs !=='1'">
                                 <ng-select (keyup)="onKeyUp($event)" ngModel name="vehicle" style="font-weight: bold;"
                                     [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value="">Select Vehicle</ng-option>
+                                    <ng-option value="" disabled>Select Vehicle</ng-option>
                                     <ng-option [value]="item.value" *ngFor="let item of vehicle |keyvalue">
                                         {{item.value}}</ng-option>
                                 </ng-select>
@@ -248,10 +249,10 @@
                         </div>
                         <div class="row " style="padding:  15px 10px 15px 10px" >
                             
-                            <div class="col-md-2 col-lg-2" *ngIf="contract_hrs=='0' || contract_hrs==''">
+                            <!-- <div class="col-md-2 col-lg-2" *ngIf="contract_hrs=='0' || contract_hrs==''">
                                 <ng-select  ngModel name="sfc_loc" style="font-weight: bold;"
                                     [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value=""> Sfc_loc</ng-option>
+                                    <ng-option value="" disabled > Sfc_loc</ng-option>
                                     <ng-option value="1">Yes</ng-option>
                                    
                                 </ng-select>
@@ -260,14 +261,21 @@
                             <div class="col-md-2 col-lg-2" *ngIf="contract_hrs=='1'">
                                 <ng-select  ngModel name="sfc_loc" style="font-weight: bold;"
                                     [disabled]="!Table1Form.controls['report'].value">
-                                    <ng-option value=""> Sfc_loc</ng-option>
+                                    <ng-option value="" disabled > Sfc_loc</ng-option>
                                     <ng-option value="1">Yes</ng-option>
                                    
                                 </ng-select>
-                            </div>
+                            </div> -->
                             <!-- -->
                            
-
+                            <div class="col-md-2 col-lg-2"  *ngIf="contract_hrs =='1'">
+                                <ng-select (keyup)="onKeyUp($event)" ngModel name="vehicle" style="font-weight: bold;"
+                                    [disabled]="!Table1Form.controls['report'].value">
+                                    <ng-option value="" disabled>Select Vehicle</ng-option>
+                                    <ng-option [value]="item.value" *ngFor="let item of vehicle |keyvalue">
+                                        {{item.value}}</ng-option>
+                                </ng-select>
+                            </div>
                             <div class="col-md-2 col-lg-2" >
                                 <button class="btn btn-outline-primary btn-sm" type="submit"
                                     [disabled]="!Table1Form.valid">Submit</button>

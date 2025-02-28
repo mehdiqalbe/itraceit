@@ -57,6 +57,7 @@ export class VehicleUtilizationComponent implements OnInit {
   vehicle: any = [];
   new_array: any = [];
   final_grand_total: any;
+  region: any=[];
   constructor(private navServices: NavService,private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private router: Router, private location: Location) { }
 
   ngOnInit(): void {
@@ -434,7 +435,7 @@ export class VehicleUtilizationComponent implements OnInit {
     console.log("form value t",value?.Route_type);
     let result :any;
     if(value?.Route_type){
-     result = value?.Route_type.map(item => `'${item}'`).join(',');
+     result = value?.Route_type.map(item => `${item}`).join(',');
        console.log(result);}
     var formdata: any = new FormData();
     formdata.append('AccessToken', this.token);
@@ -446,8 +447,9 @@ export class VehicleUtilizationComponent implements OnInit {
     // }else{        }
     if(value.sfc_loc){
       formdata.append('sfc_location', value.sfc_loc !=null ? value.sfc_loc:"" );}////value?.sfc_loc || ""
-      if(value.Region.key){
-    formdata.append('region', value.Region.key != undefined ? value.Region.key : "");}
+      if(value.Region){
+        const result = value.Region.map(item => item.key).join(',');
+    formdata.append('region',result);}
     // if(value.CONTRACT_HRS !=undefined){
     if(this.con_Hrs){
     formdata.append('contract_hrs', this.con_Hrs != undefined ? this.con_Hrs : ""); // formdata.append('contract_hrs',this.con_Hrs !=undefined ? this.con_Hrs:"")
@@ -457,7 +459,11 @@ export class VehicleUtilizationComponent implements OnInit {
     if( value.GPS){ formdata.append('gps', value.GPS);}
     if(value.Origin.key) {formdata.append('origin', value.Origin.key !== undefined ? value.Origin.key : "");}
     if(value.State.key){ formdata.append('state', value.State.key !== undefined ? value.State.key : "");}
-   if(value.Area.key){ formdata.append('area', value.Area.key !== undefined ? value.Area.key : "");}
+   if(value.Area){
+    const result = value.Area.map(item => item.key).join(',');
+    formdata.append('area', result);
+    // formdata.append('area', value.Area.key !== undefined ? value.Area.key : "");
+    }
    if(value.CONTRACT){ formdata.append('contract_hrs_type', value.CONTRACT);}
    if(value.report) {formdata.append('report_type', value.report);}
    if(datepicker) {formdata.append('ExclusionDate', datepicker !== undefined ? datepicker : "");}
@@ -470,10 +476,11 @@ export class VehicleUtilizationComponent implements OnInit {
    
     // if(value.report=="5"){
     this.itraceIt.table1S_1(formdata).subscribe((res: any) => {
+      if(res?.Status=='success'){
       console.log("res", res)
-      this.table1res = (res.data);
-       this.final_grand_total=res?.final_grand_total
-      this.table1Totalres = (res.G_total);
+      this.table1res = (res.Data.data);
+       this.final_grand_total=res?.Data.final_grand_total
+      this.table1Totalres = (res.Data.G_total);
       // for (const [key, value] of Object.entries(this.table1res)){
       // console.log(" table1Totalres", formdata)
       // }
@@ -481,16 +488,20 @@ export class VehicleUtilizationComponent implements OnInit {
       // this.fullArray = res
       this.masterUploadTable();
       if (value.report == '3') {
-        this.processResponse(res)
+        this.processResponse(res.Data)
       }
       if (value.report == '2') {
-        this.processResponse1(res)
+        this.processResponse1(res.Data)
       }
       if(value.report == '4'){
-        this.processResponse2(res);
+        this.processResponse2(res.Data);
       }
 
-    });
+   }else{
+    this.SpinnerService.hide();
+    alert(res?.Message);
+
+   } });
     // }
     //     if(value.report=="4"){
     //   this.itraceIt.table2S(formdata).subscribe((res:any)=> {
@@ -508,7 +519,25 @@ export class VehicleUtilizationComponent implements OnInit {
     // }
   }
 
+  validateRegion(){
+    if(this.region.length===3){
+      alert('You can only select a maximum of 3 regions.');
+      return
+    }
+  }
 
+  onRegionChange(selectedRegions){
+   
+    
+    if (selectedRegions.includes('')) {
+      // If "All" is selected, clear other selections
+      this.region = [''];
+    } else {
+      // If "All" is deselected, update the selection normally
+      this.region = selectedRegions.filter((value) => value !== '');
+    }
+  }
+  
 
   
   

@@ -9,7 +9,6 @@ export class BluedartService {
   constructor( private http: HttpClient) { }
 
   baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
-  
   BDE_URL:any="https://api-bde.secutrak.in/dev-app-itraceit/";
   // https://apinode2.secutrak.in/dev-app-itraceit/
   specificTripDashboard(val:any){
@@ -39,11 +38,11 @@ export class BluedartService {
     
     return this.http.post(apiurl,data);
   }
- 
   ahtTimeAdd(data){
     let apiurl=this.baseURL+"/updateAhtBd";
     return this.http.post(apiurl,data);
   }
+
   bdSummary(data) {
 
     let apiurl = this.baseURL + "bdSummary";
@@ -55,13 +54,13 @@ export class BluedartService {
     return this.http.post(apiurl,data);
     // https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripCustomerDetails
   }
-
-  liveLocation2S(data) {
-    let apiurl = "https://api-bde.secutrak.in/dev-app-home/liveDataV2";
-    //let apiurl="https://jsonplaceholder.typicode.com/users";
-    //let apiurl= 'http://localhost:3000/workZone'
-    return this.http.post(apiurl, data);
-  }
+  // IRUN DASHBOARD _------------------------------------------------------
+  // liveLocation2S(data) {
+  //   let apiurl = "https://api-bde.secutrak.in/dev-app-home/liveDataV2";
+  //   //let apiurl="https://jsonplaceholder.typicode.com/users";
+  //   //let apiurl= 'http://localhost:3000/workZone'
+  //   return this.http.post(apiurl, data);
+  // }
   homeDashboardS(data) {
     let apiurl: any;
       apiurl = this.BDE_URL+"triggerDashboardFlashAT";
@@ -198,21 +197,11 @@ export class BluedartService {
     let apiurl: any;
   
       apiurl = this.BDE_URL+"validateAlertLink";
-    
-    //let apiurl="https://jsonplaceholder.typicode.com/users";
-    //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
   closeTriggerS(data) {
-    // let apiurl=this.BDE_URL+"actionAlertLink";
-
-
     let apiurl: any;
-   
       apiurl = this.BDE_URL+"actionAlertLink";
-    
-    //let apiurl="https://jsonplaceholder.typicode.com/users";
-    //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
   trackapiS(data) {
@@ -234,6 +223,13 @@ export class BluedartService {
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
+  // addressS(data) {
+  //   // let apiurl = " https://api.secutrak.in/dev-app-secutrak/vehicleLastLocationV2";
+  //   let apiurl = "https://api-bde.secutrak.in/dev-app-itraceit/vehicleLastLocationV2";
+  //   //let apiurl="https://jsonplaceholder.typicode.com/users";
+  //   //let apiurl= 'http://localhost:3000/workZone'
+  //   return this.http.post(apiurl, data);
+  // }
   addressS(data) {
     // let apiurl = " https://api.secutrak.in/dev-app-secutrak/vehicleLastLocationV2";
     let apiurl = "https://api-bde.secutrak.in/dev-app-itraceit/vehicleLastLocationV2";
@@ -304,6 +300,24 @@ export class BluedartService {
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
+  // vehicleTrackongS(val: any) {
+  //   // let apiurl=;
+  //   return this.http.post("https://api.secutrak.in/dev-app-home/vehicleTrackingV2New", val);
+  // }
+  bdTripReportFilter(data){
+    let apiurl=this.baseURL+"bdTripReportFilter";
+    return this.http.post(apiurl,data);
+  }
+  bdTripReport(data){
+    
+    let apiurl=this.baseURL+"bdTripReport";
+    
+    return this.http.post(apiurl,data);
+  }
+  networkVehicleDelayReport(val:any){
+    return this.http.post(this.baseURL+'networkVehicleDelayReport',val)
+  }
+  
   vehicleTrackongS(val: any) {
     // let apiurl=;
     return this.http.post("https://api-bde.secutrak.in/dev-app-itraceit/vehicleTrackingV2New", val);
@@ -331,5 +345,4 @@ export class BluedartService {
     let apiurl=this.baseURL+"getslotwiseVehicle";
     return this.http.post(apiurl,data);
   }
-  
 }

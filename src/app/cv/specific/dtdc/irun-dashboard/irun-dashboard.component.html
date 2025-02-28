@@ -175,34 +175,35 @@
                 <ng-container *ngFor="let data of alert_keys;ind">
                 <div class="dropdown" id="searchDropdown">
                   <button class=" dropdown-toggle viewall-icon" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                  aria-expanded="false" style="    height: auto;">
-                  <img  [src]="getIconUrlByTitle(data)" class="img-view" style="height: 27px;">
+                  aria-expanded="false">
+                  <img  [src]="getIconUrlByTitle(data)" class="img-view"  style="height: 27px;">
                 </button>
                 <ul class="dropdown-menu scrollable" aria-labelledby="dropdownMenuButton" id="myDropdownroute">
                   <li style="font-weight: bold;">{{data}}</li>
                   <li _ngcontent-mrr-c230=""> 
-                    <a class="dropdown-item a-score" (click)="filterAlerts(data,30,0)">
+                    <a class="dropdown-item a-score" (click)="filterAlerts(data,'<30min')">
                       &lt; 30 Minutes
                       <div class="score-show" style="background: #E77817;">{{alert_dashboard[data]?.min_30}}</div>
                     </a>
                   </li>
-                
-                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,60,30)">
-                      < 1 Hours <div class="score-show" style="background:#1D4380 ;">{{alert_dashboard[data]?.hr_1}}
-                        </div>
-                    </a>
-                  </li>
-                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,120,60)">
-                      < 2 Hours <div class="score-show" style="background: #00C0F3;">{{alert_dashboard[data]?.hr_2}}
-                        </div>
-                    </a>
-                  </li>
-                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,180,120)">
+                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,'<1hr')">
+                    < 1 Hours <div class="score-show" style="background:#00C0F3;">{{alert_dashboard[data]?.hr_1}}
+                      </div>
+                  </a>
+                </li>
+                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,'<2hr')">
+                    < 2 Hours <div class="score-show" style="background: #1D4380;">{{alert_dashboard[data]?.hr_2}}
+                      </div>
+                  </a>
+                </li>
+               
+                 
+                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,'<4hr')">
                       < 4 Hours <div class="score-show" style="background: #F4858E;">{{alert_dashboard[data]?.hr_3}}
                         </div>
                     </a>
                   </li>
-                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,240,180)">
+                  <li><a class="dropdown-item  a-score" (click)="filterAlerts(data,'>4hr')">
                       > 4 Hours
                       <div class="score-show" style="background: #917BB9;">{{alert_dashboard[data]?.hr_4}}</div>
                     </a>
@@ -670,11 +671,13 @@
             [ngClass]="{'redinfo': (item.FlagNoAction==1 )}">
   
             <td>{{ind+1}}</td>
-            <td>{{item.shipment_no}}&nbsp;
+            <td>{{item.shipment_no}}
+              <ng-container  *ngIf="item.Priority==1" >&nbsp;
               <button type="button" class="text-dark"
                 (click)="remove_priorityId(item.id,permission?.priority_deactivate)">
                 <i class="fa fa-star" *ngIf="item.Priority==1" ngbTooltip="High Prioraty trip click for change"
                   style="color: red;"></i></button>
+              </ng-container>
             </td>
   
             <td>
@@ -5871,28 +5874,29 @@
                           <ul class="dropdown-menu scrollable" aria-labelledby="dropdownMenuButton" id="myDropdownroute">
                             <li style="font-weight: bold;">{{ch}}</li>
                             <li _ngcontent-mrr-c230=""> 
-                              <a class="dropdown-item a-score" (click)="filterAlerts(ch,30,0)">
+                              <a class="dropdown-item a-score" (click)="filterAlerts(ch,'<30min')">
                                 &lt; 30 Minutes
                                 <div class="score-show" style="background: #E77817;">{{alert_dashboard[ch]?.min_30}}</div>
                               </a>
                             </li>
                           
-                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,60,30)">
-                                < 1 Hours <div class="score-show" style="background:#1D4380 ;">{{alert_dashboard[ch]?.hr_1}}
+                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,'<1hr')">
+                              < 1 Hours <div class="score-show" style="background:#00C0F3;">{{alert_dashboard[ch]?.hr_1}}
+                                </div>
+                            </a>
+                          </li>
+                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,'<2hr')">
+                                < 2 Hours <div class="score-show" style="background: #1D4380;">{{alert_dashboard[ch]?.hr_2}}
                                   </div>
                               </a>
                             </li>
-                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,120,60)">
-                                < 2 Hours <div class="score-show" style="background: #00C0F3;">{{alert_dashboard[ch]?.hr_2}}
-                                  </div>
-                              </a>
-                            </li>
-                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,180,120)">
+                           
+                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,'<4hr')">
                                 < 4 Hours <div class="score-show" style="background: #F4858E;">{{alert_dashboard[ch]?.hr_3}}
                                   </div>
                               </a>
                             </li>
-                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,240,180)">
+                            <li><a class="dropdown-item  a-score" (click)="filterAlerts(ch,'>4hr')">
                                 > 4 Hours
                                 <div class="score-show" style="background: #917BB9;">{{alert_dashboard[ch]?.hr_4}}</div>
                               </a>
@@ -5914,16 +5918,18 @@
                   <div class="col-lg-6">
                     <span><i class="fa fa-circle" style="margin-right: 2px;color: #E77817; "></i>
                       < 30 Minutes </span><br>
-  
-                        <span><i class="fa fa-circle" style="margin-right: 2px; color: #00C0F3 ;"></i>
-                          < 2 Hours </span><br>
+                      <span><i class="fa fa-circle" style="margin-right: 2px ; color: #1D4380; "></i>
+                        < 2 Hours</span><br>
+                    
+                       
                             <span><i class="fa fa-circle" style="margin-right: 2px; color: #F4858E;"></i>
                               < 4 Hours </span>
                   </div>
                   <div class="col-lg-6">
-                    <span><i class="fa fa-circle" style="margin-right: 2px ; color: #1D4380; "></i>
-                      < 1 Hours</span><br>
-                        <span><i class="fa fa-circle" style="margin-right: 2px ; color: #F4858E; "></i> > 4 Hours
+                    
+                    <span><i class="fa fa-circle" style="margin-right: 2px; color: #00C0F3;"></i>
+                      < 1 Hours </span><br>
+                        <span><i class="fa fa-circle" style="margin-right: 2px ; color: #917BB9; "></i> > 4 Hours
                         </span><br>
                   </div>
                 </div>
