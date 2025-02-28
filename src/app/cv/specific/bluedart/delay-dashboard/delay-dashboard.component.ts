@@ -9,6 +9,8 @@ import { concatMap, tap } from 'rxjs/operators';
 import { BluedartService } from '../services/bluedart.service';
 import * as XLSX from 'xlsx';
 import { id } from '@swimlane/ngx-datatable';
+import * as XLSX from 'xlsx';
+import { id } from '@swimlane/ngx-datatable';
 declare var $: any
 declare var H: any;
 declare var google:any;
@@ -51,6 +53,7 @@ export class DelayDashboardComponent implements OnInit {
   routeTypes: any[] = []; // Options for ng-select
   commaSeparatedRoutes: any;
   lastOpenedInfoWindow: any;
+  lastOpenedInfoWindow: any;
   // -------------------------------------------------------------------
   columnDefs:any=[]  
   rowData:any=[] 
@@ -59,6 +62,9 @@ export class DelayDashboardComponent implements OnInit {
   new_array: any=[
     // {agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'},{agency_name_hn:'456',region_name:'78945',district_name:'789547'}
   ];
+  demoPolyline: any=[];
+  stored_imei: any=[];
+  stored_data: any=[];
   demoPolyline: any=[];
   stored_imei: any=[];
   stored_data: any=[];
@@ -126,6 +132,58 @@ initMap2()
   );
 }
 
+    this.delayDashboardDisclaimer();
+    this.initMap2()
+  }
+  delayDashboardDisclaimer(){
+    const formdataCustomer = new FormData();
+    // console.log( this.token)
+    formdataCustomer.append('AccessToken', this.token);
+
+    this.bluedartService.delayDashboardDisclaimer(formdataCustomer).subscribe((res: any) => {
+      
+      console.log("desclaimer",res)
+      if(res.status=="success"){
+      const marqueeContent:any = document.getElementById('marquee-content');
+      const row = document.createElement('tr');
+      Object.entries(res.data).forEach(([key, value]) => {
+         
+          const cell = document.createElement('td');
+          cell.innerHTML = `${key} <span id="lbl_${key.replace(/ /g, '_')}" class="badge" style="background: white; color: red; font-weight: bold; font-size: 9px;margin-right: 9px;margin-left: 2px;">${value}</span>`;
+          row.appendChild(cell);
+          marqueeContent.appendChild(row);
+      });
+     
+    }else{
+      alert(res.Message);
+      this.SpinnerService.hide()
+    }
+      // this.DelayTable();
+    })
+ 
+}
+initMap2() 
+{
+
+
+ //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
+  const center = { lat: 23.2599, lng: 77.4126 };
+
+ //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
+ // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
+// 
+
+  this.map1 = new google.maps.Map(document.getElementById('map2') as HTMLElement, {
+    zoom: 4,
+     center: center,
+
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    scaleControl: true,
+
+  }
+  );
+}
+
   Grid_table(){
 
     if (this.gridApi) {
@@ -133,6 +191,8 @@ initMap2()
     }
   // Define column definitions
   this.columnDefs = [
+    { headerName: "Sl No.", field: "slNo", sortable: true,width: 100, },
+    { headerName: "Vehicle No", field: "vehicleNo", sortable: true ,width: 120,
     { headerName: "Sl No.", field: "slNo", sortable: true,width: 100, },
     { headerName: "Vehicle No", field: "vehicleNo", sortable: true ,width: 120,
       cellRenderer: params => {
@@ -166,6 +226,16 @@ initMap2()
           }else  if (params.data.Full.vehicle_status_current == 'Stopped') {
             button.innerHTML += '<span style="color: red; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
           }
+          // button.innerHTML += `<strong style="color: #1D4380; font-size:12px">${params.data.Full?.vehicle_no}</i></strong>`;
+         
+          if (params.data.Full.vehicle_status_current == 'running') {
+            button.innerHTML += '<span style="color: #6ABD46; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
+          }
+          else  if (params.data.Full.vehicle_status_current == 'InActive') {
+            button.innerHTML += '<span style="color: gray; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
+          }else  if (params.data.Full.vehicle_status_current == 'Stopped') {
+            button.innerHTML += '<span style="color: red; margin-right: 0px;">'+params.data.Full?.vehicle_no +' </span> ';
+          }
           button.addEventListener("click", () => {
             this.stored_imei=[ params?.data.Full.imei_no,
               params?.data.Full.imei_no2,
@@ -174,10 +244,12 @@ initMap2()
             // console.log("Row Data:", params.data.Full);
             // this.Detail(params.data.Full)
             this.vehicleTrackF_new( params.data.Full?.imei_current,'','',params.data.Full?.run_date, params.data.Full?.vehicle_no, params.data.Full?.item, params.data.Full?.shipment_no, params.data.Full?._id)
+            this.vehicleTrackF_new( params.data.Full?.imei_current,'','',params.data.Full?.run_date, params.data.Full?.vehicle_no, params.data.Full?.item, params.data.Full?.shipment_no, params.data.Full?._id)
             // this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
           });
        
         // Append span and button to the container
+        // container.appendChild(serialSpan);
         // container.appendChild(serialSpan);
         container.appendChild(button);
       
@@ -189,16 +261,26 @@ initMap2()
     { headerName: "Destination", field: "destination", sortable: true ,width: 130,},
     
     { headerName: "Feeder Type", field: "shipment_method", sortable: true ,width: 150,},
+    { headerName: "Origin", field: "origin", sortable: true,width: 100, },
+    
+    { headerName: "Destination", field: "destination", sortable: true ,width: 130,},
+    
+    { headerName: "Feeder Type", field: "shipment_method", sortable: true ,width: 150,},
     { headerName: "STA", field: "sta", sortable: true },
     { headerName: "Delaying STA", field: "delayingSta", sortable: true },
     { headerName: "Delay Hours", field: "delayHours", sortable: true,width: 130, },
+    { headerName: "Delay Hours", field: "delayHours", sortable: true,width: 130, },
     { headerName: "Current Location", field: "currentLocation", sortable: true },
+    { headerName: "Vehicle Status", field: "vehicleStatus", sortable: true ,width: 130,},
     { headerName: "Vehicle Status", field: "vehicleStatus", sortable: true ,width: 130,},
     { headerName: "Route", field: "route", sortable: true },
     { headerName: "Run Date", field: "runDate", sortable: true },
     { headerName: "Driver Name", field: "driverName", sortable: true },
     { headerName: "Driver Number", field: "driverNumber", sortable: true,width: 150, },
+    { headerName: "Driver Number", field: "driverNumber", sortable: true,width: 150, },
     { headerName: "Transporter", field: "transporter", sortable: true },
+    { headerName: "Trip Id", field: "tripId", sortable: true ,width: 100,},
+     { headerName: "Device-1", field: "device1", sortable: false ,
     { headerName: "Trip Id", field: "tripId", sortable: true ,width: 100,},
      { headerName: "Device-1", field: "device1", sortable: false ,
       cellRenderer: params => {
@@ -233,14 +315,17 @@ initMap2()
           // Add click event listener to the anchor tag
           anchor.addEventListener("click", () => {
             this.stored_imei=[];
+            this.stored_imei=[];
             this.vehicleTrackF_new(
               params.data.Full.imei_no,
               '',
+              '', 
               '', 
               params?.data?.Full?.run_date,
               params?.data?.Full?.vehicle_no,
               params?.data?.Full,
               params?.data?.Full?.shipment_no,
+              params?.data?.Full?._id
               params?.data?.Full?._id
             );
           });
@@ -397,6 +482,7 @@ initMap2()
           // Add click event listener to the anchor tag
           anchor.addEventListener("click", () => {
             this.stored_imei=[params?.data.Full.imei_no3,];
+            this.stored_imei=[params?.data.Full.imei_no3,];
             this.vehicleTrackF_new(
               params?.data.Full.imei_no3,
               '',
@@ -405,6 +491,7 @@ initMap2()
               params?.data.Full.vehicle_no,
               params?.data.Full,
               params?.data.Full.shipment_no,
+              params?.data.Full._id
               params?.data.Full._id
             );
           });
@@ -473,6 +560,7 @@ initMap2()
         return container;
       }
       ,width: 100, },
+      ,width: 100, },
     { headerName: "Track(All)", field: "trackAll", sortable: false,
       cellRenderer: params => {
         // Create the container div
@@ -494,6 +582,9 @@ initMap2()
             this.stored_imei=[ params?.data.Full.imei_no,
               params?.data.Full.imei_no2,
               params?.data.Full.imei_no3,];
+            this.stored_imei=[ params?.data.Full.imei_no,
+              params?.data.Full.imei_no2,
+              params?.data.Full.imei_no3,];
             this.vehicleTrackF_new(
               params?.data.Full.imei_no,
               params?.data.Full.imei_no2,
@@ -502,6 +593,7 @@ initMap2()
               params?.data.Full.vehicle_no,
               params?.data.Full,
               params?.data.Full.shipment_no,
+              params?.data.Full._id
               params?.data.Full._id
             );
           });
@@ -518,19 +610,26 @@ initMap2()
         return container;
       }
       ,width: 100,  },
+      ,width: 100,  },
     { headerName: "Full", field: "Full", sortable: false ,hide:true}
   ];
+  console.log(this.new_array)
   console.log(this.new_array)
     this.rowData = this.new_array.map((person, index) => ({
   
       slNo:index+1 ,
       vehicleNo:person?.vehicle_no,
+      vehicleNo:person?.vehicle_no,
       origin:person?.source_code,
       destination:person?.destination_code,
+      shipment_method:person?.shipment_method,
       shipment_method:person?.shipment_method,
       sta:person?.schedule_arrival,
       delayingSta:person?.delaying_sta,
       delayHours:person?.delay_hr,
+      currentLocation:person?.last_address_current, vehicleStatus:person?.vehicle_status_current 
+      ? person.vehicle_status_current.charAt(0).toUpperCase() + person.vehicle_status_current.slice(1).toLowerCase() 
+      : '',
       currentLocation:person?.last_address_current, vehicleStatus:person?.vehicle_status_current 
       ? person.vehicle_status_current.charAt(0).toUpperCase() + person.vehicle_status_current.slice(1).toLowerCase() 
       : '',
@@ -594,6 +693,7 @@ adjustGridHeight() {
       
       if(res.status=='success'){
 console.log(res)
+console.log(res)
       
       this.alertData = res.data[1];
       this.selectedRouteType=res.data.defaultFilter
@@ -628,6 +728,7 @@ console.log(res)
     formdataCustomer.append('RouteType', this.commaSeparatedRoutes);
     this.bluedartService.bdDelayDashboard(formdataCustomer).subscribe((res: any) => {
       console.log('delayDashboardGenericr', res);
+      console.log('delayDashboardGenericr', res);
       if(res.status=="success"){
 
         const values:any = Object.values(res.data);
@@ -644,6 +745,140 @@ console.log(res)
   }
   onBtExport() {
     // this.gridApi!.exportDataAsExcel();
+    this. gridApi!.exportDataAsCsv({
+      fileName: 'DelayDashboard.csv'
+    });
+    }
+    exportExcel(){
+      console.log(this.new_array)
+      const rowData = this.new_array.map((person, index) => ({
+  
+        Sl:index+1 ,
+        VehicleNo:person?.vehicle_no,
+        Origin:person?.source_code,
+        Destination:person?.destination_code,
+        FeederType:person?.shipment_method,
+        STA:this.parseDate(person?.schedule_arrival),
+        DelayingSTA:this.parseDate(person?.delaying_sta),
+        DelayHours:person?.delay_hr,
+        CurrentLocation:person?.last_address_current,
+        vehicleStatus:person?.vehicle_status_current,
+        Route:person?.route_name,
+        RunDate: this.parseDate(person?.run_date),
+        DriverName:person?.driver_name,
+        DriverNumber:person?.driver_mobile,
+        Transporter: person?.transporter_name,
+        TripId: person?.shipment_no,
+        // device1:'',
+        // device2: '',
+        // device3:'',
+        // trackAll:'',
+        // Full:person
+      }));
+         const ws = XLSX.utils.json_to_sheet(rowData, {
+          cellDates: true,  
+          dateNF: 'dd-mm-yyyy hh:mm:ss', // Set the desired date format
+          // dateNF: 'yyyy/mm/dd hh:mm:ss', 
+        });
+      
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'DelayDashboard');
+        XLSX.writeFile(wb, 'DelayDashboard.xlsx');
+      
+      }
+      private parseDate(dateString: string): Date | null {
+        if (!dateString || dateString === '-' || dateString === '') return null;
+      
+        const [yearTime, month, day] = dateString.split('-');
+        const [day1, time] = day.split(' ');
+      
+        // Construct ISO format (YYYY-MM-DDTHH:MM:SS)
+        const isoDateString = `${yearTime}-${month}-${day1}T${time}`;
+      
+        // Force UTC to avoid timezone inconsistencies
+        const parsedDate = new Date(isoDateString + 'Z'); 
+      
+        
+        return parsedDate;
+      }
+      exportToPDF(): void {
+        // Step 1: Extract parent and child headers dynamically
+        const parentHeaders: any[] = [];
+        const childHeaders: any[] = [];
+        this.columnDefs.forEach((colDef) => {
+          if (colDef.children) {
+            parentHeaders.push({ text: colDef.headerName, colSpan: colDef.children.length, alignment: 'center', bold: true });
+            for (let i = 1; i < colDef.children.length; i++) {
+              parentHeaders.push(''); // Fill empty cells for colspan
+            }
+            colDef.children.forEach((child) => {
+              childHeaders.push({ text: child.headerName, alignment: 'center' });
+            });
+          } else {
+            parentHeaders.push({ text: colDef.headerName, alignment: 'center', bold: true });
+            childHeaders.push('');
+          }
+        });
+      
+        // Step 2: Prepare table body
+        const body: any[] = [];
+        body.push(parentHeaders); // Add parent headers
+        body.push(childHeaders); // Add child headers
+      
+        // Add row data dynamically
+        this.rowData.forEach((row) => {
+          const rowData: any[] = [];
+          this.columnDefs.forEach((colDef) => {
+            if (colDef.children) {
+              colDef.children.forEach((child) => {
+                rowData.push(row[child.field] || ''); // Add row data for child fields
+              });
+            } else {
+              rowData.push(row[colDef.field] || ''); // Add row data for top-level fields
+            }
+          });
+          body.push(rowData);
+        });
+      
+        // Step 3: Define PDF document structure
+        const docDefinition = {
+          content: [
+            { text: 'Dynamic Table Export', style: 'header', alignment: 'center' },
+            { text: '\n' }, // Add spacing
+            {
+              table: {
+                headerRows: 2,
+                widths: Array(body[0].length).fill('auto'), // Auto column widths
+                body: body,
+              },
+              layout: {
+                fillColor: (rowIndex) => (rowIndex === 0 ? '#0074D9' : rowIndex === 1 ? '#DDDDDD' : null), // Parent and child header colors
+                hLineWidth: () => 0.5,
+                vLineWidth: () => 0.5,
+              },
+            },
+          ],
+          pageOrientation: 'landscape',
+          styles: {
+            header: {
+              fontSize: 18,
+              bold: true,
+              margin: [0, 0, 0, 10],
+            },
+            tableHeader: {
+              bold: true,
+              fontSize: 12,
+              alignment: 'center',
+            },
+          },
+          defaultStyle: {
+            fontSize: 10,
+          },
+        };
+      
+        // Step 4: Generate and download the PDF
+        pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
+      }
     this. gridApi!.exportDataAsCsv({
       fileName: 'DelayDashboard.csv'
     });
@@ -986,39 +1221,39 @@ console.log(res)
 
     });
   }
-  vehicleTrackF_new1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
-    console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id)
-    // this.SpinnerService.show();
-    this.clearMarkersAndPolylines();
-    this.initializeMap().then(() => {
-    }).catch(error => {
-      console.error('Error initializing map:', error);
-      this.SpinnerService.hide('spinner-1');
-    });
+  // vehicleTrackF_new1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  //   console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id)
+  //   // this.SpinnerService.show();
+  //   this.clearMarkersAndPolylines();
+  //   this.initializeMap().then(() => {
+  //   }).catch(error => {
+  //     console.error('Error initializing map:', error);
+  //     this.SpinnerService.hide('spinner-1');
+  //   });
 
 
 
-    // console.log("demomarker", this.demomarker);
-    this.SpinnerService.show("tracking");
-    // }
-    const imeis = ['HR47F0104'];
-    console.log(imeis)
-    // Loop through each IMEI
-    imeis.forEach((imei) => {
-      console.log(imei)
-      this.trackingData = [];
-      this.customer_info = [];
-      this.marker = [];
-      this.poly_line = [];
-      this.map_flag = '';
+  //   // console.log("demomarker", this.demomarker);
+  //   this.SpinnerService.show("tracking");
+  //   // }
+  //   const imeis = ['HR47F0104'];
+  //   console.log(imeis)
+  //   // Loop through each IMEI
+  //   imeis.forEach((imei) => {
+  //     console.log(imei)
+  //     this.trackingData = [];
+  //     this.customer_info = [];
+  //     this.marker = [];
+  //     this.poly_line = [];
+  //     this.map_flag = '';
 
-      if (imei === "") {
-        this.map_flag = 'Device unavailable';
-      } else {
+  //     if (imei === "") {
+  //       this.map_flag = 'Device unavailable';
+  //     } else {
 
-        this.map_flag = 'Please wait';
-        const formData = new FormData();
-        const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+  //       this.map_flag = 'Please wait';
+  //       const formData = new FormData();
+  //       const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
 
         formData.append('AccessToken', this.token);
         formData.append('startdate', "2024-10-30 12:19:58");
@@ -1037,52 +1272,56 @@ console.log(res)
             alert(res?.Message);
             // this.SpinnerService.hide("tracking");
 
-          }
-          this.trackingData = res.data;
+  //         }
+  //         this.trackingData = res.data;
 
-          // if (this.trackingData.length > 0) {
-          //   this.map_flag = '';
-          //   this.latlngbounds = new google.maps.LatLngBounds();
-          //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
-          //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
+  //         // if (this.trackingData.length > 0) {
+  //         //   this.map_flag = '';
+  //         //   this.latlngbounds = new google.maps.LatLngBounds();
+  //         //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[0].lat), parseFloat(this.trackingData[0].long)));
+  //         //   this.latlngbounds.extend(new google.maps.LatLng(parseFloat(this.trackingData[this.trackingData.length - 1].lat), parseFloat(this.trackingData[this.trackingData.length - 1].long)));
 
-          //   // Ensure the map bounds are updated
-          //   this.map1.fitBounds(this.latlngbounds);
-          // }
-          this.SpinnerService.hide("tracking");
-          if (res.data === 'Vehicle is inactive.') {
-            alert("Track data is not available");
-          } else {
-            this.addMarkersAndPolyline1(imei, vehicle_no);
-            // Fetch DFG polyline data
-            // this.fetchDFGPolyline_new(route_id);
+  //         //   // Ensure the map bounds are updated
+  //         //   this.map1.fitBounds(this.latlngbounds);
+  //         // }
+  //         this.SpinnerService.hide("tracking");
+  //         if (res.data === 'Vehicle is inactive.') {
+  //           alert("Track data is not available");
+  //         } else {
+  //           this.addMarkersAndPolyline1(imei, vehicle_no);
+  //           // Fetch DFG polyline data
+  //           // this.fetchDFGPolyline_new(route_id);
 
-            // Fetch customer info
-            // this.fetchCustomerInfo_new(Id);
+  //           // Fetch customer info
+  //           // this.fetchCustomerInfo_new(Id);
 
-            // Handle alert markers
-            // this.handleAlertMarkers(item);
-          }
+  //           // Handle alert markers
+  //           // this.handleAlertMarkers(item);
+  //         }
 
-          // this.SpinnerService.hide("tracking");
-        });
+  //         // this.SpinnerService.hide("tracking");
+  //       });
 
-        // // Fetch DFG polyline data
-        // this.fetchDFGPolyline(route_id);
+  //       // // Fetch DFG polyline data
+  //       // this.fetchDFGPolyline(route_id);
 
-        // // Fetch customer info
-        // this.fetchCustomerInfo(Id);
+  //       // // Fetch customer info
+  //       // this.fetchCustomerInfo(Id);
 
-        // // Handle alert markers
-        // this.handleAlertMarkers(item);
-      }
-    })
+  //       // // Handle alert markers
+  //       // this.handleAlertMarkers(item);
+  //     }
+  //   })
 
-  }
+  // }
 
   // async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
   //   console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
+  // async vehicleTrackF_new(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+  //   console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id);
 
+  //   // Clear markers and polylines before starting
+  //   this.clearMarkersAndPolylines();
   //   // Clear markers and polylines before starting
   //   this.clearMarkersAndPolylines();
 
@@ -1093,7 +1332,16 @@ console.log(res)
   //     console.error('Error initializing map:', error);
   //     this.SpinnerService.hide('spinner-1');
   //   }
+  //   // Initialize map
+  //   try {
+  //     await this.initializeMap();
+  //   } catch (error) {
+  //     console.error('Error initializing map:', error);
+  //     this.SpinnerService.hide('spinner-1');
+  //   }
 
+  //   // Show tracking spinner
+  //   this.SpinnerService.show("tracking");
   //   // Show tracking spinner
   //   this.SpinnerService.show("tracking");
 
@@ -1101,7 +1349,14 @@ console.log(res)
   //   // const imeis = [imei,imei2,imei3];
   //   const imeis = [imei, imei2, imei3];
   //   console.log(imeis);
+  //   // Define the array of IMEIs to process
+  //   // const imeis = [imei,imei2,imei3];
+  //   const imeis = [imei, imei2, imei3];
+  //   console.log(imeis);
 
+  //   // Loop through each IMEI using a for...of loop to support async/await
+  //   for (const imei of imeis) {
+  //     // console.log(imei);
   //   // Loop through each IMEI using a for...of loop to support async/await
   //   for (const imei of imeis) {
   //     // console.log(imei);
@@ -1112,7 +1367,19 @@ console.log(res)
   //     this.marker = [];
   //     this.poly_line = [];
   //     this.map_flag = '';
+  //     // Reset tracking data for each IMEI
+  //     this.trackingData = [];
+  //     this.customer_info = [];
+  //     this.marker = [];
+  //     this.poly_line = [];
+  //     this.map_flag = '';
 
+  //     if (imei === "") {
+  //       this.map_flag = 'Device unavailable';
+  //     } else {
+  //       this.map_flag = 'Please wait';
+  //       const formData = new FormData();
+  //       const currentDateTime: any = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
   //     if (imei === "") {
   //       this.map_flag = 'Device unavailable';
   //     } else {
@@ -1127,7 +1394,18 @@ console.log(res)
   //       formData.append('imei', imei);
   //       formData.append('group_id', this.group_id);
   //       formData.append('AccountId', this.account_id);
+  //       formData.append('AccessToken', this.token);
+  //       formData.append('startdate', run_date);
+  //       formData.append('enddate', currentDateTime);
+  //       formData.append('time_interval', '120');
+  //       formData.append('imei', imei);
+  //       formData.append('group_id', this.group_id);
+  //       formData.append('AccountId', this.account_id);
 
+  //       // Log form data for debugging
+  //       // formData.forEach((value, key) => {
+  //       //   console.log("formdata...", key, value);
+  //       // });
   //       // Log form data for debugging
   //       // formData.forEach((value, key) => {
   //       //   console.log("formdata...", key, value);
@@ -1137,13 +1415,29 @@ console.log(res)
   //         // Wait for the API response
   //         const res: any = await this.itraceIt.vehicleTrackongS(formData).toPromise();
   //         // console.log("tracking res", res);
+  //       try {
+  //         // Wait for the API response
+  //         const res: any = await this.itraceIt.vehicleTrackongS(formData).toPromise();
+  //         // console.log("tracking res", res);
 
+  //         if (res.Status === "failed") {
+  //           alert(res?.Message);
+  //         }
   //         if (res.Status === "failed") {
   //           alert(res?.Message);
   //         }
 
   //         this.trackingData = res.data;
+  //         this.trackingData = res.data;
 
+  //         if (res.data === 'Vehicle is inactive.') {
+  //           alert("Track data is not available");
+  //         } else {
+  //           console.log("trackingData", this.trackingData)
+  //           // Add markers and polyline data
+  //           this.addMarkersAndPolyline1(imei, vehicle_no);
+  //           // Fetch DFG polyline data
+  //           // this.fetchDFGPolyline_new(route_id);
   //         if (res.data === 'Vehicle is inactive.') {
   //           alert("Track data is not available");
   //         } else {
@@ -1155,7 +1449,12 @@ console.log(res)
 
   //           // Fetch customer info
   //           this.fetchCustomerInfo_new(Id);
+  //           // Fetch customer info
+  //           this.fetchCustomerInfo_new(Id);
 
+  //           // Handle alert markers
+  //           // this.handleAlertMarkers(item);
+  //         }
   //           // Handle alert markers
   //           // this.handleAlertMarkers(item);
   //         }
@@ -1164,7 +1463,16 @@ console.log(res)
   //         console.error("Error in API call:", error);
   //         alert("An error occurred while fetching tracking data");
   //       }
+  //       } catch (error) {
+  //         console.error("Error in API call:", error);
+  //         alert("An error occurred while fetching tracking data");
+  //       }
 
+  //       // Hide the tracking spinner after the API call
+  //       this.SpinnerService.hide("tracking");
+  //     }
+  //   }
+  // }
   //       // Hide the tracking spinner after the API call
   //       this.SpinnerService.hide("tracking");
   //     }
@@ -1176,7 +1484,22 @@ console.log(res)
   //     return 'assets/images/users/start_marker.png';
   //   }
   //   else if (index + 1 === this.trackingData.length) {
+  // getMarkerIcon(index: number): string {
+  //   if (index === 0) {
+  //     return 'assets/images/users/start_marker.png';
+  //   }
+  //   else if (index + 1 === this.trackingData.length) {
 
+  //     setTimeout(() => {
+  //       this.SpinnerService.hide("tracking");
+  //     }, 5000);
+  //     return 'assets/images/users/stop_marker.png';
+  //   } else {
+  //     return 'assets/images/users/green_Marker1.png';
+  //   }
+  // }
+  // addMarkersAndPolyline1(imei: string, vehicle_no: string) {
+  //   var lineString = new H.geo.LineString();
   //     setTimeout(() => {
   //       this.SpinnerService.hide("tracking");
   //     }, 5000);
@@ -1198,12 +1521,28 @@ console.log(res)
   //   for (let i = 0; i < this.trackingData.length; i++) {
   //     const position: any = this.trackingData[i];
   //     lineString.pushPoint({ lat: this.trackingData[i].lat, lng: this.trackingData[i].long });
+  //   let minLat = Infinity, minLng = Infinity, maxLat = -Infinity, maxLng = -Infinity;
+  //   // const ui = H.ui.UI.createDefault(this.map1, new H.map.Platform({apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'}).createDefaultLayers());
+  //   const platform = new H.service.Platform({
+  //     apikey: 'MoBysY-1fH4koFS2rGUDpwvRHSLfdX4GWYsRJUlB8VY'  // Replace with your actual API key
+  //   });
+  //   const defaultLayers = platform.createDefaultLayers();
+  //   const ui = H.ui.UI.createDefault(this.map1, defaultLayers);
+  //   for (let i = 0; i < this.trackingData.length; i++) {
+  //     const position: any = this.trackingData[i];
+  //     lineString.pushPoint({ lat: this.trackingData[i].lat, lng: this.trackingData[i].long });
 
+  //     const locationOfMarker = { lat: position.lat, lng: position.long };
   //     const locationOfMarker = { lat: position.lat, lng: position.long };
 
   //     const icon_temp = this.getMarkerIcon(i);
   //     const marker = this.createMarker(locationOfMarker, icon_temp, '2');
+  //     const icon_temp = this.getMarkerIcon(i);
+  //     const marker = this.createMarker(locationOfMarker, icon_temp, '2');
 
+  //     // Add the marker to the map
+  //     this.map1.addObject(marker);
+  //     this.markers.push(marker);
   //     // Add the marker to the map
   //     this.map1.addObject(marker);
   //     this.markers.push(marker);
@@ -1217,19 +1556,36 @@ console.log(res)
   //       //  var position= evt.latLng.lat()
   //       // Remove existing bubbles, if any
   //       ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
+  //     // Attach click event to each marker
+  //     marker.addEventListener('tap', async (evt) => {
+  //       //  var position= evt.latLng.lat()
+  //       // Remove existing bubbles, if any
+  //       ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
 
+  //       // Create content for the info window
+  //       // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
+  //       console.log(position, i)
+  //       const infoContent = await this.handleMarkerClick(evt, position, vehicle_no, imei);
   //       // Create content for the info window
   //       // const infoContent =this.handleMarkerClick(evt, this.trackingData[i], vehicle_no, imei)
   //       console.log(position, i)
   //       const infoContent = await this.handleMarkerClick(evt, position, vehicle_no, imei);
 
   //       //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
+  //       //  `<div>Marker #${i + 1}<br>Latitude: ${position.lat}<br>Longitude: ${position.long}</div>`;
 
   //       // Create an info bubble at the marker's location
   //       const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
   //         content: infoContent
   //       });
+  //       // Create an info bubble at the marker's location
+  //       const infoBubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+  //         content: infoContent
+  //       });
 
+  //       // Add the info bubble to the map
+  //       ui.addBubble(infoBubble);
+  //     });
   //       // Add the info bubble to the map
   //       ui.addBubble(infoBubble);
   //     });
@@ -1254,10 +1610,25 @@ console.log(res)
   //     maxLat = Math.max(maxLat, position.lat);
   //     maxLng = Math.max(maxLng, position.long);
   //   }
+  //     // Update min and max lat/lng values to create bounding box
+  //     minLat = Math.min(minLat, position.lat);
+  //     minLng = Math.min(minLng, position.long);
+  //     maxLat = Math.max(maxLat, position.lat);
+  //     maxLng = Math.max(maxLng, position.long);
+  //   }
 
   //   // Define padding in degrees (adjust as needed)
   //   const padding = 0.01;
+  //   // Define padding in degrees (adjust as needed)
+  //   const padding = 0.01;
 
+  //   // Create a bounding box with padding
+  //   const boundingBox = new H.geo.Rect(
+  //     maxLat + padding,    // Top latitude (maxLat + padding)
+  //     minLng - padding,    // Left longitude (minLng - padding)
+  //     minLat - padding,    // Bottom latitude (minLat - padding)
+  //     maxLng + padding     // Right longitude (maxLng + padding)
+  //   );
   //   // Create a bounding box with padding
   //   const boundingBox = new H.geo.Rect(
   //     maxLat + padding,    // Top latitude (maxLat + padding)
@@ -1270,9 +1641,16 @@ console.log(res)
   //   this.map1.getViewModel().setLookAtData({
   //     bounds: boundingBox
   //   });
+  //   // Set the map view to fit all markers within the padded bounding box
+  //   this.map1.getViewModel().setLookAtData({
+  //     bounds: boundingBox
+  //   });
 
 
 
+  //   console.log("lineString", lineString)
+  //   this.addPolylineToMap(lineString)
+  // }
   //   console.log("lineString", lineString)
   //   this.addPolylineToMap(lineString)
   // }
@@ -1283,6 +1661,7 @@ console.log(res)
     formdataCustomer.append('VehicleId', vehicle_no);
     formdataCustomer.append('ImeiNo', imei);
     formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
+    formdataCustomer.append('portal', 'itraceit');
     formdataCustomer.append('portal', 'itraceit');
     this.itraceIt.addressS(formdataCustomer).subscribe((res: any) => {
       const address = res.Data.Address;
@@ -1300,14 +1679,31 @@ console.log(res)
   //   formdataCustomer.append('VehicleId', vehicle_no);
   //   formdataCustomer.append('ImeiNo', imei);
   //   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
+  // async handleMarkerClick(event, trackingData, vehicle_no, imei) {
+  //   const markerPosition = event.target.getGeometry();
+  //   const formdataCustomer = new FormData();
+  //   formdataCustomer.append('AccessToken', this.token);
+  //   formdataCustomer.append('VehicleId', vehicle_no);
+  //   formdataCustomer.append('ImeiNo', imei);
+  //   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
 
+  //   const res: any = await this.itraceIt.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
+  //   console.log("res", res)
+  //   const address = res.Data.Address;
   //   const res: any = await this.itraceIt.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
   //   console.log("res", res)
   //   const address = res.Data.Address;
 
   //   return this.showWindow(trackingData, vehicle_no, address); // Return the content
   // }
+  //   return this.showWindow(trackingData, vehicle_no, address); // Return the content
+  // }
 
+  // showWindow(data, vnumber, add) {
+  //   // var add:any
+  //   this.contentsInfo = ''
+  //   console.log('show window of vehicle information', data, add)
+  //   /////////////////////////address api////////////////////////////////////////////////////
   // showWindow(data, vnumber, add) {
   //   // var add:any
   //   this.contentsInfo = ''
@@ -1317,10 +1713,60 @@ console.log(res)
 
 
   //   ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+  //   ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
   //   return this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
   //     '<tbody style="border:none !important">' +
+  //   return this.contentsInfo = '<table style="line-height: 16px; border:none !important">' +
+  //     '<tbody style="border:none !important">' +
 
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
+  //     '<td style="width:1%;color: blue;border:none !important">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.lat + ',' + data.long + '</td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Vehicle No</td>' +
+  //     '<td style="width:1%;color: blue;border:none !important">:</td>' +
+  //     '<td style=" border:none !important;color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + vnumber + '</td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Address</td>' +
+  //     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500;" ><div style=" width: 250px;  word-wrap: break-word;  overflow-wrap: break-word; word-break: break-all;   line-height: 1.2;    white-space: normal;">' + add + '</div></td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Imei</td>' +
+  //     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.imei + '</td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Date Time</td>' +
+  //     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.device_time + '</td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Speed(km/hr)</td>' +
+  //     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.speed + '</td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Server Time</td>' +
+  //     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.server_time + '</td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Distance</td>' +
+  //     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
+  //     '</tr>' +
+  //     '<tr style=" border:none !important">' +
+  //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
+  //     '<td style="border:none !important;width:1%;color: blue;">:</td>' +
+  //     '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.loc_type + '</td>' +
+  //     '</tr>' +
+  //     '</tbody>' +
+  //     '</table>'
   //     '<tr style=" border:none !important">' +
   //     '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Lat Long</td>' +
   //     '<td style="width:1%;color: blue;border:none !important">:</td>' +
@@ -1374,6 +1820,7 @@ console.log(res)
 
 
 
+  // }
   // }
 
   // Assuming you have imported or included Supercluster in your project
@@ -1671,8 +2118,19 @@ console.log(res)
     infowindowMarker_custo.setPosition(event.latLng);
     infowindowMarker_custo.open(this.map1);
     this.lastOpenedInfoWindow = infowindowMarker_custo;
+    // return customer_Info;
+    this.closeLastOpenedInfoWindow();
+    const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
+    infowindowMarker_custo.setPosition(event.latLng);
+    infowindowMarker_custo.open(this.map1);
+    this.lastOpenedInfoWindow = infowindowMarker_custo;
   }
 
+//   generateCustomerInfo(customer): string {
+//     let pod = customer.PodStatus === 1 ? 'DONE' : '-';
+//     let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
+//     let arrival_time = customer.GeoArrivalTime ? `${customer.GeoArrivalTime} [GPS]` : customer.ArrivalTime;
+//     let departure_time = customer.GeoDepartureTime ? `${customer.GeoDepartureTime} [GPS]` : customer.DepartureTime;
 //   generateCustomerInfo(customer): string {
 //     let pod = customer.PodStatus === 1 ? 'DONE' : '-';
 //     let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
@@ -1697,11 +2155,33 @@ generateCustomerInfo(customer): string {
   // let departure_time = customer.GeoDepartureTime ? `${customer.GeoDepartureTime} [GPS]` : customer.DepartureTime;
   // console.log(customer)
   return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important;width:220px">
+//     return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important">
+//   <tbody style="border:none !important">
+//     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Location</td><td style="border:none !important">:</td><td style="border:none !important">${customer.LocationCode}</td></tr>
+//     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">PodStatus</td><td style="border:none !important">:</td><td style="border:none !important">${pod}</td></tr>
+//   </tbody>
+// </table>`;
+
+// // <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Type</td><td style="border:none !important">:</td><td style="border:none !important">${type}</td></tr>
+// // <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">ArrivalTime</td><td style="border:none !important">:</td><td style="border:none !important">${arrival_time}</td></tr>
+// // <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">DepartureTime</td><td style="border:none !important">:</td><td style="border:none !important">${departure_time}</td></tr>
+//   }
+generateCustomerInfo(customer): string {
+  // let pod = customer.CustVisited === 1 ? 'Already DONE' : 'Not Done';
+  // let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
+  // let arrival_time = customer.GeoArrivalTime ? `${customer.GeoArrivalTime} [GPS]` : customer.ArrivalTime;
+  // let departure_time = customer.GeoDepartureTime ? `${customer.GeoDepartureTime} [GPS]` : customer.DepartureTime;
+  // console.log(customer)
+  return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important;width:220px">
   <tbody style="border:none !important">
     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Destination/Customer</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Source}</td></tr>
     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">LatLong</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Coordinates}</td></tr>
   
+    <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Destination/Customer</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Source}</td></tr>
+    <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">LatLong</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Coordinates}</td></tr>
+  
   </tbody>
+  </table>`;
   </table>`;
   }
   initializeMap(): Promise<void> {

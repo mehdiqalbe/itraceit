@@ -1,0 +1,764 @@
+
+ <!-- Header Start -->
+ <div class="card" style="background:transparent;border:none;margin-bottom: 4px;">
+    <div class="card-body innerdiv p-0">
+      <!-- headerstart here -->
+      <div class="hor-header">
+        <div style="overflow: hidden;">
+          <div class="d-flex align-items-left ">
+            <div style="width:fit-content" class=" my-2 d-flex">
+              <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
+            </div>
+           
+            <div
+            class="w-100"
+            style="
+              font-weight: 600;
+              font-size: small;
+              text-align: left;
+             
+            "
+          >
+          <div  class="order-header d-flex py-2 justify-content-between align-items-center" >
+            <div class="ps-2">
+              <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+                Slotwise Distance Report</h3>
+              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Slotwise Distance Report</h5>
+            </div>
+     
+  
+            <div class="d-flex gap-4 pe-5">
+       
+            </div>
+            <!-- <div class="d-flex justify-content-between  align-items-baseline mt-2">
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Running:{{dashboardHeader?.running}}</span>
+                <span>Lock NA: {{dashboardHeader?.lock_na}}</span>
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Free Vehicles ( >2Hrs.): {{dashboardHeader?.free_vehicle}}</span> 
+                <span>DFG: {{dashboardHeader?.dfg}}</span> 
+                
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>NoData: {{dashboardHeader?.no_data}}</span> 
+                <span>Delayed Arrived: {{dashboardHeader?.delayed_arrived}}</span>
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Non-Integrated: {{dashboardHeader?.non_integrated}}</span>
+                <span>At Source: {{dashboardHeader?.at_source}}</span> 
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Lock Status (/): {{dashboardHeader?.lock_close}}/{{dashboardHeader?.lock_open}}</span>
+                <span>At Destination: {{dashboardHeader?.at_destination}}</span>
+              </div>
+            </div> -->
+            
+         
+          </div>
+          
+          </div>
+            <!-- <div class="col-lg-2 text-center ">
+  
+            </div> -->
+  
+            <!-- <div class="col-lg-1"></div> -->
+            <!-- <div class="col-lg-1">
+              <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a> 
+            </div> -->
+            <!-- <div class="col-lg-1 text-center">
+              <a class="header-brand1">
+                <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
+                  style="height:auto;max-height:48px; width: 80%;">
+              </a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- HEADER END -->
+  <div class="container-fluid specificDashboard">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div style="border-bottom:1.5px solid #9ba9b591;margin-bottom:12px;" class="headerIcon justify-content-between pe-4 d-flex align-items-center">
+          <div>
+            <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
+              <a
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                role="button"
+                aria-expanded="true"
+                aria-controls="collapseExample"
+                style="font-size: 16px"
+              >
+                <i
+                  class="fa fa-filter"
+                  aria-hidden="false"
+                  style="
+                    font-size: 20px;
+                    color: #1d4380;
+                    margin-top: 8px;
+                  "
+                ></i
+                >FILTER
+              </a>
+            </p>
+          </div>
+          <div class="d-none align-items-center">
+            <!-- <div class="d-flex gap-5 pe-5">
+              <div ngbTooltip="All" class="position-relative" >
+  
+               <button (click)="filterTable('All')" type="button"><img src="assets/tripIcon/resetAll.svg" alt="" style="width:40px;"></button> 
+              </div>
+              <div ngbTooltip="Free Vehicle" class="position-relative" >
+                <span style="right:-17px;top:-17px;background: #1D4380;" class="position-absolute countPill">{{dashboardHeader?.FreeVehicles}}</span>
+               <button (click)="filterTable('free_vehicle')" type="button"><img src="assets/tripIcon/truckBlue.svg" alt="" style="width:40px;"></button> 
+              </div>
+              <div ngbTooltip="At Source" class="position-relative">
+                <span style="right:-15px;top:-15px;background: #E77817;" class="position-absolute countPill">{{dashboardHeader?.AtSource}}</span>
+                <button (click)="filterTable('at_source')" type="button"> <img src="assets/tripIcon/truckGps.svg" alt="" style="width:40px"></button>
+              </div>
+              <div ngbTooltip="At Destination" class="position-relative">
+                <span style="right:-15px;top:-15px;background: #00C0F3;" class="position-absolute countPill">{{dashboardHeader?.AtDestination}}</span>
+                <button (click)="filterTable('at_destination')" type="button"> <img src="assets/tripIcon/truckOrange.svg" alt="" style="width:40px"></button>  
+              </div>
+            </div> -->
+            <p style="color: 1D4380; font-weight: 600" class="m-0 ">
+              <a
+              ngbTooltip="Graph"
+                data-bs-toggle="collapse"
+                data-bs-target="#chartCollapse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="chartCollapse"
+                class="px-1"
+                style="font-size: 16px;"
+              >
+              <i style="color: #1c427f;" class="fas fa-chart-pie"></i>
+              </a>
+            </p>
+          </div>
+        
+        </div>
+        <div class="container-flex" >
+          <ngx-spinner name="tableSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+            <p style="color: black">Please Wait.. </p>
+          </ngx-spinner>
+          <div class="col-lg-12">
+            <div class="row">
+           
+              <div class="col-lg-12 px-0">
+                 <!-- Filter----------------------------------------------- -->
+                <div class="fiter">
+             
+                  <!-- <p style="color: 1D4380; font-weight: 600">
+                    <a
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseExample"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
+                      style="font-size: 16px"
+                    >
+                      <i
+                        class="fa fa-filter"
+                        aria-hidden="true"
+                        style="
+                          font-size: 20px;
+                          color: #1d4380;
+                          margin-top: 8px;
+                        "
+                      ></i
+                      >FILTER
+                    </a>
+                  </p> -->
+                  <div class="collapse show" id="collapseExample">
+                    <div
+                      class="card card-body px-0 pb-0 mb-0"
+                      style="border: none; box-shadow: none"
+                    >
+                    <form
+                    #filterFormD="ngForm"
+                    (ngSubmit)="onFilterDashboard(filterFormD.value)"
+                  >
+                    <div class="col-lg-12" style="margin-top: -20px">
+                      <div class="row">
+                        <div class="col-lg-2">
+                          <span class="filtor_name">Region</span>
+                          <!-- <ng-select
+                          [ngModel]
+                          name="Region"
+                          id="region"
+                          placeholder="Select Region"
+                          class=""
+                          style="font-size: 14px; font-weight: 400"
+                          [closeOnSelect]="true"
+                        >
+                          <ng-option
+                            *ngFor="let item of filterObject?.region | keyvalue"
+                            [value]="item.value"
+                          >
+                            {{ item.value }}
+                          </ng-option>
+                        </ng-select> -->
+                        <ng-select
+                        [items]="displayedRegions"
+                        [virtualScroll]="true"
+                        [searchable]="true"
+                        [typeahead]="regionSearch$"
+                        bindLabel="value"
+                        bindValue="id"
+                        placeholder="Select Region"
+                        class=""
+                        style="font-size: 14px; font-weight: 400"
+                        [closeOnSelect]="true"
+                        (search)="onRegionSearch($event)"
+                      >
+                      </ng-select>
+                        </div>
+                        <div class="col-lg-2">
+                          <span class="filtor_name">Origin</span>
+                          <ng-select
+                            [ngModel]
+                            [virtualScroll]="true"
+                            name="Origin"
+                            id="origin"
+                            placeholder="Select Origin"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                          >
+                          <!-- <ng-option
+                            *ngFor="let item of filterObject?.origin | keyvalue"
+                            [value]="item.key"
+                          >
+                            {{ item.value }}
+                          </ng-option> -->
+                          </ng-select>
+                        </div>
+                        <div class="col-lg-2">
+                          <span class="filtor_name">Destination</span>
+                          <ng-select
+                            [ngModel]
+                            [virtualScroll]="true"
+                            name="destination"
+                            id="destination"
+                            placeholder="Select Destination"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                          >
+                            <!-- <ng-option
+                              *ngFor="let item of filterObject?.origin | keyvalue"
+                              [value]="item.key"
+                            >
+                            {{ item.value }}</ng-option -->
+                            >
+                          </ng-select>
+                        </div>
+                        <div class="col-lg-2">
+                          <span class="filtor_name">Route</span>
+                          <ng-select
+                          [virtualScroll]="true"
+                            [ngModel]
+                            name="route"
+                            id="route"
+                            placeholder="Select Route"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                          >
+                            <ng-option
+                              *ngFor="let item of filterObject?.origin | keyvalue"
+                              [value]="item?.key"
+                            >
+                              {{ item?.value }}</ng-option
+                            >
+                          </ng-select>
+                        </div>
+                        <div class="col-lg-2">
+                          <span class="filtor_name">Eta Delay</span>
+                          <ng-select
+                            [ngModel]
+                            name="etaDelay"
+                            id="etaDelay"
+                            placeholder="Select Eta Delay"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                          >
+                            <ng-option
+                              *ngFor="let item of filterObject?.etaDelay | keyvalue"
+                              [value]="item?.key"
+                            >
+                              {{ item?.value }}</ng-option
+                            >
+                          </ng-select>
+                        </div>
+                        <div class="col-lg-2">
+                          <span class="filtor_name">Route Category</span>
+                          <ng-select
+                          (change)="onRouteCategoryChange($event)"
+                            [ngModel]
+                            name="routeCategory"
+                            id="routeCategory"
+                            placeholder="Select Route"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                          >
+                          <ng-option value="" selected>All</ng-option>
+                            <ng-option
+                              *ngFor="let item of filterObject?.routeCategory | keyvalue"
+                              [value]="item?.key"
+                            >
+                              {{ item?.value }}</ng-option
+                            >
+                          </ng-select>
+                        </div>
+                 
+                          <div class="col-lg-2 mt-2">
+                            <span class="filtor_name">Route Type</span>
+                            <ng-select
+                              [(ngModel)]="selectedRoutes"
+                              name="routeType"
+                              id="routeType"
+                              placeholder="Select Route Type"
+                              class=""
+                              style="font-size: 14px; font-weight: 400"
+                              [multiple]="true"
+                              [closeOnSelect]="false"
+                            >
+                              <ng-option
+                                *ngFor="let item of filterObject?.routeType | keyvalue"
+                                [value]="item?.key"
+                              >
+                                {{ item?.value }}
+                              </ng-option>
+                            </ng-select>
+                          </div>
+                          
+                        <!-- </div> -->
+                        <div class="col-lg-1 mt-2">
+                          <button
+                            type="submit"
+                            class=""
+                            style="margin-top: 24px;
+                            background-color: #1D4380;
+                            color: white;
+                            font-family: Work Sans;
+                            font-size: 15px;
+                            padding: 6px 22px;
+                            border-radius: 5px;"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                        <div class="col-lg-1 mt-2">
+                          <button
+                            type="button"
+                            (click)="onRefreshFilter(filterFormD)"
+                            class=""
+                            style="margin-top: 24px;
+                            background-color: #224222;
+                            color: white;
+                            font-family: Work Sans;
+                            font-size: 15px;
+                            padding: 6px 22px;
+                            border-radius: 5px;"
+                          >
+                            Reset
+                          </button>
+                        </div>
+                      </div>
+                      &nbsp;
+                    </div>
+                  </form>
+                    </div>
+                  </div>
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+                 <!-- Charts----------------------------------------------- -->
+                 <div class="fiter">
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+              </div>
+
+
+              <div class="info col-lg-12 overflow-scroll">
+                <table class="table"  cellspacing="0" id="masterUpload">
+                  <thead>
+                    <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
+                      <th style="border-top-left-radius: 4px;" class="table-primar"></th>
+                      <th  class="table-primar">Sl.</th>
+                      <th class="table-primar">Link</th>
+                      <th  class="table-primar d-none">Free Vehicle</th>
+                      <th  class="table-primar d-none">At Source</th>
+                      <th  class="table-primar d-none">At Destination</th>
+                      <th  class="table-primar d-none">GPS Filter</th>
+                      <th  class="table-primar d-none">Stoppage Filter</th>
+                      <th  class="table-primar d-none">Delay Filter</th>
+                      <th  class="table-primar d-none">ETA Filter</th>
+                      <th  class="table-primar d-none">StoppageAlert Filter</th>
+                      <th class="table-primar">Action</th>
+                      <th class="table-primar">E-Lock Status</th>
+                      <th class="table-primar">Route Type</th>
+                      <th class="table-primar">Region</th>
+                      <th class="table-primar">Origin</th>
+                      <th class="table-primar">Destination</th>
+                      <th class="table-primar">Route</th>
+                      <th class="table-primar">Fleet</th>
+                      <th class="table-primar">Run Date</th>
+                      <th class="table-primar" >Trip Id</th>
+                      <th class="table-primar">Vehicle</th>
+                      <th class="table-primar">Track(Dev-1/Dev-2/Dev-3/All)</th>
+                      <th class="table-primar">Vehicle Status</th>
+                      <th class="table-primar" >Vehicle Last Time</th>
+                      <th class="table-primar">Last Location</th>
+                      <th class="table-primar">En-Route Status</th>
+                      <th class="table-primar">STD</th>
+                      <th class="table-primar">STA</th>
+                      <th class="table-primar">ATD</th>
+                      <th class="table-primar">ATA</th>
+                      <th class="table-primar">ETA(Hrs.)</th>
+                      <th class="table-primar">ETD(Km.)</th>
+                      <th  class="table-primar">Distance Covers(Km.)</th>
+                      <th class="table-primar">Delay in Arrival</th>
+                      <th class="table-primar" >Last Halt</th>
+                      <th class="table-primar" >Driver 1</th>
+                      <th class="table-primar" >Driver 2</th>
+                      <th class="table-primar" >Transporter</th>
+                      <th class="table-primar" >Device Service Providers</th>
+                      <th class="table-primar" >Trip Status</th>
+                      <th class="table-primar" >Close By</th>
+                      <th class="table-primar" >Close Date</th>
+                      
+                      <th class="table-primar" >Run Code</th>
+          
+                      <!-- <th style="border-top-right-radius: 4px;" class="table-primar" >Challan No.</th> -->
+                      <!-- <th style="display: none;" id="tableHead">Color</th>
+                      <th class="table-primary">Document</th>
+                      <th class="table-primary">History</th>
+                      <th style="display: none;" id="tableHead">No action</th>
+                      <th style="display: none;" id="tableHead">High priority</th>
+                      <th class="table-primary">Gps</th>
+                      <th class="table-primary">Fixed E-Lock</th>
+                      <th class="table-primary">Portable E-Lock</th> -->
+                      <!-- <th style="display: none;" id="tableHead" *ngIf="item.alerts.length==0">Color</th> -->
+                      <!-- <i class="fa fa-lock" ngbTooltip="fa fa-lock"></i> -->
+          
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <tr style="text-align: center; white-space: nowrap;" 
+                    [ngStyle]="{
+                      backgroundColor: elockFunctionDisplay(item?.FixedLockOpen, item?.PortableLockOpen) === 'Open' ? '#f67f7f75' : 'transparent'
+                    }"
+                    *ngFor="let item of tripArray;let ind=index">
+          
+                      <!-- <td> <button class="popupbtn" style="color:#47434378" type="button" (click)="actionPopup(item?.MTripId,item)"><i class="fa fa-plus"></i></button></td> -->
+                      <td> <button class="popupbtn" style="color:#47434378" type="button" ><i class="fa fa-plus"></i></button></td>
+
+                      <td>{{ind+1}}</td>
+          
+                      <td >
+                        
+                        <!-- <button *ngIf="item?.TripStatus === 'Schedule'" type="button" (click)="linkPopup(item)">
+                          <img  style="cursor:pointer;" src="assets/tripIcon/add_link.svg" alt=""></button> -->
+                          <button *ngIf="item?.TripStatus === 'Schedule'" type="button" >
+                            <img  style="cursor:pointer;" src="assets/tripIcon/add_link.svg" alt=""></button>
+                        <img  *ngIf="item?.TripStatus !== 'Schedule'"  src="assets/tripIcon/disable_link.svg" alt="">
+                      </td>
+                    
+                      <td class="d-none">{{item?.FreeVehicles}}</td>
+                      <td class="d-none">{{item?.AtSource}}</td>
+                      <td class="d-none">{{item?.AtDestination}}</td>
+                      <td class="d-none">{{item?.GPSFilter}}</td>
+                      <td class="d-none">{{item?.StoppageFilter}}</td>
+                      <td class="d-none">{{item?.DelayFilter}}</td>
+                      <td class="d-none">{{item?.ETAFilter}}</td> 
+                      <td class="d-none">{{item?.AlertFilter}}</td> 
+                      <!-- <td>  <button style="width: 26px;" data-bs-target="#transShipModal" data-bs-toggle="modal" ngbTooltip="Trans-Shipment" placement="bottom" container="body" (click)="transShipment(item?.MTripId)">
+                        <img style="width: 15.43px;margin-top: 1.1px;vertical-align: top;" src="assets/images/transShipment.png" alt="">
+                     </button></td> -->
+
+                        <td>  <button style="width: 26px;" data-bs-target="#transShipModal" data-bs-toggle="modal" ngbTooltip="Trans-Shipment" placement="bottom" container="body" >
+                        <img style="width: 15.43px;margin-top: 1.1px;vertical-align: top;" src="assets/images/transShipment.png" alt="">
+                     </button></td>
+                    
+                      <!-- <td>{{elockFunctionDisplay(item?.FixedLockOpen,item?.PortableLockOpen)}}</td> -->
+                      <td></td>
+                      <td>{{item?.ShipmentMethod}}</td>
+                      <td>{{item?.Region}}</td>
+                      <td>{{item?.Origin}}</td>
+                      <td>{{item?.Destination}}</td>
+                      <td>{{item?.Route}}</td>
+                      <td>{{item?.FleetNo}}</td>
+                      <td>{{item?.RunDate}}</td>
+                      <td>{{item?.ShipmentNo}}</td>
+                      <td> <a  (click)="openMapModal(item,'')" style="color:rgb(66, 66, 138);cursor:pointer">{{item?.VehicleNo}}</a>
+                        <!-- <button (click)="getExcelContent(item)" >
+                          <i style="color: #1a741a;font-size: 16px;" class="fas fa-download"></i>
+                        </button> -->
+                      </td>
+                      <td class="">
+                        <i
+                          *ngIf="item?.ImeiNo1"
+                          (click)="openMapModal(item,item?.ImeiNo1)"  
+                          ngbTooltip="Device 1"
+                          container="body"
+                          class="fa fa-map-marker"
+                          [ngStyle]="{ color: 'red', cursor: 'pointer', fontSize: '1.5em' }"
+                          aria-hidden="true"
+                        ></i>
+                        <i
+                          *ngIf="item?.ImeiNo2"
+                          ngbTooltip="Device 2"
+                          (click)="openMapModal(item,item?.ImeiNo2)"  
+                          class="fa fa-map-marker ms-1"
+                          [ngStyle]="{ color: 'blue', cursor: 'pointer', fontSize: '1.5em' }"
+                          aria-hidden="true"
+                        ></i>
+                        <i
+                          *ngIf="item?.ImeiNo3"
+                          (click)="openMapModal(item,item?.ImeiNo3)"  
+                          ngbTooltip="Device 3"
+                          class="fa fa-map-marker ms-1"
+                          [ngStyle]="{ color: 'green', cursor: 'pointer', fontSize: '1.5em' }"
+                          aria-hidden="true"
+                        ></i>
+                      </td>    
+                      <td>{{item?.VehicleStatus}}</td>
+                      <td>{{item?.VehicleLastTime}}</td>
+                      <td >{{item?.LastLocation}}</td>
+                      <td>{{ item?.RouteDeviation === 'NA' || item?.RouteDeviation === '' ? '' : item?.RouteDeviation }}</td>
+          
+                      <td>{{item?.STD}}</td>
+                      <td>{{item?.STA}}</td>
+                      <td>{{item?.ATD}}</td>
+                      <td>{{item?.ATA}}</td>
+                    
+                      
+                      <td >{{item?.ETA}}</td>
+                      <td>{{item?.RemainingDistance}}</td>
+                      <td>{{item?.DistanceCover}}</td>
+                      <td>{{item?.DelayedArrived}}</td>
+                      
+                         
+                      <td>{{item?.Halt}}</td>
+                      <td>{{item?.DriverName}}/{{item?.DriverNumber}}</td>
+                      <td>{{item?.DriverNumber}}</td>
+                      <td>{{item?.Transporter}}</td>
+                      <td>
+                        {{
+                          (item?.GPSVendor1 ? item?.GPSVendor1 : '') +
+                          (item?.GPSVendor2 ? '/' + item?.GPSVendor2 : '') +
+                          (item?.GPSVendor3 ? '/' + item?.GPSVendor3 : '')
+                        }}
+                      </td>
+                      <td>{{item?.TripStatus}}</td>
+                      <td>{{item?.CloseBy}}</td>
+                      <td>{{item?.CloseDate}}</td>
+                    
+                      <td>{{item?.RunCode}}</td>
+               
+                    
+                    </tr>
+                  </tbody>
+          
+                </table>
+              </div>
+        
+            </div>
+  
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+   
+  
+  
+      </div>
+    </div>
+  
+  
+    <!-- //////////////////////////////////////////////////////////////////////////////vehicle  tracker/////////////////////////////////// -->
+    <div class="modal fade" id="v_track_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog " style=" max-width: 1500px;">
+      <div class="modal-content" style="height: 700px;">
+  
+        <div class="modal-header">
+          <h6 class="modal-title" id="exampleModalLabel">{{map_flag}}</h6>
+          <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeMap()"></button>
+        </div>
+        <div class="modal-body">
+          <ngx-spinner name="tracking" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="false"
+            type="ball-spin-clockwise">
+            <p style="color: black">Please Wait.. </p>
+          </ngx-spinner>
+          <div id="map1">
+  
+  
+          </div>
+        </div>
+        <div class="modal-footer" style="height: 25px;">
+  
+          <!-- <button type="button" *ngIf="seconddaryTrack[0][8]!==''"> <i class="fe fe-truck"   tooltipClass="customInactive-tooltip-class" 
+            style="font-size: 20px;display: none;" id="blink" ></i></button> -->
+          <!-- 
+         <button type="button" *ngIf="seconddaryTrack[0][7]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][1]"
+            style="font-size: 20px;" id="blink" [style.color]="colorTrack[0]?.first" (click)="vehicleTrack1F()"></i></button>
+         <button type="button" *ngIf="seconddaryTrack[0][1]!=''"> <i class="fe fe-truck"  tooltipClass="customInactive-tooltip-class" [ngbTooltip]="seconddaryTrack[0][7]"
+            style="font-size: 20px;" id="blink" [style.color]="colorTrack[1]?.second" (click)="vehicleTrack2F()"></i></button> -->
+  
+  
+  
+  
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- /////////////////////////////////////////Link Popup/////////////////////////////////////////////////// -->
+    <div class="modal fade " id="linkModal" tabindex="-1" aria-labelledby="linkModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style=" max-width:600px;">
+     
+          <!--   -->
+          <div class="modal-content" style="width: 1200px !important;">
+            <ngx-spinner name="linkSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-scale-ripple" [fullScreen] = "false"><p style="color: white" > Loading... </p>
+            </ngx-spinner>
+          <div class="modal-header">
+            <h4 style="color: #1D4380;font-weight: 500;" class="modal-title" id="uploadDocumentModalLabel">Tracking Link</h4>
+            <!-- <button (click)="closeLinkModal()" style="width: 4px;height: 4px;" type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+    
+          <div class="modal-body" style="width:600px">
+            <!-- <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div> -->
+            <div class="shareLink pt-4" style="padding: 54px 0px;">
+              <div class="permalink" style="margin: auto;width:83%">
+                <!-- <input class="textLink" id="linkTextQ" type="text" name="shortlink" value={{linkValue}}  readonly=""> -->
+                <!-- <button type="button"  placement="bottom" class="copyLink" id="copy" [ngbTooltip]="linkObject?.text"  autoClose="false"  (click)="copyToClipboard()">
+                  <i *ngIf="linkObject?.copyVariable" class="fa fa-copy"></i>
+                  <i *ngIf="!linkObject?.copyVariable" class="fa fa-check-circle" style="color: #00bd00;"></i>
+                </button> -->
+              </div>
+            </div>
+          </div>
+    
+          <!-- <div class="modal-footer justify-content-center col-lg-6 mx-auto"> -->
+              <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
+            <!-- <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button> -->
+          <!-- </div> -->
+    
+        </div>
+      </div>
+    </div>
+    <!-- ///////////////////////////////////////////////////////////////////map pop///////////////////////// -->
+  
+    <!-- <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
+          <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+              uploading... </p></ngx-spinner>
+         <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="mapModalLabel">HERE WeGo Map</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" style="width:90%px;height: 98%;">
+            <div #mapContainer style="width: 98%; height: 95%;" class="mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+   -->
+    <!-- //////////////////////////////////////////////////////////trigger table click pop up dashboard/////////////////////////// -->  
+  
+  
+  
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style=" max-width:1300px;">
+         <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
+          <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+              uploading... </p></ngx-spinner>
+          <div class="modal-header" style="background:#0e213ff2">
+            <h5 class="modal-title" id="mapModalLabel" style="color:white;">Map</h5>
+            <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+              <i style="font-size: 24px;color:white" class="fa fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body p-0 pt-1" style="width:100%;height: 100%;">
+            <div id="map1" style="width: 100%; height: 100%;" class="mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+      
+  <!-- /////////////////////////////////alert model/////////////////////////////////////////////////////////////////////////////// -->
+  
+  <div class="modal fade" id="travelledDistancePopup">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
+      <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body" style="width: 100%; height: fit-content;">
+          <!-- Trip Header Table -->
+          <table class="display nowrap table" cellspacing="0" id="tripHeaderTable" width="100%">
+            <thead>
+              <tr style="text-align: center;">
+                <th style="border-top-left-radius: 4px;" class="table-primar">Vehicle No.</th>
+                <th class="table-primar">IMEI</th>
+                <th class="table-primar">StartTime</th>
+                <th class="table-primar">EndTime</th>
+                <th style="border-top-right-radius: 4px;" class="table-primar">Distance (km)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Loop through travelledReportData -->
+              <!-- <tr style="text-align: center;" *ngFor="let item of travelledReportData">
+                <td>{{ item.VehicleNo }}</td>
+                <td>{{ item.IMEI }}</td>
+                <td>{{ item.StartTime }}</td>
+                <td>{{ item.EndTime }}</td>
+                <td>{{ item.Distance }}</td>
+              </tr> -->
+            </tbody>
+          </table>
+  
+        </div>
+  
+        <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+          <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <div class="modal fade" id="DataGapup">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 1400px;">
+      <div class="modal-content" style="height: fit-content; width: 60% !important; margin: auto">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body" style="width: 100%; height: fit-content;">
+  
+  
+        </div>
+  
+        <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+          <button type="button" style="background-color: #1c427f; color: white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

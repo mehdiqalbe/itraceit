@@ -26,6 +26,7 @@ export class BluedartService {
   delayDashboardDisclaimer(val:any){
     return this.http.post(this.baseURL+'bddelayDashboardDisclaimer',val)
   }
+
   bdDelayDashboardFilter(val:any){
     return this.http.post(this.baseURL+'bdDelayDashboardFilter',val)
   }
@@ -39,7 +40,10 @@ export class BluedartService {
     return this.http.post(apiurl,data);
   }
  
-
+  ahtTimeAdd(data){
+    let apiurl=this.baseURL+"/updateAhtBd";
+    return this.http.post(apiurl,data);
+  }
   bdSummary(data) {
 
     let apiurl = this.baseURL + "bdSummary";
@@ -58,6 +62,12 @@ export class BluedartService {
   //   //let apiurl= 'http://localhost:3000/workZone'
   //   return this.http.post(apiurl, data);
   // }
+  liveLocation2S(data) {
+    let apiurl = "https://api-bde.secutrak.in/dev-app-home/liveDataV2";
+    //let apiurl="https://jsonplaceholder.typicode.com/users";
+    //let apiurl= 'http://localhost:3000/workZone'
+    return this.http.post(apiurl, data);
+  }
   homeDashboardS(data) {
     let apiurl: any;
       apiurl = this.BDE_URL+"triggerDashboardFlashAT";
@@ -220,13 +230,13 @@ export class BluedartService {
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
-  // addressS(data) {
-  //   // let apiurl = " https://api.secutrak.in/dev-app-secutrak/vehicleLastLocationV2";
-  //   let apiurl = "https://api-bde.secutrak.in/dev-app-itraceit/vehicleLastLocationV2";
-  //   //let apiurl="https://jsonplaceholder.typicode.com/users";
-  //   //let apiurl= 'http://localhost:3000/workZone'
-  //   return this.http.post(apiurl, data);
-  // }
+  addressS(data) {
+    // let apiurl = " https://api.secutrak.in/dev-app-secutrak/vehicleLastLocationV2";
+    let apiurl = "https://api-bde.secutrak.in/dev-app-itraceit/vehicleLastLocationV2";
+    //let apiurl="https://jsonplaceholder.typicode.com/users";
+    //let apiurl= 'http://localhost:3000/workZone'
+    return this.http.post(apiurl, data);
+  }
   summaryS(data) {
     // let apiurl="this.BDE_URL+ triggerReportSummaryAT";
 
@@ -307,4 +317,28 @@ export class BluedartService {
   networkVehicleDelayReport(val:any){
     return this.http.post(this.baseURL+'networkVehicleDelayReport',val)
   }
+  slotwiseDistanceFilter(data){
+  
+    let apiurl=this.baseURL+"slotwiseReportFilter";
+   
+    return this.http.post(apiurl,data);
+  }
+  
+  slotwiseDistanceData(data){
+    
+    let apiurl=this.baseURL+"slotwiseGeneralReport";
+   
+    return this.http.post(apiurl,data);
+  }
+  slotwiseAutoDistanceData(data){
+    
+    let apiurl=this.baseURL+"slotwiseAutoReport";
+   
+    return this.http.post(apiurl,data);
+  }
+  slotwiseVehicleData(data){
+    let apiurl=this.baseURL+"getslotwiseVehicle";
+    return this.http.post(apiurl,data);
+  }
+  
 }

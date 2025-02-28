@@ -482,6 +482,7 @@ export class CrudService {
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
+
   // assignQrtSubmitS(data)
   // {
   //   let apiurl="api-bde.secutrak.in/dev-app-itraceit/assignQrtAT";
@@ -606,6 +607,7 @@ export class CrudService {
   //  //let apiurl= 'http://localhost:3000/workZone'
   //   return this.http.post(apiurl,data);
   // }
+
   liveLocation2S(data) {
     let apiurl = this.Home_URL+"liveDataV2";
     //let apiurl="https://jsonplaceholder.typicode.com/users";
@@ -619,6 +621,7 @@ export class CrudService {
     //let apiurl= 'http://localhost:3000/workZone'
     return this.http.post(apiurl, data);
   }
+
   dtdc_delayDashboard(data) {
     // let apiurl="api-bde.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
     let apiurl = this.baseURL + "delayDashboardDtdc";

@@ -115,6 +115,12 @@ export class TripReportComponent implements OnInit {
     yesterday.setDate(today.getDate() - 1);
   
     this.datetimepicker1 = this.datepipe.transform(yesterday, 'yyyy-MM-dd');
+    this.group_id=localStorage.getItem('GroupId')!;
+     const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+  
+    this.datetimepicker1 = this.datepipe.transform(yesterday, 'yyyy-MM-dd');
    
     this.datetimepicker =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.end();
@@ -133,12 +139,16 @@ export class TripReportComponent implements OnInit {
       const center = { lat: 23.2599, lng: 77.4126 };
        this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
       zoom: 10,
+      const center = { lat: 23.2599, lng: 77.4126 };
+       this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
+      zoom: 10,
        center: center,
  
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       scaleControl: true,
  
     }
+    );   
     );   
   }
   sidebarToggle() {
@@ -554,6 +564,8 @@ this.rowData_popup = eve.Detail.map((person, index) => ({
   driverNumber: person.DriverMobile ?? "",
   // driverName_s: person.Driver_S ?? "",
   // driverNumber_s: person.DriverMobile_S ?? "",
+  // driverName_s: person.Driver_S ?? "",
+  // driverNumber_s: person.DriverMobile_S ?? "",
   transporter: person.Transporter ?? "",
   std: person.STD ?? "", // Standard Time of Departure
   atd: person.ATD ?? "", // Actual Time of Departure
@@ -576,6 +588,7 @@ this.rowData_popup = eve.Detail.map((person, index) => ({
   gpsException2: person.GPSException2,
   gpsException3: person.GPSException3,
   supervisorException: person.SupervisorException,
+  status: person.TripStatus,
   status: person.TripStatus,
   systemRemarks: person.Remarks,
   closeBy: person.CloseBy,
@@ -757,6 +770,7 @@ formatDate(dateTimeString) {
 
  Grid_table(){
   if (this.gridApi) {
+    console.log("aman");
     this.gridApi.destroy();
   }
   if(this.extra){
@@ -768,6 +782,9 @@ formatDate(dateTimeString) {
   
         // Create the container div
         const container = document.createElement("div");
+        
+        container.style.marginLeft = "-26px";
+       
         
         container.style.marginLeft = "-26px";
        
@@ -786,6 +803,7 @@ formatDate(dateTimeString) {
         button.style.marginLeft = "5px";
         button.style.cursor = "pointer";
         button.style.width = "25px";
+        button.style.width = "25px";
         if(params.data.Full.Detail.length!==0){
         button.innerHTML = `<strong style="color: blue;"><i class=" fa fa-plus" style="font-size:15px; color:black" ></strong>`;
       
@@ -802,6 +820,8 @@ formatDate(dateTimeString) {
         }
         // Append span and button to the container
         container.appendChild(button);
+        container.appendChild(serialSpan);
+        
         container.appendChild(serialSpan);
         
       
@@ -824,7 +844,88 @@ formatDate(dateTimeString) {
       { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200, },
       { headerName: "Run Date & Time", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 180,  minWidth: 180, maxWidth: 180,},
       // { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+      { headerName: "Run Date & Time", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 180,  minWidth: 180, maxWidth: 180,},
+      // { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
       { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+      { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 170,  minWidth: 170, maxWidth: 170,
+      //    cellRenderer: params => {
+      //   // Create the container div
+      //   const container = document.createElement("div");
+      //   container.style.display = "flex";
+      //   container.style.alignItems = "center";
+      //   container.style.justifyContent = "center";
+      
+      //   // Create the span for the serial number
+      //   const serialSpan = document.createElement("span");
+      //   serialSpan.textContent = params.value;
+      
+      //   // Create the button
+        
+      //   const button = document.createElement("button");
+      //   button.innerHTML = "";
+      //   button.style.border = "none";
+      //   button.style.background = "none";
+      //   button.style.marginLeft = "5px";
+      //   button.style.cursor = "pointer";
+  
+      //   // Clear previous content
+  
+      //   if (params.data.Full?.TrackHistory1 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+      //     button.addEventListener("click", () => {
+      //       console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory1.Imei, params.data.Full?.TrackHistory1.RnDt, params.data.Full?.TrackHistory1.Vno, params.data.Full?.TrackHistory1, params.data.Full?.TrackHistory1.ShpNo, params.data.Full?.TrackHistory1.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
+        
+      //   if (params.data.Full?.TrackHistory2 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+          
+      //     button.addEventListener("click", () => {
+      //       console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory2.Imei, params.data.Full?.TrackHistory2.RnDt, params.data.Full?.TrackHistory2.Vno, params.data.Full?.TrackHistory2, params.data.Full?.TrackHistory2.ShpNo, params.data.Full?.TrackHistory2.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
+        
+      //   if (params.data.Full?.TrackHistory3 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-map-marker" style="font-size:17px ; color:blue"></i></strong>|`;
+         
+      //     button.addEventListener("click", () => {
+      //       // console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
+      //     });
+      //   } else {
+      //     button.innerHTML += `<span style="color: black;">Na</span>|`;
+      //   }
+      //   if (params.data.Full?.TrackHistory3 !== 'NA'||params.data.Full?.TrackHistory2 !== 'NA'||params.data.Full?.TrackHistory1 !== 'NA') {
+      //     button.innerHTML += `<strong style="color: blue;"><i class="fa fa-download" style="font-size:17px ; color:#6ABD46"></i></strong>|`;
+         
+      //     button.addEventListener("click", () => {
+      //       // alert(1)
+      //       this.getExcelContent(params.data.Full)
+      //       // console.log("Row Data:", params.data.Full);
+      //       // this.Detail(params.data.Full)
+      //       // this.vehicleTrackF_new('', '',params.data.Full?.TrackHistory3.Imei, params.data.Full?.TrackHistory3.RnDt, params.data.Full?.TrackHistory3.Vno, params.data.Full?.TrackHistory3, params.data.Full?.TrackHistory3.ShpNo, params.data.Full?.TrackHistory3.Id)
+      //     });
+      //   }
+      //   // Attach event listener to the button
+       
+      
+      //   // Append span and button to the container
+      //   container.appendChild(serialSpan);
+      //   container.appendChild(button);
+      
+      //   return container;
+      // },
+      cellRenderer: params => {
+        
       { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 170,  minWidth: 170, maxWidth: 170,
       //    cellRenderer: params => {
       //   // Create the container div
@@ -913,6 +1014,7 @@ formatDate(dateTimeString) {
         const serialSpan = document.createElement("span");
         serialSpan.textContent = params.value;
       
+      
         const button = document.createElement("button");
         button.style.border = "none";
         button.style.background = "none";
@@ -925,8 +1027,21 @@ formatDate(dateTimeString) {
         div.style.marginLeft = "5px";
         div.style.cursor = "pointer";
       
+      
+        const div = document.createElement("div");
+        div.style.border = "none";
+        div.style.background = "none";
+        div.style.marginLeft = "5px";
+        div.style.cursor = "pointer";
+      
         // Clear previous content
         if (params.data.Full?.TrackHistory1 !== 'NA') {
+          button.innerHTML += `
+            <strong style="color: blue; margin-right: 0px;">
+              <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+            </strong>
+            <span style="margin-left: 5px;">|</span>
+          `;
           button.innerHTML += `
             <strong style="color: blue; margin-right: 0px;">
               <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
@@ -944,15 +1059,36 @@ formatDate(dateTimeString) {
               params.data.Full?.TrackHistory1.ShpNo,
               params.data.Full?.TrackHistory1.Id
             );
+            this.vehicleTrackF_new(
+              params.data.Full?.CloseDate,
+              '',
+              params.data.Full?.TrackHistory1.Imei,
+              params.data.Full?.TrackHistory1.RnDt,
+              params.data.Full?.TrackHistory1.Vno,
+              params.data.Full?.TrackHistory1,
+              params.data.Full?.TrackHistory1.ShpNo,
+              params.data.Full?.TrackHistory1.Id
+            );
           });
         } else {
           button.innerHTML += `
             <span style="color: black; margin-right: 0px;">Na</span>
             <span style="margin-left: 5px;">|</span>
           `;
+          button.innerHTML += `
+            <span style="color: black; margin-right: 0px;">Na</span>
+            <span style="margin-left: 5px;">|</span>
+          `;
         }
       
+      
         if (params.data.Full?.TrackHistory2 !== 'NA') {
+          button.innerHTML += `
+            <strong style="color: blue; margin-right: 0px;">
+              <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+            </strong>
+            <span style="margin-left: 5px;">|</span>
+          `;
           button.innerHTML += `
             <strong style="color: blue; margin-right: 0px;">
               <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
@@ -970,15 +1106,35 @@ formatDate(dateTimeString) {
               params.data.Full?.TrackHistory2.ShpNo,
               params.data.Full?.TrackHistory2.Id
             );
+            this.vehicleTrackF_new(
+              params.data.Full?.CloseDate,
+              '',
+              params.data.Full?.TrackHistory2.Imei,
+              params.data.Full?.TrackHistory2.RnDt,
+              params.data.Full?.TrackHistory2.Vno,
+              params.data.Full?.TrackHistory2,
+              params.data.Full?.TrackHistory2.ShpNo,
+              params.data.Full?.TrackHistory2.Id
+            );
           });
         } else {
           button.innerHTML += `
             <span style="color: black; margin-right: 0px;">Na</span>
             <span style="margin-left: 5px;">|</span>
           `;
+          button.innerHTML += `
+            <span style="color: black; margin-right: 0px;">Na</span>
+            <span style="margin-left: 5px;">|</span>
+          `;
         }
       
+      
         if (params.data.Full?.TrackHistory3 !== 'NA') {
+          button.innerHTML += `
+            <strong style="color: blue; margin-right: 0px;">
+              <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+            </strong>
+          `;
           button.innerHTML += `
             <strong style="color: blue; margin-right: 0px;">
               <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
@@ -995,8 +1151,22 @@ formatDate(dateTimeString) {
               params.data.Full?.TrackHistory3.ShpNo,
               params.data.Full?.TrackHistory3.Id
             );
+            this.vehicleTrackF_new(
+              params.data.Full?.CloseDate,
+              '',
+              params.data.Full?.TrackHistory3.Imei,
+              params.data.Full?.TrackHistory3.RnDt,
+              params.data.Full?.TrackHistory3.Vno,
+              params.data.Full?.TrackHistory3,
+              params.data.Full?.TrackHistory3.ShpNo,
+              params.data.Full?.TrackHistory3.Id
+            );
           });
         } else {
+          button.innerHTML += `
+            <span style="color: black; margin-right:0px;">Na</span>
+            <span style="margin-left: 5px;">|</span>
+          `;
           button.innerHTML += `
             <span style="color: black; margin-right:0px;">Na</span>
             <span style="margin-left: 5px;">|</span>
@@ -1020,12 +1190,32 @@ formatDate(dateTimeString) {
         }
       
         // Append elements to the container
+      
+        // Attach event listener to the download icon
+        if (
+          params.data.Full?.TrackHistory3 !== 'NA' ||
+          params.data.Full?.TrackHistory2 !== 'NA' ||
+          params.data.Full?.TrackHistory1 !== 'NA'
+        ) {
+          div.innerHTML += `
+            <strong style="color: blue;">
+              <i class="fa fa-download" style="font-size:17px; color:#6ABD46; margin-left: 0px;"></i>
+            </strong>
+          `;
+          div.addEventListener("click", () => {
+            this.getExcelContent(params.data.Full);
+          });
+        }
+      
+        // Append elements to the container
         container.appendChild(serialSpan);
         container.appendChild(button);
+        container.appendChild(div);
         container.appendChild(div);
       
         return container;
       },
+      
       
        },
        { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
@@ -1078,6 +1268,7 @@ formatDate(dateTimeString) {
        { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
        // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
       //  { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+      //  { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
    
        { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
        { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
@@ -1085,6 +1276,18 @@ formatDate(dateTimeString) {
        { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
        { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Bay IN", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Bay OUT", field: "BayOUT", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+       { headerName: "Shipment Count IN", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+       { headerName: "Shipment Count OUT", field: "ShipmentCountOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+       { headerName: "Weight IN", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+       { headerName: "Weight OUT", field: "WeightOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+        //  { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+      //  { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+      //  { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+      //  { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+      //  { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+      //  { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
        { headerName: "Bay IN", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "Bay OUT", field: "BayOUT", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
        { headerName: "Shipment Count IN", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
@@ -1114,6 +1317,7 @@ formatDate(dateTimeString) {
       container.style.alignItems = "center";
       container.style.justifyContent = "center";
       container.style.marginLeft = "-26px";
+      container.style.marginLeft = "-26px";
       // Create the span for the serial number
       const serialSpan = document.createElement("span");
       serialSpan.textContent = params.value;
@@ -1124,6 +1328,8 @@ formatDate(dateTimeString) {
       button.style.background = "none";
       button.style.marginLeft = "5px";
       button.style.cursor = "pointer";
+      button.style.width = "25px";
+      // width: 25px;
       button.style.width = "25px";
       // width: 25px;
       if(params.data.Full.Detail.length!==0){
@@ -1142,6 +1348,8 @@ formatDate(dateTimeString) {
       }
       // Append span and button to the container
       container.appendChild(button);
+      container.appendChild(serialSpan);
+     
       container.appendChild(serialSpan);
      
     
@@ -1164,6 +1372,8 @@ formatDate(dateTimeString) {
     { headerName: "RunCode", field: "runCode", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 150,  minWidth: 150, maxWidth: 150},
     { headerName: "Run Date & Time", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 180,  minWidth: 180, maxWidth: 180},
     // { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
+    { headerName: "Run Date & Time", field: "runDate", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 180,  minWidth: 180, maxWidth: 180},
+    // { headerName: "Run Time", field: "runtime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150,},
     { headerName: "Vehicle", field: "vehicle", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 150,  minWidth: 150, maxWidth: 150},
     { headerName: "TrackHistory", field: "trackHistory", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 170,  minWidth: 170, maxWidth: 170,
    cellRenderer: params => { 
@@ -1175,6 +1385,7 @@ formatDate(dateTimeString) {
     
       const serialSpan = document.createElement("span");
       serialSpan.textContent = params.value;
+    
     
       const button = document.createElement("button");
       button.style.border = "none";
@@ -1188,8 +1399,21 @@ formatDate(dateTimeString) {
       div.style.marginLeft = "5px";
       div.style.cursor = "pointer";
     
+    
+      const div = document.createElement("div");
+      div.style.border = "none";
+      div.style.background = "none";
+      div.style.marginLeft = "5px";
+      div.style.cursor = "pointer";
+    
       // Clear previous content
       if (params.data.Full?.TrackHistory1 !== 'NA') {
+        button.innerHTML += `
+          <strong style="color: blue; margin-right: 0px;">
+            <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+          </strong>
+          <span style="margin-left: 5px;">|</span>
+        `;
         button.innerHTML += `
           <strong style="color: blue; margin-right: 0px;">
             <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
@@ -1207,15 +1431,36 @@ formatDate(dateTimeString) {
             params.data.Full?.TrackHistory1.ShpNo,
             params.data.Full?.TrackHistory1.Id
           );
+          this.vehicleTrackF_new(
+            params.data.Full?.CloseDate,
+            '',
+            params.data.Full?.TrackHistory1.Imei,
+            params.data.Full?.TrackHistory1.RnDt,
+            params.data.Full?.TrackHistory1.Vno,
+            params.data.Full?.TrackHistory1,
+            params.data.Full?.TrackHistory1.ShpNo,
+            params.data.Full?.TrackHistory1.Id
+          );
         });
       } else {
         button.innerHTML += `
           <span style="color: black; margin-right: 0px;">Na</span>
           <span style="margin-left: 5px;">|</span>
         `;
+        button.innerHTML += `
+          <span style="color: black; margin-right: 0px;">Na</span>
+          <span style="margin-left: 5px;">|</span>
+        `;
       }
     
+    
       if (params.data.Full?.TrackHistory2 !== 'NA') {
+        button.innerHTML += `
+          <strong style="color: blue; margin-right: 0px;">
+            <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+          </strong>
+          <span style="margin-left: 5px;">|</span>
+        `;
         button.innerHTML += `
           <strong style="color: blue; margin-right: 0px;">
             <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
@@ -1233,15 +1478,35 @@ formatDate(dateTimeString) {
             params.data.Full?.TrackHistory2.ShpNo,
             params.data.Full?.TrackHistory2.Id
           );
+          this.vehicleTrackF_new(
+            params.data.Full?.CloseDate,
+            '',
+            params.data.Full?.TrackHistory2.Imei,
+            params.data.Full?.TrackHistory2.RnDt,
+            params.data.Full?.TrackHistory2.Vno,
+            params.data.Full?.TrackHistory2,
+            params.data.Full?.TrackHistory2.ShpNo,
+            params.data.Full?.TrackHistory2.Id
+          );
         });
       } else {
         button.innerHTML += `
           <span style="color: black; margin-right: 0px;">Na</span>
           <span style="margin-left: 5px;">|</span>
         `;
+        button.innerHTML += `
+          <span style="color: black; margin-right: 0px;">Na</span>
+          <span style="margin-left: 5px;">|</span>
+        `;
       }
     
+    
       if (params.data.Full?.TrackHistory3 !== 'NA') {
+        button.innerHTML += `
+          <strong style="color: blue; margin-right: 0px;">
+            <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
+          </strong>
+        `;
         button.innerHTML += `
           <strong style="color: blue; margin-right: 0px;">
             <i class="fa fa-map-marker" style="font-size:17px; color:blue;"></i>
@@ -1258,8 +1523,22 @@ formatDate(dateTimeString) {
             params.data.Full?.TrackHistory3.ShpNo,
             params.data.Full?.TrackHistory3.Id
           );
+          this.vehicleTrackF_new(
+            params.data.Full?.CloseDate,
+            '',
+            params.data.Full?.TrackHistory3.Imei,
+            params.data.Full?.TrackHistory3.RnDt,
+            params.data.Full?.TrackHistory3.Vno,
+            params.data.Full?.TrackHistory3,
+            params.data.Full?.TrackHistory3.ShpNo,
+            params.data.Full?.TrackHistory3.Id
+          );
         });
       } else {
+        button.innerHTML += `
+          <span style="color: black; margin-right: 0px;">Na</span>
+          <span style="margin-left: 5px;">|</span>
+        `;
         button.innerHTML += `
           <span style="color: black; margin-right: 0px;">Na</span>
           <span style="margin-left: 5px;">|</span>
@@ -1283,12 +1562,32 @@ formatDate(dateTimeString) {
       }
     
       // Append elements to the container
+    
+      // Attach event listener to the download icon
+      if (
+        params.data.Full?.TrackHistory3 !== 'NA' ||
+        params.data.Full?.TrackHistory2 !== 'NA' ||
+        params.data.Full?.TrackHistory1 !== 'NA'
+      ) {
+        div.innerHTML += `
+          <strong style="color: blue;">
+            <i class="fa fa-download" style="font-size:17px; color:#6ABD46; margin-left: 0px;"></i>
+          </strong>
+        `;
+        div.addEventListener("click", () => {
+          this.getExcelContent(params.data.Full);
+        });
+      }
+    
+      // Append elements to the container
       container.appendChild(serialSpan);
       container.appendChild(button);
+      container.appendChild(div);
       container.appendChild(div);
     
       return container;
     },
+    
     
      },
     { headerName: "State", field: "state", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200,  minWidth: 200, maxWidth: 200 },
@@ -1341,12 +1640,20 @@ formatDate(dateTimeString) {
     { headerName: "Portable E-lock Vendor", field: "portableELockVendor", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     // { headerName: "Full", field: "Full", sortable: true, filter: true, floatingFilter: this.floating_filter,hide:false },
     // { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+    // { headerName: "Portable E-lock Device", field: "portableELockDevice", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     { headerName: "Branch Location", field: "BranchLocation", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250 },
     { headerName: "Branch Handover Time", field: "BranchHandoverTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
     { headerName: "Gate In Time", field: "GateInTime", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "Gate Out Time", field: "GateOutTime", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
     { headerName: "GPS ATA", field: "GPSATA", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "GPS ATD", field: "GPSATD", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Bay IN", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Bay OUT", field: "BayOUT", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    { headerName: "Shipment Count IN", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+    { headerName: "Shipment Count OUT", field: "ShipmentCountOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
+    { headerName: "Weight IN", field: "Weight", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    { headerName: "Weight OUT", field: "WeightOUT", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200},
+    
     { headerName: "Bay IN", field: "Bay", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "Bay OUT", field: "BayOUT", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
     { headerName: "Shipment Count IN", field: "ShipmentCount", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 250},
@@ -1368,12 +1675,19 @@ formatDate(dateTimeString) {
     // { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
     // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
     // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    // { headerName: "Server GPS Received In", field: "ServerGPSReceivedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200 },
+    // { headerName: "Server GPS Processed In", field: "ServerGPSProcessedIn", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    // { headerName: "Server GPS Received Out", field: "ServerGPSReceivedOut", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+    // { headerName: "Server GPSP rocessed Out", field: "ServerGPSProcessedOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
+    // { headerName: "Push Time In", field: "PushTimeIn", sortable: true, filter: true, floatingFilter: this.floating_filter ,width: 200 },
+    // { headerName: "Push Time Out", field: "PushTimeOut", sortable: true, filter: true, floatingFilter: this.floating_filter,width: 200  },
    
     // { headerName: "CloseDeviceBy", field: "closeDeviceBy", sortable: true, filter: true, floatingFilter: true },
     // { headerName: "Portable Lock Device", field: "portableLockDevice", sortable: true, filter: true, floatingFilter: true }
   ];}
   console.log(this.new_array)
   this.rowData = this.new_array.map((person, index) => ({
+    // runDate:person.RunDate,
     // runDate:person.RunDate,
     sl: index + 1,
     routeType: person.ShipmentMethod,
@@ -1390,6 +1704,10 @@ formatDate(dateTimeString) {
     // runDate: person.RunDate,
     runDate:this.formatDate(person.RunDate),
     // runtime: person.RunDate ? new Date(person.RunDate).toLocaleTimeString('en-GB') : "",
+    // runDate: new Date(person.RunDate).toLocaleDateString('en-CA') ?? "",
+    // runDate: person.RunDate,
+    runDate:this.formatDate(person.RunDate),
+    // runtime: person.RunDate ? new Date(person.RunDate).toLocaleTimeString('en-GB') : "",
     vehicle: person.VehicleNo ?? "",
     trackHistory: "",
     state: person.State,
@@ -1399,7 +1717,11 @@ formatDate(dateTimeString) {
     driverNumber: person.DriverMobile ?? "",
     // driverName_s: person.Driver_S ?? "",
     // driverNumber_s: person.DriverMobile_S ?? "",
+    // driverName_s: person.Driver_S ?? "",
+    // driverNumber_s: person.DriverMobile_S ?? "",
     transporter: person.Transporter ?? "",
+    std: this.formatDate(person.STD) ?? "", // Standard Time of Departure
+    atd: this.formatDate(person.ATD) ?? "", // Actual Time of Departure
     std: this.formatDate(person.STD) ?? "", // Standard Time of Departure
     atd: this.formatDate(person.ATD) ?? "", // Actual Time of Departure
     delayDeparture: person.DelayDeparture ?? "",
@@ -1430,6 +1752,7 @@ formatDate(dateTimeString) {
     gpsException3: person.GPSException3,
     supervisorException: person.SupervisorException,
     status: person.TripStatus,
+    status: person.TripStatus,
     systemRemarks: person.Remarks,
     closeBy: person.CloseBy,
     closeDate: person.CloseDate,
@@ -1439,6 +1762,7 @@ formatDate(dateTimeString) {
     gpsVendor: person.GPSVendorType1,
     fixedELockVendor: person.GPSVendorType2,
     portableELockVendor: person.GPSVendorType3,
+    // portableELockDevice:person.PortableLockVendor,
     // portableELockDevice:person.PortableLockVendor,
     Full: person,
     BranchLocation: person.BranchLocation || "",
@@ -1453,7 +1777,25 @@ formatDate(dateTimeString) {
   ShipmentCountOUT: person.ShipmentCountOut || '',
   Weight: person.WeightIn || 0,
   WeightOUT: person.WeightOut || '',
+    BranchLocation: person.BranchLocation || "",
+  BranchHandoverTime: this.formatDate(person.BranchHandoverTime) || "",
+  GateInTime: this.formatDate(person.GateInTime) || "",
+  GateOutTime: this.formatDate(person.GateOutTime) || "",
+  GPSATA:this.formatDate( person.GpsAta) || "",
+  GPSATD:this.formatDate( person.GpsAtd )|| "",
+  Bay: person.BayNoIn || "",
+  BayOUT:person.BayNoOut,
+  ShipmentCount: person.ShipmentCountIn || 0,
+  ShipmentCountOUT: person.ShipmentCountOut || '',
+  Weight: person.WeightIn || 0,
+  WeightOUT: person.WeightOut || '',
 
+  // ServerGPSReceivedIn:  this.extra ? person.ServerGPSReceivedIn : null,OUT
+  // ServerGPSProcessedIn:  this.extra ? person.ServerGPSProcessedIn : null,
+  // ServerGPSReceivedOut:  this.extra ? person.ServerGPSReceivedOut : null,
+  // ServerGPSProcessedOut:  this.extra ? person.ServerGPSProcessedOut : null,
+  // PushTimeIn:  this.extra ? person.PushTimeIn : null,
+  // PushTimeOut:  this.extra ? person.PushTimeOut : null,
   // ServerGPSReceivedIn:  this.extra ? person.ServerGPSReceivedIn : null,OUT
   // ServerGPSProcessedIn:  this.extra ? person.ServerGPSProcessedIn : null,
   // ServerGPSReceivedOut:  this.extra ? person.ServerGPSReceivedOut : null,
@@ -1506,12 +1848,15 @@ formatDate(dateTimeString) {
 //   new agGrid.Grid(gridDiv, this.gridOptions);
 // alert(2)
 // if (this.gridOptions.length == 0) {
+// alert(2)
+// if (this.gridOptions.length == 0) {
       this.gridOptions = {
         rowHeight: 30,
         // headerHeight: 40,
 
         // enableHtmlForHeaderNames: true,
         columnDefs: this.columnDefs,
+        // rowData: this.rowData,
         // rowData: this.rowData,
         pagination: true,
         paginationPageSize: 50,
@@ -1544,6 +1889,13 @@ formatDate(dateTimeString) {
           if (this.gridApi) {
             this.gridApi.setGridOption('rowData', this.rowData)
           }
+          // this.gridOptions.api = params.api; // Correctly set the API
+          this.gridApi = params.api;
+          this.columnApi = params.columnApi;
+          // console.log('AG-Grid API:', this.gridOptions.api);
+          if (this.gridApi) {
+            this.gridApi.setGridOption('rowData', this.rowData)
+          }
         },
         // onGridReady: (params) => {
         //   // Explicitly set API references
@@ -1558,7 +1910,14 @@ formatDate(dateTimeString) {
       }
       const gridDiv = document?.querySelector('#myGrid');
       if(gridDiv)
+      const gridDiv = document?.querySelector('#myGrid');
+      if(gridDiv)
       new agGrid.Grid(gridDiv, this.gridOptions);
+    // }
+    // else {
+    //   this.gridApi.setColumnDefs(this.columnDefs);
+    //   this.gridApi.setRowData(this.rowData);
+    // }
     // }
     // else {
     //   this.gridApi.setColumnDefs(this.columnDefs);
@@ -2283,6 +2642,20 @@ onSearch_Destination(searchTerm: any) {
     dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
   ).slice(0, 50); // Limit to a subset
 }
+onSearch_origin(searchTerm: any) {
+  // Filter and update results based on the search term
+  searchTerm=searchTerm?.term
+  this.filteredDestination = this.Customer.filter(dest =>
+    dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).slice(0, 50); // Limit to a subset
+}
+onSearch_Destination(searchTerm: any) {
+  // Filter and update results based on the search term
+  searchTerm=searchTerm?.term
+  this.filteredDestination1 = this.Destination.filter(dest =>
+    dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).slice(0, 50); // Limit to a subset
+}
   onSearch(term: any) {
     console.log(term)
     if(term.term.length>=3){
@@ -2305,7 +2678,18 @@ onSearch_Destination(searchTerm: any) {
   console.log('Grid API:', this.gridApi); // Check if API is assigned correctly
 }
 // exportAsExcel() {
+// exportAsExcel() {
 
+//   if (this.gridApi) {
+//     this.gridApi.exportDataAsCsv({
+//       fileName: 'table-data.csv',
+//       columnKeys: this.columnDefs
+//         .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
+//         .map(colDef => colDef.field),
+//     });
+//   }
+// }
+exportAsExcel() {
 //   if (this.gridApi) {
 //     this.gridApi.exportDataAsCsv({
 //       fileName: 'table-data.csv',
@@ -2322,6 +2706,14 @@ exportAsExcel() {
       columnKeys: this.columnDefs
         .filter(colDef => colDef.field !== 'trackHistory') // Exclude trackHistory column
         .map(colDef => colDef.field),
+      processCellCallback: (params) => {
+        const value = params.value;
+        if (typeof value === 'string' && value.includes(',')) {
+          // If the value contains a comma, wrap it in double quotes
+          return `"${value.replace(/"/g, '""')}"`; // Escape any existing double quotes
+        }
+        return value; // Return the value as-is if no commas
+      },
       processCellCallback: (params) => {
         const value = params.value;
         if (typeof value === 'string' && value.includes(',')) {
@@ -2352,6 +2744,7 @@ dtdcTripReportFilter(){
   formdata.append('AccessToken',this.token)
   
   this.dtdcService.dtdcTripReportFilter(formdata).subscribe((data:any) => {
+ 
  
     if(data.Status=="success"){
       console.log(data)
@@ -3553,6 +3946,7 @@ exportToPDF(): void {
   pdfMake.createPdf(docDefinition).download('dynamic-table.pdf');
 }
 exportToCSV_delete(): void {
+exportToCSV_delete(): void {
   const rows: string[] = [];
   const parentHeaders: string[] = [];
   const childHeaders: string[] = [];
@@ -3574,6 +3968,8 @@ exportToCSV_delete(): void {
   });
 
   // Create parent header row
+  // rows.push(parentHeaders.map(value => `"${value}"`).join(',')); // Wrap headers in quotes
+  rows.push(childHeaders.map(value => `"${value}"`).join(',')); // Wrap headers in quotes
   // rows.push(parentHeaders.map(value => `"${value}"`).join(',')); // Wrap headers in quotes
   rows.push(childHeaders.map(value => `"${value}"`).join(',')); // Wrap headers in quotes
 
@@ -3599,7 +3995,17 @@ exportToCSV_delete(): void {
         value = `"${value}"`; // Wrap in double quotes
       }
       return value;
+
+      let value = field ? row[field] || '' : '';
+      
+      // Handle commas and quotes in the value
+      if (typeof value === 'string') {
+        value = value.replace(/"/g, '""'); // Escape double quotes
+        value = `"${value}"`; // Wrap in double quotes
+      }
+      return value;
     });
+    rows.push(rowValues.join(',')); // Combine row values into a single row
     rows.push(rowValues.join(',')); // Combine row values into a single row
   });
 
@@ -3611,6 +4017,7 @@ exportToCSV_delete(): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
+  link.setAttribute('download', 'Trip Report.csv');
   link.setAttribute('download', 'Trip Report.csv');
   document.body.appendChild(link);
   link.click();
@@ -4115,6 +4522,7 @@ exportToCSV_popup(): void {
   const link = document.createElement('a');
   link.setAttribute('href', url);
   link.setAttribute('download', 'Trip Report.csv');
+  link.setAttribute('download', 'Trip Report.csv');
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -4123,7 +4531,10 @@ exportToCSV_popup(): void {
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 async vehicleTrackF_new(close_date, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
 
+async vehicleTrackF_new(close_date, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
+
   $('#v_track_Modal').modal('show');
+ 
  
   this.initMap1()
   this.SpinnerService.show("tracking");
@@ -4138,6 +4549,7 @@ if (this.demoPolyline.length > 0) {
   this.demoPolyline = [];  // Clear the array after removing polylines
 }
   // console.log(imei, imei2, imei3);
+  if ( imei2 === '' && imei3 === '') {
   if ( imei2 === '' && imei3 === '') {
     alert("IMEI not assign");
   }else{
@@ -4157,6 +4569,7 @@ if (this.demoPolyline.length > 0) {
 
   // Define the array of IMEIs to process
   // const imeis = [imei,imei2,imei3];
+  const imeis = [imei2, imei3];
   const imeis = [imei2, imei3];
   // console.log(imeis);
 
@@ -4182,6 +4595,12 @@ if (this.demoPolyline.length > 0) {
       }else{
         currentDateTime= close_date;
       }
+      let currentDateTime: any;
+      if(close_date==''){
+        currentDateTime = this.datepipe.transform(new Date(), 'yyyy-MM-dd HH:mm:ss');
+      }else{
+        currentDateTime= close_date;
+      }
 
       formData.append('AccessToken', this.token);
       formData.append('startdate', run_date);
@@ -4193,6 +4612,7 @@ if (this.demoPolyline.length > 0) {
       formData.append('portal', 'itraceit');
       // Log form data for debugging
       formData.forEach((value, key) => {
+        console.log("formdata...", key, value);
         console.log("formdata...", key, value);
       });
 
@@ -4405,7 +4825,15 @@ showWindow(data, vnumber, add) {
 change_feeder(eve){
   console.log(eve)
  this.feeder_type= this. Master_filter?.RouteType[eve];
+change_feeder(eve){
+  console.log(eve)
+ this.feeder_type= this. Master_filter?.RouteType[eve];
 }
+}
+
+
+
+
 }
 
 

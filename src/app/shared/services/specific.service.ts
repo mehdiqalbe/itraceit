@@ -252,9 +252,15 @@ export class SpecificService implements OnDestroy {
 //          {
 //             path: '/cv/specific/dtdc/Manage/Vehicle', title:'Vehicle', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
 //         },
+//         title:'Manage', status:0,deactive_img:'fa fa-cog', active_img:'fa fa-cog', type: 'sub', icon: 'map-alt', badgeType: 'danger', badgeValue: '1', active: false,Account_id:'',
+//         children: [
+//          {
+//             path: '/cv/specific/dtdc/Manage/Vehicle', title:'Vehicle', status:0,active_img:'fas fa-file-upload',deactive_img:'fas fa-file-upload', type: 'link', icon: 'map-alt', badgeType: 'danger', badgeValue: '2', active: false,Account_id:''
+//         },
         
         
     
+//     ]
 //     ]
 
 // },
