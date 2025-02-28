@@ -57,6 +57,7 @@ export class VehicleUtilizationComponent implements OnInit {
   vehicle: any = [];
   new_array: any = [];
   final_grand_total: any;
+  region: any=[];
   constructor(private navServices: NavService,private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private router: Router, private location: Location) { }
 
   ngOnInit(): void {
@@ -515,9 +516,24 @@ export class VehicleUtilizationComponent implements OnInit {
     //   });
     // }
   }
+  validateRegion(){
+    if(this.region.length===3){
+      alert('You can only select a maximum of 3 regions.');
+      return
+    }
+  }
 
-
-
+  onRegionChange(selectedRegions){
+   
+    
+    if (selectedRegions.includes('')) {
+      // If "All" is selected, clear other selections
+      this.region = [''];
+    } else {
+      // If "All" is deselected, update the selection normally
+      this.region = selectedRegions.filter((value) => value !== '');
+    }
+  }
   
   
 
