@@ -114,6 +114,7 @@ slotwiseVehicleData(data){
  
   return this.http.post(apiurl,data);
 }
+
 dtdcTripCustomerDetails(data){
   let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripCustomerDetails";
   return this.http.post(apiurl,data);

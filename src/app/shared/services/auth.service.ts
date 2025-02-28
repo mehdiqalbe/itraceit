@@ -105,6 +105,7 @@ export class AuthService {
   Access(data){
     // https://api.secutrak.in/dev-app-secutrak
     return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/loginByAccessTokenV2', data);
+    // return this.http.post('https://apinode2.secutrak.in/dev-app-itraceit/loginByAccessTokenV2', data);
   }
   forget(data){
     return this.http.post('https://api.secutrak.in/dev-app-secutrak/forgotPassword', data);
@@ -114,6 +115,7 @@ export class AuthService {
   }
   
 IsLoggedIn(){
+ 
   return ! ! localStorage.getItem('AccessToken');
 }
 change_password(val:any){

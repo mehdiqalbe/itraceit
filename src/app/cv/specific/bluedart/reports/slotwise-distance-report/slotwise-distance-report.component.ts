@@ -4,10 +4,11 @@ import { NavService } from 'src/app/shared/services/nav.service';
 // import { DtdcService } from '../../services/dtdc.service';
 import { CrudService } from 'src/app/shared/services/crud.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DtdcService } from '../../services/dtdc.service';
+// import { DtdcService } from '../../services/dtdc.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { saveAs } from 'file-saver';
+import { BluedartService } from '../../services/bluedart.service';
 import { Router } from '@angular/router';
 declare var $: any;
 @Component({
@@ -51,7 +52,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
   reportType:any
   hideFields: boolean=false;
   showTamperColumn: boolean=false;
-  constructor(public datepipe: DatePipe,private navServices: NavService,private router: Router,private dtdcServices:DtdcService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
+  constructor(public datepipe: DatePipe,private navServices: NavService, private router:Router, private bluedartServices:BluedartService,private service:CrudService,private SpinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.generateDays()
@@ -132,8 +133,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
   }
   
   onFilterDashboard(val){
-    console.log(val,"slotwise filter");
-    
+    console.log(val);
     this.selectedReportFormat=1
     
     let formData=new FormData()
@@ -159,7 +159,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
           formData.append("VehicleNos",vehicleNosString)
         }
         formData.append("ExceptionDate",val?.exceptionDate||$("#datepicker1").val())
-        this.dtdcServices.slotwiseAutoDistanceData(formData).subscribe((res: any) => {
+        this.bluedartServices.slotwiseAutoDistanceData(formData).subscribe((res: any) => {
       
           // this.tripArray=res?.MainDashboard
       
@@ -202,9 +202,6 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     formData.append("SlotHr",val?.slotHr||'0')
     formData.append("ReportFormat",val?.reportFormat)
     formData.append("Location",val?.location||'')
-    // console.log(formData);
-    
-      // return
     // formData.append("overlap",val?.overlap==true?'1':'0')
     formData.append("Days",val?.day)
     if(val?.region=='')
@@ -228,7 +225,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     console.log(formData,this.region);
     
     this.SpinnerService.show('tableSpinner')
-    this.dtdcServices.slotwiseDistanceData(formData).subscribe((res: any) => {
+    this.bluedartServices.slotwiseDistanceData(formData).subscribe((res: any) => {
       
       // this.tripArray=res?.MainDashboard
       if(res?.Status=='fail'){
@@ -274,7 +271,6 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     } else {
       // If "All" is deselected, update the selection normally
       this.region = selectedRegions.filter((value) => value !== '');
-      console.log(this.region)
     }
      
   }
@@ -339,11 +335,10 @@ export class SlotwiseDistanceReportComponent implements OnInit {
   initApiCalls(){
     let formData=new FormData
     formData.append('AccessToken',this.token)
-    this.dtdcServices.slotwiseDistanceFilter(formData).subscribe((res: any) => {
+    this.bluedartServices.slotwiseDistanceFilter(formData).subscribe((res: any) => {
       if(res?.Status=='fail'){
         alert(res?.Message)
-        localStorage.removeItem('AccessToken');
-          this.router.navigate(['/auth/login']);
+        this.router.navigate(['/auth/login']);
         return
       }
       console.log("slotwise", res);
@@ -354,8 +349,9 @@ export class SlotwiseDistanceReportComponent implements OnInit {
       const location = Object.entries(res?.Filter?.Master?.Location);
       this.filterObject.location=location||[]
       this.filterObject.regions=regionsArray
+      // this.filterObject.locations=locationArray
       this.filterObject.gpsVendor=res?.Filter?.Master?.Vendor
-   console.log(this.filterObject);
+   console.log(regionsArray);
    
       // this.routeId = (res?.data);
       // console.log("customerList", this.routeId);
@@ -371,7 +367,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
       let formData=new FormData()
       formData.append('AccessToken',this.token)
       formData.append('searchQuery',searchTerm?.term)
-      this.dtdcServices.slotwiseVehicleData(formData).subscribe((res: any) => {
+      this.bluedartServices.slotwiseVehicleData(formData).subscribe((res: any) => {
         console.log("slotwise", res);
         this.vehicleOptions=res?.Data
         // this.routeId = (res?.data);
@@ -448,7 +444,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
             exportOptions: {
               columns: ':visible',
             },
-            title: 'report',
+            title: 'Slotwise Report',
           },
           {
             extend: 'pdf',
@@ -525,7 +521,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
             exportOptions: {
               columns: ':visible',
             },
-            title: 'dashboard_repor',
+            title: 'Slotwise Report',
           },
           // {
           //   extend: 'excel',
@@ -839,7 +835,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
         this.SpinnerService.show('daywisePopup')
       }
 
-      this.dtdcServices.slotwiseDistanceData(formData).subscribe((res: any) => {
+      this.bluedartServices.slotwiseDistanceData(formData).subscribe((res: any) => {
       
         // this.tripArray=res?.MainDashboard
         
@@ -1448,7 +1444,7 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     
     public parseDate(dateString) {
        
-      if(dateString=='-'||dateString=='NA'||dateString=='')
+      if(dateString=='-')
         return
 
       // Split the `dd-MM-yyyy HH:mm:ss` format into components
@@ -1461,29 +1457,6 @@ export class SlotwiseDistanceReportComponent implements OnInit {
             console.log(parsedDate)
       return parsedDate
     }
-
-    // public parseDate(dateString: string): Date | null {
-    //   if (dateString === '-' || dateString === 'NA' || dateString === '') {
-    //     return null;
-    //   }
-    
-    //   // Split the date and time components
-    //   const [datePart, timePart] = dateString.split(' ');
-    //   const [day, month, year] = datePart.split('-');
-    //   const [hours, minutes, seconds] = timePart.split(':');
-    
-    //   // Create a new Date object
-    //   const parsedDate = new Date(
-    //     Number(year),
-    //     Number(month) - 1, // Months are 0-based in JavaScript
-    //     Number(day),
-    //     Number(hours),
-    //     Number(minutes),
-    //     Number(seconds)
-    //   );
-    
-    //   return parsedDate;
-    // }
     exportToExcel_datetime(): void {
       const rowData = this.standardReport.map((item, index) => ({
         Sl: index + 1,
@@ -1495,19 +1468,21 @@ export class SlotwiseDistanceReportComponent implements OnInit {
         TravelDuration: item.TravelDuration,
         AvgSpeed: item.AvgSpeed,
         MaxSpeed: item.MaxSpeed,
+        DataGapStanding:item?.DataGapStanding,
         DataGapNetworking: item.DataGapNetworking,
-        Transporter: item.Transporter,
-        IntegrationDate:item.IntegrationDate,
-        Vendor: item.Vendor,
-        VehicleLocation: item.VehicleLocation,
-        ReportingTime: item.ReportingTime,
-        ExitTime: item.ExitTime,
+        TotalDataGap:item?.TotalDataGap,
+        // Transporter: item.Transporter,
+        // IntegrationDate:item.IntegrationDate ?? "",
+        // Vendor: item.Vendor,
+        // VehicleLocation: item.VehicleLocation,
+        // ReportingTime: item.ReportingTime,
+        // ExitTime: item.ExitTime,
         Region: item.Region,
-        TripCount: item.TripCount,
-        TripDistance: item.TripDistance,
-        ShipmentCount: item.ShipmentCount,
-        SumofWeight: item.SumofWeight,
-        TotalVehicleCapacity: item.TotalVehicleCapacity,
+        // TripCount: item.TripCount,
+        // TripDistance: item.TripDistance,
+        // ShipmentCount: item.ShipmentCount,
+        // SumofWeight: item.SumofWeight,
+        // TotalVehicleCapacity: item.TotalVehicleCapacity,
         Tampering: item.Tampering,
         Agreement: item.Agreement, // Include based on `showTamperColumn` logic if required
       }));
@@ -1595,34 +1570,13 @@ export class SlotwiseDistanceReportComponent implements OnInit {
       // Export the workbook as an Excel file
       XLSX.writeFile(wb, 'TravelledReport.xlsx');
     }
-    
     validateLocation(){
       if(this.location.length===10){
         alert('You can only select a maximum of 10 location');
         return
       }
    }
-   onLocationChange(selectedRegions){
-    // if(this.region.length>3){
-    //   console.log(this.region);
-    //    // Remove the last added selection
-    //    this.region.pop()
-    //    console.log(this.region);
-    //   alert('You can only select a maximum of 3 regions or select "All".');
-    //   return
-    // }
-    
-    if (selectedRegions.includes('')) {
-      // If "All" is selected, clear other selections
-      this.location = [''];
-    } else {
-      // If "All" is deselected, update the selection normally
-      this.location = selectedRegions.filter((value) => value?.value !== '');
-      console.log(this.location)
-    }
-     
-  }
-  onSearchLocation(val: any) {
+   onSearchLocation(val: any) {
     if (!val?.term || !this.filterObject?.location) {
       console.log('No search term or location data available');
       return;
@@ -1642,6 +1596,27 @@ export class SlotwiseDistanceReportComponent implements OnInit {
     this.searchLocation=filteredResults
   console.log(filteredResults, 'filteredResults');
    
+  }
+  onLocationChange(selectedRegions){
+    console.log(this.location,"onLocationChange");
+    
+    // if(this.region.length>3){
+    //   console.log(this.region);
+    //    // Remove the last added selection
+    //    this.region.pop()
+    //    console.log(this.region);
+    //   alert('You can only select a maximum of 3 regions or select "All".');
+    //   return
+    // }
+    
+    if (selectedRegions.includes('')) {
+      // If "All" is selected, clear other selections
+      this.location = [''];
+    } else {
+      // If "All" is deselected, update the selection normally
+      this.location = selectedRegions.filter((value) => value !== '');
+    }
+     
   }
 }
 

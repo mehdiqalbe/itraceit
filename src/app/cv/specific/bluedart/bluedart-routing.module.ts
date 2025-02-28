@@ -4,6 +4,7 @@ import {DashboardComponent } from './dashboard/dashboard.component'
 import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.component';
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
 import { VehicleNearbyComponent } from '../../common-module/vehicle-nearby/vehicle-nearby.component';
+import { AuthGuard } from 'src/app/shared/services/auth.guard';
 
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
 import { SummaryReportComponent } from './summary-report/summary-report.component';

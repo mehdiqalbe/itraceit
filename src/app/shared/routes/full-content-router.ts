@@ -17,7 +17,7 @@ export const full_content: Routes = [
   },
   {
     path: 'cv',
-    loadChildren: () => import('../../cv/cv.module').then(m => m.CVModule)
+    loadChildren: () => import('../../cv/cv.module').then(m => m.CVModule),canActivate: [AuthGuard]
   },
   // {
   //   path:'reports',

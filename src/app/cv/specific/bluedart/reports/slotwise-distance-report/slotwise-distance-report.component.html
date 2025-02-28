@@ -7,7 +7,7 @@
       <div style="overflow: hidden;">
         <div class="d-flex align-items-left ">
           <div style="width:fit-content" class=" my-2 d-flex">
-            <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
+            <button class="app-sidebar__toggle ms-1 " type="button" (click)="sidebarToggle()"></button>
           </div>
          
           <div
@@ -25,10 +25,12 @@
               Slotwise Distance Report</h3>
             <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Slotwise Distance Report</h5>
           </div>
-   
+         
+
           <div class="d-flex align-items-center">
             <img style="height: 100%;height: 76px;position: absolute;z-index: 44;right: 12px;" src="assets/img/logo.png" class="header-logo"  alt="">
           </div>
+
           <div class="d-flex gap-4 pe-5">
      
           </div>
@@ -205,7 +207,6 @@
         </ng-option>
       </ng-select>
     </div>
-   
     <!-- Date -->
     <div class="col-lg-2">
     
@@ -313,8 +314,7 @@
       <ng-option [value]="2">Detailed</ng-option>
     </ng-select>
   </div>
-
-  <div class="col-lg-2">
+  <div class="col-lg-2 d-none">
     <span class="filtor_name">GPS Vendor</span>
     <ng-select
     [ngModel]
@@ -372,7 +372,7 @@
   <div class="col-lg-2" >
     <span class="filtor_name">Location</span>
     <ng-select
-    [ngModel]
+    [(ngModel)]="location"
     name="location"
     id="location"
     placeholder="Search Location"
@@ -382,14 +382,15 @@
     [multiple]="true"
     
     (click)="validateLocation()"
-    (search)="onSearchLocation($event)"
     (change)="onLocationChange($event)"
     [closeOnSelect]="true"
     [searchable]="true"
     [typeToSearchText]="'search location'"
+   
+    (search)="onSearchLocation($event)"
     
   >
-
+  <ng-option [value]="''">All</ng-option>
   <ng-option
   *ngFor="let item of searchLocation"
   [value]="item?.key"
@@ -398,7 +399,8 @@
   </ng-option>
 </ng-select>
   </div>
-  <div class="" style="width: fit-content;align-self: flex-start;margin-top: 14px;">  
+  <div class="" style="width: fit-content;align-self: flex-start;margin-top: 14px;">
+    
     <input
     type="checkbox"
     id="toggleFields"
@@ -415,7 +417,7 @@
     id="overlap"
     type="checkbox"
     id="toggleFields"
-    [ngModel]="true"
+    [ngModel]
     style="margin-right: 5px;"
   />
   <span class="filtor_name me-1">Overlap Data</span>
@@ -494,24 +496,23 @@
               <th class="table-primar">Total Distance(km)</th> -->
               <th class="table-primar">Avg.Speed</th>
               <th class="table-primar" >Max.Speed</th>
-              <th class="table-primar d-none">Data Gap Standing(HH:MM:SS)</th>
+              <th class="table-primar">Data Gap Standing(HH:MM:SS)</th>
               <th class="table-primar ">Data Gap Network(HH:MM:SS)</th>
-              <th class="table-primar d-none">Total Data Gap (HH:MM:SS)</th>
-              <th class="table-primar">Transporter</th>
-              <th class="table-primar">Installation Date</th>
-              <th class="table-primar">GPS Vendor</th>
-              <th class="table-primar">Vehicle Location</th>
-              <th class="table-primar">Reporting Time</th>
-              <th class="table-primar">Exit Time</th>
+              <th class="table-primar">Total Data Gap (HH:MM:SS)</th>
+              <th class="table-primar ">Transporter</th>
+              <th class="table-primar d-none">Installation Date</th>
+              <th class="table-primar d-none">GPS Vendor</th>
+              <th class="table-primar ">Vehicle Location</th>
+              <th class="table-primar ">Reporting Time</th>
+              <th class="table-primar ">Exit Time</th>
               <th class="table-primar">Vehicle Region</th>
-              <th class="table-primar">Trip Count</th>
-              <th class="table-primar">Trip Distance</th>
-              <th class="table-primar">Shipment Count</th>
-              <th class="table-primar">Shipment Weight</th>
-              <th class="table-primar">Total Vehicle Capacity</th>
-              <th class="table-primar">Vehicle Utilization</th>
+              <th class="table-primar d-none">Trip Count</th>
+              <th class="table-primar d-none">Trip Distance</th>
+              <th class="table-primar d-none">Shipment Count</th>
+              <th class="table-primar d-none">Shipment Weight</th>
+              <th class="table-primar d-none">Total Vehicle Capacity</th>
               <th class="table-primar" >Tampering</th>
-              <th  class="table-primar" >Agreement</th>
+              <th  class="table-primar"  >Agreement Type</th>
 
             </tr>
           </thead>
@@ -542,7 +543,7 @@
               <td>{{item?.TotalDistance}}</td> -->
               <td>{{item?.AvgSpeed}}</td>
               <td>{{item?.MaxSpeed}}</td>  
-              <td class="d-none">
+              <td class="">
                 {{ item?.DataGapStanding }}
                 <button
                   *ngIf="item?.DataGapStanding !== '00:00:00'"
@@ -566,7 +567,7 @@
                 </button>
               </td>
               
-              <td class="d-none">
+              <td class="">
                 {{ item?.TotalDataGap }}
                 <button
                   *ngIf="item?.TotalDataGap !== '00:00:00'"
@@ -577,27 +578,21 @@
                   <i class="fa fa-eye"></i>
                 </button>
               </td>
-              <td>{{ item?.Transporter}}</td>
-              <td>{{ item?.IntegrationDate}}</td>
-              <td>{{ item?.Vendor}}</td>
-              <td>{{ item?.VehicleLocation}}</td>
-              <td>{{ item?.ReportingTime}}</td>
-              <td>{{ item?.ExitTime}}</td>
+              <td class="">{{ item?.Transporter}}</td>
+              <td class="d-none">{{ item?.IntegrationDate}}</td>
+              <td class="d-none">{{ item?.Vendor}}</td>
+              <td class="">{{ item?.VehicleLocation}}</td>
+              <td class="">{{ item?.ReportingTime}}</td>
+              <td class="">{{ item?.ExitTime}}</td>
               <td>{{ item?.Region}}</td>
-              <td>{{ item?.TripCount}}</td>
-              <td>{{ item?.TripDistance}}</td>
-              <td>{{ item?.ShipmentCount}}</td>
-              <td>{{ item?.SumofWeight}}</td>
-              <td>{{ item?.TotalVehicleCapacity}}</td>
+              <td class="d-none">{{ item?.TripCount}}</td>
+              <td class="d-none">{{ item?.TripDistance}}</td>
+              <td class="d-none">{{ item?.ShipmentCount}}</td>
+              <td class="d-none">{{ item?.SumofWeight}}</td>
+              <td class="d-none">{{ item?.TotalVehicleCapacity}}</td>
+              <td>{{ item?.Tampering}}</td>
               <td>
-                {{ item?.TotalVehicleCapacity > 0 
-                    ? (((item?.SumofWeight / item?.TotalVehicleCapacity) * 100) | number:'1.2-2')+'%' 
-                    : '-' }}
-              </td>
-              
-                            <td>{{ item?.Tampering}}</td>
-              <td>
-                {{ item?.Agreement === 'Yes' ? 'Contract' : (item?.Agreement === 'No' || item?.Agreement === '-' ? 'Market hired' : '') }}
+                {{ item?.Agreement === 'Yes' ? 'Contract' : (item?.Agreement === 'No' || item?.Agreement === '-' ? 'Market' : '') }}
               </td>
 
             </tr>

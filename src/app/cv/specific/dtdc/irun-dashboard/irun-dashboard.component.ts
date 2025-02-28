@@ -8552,7 +8552,7 @@ closeLastOpenedInfoWindow() {
   this.demoPolyline=[]
  //  this.seconddaryTrack = [];
   this.customer_info = [];
-  this.marker=[];
+  // this.marker=[];
   this.poly_line=[];
 
   // this.initMap1();
@@ -12441,6 +12441,7 @@ liveLocation_new(lat, long, driver_mobile, driver_name, halt_time, transporter_n
 
 
      };
+     
      this.markerLocation.push(this.markers.mark)
      // console.log("mark", this.markerLocation)
      this.map.fitBounds(this.latlngbounds);

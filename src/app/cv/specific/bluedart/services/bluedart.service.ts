@@ -38,7 +38,10 @@ export class BluedartService {
     
     return this.http.post(apiurl,data);
   }
- 
+  ahtTimeAdd(data){
+    let apiurl=this.baseURL+"/updateAhtBd";
+    return this.http.post(apiurl,data);
+  }
 
   bdSummary(data) {
 
@@ -227,6 +230,13 @@ export class BluedartService {
   //   //let apiurl= 'http://localhost:3000/workZone'
   //   return this.http.post(apiurl, data);
   // }
+  addressS(data) {
+    // let apiurl = " https://api.secutrak.in/dev-app-secutrak/vehicleLastLocationV2";
+    let apiurl = "https://api-bde.secutrak.in/dev-app-itraceit/vehicleLastLocationV2";
+    //let apiurl="https://jsonplaceholder.typicode.com/users";
+    //let apiurl= 'http://localhost:3000/workZone'
+    return this.http.post(apiurl, data);
+  }
   summaryS(data) {
     // let apiurl="this.BDE_URL+ triggerReportSummaryAT";
 
@@ -306,5 +316,33 @@ export class BluedartService {
   }
   networkVehicleDelayReport(val:any){
     return this.http.post(this.baseURL+'networkVehicleDelayReport',val)
+  }
+  
+  vehicleTrackongS(val: any) {
+    // let apiurl=;
+    return this.http.post("https://api-bde.secutrak.in/dev-app-itraceit/vehicleTrackingV2New", val);
+  }
+  slotwiseDistanceFilter(data){
+  
+    let apiurl=this.baseURL+"slotwiseReportFilter";
+   
+    return this.http.post(apiurl,data);
+  }
+  
+  slotwiseDistanceData(data){
+    
+    let apiurl=this.baseURL+"slotwiseGeneralReport";
+   
+    return this.http.post(apiurl,data);
+  }
+  slotwiseAutoDistanceData(data){
+    
+    let apiurl=this.baseURL+"slotwiseAutoReport";
+   
+    return this.http.post(apiurl,data);
+  }
+  slotwiseVehicleData(data){
+    let apiurl=this.baseURL+"getslotwiseVehicle";
+    return this.http.post(apiurl,data);
   }
 }

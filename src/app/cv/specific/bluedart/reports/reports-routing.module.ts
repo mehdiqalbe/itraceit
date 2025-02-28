@@ -6,6 +6,8 @@ import {DelayReportComponent} from './delay-report/delay-report.component';
 import { VehicleReportComponent } from './vehicle-report/vehicle-report.component';
 import { VehicleUtilizationComponent } from './vehicle-utilization/vehicle-utilization.component';
 import { DataPushReportComponent } from './data-push-report/data-push-report.component';
+import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
+
 const routes: Routes = 
   [{
     path: '',
@@ -17,6 +19,7 @@ const routes: Routes =
       { path: 'VehicleReport', component:VehicleReportComponent},
       { path: 'VehicleUtilization', component:VehicleUtilizationComponent},
       { path: 'DataPushReport', component:DataPushReportComponent},
+      { path: 'SlotwiseReport', component:SlotwiseDistanceReportComponent},
        // Feature rout
     ]
     }];

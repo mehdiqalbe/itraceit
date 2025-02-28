@@ -7,6 +7,7 @@ import { concatMap } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/shared/services/auth.service';
 declare var $: any;
+declare var $: any;
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -23,6 +24,7 @@ export class LoginPageComponent implements OnInit {
   transporterAccessData:any=[]
   path: any;
   images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  // images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
   constructor(private authservice: AuthService, private router: Router, private formBuilder : FormBuilder, private route:ActivatedRoute) {
    
    
@@ -38,7 +40,7 @@ export class LoginPageComponent implements OnInit {
    }
   //  21S86KPgcDQT746104o0Y19OH7385421
   ngOnInit(): void {
-   alert(0)
+  //  alert(0)
     // alert("oninit")
     // if( this.acces_store==''){
     this.access_token();
@@ -94,6 +96,8 @@ export class LoginPageComponent implements OnInit {
   console.log("Qalbe");
  
   var k= token?.split('?exttkn=')[1]?.split('&forGroup=')[0];
+  // this.path= this.router.url?.split('$')[1]||'';
+  this.path=decodeURIComponent( this.router.url?.split('$')[1]||'');
   // this.path= this.router.url?.split('$')[1]||'';
   this.path=decodeURIComponent( this.router.url?.split('$')[1]||'');
   console.log("pathk",k)
@@ -245,7 +249,7 @@ export class LoginPageComponent implements OnInit {
               // console.log("full_menu",(JSON.parse(localStorage.getItem('AccessMenu')||'')).ActivePage[0].name,(JSON.parse(localStorage.getItem('AccessMenu')||'')).ActivePage);
           // Check if specific_permission have values ---
          
-        
+          $('#loginModal').modal('hide');
           this.router.navigate([`/cv/${resp.Data.Class}`]);
         
       //     if(resp.specific_permission){
