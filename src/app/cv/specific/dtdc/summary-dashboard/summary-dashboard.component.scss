@@ -4885,6 +4885,7 @@ section[_ngcontent-tbm-c137] {
         //     width: fit-content;
         //     overflow: auto;
         // }
+        
         .circle {
             border-radius: 50%;
             width: 8px;
@@ -5106,6 +5107,10 @@ section[_ngcontent-tbm-c137] {
     overflow: visible;
     // height: 39px !important;
 }
+ng-select .ng-placeholder {
+    display: block;
+    color: gray;
+  }
 #simple_datatable thead th {
     color: white;
     text-transform: capitalize !important;

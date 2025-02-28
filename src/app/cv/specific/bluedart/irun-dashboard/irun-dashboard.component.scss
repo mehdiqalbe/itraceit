@@ -4562,7 +4562,7 @@ font-weight: 800;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 40px;
+    height: 36px;
     // border: 2px solid black !important;
     font-weight: 600;
     color: #000;
@@ -4980,4 +4980,20 @@ section[_ngcontent-tbm-c137] {
                 display: flex; align-items: center; justify-content: space-between;
                 font-weight: 500;
                color: #12125eed;
+            }
+            #map{
+                width: 100%;
+                height: 500px;
+            }
+            ::ng-deep{
+                .no-border-table, 
+.no-border-table tr, 
+.no-border-table td, 
+.no-border-table th {
+
+    border: none !important;
+}
+.gm-style-iw-chr{
+    height: 36px;
+}
             }

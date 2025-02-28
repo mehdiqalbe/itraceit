@@ -121,12 +121,19 @@ export class SummaryDashboardComponent implements OnInit {
   selectedDestination: string | null = null;
   
   selectedDestination1: string | null = null;
+  selectedRouteType: any;
+  routeTypes_filter: any=[];
+  eve: any;
+  selectedRouteType1: any=[];
+  region: any=[];
+  region_route: any=[];
+  Route_url:any="https://cv2.secutrak.in/cv/specific/dtdc/map";
+  // Route_url:any="http://localhost:4200/cv/specific/dtdc/map";
   constructor(private router: Router,private navServices: NavService,private dtdcService:DtdcService,private CrudService: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit(): void {
     let App = document.querySelector('.app');
     App?.classList.add('sidenav-toggled');
-
     this.token=localStorage.getItem('AccessToken')!;
     this.group_id=localStorage.getItem('GroupId')!;
     this.account_id=localStorage.getItem('AccountId')!;
@@ -145,7 +152,7 @@ export class SummaryDashboardComponent implements OnInit {
     this.dtdcTripReportFilter();
     // this.Grid_table();
     // this.triggerHstSubmit1('')
-    this.First_call();
+    // this.First_call();
     
   }
   onSearch(searchTerm: any) {
@@ -155,13 +162,11 @@ export class SummaryDashboardComponent implements OnInit {
       dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
     ).slice(0, 50); // Limit to a subset
   }
-  onSearch1(searchTerm1: any) {
+  onSearch1(searchTerm: any) {
     // Filter and update results based on the search term
-    searchTerm1=searchTerm1?.term
-    console.log(searchTerm1);
-    
+    searchTerm=searchTerm?.term
     this.filteredDestination1 = this.Customer.filter(dest =>
-      dest?.value?.toLowerCase().includes(searchTerm1.toLowerCase())
+      dest?.value?.toLowerCase().includes(searchTerm.toLowerCase())
     ).slice(0, 50); // Limit to a subset
   }
   private getLargeDataset() {
@@ -170,15 +175,10 @@ export class SummaryDashboardComponent implements OnInit {
   }
   initMap1() 
  {
-
-
   //  const center = { lat: this.customer_info[0].Lat, lng: this.customer_info[0].Lng };
    const center = { lat: 23.2599, lng: 77.4126 };
-
   //  this.customer_info[full_length].Lat, this.customer_info[full_length].Lng)
   // var center: any = new google.maps.LatLng( this.customer_info[0].Lat,  this.customer_info[0].Lng)
-// 
-
    this.map1 = new google.maps.Map(document.getElementById('map1') as HTMLElement, {
      zoom: 4,
       center: center,
@@ -187,11 +187,7 @@ export class SummaryDashboardComponent implements OnInit {
      scaleControl: true,
 
    }
-   );
-
- 
-
-   
+   );  
      
  }
   sidebarToggle() {
@@ -208,7 +204,8 @@ export class SummaryDashboardComponent implements OnInit {
   start() {
     $(document).ready(() => {
       $("#datepicker").datepicker({
-        format: "yyyy-mm-dd", // Ensure this matches your desired format
+        // format: "yyyy-mm-dd", // Ensure this matches your desired format
+        format: "yyyy-mm-dd",
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -398,12 +395,7 @@ summary_detail(eve,tripsKey,h_name){
        
       const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
       sessionStorage.setItem('structuredata', compressedData);
-      // window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
-      const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
-      const dynamicUrl = `${baseUrl}/map`;
-
-      // Open the dynamic URL
-      window.open(dynamicUrl, '_blank');
+      window.open(this.Route_url, '_blank');
       // window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
       // https://cv2.secutrak.in/cv/specific/dtdc/map
     }else{
@@ -427,12 +419,8 @@ summary_detail_1(eve,tripsKey,h_name){
     
    const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
    sessionStorage.setItem('structuredata', compressedData);
-   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
-   const dynamicUrl = `${baseUrl}/map`;
 
-   // Open the dynamic URL
-   window.open(dynamicUrl, '_blank');
-  //  window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+   window.open(this.Route_url, '_blank');
   //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
    // https://cv2.secutrak.in/cv/specific/dtdc/map
  }else{
@@ -450,17 +438,14 @@ summary_detail_2(eve,tripsKey,h_name){
          rowData_popup: this.rowData_popup,
          group_id: this.group_id,
          flag:1,
+         flag:1,
          name:h_name,
        };
     
    const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
    sessionStorage.setItem('structuredata', compressedData);
-   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
-   const dynamicUrl = `${baseUrl}/map`;
-
-   // Open the dynamic URL
-   window.open(dynamicUrl, '_blank');
-  //  window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
+   
+   window.open(this.Route_url, '_blank');
   //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
    // https://cv2.secutrak.in/cv/specific/dtdc/map
  }else{
@@ -483,13 +468,9 @@ summary_detail_3(eve,tripsKey,h_name){
     
    const compressedData = LZString.compressToUTF16(JSON.stringify(structuredata));
    sessionStorage.setItem('structuredata', compressedData);
-   const baseUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
-   const dynamicUrl = `${baseUrl}/map`;
 
-   // Open the dynamic URL
-   window.open(dynamicUrl, '_blank');
   //  window.open('http://localhost:4200/cv/specific/dtdc/map', '_blank');
-  //  window.open('https://cv2.secutrak.in/cv/specific/dtdc/map', '_blank');
+   window.open(this.Route_url, '_blank');
    // https://cv2.secutrak.in/cv/specific/dtdc/map
  }else{
    alert("Data not found");
@@ -543,7 +524,7 @@ summary_detail_3(eve,tripsKey,h_name){
           this.vehicleTrackF_new('', '',params.data.Full?.Imei, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
         });
       } else {
-        button.innerHTML += `<span style="color: black;">Na</span>|`;
+        button.innerHTML += `<span style="color: black;">-</span>|`;
       }
       
       if (params.data.Full?.Imei2 !== '') {
@@ -555,7 +536,7 @@ summary_detail_3(eve,tripsKey,h_name){
           this.vehicleTrackF_new('', '',params.data.Full?.Imei2, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
         });
       } else {
-        button.innerHTML += `<span style="color: black;">Na</span>|`;
+        button.innerHTML += `<span style="color: black;">-</span>|`;
       }
       
       if (params.data.Full?.Imei3 !== '') {
@@ -567,7 +548,7 @@ summary_detail_3(eve,tripsKey,h_name){
           this.vehicleTrackF_new('', '',params.data.Full?.Imei3, params.data.Full?.RunDateF, params.data.Full?.Vehicle, params.data.Full, params.data.Full?.ShpNo, params.data.Full?.Id)
         });
       } else {
-        button.innerHTML += `<span style="color: black;">Na</span>|`;
+        button.innerHTML += `<span style="color: black;">-</span>|`;
       }
       
       // Attach event listener to the button
@@ -1665,7 +1646,7 @@ new agGrid.Grid(gridDiv, this.gridOptions_popup);
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', 'GridData.csv');
+  link.setAttribute('download', 'Summary.csv');
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1863,9 +1844,14 @@ dtdcTripReportFilter(){
     if(data.Status=="success"){
       this.Master_filter=data.Filter.Master;
       this.Region=this.Master_filter?.Region
-      this.Customer=this.Master_filter?.Customer
-      this.Destination=this.Master_filter?.Customer
-     
+      this.Customer=this.Master_filter?.Customer;
+      this.Destination=this.Master_filter?.Customer;
+      this.selectedRouteType=this.Master_filter.DefualtFilter;
+      const inputString = this.selectedRouteType;
+      this.selectedRouteType1 = inputString.split(',').map(item => ({route_type: item.trim()}));
+
+// this.routeTypes_filter = Object.keys(this.Route_type).map(key => ({ route_type: key }));
+// console.log(this.selectedRouteType1);
       const Destination = this.Master_filter?.Customer || {};
       this.Destination = Object.entries(Destination).map(([key, value]) => ({ key, value }));
       
@@ -1875,16 +1861,51 @@ dtdcTripReportFilter(){
       this.Customer = Object.entries(Destination1).map(([key, value]) => ({ key, value }));
       
       this.filteredDestination1 = this.Customer.slice(0, 50); // Initial subset
-    //  console.log(this.Customer,'customer',this.filteredDestination1);
-     
-
+    
+     this.First_call();
 
     }else{
       alert(data?.Message);
+      this.router.navigate([`/auth/login`]);
     }
   })
 }
+validateRegion(){
+  if(this.region.length===3){
+    alert('You can only select a maximum of 3 regions or select "All".');
+    return
+  }
+}
+validateRegion_route(){
+  if(this.region_route.length===3){
+    alert('You can only select a maximum of 3 regions or select "All".');
+    return
+  }
+}
+onRegionChange(selectedRegions){
+  
+  
+  if (selectedRegions.includes('')) {
+    // If "All" is selected, clear other selections
+    this.region = [''];
+  } else {
+    // If "All" is deselected, update the selection normally
+    this.region = selectedRegions.filter((value) => value !== '');
+  }
+}
+onRegionChange_route(selectedRegions){
+  
+  
+  if (selectedRegions.includes('')) {
+    // If "All" is selected, clear other selections
+    this.region_route = [''];
+  } else {
+    // If "All" is deselected, update the selection normally
+    this.region_route = selectedRegions.filter((value) => value !== '');
+  }
+}
 triggerHstSubmit(eve){
+  // console.log(eve)
   this.submit=true;
   if(eve.form.status=='VALID'){
     this.SpinnerService.show()
@@ -1896,27 +1917,34 @@ triggerHstSubmit(eve){
    formdata.append('DateTo', endDate);
   if(eve.value.TripId){formdata.append('TripId',eve.value.TripId)
   }else{
-    if(eve.value.Route){formdata.append('RouteType',eve.value.Route)}
+    if(eve.value.Route){
+      const result = eve.value.Route.map(item => item.route_type).join(", ");
+      formdata.append('RouteType',result)}
    if(eve.value.RouteCategory){ formdata.append('RouteCategory',eve.value.RouteCategory)}
    if(eve.value.Origin){ formdata.append('Origin',eve.value.Origin)}
    if(eve.value.Destination){ formdata.append('Destination',eve.value.Destination)}
-   if(eve.value.Route) {formdata.append('Route',eve.value.Route)}
-   console.log(eve.value.Region)
+  //  if(eve.value.Route) {
+  //   const result = eve.value.Route.map(item => item.route_type).join(", ");
+    
+  //   formdata.append('Route',result)}
    if(eve.value.Region){
-    formdata.append('Region',eve.value.Region)}
+    let text = eve.value.Region;
+    const result = text.map(loc => loc.split("(")[0]).join(",");
+    
+     formdata.append('Region',result);}
    if(eve.value.TripStatus){ formdata.append('TripStatus',eve.value.TripStatus)}
    if(eve.value.vehicle_number){ formdata.append('VehicleNo',eve.value.vehicle_number)}
   }
-  formdata.forEach((value, key) => {
-    console.log("formdata",key, value);
-  });
+  // formdata.forEach((value, key) => {
+  //   console.log("formdata",key, value);
+  // });
   this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
-    console.log("Summary",data)
+    // console.log("Summary",data)
     this.submit=false;
     if(data.Status=="success"){
       this.new_array=[]
       this.new_array=data.Report;
-      console.log(this.new_array)
+      // console.log(this.new_array)
       if(this.new_array.Summary){
       // this.Grid_table();
       var table = $('#simple_datatable').DataTable();
@@ -1939,13 +1967,25 @@ triggerHstSubmit(eve){
 }
 }
 RouteCategory(eve:any){
+  console.log(eve)
   // console.log(this.Master_filter?.RouteType[eve[0]])
-  this.Route_type=this.Master_filter?.RouteType[eve[0]];
+  this.Route_type=this.Master_filter?.RouteType[eve];
   // console.log(eve)
+}
+changeRoutetype(eve){
+  this.routeTypes_filter=[];
+  // console.log(this.filterdata,eve);
+  this.eve=eve;
+  this.selectedRouteType1 = []; // Reset to empty array to clear selection
+  this.Route_type=this.Master_filter?.RouteType[eve];
+  // console.log(routeTypes_filter)
+  this.routeTypes_filter = Object.keys(this.Route_type).map(key => ({ route_type: key }));
+  // console.log(this.routeTypes_filter)
+
 }
 First_call(){
   this.submit=true;
-
+// console.log("ccccccccccccc",this.selectedRouteType)
     this.SpinnerService.show()
   var formdata=new FormData()
   // console.log($("#datepicker").val())
@@ -1957,10 +1997,10 @@ First_call(){
    formdata.append('DateFrom',starteDate)
    formdata.append('DateTo', endDate)
   // formdata.append('ReportType',eve.value.ReportType);
-
-  formdata.forEach((value, key) => {
-    console.log("formdata",key, value);
-  });
+ formdata.append('RouteType',this.selectedRouteType)
+  // formdata.forEach((value, key) => {
+  //   console.log("formdata",key, value);
+  // });
   this.dtdcService.dtdcSummary(formdata).subscribe((data:any) => {
   
     this.submit=false;
@@ -1982,6 +2022,7 @@ First_call(){
     }else{
       alert(data?.Message);
       this.SpinnerService.hide();
+      this.router.navigate([`/auth/login`]);
     }
     // console.log(data)
   })
@@ -2307,6 +2348,7 @@ async vehicleTrackF_new_here(imei, imei2, imei3, run_date, vehicle_no, item, Id,
 
         if (res.Status === "failed") {
           alert(res?.Message);
+          this.router.navigate([`/auth/login`]);
         }
 
         this.trackingData = res.data;
@@ -2449,7 +2491,7 @@ handleMarkerClick1(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
-
+  formdataCustomer.append('portal', 'itraceit');
   this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
     const address = res.Data.Address;
     this.showWindow(trackingData, vehicle_no, address);
@@ -2466,7 +2508,7 @@ async handleMarkerClick_here(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
-
+  formdataCustomer.append('portal', 'itraceit');
   const res:any = await this.CrudService.addressS(formdataCustomer).toPromise(); // Assuming it returns an observable
  console.log("res",res)
   const address = res.Data.Address;
@@ -3080,7 +3122,7 @@ exportToCSV_popup(): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', 'GridData.csv');
+  link.setAttribute('download', 'Summary.csv');
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -3238,7 +3280,7 @@ exportToCSV_popup1(): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.setAttribute('href', url);
-  link.setAttribute('download', 'GridData.csv');
+  link.setAttribute('download', 'Summary.csv');
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -3518,27 +3560,25 @@ if (this.demoPolyline.length > 0) {
 fetchCustomerInfo(Id: string) {
   this.customer_info = []
   const markers: google.maps.Marker[] = [];
+ 
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);
   formdataCustomer.append('forGroup', this.group_id);
   formdataCustomer.append('id', Id);
 
   this.CrudService.tripCustomerS(formdataCustomer).subscribe((res: any) => {
-    console.log(res)
+    // console.log(res)
     if(res.status=='success'){
       if(res.customer_info!==null){
     this.customer_info = res.customer_info;
-
     // Log the customer data for debugging
-    console.log("Customer Info:", this.customer_info);
+    // console.log("Customer Info:", this.customer_info);
     //  if(this.customer_info!==null){
     this.customer_info.forEach((customer, index) => {
       // Log SequenceNo to check its value
-      console.log("Customer SequenceNo:", customer.SequenceNo);
-
+      // console.log("Customer SequenceNo:", customer.SequenceNo);
       const sequenceNo = customer.SequenceNo ? customer.SequenceNo.toString() : ''; // Ensure this is a string
       // const sequenceNo = customer.SequenceNo  // Ensure this is a string
-
       let mark = new google.maps.Marker({
         map: this.map1,
         position: new google.maps.LatLng(customer.Lat, customer.Lng),
@@ -3647,7 +3687,7 @@ handleMarkerClick(event, trackingData, vehicle_no, imei) {
   formdataCustomer.append('VehicleId', vehicle_no);
   formdataCustomer.append('ImeiNo', imei);
   formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
-
+  formdataCustomer.append('portal', 'itraceit');
   this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
     console.log(res)
     const address = res.Data.Address;

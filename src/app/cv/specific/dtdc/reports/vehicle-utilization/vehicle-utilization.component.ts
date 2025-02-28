@@ -57,6 +57,7 @@ export class VehicleUtilizationComponent implements OnInit {
   vehicle: any = [];
   new_array: any = [];
   final_grand_total: any;
+  region: any=[];
   constructor(private navServices: NavService,private itraceIt: CrudService, private SpinnerService: NgxSpinnerService, private datepipe: DatePipe, private router: Router, private location: Location) { }
 
   ngOnInit(): void {
@@ -101,12 +102,14 @@ export class VehicleUtilizationComponent implements OnInit {
     formdata.append('AccessToken', this.token);
     this.itraceIt.filterS_new(formdata).subscribe((res: any) => {
 
+
       console.log("filter responce", res)
       this.fullArray = res;
 
       console.log("res",this.fullArray)
       this.selectedVehicleType = this.fullArray.NonContractVehicle
       this.selectedVehicleType2 = this.fullArray.ContractVehicle
+      // console.log(this.selectedVehicleType)
       // console.log(this.selectedVehicleType)
 
     },
@@ -128,6 +131,7 @@ export class VehicleUtilizationComponent implements OnInit {
     table.destroy();
     // table.draw()
     setTimeout(() => {
+      $(document).ready( () => {
       $(document).ready( () => {
 
         $('#masterUpload').DataTable({
@@ -177,6 +181,7 @@ export class VehicleUtilizationComponent implements OnInit {
 
 
                 },
+                title: 'Performance Summary '+this.start+''+this.end
                 title: 'Performance Summary '+this.start+''+this.end
               },
               {
@@ -230,6 +235,7 @@ export class VehicleUtilizationComponent implements OnInit {
 
                 },
                 title: 'Performance Summary '+this.start+''+this.end
+                title: 'Performance Summary '+this.start+''+this.end
               },
               {
 
@@ -259,6 +265,7 @@ export class VehicleUtilizationComponent implements OnInit {
 
 
                 },
+                title: 'Performance Summary '+this.start+''+this.end
                 title: 'Performance Summary '+this.start+''+this.end
               }
             ]
@@ -434,7 +441,7 @@ export class VehicleUtilizationComponent implements OnInit {
     console.log("form value t",value?.Route_type);
     let result :any;
     if(value?.Route_type){
-     result = value?.Route_type.map(item => `'${item}'`).join(',');
+     result = value?.Route_type.map(item => `${item}`).join(',');
        console.log(result);}
     var formdata: any = new FormData();
     formdata.append('AccessToken', this.token);
@@ -446,9 +453,11 @@ export class VehicleUtilizationComponent implements OnInit {
     // }else{        }
     if(value.sfc_loc){
       formdata.append('sfc_location', value.sfc_loc !=null ? value.sfc_loc:"" );}////value?.sfc_loc || ""
-      if(value.Region.key){
-    formdata.append('region', value.Region.key != undefined ? value.Region.key : "");}
+      if(value.Region){
+        const result = value.Region.map(item => item.key).join(',');
+    formdata.append('region',result);}
     // if(value.CONTRACT_HRS !=undefined){
+    if(this.con_Hrs){
     if(this.con_Hrs){
     formdata.append('contract_hrs', this.con_Hrs != undefined ? this.con_Hrs : ""); // formdata.append('contract_hrs',this.con_Hrs !=undefined ? this.con_Hrs:"")
     }
@@ -457,7 +466,11 @@ export class VehicleUtilizationComponent implements OnInit {
     if( value.GPS){ formdata.append('gps', value.GPS);}
     if(value.Origin.key) {formdata.append('origin', value.Origin.key !== undefined ? value.Origin.key : "");}
     if(value.State.key){ formdata.append('state', value.State.key !== undefined ? value.State.key : "");}
-   if(value.Area.key){ formdata.append('area', value.Area.key !== undefined ? value.Area.key : "");}
+   if(value.Area){
+    const result = value.Area.map(item => item.key).join(',');
+    formdata.append('area', result);
+    // formdata.append('area', value.Area.key !== undefined ? value.Area.key : "");
+    }
    if(value.CONTRACT){ formdata.append('contract_hrs_type', value.CONTRACT);}
    if(value.report) {formdata.append('report_type', value.report);}
    if(datepicker) {formdata.append('ExclusionDate', datepicker !== undefined ? datepicker : "");}
@@ -466,14 +479,16 @@ export class VehicleUtilizationComponent implements OnInit {
     }
     formdata.forEach((value, key) => {
       console.log( key, value);
+      console.log( key, value);
     });
    
     // if(value.report=="5"){
     this.itraceIt.table1S_1(formdata).subscribe((res: any) => {
+      if(res?.Status=='success'){
       console.log("res", res)
-      this.table1res = (res.data);
-       this.final_grand_total=res?.final_grand_total
-      this.table1Totalres = (res.G_total);
+      this.table1res = (res.Data.data);
+       this.final_grand_total=res?.Data.final_grand_total
+      this.table1Totalres = (res.Data.G_total);
       // for (const [key, value] of Object.entries(this.table1res)){
       // console.log(" table1Totalres", formdata)
       // }
@@ -481,16 +496,20 @@ export class VehicleUtilizationComponent implements OnInit {
       // this.fullArray = res
       this.masterUploadTable();
       if (value.report == '3') {
-        this.processResponse(res)
+        this.processResponse(res.Data)
       }
       if (value.report == '2') {
-        this.processResponse1(res)
+        this.processResponse1(res.Data)
       }
       if(value.report == '4'){
-        this.processResponse2(res);
+        this.processResponse2(res.Data);
       }
 
-    });
+   }else{
+    this.SpinnerService.hide();
+    alert(res?.Message);
+
+   } });
     // }
     //     if(value.report=="4"){
     //   this.itraceIt.table2S(formdata).subscribe((res:any)=> {
@@ -508,7 +527,25 @@ export class VehicleUtilizationComponent implements OnInit {
     // }
   }
 
+  validateRegion(){
+    if(this.region.length===3){
+      alert('You can only select a maximum of 3 regions.');
+      return
+    }
+  }
 
+  onRegionChange(selectedRegions){
+   
+    
+    if (selectedRegions.includes('')) {
+      // If "All" is selected, clear other selections
+      this.region = [''];
+    } else {
+      // If "All" is deselected, update the selection normally
+      this.region = selectedRegions.filter((value) => value !== '');
+    }
+  }
+  
 
   
   
@@ -522,6 +559,7 @@ export class VehicleUtilizationComponent implements OnInit {
     table_new += '<tr>';
 
     table_new += '<th colspan="14" style="text-align: center;background-color: rgb(207 226 255); font-size: 14px;    font-weight: 600;"> Performance Summary (' + this.start + ' to ' + this.end + ')</th>';
+    table_new += '<th colspan="14" style="text-align: center;background-color: rgb(207 226 255); font-size: 14px;    font-weight: 600;"> Performance Summary (' + this.start + ' to ' + this.end + ')</th>';
     table_new += '</tr>';
     table_new += '<tr style="text-align: center;">';
     table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">SL</th>';
@@ -531,8 +569,25 @@ export class VehicleUtilizationComponent implements OnInit {
     table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">Utilization Hrs.% <span class="d-block avg-color">AVG-'+this.final_grand_total?.total?.utilization_hrs+'</span></th>';
     table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Active </th>';
     table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Issue</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">SL</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> Area  </th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">contract Hrs</th>';
+    table_new += '<th colspan="4" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Total </th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">Utilization Hrs.% <span class="d-block avg-color">AVG-'+this.final_grand_total?.total?.utilization_hrs+'</span></th>';
+    table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Active </th>';
+    table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Issue</th>';
     table_new += '</tr>';
     table_new += '<tr style="text-align: center;">';
+    table_new += '<th style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> #Vehicle count  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;">Trips  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.usage_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Actual Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.actual_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> #Vehicle count  <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Trips <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.usage_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> #Vehicle count <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Trips  <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs  <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.usage_hrs+'</span></th>';
     table_new += '<th style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> #Vehicle count  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.vehicle_count+'</span></th>';
     table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;">Trips  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.trips+'</span></th>';
     table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.usage_hrs+'</span></th>';
@@ -578,6 +633,8 @@ export class VehicleUtilizationComponent implements OnInit {
           if (rowD['expand'].length !== 0) {
             tablerow.push('<div class="showhr" style="cursor:pointer;" id="row_' + counterFlag + '"><span style="font-weight:600; font-size:14px"><i class="fa fa-plus" aria-hidden="true"></i></div>');
        
+            tablerow.push('<div class="showhr" style="cursor:pointer;" id="row_' + counterFlag + '"><span style="font-weight:600; font-size:14px"><i class="fa fa-plus" aria-hidden="true"></i></div>');
+       
           } else {
             tablerow.push('<div style="cursor:pointer; text-align:center" id="row_' + counterFlag + '"></div>');
           }
@@ -591,7 +648,14 @@ export class VehicleUtilizationComponent implements OnInit {
         //    tablerow.push(`<div style="font-weight:600;">${rowD['total']['vehicle_count']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['total']['trips']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['total']['usage_hrs']|| ''}</div>`);
+        //    tablerow.push(`<div style="font-weight:600;">${rowD['total']['vehicle_count']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['trips']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['usage_hrs']|| ''}</div>`);
         
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['actual_hrs']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['utilization_hrs']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['vehicle_count']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['trips']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['total']['actual_hrs']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['total']['utilization_hrs']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['vehicle_count']|| ''}</div>`);
@@ -600,7 +664,11 @@ export class VehicleUtilizationComponent implements OnInit {
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['usage_hrs']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['vehicle_count']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['trips']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['usage_hrs']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['vehicle_count']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['trips']|| ''}</div>`);
 
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['usage_hrs']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['usage_hrs']|| ''}</div>`);
 
         tabledata.push(tablerow);
@@ -663,6 +731,7 @@ export class VehicleUtilizationComponent implements OnInit {
     table_new += '<tr>';
 
     table_new += '<th colspan="14" style="text-align: center;background-color: rgb(207 226 255); font-size: 14px;    font-weight: 600;"> Performance Summary (' + this.start + ' to ' + this.end + ')</th>';
+    table_new += '<th colspan="14" style="text-align: center;background-color: rgb(207 226 255); font-size: 14px;    font-weight: 600;"> Performance Summary (' + this.start + ' to ' + this.end + ')</th>';
     table_new += '</tr>';
     table_new += '<tr style="text-align: center;">';
     table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">SL</th>';
@@ -672,8 +741,25 @@ export class VehicleUtilizationComponent implements OnInit {
     table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">Utilization Hrs.% <span class="d-block avg-color">AVG-'+this.final_grand_total?.total?.utilization_hrs+'</span></th>';
     table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Active</th>';
     table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Issue</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">SL</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> Region</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">contract Hrs</th>';
+    table_new += '<th colspan="4" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Total</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">Utilization Hrs.% <span class="d-block avg-color">AVG-'+this.final_grand_total?.total?.utilization_hrs+'</span></th>';
+    table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Active</th>';
+    table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Issue</th>';
     table_new += '</tr>';
     table_new += '<tr style="text-align: center;">';
+    table_new += '<th style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> #Vehicle count  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;">Trips  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.usage_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Actual Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.actual_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> #Vehicle count <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Trips <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs  <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.usage_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> #Vehicle count <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Trips <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs  <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.usage_hrs+'</span></th>';
     table_new += '<th style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> #Vehicle count  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.vehicle_count+'</span></th>';
     table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;">Trips  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.trips+'</span></th>';
     table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.usage_hrs+'</span></th>';
@@ -719,11 +805,16 @@ export class VehicleUtilizationComponent implements OnInit {
           if (rowD['expand'].length !== 0) {
             tablerow.push('<div class="showhr" style="cursor:pointer;" id="row_' + counterFlag + '"><span style="font-weight:600; font-size:14px"><i class="fa fa-plus" aria-hidden="true"></i></div>');
          } else {
+            tablerow.push('<div class="showhr" style="cursor:pointer;" id="row_' + counterFlag + '"><span style="font-weight:600; font-size:14px"><i class="fa fa-plus" aria-hidden="true"></i></div>');
+         } else {
             tablerow.push('<div style="cursor:pointer; text-align:center" id="row_' + counterFlag + '"></div>');
           }
 
         tablerow.push(key);
         tablerow.push('grand_total');
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['vehicle_count']|| ''}</div>`);
+       
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['trips']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['total']['vehicle_count']|| ''}</div>`);
        
         tablerow.push(`<div style="font-weight:600;">${rowD['total']['trips']|| ''}</div>`);
@@ -737,7 +828,16 @@ export class VehicleUtilizationComponent implements OnInit {
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['usage_hrs']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['vehicle_count']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['trips']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['actual_hrs']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['utilization_hrs']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['vehicle_count']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['trips']|| ''}</div>`);
+        
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['usage_hrs']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['vehicle_count']|| ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['trips']|| ''}</div>`);
 
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['usage_hrs']|| ''}</div>`);
         tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['usage_hrs']|| ''}</div>`);
 
         tabledata.push(tablerow);
@@ -953,19 +1053,186 @@ export class VehicleUtilizationComponent implements OnInit {
   makeDatatable1(simpledata1: any, tabledata: any) {
     // alert(0)
   
+  processResponse2(res: any): void {
+   
+ 
+
+    // var table = $('#simple_datatable').DataTable();  // table.clear()  table.destroy();
+    let table_new = '<table class="table table-bordered nowrap" id="simpledata2" style=" text-align:center;   width: 100%;" >';
+    table_new += '<thead>';
+    table_new += '<tr>';
+
+    table_new += '<th colspan="14" style="text-align: center;background-color: rgb(207 226 255); font-size: 14px;    font-weight: 600;"> Performance Summary (' + this.start + ' to ' + this.end + ')</th>';
+    table_new += '</tr>';
+    table_new += '<tr style="text-align: center;">';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">SL</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> Region</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">contract Hrs</th>';
+    table_new += '<th colspan="4" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Total</th>';
+    table_new += '<th rowspan="2" style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;">Utilization Hrs.% <span class="d-block avg-color">AVG-'+this.final_grand_total?.total?.utilization_hrs+'</span></th>';
+    table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Active</th>';
+    table_new += '<th colspan="3" style="background-color: rgb(235 237 214);font-size: 14px;    font-weight: 600;">Contract Vehicles-GPS Issue</th>';
+    table_new += '</tr>';
+    table_new += '<tr style="text-align: center;">';
+    table_new += '<th style="background-color: #d2d5f0;font-size: 14px;    font-weight: 600;"> #Vehicle count  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;">Trips  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.usage_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Actual Hrs.  <span class="d-block avg-color">Total-'+this.final_grand_total?.total?.actual_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> #Vehicle count <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Trips <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs  <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_active?.usage_hrs+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> #Vehicle count <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.vehicle_count+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Trips <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.trips+'</span></th>';
+    table_new += '<th style="background-color: #d2d5f0 ;font-size: 14px;    font-weight: 600;"> Usage Hrs  <span class="d-block avg-color">Total-'+this.final_grand_total?.gps_issue?.usage_hrs+'</span></th>';
+    table_new += '</tr>';
+    table_new += '</thead>';
+    // table_new += '<tbody>';
+
+
+    let counterFlag: number = 0;
+    // const resArrLength: number = this.new_array.length;
+
+
+
+    const simpleTable1 = document.getElementById('simple_table2');
+    if (simpleTable1) {
+      // Clear any existing content
+      simpleTable1.innerHTML = '';
+
+      // Append the new table
+      simpleTable1.innerHTML =table_new;
+
+      // Proceed with populating the table
+      const tabledata: any[] = [];
+
+      for (const [key, value] of Object.entries(res.data)) {
+        let x: any = value
+        let key_temp:any=key;
+        // console.log('value',key)
+        // if (Object.prototype.hasOwnProperty.call(res.data, i)) {
+        counterFlag++;
+        let rowD = x.grand_total;
+        // const counter = counterFlag;
+        let tablerow: any = [];
+        // let trow1 = '';
+        // console.log("counterFlag", counterFlag)
+        // if (i !== this.new_array.length) {
+          if (rowD['expand']?.length !== 0) {
+            tablerow.push('<div class="showhr" style="cursor:pointer;" id="row_' + counterFlag + '"><span style="font-weight:600; font-size:14px"><i class="fa fa-plus" aria-hidden="true"></i></div>');
+          } else {
+            tablerow.push('<div style="cursor:pointer; text-align:center" id="row_' + counterFlag + '"></div>');
+          }
+
+
+        // tablerow.push("");
+        // tablerow.push(key_temp);
+        // tablerow.push('grand_total');
+        // tablerow.push(rowD['total']['vehicle_count']);
+        // // tablerow.push( '<a   class="show" id="' + + '" title="Click here to track"  style="color:blue">'+rowD['name']+'</a>')
+        // // data-bs-toggle="modal" data-bs-target="#v_track_Modal"  tablerow.push('<div class="show"  style="cursor:pointer" id="' + i + '">'+rowD['name']+'</div>');
+        // // tablerow.push(rowD['name']);
+        // tablerow.push(rowD['total']['trips']);
+        // tablerow.push(rowD['total']['usage_hrs']);
+        
+        // tablerow.push(rowD['total']['actual_hrs']);
+        // tablerow.push(rowD['total']['utilization_hrs']);
+        // tablerow.push(rowD['gps_active']['vehicle_count']);
+        // tablerow.push(rowD['gps_active']['trips']);
+        // // tablerow.push(rowD['distance_from_geofence']);
+        // tablerow.push(rowD['gps_active']['usage_hrs']);
+        // tablerow.push(rowD['gps_issue']['vehicle_count']);
+        // tablerow.push(rowD['gps_issue']['trips']);
+
+        // tablerow.push(rowD['gps_issue']['usage_hrs']);
+        tablerow.push(`<div style="font-weight:600;">${key}</div>`);
+        tablerow.push(`<div style="font-weight:600;">Grand Total</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['vehicle_count'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['trips'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['usage_hrs'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['actual_hrs'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['total']['utilization_hrs'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['vehicle_count'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['trips'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_active']['usage_hrs'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['vehicle_count'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['trips'] || ''}</div>`);
+        tablerow.push(`<div style="font-weight:600;">${rowD['gps_issue']['usage_hrs'] || ''}</div>`);
+
+        tabledata.push(tablerow);
+
+        if (rowD['expand']?.length !== 0) {
+        
+         
+          for (let detail of rowD.expand) {
+            let detailrow: any[] = [];
+
+            // console.log()
+
+            console.log("detail",detail)
+            // Add cells for the expanded detail
+            detailrow.push('<div class="tr_aser aser_color"></div>');
+            detailrow.push( detail?.location || "" );
+            detailrow.push(detail.contract_hrs);
+            detailrow.push(detail.total.vehicle_count);
+            detailrow.push(detail.total.trips);
+            // detailrow.push(detail.total.usage_hrs !== undefined ? detail.total.usage_hrs : '');
+            // detailrow.push(this.sum(detail.gps_active.usage_hrs,detail.gps_issue.usage_hrs));
+            detailrow.push(detail.total.uage_hrs);
+            detailrow.push(detail.total.actual_hrs);
+            detailrow.push(detail.total.utilization_hrs);
+            detailrow.push(detail.gps_active.vehicle_count);
+            detailrow.push(detail.gps_active.trips);
+            detailrow.push(detail.gps_active.usage_hrs);
+            detailrow.push(detail.gps_issue.vehicle_count);
+            detailrow.push(detail.gps_issue.trips);
+            detailrow.push(detail.gps_issue.usage_hrs);
+
+            // Push the detail row into tabledata
+            tabledata.push(detailrow);
+          }
+
+        }
+
+
+
+      }
+
+      // console.log(counterFlag,resArrLength)
+      // if(counterFlag == resArrLength){
+        this.makeDatatable1('simpledata2', tabledata);
+        $('.tr_aser').parent('td').parent('tr').addClass('aser');
+
+      openDetails();
+      collapseDetails();
+      // this.show_t();
+      
+     
+    }
+
+
+  }
+
+  makeDatatable1(simpledata1: any, tabledata: any) {
+    // alert(0)
+  
     // console.log("sdddfdfdf",tabledata)
    
     // $(document).ready(function () {
 
     // if ($.fn.DataTable.isDataTable('#' + simple_datatable)) {
       $('#' + simpledata1).DataTable().destroy();
+      $('#' + simpledata1).DataTable().destroy();
     // }
     const myTable = $('#' + simpledata1).DataTable({
+    const myTable = $('#' + simpledata1).DataTable({
       data: tabledata,
+      paging: true, 
       paging: true, 
       fixedHeader: true, 
       // "scrollY": 400, 
       "scrollX": true,
+      "pageLength": 100, // Show 10 rows per page
+      "lengthMenu": [[100, 150, -1], [100, 150, "All"]], //
       "pageLength": 100, // Show 10 rows per page
       "lengthMenu": [[100, 150, -1], [100, 150, "All"]], //
       // "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
@@ -984,6 +1251,7 @@ export class VehicleUtilizationComponent implements OnInit {
 
           tag: 'span',
           title:'Performance Summary '+this.start+''+this.end,
+          title:'Performance Summary '+this.start+''+this.end,
           className: 'datatablecopy-btn fa fa-copy ',
           text: '',
           orientation: 'landscape',
@@ -998,6 +1266,7 @@ export class VehicleUtilizationComponent implements OnInit {
           footer: true,
           autoClose: 'true',
           titleAttr: 'Download csv file',
+          title:'Performance Summary '+this.start+''+this.end,
           title:'Performance Summary '+this.start+''+this.end,
           className: 'datatablecsv-btn fa fa-file-text-o ',
           text: '',
@@ -1014,6 +1283,7 @@ export class VehicleUtilizationComponent implements OnInit {
           //text: '',
           //className: 'fa fa-file-pdf-o',
           //color:'#ff0000',
+          title:'Performance Summary '+this.start+''+this.end,
           title:'Performance Summary '+this.start+''+this.end,
           buttons: ['excel'],
           titleAttr: ' Download excel file',
@@ -1032,14 +1302,44 @@ export class VehicleUtilizationComponent implements OnInit {
       //   // Set padding: 0 for all <td> elements in the body
       //   $('td', row).css('padding', '2');
       // },
+      // createdRow: function (row: any, data: any, dataIndex: number) {
+      //   // Set padding: 0 for all <td> elements in the body
+      //   $('td', row).css('padding', '2');
+      // },
       ordering: false 
       
     });
+    this.SpinnerService.hide()
     this.SpinnerService.hide()
     // })
 
     // ajax_loader(0);
   }
+
+  sum(a: string, b: string): string {
+    // Parse time values
+    const [aHours, aMinutes] = a.split(':').map(Number);
+    const [bHours, bMinutes] = b.split(':').map(Number);
+  
+    // Calculate total hours and minutes
+    let totalHours = aHours + bHours;
+    let totalMinutes = aMinutes + bMinutes;
+  
+    // Adjust for overflow in minutes
+    if (totalMinutes >= 60) {
+      totalHours += Math.floor(totalMinutes / 60);
+      totalMinutes = totalMinutes % 60;
+    }
+  
+    // Format the result
+    const hoursStr = String(totalHours).padStart(2, '0');
+    const minutesStr = String(totalMinutes).padStart(2, '0');
+  
+    return `${hoursStr}:${minutesStr}`;
+  }
+
+
+  makeDatatable(simpledata: any, tabledata: any) {
 
   sum(a: string, b: string): string {
     // Parse time values
@@ -1072,7 +1372,9 @@ export class VehicleUtilizationComponent implements OnInit {
 
     // if ($.fn.DataTable.isDataTable('#' + simple_datatable)) {
       $('#' + simpledata).DataTable().destroy();
+      $('#' + simpledata).DataTable().destroy();
     // }
+    const myTable = $('#' + simpledata).DataTable({
     const myTable = $('#' + simpledata).DataTable({
       data: tabledata,
       paging: false, 
@@ -1093,6 +1395,7 @@ export class VehicleUtilizationComponent implements OnInit {
           footer: true,
           titleAttr: ' Copy  file',
           title:'Performance Summary '+this.start+''+this.end,
+          title:'Performance Summary '+this.start+''+this.end,
           tag: 'span',
 
           className: 'datatablecopy-btn fa fa-copy ',
@@ -1110,6 +1413,7 @@ export class VehicleUtilizationComponent implements OnInit {
           autoClose: 'true',
           titleAttr: 'Download csv file',
            title:'Performance Summary '+this.start+''+this.end,
+           title:'Performance Summary '+this.start+''+this.end,
           className: 'datatablecsv-btn fa fa-file-text-o ',
           text: '',
           tag: 'span',
@@ -1121,6 +1425,7 @@ export class VehicleUtilizationComponent implements OnInit {
         {
           extend: 'excel',
           footer: true,
+          autoClose: 'true',  title:'Performance Summary '+this.start+''+this.end,
           autoClose: 'true',  title:'Performance Summary '+this.start+''+this.end,
           //text: '',
           //className: 'fa fa-file-pdf-o',
@@ -1150,6 +1455,8 @@ export class VehicleUtilizationComponent implements OnInit {
 
     // ajax_loader(0);
   }
+ 
+
  
 
 
@@ -1219,9 +1526,43 @@ export class VehicleUtilizationComponent implements OnInit {
 //     }
 //     $(this).closest('tr').nextUntil("tr:has(.showhr)").toggle("fast", function () { });
 //   });
+// function openDetails(this: any) {
+//   // let thiss:any=this;
+//   $(".showhr").click(function (this: JQuery<HTMLElement>) {
+//     //alert($(this).attr('id'));
+//     var ide = $(this).attr('id');
+//     // console.log($(this).attr)
+//     if ($('#' + ide).text() == "-") {
+//       $('#' + ide).text('+');
+//       $('#' + ide).css("font-size", "25px");
+//       $('#' + ide).css("font-weight", "bold");
+//       // $('#' + ide).css("margin-left", "2px");
+//     }
+//     else {
+//       $('#' + ide).text('-');
+//       $('#' + ide).css("font-size", "25px");
+//       $('#' + ide).css("font-weight", "bold");
+//       // $('#' + ide).css("margin-left", "2px");
+//     }
+//     $(this).closest('tr').nextUntil("tr:has(.showhr)").toggle("fast", function () { });
+//   });
 
 
 
+// }
+
+function openDetails(): void {
+  $(".showhr").click(function (this: HTMLElement) {
+    const $icon = $(this).find("i"); // Find the Font Awesome icon inside the clicked element
+
+    if ($icon.hasClass("fa-plus")) {
+      $icon.removeClass("fa-plus").addClass("fa-minus");
+    } else {
+      $icon.removeClass("fa-minus").addClass("fa-plus");
+    }
+
+    $(this).closest('tr').nextUntil("tr:has(.showhr)").toggle("fast");
+  });
 // }
 
 function openDetails(): void {

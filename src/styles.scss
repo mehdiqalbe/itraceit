@@ -355,7 +355,7 @@ th {
 
 .side-menu__label {
 
-    white-space: nowrap;
+    // white-space: nowrap;
     flex: 1 1 auto;
     margin-left: 15px;
 }
@@ -1038,41 +1038,17 @@ ng-select{
     border-right-width: 1px solid !important;
     border: 1px solid #80808012 !important;
 }
+.ng-select-container{
+    border: 1.5px solid #5e9fc8 !important;
+  }
 
-
-// ----------------------------------------------------------------------------------------------------------------------
-
-// .ag-theme-alpine .multi-line-header .ag-header-cell-label {
-//     white-space: normal !important;
-//     text-align: center !important;
-//     // line-height: 1.2 !important;
-//   }
-//   .multi-line-header .ag-header-cell-label {
-//     white-space: normal;
-//     text-align: center;
-//   }
-//   .ag-tooltip {
-//     background-color: white;
-//     border: 1px solid #ccc;
-//     padding: 5px;
-//     font-size: 12px;
-//     color: black;
-//   }
-//   .wrap-header-text .ag-header-cell-label {
-//     white-space: normal; /* Allow text to wrap */
-//     text-align: center; /* Optional: Center-align the text */
-//     line-height: 1.1; /* Adjust line height for better readability */
-//     text-align: center; /* Optional: Center-align the text */
-//     // height: 200px !important; /* Allow rows to adjust height based on content */
-
-//   } 
-//   .ag-header-row {
-//     height: auto !important; /* Allow rows to adjust height based on content */
-//   }
-// //   .ag-header-cell {
-// //     max-height: none; /* Remove any height restrictions */
-// //     overflow: visible; /* Ensure content is not cut off */
-// //   }
+//   .ag-header, .ag-advanced-filter-header {
+//     // background-color: #e3dbdb;
+//     background-color:#1D4380  !important;;
+//     color: white !important;
+//     // background-color:#e5e6f5 !important;;
+//     border-bottom: var(--ag-borders-critical) var(--ag-border-color);
+// }
 #myGrid .ag-header {
     background: #cfe2ff !important;
   }
@@ -1092,3 +1068,44 @@ ng-select{
     }
   }
   }
+  .ag-header-viewport{
+    background: #cfe2ff !important;
+  }
+  .ag-ltr .ag-header-cell-resize {
+    right: -3px;
+    background: #00000033 !important;
+    width: 4px;
+}
+.ag-ltr .ag-header-viewport .ag-header-cell-resize::after {
+    left: calc(50% - var(--ag-header-column-resize-handle-width));
+    background: #00000033 !important;
+}
+.ag-ltr .ag-cell {
+    border-right-width: 1px;
+    border: 1px solid #80808036 !important;
+}
+.ag-row {
+    height: var(--ag-row-height);
+    background-color: var(--ag-background-color);
+    color: var(--ag-data-color);
+    border-bottom: none !important;
+}
+// .ag-header-cell-text {
+//     overflow: hidden;
+//     color: white !important;
+//     text-overflow: ellipsis;
+//     word-break: break-word;
+// }
+// .ag-icon { color: white !important;}
+
+
+div.dataTables_scrollBody table {
+    border-top: none;
+    margin-top: -5px !important;
+    margin-bottom: 0 !important;
+}
+.side-menu__label {
+    white-space: break-spaces;
+    flex: 1 1 auto;
+    margin-left: 15px;
+}
