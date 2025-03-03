@@ -11,10 +11,10 @@ export const full_content: Routes = [
   //   path: 'ILgic',
   //   loadChildren: () => import('../../components/up-fci/up-fci.module').then(m => m.UPFCIModule), canActivate: [AuthGuard]
   // },
-  {
-    path: 'reports',
-    loadChildren: () => import('../../components/advanced-elements/advanced-elements.module').then(m => m.AdvancedElementsModule)
-  },
+  // {
+  //   path: 'reports',
+  //   loadChildren: () => import('../../components/advanced-elements/advanced-elements.module').then(m => m.AdvancedElementsModule)
+  // },
   {
     path: 'cv',
     loadChildren: () => import('../../cv/cv.module').then(m => m.CVModule),canActivate: [AuthGuard]

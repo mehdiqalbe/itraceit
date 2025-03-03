@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CommonModuleRoutingModule } from './common-module-routing.module';
 // import { VehicleNearbyComponent } from './vehicle-nearby/vehicle-nearby.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -22,21 +21,24 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { ChartistModule } from 'ng-chartist';
 // import { DatePipe } from '@angular/common';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
-// import { LivePageComponent } from './live-page/live-page.component';
-// import { AgreementComponent } from './agreement/agreement.component';
+// import { CustomerRoutingModule } from './customer-routing.module';
+import { TransporterRoutingModule } from './transporter-routing.module';
+import { AgreementComponent } from './agreement/agreement.component';
+import { DocumentWalletComponent } from './document-wallet/document-wallet.component';
+
 
 @NgModule({
   declarations: [
-    // VehicleNearbyComponent,
-    // HomeComponent,
-    // LivePageComponent,
-    // AgreementComponent,
+    AgreementComponent,
+    DocumentWalletComponent
   ],
   imports: [
+    CommonModule,
+    TransporterRoutingModule,
+
     NgxEchartsModule,
     ChartistModule,
     CommonModule,
-    CommonModuleRoutingModule,
     NgSelectModule,
     NgxDatatableModule,
     // DatePipe,
@@ -70,4 +72,4 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     ChartsModule,
   ]
 })
-export class CommonModuleModule { }
+export class TransporterModule { }

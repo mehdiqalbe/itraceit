@@ -5,7 +5,7 @@ import { IrunDashboardComponent } from './irun-dashboard/irun-dashboard.componen
 import { DelayDashboardComponent } from './delay-dashboard/delay-dashboard.component';
 import { SummaryDashboardComponent } from './summary-dashboard/summary-dashboard.component';
 import { MapComponent } from './map/map.component';
-import { VehicleNearbyComponent } from '../../common-module/vehicle-nearby/vehicle-nearby.component';
+// import { VehicleNearbyComponent } from '../../common-module/vehicle-nearby/vehicle-nearby.component';
 import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.component';
 import { TripDashboardComponent } from './trip-dashboard/trip-dashboard.component';
 
@@ -18,7 +18,7 @@ const routes: Routes = [{
     { path: 'Irun-Dashboard', component:IrunDashboardComponent },
     { path: 'Delay-Dashboard', component:DelayDashboardComponent },
     { path: 'Summary-Dashboard', component:SummaryDashboardComponent },
-    {path:'vehicle-nearby',component:VehicleNearbyComponent},
+    // {path:'vehicle-nearby',component:VehicleNearbyComponent},
     { path: 'map', component:MapComponent },
     { path: 'TriggerSummary', component:TriggerSummaryComponent },
     { path: 'Dashboard', component:TripDashboardComponent },

@@ -1,0 +1,60 @@
+.custom{
+    flex: 1;
+}
+.cutombox{
+    // border: 0.2px solid #1c84c6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .invalid-feedback {
+    color: red;
+    font-size: 12px;
+  }
+  .filtor_name{
+
+    color: black;
+    font-weight: 700;
+    font-family: sans-serif;
+  }
+  .is-invalid {
+    border: 1px solid red;
+    border-radius: 4px;
+  }
+  
+  .invalid-feedback {
+    color: red;
+    font-size: 12px;
+  }
+  .title{
+    color: #1D4380;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .chart-container3{
+    width: 100%;
+  }
+  table.dataTable tbody td {
+    padding: 2px 10px!important;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-margin {
+  margin-top: 10px; /* Adjust the value to your needs */
+  margin-bottom: 10px; /* Adjust the value to your needs */
+}
+//////wallet csss active deactive/////////////
+.qstatus-base {
+  padding-left: 0.75rem; /* equivalent to Tailwind's px-3 */
+  padding-right: 0.75rem; /* equivalent to Tailwind's px-3 */
+  padding-top: 0.25rem; /* equivalent to Tailwind's py-1 */
+  padding-bottom: 0.25rem; /* equivalent to Tailwind's py-1 */
+  text-transform: uppercase; /* equivalent to Tailwind's uppercase */
+  font-weight: bold; /* equivalent to Tailwind's font-bold */
+  font-size: 0.75rem; /* equivalent to Tailwind's text-xs */
+  border-radius: 9999px; /* equivalent to Tailwind's rounded-full */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* equivalent to Tailwind's shadow-sm */
+}
