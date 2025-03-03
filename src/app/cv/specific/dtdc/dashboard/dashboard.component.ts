@@ -105,10 +105,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.initMap1()
     this.initApiCalls()
     this.sidebarToggle()
-
-    const userAgent = navigator.userAgent;
-    console.log(userAgent);
-    
     // this.initializeColumnDefs()
   }
   // ngAfterViewInit(): void {
@@ -1692,10 +1688,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   
     openMapModal(item,imei) {
-        
-      if(imei==='absent')
-        console.log(imei);
-        
+  
 
       // Open modal using jQuery
      // this.SpinnerService.show('mapSpinner')

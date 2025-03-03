@@ -438,7 +438,6 @@ summary_detail_2(eve,tripsKey,h_name){
          rowData_popup: this.rowData_popup,
          group_id: this.group_id,
          flag:1,
-         flag:1,
          name:h_name,
        };
     

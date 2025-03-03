@@ -95,7 +95,7 @@
           <div  id="collapseExample" class="collapse show">
         <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm)">
           <!-- <form #triggerHistoryForm="ngForm" (ngSubmit)="triggerHstSubmit(triggerHistoryForm..value.ReportType)"> -->
-              <div class="row" id="qmMulticontainer">
+              <div class="row">
                   <div class="col-lg-2 col-md-4 col-sm-6 ">
                       <label for="from_time" class="form-label">From Date</label>
                       <input type="text" data-date-format="YYYY-MM-DD" id="datepicker" (click)="start()"
@@ -108,67 +108,25 @@
                           required name="to_time"  />
                   </div>
                   <div class="col-lg-2 col-md-4 col-sm-6 ">
-                    <label for="Region" class="form-label">Route Category </label>
-                    <ng-select
-                    (change)="onRouteCategoryChange($event)"
-                      [(ngModel)]="routeCategory"
-                      name="TripType"
-                      id="routeCategory"
-                      placeholder="Select Route"
-                      class=""
-                      style="font-size: 14px; font-weight: 400"
-                      [closeOnSelect]="true"
-                      [multiple]="true"
-                    >
-                    <ng-option value="" selected>All</ng-option>
-                      <ng-option
-                        *ngFor="let item of filterObject?.routeCategory | keyvalue "
-                        [value]="item.key"
-                      >
-                        {{ item?.value }}</ng-option
-                      >
-                    </ng-select>
-                    <!-- <ng-select placeholder="Select" ngModel  name="Feeder" 
-                      #regionSelect="ngModel">
-                        <ng-option value="" selected>Select</ng-option>
-                        
-                        <ng-option *ngFor="let item of feeder_type | keyvalue " [value]="item.key">
-                          {{item.value}}
-                        </ng-option>
-                      </ng-select> -->
-               
-                    
-               
-                    </div>
-                  <div class="col-lg-2 col-md-4 col-sm-6 ">
-                    <label for="District" class="form-label">Route Type</label>
-                    <!-- <ng-select placeholder="Select" ngModel name="TripType" (change)="change_feeder($event)">
+                    <label for="District" class="form-label">Route Category</label>
+                    <ng-select placeholder="Select" ngModel name="TripType" (change)="change_feeder($event)">
                         <ng-option value="" selected>Select</ng-option>
                         <ng-option *ngFor="let item of Master_filter?.RouteCategory | keyvalue" [value]="item.key">{{item.value}}</ng-option>
-                        <ng-option *ngFor="let item of trigger_District | keyvalue" [value]="item">{{item.value}}</ng-option>
-                    </ng-select> -->
-                   
-
-
-                    <ng-select
-                    [(ngModel)]="selectedRoutes"
-                    name="Feeder"
-                    id="routeType"
-                    placeholder="Select Route Type"
-                    class=""
-                    notFoundText="Select route category"
-                    style="font-size: 14px; font-weight: 400"
-                    [multiple]="true"
-                    [closeOnSelect]="false"
-                  >
-                    <ng-option
-                      *ngFor="let item of filterObject?.routeType | keyvalue"
-                      [value]="item?.key"
-                    >
-                      {{ item?.value }}
-                    </ng-option>
-                  </ng-select>
+                        <!-- <ng-option *ngFor="let item of trigger_District | keyvalue" [value]="item">{{item.value}}</ng-option> -->
+                    </ng-select>
                 </div>
+                  <div class="col-lg-2 col-md-4 col-sm-6 ">
+                      <label for="Region" class="form-label">Route Type</label>
+                      <ng-select placeholder="Select" ngModel  name="Feeder" 
+                        #regionSelect="ngModel">
+                          <ng-option value="" selected>Select</ng-option>
+                          
+                          <ng-option *ngFor="let item of feeder_type | keyvalue " [value]="item.key">
+                            {{item.value}}
+                          </ng-option>
+                        </ng-select>
+                  </div>
+          
                 
                   <div class="col-lg-2 col-md-4 col-sm-6 ">
                       <label for="Region" class="form-label">Trip Status</label>

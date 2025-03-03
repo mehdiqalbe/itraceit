@@ -14,13 +14,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { DtdcService} from '../services/dtdc.service';
 // declare var $: any
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-// import { DtdcService} from '../services/dtdc.service';
-// declare var $: any
 declare var H: any;
-declare var google:any;
 declare var google:any;
 interface HTMLCanvasElement {
   willReadFrequently?: boolean;
@@ -58,7 +52,6 @@ export class DelayDashboardComponent implements OnInit {
   commaSeparatedRoutes: any;
   datetimepicker1: any;
   datetimepicker_A:any;
-  datetimepicker_A:any;
   Remark:any;
   tem_data: any;
   TripId: any;
@@ -84,18 +77,14 @@ export class DelayDashboardComponent implements OnInit {
     this.account_id = localStorage.getItem('AccountId')!;
     this.datetimepicker1 =  this.datepipe.transform((new Date), 'yyyy-MM-dd ');
     this.datetimepicker_A= this.datepipe.transform((new Date), 'yyyy-MM-dd HH:mm:ss');
-    this.datetimepicker_A= this.datepipe.transform((new Date), 'yyyy-MM-dd HH:mm:ss');
     this.initMap2();
     this.start();
     this.Arrival_time();
-    this.Arrival_time();
     this.group_id = localStorage.getItem('GroupId')!
-    if(this.token){
     if(this.token){
     this.delayDashboardDtdcFilter();
     // this.delayDashboardGeneric();
     this.delayDashboardDisclaimer();
-   }
    }
   }
   initMap2() 
@@ -137,13 +126,10 @@ export class DelayDashboardComponent implements OnInit {
       if(res.status=="success"){
       this.Delay_data = Object.values(res.data);
       console.log(this.Delay_data);
-      console.log(this.Delay_data);
       this.DelayTable();
       this.SpinnerService.hide()
       }else{
         alert(res.Message);
-        this.SpinnerService.hide();
-        this.router.navigate([`/auth/login`]);
         this.SpinnerService.hide();
         this.router.navigate([`/auth/login`]);
       }
@@ -362,7 +348,6 @@ export class DelayDashboardComponent implements OnInit {
   }
   vehicleTrackF_new1(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id) {
     // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id)
-    // console.log(imei, imei2, imei3, run_date, vehicle_no, item, Id, route_id)
     // this.SpinnerService.show();
     this.clearMarkersAndPolylines();
     this.initializeMap().then(() => {
@@ -403,7 +388,6 @@ export class DelayDashboardComponent implements OnInit {
         formData.append('group_id', this.group_id);
         formData.append('AccountId', this.account_id);
         formData.append('portal', 'itraceit');
-        formData.append('portal', 'itraceit');
         formData.forEach((value, key) => {
           console.log("formdata...", key, value);
         });
@@ -411,9 +395,6 @@ export class DelayDashboardComponent implements OnInit {
           console.log("tracking res", res);
           if (res.Status == "failed") {
             alert(res?.Message);
-            // if(res.Result=='Session Expired'){
-              this.router.navigate([`/auth/login`]);
-            // }
             // if(res.Result=='Session Expired'){
               this.router.navigate([`/auth/login`]);
             // }
@@ -451,7 +432,6 @@ export class DelayDashboardComponent implements OnInit {
 
   }
   fetchCustomerInfo(Id: any) {
-  fetchCustomerInfo(Id: any) {
     this.customer_info = []
     // if (this.demomarker.length > 0) {
     //   this.demomarker.forEach(marker => marker.setMap(null));
@@ -460,14 +440,8 @@ export class DelayDashboardComponent implements OnInit {
     // console.log("Removing",Id)
     const markers: google.maps.Marker[] = [];
    
-   
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
-    formdataCustomer.append('MTripId',Id);
-  // tripCustomerS
-    this.dtdcservice.dtdcTripCustomerDetails(formdataCustomer).subscribe((res: any) => {
-   
-      if(res.Status=="success"){
     formdataCustomer.append('MTripId',Id);
   // tripCustomerS
     this.dtdcservice.dtdcTripCustomerDetails(formdataCustomer).subscribe((res: any) => {
@@ -476,10 +450,7 @@ export class DelayDashboardComponent implements OnInit {
         if(res.customer_info!==null){
       this.customer_info = res.TripDetails;
     // console.log(this.customer_info)
-      this.customer_info = res.TripDetails;
-    // console.log(this.customer_info)
       // Log the customer data for debugging
-      // console.log("Customer Info:", this.customer_info);
       // console.log("Customer Info:", this.customer_info);
       //  if(this.customer_info!==null){
       this.customer_info.forEach((customer, index) => {
@@ -487,14 +458,7 @@ export class DelayDashboardComponent implements OnInit {
         // console.log("Customer SequenceNo:", customer.SequenceNo);
   //  ? customer.SequenceNo.toString() : '';
         const sequenceNo = customer.Label; // Ensure this is a string
-        // console.log("Customer SequenceNo:", customer.SequenceNo);
-  //  ? customer.SequenceNo.toString() : '';
-        const sequenceNo = customer.Label; // Ensure this is a string
         // const sequenceNo = customer.SequenceNo  // Ensure this is a string
-        // console.log(customer.Coordinates,customer)
-        const coordinates:any=customer.Coordinates;
-        const [lat, lng] = coordinates.split(",");
-        // console.log(lat, lng)
         // console.log(customer.Coordinates,customer)
         const coordinates:any=customer.Coordinates;
         const [lat, lng] = coordinates.split(",");
@@ -504,13 +468,8 @@ export class DelayDashboardComponent implements OnInit {
           position: new google.maps.LatLng(lat,lng),
           title: `${lat}, ${lng}`,
           Source:customer.Source,
-          position: new google.maps.LatLng(lat,lng),
-          title: `${lat}, ${lng}`,
-          Source:customer.Source,
           label: {
             text: sequenceNo,  // Ensure this is a string
-            color: 'black',
-            
             color: 'black',
             
           }
@@ -551,33 +510,6 @@ export class DelayDashboardComponent implements OnInit {
   </tbody>
   </table>`;
   }
-  
-  handleCustomerMarkerClick(event, index) {
-  
-  const customer = this.customer_info[index];
-  const customer_Info = this.generateCustomerInfo(customer);
-  // return customer_Info;
-  this.closeLastOpenedInfoWindow();
-  const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
-  infowindowMarker_custo.setPosition(event.latLng);
-  infowindowMarker_custo.open(this.map1);
-  this.lastOpenedInfoWindow = infowindowMarker_custo;
-  }
-  
-  generateCustomerInfo(customer): string {
-  // let pod = customer.CustVisited === 1 ? 'Already DONE' : 'Not Done';
-  // let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
-  // let arrival_time = customer.GeoArrivalTime ? `${customer.GeoArrivalTime} [GPS]` : customer.ArrivalTime;
-  // let departure_time = customer.GeoDepartureTime ? `${customer.GeoDepartureTime} [GPS]` : customer.DepartureTime;
-  // console.log(customer)
-  return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important;width:220px">
-  <tbody style="border:none !important">
-    <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Destination/Customer</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Source}</td></tr>
-    <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">LatLong</td><td style="border:none !important">:</td><td style="border:none !important">${customer.Coordinates}</td></tr>
-  
-  </tbody>
-  </table>`;
-  }
   handleMarkerClick1(event, trackingData, vehicle_no, imei) {
     const markerPosition = event.target.getGeometry();
     const formdataCustomer = new FormData();
@@ -585,7 +517,6 @@ export class DelayDashboardComponent implements OnInit {
     formdataCustomer.append('VehicleId', vehicle_no);
     formdataCustomer.append('ImeiNo', imei);
     formdataCustomer.append('LatLong', `${markerPosition.lat},${markerPosition.lng}`);
-    formdataCustomer.append('portal', 'itraceit');
     formdataCustomer.append('portal', 'itraceit');
     this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
       const address = res.Data.Address;
@@ -908,38 +839,13 @@ export class DelayDashboardComponent implements OnInit {
   //   // infowindowMarker_custo.open(this.map1);
   //   // this.lastOpenedInfoWindow = infowindowMarker_custo;
   // }
-  // handleCustomerMarkerClick(event, index) {
-  //   const customer = this.customer_info[index];
-  //   const customer_Info = this.generateCustomerInfo(customer);
-  //   return customer_Info;
-  //   // this.closeLastOpenedInfoWindow();
-  //   // const infowindowMarker_custo = new google.maps.InfoWindow({ content: customer_Info });
-  //   // infowindowMarker_custo.setPosition(event.latLng);
-  //   // infowindowMarker_custo.open(this.map1);
-  //   // this.lastOpenedInfoWindow = infowindowMarker_custo;
-  // }
 
 //   generateCustomerInfo(customer): string {
 //     let pod = customer.PodStatus === 1 ? 'DONE' : '-';
 //     let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
 //     let arrival_time = customer.GeoArrivalTime ? `${customer.GeoArrivalTime} [GPS]` : customer.ArrivalTime;
 //     let departure_time = customer.GeoDepartureTime ? `${customer.GeoDepartureTime} [GPS]` : customer.DepartureTime;
-//   generateCustomerInfo(customer): string {
-//     let pod = customer.PodStatus === 1 ? 'DONE' : '-';
-//     let type = customer.LocationSequence === 0 ? 'ORIGIN' : customer.LocationSequence === 1 ? 'INTERMEDIATE STATION' : 'DESTINATION';
-//     let arrival_time = customer.GeoArrivalTime ? `${customer.GeoArrivalTime} [GPS]` : customer.ArrivalTime;
-//     let departure_time = customer.GeoDepartureTime ? `${customer.GeoDepartureTime} [GPS]` : customer.DepartureTime;
 
-//     return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important">
-//   <tbody style="border:none !important">
-//     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Location</td><td style="border:none !important">:</td><td style="border:none !important">${customer.LocationCode}</td></tr>
-//     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">PodStatus</td><td style="border:none !important">:</td><td style="border:none !important">${pod}</td></tr>
-//     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Type</td><td style="border:none !important">:</td><td style="border:none !important">${type}</td></tr>
-//     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">ArrivalTime</td><td style="border:none !important">:</td><td style="border:none !important">${arrival_time}</td></tr>
-//     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">DepartureTime</td><td style="border:none !important">:</td><td style="border:none !important">${departure_time}</td></tr>
-//   </tbody>
-// </table>`;
-//   }
 //     return `<table class="border" style="font-size: 13px;line-height: 19px;border:none !important">
 //   <tbody style="border:none !important">
 //     <tr style="border:none !important"><td style="border:none !important; color:#0c0c66; Font-weight:bold">Location</td><td style="border:none !important">:</td><td style="border:none !important">${customer.LocationCode}</td></tr>
@@ -1025,13 +931,6 @@ export class DelayDashboardComponent implements OnInit {
     this.stored_imei=[ imei,
       imei2,
       imei3,];
-    this.stored_data.push(run_date)
-       
-    this.stored_data.push(vehicle_no)
-    this.stored_data.push(route_id)
-    this.stored_imei=[ imei,
-      imei2,
-      imei3,];
     this.SpinnerService.show("tracking");
 
   // Clear markers and polylines if they exist
@@ -1097,7 +996,6 @@ export class DelayDashboardComponent implements OnInit {
         formData.append('group_id', this.group_id);
         formData.append('AccountId', this.account_id);
         formData.append('portal', 'itraceit');
-        formData.append('portal', 'itraceit');
         // Log form data for debugging
         formData.forEach((value, key) => {
           console.log("formdata...", key, value);
@@ -1113,9 +1011,6 @@ export class DelayDashboardComponent implements OnInit {
             // if(res.Result=='Session Expired'){
               this.router.navigate([`/auth/login`]);
             // }
-            // if(res.Result=='Session Expired'){
-              this.router.navigate([`/auth/login`]);
-            // }
           }
 
           this.trackingData = res.data;
@@ -1126,7 +1021,6 @@ export class DelayDashboardComponent implements OnInit {
             // Add markers and polyline data
             this.addMarkersAndPolyline1(imei, vehicle_no);
            
-            this.fetchCustomerInfo(route_id);
             this.fetchCustomerInfo(route_id);
           }
 
@@ -1139,138 +1033,6 @@ export class DelayDashboardComponent implements OnInit {
         this.SpinnerService.hide("tracking");
       }
     }
-} 
- }
- ngAfterViewInit(): void {  // Ensure this method is properly implemented
-  this.makeModalDraggable();
-}
-makeModalDraggable() {
-  const modalDialog = document.querySelector("#v_track_Modal .modal-dialog") as HTMLElement;
-  const dragHandles = [
-    document.querySelector("#v_track_Modal .modal-header"),
-    document.querySelector("#v_track_Modal .modal-drag-bottom")
-  ].filter(Boolean) as HTMLElement[];
-
-  if (!modalDialog || dragHandles.length === 0) return;
-
-  let isDragging = false;
-  let startX = 0, startY = 0;
-  const animationFrame = { id: 0 };
- 
-  // Initialize position
-  const initializePosition = () => {
-    const rect = modalDialog.getBoundingClientRect();
-    const computedStyle = window.getComputedStyle(modalDialog);
-    const transform = computedStyle.transform;
-   
-    // If transform is not set, center the modal
-    if (transform === 'none') {
-      const x = (window.innerWidth - rect.width) / 2;
-      const y = (window.innerHeight - rect.height) / 2;
-      modalDialog.style.transform = `translate(${x}px, ${y}px)`;
-    }
-  };
-
-  // Call initialization
-  initializePosition();
-
-  const getCurrentPosition = () => {
-    const transform = window.getComputedStyle(modalDialog).transform;
-    if (transform === 'none') return { x: 0, y: 0 };
-   
-    const matrix = transform.match(/^matrix\((.+)\)$/);
-    if (matrix) {
-      const values = matrix[1].split(',').map(Number);
-      return { x: values[4], y: values[5] };
-    }
-    return { x: 0, y: 0 };
-  };
-
-  const setPosition = (x: number, y: number) => {
-    const rect = modalDialog.getBoundingClientRect();
-    const maxX = window.innerWidth - rect.width + rect.width * 0.2;
-    const maxY = window.innerHeight - rect.height + rect.height * 0.2;
-   
-    x = Math.max(-rect.width * 0.8, Math.min(x, maxX));
-    y = Math.max(-rect.height * 0.8, Math.min(y, maxY));
-
-    modalDialog.style.transform = `translate(${x}px, ${y}px)`;
-  };
-
-  const startDrag = (clientX: number, clientY: number) => {
-    isDragging = true;
-    startX = clientX;
-    startY = clientY;
-   
-    modalDialog.style.transition = 'none';
-    modalDialog.style.zIndex = '1050';
-    dragHandles.forEach(h => h.style.cursor = 'grabbing');
-  };
-
-  const moveDrag = (clientX: number, clientY: number) => {
-    if (!isDragging) return;
-   
-    cancelAnimationFrame(animationFrame.id);
-    animationFrame.id = requestAnimationFrame(() => {
-      const currentPos = getCurrentPosition();
-      const deltaX = clientX - startX;
-      const deltaY = clientY - startY;
-      setPosition(currentPos.x + deltaX, currentPos.y + deltaY);
-     
-      // Update start positions for smooth continuous dragging
-      startX = clientX;
-      startY = clientY;
-    });
-  };
-
-  const endDrag = () => {
-    if (!isDragging) return;
-    isDragging = false;
-    cancelAnimationFrame(animationFrame.id);
-    modalDialog.style.transition = 'transform 0.2s ease';
-    dragHandles.forEach(h => h.style.cursor = 'move');
-  };
-
-  // Event handlers
-  const handleMove = (e: MouseEvent | TouchEvent) => {
-    const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
-    const clientY = e instanceof MouseEvent ? e.clientY : e.touches[0].clientY;
-    moveDrag(clientX, clientY);
-  };
-
-  dragHandles.forEach(handle => {
-    handle.addEventListener('mousedown', (e) => {
-      e.preventDefault();
-      startDrag(e.clientX, e.clientY);
-    });
-
-    handle.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      if (e.touches.length === 1) startDrag(e.touches[0].clientX, e.touches[0].clientY);
-    });
-
-    handle.addEventListener('dblclick', () => {
-      modalDialog.style.transition = 'transform 0.3s ease';
-      initializePosition();
-    });
-  });
-
-  const eventCleanups = [
-    { event: 'mousemove', handler: handleMove },
-    { event: 'touchmove', handler: handleMove },
-    { event: 'mouseup', handler: endDrag },
-    { event: 'touchend', handler: endDrag },
-    { event: 'resize', handler: initializePosition }
-  ].map(({ event, handler }) => {
-    window.addEventListener(event, handler as EventListener);
-    return () => window.removeEventListener(event, handler as EventListener);
-  });
-
-  return () => {
-    endDrag();
-    eventCleanups.forEach(cleanup => cleanup());
-  };
-}
 } 
  }
  ngAfterViewInit(): void {  // Ensure this method is properly implemented
@@ -1496,7 +1258,6 @@ makeModalDraggable() {
     formdataCustomer.append('ImeiNo', imei);
     formdataCustomer.append('LatLong', event.latLng.lat() + ',' + event.latLng.lng());
     formdataCustomer.append('portal', 'itraceit');
-    formdataCustomer.append('portal', 'itraceit');
     this.CrudService.addressS(formdataCustomer).subscribe((res: any) => {
       console.log(res)
       const address = res.Data.Address;
@@ -1561,7 +1322,6 @@ makeModalDraggable() {
       '<td style="border:none !important; color: blue; white-space: nowrap;font-size: 11px;font-weight:500">' + data.distance + '</td>' +
       '</tr>' +
       '<tr>' + data.io + '<tr>' +
-      '<tr>' + data.io + '<tr>' +
       '<tr style=" border:none !important">' +
       '<td style="font-size: 11px;font-weight: 900;font-family:Roboto;border:none !important">Location Type</td>' +
       '<td style="border:none !important;width:1%;color: blue;">:</td>' +
@@ -1582,12 +1342,8 @@ makeModalDraggable() {
   delayDashboardDtdcFilter() {
     this.SpinnerService.show()
     
-    
     const formdataCustomer = new FormData();
     formdataCustomer.append('AccessToken', this.token);
-    // formdataCustomer.forEach((value, key) => {
-    //   // console.log("formdata",key, value);
-    // });
     // formdataCustomer.forEach((value, key) => {
     //   // console.log("formdata",key, value);
     // });
@@ -1664,18 +1420,12 @@ makeModalDraggable() {
             // if(res.Result=='Session Expired'){
               this.router.navigate([`/auth/login`]);
             // }
-      this.SpinnerService.hide();
-      alert(res?.Message);
-            // if(res.Result=='Session Expired'){
-              this.router.navigate([`/auth/login`]);
-            // }
     }
       // this.DelayTable();
     })
   }
   changeRoutetype(eve){
     this.routeTypes_filter=[];
-    // console.log(this.filterdata,eve);
     // console.log(this.filterdata,eve);
     this.eve=eve;
     this.selectedRouteType = []; // Reset to empty array to clear selection
@@ -1686,7 +1436,6 @@ makeModalDraggable() {
   }
   delayDashboardDisclaimer(){
     const formdataCustomer = new FormData();
-    // console.log( this.token)
     // console.log( this.token)
     formdataCustomer.append('AccessToken', this.token);
 
@@ -1710,28 +1459,9 @@ makeModalDraggable() {
             // if(res.Result=='Session Expired'){
               this.router.navigate([`/auth/login`]);
             // }
-      this.SpinnerService.hide();
-      alert(res?.Message);
-            // if(res.Result=='Session Expired'){
-              this.router.navigate([`/auth/login`]);
-            // }
     }
       // this.DelayTable();
     })
- 
-}
-Arrival_time() {
-  $(document).ready(() => {
-    $("#datepickerclose").datetimepicker({
-      format: "yyyy-mm-dd HH:mm:ss", // Ensure this matches your desired format
-      todayBtn: "linked",
-      keyboardNavigation: false,
-      forceParse: false,
-      autoclose: true
-  });
-  })
-
-  
  
 }
 Arrival_time() {
@@ -1761,25 +1491,7 @@ start() {
 }
 close_trip(TripId:any,data){
   this.transhipDetails=data;
-close_trip(TripId:any,data){
-  this.transhipDetails=data;
   this.TripId=TripId;
-  // tripCustomer
-
-  const formdataCustomer = new FormData();
-  formdataCustomer.append('AccessToken', this.token);
-  formdataCustomer.append('TripId', TripId);
-  this.dtdcservice.tripCustomer(formdataCustomer).subscribe((res: any) => {
-
-    if(res.status=='success'){
-      console.log(res)
-    this.tripLocation=res.data;
-  }
-  })
-
-
-
-  $('#closetripModal').modal('show');
   // tripCustomer
 
   const formdataCustomer = new FormData();
@@ -1800,7 +1512,6 @@ close_trip(TripId:any,data){
 submitclose(){
   
  var starteDate:any=this.datepipe.transform($("#datepicker").val(), 'yyyy-MM-dd');
-
 
   const formdataCustomer = new FormData();
   formdataCustomer.append('AccessToken', this.token);

@@ -7,8 +7,8 @@ import { Injectable } from '@angular/core';
 export class DtdcService {
 
   constructor( private http: HttpClient) { }
+  // baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
   baseURL:any="https://apinode2.secutrak.in/dev-app-itraceit/";
-  // https://apinode2.secutrak.in/dev-app-itraceit/dtdcSummaryFilter
   specificTripDashboard(val:any){
     // https://apicvmob.secutrak.in/dev-app-dtdc
     return this.http.post(this.baseURL+'scheduleDashboardDtdc',val);
@@ -21,6 +21,17 @@ export class DtdcService {
   }
   specificTDLink(val:any){
     return this.http.post(this.baseURL+'scheduleDashboardDtdcTrackingLink',val)
+  }
+  transhipVehicle(val:any){
+    return this.http.post(this.baseURL+'vehicleListTrans',val)
+  }
+  closeTrip(data){
+    let apiurl=this.baseURL+"tripActionDtdc";
+    return this.http.post(apiurl,data);
+  }
+  ahtTimeAdd(data){
+    let apiurl=this.baseURL+"updateAhtDTDC";
+    return this.http.post(apiurl,data);
   }
   networkVehicleDelayReport(val:any){
     return this.http.post(this.baseURL+'networkVehicleDelayReport',val)
@@ -40,7 +51,9 @@ export class DtdcService {
   }
   // -------------Trip Report--------------------------------------------------------------------------------------------------------
   dtdcTripReportFilter(data){
+  
     let apiurl=this.baseURL+"dtdcTripReportFilter";
+    
     return this.http.post(apiurl,data);
   }
   dtdcTripReport(data){
@@ -55,12 +68,6 @@ export class DtdcService {
    
     return this.http.post(apiurl,data);
   }
-  tripCustomer(data){
-    // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
-    let apiurl=this.baseURL+"tripCustomer";
-   
-    return this.http.post(apiurl,data);
-  }
   // --------Vehicle Report----------------------------------------------------------------------
   vehicleReportFilter(val:any){
     return this.http.post(this.baseURL+'vehicleReportFilter',val)
@@ -72,7 +79,7 @@ export class DtdcService {
     return this.http.post(this.baseURL+'searchVehicle',val)
   }
   vehicleReport(val:any){
-    return this.http.post(this.baseURL+'vehicleReport',val);
+    return this.http.post(this.baseURL+'vehicleReport',val)
   }
   delayDashboardDtdcFilter(val:any){
     return this.http.post(this.baseURL+'delayDashboardDtdcFilter',val)
@@ -84,8 +91,11 @@ export class DtdcService {
   tripActionDtdc(val:any){
     return this.http.post(this.baseURL+'tripActionDtdc',val)
   }
-  closeTrip(data){
-    let apiurl=this.baseURL+"tripActionDtdc";
+    
+  tripCustomer(data){
+    // let apiurl="https://api.secutrak.in/dev-app-dtdc/delayDashboardDtdc";
+    let apiurl=this.baseURL+"tripCustomer";
+   
     return this.http.post(apiurl,data);
   }
 //  ------------------------------------------------------------Slotwise Distance Report-------------------------------
@@ -114,11 +124,10 @@ slotwiseVehicleData(data){
  
   return this.http.post(apiurl,data);
 }
-
 dtdcTripCustomerDetails(data){
   let apiurl="https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripCustomerDetails";
   return this.http.post(apiurl,data);
   // https://apinode2.secutrak.in/dev-app-itraceit/dtdcTripCustomerDetails
 }
-  // tripActionDtdc
+
 }

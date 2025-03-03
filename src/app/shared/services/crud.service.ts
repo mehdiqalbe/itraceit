@@ -49,7 +49,7 @@ export class CrudService {
   Durl: any = 'https://api-py.secutrak.in/api/'
   Qurl: any = ' https://api-cv1.secutrak.in/cv_api/'
   vUrl: any = 'https://api-cv2.secutrak.in/api/'
-  Home_URL='api-bde.secutrak.in/dev-app-home/';
+  Home_URL='https://api-bde.secutrak.in/dev-app-home/';
 
 
   submitdata(val: any) {
