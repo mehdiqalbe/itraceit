@@ -1298,7 +1298,7 @@ formatDate(dateTimeString) {
     delayTt: person.DelayTT,
     scheduleHalt: person.ScheduleHalt,
     actualHalt: person.ActualHalt,
-    att: person.ATT?? "", // Actual Travel Time
+    att: person.ATT, // Actual Travel Time
     CloseByDevice:person.CloseByDevice,
     AHT:person?.AHT?? "",
     GPSATA:person?.GPSATA?? "",

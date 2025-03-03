@@ -1,0 +1,1163 @@
+<div class="card" style="height: 80px;    margin-bottom: 0px;">
+    <div class="card-body innerdiv">
+      <!-- HEADER -->
+      <div class="hor-header">
+        <div class="">
+          <div>
+            <div>
+
+
+              <div>
+                <!-- Network Delay Dashboardn justify-content-between -->
+                <div aria-label="Basic example" id="header-button">
+                    <div class="d-flex ">
+                      <div class="col-lg-1" style="color: #1c84c6;font-weight: 600;font-size: large; width: auto;">
+                        <div class=" align-items-left ">
+                            <div style="width:fit-content" class=" my-2 d-flex">
+                              <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()" type="button"></button>
+                            </div>
+                            </div>
+                      </div>
+                      <div class="col-lg-4" style="color: #1c84c6;font-weight: 600;font-size: large;">
+                        <div class=" align-items-left  ">
+                            <div style="width:fit-content" class=" d-flex">
+                               <!-- Delay Dashboard -->
+                               <div _ngcontent-tke-c124="" class="order-header col-lg-12 py-2"><h3 _ngcontent-tke-c124="" class="mb-1" style="color: #1D4380; font-family: Work Sans; font-size: 27px!important; font-weight: 600;"> Agreement</h3>
+                                <h5 _ngcontent-tke-c124="" style="color: #808080; font-family: Work Sans; font-size: 15px!important; font-weight: 500;">Home / Agreement</h5></div>
+                              
+                            </div>
+                            </div>
+                      </div>
+                      <div class="col-lg-3"></div>
+                      <div class="col-lg-3 " style="margin-top:13px" >
+                        <div class="" style="display: inline-block;">
+
+                          <!-- <img style="width:370px" src="assets/IRUN_CV_IMG/BlueDartBrandingLOGO.svg" class="header-brand-img desktop-logo"
+                            alt="logo" id="change-image"> -->
+
+                        </div>
+                      </div>
+                      <div class="col-lg-2 " style="    text-align: center;" >
+                        <div  style="display: inline-block;">
+                            <a class="header-brand1">
+                              <img style="width:100px" src="assets/images/itraceit_logo1.png" class="header-brand-img desktop-logo"
+                                alt="logo" id="change-image">
+  
+                            </a>
+                          </div>
+                      </div>
+                     
+                    </div>
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- End HEADER -->
+    </div>
+  </div>
+
+
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <form
+          [formGroup]="AgreementForm"
+          (ngSubmit)="submitForm(AgreementForm.value)"
+        >
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="row mt-2">
+                <div class="column">
+                  <label for="" class="cutom">Vender name</label>
+                  <ng-select
+                    placeholder="select an option"
+                    id="ShipmentNo"
+                    [class.invalid-select]="
+                      AgreementForm.controls.VenderName?.invalid &&
+                      AgreementForm.controls.VenderName?.touched
+                    "
+                    class="cutombox"
+                    formControlName="VenderName"
+                    required
+                  >
+                    <ng-option value="" selected
+                      >Select an option</ng-option
+                    >
+                    <ng-option
+                      [value]="item"
+                      *ngFor="let item of venderList"
+                      >{{ item.value }}</ng-option
+                    >
+                  </ng-select>
+                  <div
+                    *ngIf="
+                      AgreementForm.controls.VenderName?.invalid &&
+                      AgreementForm.controls.VenderName?.touched
+                    "
+                    class="error-message"
+                  >
+                    Please fill out this field
+                  </div>
+                  <!-- <input type="text" id="form12" class="form-control cutombox" formControlName="VenderName" required /> -->
+                </div>
+                <div class="column">
+                  <label for="" class="cutom">Agreement Code</label>
+                  <input
+                    type="text"
+                    id="form12"
+                    class="form-control cutombox"
+                    formControlName="AgreementCode"
+                    required
+                  />
+                </div>
+                <div class="column">
+                  <label for="" class="cutom">Agreement Date</label>
+                  <input
+                    type="datetime-local"
+                    step="1"
+                    class="form-control cutombox"
+                    formControlName="AgreementDate"
+                    required
+                  />
+                </div>
+                <div class="column">
+                  <label for="" class="cutom">No. Of Vehicle</label>
+                  <input
+                    type="text"
+                    id="form12"
+                    formControlName="TotalnoVehicle"
+                    class="form-control cutombox"
+                    required
+                  />
+                </div>
+
+                <div class="column">
+                  <label for="" class="cutom">Upload Agreement</label>
+                  <input
+                    type="file"
+                    id="form12"
+                    (change)="selectFile($event)"
+                    formControlName="AgreementFile"
+                    class="form-control cutombox"
+                    required
+                  />
+                </div>
+
+                <div class="column">
+                  <button
+                    type="button"
+                    (click)="agreementView()"
+                    class="btn btn-outline-primary btn-sm mt-6"
+                  >
+                    View
+                  </button>
+                </div>
+                <!-- <div class="column">
+                                <button  type="button"  class="btn btn-outline-primary btn-sm mt-6">Submit</button>
+                            </div> -->
+                <div class="column" align="right">
+                  <label for="" class="cutom"></label>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn mt-4"
+                    (click)="addtable()"
+                  >
+                    <i class="fa fa-plus"></i>Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12" align="right" style="padding: 10px">
+            <!-- <span>
+                        <button type="button" class="btn btn-success" (click)="addtable()">
+                            <i class="fa fa-plus" style="color: white;"></i>Add
+                        </button>
+                    </span> -->
+          </div>
+          <div style="height: 420px; overflow-x: auto">
+            <div formArrayName="Agreement" id="accordionExample">
+              <div
+                class=""
+                *ngFor="
+                  let table1st of getcustumerinvoice().controls;
+                  let i = index
+                "
+              >
+                <div [formGroupName]="i">
+                  <div class="accordion-item mt-2">
+                    <div class="d-flex align-items-center">
+                      <h2
+                        class="accordion-header flex-grow-1"
+                        [id]="'heading' + i"
+                        style="
+                          border-radius: 2px;
+                          margin: 0;
+                          background-color: #f4f5fb !important;
+                          color: black !important;
+                        "
+                      >
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          [attr.data-bs-target]="'#collapse' + i"
+                          aria-expanded="false"
+                          [attr.aria-controls]="'collapse' + i"
+                          style="
+                            height: 32px;
+                            background: none;
+                            width: 100%;
+                            color: black;
+                            font-weight: 600;
+                            font-family: sans-serif;
+                          "
+                        >
+                          Agreement Information
+                          <!-- <button type="button" (click)="deletetable(i)"
+                                                        style="height: 33.5px;margin-left: 1007px;">
+                                                        <i class="fa fa-times-circle" style="font-size: 18px;color: white;"></i>
+                                                    </button> -->
+
+                          <a
+                            type="button"
+                            (click)="deletetable(i)"
+                            style="
+                              position: absolute;
+
+                              right: 55px;
+                              margin-top: 5px;
+                            "
+                          >
+                            <i
+                              class="fa fa-times-circle"
+                              style="font-size: 18px; color: black"
+                            ></i>
+                          </a>
+                        </button>
+                      </h2>
+                    </div>
+                    <div
+                      [id]="'collapse' + i"
+                      class="accordion-collapse collapse"
+                      [attr.aria-labelledby]="'heading' + i"
+                      data-bs-parent="#accordionExample"
+                    >
+                      <div class="accordion-body">
+                        <div class="col-lg-12">
+                          <div class="row">
+                            <div class="col-lg-6">
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  Number Of Vehicle
+                                </div>
+                                <div class="col-lg-5">
+                                  <input
+                                    type="number"
+                                    class="form-control cutombox"
+                                    formControlName="Noofvehcle"
+                                    style="height: 32px"
+                                  />
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  Vehicle Type
+                                </div>
+                                <div class="col-lg-5">
+                                  <ng-select
+                                    placeholder="select an option"
+                                    id="ShipmentNo"
+                                    class="cutombox"
+                                    required
+                                    name="source"
+                                    formControlName="vehcleType"
+                                  >
+                                    <ng-option value="" selected
+                                      >Select an option</ng-option
+                                    >
+                                    <ng-option
+                                      [value]="item"
+                                      *ngFor="
+                                        let item of filterDataagreement?.bodytype
+                                      "
+                                      >{{ item.value }}</ng-option
+                                    >
+                                    <!-- <ng-option [value]="item.source_id"
+                                                              *ngFor="let item of sourceListdata">{{item.source_name}}</ng-option> -->
+                                  </ng-select>
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  Vehicle Capacity
+                                </div>
+                                <div class="col-lg-5">
+                                  <ng-select
+                                    placeholder="select an option"
+                                    id="ShipmentNo"
+                                    class="cutombox"
+                                    required
+                                    name="source"
+                                    formControlName="vehcleCapacity"
+                                  >
+                                    <ng-option value="" selected
+                                      >Select an option</ng-option
+                                    >
+                                    <ng-option
+                                      [value]="item"
+                                      *ngFor="
+                                        let item of filterDataagreement?.vehiclecapacity
+                                      "
+                                      >{{ item.capacity }}</ng-option
+                                    >
+                                    <!-- <ng-option [value]="item.source_id"
+                                                              *ngFor="let item of sourceListdata">{{item.source_name}}</ng-option> -->
+                                  </ng-select>
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  Trip Type
+                                </div>
+                                <div class="col-lg-5">
+                                  <ng-select
+                                    placeholder="select an option"
+                                    id="ShipmentNo"
+                                    (change)="TripTypeF($event)"
+                                    class="cutombox"
+                                    required
+                                    name="source"
+                                    formControlName="tripType"
+                                  >
+                                    <!-- <ng-option value="T" selected>Trip Based</ng-option>
+                                      <ng-option value="D" selected>Distance Based</ng-option>
+                                      <ng-option value="H" selected>Hourly Based</ng-option>
+                                      <ng-option value="DH" selected>Distance & Hourly Based</ng-option> -->
+
+                                    <ng-option
+                                      [value]="item"
+                                      *ngFor="
+                                        let item of filterDataagreement?.agreementtype
+                                      "
+                                      >{{ item.value }}</ng-option
+                                    >
+                                  </ng-select>
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  Toll Tax
+                                </div>
+                                <div class="col-lg-5">
+                                  <input
+                                    type="number"
+                                    class="form-control cutombox"
+                                    formControlName="tolltax"
+                                    style="height: 32px"
+                                  />
+                                </div>
+                              </div>
+
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  From Date
+                                </div>
+                                <div class="col-lg-5">
+                                  <input
+                                    type="datetime-local"
+                                    step="1"
+                                    class="form-control cutombox"
+                                    name="runDate"
+                                    required
+                                    formControlName="fromdate"
+                                  />
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  To Date
+                                </div>
+                                <div class="col-lg-5">
+                                  <input
+                                    type="datetime-local"
+                                    step="1"
+                                    class="form-control cutombox"
+                                    name="runDate"
+                                    required
+                                    formControlName="todate"
+                                  />
+                                </div>
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-lg-4 cutom">
+                                  <label for="" class="column cutom">
+                                    Night Charge</label
+                                  >
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    value=""
+                                    (change)="Nightf($event)"
+                                    id="flexCheckChecked"
+                                    style="
+                                      margin-left: 2px;
+                                      border: 1px solid;
+                                    "
+                                    checked
+                                    required
+                                  />
+                                </div>
+                                <div class="col-lg-5">
+                                  <div class="row">
+                                    <ng-container *ngIf="TimeCheck">
+                                      <div class="col-lg-6">
+                                        <label for="" class="cutom"
+                                          >From</label
+                                        >
+                                        <input
+                                          type="time"
+                                          class="form-control cutombox"
+                                          required
+                                          formControlName="NighFrom"
+                                        />
+                                      </div>
+                                      <div class="col-lg-6">
+                                        <label for="" class="cutom"
+                                          >To</label
+                                        >
+                                        <input
+                                          type="time"
+                                          class="form-control cutombox"
+                                          required
+                                          formControlName="NightTo"
+                                        />
+                                      </div>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- //////////////////////////////////////////////////// -->
+
+                            <div class="col-lg-6">
+                              <ng-container *ngIf="tripF == 'T'">
+                                <div class="row">
+                                  <label for="" class="HeadingTab">{{
+                                    Based
+                                  }}</label>
+                                </div>
+                                <!-- <legend>{{Based}}:</legend> -->
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum no of Trips
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="Tminoftrips"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Trip Cost</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="ttripcost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Tentative Distance (Km)
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="TTentativeDistance"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Fixed Charges</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="TFixedCharges"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum Monthly Cost
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="tMinimumMonthlyCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <ng-container *ngIf="tripF == 'D'">
+                                <div class="row">
+                                  <label for="" class="HeadingTab">{{
+                                    Based
+                                  }}</label>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum Distance (Km)
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="DMinimumDistance"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom">
+                                      Distance Cost</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="DDistanceCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Tentative Distance (Km)
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dTentativeDistance"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Fixed Charges</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dFixedCharges"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum Monthly Cost
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dMinimumMonthlyCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <ng-container *ngIf="tripF == 'H'">
+                                <div class="row">
+                                  <label for="" class="HeadingTab">{{
+                                    Based
+                                  }}</label>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum Duration (Hrs.)
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="hMinimumDuration"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom">
+                                      Hourly Cost</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="hHourlyCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Tentative Distance (Km)
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="hTentativeDistance"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Fixed Charges</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="hFixedCharges"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum Monthly Cost</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="hMinimumMonthlyCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <ng-container *ngIf="tripF == 'DH'">
+                                <div class="row">
+                                  <label for="" class="HeadingTab">{{
+                                    Based
+                                  }}</label>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum Daily Distance(Km)</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhMinimumDailyDistance"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom">
+                                      Minimum Daily Duration(Hrs)</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhMinimumDailyDuration"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Distance Cost</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhDistanceCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Hourly Cost</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhHourlyCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Tentative Distance (Km)
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhTentativeDistance"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Tentative Durations (Hrs.)
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhTentativeDurations"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Fixed Charges
+                                    </label>
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhFixedCharges"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <label for="" class="column cutom"
+                                      >Minimum Monthly Cost</label
+                                    >
+                                    <input
+                                      type="text"
+                                      class="form-control cutombox"
+                                      formControlName="dhMinimumMonthlyCost"
+                                      style="height: 32px"
+                                    />
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div style="text-align: right">
+              <!-- <button class="btn btn-sm btn-orange" type="button" style="color: white; margin-left: 2px;">Reset</button> -->
+              <button
+                class="btn btn-sm btn-orange"
+                type="button"
+                style="color: white; margin-left: 2px"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn btn-sm btn-orange"
+                type="submit"
+                style="color: white; margin-left: 2px"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- /////////////////////agreement view//////////////////////////////////////////////////// -->
+<div
+class="modal fade"
+id="agreementView"
+tabindex="-1"
+role="dialog"
+aria-labelledby="uploadModalLabel"
+aria-hidden="true"
+aria-hidden="false"
+data-bs-backdrop="static"
+data-bs-keyboard="false"
+>
+<div class="modal-dialog modal-fullscreen" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="uploadModalLabel">Agreement List</h5>
+      <!-- (click)="Driverupload1.resetForm()" -->
+      <button
+        type="button"
+        class="close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- (ngSubmit)="uploaddriver_submit(Driverupload)" -->
+
+    <div class="modal-body">
+      <div class="fiter col-md-10">
+        <p style="font-weight: 600" class="mb-2">
+          <a
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+            style="font-size: 16px"
+          >
+            <i
+              class="fa fa-filter"
+              aria-hidden="true"
+              style="font-size: 20px; color: #1d4380; margin-top: 8px"
+            ></i
+            >FILTER
+          </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div>
+            <div
+              class="card card-body pt-0"
+              style="border: none; box-shadow: none; margin-bottom: 0px"
+            >
+              <form
+                #agreementFilter="ngForm"
+                (ngSubmit)="AgreementList(agreementFilter.value)"
+              >
+                <div class="row col-12 ps-0">
+                  <div class="col-md-2">
+                    <label class="m-0" for="dateFrom">Date: From</label>
+                    <input
+                      id="dateFrom"
+                      type="date"
+                      ngModel
+                      name="dateFrom"
+                      class="form-control"
+                      placeholder="Select Start Date..."
+                    />
+                    <!-- <span style="font-size: 11px"
+                    *ngIf="filterForm.get('dateFrom')?.touched && filterForm.get('dateFrom')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center">
+                    Select start date.
+                  </span> -->
+                  </div>
+                  <div class="col-md-2">
+                    <label class="m-0" for="dateTo">Date: To</label>
+                    <input
+                      id="dateTo"
+                      type="date"
+                      ngModel
+                      name="dateTo"
+                      class="form-control"
+                      placeholder="Select End Date..."
+                    />
+                    <!-- <span style="font-size: 11px"
+                    *ngIf="filterForm.get('dateTo')?.touched && filterForm.get('dateTo')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center">
+                    Select end date.
+                  </span> -->
+                  </div>
+                  <div class="col-md-2">
+                    <label class="m-0" for="transporter"
+                      >Agreement Type</label
+                    >
+                    <ng-select id="transporter" ngModel name="Agreement">
+                      <ng-option
+                        [value]="item"
+                        *ngFor="let item of filterDataagreement.agreementtype"
+                        >{{ item.value }}</ng-option
+                      >
+                    </ng-select>
+                    <!-- <span style="font-size: 11px"
+                    *ngIf="filterForm.get('transporter')?.touched && filterForm.get('transporter')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center">
+                    Select customer.
+                  </span> -->
+                  </div>
+                  <div class="col-md-2">
+                    <label class="m-0" for="status">Client</label>
+                    <ng-select
+                      placeholder="select an option"
+                      id="ShipmentNo"
+                      class="cutombox"
+                      ngModel
+                      name="Client"
+                      required
+                    >
+                      <ng-option value="" selected
+                        >Select an option</ng-option
+                      >
+                      <ng-option
+                        [value]="item"
+                        *ngFor="let item of venderList"
+                        >{{ item.value }}</ng-option
+                      >
+                    </ng-select>
+                    <!-- <span style="font-size: 11px"
+                    *ngIf="filterForm.get('status')?.touched && filterForm.get('status')?.errors?.['required']"
+                    class="text-danger position-absolute text-sm-center">
+                    Select status.
+                  </span> -->
+                  </div>
+                  <div class="col-md-2 text-end d-flex align-items-end">
+                    <button
+                      type="submit"
+                      class="p-2 px-4 rounded-0 btn-orange shadow-none"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- </ng-container> -->
+          <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+        </div>
+      </div>
+
+      <div class="info">
+        <table
+          class="display nowrap table"
+          cellspacing="0"
+          id="Agreementtable"
+        >
+          <thead>
+            <tr style="text-align: center">
+              <th class="table-primary">Sl.</th>
+              <th class="table-primary">Status</th>
+              <th class="table-primary">Agreement Code</th>
+              <th class="table-primary">Agreement Date</th>
+              <th class="table-primary">No. Of Vehicle</th>
+              <!-- <th class="table-primary">Upload Agreement
+            </th> -->
+              <th class="table-primary">Vehicle Type</th>
+              <th class="table-primary">Vehicle Capacity</th>
+              <th class="table-primary">Trip Type</th>
+              <th class="table-primary">Toll Tax</th>
+
+              <th class="table-primary">From Date</th>
+              <th class="table-primary">To Date</th>
+              <th class="table-primary">Night Charge</th>
+              <th class="table-primary">Night Start Hours</th>
+              <th class="table-primary">Night End Hours</th>
+
+              <th class="table-primary">Minimum Monthly Cost</th>
+              <th class="table-primary">Fixed Charges</th>
+              <th class="table-primary">Tentative Distance (Km)</th>
+              <th class="table-primary">Unit Cost</th>
+              <th class="table-primary">Minimum Unit</th>
+              <th class="table-primary">Minimum Daily Distance(Km)</th>
+              <th class="table-primary">Minimum Daily Duration(Hrs)</th>
+              <th class="table-primary">Distance Cost</th>
+              <th class="table-primary">Hourly Cost</th>
+              <th class="table-primary">Tentative Durations (Hrs.)</th>
+              <th class="table-primary">View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of AgreementData; let ind = index">
+              <td>
+                {{ ind + 1 }}
+              </td>
+              <td>
+                {{ item.status }}
+              </td>
+              <td>
+                {{ item.agreeemnt_code }}
+              </td>
+              <td>
+                {{ item.agreement_date }}
+              </td>
+              <td>
+                {{ item.number_of_vehicles }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.vehicle_type }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.vehicle_capacity }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.agreement_type }}
+              </td>
+
+              <td>
+                {{ item?.agreementDetails[0]?.toll_tax }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.from_time }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.to_time }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.Night_Charges }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.Night_Time_from }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.Night_Time_to }}
+              </td>
+              <td>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 1"
+                >
+                  {{
+                    item?.agreementDetails[0]?.trip_based?.tMinimumMonthlyCost
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 2"
+                >
+                  {{
+                    item?.agreementDetails[0]?.distance_based
+                      ?.dMinimumMonthlyCost
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 3"
+                >
+                  {{
+                    item?.agreementDetails[0]?.hourly_based
+                      ?.hMinimumMonthlyCost
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 4"
+                >
+                  {{
+                    item?.agreementDetails[0]?.distance_hourly_based
+                      ?.dhMinimumMonthlyCost
+                  }}
+                </ng-container>
+              </td>
+              <td>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 1"
+                >
+                  {{ item?.agreementDetails[0]?.trip_based?.TFixedCharges }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 2"
+                >
+                  {{
+                    item?.agreementDetails[0]?.distance_based?.dhFixedCharges
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 3"
+                >
+                  {{ item?.agreementDetails[0]?.hourly_based?.hFixedCharges }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 4"
+                >
+                  {{
+                    item?.agreementDetails[0]?.distance_hourly_based
+                      ?.dhFixedCharges
+                  }}
+                </ng-container>
+              </td>
+              <td>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 1"
+                >
+                  {{
+                    item?.agreementDetails[0]?.trip_based?.TTentativeDistance
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 2"
+                >
+                  {{
+                    item?.agreementDetails[0]?.distance_based
+                      ?.dTentativeDistance
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 3"
+                >
+                  {{
+                    item?.agreementDetails[0]?.hourly_based
+                      ?.hTentativeDistance
+                  }}
+                </ng-container>
+                <ng-container
+                  *ngIf="item?.agreementDetails[0]?.agreement_type_id == 4"
+                >
+                  {{
+                    item?.agreementDetails[0]?.distance_hourly_based
+                      ?.dhTentativeDistance
+                  }}
+                </ng-container>
+              </td>
+              <td>{{ item?.agreementDetails[0]?.trip_based?.ttripcost }}</td>
+              <td>
+                {{
+                  item?.agreementDetails[0]?.distance_based?.DMinimumDistance
+                }}
+              </td>
+              <td>
+                {{
+                  item?.agreementDetails[0]?.distance_hourly_based
+                    ?.dhMinimumDailyDistance
+                }}
+              </td>
+              <td>
+                {{
+                  item?.agreementDetails[0]?.hourly_based?.hMinimumDuration
+                }}
+              </td>
+              <td>
+                {{
+                  item?.agreementDetails[0]?.distance_based?.DMinimumDistance
+                }}
+              </td>
+              <td>
+                {{ item?.agreementDetails[0]?.hourly_based?.hHourlyCost }}
+              </td>
+              <td>
+                {{
+                  item?.agreementDetails[0]?.distance_hourly_based
+                    ?.dhTentativeDurations
+                }}
+              </td>
+
+              <td>
+                <button
+                  type="button"
+                  (click)="viewF(item)"
+                  style="
+                    color: white;
+                    margin-left: 2px;
+                    background-color: #1d4380;
+                  "
+                >
+                  view
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

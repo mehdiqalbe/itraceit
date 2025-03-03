@@ -7,14 +7,14 @@ export const full_content: Routes = [
   //   path: 'maps',
   //   loadChildren: () => import('../../components/maps/maps.module').then(m => m.MapsModule), canActivate: [AuthGuard]
   // },
-  {
-    path: 'ILgic',
-    loadChildren: () => import('../../components/up-fci/up-fci.module').then(m => m.UPFCIModule), canActivate: [AuthGuard]
-  },
-  {
-    path: 'reports',
-    loadChildren: () => import('../../components/advanced-elements/advanced-elements.module').then(m => m.AdvancedElementsModule)
-  },
+  // {
+  //   path: 'ILgic',
+  //   loadChildren: () => import('../../components/up-fci/up-fci.module').then(m => m.UPFCIModule), canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'reports',
+  //   loadChildren: () => import('../../components/advanced-elements/advanced-elements.module').then(m => m.AdvancedElementsModule)
+  // },
   {
     path: 'cv',
     loadChildren: () => import('../../cv/cv.module').then(m => m.CVModule),canActivate: [AuthGuard]
