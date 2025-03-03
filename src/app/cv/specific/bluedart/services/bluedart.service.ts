@@ -26,6 +26,7 @@ export class BluedartService {
   delayDashboardDisclaimer(val:any){
     return this.http.post(this.baseURL+'bddelayDashboardDisclaimer',val)
   }
+
   bdDelayDashboardFilter(val:any){
     return this.http.post(this.baseURL+'bdDelayDashboardFilter',val)
   }
