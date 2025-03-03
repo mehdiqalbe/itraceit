@@ -524,7 +524,14 @@ export class VehicleUtilizationComponent implements OnInit {
   }
 
   onRegionChange(selectedRegions){
-   
+    // if(this.region.length>3){
+    //   console.log(this.region);
+    //    // Remove the last added selection
+    //    this.region.pop()
+    //    console.log(this.region);
+    //   alert('You can only select a maximum of 3 regions or select "All".');
+    //   return
+    // }
     
     if (selectedRegions.includes('')) {
       // If "All" is selected, clear other selections

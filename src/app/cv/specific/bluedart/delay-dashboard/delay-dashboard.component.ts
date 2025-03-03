@@ -69,6 +69,7 @@ export class DelayDashboardComponent implements OnInit {
 
     let App = document.querySelector('.app');
     App?.classList.add('sidenav-toggled');
+
     this.token = localStorage.getItem('AccessToken')!
     this.account_id = localStorage.getItem('AccountId')!
     // console.log("account_id", this.account_id)
@@ -420,7 +421,6 @@ initMap2()
           }else if (params.data.Full.fixed_lock == "2") {
             portablelockColor = "gray";
           }
-
           let markerColor = "gray";
           if (params.data.Full.vehicle_status_current == "running") {
             markerColor = "#6ABD46";

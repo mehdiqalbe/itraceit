@@ -1,0 +1,1069 @@
+<div class="card">
+    <div class="card-body innerdiv p-0">
+      <!-- headerstart here -->
+      <div class="hor-header">
+        <div style="overflow: hidden;">
+          <div class="row align-items-left">
+            <div class="col-lg-1">
+              <button class="app-sidebar__toggle ms-auto" (click)="sidebarToggle()"></button>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4" style="font-weight: 600;font-size:large ;text-align: center;margin-top: 15px;">
+              <span style="margin-right: -104px;">
+              </span>
+  
+            </div>
+            <div class="col-lg-2 text-center">
+  
+            </div>
+  
+            <div class="col-lg-1"></div>
+            <div class="col-lg-1">
+              <!-- <a  routerLink="/ILgic/createTrip"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color: #1D4380;"></i></a>  -->
+            </div>
+            <div class="col-lg-1 text-center">
+              <a class="header-brand1">
+                <img src="assets/images/itraceit_logo1.png" alt="ILGIC Logo" class="header-brand-img desktop-logo"
+                  style="height: auto; width: 80%;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style=" margin-left: 5px;margin-top: -25px;
+                margin-right: 5px;border-bottom: 2px solid #e8ebed; ">
+    <div class="col-lg-12">
+      <div class="fiter">
+        <p>
+          <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
+            aria-controls="collapseExample" style="font-size: 16px;color: #1D4380;font-weight: bold; ">
+            <i class="fa fa-filter" aria-hidden="true"
+              style="font-size: 20px;color: #1D4380 ;margin-top: 8px;font-weight: bold;"></i>FILTER
+          </a>
+  
+          <button type="button" style="position: absolute;right: 40px;" class="mt-2" data-bs-toggle="modal"  data-bs-target="#uploadDoc">
+            <i class="fa fa-upload" style="font-size:22px;color:#1D4380" ngbTooltip="Upload Csv File" placement="top"></i></button>
+  
+          <button type="button" style="position: absolute;right: 5px;" class="mt-2"
+           data-bs-toggle="modal"  data-bs-target="#upload">
+           
+            <i class="fa fa-plus-circle" aria-hidden="true" style="font-size:22px;color:#1D4380"
+              ngbTooltip="Add New Document" placement="left-top"></i></button>
+        </p>
+  
+  
+  
+  
+  
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body" style="border: none ; box-shadow: none;">
+            <form #filterForm="ngForm" (ngSubmit)="filterSubmit(filterForm.value)">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="custom">
+                    <span class="filtor_name">Date Type</span>
+                    <ng-select name="Date_type" placeholder="Select Date Type" style="font-size: 14px;font-weight: 400;"
+                      [ngModel]="ShipmentNo" [closeOnSelect]="true" [multiple]="false" class="cutombox">
+                      <!-- <ng-option value="" selected >--Select Region--</ng-option> -->
+                      <ng-option [value]="item.id" *ngFor="let item of master.DateType">{{item.value}}</ng-option>
+  
+  
+  
+                    </ng-select>
+                  </div>
+                  <div class="custom">
+                    <span class="filtor_name">From</span>
+                    <input type="date" class="form-control cutombox" [ngModel]="datetimepicker1" required
+                      name="from_time" />
+                  </div>
+                  <div class="custom">
+                    <span class="filtor_name">To</span>
+                    <input type="date" class="form-control cutombox" [ngModel]="currentDateTime" required
+                      name="To_time" />
+                  </div>
+                  <div class="custom">
+                    <span class="filtor_name">Document Type</span>
+                    <ng-select name="Document" placeholder="Select Document" id="ShipmentNo"
+                      style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true"
+                      class="cutombox">
+                      <!-- <ng-option value="item.value" selected>--Select Agency--</ng-option> -->
+                      <!-- <ng-option value="" selected>--Select Region--</ng-option> -->
+                      <ng-option [value]="item.id"
+                        *ngFor="let item of master?.DocumentType?.vehicle">{{item.name}}</ng-option>
+  
+  
+                      <!-- <ng-option *ngFor="let key of Object.keys(threatsdata)"
+                            [value]="threatsdata[key].name">{{threatsdata[key].name}}</ng-option> -->
+  
+  
+                    </ng-select>
+                  </div>
+                  <div class="custom">
+                    <span class="filtor_name">Status</span>
+                    <ng-select name="Status" placeholder="Select status" id="ShipmentNo"
+                      style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true"
+                      [multiple]="false" class="cutombox">
+                      <!-- <ng-option >--Select Purchage Center--</ng-option> -->
+                      <!-- <ng-select name="Region_type" placeholder="Select Region" id="ShipmentNo"
+                        [ngModel]="ShipmentNo" [multiple]="true" [closeOnSelect]="true"> -->
+  
+                      <ng-option [value]="item.key" *ngFor="let item of master.StatusType">{{item.value}}</ng-option>
+  
+  
+  
+  
+  
+  
+  
+                    </ng-select>
+                  </div>
+  
+                  <div class="custom">
+                    <span class="filtor_name">Vehicle</span>
+                    <ng-select name="Vehicle" placeholder="Select Vehicle" id="ShipmentNo"
+                      style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true"
+                      class="cutombox">
+                      <!-- <ng-option value=" " selected>--Select District--</ng-option> -->
+                      <ng-option [value]="item.vehicle_id"
+                        *ngFor="let item of master.Vehicle">{{item.vehicle_no}}</ng-option>
+  
+  
+  
+                      <!-- <ng-option *ngFor="let key of Object.keys(threatsdata)"
+                            [value]="threatsdata[key].name">{{threatsdata[key].name}}</ng-option> -->
+  
+  
+                    </ng-select>
+                  </div>
+                  <ng-container *ngIf="UserType=='10'||UserType=='13'">
+                  <div class="custom">
+  
+                    <button type="submit" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                      class="btn btn-outline-primary btn-sm" style="margin-top: 22px;">Submit</button>
+                  </div>
+                </ng-container>
+                </div>
+  
+              </div>&nbsp;
+              <div class="col-lg-12">
+                <div class="row">
+                  <ng-container *ngIf="UserType=='6'">
+                    <div class="col-lg-2">
+                      <span class="filtor_name">Verticle</span>
+                      <ng-select name="VerticleType" placeholder="Select Vehicle" id="ShipmentNo"
+                        style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true"
+                        class="cutombox">
+                        <ng-option value=" " selected>--Select Transporter--</ng-option>
+                        <ng-option [value]="item.id" *ngFor="let item of master.Vertical">{{item.name}}</ng-option>
+  
+  
+  
+                        <!-- <ng-option *ngFor="let key of Object.keys(threatsdata)"
+                            [value]="threatsdata[key].name">{{threatsdata[key].name}}</ng-option> -->
+  
+  
+                      </ng-select>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="UserType=='6'">
+                    <div class="col-lg-2">
+                      <span class="filtor_name">Agent</span>
+                      <ng-select name="AgentType" placeholder="Select Agent" id="ShipmentNo"
+                        style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true"
+                        class="cutombox">
+                        <ng-option value=" " selected>--Select Agent--</ng-option>
+                        <ng-option [value]="item.id" *ngFor="let item of master.Agent">{{item.name}}</ng-option>
+  
+  
+  
+                        <!-- <ng-option *ngFor="let key of Object.keys(threatsdata)"
+                            [value]="threatsdata[key].name">{{threatsdata[key].name}}</ng-option> -->
+  
+  
+                      </ng-select>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="UserType=='6'||UserType=='24'">
+                    <div class="col-lg-2">
+                      <span class="filtor_name">Transporter</span>
+                      <ng-select name="TransporterType" placeholder="Select Vehicle" id="ShipmentNo"
+                        style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true"
+                        class="cutombox">
+                        <ng-option value=" " selected>--Select Transporter--</ng-option>
+                        <ng-option [value]="item.id" *ngFor="let item of master.Transporter">{{item.name}}</ng-option>
+  
+  
+  
+  
+                        <!-- <ng-option *ngFor="let key of Object.keys(threatsdata)"
+                            [value]="threatsdata[key].name">{{threatsdata[key].name}}</ng-option> -->
+  
+  
+                      </ng-select>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="UserType=='6'||UserType=='24'">
+                  <div class="col-lg-2">
+  
+                    <button type="submit" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                      class="btn btn-outline-primary btn-sm" style="margin-top: 22px;">Submit</button>
+                  </div>
+                </ng-container>
+  
+                </div>
+              </div>
+  
+  
+  
+            </form>
+  
+          </div>
+        </div>
+        <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+      </div>
+    </div>
+  
+  
+  
+  </div>
+  <div class="container-fluid">
+    <div class="col-12">
+      <div class="row mt-2">
+        <div class="col-lg-2">
+          <label for=""
+            style="font-size: 20px;color: #1D4380;font-weight: 600;text-shadow: 1px 1px 1px rgba(18, 3, 96, 0.4);">
+            Document Wallet
+          </label>
+  
+        </div>
+        <div class="col-lg-2">
+          <ng-select name="Vehicle" placeholder="Select Vehicle" id="ShipmentNo" style="font-size: 14px;font-weight: 400;"
+            [ngModel]="ShipmentNo" (change)="vehicleFilter($event)" [closeOnSelect]="true" class="cutombox">
+            <ng-option value=" " selected>All</ng-option>
+            <ng-option [value]="item.vehicle_no" *ngFor="let item of master.Vehicle">{{item.vehicle_no}}</ng-option>
+  
+  
+            <!-- <ng-option *ngFor="let key of Object.keys(threatsdata)"
+    [value]="threatsdata[key].name">{{threatsdata[key].name}}</ng-option> -->
+  
+  
+          </ng-select>
+        </div>
+        <div class="col-lg-2">
+          <ng-select name="Document" placeholder="Select Document" id="ShipmentNo" (change)="docFilter($event)"
+            style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true" class="cutombox">
+            <!-- <ng-option value="item.value" selected>--Select Agency--</ng-option> -->
+            <ng-option value="" selected>All</ng-option>
+            <ng-option [value]="item.name" *ngFor="let item of master?.DocumentType?.vehicle">{{item.name}}</ng-option>
+  
+  
+            <!-- <ng-option *ngFor="let key of Object.keys(threatsdata)"
+    [value]="threatsdata[key].name">{{threatsdata[key].name}}</ng-option> -->
+  
+  
+          </ng-select>
+        </div>
+        <!-- <div class="col-lg-2">
+          <ng-select name="Document" placeholder="Select Duration" id="ShipmentNo"
+            style="font-size: 14px;font-weight: 400;" [ngModel]="ShipmentNo" [closeOnSelect]="true" class="cutombox">
+            
+            <ng-option value="" selected>--Select Duration--</ng-option>
+           
+  
+  
+          </ng-select>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="col-lg-12">
+      <div class="row">
+  
+        <div class="col-lg-6">
+          <!-- <div class="col-md-6 col-sm-12"> -->
+          <div style="overflow-x: hidden;">
+            <div id="barchart"></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div style="overflow-x: hidden;">
+            <div id="barchart1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row mt-2">
+      <div style="text-align:left;">
+  
+        <button class="btn btn-sm btn-orange" type="submit" style="color: white; background-color: orange;width: 88px!important;"
+          (click)="operationF(2)" [disabled]="selectedIds.length==0">Deactivate</button>
+        <button class="btn btn-sm btn-blue" type="submit" 
+          style="color: white;margin-left: 2px; background-color: #1D4380;width: 88px!important;" (click)="operationF(1)"
+          [disabled]="selectedIds.length==0">Activate</button>
+        <button class="btn btn-sm btn" type="submit" style="color: white;margin-left: 2px;background-color:#EC6625 ;width: 88px!important;"
+          (click)="operationF(0)" [disabled]="selectedIds.length==0">Delete</button>
+        <button class="btn btn-sm btn" type="button" style="color: white;margin-left: 2px;background-color:#53d91a ;width: 88px!important;"
+          (click)="resetTable()">Reset</button>
+  
+  
+      </div>
+  
+    </div>
+  </div>
+  
+  <div class="container-fluid mt-2">
+    <table class="display nowrap  table" cellspacing="0" id="walletTable" width="100%">
+      <thead>
+        <tr style="text-align: center;">
+          <th class="table-primary">
+            <div class="form-check" style="text-align: end;">
+              <input class="form-check-input" type="checkbox" value="" (change)="toggleAllSelection()"
+                id="flexCheckChecked" [checked]="allSelected" required>
+  
+            </div>
+          </th>
+          <th class="table-primary">S.No.</th>
+  
+          <th class="table-primary">Vehicle Number
+  
+          </th>
+          <th class="table-primary">Driver</th>
+          <th class="table-primary">Document Type
+  
+  
+          </th>
+          <th class="table-primary">Document Number
+  
+  
+          </th>
+          <th class="table-primary">Issue Date
+  
+  
+          </th>
+          <th class="table-primary">Expiry Date
+  
+          </th>
+          <th class="table-primary">Document File
+  
+  
+          </th>
+          <th class="table-primary">Remarks
+  
+  
+  
+          </th>
+          <th class="table-primary">Status
+          </th>
+          <th class="table-primary">View
+          </th>
+          <th class="table-primary">Action
+  
+          </th>
+  
+        </tr>
+  
+      </thead>
+      <tbody>
+        <tr style="text-align: center;" *ngFor="let item of walletTable;let ind=index">
+  
+  
+  
+  
+          <td>
+            <div class="form-check" style="margin-right: 13px;">
+              <input class="form-check-input" type="checkbox" value="" [checked]="isSelected(item.DocumentId)"
+                id="flexCheckChecked" required (change)="toggleSelection(item.DocumentId);renewChange(item)">
+  
+            </div>
+          </td>
+          <td>{{ind+1}}</td>
+          <td>{{item.VehicleNo}}</td>
+          <td>{{item.Driver}}</td>
+          <td>{{item.DocumentTypeName}}</td>
+          <td>{{item.DocumentNo}}</td>
+          <td>{{item.IssueDate}}</td>
+          <td>{{item.ExpiryDate}}</td>
+          <td>{{item.DocumentNo}}</td>
+          <td>{{item.Remark}}</td>
+  
+          <td><span Class="qstatus-base" [style.color]="item.Color" style="font-size: 12px;">{{item.StatusText}}</span>
+          </td>
+          <td>
+            <button type="button" (click)="viewF(item)" style="color: white;margin-left: 2px; background-color: #1D4380;">
+          view  </button>
+          </td>
+          <td class="button-container">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#upload-edit" (click)="dataOneditF(item)"><i
+                class="fa fa-edit" style="font-size:24px"></i></button>
+            <button class="btn btn-sm btn-green" type="submit"
+              style="color: white; background-color: green ;margin-left: 2px" (click)="renewF(item)"
+              data-bs-toggle="modal" data-bs-target="#RenewModel">Renew</button>
+  
+  
+          </td>
+  
+  
+  
+  
+  
+  
+  
+  
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- //////////////////////////////////////////////////add document//////////////////////////////// -->
+  <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true"
+    aria-hidden="false" data-bs-backdrop="static" data-bs-keyboard="false">
+    <form #Driverupload="ngForm" (ngSubmit)="uploaddriver_submit(Driverupload)">
+      <div class="modal-dialog modal-custom" role="document">
+        <div class="modal-content">
+  
+          <div class="modal-header">
+            <h5 class="modal-title title" id="uploadModalLabel">Add New Document</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+              (click)="Driverupload.resetForm()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- (ngSubmit)="uploaddriver_submit(Driverupload)" -->
+  
+          <div class="modal-body">
+            <div class="col-lg-12">
+              <div class="row mt-3">
+                <div class="col-lg-6">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="vehicle"
+                      (change)="addDocFilter($event)" checked>
+                    <label class="form-check-label filtor_name" for="flexRadioDefault1">
+                      Vehicle
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="driver"
+                      (change)="addDocFilter($event)">
+                    <label class="form-check-label filtor_name" for="flexRadioDefault2">
+                      Driver
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <ng-container *ngIf="vehicleFlag==true">
+                  <span class="filtor_name">Driver's Name</span>
+                </ng-container>
+                <ng-container *ngIf="vehicleFlag==false">
+                  <span class="filtor_name">Vehicle Number</span>
+                </ng-container>
+                <!-- <input type="text" autocomplete="off" class="form-control"  style="    background: white;"
+           [value]="Driver_name" disabled> -->
+  
+                <ng-container *ngIf="vehicleFlag==false">
+                  <ng-select name="Driver" ngModel #Driver="ngModel" required class="cutombox" (change)="AddDocId($event)"
+                    style="font-size: 14px; font-weight: 400;" [closeOnSelect]="true"
+                    [ngClass]="{'is-invalid': (Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)}">
+                    <ng-option value="" selected>Select</ng-option>
+                    <ng-option *ngFor="let item of master.Vehicle
+                    " [value]="item">{{item.vehicle_no}}</ng-option>
+  
+                  </ng-select>
+                  <div
+                    *ngIf="(Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)"
+                    class="invalid-feedback">
+                    Please select a vehicle.
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="vehicleFlag==true">
+                  <ng-select name="Driver" ngModel #Driver="ngModel" required class="cutombox" (change)="AddDocId($event)"
+                    style="font-size: 14px; font-weight: 400;" [closeOnSelect]="true"
+                    [ngClass]="{'is-invalid': (Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)}">
+                    <ng-option value="" selected>Select</ng-option>
+                    <ng-option *ngFor="let item of master.Driver" [value]="item">{{item.name}}</ng-option>
+  
+  
+                  </ng-select>
+                  <div
+                    *ngIf="(Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)"
+                    class="invalid-feedback">
+                    Please select a vehicle.
+                  </div>
+                </ng-container>
+  
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <span class="filtor_name">Document Type</span>
+                <ng-container *ngIf="vehicleFlag==false">
+  
+                  <ng-select name="Documenttype" class="cutombox" ngModel #Documenttype="ngModel" required
+                    (change)="AddDocName($event)" style="font-size: 14px;font-weight: 400;" [closeOnSelect]="true"
+                    [ngClass]="{'is-invalid': (Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)}">
+                    <ng-option value="" selected>Select</ng-option>
+                    <ng-option *ngFor="let item of master?.DocumentType?.vehicle;"
+                      [value]="item">{{item.name}}</ng-option>
+                    <div
+                      *ngIf="(Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)"
+                      class="invalid-feedback">
+                      Please select a document type.
+                    </div>
+                  </ng-select>
+                </ng-container>
+                <ng-container *ngIf="vehicleFlag==true">
+  
+                  <ng-select name="Documenttype" class="cutombox" ngModel #Documenttype="ngModel" required
+                    (change)="AddDocName($event)" style="font-size: 14px;font-weight: 400;" [closeOnSelect]="true"
+                    [ngClass]="{'is-invalid': (Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)}">
+                    <ng-option value="" selected>Select</ng-option>
+                    <ng-option *ngFor="let item of master?.DocumentType?.driver;" [value]="item">{{item.name}}</ng-option>
+                    <div
+                      *ngIf="(Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)"
+                      class="invalid-feedback">
+                      Please select a document type.
+                    </div>
+                  </ng-select>
+                </ng-container>
+                <!-- <ng-container *ngIf="select=='V'">
+                    <ng-select 
+                      name="Documenttype" 
+                      ngModel 
+                      #Documenttype="ngModel"
+                      required
+                      style="font-size: 14px;font-weight: 400;" 
+                      [closeOnSelect]="true"
+                      [ngClass]="{'is-invalid': (Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)}"
+                    >
+                      <ng-option value="" selected>Select</ng-option>
+                      <ng-option *ngFor="let item of master?.vehicle;" [value]="item">{{item.name}}</ng-option>
+                      
+                    </ng-select>
+                   
+                  <div *ngIf="(Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)" class="invalid-feedback">
+                    Please select a document type.
+                  </div>
+                </ng-container> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Document Number</span>
+                <input type="text" autocomplete="off" class="form-control cutombox" placeholder="Document Number" required
+                  name="documentNumber" ngModel #documentNumber="ngModel"
+                  [ngClass]="{'is-invalid': (documentNumber.invalid && (documentNumber.touched || Driverupload.submitted))}">
+                <div *ngIf="(documentNumber.invalid && (documentNumber.touched || Driverupload.submitted))"
+                  class="invalid-feedback">
+                  Document number is required.
+                </div>
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <span class="filtor_name">Issue Date</span>
+                <div class="input-group date" id="datepicker">
+                  <input type="date" id="Date-Issue" class="form-control cutombox" autocomplete="off" required
+                    name="from_Date" ngModel #fromDate="ngModel"
+                    [ngClass]="{'is-invalid': (fromDate.invalid && (fromDate.touched || Driverupload.submitted))}">
+                  <!-- <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-calendar" style="color: black !important;"></i>
+                      </span>
+                    </div> -->
+                </div>
+                <!-- <div *ngIf="(fromDate.invalid && (Issue_status))" class="invalid-feedback">
+                    Issue date is required.
+                  </div> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Expiry Date</span>
+                <div class="input-group date" id="datepicker">
+                  <!--  (click)="Expiry()" -->
+                  <input type="date" id="Date-Expiry" class="form-control cutombox" autocomplete="off" required
+                    name="To_Date" ngModel #toDate="ngModel"
+                    [ngClass]="{'is-invalid': (toDate.invalid && (toDate.touched || Driverupload.submitted))}">
+                  <!-- <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-calendar" style="color: black !important;"></i>
+                      </span>
+                    </div> -->
+                </div>
+                <div *ngIf="(toDate.invalid && (toDate.touched || Driverupload.submitted))" class="invalid-feedback">
+                  Expiry date is required.
+                </div>
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <span class="filtor_name">Upload Document</span>
+                <input type="file" class="form-control cutombox" ngModel (change)="onFileChange_doc($event)" required
+                  name="uploadDocument" #uploadDocument="ngModel"
+                  [ngClass]="{'is-invalid': (uploadDocument.invalid && (uploadDocument.touched || Driverupload.submitted))}">
+                <div *ngIf="(uploadDocument.invalid && (uploadDocument.touched || Driverupload.submitted))"
+                  class="invalid-feedback">
+                  Please upload a document.
+                </div>
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Remark</span>
+                <input type="text" autocomplete="off" class="form-control cutombox" ngModel placeholder="Remark" required
+                  name="remark" #remark="ngModel"
+                  [ngClass]="{'is-invalid': (remark.invalid && (remark.touched || Driverupload.submitted))}">
+                <div *ngIf="(remark.invalid && (remark.touched || Driverupload.submitted))" class="invalid-feedback">
+                  Remark is required.
+                </div>
+              </div>
+            </div>
+  
+          </div>
+  
+          <div class="container-fluid" style="    text-align: center;
+            height: 8vh;
+            border-top: 1px solid #80808036;">
+            <button type="submit" style="margin-top: 8px;color: white;
+        background: #1D4380;" class="btn " data-dismiss="modal">ADD</button>
+          </div>
+          <!-- </form> -->
+  
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- ////////////////////////////////////////////////////////edit document -->
+  <div class="modal fade" id="upload-edit" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+    aria-hidden="true" aria-hidden="false" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-custom" role="document">
+      <form #Driverupload1="ngForm" (ngSubmit)="updatesubmit(Driverupload1,2);">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title title" id="uploadModalLabel">Update Document</h5>
+            <!-- (click)="Driverupload1.resetForm()" -->
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- (ngSubmit)="uploaddriver_submit(Driverupload)" -->
+  
+          <div class="modal-body">
+  
+  
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <ng-container>
+                  <span class="filtor_name">{{NamePlace}}</span>
+                </ng-container>
+                <!-- <ng-container *ngIf="select=='V'">
+                  <span class="filtor_name">Vehicle Number</span>
+                </ng-container> -->
+                <input type="text" autocomplete="off" class="form-control cutombox" style="    background: white;"
+                  [value]="NameOnBox" disabled>
+  
+  
+                <!-- <ng-select 
+                    name="Driver" 
+                    ngModel 
+                    #Driver="ngModel"
+                    required
+                    style="font-size: 14px; font-weight: 400;" 
+                    [closeOnSelect]="true"
+                    [ngClass]="{'is-invalid': (Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)}"
+                  >
+                    <ng-option value="" selected>Select</ng-option>
+                    <ng-option  *ngFor="let item of Driver_list" value="{{item.id}}">{{item.name}}</ng-option>
+                 
+                  </ng-select> -->
+                <!-- <div *ngIf="(Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)" class="invalid-feedback">
+                    Please select a vehicle.
+                  </div> -->
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <span class="filtor_name">Document Type</span>
+  
+                <input type="text" autocomplete="off" class="form-control cutombox" style="    background: white;"
+                  [value]="edit_data.DocumentTypeName" disabled>
+                <!-- <div *ngIf="(Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)" class="invalid-feedback">
+                    Please select a document type.
+                  </div> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Document Number</span>
+                <!-- <input type="text" step="1"autocomplete="off" class="form-control" placeholder="Document Number" required name="documentNumber"
+                  [ngModel]="edit_data?.doc_no"    #documentNumber="ngModel" [ngClass]="{'is-invalid': (documentNumber.invalid && (documentNumber.touched || Driverupload1.submitted))}"
+                  > -->
+                <input type="text" step="1" autocomplete="off" class="form-control cutombox" placeholder="Document Number"
+                  required name="documentNumber" [ngModel]="edit_data?.DocumentNo || ''" #documentNumber1="ngModel"
+                  [ngClass]="{'is-invalid': (documentNumber1.invalid && (documentNumber1.touched || Driverupload1.submitted))}">
+                <div *ngIf="(documentNumber1.invalid && (documentNumber1.touched || Driverupload1.submitted))"
+                  class="invalid-feedback">
+                  Document number is required.
+                </div>
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <span class="filtor_name">Issue Date</span>
+                <div class="input-group date" id="datepicker">
+                  <input type="date" id="Date-Issue" class="form-control cutombox" autocomplete="off"
+                    [ngModel]="edit_data?.IssueDate" required name="from_Date" #fromDate1="ngModel"
+                    [ngClass]="{'is-invalid': (fromDate1.invalid && (fromDate1.touched || Driverupload1.submitted))}">
+                  <!-- <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-calendar" style="color: black !important;"></i>
+                      </span>
+                    </div> -->
+                </div>
+                <!-- <div *ngIf="(fromDate1.invalid && (Issue_status))" class="invalid-feedback">
+                    Issue date is required.
+                  </div> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Expiry Date</span>
+                <div class="input-group date" id="datepicker">
+                  <!--  (click)="Expiry()" -->
+                  <input type="date" id="Date-Expiry" class="form-control cutombox" autocomplete="off"
+                    [ngModel]="edit_data?.ExpiryDate" required name="To_Date" #toDate1="ngModel"
+                    [ngClass]="{'is-invalid': (toDate1.invalid && (toDate1.touched || Driverupload1.submitted))}">
+                  <!-- <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-calendar" style="color: black !important;"></i>
+                      </span>
+                    </div> -->
+                </div>
+                <div *ngIf="(toDate1.invalid && (toDate1.touched || Driverupload1.submitted))" class="invalid-feedback">
+                  Expiry date is required.
+                </div>
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <!-- ="edit_data?.file_path"  -->
+                <!-- <span class="filtor_name">Upload Document <a href="{{edit_data?.file_path}}">View</a></span> -->
+                <span class="filtor_name"> Upload Document <a style="cursor: pointer;"
+                    (click)="toggleIframe()">View</a></span>
+  
+                <input type="file" class="form-control cutombox" ngModel (change)="onFileChange_doc_edit($event)"
+                  name="uploadDocument" #uploadDocument1="ngModel" [value]="edit_data?.FilePath">
+                <!--[ngClass]="{'is-invalid': (uploadDocument1.invalid && (uploadDocument1.touched || Driverupload1.submitted))}"
+                  <div *ngIf="(uploadDocument1.invalid && (uploadDocument1.touched || Driverupload1.submitted))" class="invalid-feedback">
+                    Please upload a document.
+                  </div> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Remark</span>
+                <input type="text" autocomplete="off" class="form-control cutombox" ngModel placeholder="Remark"
+                  name="remark" #remark="ngModel">
+                <!-- <div *ngIf="(remark.invalid && (remark.touched || Driverupload1.submitted))" class="invalid-feedback">
+                    Remark is required.
+                  </div> -->
+              </div>
+              <div class="col-lg-6">
+                <div class="imagePreview">
+                  <div class="image-container" *ngIf="imageURL_edit">
+                    <img [src]="imageURL_edit" alt="Image Preview" />
+                    <!-- (click)="removeImage()" -->
+                    <button (click)="removeImage()"><i class="fa fa-close" style="font-size:24px;color:red"></i></button>
+  
+                  </div>
+                  <div *ngIf="showIframe " class="iframe-container">
+                    <img [src]="edit_data.FilePath" width="100%">
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+  
+            <div class="container-fluid" style="    text-align: center;
+            height: 8vh;
+            border-top: 1px solid #80808036;">
+              <button type="submit" style="margin-top: 8px;color: white;
+        background: #1D4380;" class="btn " data-dismiss="modal">Update</button>
+            </div>
+  
+  
+          </div>
+        </div>
+  
+      </form>
+    </div>
+  </div>
+  <!-- ///////////////////////////////////////renew///////////////////////////////////////////////////////////////// -->
+  <div class="modal fade" id="RenewModel" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+    aria-hidden="true" aria-hidden="false" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-custom" role="document">
+      <form #Driverupload1="ngForm" (ngSubmit)="renewSubmit(Driverupload1,2);">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title title" id="uploadModalLabel">Renew Document</h5>
+            <!-- (click)="Driverupload1.resetForm()" -->
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- (ngSubmit)="uploaddriver_submit(Driverupload)" -->
+  
+          <div class="modal-body">
+  
+  
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <ng-container>
+                  <span class="filtor_name">Driver's Name</span>
+                </ng-container>
+                <!-- <ng-container *ngIf="select=='V'">
+                <span class="filtor_name">Vehicle Number</span>
+              </ng-container> -->
+                <input type="text" autocomplete="off" class="form-control cutombox" style="    background: white;"
+                  [value]="edit_data?.Driver" disabled>
+  
+  
+                <!-- <ng-select 
+                  name="Driver" 
+                  ngModel 
+                  #Driver="ngModel"
+                  required
+                  style="font-size: 14px; font-weight: 400;" 
+                  [closeOnSelect]="true"
+                  [ngClass]="{'is-invalid': (Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)}"
+                >
+                  <ng-option value="" selected>Select</ng-option>
+                  <ng-option  *ngFor="let item of Driver_list" value="{{item.id}}">{{item.name}}</ng-option>
+               
+                </ng-select> -->
+                <!-- <div *ngIf="(Driver.invalid && (Driver.touched || Driverupload.submitted)) || (!Driver.touched && Driverupload.submitted)" class="invalid-feedback">
+                  Please select a vehicle.
+                </div> -->
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <span class="filtor_name">Document Type</span>
+  
+                <input type="text" autocomplete="off" class="form-control cutombox" style="    background: white;"
+                  [value]="edit_data.DocumentTypeName" disabled>
+                <!-- <div *ngIf="(Documenttype.invalid && (Documenttype.touched || Driverupload.submitted)) || (!Documenttype.touched && Driverupload.submitted)" class="invalid-feedback">
+                  Please select a document type.
+                </div> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Document Number</span>
+                <!-- <input type="text" step="1"autocomplete="off" class="form-control" placeholder="Document Number" required name="documentNumber"
+                [ngModel]="edit_data?.doc_no"    #documentNumber="ngModel" [ngClass]="{'is-invalid': (documentNumber.invalid && (documentNumber.touched || Driverupload1.submitted))}"
+                > -->
+                <input type="text" step="1" autocomplete="off" class="form-control cutombox"
+                placeholder="Document Number" required name="documentNumber"
+                [(ngModel)]="edit_data.DocumentNo"
+                #documentNumber1="ngModel"
+                [ngClass]="{'is-invalid': (documentNumber1.invalid && (documentNumber1.touched || Driverupload1.submitted))}">
+         
+                <div *ngIf="(documentNumber1.invalid && (documentNumber1.touched || Driverupload1.submitted))"
+                  class="invalid-feedback">
+                  Document number is required.
+                </div>
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <span class="filtor_name">Issue Date</span>
+                <div class="input-group date" id="datepicker">
+                  <input type="date" id="Date-Issue" class="form-control cutombox" autocomplete="off"
+                  [(ngModel)]="edit_data.IssueDate"  required name="from_Date" #fromDate1="ngModel"
+                    [ngClass]="{'is-invalid': (fromDate1.invalid && (fromDate1.touched || Driverupload1.submitted))}">
+                  <!-- <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-calendar" style="color: black !important;"></i>
+                    </span>
+                  </div> -->
+                </div>
+                <!-- <div *ngIf="(fromDate1.invalid && (Issue_status))" class="invalid-feedback">
+                  Issue date is required.
+                </div> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Expiry Date</span>
+                <div class="input-group date" id="datepicker">
+                  <!--  (click)="Expiry()" -->
+                  <input type="date" id="Date-Expiry" class="form-control cutombox" autocomplete="off"
+                  [(ngModel)]="edit_data.ExpiryDate" required name="To_Date" #toDate1="ngModel"
+                    [ngClass]="{'is-invalid': (toDate1.invalid && (toDate1.touched || Driverupload1.submitted))}">
+                  <!-- <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-calendar" style="color: black !important;"></i>
+                    </span>
+                  </div> -->
+                </div>
+                <div *ngIf="(toDate1.invalid && (toDate1.touched || Driverupload1.submitted))" class="invalid-feedback">
+                  Expiry date is required.
+                </div>
+              </div>
+            </div>
+  
+            <div class="row mt-3">
+              <div class="col-lg-6">
+                <!-- ="edit_data?.file_path"  -->
+                <!-- <span class="filtor_name">Upload Document <a href="{{edit_data?.file_path}}">View</a></span> -->
+                <span class="filtor_name"> Upload Document <a style="cursor: pointer;"
+                    (click)="toggleIframe()">View</a></span>
+  
+                <input type="file" class="form-control cutombox" ngModel (change)="onFileChange_doc_edit($event)"
+                  name="uploadDocument" #uploadDocument1="ngModel" [value]="edit_data?.FilePath">
+                <!--[ngClass]="{'is-invalid': (uploadDocument1.invalid && (uploadDocument1.touched || Driverupload1.submitted))}"
+                <div *ngIf="(uploadDocument1.invalid && (uploadDocument1.touched || Driverupload1.submitted))" class="invalid-feedback">
+                  Please upload a document.
+                </div> -->
+              </div>
+  
+              <div class="col-lg-6">
+                <span class="filtor_name">Remark</span>
+                <input type="text" autocomplete="off" class="form-control cutombox" ngModel placeholder="Remark"
+                  name="remark" #remark="ngModel">
+                <!-- <div *ngIf="(remark.invalid && (remark.touched || Driverupload1.submitted))" class="invalid-feedback">
+                  Remark is required.
+                </div> -->
+              </div>
+              <div class="col-lg-6">
+                <div class="imagePreview">
+                  <div class="image-container" *ngIf="imageURL_edit">
+                    <img [src]="imageURL_edit" alt="Image Preview" />
+                    <!-- (click)="removeImage()" -->
+                    <button (click)="removeImage()"><i class="fa fa-close" style="font-size:24px;color:red"></i></button>
+  
+                  </div>
+                  <div *ngIf="showIframe" class="iframe-container">
+                    <img [src]="edit_data.FilePath" width="100%">
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+  
+            <div class="container-fluid" style="    text-align: center;
+          height: 8vh;
+          border-top: 1px solid #80808036;">
+              <button type="submit" style="margin-top: 8px;color: white;
+      background: #1D4380;" class="btn " data-dismiss="modal">Renew</button>
+            </div>
+  
+  
+          </div>
+        </div>
+  
+      </form>
+    </div>
+  </div>
+  <!-- ////////////////////////////////upload document1///////////////////////////////////////////////////////////////// -->
+  <div class="modal fade" id="uploadDoc1" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+  aria-hidden="true" aria-hidden="false" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-custom" role="document">
+   
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title title" id="uploadModalLabel">Document upload In Excel</h5>
+          <!-- <h5><a href="#" download>Download</a></h5> -->
+         
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+       
+  
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-10">
+              <input type="file" class="form-control cutombox" ngModel (change)="uploadBulk($event)"
+              name="uploadDocument">
+  
+            </div>
+            <div class="col-2">
+              <!-- <button type="button" style="color: white;background-color: #1D4380;"(click)="uploadBulkSubmit()">submit</button> -->
+            </div>
+          </div>
+       
+         
+        
+       <div> 
+       
+       </div>
+  
+        </div>
+      </div>
+  
+    
+  </div>
+  </div>
+  
+  <!-- //////////////////////////////////////////upload document -->
+  <div class="modal fade" id="uploadDoc" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+  aria-hidden="true" aria-hidden="false" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-custom" role="document">
+   
+      <div class="modal-content">
+        <div class="modal-header" style="gap: 40px;">
+          <h5 class="modal-title title" id="uploadModalLabel">Document upload In Excel</h5>
+          <h5>
+            <!-- <a href="assets/samplefile.xlsx" download="SampleFile.xlsx" style="color: #1D4380;">
+              <i class="fa-solid fa-download"></i>
+              
+            </a> -->
+          </h5>
+          <a  type="button" href="assets/samplefile.xlsx" download="SampleFile.xlsx" ngbTooltip="Download Sample File"
+           class="btn btn-sm" style="cursor: pointer;margin-left: 2px;background-color: white;position: relative;border: 1px solid #172028;box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;">
+          <div style="position: absolute;background: #1d4380;color: white;height: 100%;width: 30%;left: 0;text-align: 4;top: 0;display: flex;align-items: center;justify-content: center;"><i class="fa-solid fa-download" style="font-size: 13px;"></i></div>
+          <p style="margin: 0; color: #1d4380; padding-left: 25px; font-size: 13px;    font-weight: bold;">Download</p>
+        </a>
+          <!-- <h5><a href="#" download>Download</a></h5> -->
+         
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+       
+  
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-10">
+              <input type="file" class="form-control cutombox" ngModel (change)="uploadBulk($event)"
+              name="uploadDocument" #fileinput>
+  
+            </div>
+            <div class="col-2">
+              <button type="button" style="color: white;background-color: #1D4380;"(click)="uploadBulkSubmit(fileinput)">submit</button>
+            </div>
+          </div>
+       
+         
+        
+       <div> 
+       
+       </div>
+  
+        </div>
+      </div>
+  
+    
+  </div>
+  </div>
