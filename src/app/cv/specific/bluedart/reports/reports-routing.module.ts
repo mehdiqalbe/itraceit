@@ -8,7 +8,7 @@ import { VehicleUtilizationComponent } from './vehicle-utilization/vehicle-utili
 import { DataPushReportComponent } from './data-push-report/data-push-report.component';
 import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
 
-import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
+// import { SlotwiseDistanceReportComponent } from './slotwise-distance-report/slotwise-distance-report.component';
 
 const routes: Routes = 
   [{
