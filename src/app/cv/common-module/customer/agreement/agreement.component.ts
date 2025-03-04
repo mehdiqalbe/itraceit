@@ -68,13 +68,15 @@ GroupTypeId: any;
   ngOnInit(): void {
     
     this.token = localStorage.getItem('AccessToken')!;
+    this.filterDataagreementF();
+    this.transporterDataF()
     this.account_id = localStorage.getItem('AccountId')!;
     this.account_type = localStorage.getItem('AccountType')!;
     this.UserType = localStorage.getItem('UserType')!;
     // AccountId
     this.group_id = localStorage.getItem('GroupId')!;
     this.GroupTypeId = localStorage.getItem('GroupTypeId')!;
-    this.filterDataagreementF();
+   
   
     let App = document.querySelector('.app');
     App?.classList.add('sidenav-toggled');

@@ -75,6 +75,7 @@ GroupTypeId: any;
     this.group_id = localStorage.getItem('GroupId')!;
     this.GroupTypeId = localStorage.getItem('GroupTypeId')!;
     this.filterDataagreementF();
+    this.fetchCustomerAndVehicleData()
    
   }
 

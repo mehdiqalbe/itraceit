@@ -23,6 +23,9 @@ const routes: Routes = [{
     // {path:'vehicle-nearby',component:VehicleNearbyComponent},
     { path: 'Report', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },
       { path: 'TriggerSummary', component:TriggerSummaryComponent },
+      { path: 'Transporter', loadChildren: () => import('src/app/cv/common-module/transporter/transporter.module').then(m => m.TransporterModule) },
+      { path: 'Customer', loadChildren: () => import('src/app/cv/common-module/customer/customer.module').then(m => m.CustomerModule) },
+    
      // Feature rout
   ]
   }];

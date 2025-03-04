@@ -225,7 +225,7 @@ export class LoginPageComponent implements OnInit {
         if (resp.Status !== 'success') {
           alert(resp?.Message)
         } else {
-        // console.log(resp);
+        console.log(resp);
          this.accestoken= resp.Data.AccessToken;
           localStorage.setItem('Json', '1');      
           localStorage.setItem('AccessToken', resp.Data.AccessToken);
@@ -241,6 +241,7 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem('ThumbImage',resp.ThumbImage);
           localStorage.setItem('specific_permission',resp.specific_permission);
           localStorage.setItem('Class',resp.Data.Class);
+          localStorage.setItem('Routes',resp.Data.Routes);
           localStorage.setItem('AccessMenu', JSON.stringify(resp.AccessMenu));
           // localStorage.setItem('ActivePage', JSON.stringify(resp?.AccessMenu.ActivePage));
           
@@ -248,10 +249,10 @@ export class LoginPageComponent implements OnInit {
               // var full_menu =localStorage.getItem('AccessMenu')!;
               // console.log("full_menu",(JSON.parse(localStorage.getItem('AccessMenu')||'')).ActivePage[0].name,(JSON.parse(localStorage.getItem('AccessMenu')||'')).ActivePage);
           // Check if specific_permission have values ---
-         
+      
           $('#loginModal').modal('hide');
           this.router.navigate([`/cv/${resp.Data.Class}`]);
-        
+          console.log("path url",`/cv/${resp.Data.Class}`);
       //     if(resp.specific_permission){
       //       // Check if specific_trip have values 1 ---
       //       if(resp.specific_permission.specific_trip==1){

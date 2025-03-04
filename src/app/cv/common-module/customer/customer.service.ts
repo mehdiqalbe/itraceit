@@ -9,7 +9,7 @@ export class CustomerService {
 
     
    }
-    url:any='https://testapi.secutrak.in/dev-app-cv-ilgic/'
+    url:any='https://api-bde.secutrak.in/dev-app-cv-ilgic/'
     Durl:any='https://api-py.secutrak.in/api/'
    agreementDisplayS(val: any) {
     return this.http.post('https://api-py.secutrak.in/api/getagreementdata/', val);

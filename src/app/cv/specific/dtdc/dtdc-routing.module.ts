@@ -22,11 +22,13 @@ const routes: Routes = [{
     { path: 'map', component:MapComponent },
     { path: 'TriggerSummary', component:TriggerSummaryComponent },
     { path: 'Dashboard', component:TripDashboardComponent },
+
     
     
     { path: 'Report', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },
     { path: 'Manage', loadChildren: () => import('./manage/manage.module').then(m => m.ManageModule) },
     
+  { path: 'Transporter', loadChildren: () => import('src/app/cv/common-module/transporter/transporter.module').then(m => m.TransporterModule) },
      // Feature rout
   ]
   }];

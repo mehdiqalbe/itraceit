@@ -62,7 +62,7 @@
     </div>
   </div>
 
-<div class="container">
+<div class="" style="    padding: 16px 32px 0px 32px;">
     <div class="row">
       <div class="col">
         <form [formGroup]="AgreementForm" (ngSubmit)="submitForm(AgreementForm.value)">
@@ -484,9 +484,9 @@
 
               <!-- <button class="btn btn-sm btn-orange" type="button" style="color: white; margin-left: 2px;">Reset</button> -->
               <button class="btn btn-sm btn-orange" type="button"
-                style="color: white; margin-left: 2px;">Cancel</button>
+                style="color: white; margin-left: 2px; ">Cancel</button>
               <button class="btn btn-sm btn-orange" type="submit"
-                style="color: white; margin-left: 2px;">Submit</button>
+                style="color: white; margin-left: 2px; background-color: #1d4380 !important;">Submit</button>
             </div>
           </div>
         </form>
@@ -495,3 +495,340 @@
   </div>
 
 
+  <div class="modal fade" id="agreementView" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+  aria-hidden="true" aria-hidden="false" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-fullscreen" role="document">
+  
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabel">Agreement List</h5>
+        <!-- (click)="Driverupload1.resetForm()" -->
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- (ngSubmit)="uploaddriver_submit(Driverupload)" -->
+  
+      <div class="modal-body">
+        <div class="fiter col-md-10">
+          <p style="font-weight: 600;" class="mb-2">
+            <a data-bs-toggle="collapse" data-bs-target="#collapseExample" role="button" aria-expanded="false"
+              aria-controls="collapseExample" style="font-size: 16px">
+              <i class="fa fa-filter" aria-hidden="true"
+                style="font-size: 20px; color: #1D4380; ; margin-top: 8px"></i>FILTER
+            </a>
+          </p>
+          <div class="collapse" id="collapseExample">
+            <div>
+              <div class="card card-body pt-0" style="border: none; box-shadow: none; margin-bottom: 0px">
+                <form #agreementFilter="ngForm" (ngSubmit)="AgreementList(agreementFilter.value)">
+                  <div class="row col-12 ps-0">
+                    <div class="col-md-2">
+                      <label class="m-0" for="dateFrom">Date: From</label>
+                      <input id="dateFrom" type="date"  ngModel name="dateFrom" class="form-control"
+                        placeholder="Select Start Date"
+                       />
+                      <!-- <span style="font-size: 11px"
+                        *ngIf="filterForm.get('dateFrom')?.touched && filterForm.get('dateFrom')?.errors?.['required']"
+                        class="text-danger position-absolute text-sm-center">
+                        Select start date.
+                      </span> -->
+                    </div>
+                    <div class="col-md-2">
+                      <label class="m-0" for="dateTo">Date: To</label>
+                      <input id="dateTo" type="date" ngModel name="dateTo" class="form-control"
+                        placeholder="Select End Date" 
+                        
+                       />
+                      <!-- <span style="font-size: 11px"
+                        *ngIf="filterForm.get('dateTo')?.touched && filterForm.get('dateTo')?.errors?.['required']"
+                        class="text-danger position-absolute text-sm-center">
+                        Select end date.
+                      </span> -->
+                    </div>
+                    <div class="col-md-2">
+                      <label class="m-0" for="transporter">Agreement Type</label>
+                      <ng-select id="transporter"  ngModel name="Agreement" appearance="outline"
+                         placeholder="Select Customer" 
+                      >
+                      <ng-option [value]="item"
+                      *ngFor="let item of filterDataagreement.agreementtype">{{item.value}}</ng-option>
+                      </ng-select>
+                      
+                    </div>
+                    <div class="col-md-2">
+                      <label class="m-0" for="status">Client</label>
+                      <ng-select id="status" ngModel name="Client" appearance="outline" 
+                        placeholder="Select Status"
+                      >
+                      <ng-option [value]="item" *ngFor="let item of customers">{{item.value}}</ng-option>
+                       
+                      </ng-select>
+                      
+                    </div>
+                    <div class="col-md-2 text-end d-flex align-items-end">
+                      <button 
+                      
+                     type="submit" class="p-2 px-4 rounded-0 btn-orange shadow-none">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- </ng-container> -->
+            <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+          </div>
+        </div>
+  
+        <div class="info">
+          <table class="display nowrap  table " cellspacing="0" id="Agreementtable">
+            <thead>
+              <tr style="text-align: center;">
+                <th class="table-primary">Sl.</th>
+                <th class="table-primary">Status</th>
+                <th class="table-primary">Agreement Code
+                </th>
+                <th class="table-primary">Agreement Date
+                </th>
+                <th class="table-primary">No. Of Vehicle
+                </th>
+                <!-- <th class="table-primary">Upload Agreement
+                </th> -->
+                <th class="table-primary">Vehicle Type
+                </th>
+                <th class="table-primary">Vehicle Capacity
+                </th>
+                <th class="table-primary">Trip Type
+                </th>
+                <th class="table-primary">Toll Tax
+  
+                </th>
+                
+                <th class="table-primary">From Date 
+  
+                </th>
+                <th class="table-primary">To Date 
+  
+                </th>
+                <th class="table-primary">Night Charge
+  
+                </th>
+                <th class="table-primary">Night Start Hours
+  
+                </th>
+                <th class="table-primary">Night End Hours
+  
+  
+                </th>
+                
+                <th class="table-primary">Minimum Monthly Cost
+  
+  
+                </th>
+                <th class="table-primary">Fixed Charges
+  
+  
+                </th>
+                <th class="table-primary">Tentative Distance (Km)
+  
+                </th>
+                <th class="table-primary">Unit Cost
+                </th>
+                <th class="table-primary">Minimum Unit
+  
+                </th>
+                <th class="table-primary">Minimum Daily Distance(Km)
+  
+  
+                </th>
+                <th class="table-primary">Minimum Daily Duration(Hrs)
+  
+  
+                </th>
+               <th class="table-primary">Distance Cost
+  
+  
+                </th>
+                <th class="table-primary">Hourly Cost
+  
+  
+  
+                </th>
+                <th class="table-primary">Tentative Durations (Hrs.)
+  
+  
+  
+                </th>
+                <th class="table-primary">View
+  
+  
+  
+                </th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of AgreementData;let ind=index">
+                    <td>
+                      {{ind+1}}
+                    </td>
+                    <td>
+                      {{item.status}}
+                    </td>
+                    <td>
+                      {{item.agreeemnt_code}}
+                    </td>
+                    <td>
+                      {{item.agreement_date}}
+                    </td>
+                    <td>
+                      {{item.number_of_vehicles}}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.vehicle_type
+                      }}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.vehicle_capacity
+                      }}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.agreement_type
+                      }}
+                    </td>
+                   
+                   
+                    <td>
+                      {{item?.agreementDetails[0]?.toll_tax
+                      }}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.from_time
+                      }}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.to_time
+                      }}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.Night_Charges
+                      }}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.Night_Time_from
+                      }}
+                    </td>
+                    <td>
+                      {{item?.agreementDetails[0]?.Night_Time_to
+                      }}
+                    </td>
+                    <td>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==1">
+                        {{item?.agreementDetails[0]?.trip_based?.tMinimumMonthlyCost
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==2">
+                        {{item?.agreementDetails[0]?.distance_based?.dMinimumMonthlyCost
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==3">
+                        {{item?.agreementDetails[0]?.hourly_based?.hMinimumMonthlyCost
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==4">
+                        {{item?.agreementDetails[0]?.distance_hourly_based
+                          ?.dhMinimumMonthlyCost
+  
+                        }}
+                      </ng-container>
+                     
+                    </td>
+                    <td>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==1">
+                        {{item?.agreementDetails[0]?.trip_based?.TFixedCharges
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==2">
+                        {{item?.agreementDetails[0]?.distance_based?.dhFixedCharges
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==3">
+                        {{item?.agreementDetails[0]?.hourly_based?.hFixedCharges
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==4">
+                        {{item?.agreementDetails[0]?.distance_hourly_based
+                          ?.dhFixedCharges
+  
+                        }}
+                      </ng-container>
+                    </td>
+                    <td>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==1">
+                        {{item?.agreementDetails[0]?.trip_based?.TTentativeDistance
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==2">
+                        {{item?.agreementDetails[0]?.distance_based?.dTentativeDistance
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==3">
+                        {{item?.agreementDetails[0]?.hourly_based?.hTentativeDistance
+  
+                        }}
+                      </ng-container>
+                      <ng-container *ngIf="item?.agreementDetails[0]?.agreement_type_id==4">
+                        {{item?.agreementDetails[0]?.distance_hourly_based
+                          ?.dhTentativeDistance
+  
+                        }}
+                      </ng-container>
+                    </td>
+                    <td>  {{item?.agreementDetails[0]?.trip_based?.ttripcost}}
+                    </td>
+                    <td>  {{item?.agreementDetails[0]?.distance_based?.DMinimumDistance}}
+                    </td>
+                    <td>  {{item?.agreementDetails[0]?.distance_hourly_based?.dhMinimumDailyDistance}}
+                      
+                    </td>
+                    <td>  {{item?.agreementDetails[0]?.hourly_based?.hMinimumDuration}}
+                    </td>
+                    <td>  {{item?.agreementDetails[0]?.distance_based
+                      ?.DMinimumDistance}}
+                    </td>
+                    <td>  {{item?.agreementDetails[0]?.hourly_based?.hHourlyCost}}
+                    </td>
+                    <td>  {{item?.agreementDetails[0]?.distance_hourly_based
+                      ?.dhTentativeDurations}}
+                    </td>
+                   
+                    <td>
+                      <button type="button" (click)="viewF(item)" style="color: white;margin-left: 2px; background-color: #1D4380;">
+                        view  </button>
+                    </td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+  
+  
+  
+      </div>
+  
+    </div>
+  
+  
+  
+  
+  </div>
+  
+  </div>

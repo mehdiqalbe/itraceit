@@ -24,12 +24,14 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { AgreementComponent } from './agreement/agreement.component';
 import { DocumentWalletComponent } from './document-wallet/document-wallet.component';
+import { TMSComponent } from './tms/tms.component';
 
 
 @NgModule({
   declarations: [
     AgreementComponent,
-    DocumentWalletComponent
+    DocumentWalletComponent,
+    TMSComponent
   ],
   imports: [
     CommonModule,

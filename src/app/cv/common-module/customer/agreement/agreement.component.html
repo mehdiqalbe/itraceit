@@ -63,7 +63,7 @@
   </div>
 
 
-<div class="container">
+<div class="" style="    padding: 16px 32px 0px 32px;"> 
     <div class="row">
       <div class="col">
         <form
@@ -763,16 +763,16 @@
             <div style="text-align: right">
               <!-- <button class="btn btn-sm btn-orange" type="button" style="color: white; margin-left: 2px;">Reset</button> -->
               <button
-                class="btn btn-sm btn-orange"
+                class="btn btn-sm btn-outline"
                 type="button"
-                style="color: white; margin-left: 2px"
+                style="color: white; margin-left: 2px;background-color: gray;"
               >
                 Cancel
               </button>
               <button
-                class="btn btn-sm btn-orange"
+                class="btn btn-sm btn-outline"
                 type="submit"
-                style="color: white; margin-left: 2px"
+                style="color: white; margin-left: 2px; background-color: #1d4380 !important;"
               >
                 Submit
               </button>
@@ -834,7 +834,7 @@ data-bs-keyboard="false"
             <div
               class="card card-body pt-0"
               style="border: none; box-shadow: none; margin-bottom: 0px"
-            >
+            *ngIf="filterDataagreement">
               <form
                 #agreementFilter="ngForm"
                 (ngSubmit)="AgreementList(agreementFilter.value)"
@@ -877,8 +877,7 @@ data-bs-keyboard="false"
                       >Agreement Type</label
                     >
                     <ng-select id="transporter" ngModel name="Agreement">
-                      <ng-option
-                        [value]="item"
+                      <ng-option [value]="item"
                         *ngFor="let item of filterDataagreement.agreementtype"
                         >{{ item.value }}</ng-option
                       >

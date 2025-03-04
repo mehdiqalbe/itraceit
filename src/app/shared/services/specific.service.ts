@@ -296,19 +296,40 @@ export class SpecificService implements OnDestroy {
  ],
   }
 
+  // private generateDashboardItems(pages: { name: string; title: string }[] = []): Menu[] {
+  //    if (!pages || !Array.isArray(pages)) {
+  //      console.error("dashboardPages is undefined or not an array!");
+  //      return []; // Return an empty array to prevent errors
+  //    }
+  //    return pages.map(page => ({
+  //     // path: `/cv/specific/${localStorage.getItem('Class')?.split('/')[1]}/${page.name}`,
+  //       // path: `/cv/specific/${localStorage.getItem('Class')?.split('/')[1]}/${localStorage.getItem('Routes') === "Transporter" ? 'Transporter/' : ''}${page.name}`,
+  //       path: `/cv/specific/${localStorage.getItem('Class')?.split('/')[1]}/${page.name}`,
+  //      title: page.title,
+  //      type: 'link',
+  //      active: false 
+  //    }));
+  //  }
   private generateDashboardItems(pages: { name: string; title: string }[] = []): Menu[] {
-     if (!pages || !Array.isArray(pages)) {
-       console.error("dashboardPages is undefined or not an array!");
-       return []; // Return an empty array to prevent errors
-     }
-     return pages.map(page => ({path: `/cv/specific/${localStorage.getItem('Class')?.split('/')[1]}/${page.name}`,
-
-       title: page.title,
-       type: 'link',
-       active: false
-     }));
-   }
-   
+    if (!pages || !Array.isArray(pages)) {
+      console.error("dashboardPages is undefined or not an array!");
+      return []; // Return an empty array to prevent errors
+    }
+  
+    const classValue = localStorage.getItem('Class')?.split('/')[1] || ''; // Extract class value
+    const excludeTitles = ["Billing", "TMS Dashboard","Consolidated Dashboard"]; // Titles to exclude
+  
+    return pages
+      .filter(page => !excludeTitles.includes(page.title)) // Remove unwanted titles
+      .map(page => ({
+             path: `/cv/specific/${localStorage.getItem('Class')?.split('/')[1]}/${page.name}`,
+        // path: `/cv/specific/${classValue}/${classValue === 'Transporter' || classValue === 'Customer' ? `${classValue}/` : ''}${page.name}`,
+        title: page.title,
+        type: 'link',
+        active: false 
+      }));
+  }
+  
    // Function to dynamically generate report menu items or remove the section if empty
    private generateReportSection(pages: { name: string; title: string }[]): Menu[] {
      console.log("MENUITEM",this.MENUITEM)

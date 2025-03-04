@@ -4,13 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AgreementComponent } from './agreement/agreement.component';
 import {DocumentWalletComponent } from './document-wallet/document-wallet.component'
-
+import { TMSComponent } from './tms/tms.component';
 const routes: Routes = [
-
-    
     { path: '', redirectTo: 'HomeDashboard', pathMatch: 'full' }, // Default route
     { path: 'Agreement', component:AgreementComponent},
-    { path: 'Document-Wallet', component:DocumentWalletComponent},
+    { path: 'DocumentWallet', component:DocumentWalletComponent},
+    { path: 'TMSDashboard', component:TMSComponent},
 ];
 
 @NgModule({
