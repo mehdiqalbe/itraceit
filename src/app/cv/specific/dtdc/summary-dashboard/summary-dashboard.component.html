@@ -136,6 +136,7 @@
               <!-- <ng-select placeholder="Select" ngModel name="Region">
                 <ng-option value="" selected>Select</ng-option>
                 <ng-option *ngFor="let item of Region | keyvalue"
+                <ng-option *ngFor="let item of Region | keyvalue"
                   [value]="item.value">{{item.value}}</ng-option>
               </ng-select> -->
               <ng-select placeholder="Select" ngModel name="Region"   [multiple]="true"
@@ -148,7 +149,9 @@
             <div class="col-lg-2 col-md-4 col-sm-6 ">
               <label for="Origin" class="form-label">Origin</label>
               <!-- <ng-select placeholder="Select" ngModel name="Origin">
+              <!-- <ng-select placeholder="Select" ngModel name="Origin">
                 <ng-option value="" selected>Select</ng-option>
+                <ng-option *ngFor="let item of Customer | keyvalue"
                 <ng-option *ngFor="let item of Customer | keyvalue"
                   [value]="item.key">{{item.value}}</ng-option>
               </ng-select> -->
@@ -169,7 +172,20 @@
               <!-- <ng-select placeholder="Select" ngModel name="Destination">   (clear)="onClear1()"
                 <ng-option value="" selected>Select</ng-option>
                 <ng-option *ngFor="let item of Destination | keyvalue"
+                <ng-option *ngFor="let item of Destination | keyvalue"
                   [value]="item.value">{{item.value}}</ng-option>
+              </ng-select> -->
+              <ng-select 
+              placeholder="Select Destination" 
+              [items]="filteredDestination" 
+              bindLabel="value" 
+              bindValue="key" 
+              [(ngModel)]="selectedDestination" 
+              [typeahead]="searchTerm" 
+              (search)="onSearch($event)"
+              name="Destination">
+            </ng-select>
+            
               </ng-select> -->
               <ng-select 
               placeholder="Select Destination" 
