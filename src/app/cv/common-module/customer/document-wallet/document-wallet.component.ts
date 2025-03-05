@@ -1081,7 +1081,7 @@ uploaddriver_submit(eve:any){
   console.log(value);
 
   var formdataCustomer = new FormData()
-            formdataCustomer.append('AccessToken', this.token)
+            formdataCustomer.append('AccessToken', this.token);
             // formdataCustomer.append('GroupId', '5674');
          
             formdataCustomer.append('DocumentId',value.DocumentId);

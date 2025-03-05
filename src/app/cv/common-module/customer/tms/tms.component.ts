@@ -209,8 +209,8 @@ quoteEndDate:any
     this.initForms();
     this.initSidebar();
     this.fetchTransporters();
-    this.filterDataagreementF();
-    this.transporterDataF();
+    // this.filterDataagreementF();
+    // this.transporterDataF();
     this.getQTransporterList();
     const state = window.history.state;
     if (state?.tab === 'driver') {

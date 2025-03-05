@@ -8,12 +8,13 @@ import { MapComponent } from './map/map.component';
 // import { VehicleNearbyComponent } from '../../common-module/vehicle-nearby/vehicle-nearby.component';
 import { TriggerSummaryComponent } from './trigger-summary/trigger-summary.component';
 import { TripDashboardComponent } from './trip-dashboard/trip-dashboard.component';
-
+import { HomeComponent} from 'src/app/cv/common-module/home/home.component';
 const routes: Routes = [{
   path: '',
   children: [
 
     { path: '', redirectTo: (JSON.parse(localStorage.getItem('AccessMenu')||'')).ActivePage[0].name, pathMatch: 'full' }, // Default route
+    { path: 'Home', component: HomeComponent },
     { path: 'Trip-Dashboard', component: DashboardComponent },
     { path: 'Irun-Dashboard', component:IrunDashboardComponent },
     { path: 'Delay-Dashboard', component:DelayDashboardComponent },

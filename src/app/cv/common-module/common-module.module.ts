@@ -14,7 +14,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-// import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './home/home.component';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartsModule } from 'ng2-charts';
@@ -22,15 +22,16 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { ChartistModule } from 'ng-chartist';
 // import { DatePipe } from '@angular/common';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
-// import { LivePageComponent } from './live-page/live-page.component';
+import { LivePageComponent } from './live-page/live-page.component';
 // import { AgreementComponent } from './agreement/agreement.component';
 
 @NgModule({
   declarations: [
-    // VehicleNearbyComponent,
-    // HomeComponent,
-    // LivePageComponent,
+    // VehicleNearbyComponent, 
+    HomeComponent,
+    LivePageComponent,
     // AgreementComponent,
+    // imports: [CommonModule, RouterModule.forChild([{ path: '', component: HomeComponent }])]
   ],
   imports: [
     NgxEchartsModule,

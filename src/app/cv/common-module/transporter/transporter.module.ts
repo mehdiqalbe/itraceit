@@ -26,13 +26,15 @@ import { TransporterRoutingModule } from './transporter-routing.module';
 import { AgreementComponent } from './agreement/agreement.component';
 import { DocumentWalletComponent } from './document-wallet/document-wallet.component';
 import { TMSComponent } from './tms/tms.component';
+import { BillingComponent } from './billing/billing.component';
 
 
 @NgModule({
   declarations: [
     AgreementComponent,
     DocumentWalletComponent,
-    TMSComponent
+    TMSComponent,
+    BillingComponent
   ],
   imports: [
     CommonModule,
@@ -63,7 +65,6 @@ import { TMSComponent } from './tms/tms.component';
     NgxMaterialTimepickerModule,
     NgxDaterangepickerMd,
     ColorPickerModule,
-    NgxSpinnerModule,
     NgxDatatableModule,
     NgSelectModule,
     CanvasJSAngularChartsModule,

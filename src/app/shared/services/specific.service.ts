@@ -323,7 +323,7 @@ export class SpecificService implements OnDestroy {
     }
   
     const classValue = localStorage.getItem('Class')?.split('/')[1] || ''; // Extract class value
-    const excludeTitles = ["Billing", "TMS Dashboard","Consolidated Dashboard"]; // Titles to exclude
+    const excludeTitles = ["Billing","Consolidated Dashboard"]; // Titles to exclude
   
     return pages
       .filter(page => !excludeTitles.includes(page.title)) // Remove unwanted titles

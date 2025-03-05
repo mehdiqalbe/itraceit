@@ -4,7 +4,7 @@ import { AuthGuard } from 'src/app/shared/services/auth.guard';
 
 const routes: Routes = [
   { path: 'bluedart', loadChildren: () => import('./bluedart/bluedart.module').then(m => m.BluedartModule) },
-  // { path: 'dtdc', loadChildren: () => import('./dtdc/dtdc.module').then(m => m.DtdcModule) },
+  { path: 'dtdc', loadChildren: () => import('./dtdc/dtdc.module').then(m => m.DtdcModule) },
   // { path: '', redirectTo: 'bluedart', pathMatch: 'full' }
 ];
 

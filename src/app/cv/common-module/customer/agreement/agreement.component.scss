@@ -731,7 +731,26 @@ border-bottom: 2px solid #eef0f3;
     padding-top: 0px
 }
 ::ng-deep {
+    // .ng-select.ng-select-single .ng-select-container {
+    //     height: 34.3px !important;
+    // }
+    .modal-fullscreen .modal-content {
+        height: 100%;
+        width: 95%;
+        left: 44px;
+        border: 0;
+        border-radius: 0;
+    }
     .ng-select.ng-select-single .ng-select-container {
-        height: 34.3px !important;
+        height: 37.3px !important;
+        border-radius: 0px !important;
+    }
+    .ng-select{
+        color: white;
+        background-color: #fff;
+        border-radius: 0px !important;
+        /* border: 1px solid #1c84c6; */
+        min-height: 36px;
+        align-items: center;
     }
 }

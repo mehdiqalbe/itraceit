@@ -98,13 +98,13 @@
                                 <input type="date" class="form-control"
                                     [disabled]="!Table1Form.controls['report'].value" [ngModel]="datetimepicker"
                                     required name="to_time"  (change)="changeenddate($event)"/>
-                             </div>
+                            </div>
                             <div class="col-md-2 col-lg-2">
                                 <input type="text" class="form-control"
                                      id="datepicker1" [disabled]="!Table1Form.controls['report'].value"
                                  placeholder="Select Exclusion Date"   required name="to_time"(click)="startDate()"   autocomplete="off" />
                             </div>
-                            <div class="col-md-2 col-lg-2"> 
+                            <div class="col-md-2 col-lg-2">
 
                                 <ng-select name="Region" placeholder="Region" ngModel  [multiple]="true" [maxSelectedItems]="3"  (click)="validateRegion()"
                                 (change)="onRegionChange($event)"  style="font-weight: bolder;" [disabled]="!Table1Form.controls['report'].value" required>
@@ -132,7 +132,15 @@
                                 </ng-select>
 
                             </div>
+                            
+
+
+
+                          
+
+
                         </div>
+
                         <div class="row" style="padding:  5px 10px 15px 10px">
                             <div class="col-md-2 col-lg-2">
                                 <ng-select name="Area" placeholder="Area" ngModel [multiple]="true"

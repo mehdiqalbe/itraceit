@@ -3870,18 +3870,7 @@ overflow: auto;">
 
 <div *ngIf="show_options" (clickOutside)="onClickedOutside($event)">
 	<div class="input_latlng_location1">
-		<!-- <tr>
-			<td><a (click)="multioption(1)">Reminder</a></td>
-			<td><span class="length-ali">{{Reminder_list.length}}</span></td>
-		</tr>
-		<tr>
-			<td><a (click)="multioption(2)">Document Wallet</a></td>
-			<td><span class="length-ali">0</span></td>
-		</tr>
-		<tr>
-			<td><a (click)="multioption(3)">Trip</a></td>
-			<td><span class="length-ali">0</span></td>
-		</tr> -->
+		
 		<ul style="margin-bottom: 1px !important;">
 			<ng-container *ngIf="groupId !=='0068'">
 
@@ -3891,11 +3880,7 @@ overflow: auto;">
 						style="padding-left: 92px;">{{Expence_list.length}}</span></li>
 				<li class="reminder_c" (click)="multioption(3)" id="a3"><a>Trip</a></li>
 			</ng-container>
-			<!--  -->
-			<!--  -->
-			<!-- <ng-container *ngIf="groupId =='0068'">
-			<li class="reminder_c" (click)="multioption(3)" id="a3" (mouseover)="bigImg(this)"><a>Trip</a></li>
-			</ng-container> -->
+		
 			<li class="reminder_c" (click)="multioption(1)" id="list1" (mouseout)="normalImg(this)"><a>Reminder</a><span
 					class="length-ali" style="padding-left:82px">{{Reminder_list.length}}</span></li>
 			<li class="reminder_c" (click)="multioption(5)" id="list5" (mouseout)="normalImg(this)">
@@ -4032,14 +4017,6 @@ overflow: auto;">
 								</option>
 								<!-- <option value="2">Female</option> -->
 							</select>
-							<!-- <ng-select [items]="Landmark_converted" bindLabel="title" formControlName="Type"
-										bindvalue="id" groupBy="countryNames" [multiple]="false" class="select2"
-										[ngClass]="{'input-error':submite &&  Landmark.controls.Type.status=='INVALID'}">
-										<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
-										<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
-									</ng-select> -->
-							<!-- <input type="text" formControlName="Type" (change)="changeType($event)"
-							[ngClass]="{'input-error':submite && Landmark.controls.Type.status=='INVALID'}"> </td> -->
 					</tr>
 					<tr>
 						<td style=" font-weight: 500;">Zoom Level</td>
@@ -4222,14 +4199,7 @@ overflow: auto;">
 								<td (click)="chan()">
 									<input name="data[PolylineCluster][stoppage_time]" class="form-control timepicker"
 										placeholder="HH:MM" maxlength="11" type="text">
-									<!-- <input type="text" formControlName="StoppageTime"> -->
-									<!-- <ng-select [items]="select2Countries" bindLabel="title"
-											[ngClass]="{'input-error':submite && segments.controls.StoppageTime.status=='INVALID'}"
-											formControlName="StoppageTime" bindvalue="id" groupBy="countryNames"
-											[multiple]="false" class="select2">
-											<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
-											<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
-										</ng-select> -->
+								
 								</td>
 							</tr>
 							<tr>
@@ -4241,13 +4211,7 @@ overflow: auto;">
 									<input type="text" name="data[PolylineCluster][stoppage_time]"
 										class="form-control timepicker1" placeholder="HH:MM" maxlength="11"
 										(click)="chan()">
-									<!-- <ng-select [items]="select2Countries2" formControlName="TimeTaken"
-											bindLabel="title"
-											[ngClass]="{'input-error':submite && segments.controls.TimeTaken.status=='INVALID'}"
-											bindvalue="id" groupBy="countryNames" [multiple]="false" class="select2">
-											<ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
-											<ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
-										</ng-select> -->
+								
 								</td>
 							</tr>
 
@@ -4446,16 +4410,7 @@ overflow: auto;">
 							<!-- <input type="text" formControlName="RouteId" (change)="changeName1($event)"> -->
 						</td>
 					</tr>
-					<!-- <tr>
-						<td>UnionSegmentId</td>
-						<td>
-							<ng-select [items]="select2Countries1" bindLabel="title" formControlName="UnionSegmentId"bindvalue="id" groupBy="countryNames"
-                                [multiple]="false">
-                              <ng-template ng-optgroup-tmp let-item="item">{{item.title}}</ng-template>
-                              <ng-template ng-option-tmp let-item="item">{{item.title}}</ng-template>
-                            </ng-select>
-						</td>
-					</tr> -->
+					
 					<tr>
 						<td>code</td>
 						<td>
@@ -7909,27 +7864,6 @@ overflow: auto;">
 								type="text" id="addFormInputMobile" />
 						</div>
 					</div>
-					<!-- <div class="col-sm-12">
-						<div class="form-group formgroup-si"><label for="addFormInputStateId">Zoom Level</label>
-							<ng-select name="data[addFormInput][state_id]" formControlName="Zoom"
-								[ngClass]="{'input-error':submite && Landmark.controls.Zoom.status=='INVALID'}"
-								id="addFormInputStateId">
-								<ng-option *ngFor="let state of Zoom_level" [value]="state.id">{{state.id}}</ng-option>
-
-							</ng-select>
-						</div>
-					</div> -->
-					<!-- <div class="col-sm-12">
-						<div class="form-group formgroup-si"><label for="addFormInputStateId">Distance Variable</label>
-							<ng-select name="data[addFormInput][state_id]" formControlName="Distance"
-								[ngClass]="{'input-error':submite && Landmark.controls.Distance.status=='INVALID'}"
-								style="height: 32px;" class="  states" required="required" id="addFormInputStateId">
-								<ng-option *ngFor="let state of Distance_variable"
-									[value]="state.id">{{state.id}}</ng-option>
-								<ng-option  value="2">No</ng-option>
-							</ng-select>
-						</div>
-					</div> -->
 					<div class="col-sm-12">
 						<div class="form-group formgroup-si"><label for="addFormInputAlternateMobile">
 								Co-ordinates</label>
