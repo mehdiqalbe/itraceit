@@ -1,0 +1,172 @@
+<p>billing works!</p>
+
+ <!-- Header Start -->
+ <div class="card" style="background:transparent;border:none;margin-bottom: 4px;">
+    <div class="card-body innerdiv p-0">
+      <!-- headerstart here -->
+      <div class="hor-header">
+        <div style="overflow: hidden;">
+          <div class="d-flex align-items-left ">
+            <div style="width:fit-content" class=" my-2 d-flex">
+              <!-- <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button> -->
+            </div>
+           
+            <div
+            class="w-100"
+            style="
+              font-weight: 600;
+              font-size: small;
+              text-align: left;
+             
+            "
+          >
+          <div  class="order-header d-flex py-2 justify-content-between align-items-center" >
+            <div class="ps-2">
+              <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+                Billing</h3>
+              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / <span style="cursor: pointer;">Billing  <i class="fa fa-refresh ms-2"
+                style="font-size: 12px;color: green" id="blink"></i></span>
+               </h5>
+            </div>
+     
+  
+          
+            <div class="d-flex align-items-center">
+              <img style="height: 100%;height: 76px;position: absolute;z-index: 44;right: 12px;" src="assets/img/logo.png" class="header-logo"  alt="">
+            </div>
+      
+            
+         
+          </div>
+          
+          </div>
+   
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- HEADER END -->
+  <div class="container-fluid specificDashboard">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div style="border-bottom:1.5px solid #9ba9b591;margin-bottom:12px;" class="headerIcon justify-content-between pe-4 d-flex align-items-center">
+          <div>
+            <p style="color: 1D4380; font-weight: 600;margin-bottom: 4px;">
+              <a
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                style="font-size: 16px"
+              >
+                <i
+                  class="fa fa-filter"
+                  aria-hidden="true"
+                  style="
+                    font-size: 20px;
+                    color: #1d4380;
+                    margin-top: 8px;
+                  "
+                ></i
+                >FILTER
+              </a>
+            </p>
+          </div>
+         
+        
+        </div>
+        <div class="container-flex" >
+          <ngx-spinner name="tableSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+            <p style="color: black">Please Wait.. </p>
+          </ngx-spinner>
+          <div class="col-lg-12">
+            <div class="row">
+           
+              <div class="col-lg-12 px-0">
+                 <!-- Filter----------------------------------------------- -->
+                <div class="fiter">
+            
+                  <div class="collapse" id="collapseExample">
+                    <div
+                      class="card card-body px-0 pb-0 mb-0"
+                      style="border: none; box-shadow: none"
+                    >
+             
+                    </div>
+                  </div>
+               
+                </div>
+           
+              </div>
+        
+            </div>
+  
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="info col-lg-12 overflow-scroll">
+        <table class="table"  cellspacing="0" id="masterUpload">
+
+  
+        </table>
+      </div>
+  
+      </div>
+    </div>
+  
+  
+  
+    <!-- /////////////////////////////////////////Link Popup/////////////////////////////////////////////////// -->
+    <div class="modal fade " id="linkModal" tabindex="-1" aria-labelledby="linkModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style=" max-width:600px;">
+     
+          <!--   -->
+          <div class="modal-content" style="width: 1200px !important;">
+            <ngx-spinner name="linkSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "ball-scale-ripple" [fullScreen] = "false"><p style="color: white" > Loading... </p>
+            </ngx-spinner>
+          <div class="modal-header">
+            <h4 style="color: #1D4380;font-weight: 500;" class="modal-title" id="uploadDocumentModalLabel">Tracking Link</h4>
+            <!-- <button (click)="closeLinkModal()" style="width: 4px;height: 4px;" type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+    
+          <div class="modal-body" style="width:600px">
+            <!-- <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div> -->
+   
+          </div>
+    
+          <!-- <div class="modal-footer justify-content-center col-lg-6 mx-auto"> -->
+              <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
+            <!-- <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button> -->
+          <!-- </div> -->
+    
+        </div>
+      </div>
+    </div>
+    <!-- ///////////////////////////////////////////////////////////////////map pop///////////////////////// -->
+  
+
+  
+  
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered m-auto" style="width:900px; max-width:1300px;position: relative;">
+         <div class="modal-content m-auto" style="height:600px; width: 80% !important;">
+          <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+              uploading... </p></ngx-spinner>
+          <div class="modal-header py-1" style="background:#0e213ff2">
+            <h5 class="modal-title" id="mapModalLabel" style="color:white;">Tracking</h5>
+            <button type="button" class="" data-bs-dismiss="modal" aria-label="Close">
+              <i style="font-size: 24px;color:white" class="fa fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body py-0" >
+            <div id="map1" style="width: 100%; height: 100%;" ></div>
+          </div>
+          <div class="modal-drag-bottom py-1" style="background:white; cursor: move; height: 10px;"></div>
+        </div>
+      </div>
+    </div>
+  
+  

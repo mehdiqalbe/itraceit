@@ -3,14 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 // import { AgreementComponent } from 'src/app/components/up-fci/agreement/agreement.component';
 
 import { AgreementComponent } from './agreement/agreement.component';
-import {DocumentWalletComponent } from './document-wallet/document-wallet.component'
 
 const routes: Routes = [
 
     
     { path: '', redirectTo: 'HomeDashboard', pathMatch: 'full' }, // Default route
     { path: 'Agreement', component:AgreementComponent},
-    { path: 'Document-Wallet', component:DocumentWalletComponent},
+    // { path: 'Document-Wallet', component:DocumentWalletComponent},
 ];
 
 @NgModule({

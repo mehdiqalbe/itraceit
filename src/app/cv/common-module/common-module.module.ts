@@ -22,6 +22,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { ChartistModule } from 'ng-chartist';
 // import { DatePipe } from '@angular/common';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { VehicleNearbyComponent } from './vehicle-nearby/vehicle-nearby.component';
+import { TransporterModule } from './transporter/transporter.module';
 // import { LivePageComponent } from './live-page/live-page.component';
 // import { AgreementComponent } from './agreement/agreement.component';
 
@@ -31,6 +33,7 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     // HomeComponent,
     // LivePageComponent,
     // AgreementComponent,
+    VehicleNearbyComponent
   ],
   imports: [
     NgxEchartsModule,

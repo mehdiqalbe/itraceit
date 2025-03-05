@@ -23,13 +23,16 @@ import { ChartistModule } from 'ng-chartist';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { AgreementComponent } from './agreement/agreement.component';
-import { DocumentWalletComponent } from './document-wallet/document-wallet.component';
+import { BillingComponent } from './billing/billing.component';
+// import { DocumentWalletComponent } from '../transporter/document-wallet/document-wallet.component';
+// import { DocumentWalletComponent } from './document-wallet/document-wallet.component';
 
 
 @NgModule({
   declarations: [
     AgreementComponent,
-    DocumentWalletComponent
+    BillingComponent,
+    // DocumentWalletComponent
   ],
   imports: [
     CommonModule,

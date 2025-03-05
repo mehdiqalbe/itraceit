@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { VehicleNearbyComponent } from './vehicle-nearby/vehicle-nearby.component';
@@ -25,12 +26,15 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { TransporterRoutingModule } from './transporter-routing.module';
 import { AgreementComponent } from './agreement/agreement.component';
 import { DocumentWalletComponent } from './document-wallet/document-wallet.component';
-
+// import { TMSComponent } from './tms/tms.component';
+import { BillingComponent } from './billing/billing.component';
 
 @NgModule({
   declarations: [
     AgreementComponent,
-    DocumentWalletComponent
+    DocumentWalletComponent,
+    BillingComponent
+
   ],
   imports: [
     CommonModule,
@@ -61,7 +65,6 @@ import { DocumentWalletComponent } from './document-wallet/document-wallet.compo
     NgxMaterialTimepickerModule,
     NgxDaterangepickerMd,
     ColorPickerModule,
-    NgxSpinnerModule,
     NgxDatatableModule,
     NgSelectModule,
     CanvasJSAngularChartsModule,
@@ -71,5 +74,6 @@ import { DocumentWalletComponent } from './document-wallet/document-wallet.compo
     NgApexchartsModule,
     ChartsModule,
   ]
+
 })
 export class TransporterModule { }

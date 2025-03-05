@@ -1,0 +1,794 @@
+<!-- Header Start -->
+<div class="card mb-0" style="border:none">
+    <div class="card-body innerdiv p-0">
+      <!-- headerstart here -->
+      <div class="hor-header">
+        <div style="overflow: hidden;">
+          <div class="d-flex align-items-left ">
+            <div style="width:fit-content" class=" my-2 d-flex">
+              <button class="app-sidebar__toggle ms-1 " (click)="sidebarToggle()"></button>
+            </div>
+           
+            <div
+            class="w-100 pe-3"
+            style="
+              font-weight: 600;
+              font-size: small;
+              text-align: left;
+             
+            "
+          >
+          <div  class="order-header d-flex justify-content-between py-2" >
+            <div class="d-flex flex-column">
+              <h3 style="color: #1D4380;font-family:'Work Sans';font-size: 27px!important;font-weight: 600;" class=" mb-1">
+                Vehicle Nearby</h3>
+              <h5 style="color: #808080;font-family:'Work Sans';font-size: 15px!important;font-weight: 500;">Home / Vehicle Nearby</h5>
+            </div>
+       
+  
+            <!-- <div class="d-flex justify-content-between  align-items-baseline mt-2">
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Running:{{dashboardHeader?.running}}</span>
+                <span>Lock NA: {{dashboardHeader?.lock_na}}</span>
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Free Vehicles ( >2Hrs.): {{dashboardHeader?.free_vehicle}}</span> 
+                <span>DFG: {{dashboardHeader?.dfg}}</span> 
+                
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>NoData: {{dashboardHeader?.no_data}}</span> 
+                <span>Delayed Arrived: {{dashboardHeader?.delayed_arrived}}</span>
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Non-Integrated: {{dashboardHeader?.non_integrated}}</span>
+                <span>At Source: {{dashboardHeader?.at_source}}</span> 
+              </div>
+              <div class="d-flex flex-column align-items-baseline">
+                <span>Lock Status (/): {{dashboardHeader?.lock_close}}/{{dashboardHeader?.lock_open}}</span>
+                <span>At Destination: {{dashboardHeader?.at_destination}}</span>
+              </div>
+            </div> -->
+          
+            <div class="d-flex gap-3 align-items-center" style="align-self: end;margin-bottom:4px">
+              <div style="cursor: pointer;" class="all filter-border" (click)="filterTable('All')">
+                  <div class="filter-label">
+                      <p style="color:#1d4380">All</p>
+                  </div>
+                  <div class="border-value">
+                       <p>{{(headerObject?.All | keyvalue)?.length}}</p>
+                  </div>
+               </div>
+
+               <div class="Active filter-border" style="border-color: #2cc844;cursor: pointer;" (click)="filterTable('Active')">
+                  <div class="filter-label">
+                      <p style="color:#2cc844">Active</p>
+                  </div>
+                  <div class="border-value" style="background:#2cc844;" >
+                       <p>{{(headerObject?.Active)?.length}}</p>
+                  </div>
+               </div>
+
+               <div style="cursor: pointer;" class="NOD filter-border" style="border-color: #e74938;cursor: pointer;" (click)="filterTable('Nod')">
+                  <div class="filter-label">
+                      <p style="color:#e74938">NOD</p>
+                  </div>
+                  <div class="border-value" style="background:#e74938;">
+                       <p>{{(headerObject?.Nod)?.length}}</p>
+                  </div>
+               </div>
+
+               <div style="cursor: pointer;" class="NGPs filter-border" style="border-color: #007AFF;cursor: pointer;" (click)="filterTable('NGPs')">
+                  <div class="filter-label">
+                      <p style="color:#007AFF">NGPs</p>
+                  </div>
+                  <div class="border-value" style="background:#1d4380;">
+                       <p>{{(headerObject?.NGPs)?.length}}</p>
+                  </div>
+               </div>
+
+               <div style="cursor: pointer;" class="NON filter-border" style="border-color: #00C7BE;cursor: pointer;" (click)="filterTable('NON')" >
+                  <div class="filter-label">
+                      <p style="color:#00C7BE">NON</p>
+                  </div>
+                  <div class="border-value" style="background:#1d4380;">
+                    <p>{{(headerObject?.NON)?.length}}</p>
+                  </div>
+               </div>
+
+               <div class="Inactive filter-border" style="border-color: #8E8E93;cursor: pointer;">
+                  <div class="filter-label" (click)="filterTable('InActive')">
+                      <p style="color:#8E8E93">Inactive <span style="color: #1d4380;border-left: 2px solid #8E8E939E;padding: 0px 6px;">{{(headerObject?.InActive)?.length}}</span></p>
+                  </div>
+                  <div class="d-flex gap-2">
+                      <div (click)="filterTable('ThirdParty')" class="border-value" style="background:#FF9500;">
+                          <p >{{(headerObject?.ThirdParty)?.length}}</p>
+                     </div>
+                     <div (click)="filterTable('Secutrak')" class="border-value" style="background:#007AFF;">
+                         <p >{{(headerObject?.Secutrak)?.length}}</p>
+                    </div>
+                  </div>
+               </div>
+
+              <!-- <p style="color: 1D4380; font-weight: 600" class="m-0 ">
+                <a
+                ngbTooltip="Graph"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#chartCollapse"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="chartCollapse"
+                  class="px-1"
+                  style="font-size: 16px;background-color:#1D4380;border-radius: 4px;"
+                >
+                <i style="color:white" class="fa fa-bars"></i>
+                </a>
+              </p> -->
+         
+            </div>
+            
+         
+          </div>
+          
+          </div>
+    
+  
+       
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- HEADER END -->
+  <div class="container-fluid specificDashboard">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div style="margin-bottom:4px;" class="headerIcon justify-content-between pe-2 d-flex align-items-center">
+          <div>
+            <p style="color: 1D4380; font-weight: 600">
+              <a
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+                style="font-size: 16px"
+              >
+                <i
+                  class="fa fa-filter"
+                  aria-hidden="true"
+                  style="
+                    font-size: 20px;
+                    color: #1d4380;
+                    margin-top: 8px;
+                  "
+                ></i
+                >FILTER
+              </a>
+            </p>
+          </div>
+      
+        
+        </div>
+        <div class="container-flex" >
+          <ngx-spinner name="tableSpinner" bdColor="rgba(51, 51, 51, 0.8)" size="default" [fullScreen]="true" type="ball-spin-clockwise">
+            <p style="color: black">Please Wait.. </p>
+          </ngx-spinner>
+          <div class="col-lg-12">
+            <div class="row">
+           
+              <div class="col-lg-12 px-0">
+                 <!-- Filter----------------------------------------------- -->
+                <div class="fiter">
+             
+                  <!-- <p style="color: 1D4380; font-weight: 600">
+                    <a
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseExample"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
+                      style="font-size: 16px"
+                    >
+                      <i
+                        class="fa fa-filter"
+                        aria-hidden="true"
+                        style="
+                          font-size: 20px;
+                          color: #1d4380;
+                          margin-top: 8px;
+                        "
+                      ></i
+                      >FILTER
+                    </a>
+                  </p> -->
+                 
+                  <div class="collapse" id="collapseExample">
+                    <div
+                      class="card card-body px-0 pb-0"
+                      style="border: none; box-shadow: none;margin-top:8px;margin-bottom: 12px;"
+                    >
+                      <form
+                        #filterFormD="ngForm"
+                        (ngSubmit)="onFilterDashboard(filterFormD.value)"
+                      >
+                        <div class="col-lg-12" style="margin-top: -20px">
+                          <div class="row">
+                            <div class="col-lg-2">
+                              <span class="filtor_name">Trip Status</span>
+                              <ng-select
+                              [(ngModel)]="tripStatus"
+                              name="tripStatus"
+                              id="tripStatus"
+                              placeholder="Select Trip Status"
+                              class=""
+                              style="font-size: 14px; font-weight: 400"
+                              [closeOnSelect]="true" 
+                              (change)="onTripStatusChange($event)"
+                              >
+
+                              <ng-option *ngFor="let item of filterObject?.trip_status | keyvalue"
+                                [value]="item.key" >
+                                {{ item.value }}
+                              </ng-option>
+
+                            </ng-select>
+                            </div>
+                            <div class="col-lg-2" *ngIf="tripStatus!=2">
+                              <span class="filtor_name">Route Category</span>
+                              <ng-select
+                              (change)="onRouteCategoryChange($event)"
+                                [ngModel]
+                                name="routeCategory"
+                                id="routeCategory"
+                                placeholder="Select Route"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                                
+                              >
+                              <ng-option value="" selected>All</ng-option>
+                                <ng-option
+                                  *ngFor="let item of filterObject?.feeder_parent_bin | keyvalue"
+                                  [value]="item?.key"
+                                >
+                                  {{ item?.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div>
+                            <div class="col-lg-2" *ngIf="tripStatus!=2">
+                              <span class="filtor_name">Feeder Type</span>
+                              <ng-select
+                                [ngModel]
+                                [virtualScroll]="true"
+                                name="tripType"
+                                id="tripType"
+                                placeholder="Select Trip Type"
+                                class=""
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                              <ng-option value="All">All</ng-option>
+                              <ng-option
+                                *ngFor="let item of feederTypes | keyvalue"
+                                [value]="item.value"
+                              >
+                                {{ item.value }}
+                              </ng-option>
+                              </ng-select>
+                            </div>
+                         
+                            <!-- <div class="col-lg-2">
+                              <span class="filtor_name">Route</span>
+                              <ng-select
+                              [virtualScroll]="true"
+                                [ngModel]
+                                name="route"
+                                id="route"
+                                placeholder="Select Route"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                                <ng-option
+                                  *ngFor="let item of filterObject?.origin | keyvalue"
+                                  [value]="item?.key"
+                                >
+                                  {{ item?.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div>
+                            <div class="col-lg-2">
+                              <span class="filtor_name">Eta Delay</span>
+                              <ng-select
+                                [ngModel]
+                                name="etaDelay"
+                                id="etaDelay"
+                                placeholder="Select Eta Delay"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="true"
+                              >
+                                <ng-option
+                                  *ngFor="let item of filterObject?.etaDelay | keyvalue"
+                                  [value]="item?.key"
+                                >
+                                  {{ item?.value }}</ng-option
+                                >
+                              </ng-select>
+                            </div> -->
+                       
+                            <!-- <div class="col-lg-4">
+                              <span class="filtor_name">Route Type</span> -->
+                              <!-- <ng-select
+                                [multiple]="true"
+                                [ngModel]
+                                name="routeType"
+                                id="routeType"
+                                placeholder="route type"
+                                class="cutombox"
+                                style="font-size: 14px; font-weight: 400"
+                                [closeOnSelect]="false"
+                              >
+                              <ng-option
+                              *ngFor="let item of filterObject?.routeType | keyvalue"
+                              [value]="item?.key"
+                            >
+                              {{ item?.value }}</ng-option
+                                >
+                              </ng-select> -->
+                       
+                              
+                            <!-- </div> -->
+                            <div class="col-lg-2 mt-0">
+                              <button
+                                type="submit"
+                                class=""
+                                style="margin-top: 24px;
+                                background-color: #1D4380;
+                                color: white;
+                                font-family: Work Sans;
+                                font-size: 15px;
+                                padding: 6px 22px;
+                                border-radius: 5px;"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </div>
+                          &nbsp;
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- <div class=" " ><i class="fa fa-filter" aria-hidden="true"></i></div>    -->
+                </div>
+          
+              </div>
+        
+            </div>
+  
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+   
+         
+      </div>
+      <div class="row">
+        <div class="ag-theme-alpine" style="height:100%">
+            <div class="example-header" style="margin-bottom: 12px;display: flex;justify-content: space-between;align-items: end;">
+                <!-- <span class="filtor_name">Quick Filter</span> -->
+                 <div class="map-filter">
+                    <form
+                    class="d-flex"
+                    #filterFormV="ngForm"
+                    (ngSubmit)="openMapModal('a',filterFormV)"
+                  >        
+                        <!-- <div class="col-lg-4 ps-0">
+                          <span class="filtor_name">Search by</span>
+                          <ng-select
+                          [ngModel]
+                          name="tripStatus"
+                          id="tripStatus"
+                          placeholder="Select Trip Status"
+                          class="cutombox"
+                          style="font-size: 14px; font-weight: 400"
+                          [closeOnSelect]="true"
+                          (change)="onOptionSelected($event)"
+                        >
+                          <ng-option [value]="'Vehicle'">Vehicle</ng-option>
+                          <ng-option [value]="'Location'">Location</ng-option>
+                        </ng-select>
+                        
+                        </div>
+                        <div class="col-lg-4">
+                          <span class="filtor_name">Search Criteria</span>
+                          <ng-select
+                            [ngModel]
+                            [virtualScroll]="true"
+                            name="tripType"
+                            id="tripType"
+                            placeholder="Select Trip Type"
+                            class="cutombox"
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                          >
+                          <ng-option
+                            *ngFor="let item of vehicleData?.data"
+                            [value]="{lat:item?.lat,lng:item?.lng}"
+                          >
+                            {{ item.vehicle_no}}
+                          </ng-option>
+                          </ng-select>
+                        </div> -->
+
+                        <div class="col-lg-4 ps-0">
+                          <span class="filtor_name">Search by</span>
+                          <ng-select
+                            [ngModel]="'Location'"
+                            name="tripStatus"
+                            id="tripStatus"
+                            placeholder="Select Trip Status"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                            (change)="onOptionSelected($event)"
+                          >
+                            <ng-option  [value]="'Vehicle'">Vehicle</ng-option>
+                            <ng-option [value]="'Location'">Location</ng-option>
+                          </ng-select>
+                        </div>
+                        
+                        <div class="col-lg-4 " *ngIf="selectedSearchEvent === 'Vehicle'">
+                          <span class="filtor_name">Search Criteria</span>
+                          <ng-select   
+                            [ngModel]
+                            [virtualScroll]="true"
+                            name="tripType"
+                            id="tripType"
+                            placeholder="Select Trip Type"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true" >
+                          <ng-option *ngFor="let item of vehicleData?.data | keyvalue" [value]="item?.value">   
+                            {{ item.key}}
+                          </ng-option>
+                          </ng-select>
+                    
+                        </div>
+                        <div class="col-lg-4" *ngIf="selectedSearchEvent === 'Location'">
+                          <span class="filtor_name">Search Criteria</span>
+                          <ng-select     
+                          (keyup)="onKeyUp($event)"  
+                            ngModel
+                            name="tripType"
+                            id="tripType"
+                            placeholder="Enter Location"
+                            class=""
+                            style="font-size: 14px; font-weight: 400"
+                            [closeOnSelect]="true"
+                            
+                          >
+                          <ng-option
+                          *ngFor="let item of locationData"
+                          [value]="item"
+                        >
+                          {{ item.code}}
+                        </ng-option>
+                          </ng-select>
+                        </div>
+                       
+                        <div class="col-lg-4 d-flex flex-column">
+                          <span class="filtor_name">Radius (in Km.)</span>
+                          <input
+                            type="number"
+                            class=" form-control cutombox flex-grow-1"
+                            style="font-size: 14px; font-weight: 400; width: 100%;height: auto;"
+                            ngModel
+                            name="radius"
+                            id="radius"
+                            placeholder="Enter Radius"
+                            [min]="1"
+                          />
+                        </div>
+                        
+                        <div class="col-lg-2 mt-0 d-flex align-items-center" >
+                          <button
+                            type="submit"
+                            class=""
+                            
+                          >
+                          <i style="font-size: 24px;color:#1D4380" class="fa-solid fa-map-location-dot"></i>
+                          </button>
+                        </div>
+                     
+                      &nbsp;
+                   
+                  </form>
+                 </div>
+
+                 <div class="d-flex align-items-center">
+                  <div class="me-2" style="min-width: 167px;" *ngIf="tripStatus==2">
+                    <ng-select
+                      [ngModel]
+                      [virtualScroll]="true"
+                      name="idle"
+                      id="idle"
+                      placeholder="Select idle"
+                      class=""
+                      style="font-size: 14px; font-weight: 400"
+                      [closeOnSelect]="true"
+                      (change)="onFilterSelected($event,'idle')"
+                    >
+                    <ng-option value="All">All</ng-option>
+                    <ng-option [value]="'<24idle'">&lt;24 hrs</ng-option>
+                    <ng-option [value]="'>idle'">&gt;24 hrs</ng-option>
+                      >
+                    </ng-select>
+                  </div>
+                  <div class="me-2" style="min-width: 167px;">
+                    <ng-select
+                      [ngModel]
+                      [virtualScroll]="true"
+                      name="transporter"
+                      id="transporter"
+                      placeholder="Select Transporter"
+                      class=""
+                      style="font-size: 14px; font-weight: 400"
+                      [closeOnSelect]="true"
+                      (change)="onFilterSelected($event,'transporter')"
+                    >
+                    <ng-option value="All">All</ng-option>
+                      <ng-option
+                        *ngFor="let item of filterObject?.Transporters | keyvalue"
+                        [value]="item?.value"
+                      >
+                      {{ item.value }}</ng-option
+                      >
+                    </ng-select>
+                  </div>
+                    <input class="cutombox p-2" type="text" id="filter-text-box" placeholder="Filter..." (input)="onFilterTextBoxChanged()" />
+                    <div>
+                        <button (click)="onBtExport()" style="font-weight: bold"><i class="fa-solid fa-file-excel" style="font-size: 18px;color: #1D6F42"></i>
+                        </button>
+                        <button (click)="exportToPDF()"><i class="fa-solid fa-file-pdf" style="font-size: 18px;color: #F40F02;"></i></button>
+                    </div>
+                 </div>
+             
+            </div>
+            <p style="color: #333333;font-family: 'Work Sans';font-size: 14px;font-weight: 500;margin: 6px auto;">
+              Vehicle Near By Under
+              <input
+                type="number"
+                [(ngModel)]="vehicelRadius"
+                style="width: 60px; text-align: center; font-family: 'Work Sans'; font-size: 14px; font-weight: 500; margin: 0 5px;"
+                [min]="1"
+                [max]="1000"
+                placeholder="50"
+              />
+              Km Radius
+            </p>
+            <div
+              class="ag-theme-alpine"
+              style="width: 100%;min-height: unset  !important;"
+              id="myGrid"
+            ></div>
+          </div>
+      </div>
+    </div>
+  
+  
+  <!-- //////////////////////////saumya  modal//////////////////////// -->
+  
+    
+    
+    
+    
+    
+  <div class="modal fade " id="vehcileDocModal" tabindex="-1" aria-labelledby="vehcileDocModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style=" max-width:1400px;">
+      
+        <ngx-spinner name="modalSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+             uploading... </p></ngx-spinner>
+        <div class="modal-content m-auto" style="height: 85vh; width: 80% !important;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadDocumentModalLabel">Map</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body" style="width:90%px;height: 98%;">
+          <div class="mx-auto" style="width:95%; height:95%" id="mapContainer"></div>
+        </div>
+  
+        <div class="modal-footer justify-content-center col-lg-6 mx-auto">
+            <!-- <button type="button" style="background-color: #1D4380;color:white" class="btn col-lg-2" (click)="uploadDocuments(tripdetails?.value?.Vname,'vehicle')" >Upload</button> -->
+          <button type="button" style="background-color: #EC6625;color:white" class="btn col-lg-2" data-bs-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+    <!-- //////////////////////////////////////////////////////////trigger table click pop up dashboard/////////////////////////// -->  
+  
+
+    <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mt-0" style=" max-width:100%;">
+           <div class="modal-content  m-auto" style="height:98vh; width: 95% !important;">
+            <!-- <ngx-spinner name="mapSpinner" bdColor = "rgba(0, 0, 0, 0.8)" size = "small" color = "#fff" type = "square-loader" [fullScreen] = "false"><p style="color: white" >
+                uploading... </p></ngx-spinner> -->
+            <div class="modal-header py-1" style="background:#0e213ff2">
+              <h5 class="modal-title" id="mapModalLabel" style="color:white;">Map</h5>
+              <button type="button" class="" (click)="closeMap()" data-bs-dismiss="modal" aria-label="Close">
+                <i style="font-size: 24px;color:white" class="fa fa-times"></i>
+              </button>
+            </div>
+            <div class="modal-body p-0 pt-1" style="width:100%;height: 100%;">
+              <!-- <div #mapContainer style="width: 100%; height: 100%;" class="mx-auto"></div> -->
+              <div id="map1" style="width: 100%; height: 100%;" class="mx-auto"></div>
+              <ng-container *ngIf="show_summary">
+                <div class="show-list row"  style="overflow-y: auto;overflow-x: scroll !important;padding-bottom: 21px;">
+                  <div class="col-12" style="max-height: 1000px;">
+                    <div class=" " style="top:0px !important;border: 1px grey;">
+                      <h5 style="font-weight: 600; color: black;text-align: left;    text-align: left;"> Nearby Vehicles
+                      </h5>
+                      <div>
+
+                      </div>
+                      <!-- Reminder_list -->
+                      <div class="info overflow-scroll">
+                        <table class="mt-2 table"  cellspacing="0"  id="vehicle-status" >
+                          <thead>
+                             <tr style="text-align: center; white-space: nowrap;text-transform: none!important;">
+                              
+                                 <th>Sl.</th>
+                                 <th>Vehicle</th>
+                                 <th>Distance (Km.)</th>
+                                 <th>On Trip</th>
+                                 <th>Transporter</th>
+                                 <th>Shipment Method</th>
+                                 <th>Contract Hour</th>
+                                 <th>Run Date</th>
+                                 <th>Close Date</th>
+                                 <th>Idle</th>
+                                 <th>Location</th>
+                                 <th>Google Location</th>
+                                 <th>Base Location</th>
+                                 <th>Region</th>
+                                 <th>State</th>
+                                 <th>Branch</th>
+                                 <th>Area</th>
+                             </tr>
+                         </thead>
+                          
+                        <tbody>
+                       <tr *ngFor="let item of Reminder_list;let ind=index">
+                       <td>{{ind+1}}</td>
+                       <td><button  [id]="item?.vehicle_number" (click)="triggerMarkerClick(item?.vehicle_number)">{{item.vehicle_number}}</button></td>
+                       <td></td>
+                       <td></td>
+                      <td>{{item.Transporter}}</td>
+                      <td>{{item.FeederType}}</td>
+                      <td></td>
+                      <td>{{item.RunDate}}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                        </tr>
+                        </tbody>
+   
+   
+                           </table>
+                      </div>
+                   
+                    </div>
+                  </div>
+          
+      
+      
+                  <!-- <header>KPI</header> -->
+                  <!-- <div  class="col-lg-3">KPI Name</div>
+                        <div  class="col-lg-3">KPI Start Date</div>
+                        <div  class="col-lg-3">KPI End Date</div>
+                        <div  class="col-lg-3">KPI Duration</div> -->
+      
+      
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+   <!-- vehicle nearby -->
+   <div class="modal fade" id="REMINDER" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style=" display: block;
+    background: white;
+    width: 626px;
+    height: 461px;
+    padding-left: 0px;">
+    <div class="model-content">
+        <div class="modal-header">
+            <h6 class="modal-title" id="modal-basic-title"> Reminder
+            </h6>
+            <button type="button" class="close" aria-label="Close" >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row filter-funnel">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div style="max-height: 470px;overflow: auto;">
+                        <table class=" table-striped" id="showReportTable">
+                            <!-- table-responsive -->
+
+                            <thead class="table_header">
+                                <tr>
+                                    <!-- <th class=" border-bottom-0">Sno.</th> -->
+                                    <th class=" border-bottom-0">Vehicle No</th>
+                                    <th class=" border-bottom-0">Driver</th>
+                                    <!-- <th class=" border-bottom-0"></th> -->
+                                    <th class=" border-bottom-0">Document Type</th>
+                                    <th class=" border-bottom-0">Document No</th>
+                                    <th class=" border-bottom-0">Expiry Date</th>
+                                    <th class=" border-bottom-0">Status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody style=" height: 200px;overflow: auto;">
+                                <!-- *ngFor="let table of dataTable" -->
+                                <tr *ngFor="let head1 of Reminder_list ; let i = index">
+                                    <!-- <td class="border-bottom-0">{{i+1}}</td> -->
+
+                                    <td class="border-bottom-0">
+                                        {{head1.VehicleNo}}
+                                    </td>
+                                    <!-- <td class="border-bottom-0">
+                                            {{head1.DateTime}}
+                                        </td> -->
+                                    <td class="border-bottom-0">
+                                        {{head1.Driver}}
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        {{head1.DocumentType}}
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        {{head1.DocumentNo}}
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        {{head1.ExpiryDate}}
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        <div class="expiry_date"> {{head1.Status}}</div>
+                                    </td>
+                                    <!-- <td class="border-bottom-0">
+                                        </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+   </div>
+
+
+
+
+  
+  
+
+  
